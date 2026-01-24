@@ -1,0 +1,4 @@
+/build
+
+# Ignore top-level workspace .history (IDE backup files)
+../.history/
