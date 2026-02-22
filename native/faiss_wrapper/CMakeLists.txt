@@ -13,6 +13,35 @@ add_library(faiss_wrapper SHARED
 # Exported include dir for consumers
 target_include_directories(faiss_wrapper PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# Prefer prebuilt FAISS artifacts if present (workflow may extract to ../third_party/faiss_prebuilt)
+set(FAISS_PREBUILT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/faiss_prebuilt")
+if(EXISTS ${FAISS_PREBUILT_DIR})
+    if(DEFINED ANDROID_ABI)
+        set(FAISS_PREBUILT_LIB_DIR "${FAISS_PREBUILT_DIR}/${ANDROID_ABI}/lib")
+        set(FAISS_PREBUILT_INCLUDE_DIR "${FAISS_PREBUILT_DIR}/${ANDROID_ABI}/include")
+    else()
+        set(FAISS_PREBUILT_LIB_DIR "${FAISS_PREBUILT_DIR}/lib")
+        set(FAISS_PREBUILT_INCLUDE_DIR "${FAISS_PREBUILT_DIR}/include")
+    endif()
+
+    if(EXISTS ${FAISS_PREBUILT_LIB_DIR})
+        message(STATUS "Using prebuilt FAISS from ${FAISS_PREBUILT_LIB_DIR}")
+        target_include_directories(faiss_wrapper PRIVATE ${FAISS_PREBUILT_INCLUDE_DIR})
+        # Try to find a shared lib first, then static archive
+        find_library(FAISS_PREBUILT_LIB faiss PATHS ${FAISS_PREBUILT_LIB_DIR} NO_DEFAULT_PATH)
+        if(FAISS_PREBUILT_LIB)
+            target_link_libraries(faiss_wrapper PRIVATE ${FAISS_PREBUILT_LIB})
+        elseif(EXISTS ${FAISS_PREBUILT_LIB_DIR}/libfaiss.a)
+            target_link_libraries(faiss_wrapper PRIVATE ${FAISS_PREBUILT_LIB_DIR}/libfaiss.a)
+        else()
+            message(STATUS "No libfaiss found in prebuilt dir, falling back to source build if available")
+        endif()
+    endif()
+endif()
+
+# Ensure PIC for static linking into shared libs on Android
+set_target_properties(faiss_wrapper PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # Optional: if FAISS sources are present under native/third_party/faiss, add as subdirectory
 set(FAISS_SUBDIR "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/faiss")
 if(EXISTS ${FAISS_SUBDIR})
