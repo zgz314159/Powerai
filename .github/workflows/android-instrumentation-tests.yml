@@ -31,24 +31,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Accept Android SDK licenses
-        run: |
-          yes | sudo $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
+      # 注意：删除了之前手动执行 sdkmanager 的步骤，因为下面的插件会自动处理
 
-      - name: Install SDK packages
+      - name: Enable KVM group perms
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients
-          yes | sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2" "emulator" "system-images;android-33;google_apis;x86_64"
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-      - name: Create & start emulator
+      - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 33
           target: google_apis
           arch: x86_64
-          emulator-options: '-no-window -no-audio -gpu swiftshader_indirect'
-          force-avd-creation: true
-
-      - name: Run connected Android instrumentation tests
-        run: ./gradlew connectedAndroidTest --no-daemon -Dorg.gradle.jvmargs="-Xmx2g"
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu libgpu_screenshots -no-audio -no-boot-anim
+          disable-animations: true
+          # 核心：直接在插件内部运行命令
+          script: ./gradlew connectedAndroidTest --no-daemon -Dorg.gradle.jvmargs="-Xmx2g"
