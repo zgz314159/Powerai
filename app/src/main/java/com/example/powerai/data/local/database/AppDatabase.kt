@@ -14,13 +14,15 @@ import com.example.powerai.data.local.entity.VisionCacheEntity
         KnowledgeEntity::class,
         KnowledgeFtsEntity::class,
         ImportedFileEntity::class,
-        VisionCacheEntity::class
+        VisionCacheEntity::class,
+        com.example.powerai.data.local.entity.EmbeddingMetadataEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun knowledgeDao(): KnowledgeDao
 
     abstract fun visionCacheDao(): VisionCacheDao
+    abstract fun embeddingDao(): com.example.powerai.data.local.dao.EmbeddingDao
 }

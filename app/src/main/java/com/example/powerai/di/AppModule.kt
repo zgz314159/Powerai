@@ -74,9 +74,12 @@ object AppModule {
     @Singleton
     fun provideKnowledgeRepositoryImpl(
         @ApplicationContext context: Context,
-        dao: com.example.powerai.data.local.dao.KnowledgeDao
+        dao: com.example.powerai.data.local.dao.KnowledgeDao,
+        db: AppDatabase
     ): KnowledgeRepositoryImpl {
-        return KnowledgeRepositoryImpl(context, dao)
+        // EmbeddingRepository will be injected to KnowledgeRepositoryImpl for enqueueing
+        val embeddingRepo = com.example.powerai.data.repository.EmbeddingRepositoryImpl(context, db)
+        return KnowledgeRepositoryImpl(context, dao, embeddingRepo)
     }
 
     @Provides

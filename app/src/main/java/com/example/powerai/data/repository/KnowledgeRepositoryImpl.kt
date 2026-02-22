@@ -16,7 +16,8 @@ import javax.inject.Inject
  */
 class KnowledgeRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val dao: KnowledgeDao
+    private val dao: KnowledgeDao,
+    private val embeddingRepository: com.example.powerai.domain.repository.EmbeddingRepository
 ) : KnowledgeRepository {
     /**
      * 导入文件：SAF → 文本 → KnowledgeEntity → Room
@@ -83,6 +84,11 @@ class KnowledgeRepositoryImpl @Inject constructor(
             )
         }
         dao.insertBatch(entities)
+        try {
+            // Trigger embedding enqueue; actual embedding generation is handled outside this method.
+            embeddingRepository.enqueueForEmbedding(items)
+        } catch (_: Throwable) {
+        }
     }
 
     override suspend fun isFileImported(fileId: String): Boolean {

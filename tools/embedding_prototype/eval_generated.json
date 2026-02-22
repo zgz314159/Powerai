@@ -1,0 +1,704 @@
+{
+  "queries": [
+    {
+      "id": "q1",
+      "query": "□□□□□□□□□□□□□□□□□□□□/10kV□□□□□",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::2"
+      ]
+    },
+    {
+      "id": "q2",
+      "query": "** Let's re-examine the image ",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::10"
+      ]
+    },
+    {
+      "id": "q3",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_png_emf_gemini.json::0"
+      ]
+    },
+    {
+      "id": "q4",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test.json::0"
+      ]
+    },
+    {
+      "id": "q5",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV 及以",
+      "gold": [
+        "docx_tables_gemini_2_5_flash.json::1"
+      ]
+    },
+    {
+      "id": "q6",
+      "query": "第十八条 各铁路局应以文件形式规定高速铁路电力供电网络的正常",
+      "gold": [
+        "management_rules_kb.json::17"
+      ]
+    },
+    {
+      "id": "q7",
+      "query": "第十一条 用户用电增容审批： 用电单位增加用电设备时，应向供",
+      "gold": [
+        "management_rules_kb.json::10"
+      ]
+    },
+    {
+      "id": "q8",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test5.json::0"
+      ]
+    },
+    {
+      "id": "q9",
+      "query": "██████████████████████████████",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::19"
+      ]
+    },
+    {
+      "id": "q10",
+      "query": "第三十三条 配电装置在运行中发生下列情况之一时,应立即停止运",
+      "gold": [
+        "management_rules_kb.json::32"
+      ]
+    },
+    {
+      "id": "q11",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_gemini_only4.json::0"
+      ]
+    },
+    {
+      "id": "q12",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_gemini_only2.json::0"
+      ]
+    },
+    {
+      "id": "q13",
+      "query": "第八十三条 本规则由总公司运输局负责解释。",
+      "gold": [
+        "management_rules_kb.json::84"
+      ]
+    },
+    {
+      "id": "q14",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_gemini_only2.json::1"
+      ]
+    },
+    {
+      "id": "q15",
+      "query": "第三条 本规则适用于高速铁路电力业务的管理。本规则未明确规定",
+      "gold": [
+        "management_rules_kb.json::2"
+      ]
+    },
+    {
+      "id": "q16",
+      "query": "第六十八条 变配电所进线电源故障，应由路局供电调度通过远动操",
+      "gold": [
+        "management_rules_kb.json::69"
+      ]
+    },
+    {
+      "id": "q17",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test4.json::0"
+      ]
+    },
+    {
+      "id": "q18",
+      "query": "第十五条 用户总开关的保护整定值或熔丝容量应小于供电设备馈出",
+      "gold": [
+        "management_rules_kb.json::14"
+      ]
+    },
+    {
+      "id": "q19",
+      "query": "第二十四条 铁路局供电调度应做好下列工作： （一）负责电力设",
+      "gold": [
+        "management_rules_kb.json::23"
+      ]
+    },
+    {
+      "id": "q20",
+      "query": "第十四条 供电部门应做好设备安全运行管理工作，遇有故障应尽快",
+      "gold": [
+        "management_rules_kb.json::13"
+      ]
+    },
+    {
+      "id": "q21",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test2.json::0"
+      ]
+    },
+    {
+      "id": "q22",
+      "query": "第十九条 列车开行时间内电力设备运行方式： （一）设备正常且",
+      "gold": [
+        "management_rules_kb.json::18"
+      ]
+    },
+    {
+      "id": "q23",
+      "query": "____ ____ ____ ____ ____ ____ ",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::9"
+      ]
+    },
+    {
+      "id": "q24",
+      "query": "第二十条 各铁路局在制定细则时应明确非正常运行方式的管理。",
+      "gold": [
+        "management_rules_kb.json::19"
+      ]
+    },
+    {
+      "id": "q25",
+      "query": "第七十二条 故障抢修结束后，现场抢修人员确认设备具备送电条件",
+      "gold": [
+        "management_rules_kb.json::73"
+      ]
+    },
+    {
+      "id": "q26",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_test5.json::1"
+      ]
+    },
+    {
+      "id": "q27",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_png_emf.json::0"
+      ]
+    },
+    {
+      "id": "q28",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_scheme1b.json::0"
+      ]
+    },
+    {
+      "id": "q29",
+      "query": "第二十八条 为了迅速排除故障，缩短停电时间，减少对铁路运输造",
+      "gold": [
+        "management_rules_kb.json::27"
+      ]
+    },
+    {
+      "id": "q30",
+      "query": "第五条 电力工程竣工后，应经过交接试验，试验合格后方能进行交",
+      "gold": [
+        "management_rules_kb.json::4"
+      ]
+    },
+    {
+      "id": "q31",
+      "query": "第四十七条 高速铁路电力设备维修，对所有密封设备（GIS柜气",
+      "gold": [
+        "management_rules_kb.json::48"
+      ]
+    },
+    {
+      "id": "q32",
+      "query": "第五十四条 高铁电力设备故障抢修应坚持统一指挥的原则。路局供",
+      "gold": [
+        "management_rules_kb.json::55"
+      ]
+    },
+    {
+      "id": "q33",
+      "query": "第五十七条 电力故障区段隔离或设备切除后，供电调度应与行调互",
+      "gold": [
+        "management_rules_kb.json::58"
+      ]
+    },
+    {
+      "id": "q34",
+      "query": "第十二条 两路电源的用户，严禁两路电源并列运行。电源互投转换",
+      "gold": [
+        "management_rules_kb.json::11"
+      ]
+    },
+    {
+      "id": "q35",
+      "query": "第六条 变更变、配电所的主接线、继电保护和自动装置的方案，改",
+      "gold": [
+        "management_rules_kb.json::5"
+      ]
+    },
+    {
+      "id": "q36",
+      "query": "第四十一条 高速铁路的电力设备检测分为在线监测和当地检测，当",
+      "gold": [
+        "management_rules_kb.json::40"
+      ]
+    },
+    {
+      "id": "q37",
+      "query": "第三十二条 电容器组在运行中发生下列情况之一时,应立即全部或",
+      "gold": [
+        "management_rules_kb.json::31"
+      ]
+    },
+    {
+      "id": "q38",
+      "query": "xx xx xxxxxxxxxx 1 xxxx xxxxxx",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::13"
+      ]
+    },
+    {
+      "id": "q39",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_test3.json::1"
+      ]
+    },
+    {
+      "id": "q40",
+      "query": "第六十三条 如需使用作业车协助故障处理，供电段调度向路局供电",
+      "gold": [
+        "management_rules_kb.json::64"
+      ]
+    },
+    {
+      "id": "q41",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_test2.json::1"
+      ]
+    },
+    {
+      "id": "q42",
+      "query": "第三十四条 铁路局应组织技术人员每月对供电远动系统数据进行分",
+      "gold": [
+        "management_rules_kb.json::33"
+      ]
+    },
+    {
+      "id": "q43",
+      "query": "第十条 高速铁路供电原则上不供给路外用户，当附近无其他部门电",
+      "gold": [
+        "management_rules_kb.json::9"
+      ]
+    },
+    {
+      "id": "q44",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_gemini_only.json::0"
+      ]
+    },
+    {
+      "id": "q45",
+      "query": "第四十九条 设备运行虽已达到大修年限，但经试验鉴定确认质量良",
+      "gold": [
+        "management_rules_kb.json::50"
+      ]
+    },
+    {
+      "id": "q46",
+      "query": "第八十一条 高速铁路设备试验内容如下： （一）开关分合闸试验",
+      "gold": [
+        "management_rules_kb.json::82"
+      ]
+    },
+    {
+      "id": "q47",
+      "query": "第一条 高速铁路电力工作是铁路运输的重要组成部分，为加强高速",
+      "gold": [
+        "management_rules_kb.json::0"
+      ]
+    },
+    {
+      "id": "q48",
+      "query": "第五十六条 路局供电调度监测到电力设备发生故障跳闸导致停电后",
+      "gold": [
+        "management_rules_kb.json::57"
+      ]
+    },
+    {
+      "id": "q49",
+      "query": "第七十条 供电远动系统故障也应视为设备故障，供电调度应联系系",
+      "gold": [
+        "management_rules_kb.json::71"
+      ]
+    },
+    {
+      "id": "q50",
+      "query": "第四十六条 高速铁路电力设备维修，对存在问题或已损坏的元器件",
+      "gold": [
+        "management_rules_kb.json::47"
+      ]
+    },
+    {
+      "id": "q51",
+      "query": "000000000000000000000000000000",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::5"
+      ]
+    },
+    {
+      "id": "q52",
+      "query": "XXXXXXXXXXXXX / XXXXXXXXXXXXX",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::18"
+      ]
+    },
+    {
+      "id": "q53",
+      "query": "第二十五条 电力作业人员应做好下列工作： （一） 熟悉并掌握",
+      "gold": [
+        "management_rules_kb.json::24"
+      ]
+    },
+    {
+      "id": "q54",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_test4.json::1"
+      ]
+    },
+    {
+      "id": "q55",
+      "query": "第六十一条 铁路防护栅栏外的电力设备发生故障后，在确保行车及",
+      "gold": [
+        "management_rules_kb.json::62"
+      ]
+    },
+    {
+      "id": "q56",
+      "query": "第七十八条 GIS柜、电抗器、干式变压器、RTU、小电阻接地",
+      "gold": [
+        "management_rules_kb.json::79"
+      ]
+    },
+    {
+      "id": "q57",
+      "query": "第八十四条 本规则自2015年3月1日起执行。 附件：1.供",
+      "gold": [
+        "management_rules_kb.json::85"
+      ]
+    },
+    {
+      "id": "q58",
+      "query": "000000000000000000000000000000",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::7"
+      ]
+    },
+    {
+      "id": "q59",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_png_emf.json::1"
+      ]
+    },
+    {
+      "id": "q60",
+      "query": "第五十条 高速铁路设备保养工作原则上在天窗点进行，对于变配电",
+      "gold": [
+        "management_rules_kb.json::51"
+      ]
+    },
+    {
+      "id": "q61",
+      "query": "第十六条 变、配电所力率应保持在0.9以上。",
+      "gold": [
+        "management_rules_kb.json::15"
+      ]
+    },
+    {
+      "id": "q62",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6~10kV 0.35 ",
+      "gold": [
+        "docx_tables_gemini_2_5_flash.json::0"
+      ]
+    },
+    {
+      "id": "q63",
+      "query": "第二条 本规则是根据高速铁路行车特点而制定的，是保证安全供电",
+      "gold": [
+        "management_rules_kb.json::1"
+      ]
+    },
+    {
+      "id": "q64",
+      "query": "第四十三条 高速铁路电力设备检测项目由各局结合设备形式、国家",
+      "gold": [
+        "management_rules_kb.json::42"
+      ]
+    },
+    {
+      "id": "q65",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_gemini_only3.json::0"
+      ]
+    },
+    {
+      "id": "q66",
+      "query": "第二十七条 供电段（维管段）及各供电工区应备有以下主要备品、",
+      "gold": [
+        "management_rules_kb.json::26"
+      ]
+    },
+    {
+      "id": "q67",
+      "query": "第三十六条 铁路局供电调度应掌握夜间（“天窗”时间内）巡视人",
+      "gold": [
+        "management_rules_kb.json::35"
+      ]
+    },
+    {
+      "id": "q68",
+      "query": "\"\", \"\", \"\", \"\", \"\", \"\", \"\", \"\"",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::0"
+      ]
+    },
+    {
+      "id": "q69",
+      "query": "第五十三条 本章节未列出的其他高速铁路电力设备的检修，各铁路",
+      "gold": [
+        "management_rules_kb.json::54"
+      ]
+    },
+    {
+      "id": "q70",
+      "query": "第四十五条 高速铁路电力设备检修 （一）大修：电力设备寿命超",
+      "gold": [
+        "management_rules_kb.json::46"
+      ]
+    },
+    {
+      "id": "q71",
+      "query": "第七十三条 现场抢修人员应注意保存电力故障及抢修工作的原始资",
+      "gold": [
+        "management_rules_kb.json::74"
+      ]
+    },
+    {
+      "id": "q72",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_scheme1.json::0"
+      ]
+    },
+    {
+      "id": "q73",
+      "query": "第八十条 电力设备交接试验按照国家现行标准执行。",
+      "gold": [
+        "management_rules_kb.json::81"
+      ]
+    },
+    {
+      "id": "q74",
+      "query": "第七十五条 低压故障跳闸后，供电调度应及时调取故障录波曲线，",
+      "gold": [
+        "management_rules_kb.json::76"
+      ]
+    },
+    {
+      "id": "q75",
+      "query": "第六十条 电力故障虽影响行车秩序，但可以维持行车情况下，铁路",
+      "gold": [
+        "management_rules_kb.json::61"
+      ]
+    },
+    {
+      "id": "q76",
+      "query": "序号 项目 内容要求 备注 1 高、低压电缆 用手确认插拔式",
+      "gold": [
+        "management_rules_kb.json::45"
+      ]
+    },
+    {
+      "id": "q77",
+      "query": "第四条 高速铁路电力工作实行统一领导、分级管理的原则。 中国",
+      "gold": [
+        "management_rules_kb.json::3"
+      ]
+    },
+    {
+      "id": "q78",
+      "query": "第三十九条 各局在实施细则中比照上述原则制定其他未列设备的巡",
+      "gold": [
+        "management_rules_kb.json::38"
+      ]
+    },
+    {
+      "id": "q79",
+      "query": "附件1 [[附件1]] 供电段（检修车间）试验设备配备标准 ",
+      "gold": [
+        "management_rules_kb.json::86"
+      ]
+    },
+    {
+      "id": "q80",
+      "query": "第六十二条 故障判断、隔离由路局供电调度远动操作完成，在远动",
+      "gold": [
+        "management_rules_kb.json::63"
+      ]
+    },
+    {
+      "id": "q81",
+      "query": "第十七条 用电计量、电费收缴办法由铁路局制定。 第四章 电力",
+      "gold": [
+        "management_rules_kb.json::16"
+      ]
+    },
+    {
+      "id": "q82",
+      "query": "第五十一条 在“天窗”点进行电力设备的状态维修与保养工作应在",
+      "gold": [
+        "management_rules_kb.json::52"
+      ]
+    },
+    {
+      "id": "q83",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test3.json::0"
+      ]
+    },
+    {
+      "id": "q84",
+      "query": "第三十条 运行变压器有下列情况之一时，应立即停止运行： （一",
+      "gold": [
+        "management_rules_kb.json::29"
+      ]
+    },
+    {
+      "id": "q85",
+      "query": "第五十五条 高铁电力设备抢修应遵循“快速隔离故障区段，恢复非",
+      "gold": [
+        "management_rules_kb.json::56"
+      ]
+    },
+    {
+      "id": "q86",
+      "query": "第三十五条 高速铁路变配电所、贯通线路、箱式变电站、车站综合",
+      "gold": [
+        "management_rules_kb.json::34"
+      ]
+    },
+    {
+      "id": "q87",
+      "query": "带电体电压 有安全遮栏 无安全遮栏 6～10kV 10～35",
+      "gold": [
+        "docx_tables_test6.json::0"
+      ]
+    },
+    {
+      "id": "q88",
+      "query": "___________/___________ ____ _",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::16"
+      ]
+    },
+    {
+      "id": "q89",
+      "query": "第九条 用电设备负荷等级。 电力负荷应根据对供电可靠性的要求",
+      "gold": [
+        "management_rules_kb.json::8"
+      ]
+    },
+    {
+      "id": "q90",
+      "query": "第十三条 发电机组在安装前须向供电单位提报防止反送电的联锁装",
+      "gold": [
+        "management_rules_kb.json::12"
+      ]
+    },
+    {
+      "id": "q91",
+      "query": "第七条 高速铁路供用电设备分界。 高速铁路电力专业本着负责输",
+      "gold": [
+        "management_rules_kb.json::6"
+      ]
+    },
+    {
+      "id": "q92",
+      "query": "第五十二条 高速铁路的设备检修工作应严格执行申报、审批制度，",
+      "gold": [
+        "management_rules_kb.json::53"
+      ]
+    },
+    {
+      "id": "q93",
+      "query": "带电导线电压 检修的线路 邻近、交叉的其它线路 1kV及以下",
+      "gold": [
+        "docx_tables_scheme1b.json::1"
+      ]
+    },
+    {
+      "id": "q94",
+      "query": "第七十四条 铁路局应制定事故抢修预案，并定期组织开展高速铁路",
+      "gold": [
+        "management_rules_kb.json::75"
+      ]
+    },
+    {
+      "id": "q95",
+      "query": "xx xx xxxxxxxxx 1 xxxx xxx10kv",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::12"
+      ]
+    },
+    {
+      "id": "q96",
+      "query": "□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::8"
+      ]
+    },
+    {
+      "id": "q97",
+      "query": "第三十七条 高速铁路电力设备巡视时，如需开启具有远动上传信号",
+      "gold": [
+        "management_rules_kb.json::36"
+      ]
+    },
+    {
+      "id": "q98",
+      "query": "设 备 名 称 使 用 年 限 电 缆 线 路 30年 变压",
+      "gold": [
+        "management_rules_kb.json::44"
+      ]
+    },
+    {
+      "id": "q99",
+      "query": "序号 项目 内容 备注 1 xxxx xxx10kVxxxx",
+      "gold": [
+        "knowledge_base.gemini_2_5_flash.partial.json::11"
+      ]
+    },
+    {
+      "id": "q100",
+      "query": "第七十九条 为了检查设备质量状态，发现设备隐患，保证设备安全",
+      "gold": [
+        "management_rules_kb.json::80"
+      ]
+    }
+  ]
+}

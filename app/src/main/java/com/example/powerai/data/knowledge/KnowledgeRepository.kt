@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_VARIABLE", "UNUSED_PARAMETER", "UNUSED")
-
 package com.example.powerai.data.knowledge
 
 import android.content.ContentResolver

@@ -1,0 +1,9 @@
+{
+  "queries": [
+    {
+      "id": "q1",
+      "query": "变压器 运行 异常",
+      "gold": ["management_rules_kb.json::29"]
+    }
+  ]
+}

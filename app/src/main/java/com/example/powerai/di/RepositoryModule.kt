@@ -14,4 +14,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindVisionBoostRepository(impl: VisionBoostRepositoryImpl): VisionBoostRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindEmbeddingRepository(impl: com.example.powerai.data.repository.EmbeddingRepositoryImpl): com.example.powerai.domain.repository.EmbeddingRepository
 }
