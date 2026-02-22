@@ -76,7 +76,11 @@ android {
         val aiBaseUrl = propAny("AI_BASE_URL", "OPENAI_BASE_URL", "DEEPSEEK_BASE_URL")
         val aiApiKey = propAny("AI_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY")
         if (aiBaseUrl.isBlank()) {
-            logger.warn("AI not configured: set AI_BASE_URL (or OPENAI_BASE_URL / DEEPSEEK_BASE_URL) in local.properties or ~/.gradle/gradle.properties")
+            // For local developer convenience, default to Android emulator host loopback
+            val defaultLocal = "http://10.0.2.2:8000"
+            logger.warn("AI not configured: defaulting AI_BASE_URL to $defaultLocal for local emulator testing. Set AI_BASE_URL in local.properties to override.")
+            // Use emulator host address so Android emulator can reach local FastAPI service
+            project.extensions.extraProperties.set("AI_BASE_URL_DEFAULT", defaultLocal)
         }
 
         val bingKey = propAny("BING_SEARCH_API_KEY", "BING_API_KEY")
@@ -89,7 +93,8 @@ android {
         val serperKey = propAny("SERPER_API_KEY", "SERPER_DEV_API_KEY", "SERPERDEV_API_KEY")
 
         buildConfigField("String", "AI_API_KEY", q(aiApiKey))
-        buildConfigField("String", "AI_BASE_URL", q(aiBaseUrl))
+        val resolvedAiBase = if (aiBaseUrl.isNotBlank()) aiBaseUrl else (project.extensions.extraProperties.get("AI_BASE_URL_DEFAULT") as String? ?: "")
+        buildConfigField("String", "AI_BASE_URL", q(resolvedAiBase))
         buildConfigField("String", "BING_SEARCH_API_KEY", q(bingKey))
         buildConfigField("String", "BING_SEARCH_ENDPOINT", q(bingEndpoint))
         buildConfigField("String", "BING_SEARCH_MKT", q(bingMkt))
