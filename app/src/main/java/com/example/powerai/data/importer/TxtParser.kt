@@ -17,7 +17,7 @@ class TxtParser(private val contentResolver: ContentResolver) {
     suspend fun parse(
         uri: Uri,
         fileName: String,
-        batchSize: Int = 100,
+        batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
         onProgressBytes: (readBytes: Long, totalBytes: Long?) -> Unit = { _, _ -> }
     ) = withContext(Dispatchers.IO) {

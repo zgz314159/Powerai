@@ -19,7 +19,7 @@ class DocxParser(private val contentResolver: ContentResolver) {
     suspend fun parse(
         uri: Uri,
         fileName: String,
-        batchSize: Int = 100,
+        batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
     ): String = withContext(Dispatchers.IO) {
         val input = contentResolver.openInputStream(uri) ?: throw IllegalArgumentException("Cannot open uri")

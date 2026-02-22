@@ -1,0 +1,17 @@
+processors:
+  active: false
+
+config:
+  validation: true
+
+style:
+  active: true
+
+comments:
+  active: false
+
+complexity:
+  active: true
+
+empty-blocks:
+  active: false

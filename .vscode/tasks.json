@@ -1,0 +1,1145 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Gradle: compileDebugKotlin (no-daemon)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"gradlew.bat :app:compileDebugKotlin --no-daemon --stacktrace --console=plain"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Gradle: testDebugUnitTest (no-daemon)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"gradlew.bat :app:testDebugUnitTest --no-daemon --stacktrace --console=plain"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "Gradle: assembleDebug (no-daemon)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"gradlew.bat :app:assembleDebug --no-daemon --stacktrace --console=plain"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "Gradle: lintDebug (no-daemon)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"gradlew.bat :app:lintDebug --no-daemon --stacktrace --console=plain"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"group": "test",
+			"problemMatcher": []
+		},
+		{
+			"label": "Gradle: stop daemons",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"gradlew.bat --stop"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx tables test",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Diag: tasklist winword",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (after kill)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx tables test 2",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (pre export)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (log retry 2)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre export retry 3)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (log retry 3)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_log size",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"for %A in (\"build\\tmp\\word_tables_test\\export_log.txt\") do @echo %~zA"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: dump export_log bytes",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell.exe -NoProfile -Command \"$b=[IO.File]::ReadAllBytes('build/tmp/word_tables_test/export_log.txt'); [BitConverter]::ToString($b)\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: encodehex export_log",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"certutil -encodehex \"build\\tmp\\word_tables_test\\export_log.txt\" \"build\\tmp\\word_tables_test\\export_log_hex.txt\" 4 >nul"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: encodehex export_log (no redirect)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"certutil -encodehex \"build\\tmp\\word_tables_test\\export_log.txt\" \"build\\tmp\\word_tables_test\\export_log_hex.txt\" 4"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: type export_log",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"type \"build\\tmp\\word_tables_test\\export_log.txt\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre export retry 4)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (log retry 4)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"del /q \"build\\tmp\\word_tables_test\\table_pos*.pdf\" 2>nul & powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: type export_log (retry 4)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"type \"build\\tmp\\word_tables_test\\export_log.txt\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre export retry 5)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (log retry 5)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"del /q \"build\\tmp\\word_tables_test\\table_pos*.pdf\" 2>nul & powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: type export_log (retry 5)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"type \"build\\tmp\\word_tables_test\\export_log.txt\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre export step trace)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (step trace)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"del /q \"build\\tmp\\word_tables_test\\table_pos*.pdf\" 2>nul & powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: type export_log (step trace)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"type \"build\\tmp\\word_tables_test\\export_log.txt\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (after hang)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre export print selection)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export_docx_tables_to_pdfs (print selection)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"del /q \"build\\tmp\\word_tables_test\\table_pos*.pdf\" 2>nul & powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\export_docx_tables_to_pdfs.ps1 -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\" > \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\word_tables_test\\export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (after print selection)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre python image export)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (Word->PNG tables)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test2.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "KB: build_kb_from_docx (log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test2.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_docx_export_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Diag: kill winword (pre STA retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (STA retry log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test3.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_docx_export_log2.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre visible selection retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (visible selection log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test4.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_docx_export_log3.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre range CopyAsPicture retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (range CopyAsPicture log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test5.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_docx_export_log4.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre Get-Clipboard retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (Get-Clipboard log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_test6.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_docx_export_log5.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (scheme1 test)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (scheme1 pdf->png)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_scheme1.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_scheme1_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (scheme1)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (scheme1 hung)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (scheme1 per-table)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "KB: build_kb_from_docx (scheme1 per-table test)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_scheme1b.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_scheme1b_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword (after scheme1b)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (after scheme1b hung)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (pre SaveAs2 self-heal test)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word export table 1 to PDF (ps)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"tools\\export_docx_tables_to_pdfs.ps1\" -DocxPath \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"build\\tmp\\ps_word_test\" -TableIndex 1 -LogPath \"build\\tmp\\ps_word_test\\t1.log\" -PidFile \"build\\tmp\\ps_word_test\\t1.pid\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word export table 1 to PDF (ps, absolute paths)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"tools\\export_docx_tables_to_pdfs.ps1\" -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test\" -TableIndex 1 -LogPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test\\t1.log\" -PidFile \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test\\t1.pid\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word SaveAs2 PDF smoke test",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -Command \"$ErrorActionPreference='Stop'; $out='C:\\\\Users\\\\zgz31\\\\AndroidStudioProjects\\\\PowerAi\\\\build\\\\tmp\\\\saveas2_smoke.pdf'; if (Test-Path $out) { Remove-Item $out -Force }; $word=New-Object -ComObject Word.Application; $word.Visible=$false; $word.DisplayAlerts=0; $doc=$word.Documents.Add(); $doc.Content.Text='smoke'; $doc.SaveAs2($out,17); $doc.Close($false); $word.Quit(); if (Test-Path $out) { Write-Output 'OK'; } else { Write-Output 'MISSING'; }\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: run saveas2_smoke.ps1",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\saveas2_smoke.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword after smoke test",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword before rerun exporter",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: build_kb_from_docx export-table-images (scheme1b)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_scheme1b.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest --gemini > \"build\\tmp\\kb_scheme1b_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist winword",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist /FI \"IMAGENAME eq WINWORD.EXE\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist python build_kb",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"wmic process where \"name='python.exe'\" get ProcessId,CommandLine | findstr /I \"build_kb_from_docx\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: list python processes",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -Command \"Get-Process python -ErrorAction SilentlyContinue | Select-Object Id,StartTime | Format-Table -AutoSize\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist python",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist /FI \"IMAGENAME eq python.exe\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist find python",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I python"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill python processes (stop hung exporter)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /PID 25260 & taskkill /F /PID 17236"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword (stop hung exporter)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word export table 1 using ExportAsFixedFormat",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"tools\\export_docx_tables_to_pdfs.ps1\" -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test2\" -TableIndex 1 -PdfMethod ExportAsFixedFormat -LogPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test2\\t1.log\" -PidFile \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test2\\t1.pid\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export table via WordOpenXML insert",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\export_table_xml_test.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: kill winword before WordOpenXML test",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export table via WordOpenXML insert (retry)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"powershell -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\export_table_xml_test.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word export table 1 (SaveAs2 + WordOpenXML)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -NoProfile -ExecutionPolicy Bypass -File \"tools\\export_docx_tables_to_pdfs.ps1\" -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test3\" -TableIndex 1 -PdfMethod SaveAs2 -CopyMode WordOpenXML -LogPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test3\\t1.log\" -PidFile \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_word_test3\\t1.pid\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word SaveAs2 PDF with simple table",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\saveas2_table_smoke.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist WINWORD after table smoke",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word SaveAs2 XPS with simple table",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\saveas2_table_xps_smoke.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist WINWORD after XPS smoke",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word SaveAs2 PDF with table (STA)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -STA -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\saveas2_table_smoke.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist WINWORD after STA table smoke",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: Word SaveAs2 DOCX with simple table",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -STA -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\saveas2_table_docx_smoke.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: trace where Word table hangs",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -STA -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\table_hang_trace.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: trace Word table save without addins",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -STA -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\table_hang_trace_noaddins.ps1\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: export table 1 to PNG via EnhMetaFileBits",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & powershell -STA -NoProfile -ExecutionPolicy Bypass -File \"build\\tmp\\export_table_emf_png_test.ps1\" -DocxPath \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" -OutDir \"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\build\\tmp\\ps_emf_png_test\" -TableIndex 1 -Dpi 150"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: build_kb_from_docx export-table-images (png via emf)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_png_emf.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest > \"build\\tmp\\kb_png_emf_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run: build_kb_from_docx export-table-images + gemini (png via emf)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"taskkill /F /IM WINWORD.EXE >nul 2>nul & C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_png_emf_gemini.json\" --export-table-images --table-image-dpi 150 --write-original-screenshots-manifest --gemini > \"build\\tmp\\kb_png_emf_gemini_log.txt\" 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: check running python/winword for gemini run",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I \"python.exe WINWORD.EXE\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: tasklist python and winword (gemini run)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I python & tasklist | findstr /I WINWORD"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini dry-run reusing existing table images",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only.json\" --export-table-images --skip-table-image-export --gemini"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini dry-run reusing existing table images (show error)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only.json\" --export-table-images --skip-table-image-export --gemini 1>build\\tmp\\gemini_only_stdout.txt 2>build\\tmp\\gemini_only_stderr.txt"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini dry-run (skip Word export, reuse PNGs)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only.json\" --export-table-images --skip-table-image-export --gemini"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini dry-run (reuse PNGs) after v1 fallback",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only.json\" --export-table-images --skip-table-image-export --gemini"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: check running python/winword (gemini)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I python & tasklist | findstr /I WINWORD & exit /b 0"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: wait 25s then check python procs",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"timeout /t 25 >nul & tasklist | findstr /I python & exit /b 0"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini dry-run with logs (stdout+stderr)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only2.json\" --export-table-images --skip-table-image-export --gemini 1>build\\tmp\\gemini_only2_stdout.txt 2>build\\tmp\\gemini_only2_stderr.txt"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: gemini request output (no redirection)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only3.json\" --export-table-images --skip-table-image-export --gemini"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: check python still running (gemini)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"tasklist | findstr /I python & exit /b 0"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: wait 40s then check gemini_only3 output file",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"timeout /t 40 >nul & if exist build\\tmp\\docx_tables_gemini_only3.json (echo FOUND) else (echo MISSING) & exit /b 0"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: capture gemini run log then print tail",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --docx \"app\\src\\main\\assets\\原文档\\铁运〔1999〕103号《铁路电力安全工作规程》.docx\" --file-id \"铁运〔1999〕103号《铁路电力安全工作规程》\" --out \"build\\tmp\\docx_tables_gemini_only4.json\" --export-table-images --skip-table-image-export --gemini > \"build\\tmp\\gemini_only4.log\" 2>&1 & powershell -NoProfile -Command \"Get-Content -LiteralPath 'build/tmp/gemini_only4.log' -Tail 60\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: wait then show gemini_only4.log tail",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"timeout /t 45 >nul & powershell -NoProfile -Command \"if (Test-Path -LiteralPath 'build/tmp/gemini_only4.log') { Get-Content -LiteralPath 'build/tmp/gemini_only4.log' -Tail 120 } else { Write-Output 'log missing' }\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: list gemini models for current key",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --list-gemini-models"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Diag: list gemini models (write log)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"C:\\Users\\zgz31\\AndroidStudioProjects\\PowerAi\\.venv\\Scripts\\python.exe tools\\build_kb_from_docx.py --list-gemini-models > build\\tmp\\gemini_models_list.log 2>&1"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

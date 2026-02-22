@@ -9,10 +9,10 @@ import javax.inject.Inject
  * 不在此层处理异常或 UI 状态，异常应由调用方处理。
  */
 class LocalSearchUseCase @Inject constructor(private val repository: KnowledgeRepository) {
-	/**
-	 * 根据关键词查询本地知识并返回匹配的条目列表（领域模型）
-	 */
-	suspend fun invoke(keyword: String): List<KnowledgeItem> {
-		return repository.searchLocal(keyword)
-	}
+    /**
+     * 根据关键词查询本地知识并返回匹配的条目列表（领域模型）
+     */
+    suspend fun invoke(keyword: String): List<KnowledgeItem> {
+        return repository.searchLocal(keyword)
+    }
 }

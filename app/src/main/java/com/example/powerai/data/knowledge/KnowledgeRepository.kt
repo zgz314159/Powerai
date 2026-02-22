@@ -1,18 +1,19 @@
+@file:Suppress("UNUSED_VARIABLE", "UNUSED_PARAMETER", "UNUSED")
+
 package com.example.powerai.data.knowledge
 
 import android.content.ContentResolver
 import android.net.Uri
 import com.example.powerai.data.importer.DocxParser
-import com.example.powerai.data.importer.PdfParser
-import com.example.powerai.data.importer.TxtParser
-import com.example.powerai.data.importer.TextSanitizer
 import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.data.importer.PdfParser
+import com.example.powerai.data.importer.TextSanitizer
+import com.example.powerai.data.importer.TxtParser
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
@@ -64,26 +65,26 @@ class KnowledgeRepository @Inject constructor(private val filesDir: File) {
     suspend fun getEntries(fileId: String): List<KnowledgeEntry> = withContext(Dispatchers.IO) {
         val dir = storageDir()
         val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext emptyList()
-            try {
-                val kf = gson.fromJson(f.readText(), KnowledgeFile::class.java)
-                kf.entries
-            } catch (_: Throwable) {
-                emptyList()
-            }
+        try {
+            val kf = gson.fromJson(f.readText(), KnowledgeFile::class.java)
+            kf.entries
+        } catch (_: Throwable) {
+            emptyList()
+        }
     }
 
     suspend fun search(query: String): List<KnowledgeEntry> = withContext(Dispatchers.IO) {
         if (query.isBlank()) return@withContext emptyList()
         val q = query.lowercase()
-            val out = mutableListOf<KnowledgeEntry>()
-            listFiles().forEach { kf ->
-                kf.entries.forEach { e ->
-                    if (e.title.lowercase().contains(q) || e.content.lowercase().contains(q) || e.category.lowercase().contains(q)) {
-                        out.add(e)
-                    }
+        val out = mutableListOf<KnowledgeEntry>()
+        listFiles().forEach { kf ->
+            kf.entries.forEach { e ->
+                if (e.title.lowercase().contains(q) || e.content.lowercase().contains(q) || e.category.lowercase().contains(q)) {
+                    out.add(e)
                 }
             }
-            out
+        }
+        out
     }
 
     /**
@@ -140,17 +141,14 @@ class KnowledgeRepository @Inject constructor(private val filesDir: File) {
      * Stream import a SAF Uri. Emits ImportProgress through returned Flow.
      * Uses available parsers (TxtParser/PdfParser/DocxParser) and TextSanitizer.
      */
-    fun importUriFlow(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = 100): Flow<ImportProgress> = flow {
+    fun importUriFlow(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE): Flow<ImportProgress> = flow {
         try {
             val lower = displayName.lowercase()
-            val md = MessageDigest.getInstance("SHA-256")
             var idCounter = 1L
             val tempEntries = mutableListOf<KnowledgeEntry>()
             var totalImported = 0L
 
-            val emitProgress: (Long, Long?, Int, String) -> Unit = { imported, total, percent, status ->
-                // emit via flow
-            }
+            // progress emission handled via direct emit calls in onBatch
 
             val onBatch: suspend (List<com.example.powerai.data.local.entity.KnowledgeEntity>) -> Unit = { batch ->
                 batch.forEach { be ->

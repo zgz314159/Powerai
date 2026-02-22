@@ -5,11 +5,10 @@ import android.content.Context
 import android.net.Uri
 import com.example.powerai.data.export.ExportUtils
 import com.example.powerai.data.importer.DocxParser
-import com.example.powerai.data.importer.PdfParser
-import com.example.powerai.data.importer.TxtParser
 import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.data.importer.PdfParser
 import com.example.powerai.data.importer.TextSanitizer
-import com.example.powerai.domain.model.KnowledgeItem
+import com.example.powerai.data.importer.TxtParser
 import com.example.powerai.data.local.entity.KnowledgeEntity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +21,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.lang.Exception
-import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,6 +41,7 @@ data class JsonKnowledgeFile(
 )
 
 @Singleton
+@Suppress("UNCHECKED_CAST", "USELESS_CAST")
 class JsonRepository @Inject constructor(private val context: Context) {
 
     private val gson = Gson()
@@ -86,11 +85,11 @@ class JsonRepository @Inject constructor(private val context: Context) {
                 val m = e as? Map<*, *>
                 m?.let {
                     JsonEntry(
-                        id = it["id"]?.toString() ?: "",
-                        title = it["title"]?.toString() ?: "",
-                        content = it["content"]?.toString() ?: "",
-                        category = it["category"]?.toString() ?: "",
-                        source = it["source"]?.toString() ?: "",
+                        id = it["id"]?.toString().orEmpty(),
+                        title = it["title"]?.toString().orEmpty(),
+                        content = it["content"]?.toString().orEmpty(),
+                        category = it["category"]?.toString().orEmpty(),
+                        source = it["source"]?.toString().orEmpty(),
                         status = it["status"]?.toString() ?: "parsed"
                     )
                 }
@@ -114,7 +113,7 @@ class JsonRepository @Inject constructor(private val context: Context) {
             val rootAny = gson.fromJson(f.readText(), Map::class.java) as? Map<*, *> ?: return@withContext false
             val entriesAny = rootAny["entries"] as? List<*> ?: return@withContext false
             val mutableEntries = entriesAny.map { it as? Map<*, *> ?: emptyMap<Any, Any>() }.toMutableList()
-            val idx = mutableEntries.indexOfFirst { (it["id"]?.toString() ?: "") == updated.id }
+            val idx = mutableEntries.indexOfFirst { (it["id"]?.toString().orEmpty()) == updated.id }
             if (idx >= 0) {
                 val map = mapOf<String, Any>(
                     "id" to updated.id,
@@ -165,17 +164,17 @@ class JsonRepository @Inject constructor(private val context: Context) {
 
     private fun tempFileFor(fileName: String): File {
         val dir = storageDir()
-        return File.createTempFile("import_", ".tmp", dir)
+        val safe = fileName.replace(Regex("[^A-Za-z0-9]"), "_").take(20)
+        return File.createTempFile("import_${safe}_", ".tmp", dir)
     }
 
-    suspend fun importUri(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = 100) = withContext(Dispatchers.IO) {
+    suspend fun importUri(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) = withContext(Dispatchers.IO) {
         try {
             val lower = displayName.lowercase()
             val temp = tempFileFor(displayName)
             val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(temp), Charsets.UTF_8))
             // write header
             val importTimestamp = System.currentTimeMillis()
-            val md = MessageDigest.getInstance("SHA-256")
 
             writer.write("{\n")
             writer.write("\"fileId\":\"TEMP\",\n")

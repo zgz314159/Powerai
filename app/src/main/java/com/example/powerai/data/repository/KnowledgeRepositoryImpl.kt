@@ -2,12 +2,13 @@ package com.example.powerai.data.repository
 
 import android.content.Context
 import android.net.Uri
+import com.example.powerai.data.importer.TextSanitizer
 import com.example.powerai.data.local.dao.KnowledgeDao
 import com.example.powerai.data.local.entity.KnowledgeEntity
-import java.io.BufferedReader
 import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.domain.repository.KnowledgeRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.BufferedReader
 import javax.inject.Inject
 
 /**
@@ -27,12 +28,12 @@ class KnowledgeRepositoryImpl @Inject constructor(
         dao.insert(entity)
     }
 
-
     private fun entityToItem(e: KnowledgeEntity): KnowledgeItem = KnowledgeItem(
         id = e.id,
         title = e.title,
         content = e.content,
         source = e.source,
+        pageNumber = e.pageNumber,
         category = e.category,
         keywords = if (e.keywordsSerialized.isBlank()) emptyList() else e.keywordsSerialized.split(',').map { it.trim() }
     )
@@ -41,8 +42,11 @@ class KnowledgeRepositoryImpl @Inject constructor(
      * 本地搜索：返回领域模型列表（实现接口）
      */
     override suspend fun searchLocal(query: String): List<KnowledgeItem> {
-        val entities = dao.searchByKeyword(query)
-        return entities.map { entityToItem(it) }
+        return KnowledgeLocalSearch.searchLocal(
+            dao = dao,
+            query = query,
+            entityToItem = ::entityToItem
+        )
     }
 
     /**
@@ -67,12 +71,15 @@ class KnowledgeRepositoryImpl @Inject constructor(
 
     override suspend fun insertBatch(items: List<com.example.powerai.domain.model.KnowledgeItem>) {
         val entities = items.map { item ->
+            val normalized = TextSanitizer.normalizeForSearch(item.content)
             KnowledgeEntity(
                 title = item.title,
                 content = item.content,
                 source = item.source,
                 category = item.category,
-                keywordsSerialized = item.keywords.joinToString(",")
+                keywordsSerialized = item.keywords.joinToString(","),
+                contentNormalized = normalized,
+                searchContent = normalized
             )
         }
         dao.insertBatch(entities)
@@ -91,4 +98,3 @@ class KnowledgeRepositoryImpl @Inject constructor(
      */
     suspend fun getAll(): List<com.example.powerai.data.local.entity.KnowledgeEntity> = dao.getAll()
 }
-

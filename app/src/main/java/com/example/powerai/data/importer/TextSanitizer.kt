@@ -18,4 +18,32 @@ object TextSanitizer {
         // Trim
         return s.trim()
     }
+
+    /**
+     * Normalize text for local search indexing and matching.
+     *
+     * Rules:
+     * - NFC normalize + sanitize control chars
+     * - keep only letters/digits (including CJK), map others to spaces
+     * - lowercase latin
+     * - collapse whitespace
+     */
+    fun normalizeForSearch(input: String): String {
+        val sanitized = sanitizeText(input)
+        if (sanitized.isBlank()) return ""
+        val out = StringBuilder(sanitized.length)
+        var lastWasSpace = false
+        for (ch in sanitized) {
+            if (Character.isLetterOrDigit(ch)) {
+                out.append(ch.lowercaseChar())
+                lastWasSpace = false
+            } else {
+                if (!lastWasSpace) {
+                    out.append(' ')
+                    lastWasSpace = true
+                }
+            }
+        }
+        return out.toString().trim().replace(Regex("\\s+"), " ")
+    }
 }

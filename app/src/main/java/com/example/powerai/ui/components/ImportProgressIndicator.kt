@@ -10,8 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.example.powerai.data.importer.ImportProgress
 
 @Composable
@@ -31,7 +31,7 @@ fun ImportProgressIndicator(progress: ImportProgress?, modifier: Modifier = Modi
         )
         Spacer(modifier = Modifier.height(6.dp))
         if (percentFloat != null) {
-            LinearProgressIndicator(progress = (percentFloat / 100f).coerceIn(0f, 1f), modifier = Modifier.fillMaxWidth())
+            LinearProgressIndicator(progress = { (percentFloat / 100f).coerceIn(0f, 1f) }, modifier = Modifier.fillMaxWidth())
         } else {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }

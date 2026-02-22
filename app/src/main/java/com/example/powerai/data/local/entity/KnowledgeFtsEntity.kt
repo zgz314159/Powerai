@@ -6,5 +6,7 @@ import androidx.room.Fts4
 @Entity(tableName = "knowledge_fts")
 @Fts4(contentEntity = KnowledgeEntity::class)
 data class KnowledgeFtsEntity(
-    val content: String
+    val title: String,
+    val source: String,
+    val searchContent: String
 )

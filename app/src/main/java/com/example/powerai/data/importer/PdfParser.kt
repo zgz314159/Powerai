@@ -19,7 +19,7 @@ class PdfParser(private val contentResolver: ContentResolver) {
     suspend fun parse(
         uri: Uri,
         fileName: String,
-        batchSize: Int = 100,
+        batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
         onProgressPages: (page: Int, totalPages: Int) -> Unit = { _, _ -> }
     ): String = withContext(Dispatchers.IO) {

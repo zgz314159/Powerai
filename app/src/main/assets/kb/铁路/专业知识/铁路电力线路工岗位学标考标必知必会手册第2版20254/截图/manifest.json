@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "fileId": "铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254",
+  "generatedAt": 1770730602788,
+  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
+  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages",
+  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图",
+  "items": [
+    {
+      "kind": "legend",
+      "pageNumber": 1,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages/page_001_p1.png",
+      "outFile": "legend_p1_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图/legend_p1_idx1.png",
+      "method": "rect_edges",
+      "score": 0.3881622246079164,
+      "bbox": {
+        "left": 639,
+        "top": 1086,
+        "right": 865,
+        "bottom": 1314,
+        "width": 226,
+        "height": 228
+      },
+      "bboxNormalized": {
+        "left": 0.42914707857622564,
+        "top": 0.5159144893111639,
+        "right": 0.5809267965077233,
+        "bottom": 0.624228028503563
+      },
+      "anchorBox": {
+        "left": 609,
+        "top": 936,
+        "right": 895,
+        "bottom": 1086,
+        "width": 286,
+        "height": 150
+      },
+      "anchorBoxes": [
+        {
+          "left": 609,
+          "top": 1056,
+          "right": 895,
+          "bottom": 1086,
+          "width": 286,
+          "height": 30
+        },
+        {
+          "left": 609,
+          "top": 1026,
+          "right": 895,
+          "bottom": 1086,
+          "width": 286,
+          "height": 60
+        },
+        {
+          "left": 609,
+          "top": 996,
+          "right": 895,
+          "bottom": 1086,
+          "width": 286,
+          "height": 90
+        },
+        {
+          "left": 609,
+          "top": 966,
+          "right": 895,
+          "bottom": 1086,
+          "width": 286,
+          "height": 120
+        },
+        {
+          "left": 609,
+          "top": 936,
+          "right": 895,
+          "bottom": 958,
+          "width": 286,
+          "height": 22
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 38,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages/page_038_p38.png",
+      "outFile": "legend_p38_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图/legend_p38_idx1.png",
+      "method": "rect_edges",
+      "score": 0.9991527142112276,
+      "bbox": {
+        "left": 352,
+        "top": 1221,
+        "right": 1151,
+        "bottom": 1662,
+        "width": 799,
+        "height": 441
+      },
+      "bboxNormalized": {
+        "left": 0.2364002686366689,
+        "top": 0.5800475059382423,
+        "right": 0.7730020147750168,
+        "bottom": 0.7895486935866983
+      },
+      "anchorBox": {
+        "left": 322,
+        "top": 1191,
+        "right": 1181,
+        "bottom": 1220,
+        "width": 859,
+        "height": 29
+      },
+      "anchorBoxes": [
+        {
+          "left": 322,
+          "top": 1191,
+          "right": 1181,
+          "bottom": 1220,
+          "width": 859,
+          "height": 29
+        }
+      ]
+    }
+  ],
+  "written": 2
+}

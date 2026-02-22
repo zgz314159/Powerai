@@ -4,14 +4,33 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 /**
- * AI API 接口（如 DeepSeek），用于向 AI 发送问题并接收回答。
+ * AI Chat Completions API（OpenAI/DeepSeek 兼容）。
  */
-data class AiRequest(
-    val question: String,
-    val reference: String
+
+data class ChatMessage(
+    val role: String,
+    val content: String
+)
+
+data class ChatCompletionsRequest(
+    val model: String,
+    val messages: List<ChatMessage>,
+    val stream: Boolean = false
+)
+
+data class ChatChoice(
+    val index: Int? = null,
+    val message: ChatMessage? = null,
+    val delta: ChatMessage? = null,
+    val finish_reason: String? = null
+)
+
+data class ChatCompletionsResponse(
+    val id: String? = null,
+    val choices: List<ChatChoice>? = null
 )
 
 interface AiApiService {
-    @POST("/ask")
-    suspend fun askAi(@Body request: AiRequest): String
+    @POST("chat/completions")
+    suspend fun chatCompletions(@Body request: ChatCompletionsRequest): ChatCompletionsResponse
 }

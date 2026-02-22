@@ -2,8 +2,8 @@ package com.example.powerai.ui.debug
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.powerai.data.local.entity.KnowledgeEntity
 import com.example.powerai.data.local.dao.KnowledgeDao
+import com.example.powerai.data.local.entity.KnowledgeEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

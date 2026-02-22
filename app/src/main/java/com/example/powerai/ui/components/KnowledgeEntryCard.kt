@@ -15,20 +15,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import com.example.powerai.data.knowledge.KnowledgeRepository
+import com.example.powerai.domain.model.KnowledgeEntry
 
 @Composable
 fun KnowledgeEntryCard(
-    entry: KnowledgeRepository.KnowledgeEntry,
+    entry: KnowledgeEntry,
     highlight: String? = null,
     fontScale: Float = 1.0f,
     modifier: Modifier = Modifier,
-    onEdit: (KnowledgeRepository.KnowledgeEntry) -> Unit = {}
+    onEdit: (KnowledgeEntry) -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -47,20 +47,20 @@ fun KnowledgeEntryCard(
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "${entry.category ?: ""} • ${entry.source ?: ""}",
+                    text = "${entry.category} • ${entry.source}",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall
                 )
 
                 // status badge
-                val statusColor = when (entry.status?.lowercase()) {
+                val statusColor = when (entry.status.lowercase()) {
                     "error", "garbled", "bad" -> Color(0xFFB00020)
                     "review" -> Color(0xFFFFA000)
                     "ok", "clean", "imported" -> Color(0xFF2E7D32)
                     else -> MaterialTheme.colorScheme.primary
                 }
                 Row(modifier = Modifier.background(statusColor.copy(alpha = 0.12f), shape = CircleShape).padding(6.dp)) {
-                    Text(entry.status ?: "", color = statusColor, style = MaterialTheme.typography.labelSmall)
+                    Text(entry.status, color = statusColor, style = MaterialTheme.typography.labelSmall)
                 }
             }
         }

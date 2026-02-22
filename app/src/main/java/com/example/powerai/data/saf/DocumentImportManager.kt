@@ -35,7 +35,7 @@ class StreamingDocumentImporter(private val context: Context, private val repo: 
      * parses into KnowledgeItem in chunks, and calls repository.insertBatch periodically.
      * It updates `progress` StateFlow with percentage and counts.
      */
-    fun importUri(uri: Uri, batchSize: Int = 100) {
+    fun importUri(uri: Uri, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) {
         CoroutineScope(Dispatchers.IO).launch {
             val resolver = context.contentResolver
             val displayName = resolver.getType(uri) ?: uri.lastPathSegment ?: "unknown"
@@ -112,7 +112,6 @@ object DocumentImportManager {
     suspend fun readText(context: Context, uri: Uri): String = withContext(Dispatchers.IO) {
         context.contentResolver.openInputStream(uri)?.use { inputStream ->
             inputStream.bufferedReader().readText()
-        } ?: ""
+        }.orEmpty()
     }
 }
-

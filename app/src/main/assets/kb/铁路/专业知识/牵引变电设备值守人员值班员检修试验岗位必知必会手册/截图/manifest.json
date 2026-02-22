@@ -1,0 +1,345 @@
+{
+  "version": 1,
+  "fileId": "铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册",
+  "generatedAt": 1770731298436,
+  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
+  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages",
+  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图",
+  "items": [
+    {
+      "kind": "legend",
+      "pageNumber": 1,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_001_p1.png",
+      "outFile": "legend_p1_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p1_idx1.png",
+      "method": "rect_edges",
+      "score": 0.3905044458447105,
+      "bbox": {
+        "left": 676,
+        "top": 1040,
+        "right": 903,
+        "bottom": 1267,
+        "width": 227,
+        "height": 227
+      },
+      "bboxNormalized": {
+        "left": 0.4539959704499664,
+        "top": 0.49406175771971494,
+        "right": 0.6064472800537274,
+        "bottom": 0.6019002375296912
+      },
+      "anchorBox": {
+        "left": 646,
+        "top": 890,
+        "right": 933,
+        "bottom": 1293,
+        "width": 287,
+        "height": 403
+      },
+      "anchorBoxes": [
+        {
+          "left": 646,
+          "top": 1010,
+          "right": 933,
+          "bottom": 1040,
+          "width": 287,
+          "height": 30
+        },
+        {
+          "left": 646,
+          "top": 980,
+          "right": 933,
+          "bottom": 1040,
+          "width": 287,
+          "height": 60
+        },
+        {
+          "left": 646,
+          "top": 950,
+          "right": 933,
+          "bottom": 1040,
+          "width": 287,
+          "height": 90
+        },
+        {
+          "left": 646,
+          "top": 920,
+          "right": 933,
+          "bottom": 1040,
+          "width": 287,
+          "height": 120
+        },
+        {
+          "left": 646,
+          "top": 890,
+          "right": 933,
+          "bottom": 1040,
+          "width": 287,
+          "height": 150
+        },
+        {
+          "left": 646,
+          "top": 1267,
+          "right": 933,
+          "bottom": 1293,
+          "width": 287,
+          "height": 26
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 22,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_022_p22.png",
+      "outFile": "legend_p22_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p22_idx1.png",
+      "method": "rect_edges",
+      "score": 0.988423144876325,
+      "bbox": {
+        "left": 208,
+        "top": 1099,
+        "right": 1308,
+        "bottom": 1402,
+        "width": 1100,
+        "height": 303
+      },
+      "bboxNormalized": {
+        "left": 0.1396910678307589,
+        "top": 0.5220902612826603,
+        "right": 0.8784419073203492,
+        "bottom": 0.6660332541567696
+      },
+      "anchorBox": {
+        "left": 178,
+        "top": 1071,
+        "right": 1338,
+        "bottom": 1099,
+        "width": 1160,
+        "height": 28
+      },
+      "anchorBoxes": [
+        {
+          "left": 178,
+          "top": 1071,
+          "right": 1338,
+          "bottom": 1099,
+          "width": 1160,
+          "height": 28
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 43,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_043_p43.png",
+      "outFile": "legend_p43_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p43_idx1.png",
+      "method": "rect_edges",
+      "score": 0.883658865248227,
+      "bbox": {
+        "left": 211,
+        "top": 820,
+        "right": 1359,
+        "bottom": 1965,
+        "width": 1148,
+        "height": 1145
+      },
+      "bboxNormalized": {
+        "left": 0.1417058428475487,
+        "top": 0.38954869358669836,
+        "right": 0.9126930826057756,
+        "bottom": 0.9334916864608076
+      },
+      "anchorBox": {
+        "left": 181,
+        "top": 760,
+        "right": 1389,
+        "bottom": 820,
+        "width": 1208,
+        "height": 60
+      },
+      "anchorBoxes": [
+        {
+          "left": 181,
+          "top": 790,
+          "right": 1389,
+          "bottom": 820,
+          "width": 1208,
+          "height": 30
+        },
+        {
+          "left": 181,
+          "top": 760,
+          "right": 1389,
+          "bottom": 781,
+          "width": 1208,
+          "height": 21
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 44,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_044_p44.png",
+      "outFile": "legend_p44_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p44_idx1.png",
+      "method": "rect_edges",
+      "score": 0.8332518047112463,
+      "bbox": {
+        "left": 211,
+        "top": 124,
+        "right": 1359,
+        "bottom": 480,
+        "width": 1148,
+        "height": 356
+      },
+      "bboxNormalized": {
+        "left": 0.1417058428475487,
+        "top": 0.05890736342042755,
+        "right": 0.9126930826057756,
+        "bottom": 0.22802850356294538
+      },
+      "anchorBox": {
+        "left": 181,
+        "top": 0,
+        "right": 1389,
+        "bottom": 520,
+        "width": 1208,
+        "height": 520
+      },
+      "anchorBoxes": [
+        {
+          "left": 181,
+          "top": 94,
+          "right": 1389,
+          "bottom": 124,
+          "width": 1208,
+          "height": 30
+        },
+        {
+          "left": 181,
+          "top": 64,
+          "right": 1389,
+          "bottom": 124,
+          "width": 1208,
+          "height": 60
+        },
+        {
+          "left": 181,
+          "top": 34,
+          "right": 1389,
+          "bottom": 124,
+          "width": 1208,
+          "height": 90
+        },
+        {
+          "left": 181,
+          "top": 4,
+          "right": 1389,
+          "bottom": 124,
+          "width": 1208,
+          "height": 120
+        },
+        {
+          "left": 181,
+          "top": 0,
+          "right": 1389,
+          "bottom": 124,
+          "width": 1208,
+          "height": 124
+        },
+        {
+          "left": 181,
+          "top": 480,
+          "right": 1389,
+          "bottom": 520,
+          "width": 1208,
+          "height": 40
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 50,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_050_p50.png",
+      "outFile": "legend_p50_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p50_idx1.png",
+      "method": "rect_edges",
+      "score": 0.6157388338267473,
+      "bbox": {
+        "left": 266,
+        "top": 968,
+        "right": 743,
+        "bottom": 1209,
+        "width": 477,
+        "height": 241
+      },
+      "bboxNormalized": {
+        "left": 0.1786433848220282,
+        "top": 0.45985748218527317,
+        "right": 0.4989926124916051,
+        "bottom": 0.5743467933491686
+      },
+      "anchorBox": {
+        "left": 236,
+        "top": 940,
+        "right": 773,
+        "bottom": 968,
+        "width": 537,
+        "height": 28
+      },
+      "anchorBoxes": [
+        {
+          "left": 236,
+          "top": 940,
+          "right": 773,
+          "bottom": 968,
+          "width": 537,
+          "height": 28
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 50,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_050_p50.png",
+      "outFile": "legend_p50_idx2.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p50_idx2.png",
+      "method": "rect_edges",
+      "score": 0.6593448940269749,
+      "bbox": {
+        "left": 741,
+        "top": 968,
+        "right": 1280,
+        "bottom": 1200,
+        "width": 539,
+        "height": 232
+      },
+      "bboxNormalized": {
+        "left": 0.4976494291470786,
+        "top": 0.45985748218527317,
+        "right": 0.8596373404969778,
+        "bottom": 0.5700712589073634
+      },
+      "anchorBox": {
+        "left": 711,
+        "top": 1200,
+        "right": 1310,
+        "bottom": 1240,
+        "width": 599,
+        "height": 40
+      },
+      "anchorBoxes": [
+        {
+          "left": 711,
+          "top": 1200,
+          "right": 1310,
+          "bottom": 1240,
+          "width": 599,
+          "height": 40
+        }
+      ]
+    }
+  ],
+  "written": 6
+}

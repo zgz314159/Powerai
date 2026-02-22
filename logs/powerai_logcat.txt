@@ -1,0 +1,363 @@
+﻿
+logs\device_logcat.txt:4642:02-21 16:02:17.509 W/ActivityManager( 1829): Invali
+d packageName: com.example.powerai
+logs\device_logcat.txt:4675:02-21 16:02:34.847 V/BackupManagerService( 1829): [
+UserID:0] restoreAtInstall pkg=com.example.powerai token=1 restoreSet=0
+logs\device_logcat.txt:4682:02-21 16:02:34.936 I/ActivityManager( 1829): Force 
+stopping com.example.powerai appid=10389 user=0: from pid 15068
+logs\device_logcat.txt:4684:02-21 16:02:35.052 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10000000 cmp=com.example.powerai/.MainActivity} from uid 2000
+logs\device_logcat.txt:4700:02-21 16:02:35.127 I/ActivityManager( 1829): Start 
+proc 15134:com.example.powerai/u0a389 for pre-top-activity:com.android.shell {c
+om.example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:4702:02-21 16:02:35.189 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:4716:02-21 16:02:36.742 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:4720:02-21 16:02:37.967 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:4913:02-21 16:03:47.192 I/ActivityManager( 1829): Force 
+stopping com.example.powerai appid=10389 user=0: from pid 16438
+logs\device_logcat.txt:4914:02-21 16:03:47.194 I/ActivityManager( 1829): Killin
+g 15134:com.example.powerai/u0a389 (adj 0): stop com.example.powerai due to fro
+m pid 16438
+logs\device_logcat.txt:4915:02-21 16:03:47.195 W/ActivityTaskManager( 1829): Fo
+rce removing ActivityRecord{b7ad7ae u0 com.example.powerai/.MainActivity t429 f
+}}: app died, no saved state
+logs\device_logcat.txt:4938:02-21 16:03:47.275 V/ActivityManager( 1829): Got ob
+ituary of 15134:com.example.powerai
+logs\device_logcat.txt:4957:02-21 16:04:11.147 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:4972:02-21 16:04:11.173 I/ActivityManager( 1829): Start 
+proc 16568:com.example.powerai/u0a389 for pre-top-activity:com.sonymobile.launc
+her {com.example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:4980:02-21 16:04:12.676 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:5160:02-21 16:04:37.673 I/ActivityManager( 1829): Start 
+proc 17626:com.android.chrome/u0a263 for pre-top-activity:com.example.powerai {
+com.android.chrome/com.google.android.apps.chrome.IntentDispatcher}
+logs\device_logcat.txt:5269:02-21 16:05:02.703 I/ActivityTaskManager( 1829): mo
+veTaskToBack: Task{d606756 #430 type=standard A=10389:com.example.powerai U=0 v
+isible=true mode=fullscreen translucent=false sz=1}
+logs\device_logcat.txt:5274:02-21 16:05:04.671 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:5300:02-21 16:05:19.014 I/ActivityTaskManager( 1829): mo
+veTaskToBack: Task{d606756 #430 type=standard A=10389:com.example.powerai U=0 v
+isible=true mode=fullscreen translucent=false sz=1}
+logs\device_logcat.txt:5305:02-21 16:05:20.137 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:5317:02-21 16:05:23.430 I/ActivityManager( 1829): Killin
+g 16568:com.example.powerai/u0a389 (adj 905): remove task
+logs\device_logcat.txt:5318:02-21 16:05:23.489 I/WindowManager( 1829): WIN DEAT
+H: Window{954d213 u0 com.example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:5322:02-21 16:05:23.494 W/UsageStatsService( 1829): Unex
+pected activity event reported! (com.example.powerai/com.example.powerai.MainAc
+tivity event : 23 instanceId : 58875249)
+logs\device_logcat.txt:5344:02-21 16:05:23.512 I/ActivityManager( 1829): Start 
+proc 18495:com.example.powerai/u0a389 for null
+logs\device_logcat.txt:5357:02-21 16:05:25.478 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:5365:02-21 16:05:25.495 I/ActivityTaskManager( 1829): Th
+e Process com.example.powerai Already Exists in BG. So sending its PID: 18495
+logs\device_logcat.txt:5374:02-21 16:05:26.357 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:5386:02-21 16:05:33.860 I/ActivityTaskManager( 1829): mo
+veTaskToBack: Task{537b10f #432 type=standard A=10389:com.example.powerai U=0 v
+isible=true mode=fullscreen translucent=false sz=1}
+logs\device_logcat.txt:5392:02-21 16:05:35.330 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:5498:02-21 16:05:59.844 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goog
+le.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiv
+er
+logs\device_logcat.txt:5499:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.andr
+oid.vending/com.google.android.finsky.packagemonitor.impl.PackageMonitorReceive
+rImpl$RegisteredReceiver
+logs\device_logcat.txt:5500:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.andr
+oid.vending/com.google.android.finsky.packagemonitor.backgroundimpl.BackgroundP
+ackageMonitorReceiverImpl$RegisteredReceiver
+logs\device_logcat.txt:5501:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.face
+book.katana/com.facebook.feed.platformads.AppInstallReceiver
+logs\device_logcat.txt:5502:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goog
+le.android.apps.nbu.files/.documentbrowser.browselanding.rootcontainerlist.rece
+iver.PackageChangeReceiver_Receiver
+logs\device_logcat.txt:5503:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goog
+le.android.ext.services/com.android.adservices.service.common.PackageChangedRec
+eiver
+logs\device_logcat.txt:5504:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goog
+le.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+logs\device_logcat.txt:5505:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goog
+le.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+logs\device_logcat.txt:5506:02-21 16:05:59.845 W/BroadcastQueue( 1829): Backgro
+und execution not allowed: receiving Intent { act=android.intent.action.PACKAGE
+_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.sony
+ericsson.updatecenter/.update.ApplicationInstalledReceiver
+logs\device_logcat.txt:5656:02-21 16:06:47.894 I/ActivityManager( 1829): Force 
+stopping com.example.powerai appid=10389 user=0: from pid 21428
+logs\device_logcat.txt:5657:02-21 16:06:47.894 I/ActivityManager( 1829): Killin
+g 18495:com.example.powerai/u0a389 (adj 0): stop com.example.powerai due to fro
+m pid 21428
+logs\device_logcat.txt:5658:02-21 16:06:47.895 W/ActivityTaskManager( 1829): Fo
+rce removing ActivityRecord{143259c u0 com.example.powerai/.MainActivity t432 f
+}}: app died, no saved state
+logs\device_logcat.txt:5686:02-21 16:06:47.965 V/ActivityManager( 1829): Got ob
+ituary of 18495:com.example.powerai
+logs\device_logcat.txt:5691:02-21 16:06:48.276 I/ActivityManager( 1829): Force 
+stopping com.example.powerai appid=10389 user=0: from pid 21485
+logs\device_logcat.txt:5692:02-21 16:06:48.303 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10000000 cmp=com.example.powerai/.MainActivity} from uid 2000
+logs\device_logcat.txt:5702:02-21 16:06:48.330 I/ActivityManager( 1829): Start 
+proc 21523:com.example.powerai/u0a389 for pre-top-activity:com.android.shell {c
+om.example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:5710:02-21 16:06:49.938 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:5721:02-21 16:07:00.680 I/ActivityManager( 1829): Force 
+stopping com.example.powerai appid=10389 user=0: from pid 21746
+logs\device_logcat.txt:5722:02-21 16:07:00.680 I/ActivityManager( 1829): Killin
+g 21523:com.example.powerai/u0a389 (adj 0): stop com.example.powerai due to fro
+m pid 21746
+logs\device_logcat.txt:5723:02-21 16:07:00.681 W/ActivityTaskManager( 1829): Fo
+rce removing ActivityRecord{98776aa u0 com.example.powerai/.MainActivity t433 f
+}}: app died, no saved state
+logs\device_logcat.txt:5745:02-21 16:07:00.742 V/ActivityManager( 1829): Got ob
+ituary of 21523:com.example.powerai
+logs\device_logcat.txt:5756:02-21 16:07:04.760 I/ActivityTaskManager( 1829): ST
+ART u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] f
+lg=0x10200000 cmp=com.example.powerai/.MainActivity bnds=[645,2160][855,2478]} 
+from uid 10316
+logs\device_logcat.txt:5772:02-21 16:07:04.791 I/ActivityManager( 1829): Start 
+proc 21782:com.example.powerai/u0a389 for pre-top-activity:com.sonymobile.launc
+her {com.example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:6423:02-21 16:07:06.471 D/CompanionDeviceManagerService(
+ 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:6653:02-21 16:10:19.640 I/BackgroundDexOptService( 1829)
+: Pinning optimized code {com.example.powerai, com.sonymobile.photopro}
+logs\device_logcat.txt:6981:02-21 16:17:05.660 E/VerityUtils( 1829): Failed to 
+measure fs-verity, errno 1: /data/app/~~w8MFao4pNT6vWbdoQ6IdEQ==/com.example.po
+werai-gJVpI6AgVSRDXf8tepQeaA==/base.apk
+logs\device_logcat.txt:7923:02-21 16:27:22.451 I/InputDispatcher( 1829): Monito
+r swipe-up (server) is stealing touch from [1be838b com.example.powerai/com.exa
+mple.powerai.MainActivity (server), ]
+logs\device_logcat.txt:13758:02-21 16:29:24.465 I/Finsky  ( 6887): [2] VerifyAp
+ps: Install-time verification requested for package com.example.powerai, Packag
+eManager id = 1, Verifier id = eae035ee-cefa-4891-8b3b-da34c791e9b5
+logs\device_logcat.txt:13769:02-21 16:29:24.550 I/Finsky  ( 6887): [284] Verify
+Apps: Anti-malware verification task started for package=com.example.powerai
+logs\device_logcat.txt:13789:02-21 16:29:24.994 I/Finsky  ( 6887): [284] Verify
+Apps: chooseScanResult for package=com.example.powerai with timeout=15000ms
+logs\device_logcat.txt:13790:02-21 16:29:24.995 I/Finsky  ( 6887): [64] VerifyA
+pps: Starting APK Analysis scan for com.example.powerai.
+logs\device_logcat.txt:13791:02-21 16:29:24.996 I/Finsky  ( 6887): [64] Scannin
+g package com.example.powerai contents with client side protections. File: [fmL
+5Y7tJtLfZl0ouoe224b5Rm59T8mGQ66ItV7rn6F0]
+logs\device_logcat.txt:14430:02-21 16:29:35.346 W/Finsky  ( 6887): [64] VerifyA
+pps: APK Analysis scan timed out for com.example.powerai.
+logs\device_logcat.txt:14431:02-21 16:29:35.346 I/Finsky  ( 6887): [64] VerifyA
+pps: APK Analysis scan finished for com.example.powerai. Verdict: SAFE
+logs\device_logcat.txt:14610:02-21 16:29:39.996 I/Finsky  ( 6887): [284] Verify
+Apps: ScanResultPicker returned for package=com.example.powerai: Optional.empty
+()
+logs\device_logcat.txt:14612:02-21 16:29:39.998 I/Finsky  ( 6887): [284] Verify
+Apps: Starting required split types check for com.example.powerai.
+logs\device_logcat.txt:14613:02-21 16:29:40.005 I/Finsky  ( 6887): [284] Verify
+Apps: Required split types check successful for com.example.powerai.
+logs\device_logcat.txt:14619:02-21 16:29:40.013 I/Finsky  ( 6887): [284] Verify
+Apps V31SignatureVerification: Successful verification for the package: com.exa
+mple.powerai using APK Signature Scheme v3
+logs\device_logcat.txt:14622:02-21 16:29:40.015 I/Finsky  ( 6887): [2] VerifyAp
+ps: Install-time verification complete: id=1, package_name=com.example.powerai
+logs\device_logcat.txt:14623:02-21 16:29:40.025 I/ActivityManager( 1829): Force
+ stopping com.example.powerai appid=10389 user=-1: installPackageLI
+logs\device_logcat.txt:14624:02-21 16:29:40.026 I/PackageManager( 1829): Update
+ package com.example.powerai code path from /data/app/~~w8MFao4pNT6vWbdoQ6IdEQ=
+=/com.example.powerai-gJVpI6AgVSRDXf8tepQeaA== to /data/app/~~kCTg5ai772g3DvBZt
+jg8GA==/com.example.powerai-7_4yRvV5reBdX2pfsuscPw==; Retain data and using new
+logs\device_logcat.txt:14625:02-21 16:29:40.027 I/ActivityManager( 1829): Killi
+ng 21782:com.example.powerai/u0a389 (adj 900): stop com.example.powerai due to 
+installPackageLI
+logs\device_logcat.txt:14626:02-21 16:29:40.027 W/ActivityTaskManager( 1829): F
+orce removing ActivityRecord{b6ce9d0 u0 com.example.powerai/.MainActivity t434 
+f}}: app died, no saved state
+logs\device_logcat.txt:14627:02-21 16:29:40.028 W/InputManager-JNI( 1829): Inpu
+t channel object '1be838b com.example.powerai/com.example.powerai.MainActivity 
+(client)' was disposed without first being removed with the input manager!
+logs\device_logcat.txt:14638:02-21 16:29:40.117 W/UsageStatsService( 1829): Une
+xpected activity event reported! (com.example.powerai/com.example.powerai.MainA
+ctivity event : 23 instanceId : 56220290)
+logs\device_logcat.txt:14640:02-21 16:29:40.118 V/ActivityManager( 1829): Got o
+bituary of 21782:com.example.powerai
+logs\device_logcat.txt:14652:02-21 16:29:40.145 I/ActivityManager( 1829): Force
+ stopping com.example.powerai appid=10389 user=0: pkg removed
+logs\device_logcat.txt:14653:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.a
+ndroid.vending/com.google.android.finsky.packagemonitor.impl.PackageMonitorRece
+iverImpl$RegisteredReceiver
+logs\device_logcat.txt:14654:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.a
+ndroid.vending/com.google.android.finsky.packagemonitor.backgroundimpl.Backgrou
+ndPackageMonitorReceiverImpl$RegisteredReceiver
+logs\device_logcat.txt:14655:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.a
+ndroid.vending/com.google.android.finsky.instantapps.appmanagement.InstantAppRe
+moveMonitor
+logs\device_logcat.txt:14656:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.g
+oogle.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+logs\device_logcat.txt:14658:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.s
+onyericsson.updatecenter/.update.ApplicationRemovedReceiver
+logs\device_logcat.txt:14659:02-21 16:29:40.159 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REMOVED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.g
+oogle.android.videos/com.google.android.libraries.social.peoplekit.thirdparty.v
+iewcontrollers.ThirdPartyReceiver
+logs\device_logcat.txt:14673:02-21 16:29:40.176 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goo
+gle.android.packageinstaller/com.android.packageinstaller.PackageInstalledRecei
+ver
+logs\device_logcat.txt:14674:02-21 16:29:40.176 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.and
+roid.vending/com.google.android.finsky.packagemonitor.impl.PackageMonitorReceiv
+erImpl$RegisteredReceiver
+logs\device_logcat.txt:14675:02-21 16:29:40.177 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.and
+roid.vending/com.google.android.finsky.packagemonitor.backgroundimpl.Background
+PackageMonitorReceiverImpl$RegisteredReceiver
+logs\device_logcat.txt:14676:02-21 16:29:40.177 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.fac
+ebook.katana/com.facebook.feed.platformads.AppInstallReceiver
+logs\device_logcat.txt:14679:02-21 16:29:40.178 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goo
+gle.android.apps.nbu.files/.documentbrowser.browselanding.rootcontainerlist.rec
+eiver.PackageChangeReceiver_Receiver
+logs\device_logcat.txt:14680:02-21 16:29:40.178 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goo
+gle.android.ext.services/com.android.adservices.service.common.PackageChangedRe
+ceiver
+logs\device_logcat.txt:14681:02-21 16:29:40.179 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goo
+gle.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+logs\device_logcat.txt:14682:02-21 16:29:40.179 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.goo
+gle.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+logs\device_logcat.txt:14683:02-21 16:29:40.179 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_ADDED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.son
+yericsson.updatecenter/.update.ApplicationInstalledReceiver
+logs\device_logcat.txt:14705:02-21 16:29:40.188 I/Telecom ( 1829): CarModeTrack
+er: Package com.example.powerai is not tracked.: SSH.oR@APc
+logs\device_logcat.txt:14715:02-21 16:29:40.223 I/Finsky:background(19974): [2]
+ IQ: onPackageRemoved com.example.powerai, replacing=true, uninstallingFromPlay
+=false
+logs\device_logcat.txt:14724:02-21 16:29:40.236 I/Finsky  ( 6887): [2] AIM: App
+InfoCacheUpdater -> invalidating apps: [com.example.powerai]
+logs\device_logcat.txt:14726:02-21 16:29:40.237 I/Finsky  ( 6887): [64] AIM: Ap
+pInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed
+  in cache (limit 10) : [com.example.powerai]
+logs\device_logcat.txt:14780:02-21 16:29:40.292 D/ImsResolver( 3048): maybeAdde
+dImsService, packageName: com.example.powerai
+logs\device_logcat.txt:14800:02-21 16:29:40.311 W/SQLiteLog( 5240): (28) double
+-quoted string literal: "com.example.powerai"
+logs\device_logcat.txt:14801:02-21 16:29:40.317 I/Finsky  ( 6887): [2] AIM: App
+InfoCacheUpdater -> invalidating apps: [com.example.powerai]
+logs\device_logcat.txt:14805:02-21 16:29:40.322 I/Finsky  ( 6887): [57] AIM: Ap
+pInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed
+  in cache (limit 10) : [com.example.powerai]
+logs\device_logcat.txt:14830:02-21 16:29:40.372 D/CompanionDeviceManagerService
+( 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:14842:02-21 16:29:40.381 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REPLACED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.
+google.android.apps.nbu.files/.documentbrowser.browselanding.rootcontainerlist.
+receiver.PackageChangeReceiver_Receiver
+logs\device_logcat.txt:14843:02-21 16:29:40.382 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REPLACED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.
+google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+logs\device_logcat.txt:14844:02-21 16:29:40.382 W/BroadcastQueue( 1829): Backgr
+ound execution not allowed: receiving Intent { act=android.intent.action.PACKAG
+E_REPLACED dat=package:com.example.powerai flg=0x4000010 (has extras) } to com.
+google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+logs\device_logcat.txt:14857:02-21 16:29:40.409 W/SQLiteLog(21816): (28) double
+-quoted string literal: "com.example.powerai"
+logs\device_logcat.txt:16830:02-21 16:30:58.174 I/ActivityTaskManager( 1829): S
+TART u0 {flg=0x10000000 cmp=com.example.powerai/.MainActivity} from uid 2000
+logs\device_logcat.txt:16844:02-21 16:30:58.202 I/Freeform( 5220): onTaskCreate
+d taskId=437 cmp=ComponentInfo{com.example.powerai/com.example.powerai.MainActi
+vity} target=null
+logs\device_logcat.txt:16854:02-21 16:30:58.237 I/ActivityManager( 1829): Start
+ proc 29057:com.example.powerai/u0a389 for top-activity:com.android.shell {com.
+example.powerai/com.example.powerai.MainActivity}
+logs\device_logcat.txt:16881:02-21 16:30:58.860 W/ActivityTaskManager( 1829): A
+ctivity top resumed state loss timeout for ActivityRecord{4bbd6fa u0 com.exampl
+e.powerai/.MainActivity t437}
+logs\device_logcat.txt:16882:02-21 16:30:58.860 W/ActivityTaskManager( 1829): A
+ctivity pause timeout for ActivityRecord{4bbd6fa u0 com.example.powerai/.MainAc
+tivity t437}
+logs\device_logcat.txt:16886:02-21 16:30:59.743 D/nativeloader(29057): Configur
+ing clns-4 for other apk /data/app/~~kCTg5ai772g3DvBZtjg8GA==/com.example.power
+ai-7_4yRvV5reBdX2pfsuscPw==/base.apk. target_sdk_version=36, uses_libraries=, l
+ibrary_path=/data/app/~~kCTg5ai772g3DvBZtjg8GA==/com.example.powerai-7_4yRvV5re
+BdX2pfsuscPw==/lib/arm64:/data/app/~~kCTg5ai772g3DvBZtjg8GA==/com.example.power
+ai-7_4yRvV5reBdX2pfsuscPw==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/
+expand:/data/user/0/com.example.powerai
+logs\device_logcat.txt:16888:02-21 16:30:59.765 V/GraphicsEnvironment(29057): A
+NGLE Developer option for 'com.example.powerai' set to: 'default'
+logs\device_logcat.txt:16919:02-21 16:31:00.781 I/WM-WorkerWrapper(29057): Work
+er result SUCCESS for Work [ id=14759348-8405-4400-baef-cd174174e754, tags={ co
+m.example.powerai.data.worker.DataSyncWorker } ]
+logs\device_logcat.txt:16921:02-21 16:31:00.806 I/WM-WorkerWrapper(29057): Work
+er result SUCCESS for Work [ id=45474b7a-1b05-4748-99db-d7723ae2fbe8, tags={ co
+m.example.powerai.data.worker.AssetPreloadWorker } ]
+logs\device_logcat.txt:16930:02-21 16:31:01.038 D/CompanionDeviceManagerService
+( 1829): onPackageModified(packageName = com.example.powerai)
+logs\device_logcat.txt:16947:02-21 16:31:01.061 W/ProcessStats( 1829): Tracking
+ association SourceState{137e06f com.example.powerai/10389 Top #19490} whose pr
+oc state 1 is better than process ProcessState{64212fb com.google.android.gms.p
+ersistent/10228 pkg=com.google.android.gms} proc state 2 (42 skipped)
+logs\device_logcat.txt:16969:02-21 16:31:01.091 D/ImsResolver( 3048): maybeAdde
+dImsService, packageName: com.example.powerai
+logs\device_logcat.txt:17047:02-21 16:31:05.479 D/ProfileInstaller(29057): Inst
+alling profile for com.example.powerai
+
+

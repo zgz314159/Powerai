@@ -1,0 +1,687 @@
+{
+  "version": 1,
+  "fileId": "铁路/专业知识/铁运1999103号铁路电力安全工作规程",
+  "generatedAt": 1770729916164,
+  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
+  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages",
+  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图",
+  "items": [
+    {
+      "kind": "legend",
+      "pageNumber": 25,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_025_p25.png",
+      "outFile": "legend_p25_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p25_idx1.png",
+      "method": "rect_edges",
+      "score": 0.9943750809061488,
+      "bbox": {
+        "left": 31,
+        "top": 66,
+        "right": 566,
+        "bottom": 236,
+        "width": 535,
+        "height": 170
+      },
+      "bboxNormalized": {
+        "left": 0.050243111831442464,
+        "top": 0.0732519422863485,
+        "right": 0.9173419773095624,
+        "bottom": 0.2619311875693674
+      },
+      "anchorBox": {
+        "left": 1,
+        "top": 0,
+        "right": 596,
+        "bottom": 271,
+        "width": 595,
+        "height": 271
+      },
+      "anchorBoxes": [
+        {
+          "left": 1,
+          "top": 36,
+          "right": 596,
+          "bottom": 66,
+          "width": 595,
+          "height": 30
+        },
+        {
+          "left": 1,
+          "top": 6,
+          "right": 596,
+          "bottom": 66,
+          "width": 595,
+          "height": 60
+        },
+        {
+          "left": 1,
+          "top": 0,
+          "right": 596,
+          "bottom": 66,
+          "width": 595,
+          "height": 66
+        },
+        {
+          "left": 1,
+          "top": 0,
+          "right": 596,
+          "bottom": 66,
+          "width": 595,
+          "height": 66
+        },
+        {
+          "left": 1,
+          "top": 0,
+          "right": 596,
+          "bottom": 66,
+          "width": 595,
+          "height": 66
+        },
+        {
+          "left": 1,
+          "top": 244,
+          "right": 596,
+          "bottom": 271,
+          "width": 595,
+          "height": 27
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 26,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_026_p26.png",
+      "outFile": "legend_p26_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p26_idx1.png",
+      "method": "rect_edges",
+      "score": 0.9952551788588339,
+      "bbox": {
+        "left": 44,
+        "top": 103,
+        "right": 579,
+        "bottom": 310,
+        "width": 535,
+        "height": 207
+      },
+      "bboxNormalized": {
+        "left": 0.0713128038897893,
+        "top": 0.11431742508324085,
+        "right": 0.9384116693679092,
+        "bottom": 0.34406215316315203
+      },
+      "anchorBox": {
+        "left": 14,
+        "top": 84,
+        "right": 609,
+        "bottom": 103,
+        "width": 595,
+        "height": 19
+      },
+      "anchorBoxes": [
+        {
+          "left": 14,
+          "top": 84,
+          "right": 609,
+          "bottom": 103,
+          "width": 595,
+          "height": 19
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 69,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_069_p69.png",
+      "outFile": "legend_p69_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p69_idx1.png",
+      "method": "rect_edges",
+      "score": 0.6055710872356679,
+      "bbox": {
+        "left": 130,
+        "top": 118,
+        "right": 479,
+        "bottom": 325,
+        "width": 349,
+        "height": 207
+      },
+      "bboxNormalized": {
+        "left": 0.2106969205834684,
+        "top": 0.1309655937846837,
+        "right": 0.7763371150729336,
+        "bottom": 0.3607103218645949
+      },
+      "anchorBox": {
+        "left": 100,
+        "top": 0,
+        "right": 509,
+        "bottom": 365,
+        "width": 409,
+        "height": 365
+      },
+      "anchorBoxes": [
+        {
+          "left": 100,
+          "top": 88,
+          "right": 509,
+          "bottom": 118,
+          "width": 409,
+          "height": 30
+        },
+        {
+          "left": 100,
+          "top": 58,
+          "right": 509,
+          "bottom": 118,
+          "width": 409,
+          "height": 60
+        },
+        {
+          "left": 100,
+          "top": 28,
+          "right": 509,
+          "bottom": 118,
+          "width": 409,
+          "height": 90
+        },
+        {
+          "left": 100,
+          "top": 0,
+          "right": 509,
+          "bottom": 118,
+          "width": 409,
+          "height": 118
+        },
+        {
+          "left": 100,
+          "top": 0,
+          "right": 509,
+          "bottom": 118,
+          "width": 409,
+          "height": 118
+        },
+        {
+          "left": 100,
+          "top": 325,
+          "right": 509,
+          "bottom": 365,
+          "width": 409,
+          "height": 40
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 69,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_069_p69.png",
+      "outFile": "legend_p69_idx2.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p69_idx2.png",
+      "method": "rect_edges",
+      "score": 0.45770995828042804,
+      "bbox": {
+        "left": 154,
+        "top": 371,
+        "right": 472,
+        "bottom": 576,
+        "width": 318,
+        "height": 205
+      },
+      "bboxNormalized": {
+        "left": 0.24959481361426256,
+        "top": 0.4117647058823529,
+        "right": 0.7649918962722853,
+        "bottom": 0.6392896781354052
+      },
+      "anchorBox": {
+        "left": 124,
+        "top": 325,
+        "right": 502,
+        "bottom": 606,
+        "width": 378,
+        "height": 281
+      },
+      "anchorBoxes": [
+        {
+          "left": 124,
+          "top": 341,
+          "right": 502,
+          "bottom": 371,
+          "width": 378,
+          "height": 30
+        },
+        {
+          "left": 124,
+          "top": 325,
+          "right": 502,
+          "bottom": 371,
+          "width": 378,
+          "height": 46
+        },
+        {
+          "left": 124,
+          "top": 325,
+          "right": 502,
+          "bottom": 371,
+          "width": 378,
+          "height": 46
+        },
+        {
+          "left": 124,
+          "top": 325,
+          "right": 502,
+          "bottom": 371,
+          "width": 378,
+          "height": 46
+        },
+        {
+          "left": 124,
+          "top": 325,
+          "right": 502,
+          "bottom": 371,
+          "width": 378,
+          "height": 46
+        },
+        {
+          "left": 124,
+          "top": 590,
+          "right": 502,
+          "bottom": 606,
+          "width": 378,
+          "height": 16
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 72,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_072_p72.png",
+      "outFile": "legend_p72_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p72_idx1.png",
+      "method": "rect_edges",
+      "score": 0.654904174573055,
+      "bbox": {
+        "left": 136,
+        "top": 108,
+        "right": 466,
+        "bottom": 468,
+        "width": 330,
+        "height": 360
+      },
+      "bboxNormalized": {
+        "left": 0.22042139384116693,
+        "top": 0.11986681465038845,
+        "right": 0.7552674230145867,
+        "bottom": 0.5194228634850167
+      },
+      "anchorBox": {
+        "left": 106,
+        "top": 100,
+        "right": 496,
+        "bottom": 108,
+        "width": 390,
+        "height": 8
+      },
+      "anchorBoxes": [
+        {
+          "left": 106,
+          "top": 100,
+          "right": 496,
+          "bottom": 108,
+          "width": 390,
+          "height": 8
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 74,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_074_p74.png",
+      "outFile": "legend_p74_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p74_idx1.png",
+      "method": "rect_edges",
+      "score": 0.3457846967459145,
+      "bbox": {
+        "left": 157,
+        "top": 369,
+        "right": 455,
+        "bottom": 540,
+        "width": 298,
+        "height": 171
+      },
+      "bboxNormalized": {
+        "left": 0.2544570502431118,
+        "top": 0.4095449500554939,
+        "right": 0.7374392220421394,
+        "bottom": 0.5993340732519423
+      },
+      "anchorBox": {
+        "left": 127,
+        "top": 309,
+        "right": 485,
+        "bottom": 369,
+        "width": 358,
+        "height": 60
+      },
+      "anchorBoxes": [
+        {
+          "left": 127,
+          "top": 339,
+          "right": 485,
+          "bottom": 369,
+          "width": 358,
+          "height": 30
+        },
+        {
+          "left": 127,
+          "top": 309,
+          "right": 485,
+          "bottom": 335,
+          "width": 358,
+          "height": 26
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 76,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_076_p76.png",
+      "outFile": "legend_p76_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p76_idx1.png",
+      "method": "rect_edges",
+      "score": 0.7192513311345362,
+      "bbox": {
+        "left": 157,
+        "top": 221,
+        "right": 506,
+        "bottom": 523,
+        "width": 349,
+        "height": 302
+      },
+      "bboxNormalized": {
+        "left": 0.2544570502431118,
+        "top": 0.24528301886792453,
+        "right": 0.820097244732577,
+        "bottom": 0.5804661487236404
+      },
+      "anchorBox": {
+        "left": 127,
+        "top": 192,
+        "right": 536,
+        "bottom": 221,
+        "width": 409,
+        "height": 29
+      },
+      "anchorBoxes": [
+        {
+          "left": 127,
+          "top": 192,
+          "right": 536,
+          "bottom": 221,
+          "width": 409,
+          "height": 29
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 78,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_078_p78.png",
+      "outFile": "legend_p78_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p78_idx1.png",
+      "method": "rect_edges",
+      "score": 0.72109913147649,
+      "bbox": {
+        "left": 90,
+        "top": 239,
+        "right": 481,
+        "bottom": 376,
+        "width": 391,
+        "height": 137
+      },
+      "bboxNormalized": {
+        "left": 0.1458670988654781,
+        "top": 0.26526082130965595,
+        "right": 0.779578606158833,
+        "bottom": 0.41731409544950054
+      },
+      "anchorBox": {
+        "left": 60,
+        "top": 209,
+        "right": 511,
+        "bottom": 223,
+        "width": 451,
+        "height": 14
+      },
+      "anchorBoxes": [
+        {
+          "left": 60,
+          "top": 209,
+          "right": 511,
+          "bottom": 223,
+          "width": 451,
+          "height": 14
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 81,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_081_p81.png",
+      "outFile": "legend_p81_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p81_idx1.png",
+      "method": "rect_edges",
+      "score": 0.47380928260835686,
+      "bbox": {
+        "left": 247,
+        "top": 334,
+        "right": 476,
+        "bottom": 661,
+        "width": 229,
+        "height": 327
+      },
+      "bboxNormalized": {
+        "left": 0.40032414910858993,
+        "top": 0.3706992230854606,
+        "right": 0.7714748784440842,
+        "bottom": 0.7336293007769146
+      },
+      "anchorBox": {
+        "left": 217,
+        "top": 274,
+        "right": 506,
+        "bottom": 334,
+        "width": 289,
+        "height": 60
+      },
+      "anchorBoxes": [
+        {
+          "left": 217,
+          "top": 304,
+          "right": 506,
+          "bottom": 334,
+          "width": 289,
+          "height": 30
+        },
+        {
+          "left": 217,
+          "top": 274,
+          "right": 506,
+          "bottom": 286,
+          "width": 289,
+          "height": 12
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 85,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_085_p85.png",
+      "outFile": "legend_p85_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p85_idx1.png",
+      "method": "rect_edges",
+      "score": 0.6014266502728041,
+      "bbox": {
+        "left": 76,
+        "top": 91,
+        "right": 551,
+        "bottom": 254,
+        "width": 475,
+        "height": 163
+      },
+      "bboxNormalized": {
+        "left": 0.12317666126418152,
+        "top": 0.10099889012208657,
+        "right": 0.893030794165316,
+        "bottom": 0.28190899001109876
+      },
+      "anchorBox": {
+        "left": 46,
+        "top": 0,
+        "right": 581,
+        "bottom": 288,
+        "width": 535,
+        "height": 288
+      },
+      "anchorBoxes": [
+        {
+          "left": 46,
+          "top": 61,
+          "right": 581,
+          "bottom": 91,
+          "width": 535,
+          "height": 30
+        },
+        {
+          "left": 46,
+          "top": 31,
+          "right": 581,
+          "bottom": 91,
+          "width": 535,
+          "height": 60
+        },
+        {
+          "left": 46,
+          "top": 1,
+          "right": 581,
+          "bottom": 91,
+          "width": 535,
+          "height": 90
+        },
+        {
+          "left": 46,
+          "top": 0,
+          "right": 581,
+          "bottom": 91,
+          "width": 535,
+          "height": 91
+        },
+        {
+          "left": 46,
+          "top": 0,
+          "right": 581,
+          "bottom": 91,
+          "width": 535,
+          "height": 91
+        },
+        {
+          "left": 46,
+          "top": 271,
+          "right": 581,
+          "bottom": 288,
+          "width": 535,
+          "height": 17
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 86,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_086_p86.png",
+      "outFile": "legend_p86_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p86_idx1.png",
+      "method": "rect_edges",
+      "score": 0.6129787596762176,
+      "bbox": {
+        "left": 122,
+        "top": 359,
+        "right": 455,
+        "bottom": 632,
+        "width": 333,
+        "height": 273
+      },
+      "bboxNormalized": {
+        "left": 0.19773095623987033,
+        "top": 0.39844617092119866,
+        "right": 0.7374392220421394,
+        "bottom": 0.7014428412874584
+      },
+      "anchorBox": {
+        "left": 92,
+        "top": 346,
+        "right": 485,
+        "bottom": 359,
+        "width": 393,
+        "height": 13
+      },
+      "anchorBoxes": [
+        {
+          "left": 92,
+          "top": 346,
+          "right": 485,
+          "bottom": 359,
+          "width": 393,
+          "height": 13
+        }
+      ]
+    },
+    {
+      "kind": "legend",
+      "pageNumber": 87,
+      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_087_p87.png",
+      "outFile": "legend_p87_idx1.png",
+      "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p87_idx1.png",
+      "method": "rect_edges",
+      "score": 0.8119277539341917,
+      "bbox": {
+        "left": 76,
+        "top": 184,
+        "right": 562,
+        "bottom": 303,
+        "width": 486,
+        "height": 119
+      },
+      "bboxNormalized": {
+        "left": 0.12317666126418152,
+        "top": 0.20421753607103219,
+        "right": 0.9108589951377634,
+        "bottom": 0.3362930077691454
+      },
+      "anchorBox": {
+        "left": 46,
+        "top": 124,
+        "right": 592,
+        "bottom": 184,
+        "width": 546,
+        "height": 60
+      },
+      "anchorBoxes": [
+        {
+          "left": 46,
+          "top": 154,
+          "right": 592,
+          "bottom": 184,
+          "width": 546,
+          "height": 30
+        },
+        {
+          "left": 46,
+          "top": 124,
+          "right": 592,
+          "bottom": 146,
+          "width": 546,
+          "height": 22
+        }
+      ]
+    }
+  ],
+  "written": 12
+}

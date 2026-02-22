@@ -1,12 +1,12 @@
 package com.example.powerai.domain.usecase
 
+import com.example.powerai.domain.model.KnowledgeEntry
 import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.domain.model.QueryResult
-
 import javax.inject.Inject
 
 class HybridQueryUseCase @Inject constructor(
-    private val localSearchUseCase: LocalSearchUseCase,
+    private val localSearchUseCase: com.example.powerai.domain.usecase.RetrievalFusionUseCase,
     private val askAiUseCase: AskAiUseCase
 ) {
     /**
@@ -14,20 +14,17 @@ class HybridQueryUseCase @Inject constructor(
      */
     suspend fun invoke(question: String): QueryResult {
         val localResults: List<KnowledgeItem> = localSearchUseCase.invoke(question)
-        val answer: String
-        val confidence: Float
-        if (localResults.size >= 3) {
-            answer = localResults.joinToString("\n") { it.content }
-            confidence = 1.0f
-        } else {
-            val referenceText = localResults.joinToString("\n") { it.content }
-            answer = try {
-                askAiUseCase.invoke(question, referenceText)
-            } catch (t: Throwable) {
-                "AI error: ${t.message ?: t::class.simpleName}"
-            }
-            confidence = 0.5f + 0.1f * localResults.size
+        val numberedEvidence = buildNumberedEvidence(localResults)
+        val answer = try {
+            askAiUseCase.invoke(question, numberedEvidence)
+        } catch (t: Throwable) {
+            "AI error: ${t.message ?: t::class.simpleName}"
         }
+        val confidence: Float = when {
+            localResults.isEmpty() -> 0.3f
+            localResults.size >= 5 -> 0.9f
+            else -> 0.5f + 0.08f * localResults.size
+        }.coerceIn(0f, 1f)
         return QueryResult(
             answer = answer,
             references = localResults,
@@ -35,16 +32,40 @@ class HybridQueryUseCase @Inject constructor(
         )
     }
 
+    private fun buildNumberedEvidence(items: List<KnowledgeItem>): String {
+        if (items.isEmpty()) return "(无证据)"
+        return items.take(10).mapIndexed { index, item ->
+            val number = index + 1
+            val meta = buildString {
+                if (item.source.isNotBlank()) append(item.source)
+                item.pageNumber?.let { append(" · 第${it}页") }
+                item.hitBlockIndex?.let { append(" · 命中块$it") }
+            }.ifBlank { "未提供来源" }
+
+            val excerpt = item.content
+                .replace("\r", " ")
+                .replace("\n", " ")
+                .trim()
+                .take(380)
+
+            """
+                [$number] ${item.title}
+                来源：$meta
+                摘录：$excerpt
+            """.trimIndent()
+        }.joinToString("\n\n")
+    }
+
     /**
      * Hybrid query that returns a list of data-layer KnowledgeEntry objects
      * combining local JSON search results and an optional AI-generated answer
      * as an appended entry when local results are sparse.
      */
-    suspend fun hybridQuery(keyword: String): List<com.example.powerai.data.knowledge.KnowledgeRepository.KnowledgeEntry> {
+    suspend fun hybridQuery(keyword: String): List<KnowledgeEntry> {
         val localResults = localSearchUseCase.invoke(keyword)
-        // map domain KnowledgeItem -> data KnowledgeEntry
+        // map domain KnowledgeItem -> domain KnowledgeEntry
         val mapped = localResults.map {
-            com.example.powerai.data.knowledge.KnowledgeRepository.KnowledgeEntry(
+            KnowledgeEntry(
                 id = it.id.toString(),
                 title = it.title,
                 content = it.content,
@@ -55,13 +76,13 @@ class HybridQueryUseCase @Inject constructor(
         }.toMutableList()
 
         if (localResults.size < 3) {
-            val referenceText = localResults.joinToString("\n") { it.content }
+            val referenceText = buildNumberedEvidence(localResults)
             val aiAnswer = try {
                 askAiUseCase.invoke(keyword, referenceText)
             } catch (t: Throwable) {
                 "AI error: ${t.message ?: t::class.simpleName}"
             }
-            val aiEntry = com.example.powerai.data.knowledge.KnowledgeRepository.KnowledgeEntry(
+            val aiEntry = KnowledgeEntry(
                 id = "ai-${System.currentTimeMillis()}",
                 title = "AI Answer",
                 content = aiAnswer,

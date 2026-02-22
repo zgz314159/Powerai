@@ -1,30 +1,50 @@
+@file:Suppress("UNUSED_VARIABLE", "UNUSED_PARAMETER", "UNUSED")
+
 package com.example.powerai.ui.jsonrepo
 
-import android.net.Uri
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import kotlinx.coroutines.launch
+import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.powerai.data.json.JsonEntry
 import com.example.powerai.data.json.JsonKnowledgeFile
+import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
+@Suppress("UNUSED_PARAMETER")
 fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonRepositoryViewModel) {
     val files by viewModel.files.collectAsState()
     val entries by viewModel.entries.collectAsState()
-    val fileStats by viewModel.fileStats.collectAsState()
+
     val importProgress by viewModel.importProgress.collectAsState()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
@@ -72,7 +92,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
             if (displayed.isEmpty()) {
                 Text("No matching entries")
             } else {
-                LazyColumn(Modifier.fillMaxWidth().weight(1f)) {
+                LazyColumn(Modifier.fillMaxWidth().height(240.dp)) {
                     items(displayed) { e: JsonEntry ->
                         EntryRow(e, onSave = { updated ->
                             val fileId = selectedFileId ?: return@EntryRow
@@ -91,7 +111,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
             } else {
                 (p.percent.toFloat() / 100f).coerceIn(0f, 1f)
             }
-            LinearProgressIndicator(progress = progressFloat, Modifier.fillMaxWidth())
+            LinearProgressIndicator(progress = { progressFloat }, modifier = Modifier.fillMaxWidth())
             Text("Import: ${p.status} ${p.importedItems}/${p.totalItems ?: "-"}")
         }
 
@@ -103,7 +123,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
                     coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
                     return@Button
                 }
-                val target = File(context.filesDir, "export_${fid}.csv")
+                val target = File(context.filesDir, "export_$fid.csv")
                 viewModel.exportCsv(fid, target) { ok ->
                     coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "CSV 导出成功: ${target.name}" else "CSV 导出失败") }
                 }
@@ -116,7 +136,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
                     coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
                     return@Button
                 }
-                val target = File(context.filesDir, "export_${fid}.json")
+                val target = File(context.filesDir, "export_$fid.json")
                 viewModel.exportJson(fid, target) { ok ->
                     coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "JSON 导出成功: ${target.name}" else "JSON 导出失败") }
                 }
@@ -126,46 +146,5 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
 
     Box(Modifier.fillMaxSize()) {
         SnackbarHost(hostState = snackbarHostState, modifier = Modifier.align(Alignment.BottomCenter))
-    }
-
-}
-
-
-@Composable
-private fun FileRow(file: JsonKnowledgeFile, onSelect: () -> Unit) {
-    Row(Modifier.fillMaxWidth().clickable { onSelect() }.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-            Text(file.fileName, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text("Entries: ${file.entriesCount}", style = MaterialTheme.typography.bodySmall)
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Text(file.importTimestamp.toString(), style = MaterialTheme.typography.bodySmall)
-        }
-    }
-}
-
-@Composable
-private fun EntryRow(entry: JsonEntry, onSave: (JsonEntry) -> Unit) {
-    var title by remember { mutableStateOf(entry.title ?: "") }
-    var content by remember { mutableStateOf(entry.content ?: "") }
-
-    val statusColor = when (entry.status) {
-        "parsed" -> MaterialTheme.colorScheme.primary
-        "error" -> MaterialTheme.colorScheme.error
-        else -> MaterialTheme.colorScheme.onBackground
-    }
-
-    Card(Modifier.fillMaxWidth().padding(6.dp)) {
-        Column(Modifier.padding(8.dp)) {
-            OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text("Title") })
-            Spacer(Modifier.height(6.dp))
-            OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") }, maxLines = 6)
-            Spacer(Modifier.height(6.dp))
-            Text(text = "状态: ${entry.status}", color = statusColor, style = MaterialTheme.typography.bodySmall)
-            Spacer(Modifier.height(6.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TextButton(onClick = { onSave(entry.copy(title = title, content = content)) }) { Text("Save") }
-            }
-        }
     }
 }

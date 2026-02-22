@@ -21,7 +21,7 @@ class FileImportManager @Inject constructor(private val repo: KnowledgeRepositor
      * The implementation delegates to KnowledgeRepository.importUriFlow which
      * performs streaming parsing, sanitization and atomic JSON writes.
      */
-    suspend fun importFile(uri: Uri, context: Context, batchSize: Int = 100): Flow<Int> {
+    suspend fun importFile(uri: Uri, context: Context, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE): Flow<Int> {
         val displayName = uri.lastPathSegment ?: "imported"
         return repo.importUriFlow(uri, context.contentResolver, displayName, batchSize).map { prog ->
             // normalize percent to 0..100

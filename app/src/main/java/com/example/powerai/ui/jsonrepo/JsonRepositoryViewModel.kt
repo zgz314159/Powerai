@@ -2,10 +2,10 @@ package com.example.powerai.ui.jsonrepo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.data.json.JsonEntry
 import com.example.powerai.data.json.JsonKnowledgeFile
 import com.example.powerai.data.json.JsonRepository
-import com.example.powerai.data.importer.ImportProgress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

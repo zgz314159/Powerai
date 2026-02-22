@@ -16,7 +16,7 @@ class ImportViewModel @Inject constructor(
 
     val progress: StateFlow<com.example.powerai.data.importer.ImportProgress?> = importer.progress
 
-    fun importUri(uri: Uri, batchSize: Int = 100) {
+    fun importUri(uri: Uri, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) {
         viewModelScope.launch {
             importer.importUri(uri, batchSize)
         }
