@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.10.2)
+project(native_search)
+
+set(FAISS_DIR ${CMAKE_SOURCE_DIR}/faiss)
+
+if(DEFINED ANDROID_ABI)
+    set(FAISS_LIB_PATH ${FAISS_DIR}/${ANDROID_ABI}/libfaiss.a)
+else()
+    set(FAISS_LIB_PATH ${FAISS_DIR}/arm64-v8a/libfaiss.a)
+endif()
+
+if(EXISTS ${FAISS_LIB_PATH})
+    message(STATUS "Found faiss static lib at ${FAISS_LIB_PATH}, building Faiss-backed native_search")
+    add_definitions(-DHAVE_FAISS=1)
+    include_directories(${FAISS_DIR}/include)
+    add_library(native_search SHARED native_search_faiss.cpp)
+    find_library(log-lib log)
+    target_link_libraries(native_search ${log-lib} ${FAISS_LIB_PATH})
+    if(ANDROID_ABI STREQUAL "arm64-v8a")
+        target_compile_options(native_search PRIVATE -O3 -march=armv8-a -funroll-loops -pthread)
+    else()
+        target_compile_options(native_search PRIVATE -O3 -funroll-loops -pthread)
+    endif()
+else()
+    message(STATUS "Faiss static lib not found at ${FAISS_LIB_PATH}, building fallback native_search")
+    add_library(native_search SHARED native_search.cpp)
+    find_library(log-lib log)
+    target_link_libraries(native_search ${log-lib})
+    if(ANDROID_ABI STREQUAL "arm64-v8a")
+        target_compile_options(native_search PRIVATE -O3 -march=armv8-a -funroll-loops -pthread)
+    else()
+        target_compile_options(native_search PRIVATE -O3 -funroll-loops -pthread)
+    endif()
+    # Note: Do not explicitly link -lpthread on Android (Bionic provides threads)
+endif()
+
+set_target_properties(native_search PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)

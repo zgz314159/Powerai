@@ -1,0 +1,5 @@
+﻿<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+  <string name="embedding_service_mode">http</string>
+  <string name="embedding_service_url">http://127.0.0.1:8000/embed_batch</string>
+</map>

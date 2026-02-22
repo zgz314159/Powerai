@@ -1,0 +1,30 @@
+﻿2026-02-22T10:34:36.1643524Z Current runner version: '2.331.0'
+2026-02-22T10:34:36.1666815Z ##[group]Runner Image Provisioner
+2026-02-22T10:34:36.1667554Z Hosted Compute Agent
+2026-02-22T10:34:36.1668046Z Version: 20260123.484
+2026-02-22T10:34:36.1668597Z Commit: 6bd6555ca37d84114959e1c76d2c01448ff61c5d
+2026-02-22T10:34:36.1669408Z Build Date: 2026-01-23T19:41:17Z
+2026-02-22T10:34:36.1670053Z Worker ID: {bfcebaea-0d24-4c95-ba4b-2769a9a5635d}
+2026-02-22T10:34:36.1670713Z Azure Region: northcentralus
+2026-02-22T10:34:36.1671299Z ##[endgroup]
+2026-02-22T10:34:36.1672984Z ##[group]Operating System
+2026-02-22T10:34:36.1673508Z Ubuntu
+2026-02-22T10:34:36.1673906Z 24.04.3
+2026-02-22T10:34:36.1674349Z LTS
+2026-02-22T10:34:36.1674750Z ##[endgroup]
+2026-02-22T10:34:36.1675167Z ##[group]Runner Image
+2026-02-22T10:34:36.1675694Z Image: ubuntu-24.04
+2026-02-22T10:34:36.1676201Z Version: 20260201.15.1
+2026-02-22T10:34:36.1677430Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260201.15/images/ubuntu/Ubuntu2404-Readme.md
+2026-02-22T10:34:36.1679057Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260201.15
+2026-02-22T10:34:36.1679942Z ##[endgroup]
+2026-02-22T10:34:36.1681125Z ##[group]GITHUB_TOKEN Permissions
+2026-02-22T10:34:36.1683786Z Contents: read
+2026-02-22T10:34:36.1684513Z Metadata: read
+2026-02-22T10:34:36.1684998Z Packages: read
+2026-02-22T10:34:36.1685420Z ##[endgroup]
+2026-02-22T10:34:36.1687496Z Secret source: Actions
+2026-02-22T10:34:36.1688395Z Prepare workflow directory
+2026-02-22T10:34:36.2000182Z Prepare all required actions
+2026-02-22T10:34:36.2039288Z Getting action download info
+2026-02-22T10:34:36.5566342Z ##[error]Unable to resolve action android-actions/setup-ndk, repository not found

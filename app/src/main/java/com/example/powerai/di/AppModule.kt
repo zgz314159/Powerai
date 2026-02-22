@@ -19,11 +19,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,6 +34,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFilesDir(@ApplicationContext context: Context): File = context.filesDir
+
+    @Provides
+    @Singleton
+    @Named("vector_dim")
+    fun provideVectorDim(): Int = 128
+
+    @Provides
+    @Singleton
+    @Named("vector_index_path")
+    fun provideVectorIndexPath(): String = "vector_index.bin"
 
     @Provides
     @Singleton
@@ -119,6 +131,13 @@ object AppModule {
             .writeTimeout(90, TimeUnit.SECONDS)
             .callTimeout(120, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    val logger = HttpLoggingInterceptor()
+                    logger.level = HttpLoggingInterceptor.Level.BODY
+                    addInterceptor(logger)
+                }
+            }
             .addInterceptor { chain ->
                 val apiKey = BuildConfig.AI_API_KEY.trim()
                 val req0 = chain.request()
@@ -192,8 +211,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAnnApiService(): com.example.powerai.data.retriever.AnnApiService {
-        val base = BuildConfig.AI_BASE_URL.trim()
+    fun provideAnnApiService(@ApplicationContext context: Context): com.example.powerai.data.retriever.AnnApiService {
+        var base = BuildConfig.AI_BASE_URL.trim()
+
+        // If BuildConfig doesn't provide a URL (common during debug), allow overriding
+        // by placing a plaintext file `ai_base_url.txt` in the app's files dir containing
+        // the base URL (e.g. http://192.168.1.100:8000/). This makes it easy to point
+        // a physical device to your host without rebuilding.
+        if (base.isBlank()) {
+            try {
+                val cfg = context.filesDir.resolve("ai_base_url.txt")
+                if (cfg.exists()) {
+                    base = cfg.readText().trim()
+                }
+            } catch (_: Exception) {
+                // ignore and fallthrough to empty check
+            }
+        }
+
         if (base.isBlank()) {
             return object : com.example.powerai.data.retriever.AnnApiService {
                 override suspend fun search(req: com.example.powerai.data.retriever.AnnSearchRequest): com.example.powerai.data.retriever.AnnSearchResponse {
@@ -209,6 +244,13 @@ object AppModule {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
+            .apply {
+                if (BuildConfig.DEBUG) {
+                    val logger = HttpLoggingInterceptor()
+                    logger.level = HttpLoggingInterceptor.Level.BODY
+                    addInterceptor(logger)
+                }
+            }
             .build()
 
         return Retrofit.Builder()

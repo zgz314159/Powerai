@@ -17,6 +17,9 @@ class PowerAiApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var nativeVectorRepository: com.example.powerai.data.retriever.NativeVectorRepository
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -30,6 +33,19 @@ class PowerAiApplication : Application(), Configuration.Provider {
         // We disable Startup initializer in manifest and initialize here with the injected factory.
         try {
             WorkManager.initialize(this, workManagerConfiguration)
+        } catch (_: Throwable) {
+        }
+
+        // Asynchronously load existing native vector index via Hilt-injected repository.
+        try {
+            Thread {
+                try {
+                    val loaded = nativeVectorRepository.loadDefaultIndexIfExists()
+                    android.util.Log.i("NativeVectorRepo", "startup loadIndex -> $loaded")
+                } catch (e: Throwable) {
+                    android.util.Log.e("NativeVectorRepo", "startup load failed", e)
+                }
+            }.start()
         } catch (_: Throwable) {
         }
 

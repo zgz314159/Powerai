@@ -15,6 +15,7 @@ apply(plugin = "org.jlleitschuh.gradle.ktlint")
 android {
     namespace = "com.example.powerai"
     compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.example.powerai"
@@ -109,6 +110,12 @@ android {
         buildConfigField("String", "AI_VISION_BASE_URL", q(prop("AI_VISION_BASE_URL")))
         buildConfigField("String", "AI_VISION_PATH", q(prop("AI_VISION_PATH")))
         buildConfigField("String", "DEEPSEEK_LOGIC_MODEL", q(prop("DEEPSEEK_LOGIC_MODEL")))
+
+        // Native (JNI) prototype settings: enable building our minimal native_search
+        ndk {
+            // limit ABIs for local testing; extend as needed for CI packaging
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+        }
     }
 
     buildTypes {
@@ -136,6 +143,12 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 }
 
@@ -182,6 +195,8 @@ dependencies {
     // OkHttp SSE support for Server-Sent Events
     implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
 
+    // OkHttp logging interceptor for debugging HTTP request/response bodies
+    debugImplementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     // Glide (asset image loading, detail photo viewer, markdown images)
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
