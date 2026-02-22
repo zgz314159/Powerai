@@ -18,4 +18,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindEmbeddingRepository(impl: com.example.powerai.data.repository.EmbeddingRepositoryImpl): com.example.powerai.domain.repository.EmbeddingRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAnnRetriever(impl: com.example.powerai.data.retriever.HttpAnnRetriever): com.example.powerai.domain.retriever.AnnRetriever
 }

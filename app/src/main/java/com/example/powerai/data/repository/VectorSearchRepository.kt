@@ -1,6 +1,8 @@
 package com.example.powerai.data.repository
 
 import com.example.powerai.data.remote.VectorSearchClient
+import com.example.powerai.data.local.dao.KnowledgeDao
+import com.example.powerai.domain.retriever.AnnRetriever
 import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.domain.repository.KnowledgeRepository
 import javax.inject.Inject
@@ -10,7 +12,9 @@ import kotlin.math.abs
 @Singleton
 class VectorSearchRepository @Inject constructor(
     private val localRepo: KnowledgeRepositoryImpl,
-    private val vectorClient: VectorSearchClient
+    private val vectorClient: VectorSearchClient,
+    private val knowledgeDao: KnowledgeDao,
+    private val annRetriever: AnnRetriever
 ) : KnowledgeRepository by localRepo {
 
     override suspend fun searchLocal(query: String): List<KnowledgeItem> {
@@ -27,11 +31,39 @@ class VectorSearchRepository @Inject constructor(
             return if (mapped.isEmpty()) local else local + mapped
         }
 
-        // Local yields nothing: fall back to vector top-k.
+        // Local yields nothing: fall back to vector top-k. Try remote ANN retriever first,
+        // map returned ids back to local KnowledgeEntity rows. This is best-effort
+        // and non-blocking for the UI — on failure we return empty list.
         val mapped = try {
-            vectorClient.search(query = query, limit = 5).mapNotNull { mapToItem(it) }
+            val ids = annRetriever.search(query, 5)
+            val items = mutableListOf<KnowledgeItem>()
+            for (id in ids) {
+                try {
+                    val entity = knowledgeDao.getById(id.toLong())
+                    if (entity != null && entity.content.isNotBlank()) {
+                        items.add(
+                            KnowledgeItem(
+                                id = entity.id,
+                                title = entity.title.ifBlank { "向量检索结果" },
+                                content = entity.content,
+                                source = entity.source,
+                                pageNumber = entity.pageNumber,
+                                category = entity.category.ifBlank { "VECTOR" },
+                                keywords = if (entity.keywordsSerialized.isBlank()) emptyList() else entity.keywordsSerialized.split(',')
+                            )
+                        )
+                    }
+                } catch (_: Throwable) {
+                }
+            }
+            items
         } catch (_: Throwable) {
-            emptyList()
+            // Fallback to existing remote vectorClient mapping if ANN retriever not available
+            try {
+                vectorClient.search(query = query, limit = 5).mapNotNull { mapToItem(it) }
+            } catch (_: Throwable) {
+                emptyList()
+            }
         }
         return mapped
     }

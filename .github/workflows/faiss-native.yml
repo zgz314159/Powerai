@@ -1,0 +1,190 @@
+name: Build native FAISS prototype
+
+on:
+  push:
+    paths:
+      - 'native/**'
+  pull_request:
+    paths:
+      - 'native/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        abi: [arm64-v8a, x86_64]
+    # Optional inputs via workflow_dispatch or repository secrets/env:
+    # FAISS_PREBUILT_URL - URL to a tar.gz containing prebuilt faiss libs per-ABI or host build
+    # OPENBLAS_PREBUILT_URL - URL to a tar.gz containing prebuilt OpenBLAS for Android ABIs
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Cache native build dir
+      uses: actions/cache@v4
+      with:
+        path: native/third_party/faiss/build
+        key: ${{ runner.os }}-faiss-build-${{ matrix.abi }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-faiss-build-${{ matrix.abi }}-
+          ${{ runner.os }}-faiss-build-
+
+    - name: Setup NDK
+      id: setup-ndk
+      uses: android-actions/setup-ndk@v2
+      with:
+        ndk-version: '25.2.9519653'
+
+    - name: Configure & build
+      env:
+        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        FAISS_PREBUILT_URL: ${{ secrets.FAISS_PREBUILT_URL || '' }}
+        OPENBLAS_PREBUILT_URL: ${{ secrets.OPENBLAS_PREBUILT_URL || '' }}
+      run: |
+        set -euo pipefail
+        mkdir -p native/third_party
+
+        # Clone FAISS into native/third_party/faiss if not present
+        if [ ! -d native/third_party/faiss ]; then
+          git clone --depth 1 https://github.com/facebookresearch/faiss.git native/third_party/faiss || true
+        fi
+
+        # Candidate URLs to try for prebuilt FAISS/OpenBLAS (placeholders and common patterns).
+        FAISS_CANDIDATES=(
+          "${{ secrets.FAISS_PREBUILT_URL || '' }}"
+          "https://github.com/facebookresearch/faiss/releases/download/v1.7.3/faiss-android-${{ matrix.abi }}.tar.gz"
+        )
+
+        OPENBLAS_CANDIDATES=(
+          "${{ secrets.OPENBLAS_PREBUILT_URL || '' }}"
+          "https://github.com/xianyi/OpenBLAS/releases/download/v0.3.21/openblas-android-${{ matrix.abi }}.tar.gz"
+        )
+
+        # Try FAISS candidates
+        for URL in "${FAISS_CANDIDATES[@]}"; do
+          if [ -z "$URL" ]; then continue; fi
+          echo "Trying FAISS candidate: $URL"
+          curl -fSL $URL -o /tmp/faiss_candidate.tar.gz && break || echo "failed $URL"
+        done
+        if [ -f /tmp/faiss_candidate.tar.gz ]; then
+          mkdir -p native/third_party/faiss_prebuilt
+          tar -xzf /tmp/faiss_candidate.tar.gz -C native/third_party/faiss_prebuilt || true
+          ls -la native/third_party/faiss_prebuilt || true
+        fi
+
+        # Try OpenBLAS candidates
+        for URL in "${OPENBLAS_CANDIDATES[@]}"; do
+          if [ -z "$URL" ]; then continue; fi
+          echo "Trying OpenBLAS candidate: $URL"
+          curl -fSL $URL -o /tmp/openblas_candidate.tar.gz && break || echo "failed $URL"
+        done
+        if [ -f /tmp/openblas_candidate.tar.gz ]; then
+          mkdir -p native/third_party/openblas_prebuilt
+          tar -xzf /tmp/openblas_candidate.tar.gz -C native/third_party/openblas_prebuilt || true
+          ls -la native/third_party/openblas_prebuilt || true
+        fi
+
+        # Try to download prebuilt FAISS if URL configured
+        if [ -n "${FAISS_PREBUILT_URL}" ]; then
+          echo "Attempting to download prebuilt FAISS from ${FAISS_PREBUILT_URL}"
+          curl -fSL ${FAISS_PREBUILT_URL} -o /tmp/faiss_prebuilt.tar.gz || echo "download failed"
+          if [ -f /tmp/faiss_prebuilt.tar.gz ]; then
+            mkdir -p native/third_party/faiss_prebuilt
+            tar -xzf /tmp/faiss_prebuilt.tar.gz -C native/third_party/faiss_prebuilt || true
+            echo "Prebuilt FAISS extracted to native/third_party/faiss_prebuilt"
+          fi
+        fi
+
+        # Try to download prebuilt OpenBLAS for Android if URL configured
+        if [ -n "${OPENBLAS_PREBUILT_URL}" ]; then
+          echo "Attempting to download prebuilt OpenBLAS from ${OPENBLAS_PREBUILT_URL}"
+          curl -fSL ${OPENBLAS_PREBUILT_URL} -o /tmp/openblas_prebuilt.tar.gz || echo "openblas download failed"
+          if [ -f /tmp/openblas_prebuilt.tar.gz ]; then
+            mkdir -p native/third_party/openblas_prebuilt
+            tar -xzf /tmp/openblas_prebuilt.tar.gz -C native/third_party/openblas_prebuilt || true
+            echo "Prebuilt OpenBLAS extracted to native/third_party/openblas_prebuilt"
+          fi
+        fi
+
+        # Try a host (x86_64) CPU build of FAISS to generate artifacts and detect issues.
+        mkdir -p native/third_party/faiss/build
+        pushd native/third_party/faiss/build
+        echo "=== Host FAISS build: basic flags ===" > faiss_build.log
+        # Prefer linking against prebuilt OpenBLAS for host if available
+        if [ -d ${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt ]; then
+          cmake -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DFAISS_ENABLE_SSE=OFF -DBLAS_LIBRARIES=${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt/lib/libopenblas.a -DBLAS_INCLUDE_DIR=${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt/include .. 2>&1 | tee -a faiss_build.log || true
+        else
+          cmake -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DFAISS_ENABLE_SSE=OFF .. 2>&1 | tee -a faiss_build.log || true
+        fi
+        cmake --build . --config Release -j$(nproc) 2>&1 | tee -a faiss_build.log || true
+        popd
+
+        # Try multiple Android cross-build strategies (variants) to improve success rate.
+        VARIANTS=("no_blas" "shared_libs" "static_libs")
+        for VAR in "${VARIANTS[@]}"; do
+          BUILD_DIR=native/third_party/faiss/android_build_${VAR}_${{ matrix.abi }}
+          mkdir -p ${BUILD_DIR}
+          pushd ${BUILD_DIR}
+          LOGFILE=faiss_android_build_${VAR}.log
+          echo "=== Android FAISS cross-build variant=${VAR} ===" > ${LOGFILE}
+          if [ "${VAR}" = "no_blas" ]; then
+            cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=android-21 -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DFAISS_ENABLE_SSE=OFF -DFAISS_USE_BLAS=OFF .. 2>&1 | tee -a ${LOGFILE} || true
+          elif [ "${VAR}" = "shared_libs" ]; then
+            # If OpenBLAS prebuilt for Android exists, point FAISS to it
+            if [ -d ${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt/${{ matrix.abi }} ]; then
+              cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=android-21 -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DFAISS_ENABLE_SSE=OFF -DBLAS_LIBRARIES=${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt/${{ matrix.abi }}/lib/libopenblas.a -DBLAS_INCLUDE_DIR=${GITHUB_WORKSPACE}/native/third_party/openblas_prebuilt/${{ matrix.abi }}/include .. 2>&1 | tee -a ${LOGFILE} || true
+            else
+              cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=android-21 -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=ON -DFAISS_ENABLE_SSE=OFF .. 2>&1 | tee -a ${LOGFILE} || true
+            fi
+          else
+            cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=android-21 -DFAISS_ENABLE_GPU=OFF -DFAISS_ENABLE_PYTHON=OFF -DFAISS_ENABLE_TESTS=OFF -DBUILD_SHARED_LIBS=OFF -DFAISS_ENABLE_SSE=OFF .. 2>&1 | tee -a ${LOGFILE} || true
+          fi
+          cmake --build . --config Release -j$(nproc) 2>&1 | tee -a ${LOGFILE} || true
+          popd
+        done
+
+        # Build our wrapper against whatever artifacts are available
+        mkdir -p build
+        cd build
+        echo "=== faiss_wrapper build ===" > wrapper_build.log
+        cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=android-21 -DCMAKE_PREFIX_PATH=${{ github.workspace }}/native/third_party/faiss/build ../native/faiss_wrapper 2>&1 | tee -a wrapper_build.log || true
+        cmake --build . --config Release -j$(nproc) 2>&1 | tee -a wrapper_build.log || true
+
+        # Collect logs for debugging
+        cp native/third_party/faiss/build/faiss_build.log ${GITHUB_WORKSPACE}/faiss_build_host_${{ matrix.abi }}.log || true
+        for VAR in "${VARIANTS[@]}"; do
+          cp native/third_party/faiss/android_build_${VAR}_${{ matrix.abi }}/faiss_android_build_${VAR}.log ${GITHUB_WORKSPACE}/faiss_build_android_${VAR}_${{ matrix.abi }}.log || true
+        done
+        cp build/wrapper_build.log ${GITHUB_WORKSPACE}/faiss_wrapper_build_${{ matrix.abi }}.log || true
+
+        # Collect any downloaded candidate tarballs for upload
+        mkdir -p ${GITHUB_WORKSPACE}/faiss_candidate_artifacts
+        if [ -f /tmp/faiss_candidate.tar.gz ]; then cp /tmp/faiss_candidate.tar.gz ${GITHUB_WORKSPACE}/faiss_candidate_artifacts/ || true; fi
+        if [ -f /tmp/openblas_candidate.tar.gz ]; then cp /tmp/openblas_candidate.tar.gz ${GITHUB_WORKSPACE}/faiss_candidate_artifacts/ || true; fi
+        if [ -f /tmp/faiss_prebuilt.tar.gz ]; then cp /tmp/faiss_prebuilt.tar.gz ${GITHUB_WORKSPACE}/faiss_candidate_artifacts/ || true; fi
+        if [ -f /tmp/openblas_prebuilt.tar.gz ]; then cp /tmp/openblas_prebuilt.tar.gz ${GITHUB_WORKSPACE}/faiss_candidate_artifacts/ || true; fi
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: faiss-wrapper-${{ matrix.abi }}
+        path: build
+
+    - name: Upload downloaded candidates
+      uses: actions/upload-artifact@v4
+      with:
+        name: faiss-candidates-${{ matrix.abi }}
+        path: faiss_candidate_artifacts
+
+    - name: Upload build logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: faiss-build-logs-${{ matrix.abi }}
+        path: |
+          faiss_build_host_${{ matrix.abi }}.log
+          faiss_wrapper_build_${{ matrix.abi }}.log
+          faiss_build_android_no_blas_${{ matrix.abi }}.log
+          faiss_build_android_shared_libs_${{ matrix.abi }}.log
+          faiss_build_android_static_libs_${{ matrix.abi }}.log

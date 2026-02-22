@@ -189,4 +189,33 @@ object AppModule {
     ): com.example.powerai.domain.ai.LlmFactualityScorer {
         return com.example.powerai.domain.ai.LlmFactualityScorer(ai, observability)
     }
+
+    @Provides
+    @Singleton
+    fun provideAnnApiService(): com.example.powerai.data.retriever.AnnApiService {
+        val base = BuildConfig.AI_BASE_URL.trim()
+        if (base.isBlank()) {
+            return object : com.example.powerai.data.retriever.AnnApiService {
+                override suspend fun search(req: com.example.powerai.data.retriever.AnnSearchRequest): com.example.powerai.data.retriever.AnnSearchResponse {
+                    return com.example.powerai.data.retriever.AnnSearchResponse(results = emptyList())
+                }
+            }
+        }
+
+        val normalizedBaseUrl = if (base.endsWith("/")) base else "$base/"
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl(normalizedBaseUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(com.example.powerai.data.retriever.AnnApiService::class.java)
+    }
 }
