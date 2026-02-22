@@ -1,6 +1,7 @@
 package com.example.powerai.data.retriever
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.example.powerai.domain.retriever.AnnRetriever
 import com.example.powerai.faiss.FaissNative
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import javax.inject.Inject
  *   for query->embedding. Replace with real embedding encoder when available.
  */
 class LocalFaissAnnRetriever @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : AnnRetriever {
 
     private val dim = 384
