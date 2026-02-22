@@ -37,7 +37,7 @@ class LocalFaissAnnRetriever @Inject constructor(
         val ids = try {
             FaissNative.search(handle, qvec, k)
         } catch (t: Throwable) {
-            emptyArray()
+            IntArray(0)
         } finally {
             try {
                 FaissNative.closeIndex(handle)
