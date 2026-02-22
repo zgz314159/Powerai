@@ -31,11 +31,37 @@ jobs:
           ${{ runner.os }}-faiss-build-${{ matrix.abi }}-
           ${{ runner.os }}-faiss-build-
 
-    - name: Setup NDK
+    - name: Install Android NDK (fallback)
       id: setup-ndk
-      uses: android-actions/setup-ndk@v2
-      with:
-        ndk-version: '25.2.9519653'
+      run: |
+        set -euo pipefail
+        NDK_VERSION=25.2.9519653
+        INSTALL_DIR="$HOME/android-ndk"
+        mkdir -p "$INSTALL_DIR"
+        # Try official Google NDK archive (filename pattern may vary across releases)
+        # If download fails, the job will continue and later cmake steps may fail; logs will show reason.
+        echo "Downloading Android NDK ${NDK_VERSION} to /tmp/ndk.zip"
+        curl -fSL "https://dl.google.com/android/repository/android-ndk-r${NDK_VERSION}-linux.zip" -o /tmp/ndk.zip || true
+        if [ -f /tmp/ndk.zip ]; then
+          unzip -q /tmp/ndk.zip -d "$INSTALL_DIR" || true
+          # find extracted dir
+          NDkPATH=$(ls -d $INSTALL_DIR/android-ndk-* 2>/dev/null | head -n1 || true)
+          if [ -z "$NDkPATH" ]; then
+            echo "No extracted NDK directory found under $INSTALL_DIR" >&2
+          else
+            echo "ndk-path=$NDkPATH" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "NDK archive not downloaded; relying on runner-default NDK if present" >&2
+          # Try common runner paths
+          CANDIDATES=("/usr/local/lib/android/sdk/ndk" "/usr/lib/android-sdk/ndk" "/opt/android/ndk")
+          for p in "${CANDIDATES[@]}"; do
+            if [ -d "$p" ]; then
+              echo "ndk-path=$p" >> $GITHUB_OUTPUT
+              break
+            fi
+          done
+        fi
 
     - name: Configure & build
       env:
