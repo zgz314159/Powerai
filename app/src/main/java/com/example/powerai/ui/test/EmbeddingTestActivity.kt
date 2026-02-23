@@ -123,7 +123,7 @@ class EmbeddingTestActivity : Activity() {
                     val hits = kotlinx.coroutines.runBlocking { retriever.search(queryText, 3) }
 
                     val sb = StringBuilder()
-                    for (h in hits) sb.append(h).append(',')
+                    for (h in hits.mapNotNull { it.id }) sb.append(h).append(',')
                     val out = if (sb.isNotEmpty()) sb.toString().trimEnd(',') else ""
 
                     runOnUiThread {
@@ -159,6 +159,8 @@ class EmbeddingTestActivity : Activity() {
                 }
             }.start()
         }
+
+        // `btn_mock_incremental` removed for production cleanliness; keep other test helpers.
 
         syncBtn.setOnClickListener {
             syncExistingEmbeddings()

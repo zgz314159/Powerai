@@ -1,0 +1,23 @@
+02-23 18:02:52.145 D/SYNC    (27484): Processing 1001.emb: size=1536, expected=1536
+02-23 18:02:52.146 D/SYNC    (27484): Processing 1002.emb: size=1536, expected=1536
+02-23 18:02:52.147 D/SYNC    (27484): Processing 248150669896483464.emb: size=1536, expected=1536
+02-23 18:02:52.151 I/SYNC    (27484): flushed batch size=3 ok=true
+
+02-23 18:02:52.146 I/JNI_TEST(27484): mock incremental upsert: preparing 10 entries
+02-23 18:02:52.146 D/JNI_TEST(27484): Attempting upsertBatch with 10 items
+02-23 18:02:52.158 I/JNI_TEST(27484): upsertBatch returned: true
+02-23 18:02:52.164 I/JNI_TEST(27484): post-upsert search hits: 267714706315372734,248150669896483464,248150669896483464,248150669896483464,248150669896483464
+
+02-23 18:02:52.165 I/ANN     (27484): ann_ids=267714706315372734,602544797280601699,271469824014479697,854829667157184547,409534761604490537,241637895815974977,211118461436991438,556488617912905843,348804860871216191,169956985428371499
+02-23 18:02:52.277 D/ANN     (27484): Search complete, found 3 hits
+
+02-23 17:56:39.725 I/NativeVectorRepo(26621): loadIndex(/data/user/0/com.example.powerai/files/vector_index.bin) -> true
+02-23 17:56:39.726 I/NativeVectorRepo(26621): startup loadIndex -> true
+02-23 18:02:52.062 I/NativeVectorRepo(27484): loadIndex(/data/user/0/com.example.powerai/files/vector_index.bin) -> true
+02-23 18:02:52.062 I/NativeVectorRepo(27484): startup loadIndex -> true
+02-23 18:02:52.152 I/NativeVectorRepo(27484): background save completed: true path=/data/user/0/com.example.powerai/files/vector_index.bin
+02-23 18:02:52.153 I/NativeVectorRepo(27484): background save completed: true path=/data/user/0/com.example.powerai/files/vector_index.bin
+02-23 18:02:52.161 D/NativeVectorRepo(27484): search called dim=384 preview=-0.749001,0.408247,-0.535139 k=5
+02-23 18:02:52.161 D/NativeVectorRepo(27484): VECTOR_PREVIEW: -0.749001,0.408247,-0.535139
+02-23 18:02:52.270 D/NativeVectorRepo(27484): search called dim=384 preview=0.064621,0.003265,0.101257 k=3
+02-23 18:02:52.270 D/NativeVectorRepo(27484): VECTOR_PREVIEW: 0.064621,0.003265,0.101257
