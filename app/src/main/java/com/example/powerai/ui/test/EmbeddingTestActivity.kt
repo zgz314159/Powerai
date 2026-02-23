@@ -24,11 +24,47 @@ class EmbeddingTestActivity : Activity() {
         val createBtn = findViewById<Button>(R.id.btn_create_pending)
         val runBtn = findViewById<Button>(R.id.btn_run_worker)
         val testJniBtn = findViewById<Button>(R.id.btn_test_jni)
+        val syncBtn = findViewById<Button>(R.id.btn_sync_existing)
 
         // If launched with intent extra `auto_run=true`, trigger the JNI test automatically (debug helper).
         try {
             if (intent?.getBooleanExtra("auto_run", false) == true) {
-                testJniBtn.postDelayed({ testJniBtn.performClick() }, 500)
+                Thread {
+                    syncExistingEmbeddings()
+
+                    try {
+                        val dim = 384
+                        val repo = com.example.powerai.data.retriever.NativeVectorRepository(this, dim, "vector_index.bin")
+
+                        val dummyEmbeddingRepo = object : com.example.powerai.domain.repository.EmbeddingRepository {
+                            override suspend fun enqueueForEmbedding(items: List<com.example.powerai.domain.model.KnowledgeItem>) {}
+                            override suspend fun storeEmbedding(itemId: Long, embedding: FloatArray) {}
+                        }
+
+                        val retriever = com.example.powerai.data.retriever.NativeAnnRetriever(this, repo, dummyEmbeddingRepo, dim)
+
+                        // Construct a minimal RetrievalFusionService instance to exercise the full
+                        // mapping path (ANN ids -> Room entities) and produce observability logs.
+                        val db = androidx.room.Room.databaseBuilder(this, com.example.powerai.data.local.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()
+                        val dao = db.knowledgeDao()
+
+                        val dummyRepo = object : com.example.powerai.domain.repository.KnowledgeRepository {
+                            override suspend fun searchLocal(query: String): List<com.example.powerai.domain.model.KnowledgeItem> { return emptyList() }
+                            override suspend fun importDocuments(uris: List<String>): Result<Unit> { return Result.success(Unit) }
+                            override suspend fun insertBatch(items: List<com.example.powerai.domain.model.KnowledgeItem>) { /* no-op */ }
+                            override suspend fun isFileImported(fileId: String): Boolean { return false }
+                            override suspend fun markFileImported(fileId: String, fileName: String, timestamp: Long, status: String) { /* no-op */ }
+                        }
+
+                        val obs = com.example.powerai.util.ObservabilityService(this)
+                        val fusion = com.example.powerai.domain.retrieval.RetrievalFusionService(dummyRepo, obs, retriever, dao)
+
+                        val results = kotlinx.coroutines.runBlocking { fusion.retrieve("变压器", 3, true) }
+                        Log.i("AUTO_RUN", "Fusion results size=${results.size}")
+                    } catch (t: Throwable) {
+                        Log.e("AUTO_RUN", "auto run search failed", t)
+                    }
+                }.start()
             }
         } catch (_: Throwable) {}
 
@@ -59,8 +95,8 @@ class EmbeddingTestActivity : Activity() {
 
         testJniBtn.setOnClickListener {
             Thread {
-                try {
-                    val dim = 128
+                    try {
+                    val dim = 384
                     val repo = com.example.powerai.data.retriever.NativeVectorRepository(this, dim, "vector_index.bin")
 
                     // prepare 3 test vectors: ids 3001,3002,3003 (simple distinct vectors on first dim)
@@ -94,6 +130,27 @@ class EmbeddingTestActivity : Activity() {
                         Toast.makeText(this, "Semantic search hits: $out", Toast.LENGTH_LONG).show()
                         Log.i("JNI_TEST", "Semantic search hits: $out")
                     }
+
+                        // Additional direct-check: if we have persisted embeddings like 1001.emb, use it as a query
+                        try {
+                            val checkFile = File(filesDir, "embeddings/1001.emb")
+                            if (checkFile.exists()) {
+                                val b = checkFile.readBytes()
+                                val fb = java.nio.ByteBuffer.wrap(b).asFloatBuffer()
+                                val q = FloatArray(fb.limit())
+                                fb.get(q)
+                                val hits2 = repo.search(q, 5)
+                                val sb2 = StringBuilder()
+                                for (h in hits2) sb2.append(h).append(',')
+                                val out2 = if (sb2.isNotEmpty()) sb2.toString().trimEnd(',') else ""
+                                runOnUiThread {
+                                    Toast.makeText(this, "Direct query hits: $out2", Toast.LENGTH_LONG).show()
+                                    Log.i("JNI_TEST", "Direct query hits: $out2")
+                                }
+                            }
+                        } catch (t: Throwable) {
+                            Log.e("JNI_TEST", "direct query failed", t)
+                        }
                 } catch (e: Throwable) {
                     runOnUiThread {
                         Toast.makeText(this, "JNI test failed: ${e.message}", Toast.LENGTH_LONG).show()
@@ -103,8 +160,98 @@ class EmbeddingTestActivity : Activity() {
             }.start()
         }
 
+        syncBtn.setOnClickListener {
+            syncExistingEmbeddings()
+        }
+
         // NOTE: automated benchmark invocation removed — keep manual helper for debugging.
         // To run the benchmark manually in a debug session, call `runNeonBenchmark()` from a debug-only path.
+    }
+
+    private fun syncExistingEmbeddings() {
+        Thread {
+            try {
+                val base = File(filesDir, "embeddings")
+                if (!base.exists()) {
+                    runOnUiThread {
+                        Toast.makeText(this, "No embeddings directory found", Toast.LENGTH_SHORT).show()
+                    }
+                    return@Thread
+                }
+
+                val embFiles = base.listFiles { f -> f.extension == "emb" }?.sortedBy { it.name } ?: emptyList()
+                if (embFiles.isEmpty()) {
+                    runOnUiThread {
+                        Toast.makeText(this, "No .emb files found to sync", Toast.LENGTH_SHORT).show()
+                    }
+                    return@Thread
+                }
+
+                val dim = 384
+                val repo = com.example.powerai.data.retriever.NativeVectorRepository(this, dim, "vector_index.bin")
+
+                val batchSize = 20
+                val batchIds = mutableListOf<Long>()
+                val batchVecs = mutableListOf<FloatArray>()
+                var total = 0
+                val expectedBytes = (dim * 4).toLong()
+
+                fun flush() {
+                    if (batchIds.isEmpty()) return
+                    val idsArr = LongArray(batchIds.size)
+                    for (i in batchIds.indices) idsArr[i] = batchIds[i]
+                    val merged = FloatArray(batchVecs.size * dim)
+                    for (i in batchVecs.indices) {
+                        System.arraycopy(batchVecs[i], 0, merged, i * dim, dim)
+                    }
+                    val ok = try {
+                        repo.upsert(idsArr, merged)
+                    } catch (e: Throwable) {
+                        Log.w("SYNC", "upsert batch failed", e)
+                        false
+                    }
+                    Log.i("SYNC", "flushed batch size=${idsArr.size} ok=$ok")
+                    total += idsArr.size
+                    batchIds.clear()
+                    batchVecs.clear()
+                }
+
+                for (f in embFiles) {
+                    val id = f.nameWithoutExtension.toLongOrNull() ?: continue
+                    try {
+                        val fileSize = f.length()
+                        Log.d("SYNC", "Processing ${f.name}: size=$fileSize, expected=$expectedBytes")
+                        if (fileSize != expectedBytes) {
+                            Log.w("SYNC", "skipping ${f.name}, size=$fileSize expected=$expectedBytes")
+                            continue
+                        }
+
+                        val bytes = f.readBytes()
+                        val fb = java.nio.ByteBuffer.wrap(bytes).asFloatBuffer()
+                        val arr = FloatArray(fb.limit())
+                        fb.get(arr)
+
+                        batchIds.add(id)
+                        batchVecs.add(arr)
+                    } catch (e: Throwable) {
+                        Log.w("SYNC", "failed reading ${f.name}", e)
+                    }
+
+                    if (batchIds.size >= batchSize) flush()
+                }
+
+                flush()
+
+                runOnUiThread {
+                    Toast.makeText(this, "Synced $total embeddings to native index", Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Throwable) {
+                runOnUiThread {
+                    Toast.makeText(this, "Sync failed: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+                Log.e("SYNC", "error during sync", e)
+            }
+        }.start()
     }
 
     // Debug helper: run NEON benchmark (kept as helper; not executed automatically)

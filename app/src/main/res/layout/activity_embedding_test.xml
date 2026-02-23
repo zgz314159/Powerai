@@ -19,10 +19,18 @@
         android:layout_marginTop="12dp" />
 
     <Button
+        android:id="@+id/btn_sync_existing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sync Existing Embeddings"
+        android:layout_marginTop="12dp" />
+
+    <Button
         android:id="@+id/btn_test_jni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TEST JNI SEARCH"
         android:layout_marginTop="12dp" />
 
+    
 </LinearLayout>
