@@ -11,7 +11,7 @@ import javax.inject.Inject
 class RetrievalFusionUseCase @Inject constructor(
     private val fusionService: RetrievalFusionService
 ) {
-    suspend fun invoke(keyword: String, limit: Int = 10): List<KnowledgeItem> {
-        return fusionService.retrieve(keyword, limit).map { it.item }
+    suspend fun invoke(keyword: String, limit: Int = 10, forceAnn: Boolean = false): List<KnowledgeItem> {
+        return fusionService.retrieve(keyword, limit, forceAnn).map { it.item }
     }
 }

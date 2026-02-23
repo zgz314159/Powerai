@@ -22,7 +22,7 @@ class LocalFaissAnnRetriever @Inject constructor(
 
     private val dim = 384
 
-    override suspend fun search(query: String, k: Int): List<Int> = withContext(Dispatchers.IO) {
+    override suspend fun search(query: String, k: Int): List<Long> = withContext(Dispatchers.IO) {
         val indexFile = context.filesDir.resolve("faiss/index.faiss")
         val handle = try {
             FaissNative.openIndex(indexFile.absolutePath)
@@ -46,6 +46,6 @@ class LocalFaissAnnRetriever @Inject constructor(
             }
         }
 
-        return@withContext ids.toList()
+        return@withContext ids.map { it.toLong() }
     }
 }

@@ -1,0 +1,2232 @@
+﻿
+all_logcat_auto.log:2140:02-23 09:16:35.610 I/        (    0): [NVT-ts-spi] nvt
+_ts_suspend 2137: cancel delayed work sync
+all_logcat_auto.log:2820:02-23 09:17:07.367 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:2834:02-23 09:17:07.439 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:2874:02-23 09:17:07.690 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:2940:02-23 09:17:08.192 D/KeySyncTask( 1773): Key sync not 
+needed.
+all_logcat_auto.log:2979:02-23 09:17:08.436 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3048:02-23 09:17:08.925 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3118:02-23 09:17:09.432 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3142:02-23 09:17:09.693 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3189:02-23 09:17:10.435 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3199:02-23 09:17:10.695 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3208:02-23 09:17:11.360 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3236:02-23 09:17:11.782 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3246:02-23 09:17:12.424 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3254:02-23 09:17:12.684 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3308:02-23 09:17:13.435 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3318:02-23 09:17:13.687 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3326:02-23 09:17:14.430 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3349:02-23 09:17:14.770 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3364:02-23 09:17:15.432 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3373:02-23 09:17:15.691 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3385:02-23 09:17:16.434 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3394:02-23 09:17:16.694 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3401:02-23 09:17:17.421 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3410:02-23 09:17:17.680 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3420:02-23 09:17:18.423 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3428:02-23 09:17:18.682 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3434:02-23 09:17:19.425 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3443:02-23 09:17:19.685 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3449:02-23 09:17:20.428 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3458:02-23 09:17:20.687 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3467:02-23 09:17:21.431 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3476:02-23 09:17:21.690 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3484:02-23 09:17:22.433 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3497:02-23 09:17:22.692 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3509:02-23 09:17:22.713 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3531:02-23 09:17:22.964 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3538:02-23 09:17:23.443 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3547:02-23 09:17:23.694 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3591:02-23 09:17:24.421 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3597:02-23 09:17:24.681 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3605:02-23 09:17:25.422 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3614:02-23 09:17:25.683 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3682:02-23 09:17:26.428 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3688:02-23 09:17:26.679 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3700:02-23 09:17:27.420 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3710:02-23 09:17:27.679 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3716:02-23 09:17:28.421 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3723:02-23 09:17:28.682 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3734:02-23 09:17:29.425 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3744:02-23 09:17:29.716 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3815:02-23 09:17:30.431 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3821:02-23 09:17:30.687 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3838:02-23 09:17:30.899 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3846:02-23 09:17:31.185 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3852:02-23 09:17:31.438 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3861:02-23 09:17:31.690 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3867:02-23 09:17:32.432 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3873:02-23 09:17:32.692 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3885:02-23 09:17:33.438 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3894:02-23 09:17:33.615 I/Authzen ( 9956): [DeviceStateSync
+Manager] The server is in sync with current state. Nothing to do
+all_logcat_auto.log:3895:02-23 09:17:33.694 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3905:02-23 09:17:34.419 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3911:02-23 09:17:34.680 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3920:02-23 09:17:35.422 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3945:02-23 09:17:35.682 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3956:02-23 09:17:36.425 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3962:02-23 09:17:36.685 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3974:02-23 09:17:37.427 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3983:02-23 09:17:37.688 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:3989:02-23 09:17:38.430 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:3995:02-23 09:17:38.690 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4004:02-23 09:17:38.775 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4013:02-23 09:17:39.027 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4025:02-23 09:17:39.067 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4026:02-23 09:17:39.068 W/HttpCallTransport( 5414): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(izm@ceedfdc), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15964,Host : play.go
+ogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:4059:02-23 09:17:39.318 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4065:02-23 09:17:39.432 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4074:02-23 09:17:39.685 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4081:02-23 09:17:40.426 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4087:02-23 09:17:40.686 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4096:02-23 09:17:40.788 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4099:02-23 09:17:40.804 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412394613000)
+all_logcat_auto.log:4103:02-23 09:17:40.820 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412411373000)
+all_logcat_auto.log:4104:02-23 09:17:40.829 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412419677000)
+all_logcat_auto.log:4105:02-23 09:17:40.837 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412428072000)
+all_logcat_auto.log:4106:02-23 09:17:40.845 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412436368000)
+all_logcat_auto.log:4107:02-23 09:17:40.854 W/HWComposer( 1076): Ignoring dupli
+cate VSYNC event from HWC for display 4630946545580055169 (t=68412444726000)
+all_logcat_auto.log:4108:02-23 09:17:41.039 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4114:02-23 09:17:41.437 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4123:02-23 09:17:41.689 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4133:02-23 09:17:42.353 W/HttpCallTransport( 6223): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(orb@a70c05f), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15179,Host : play.go
+ogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007J
+17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Build
+/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile 
+Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:4158:02-23 09:17:42.362 W/HttpCallTransport( 6204): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.menu
+.b@89cd7e2), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnNo
+nHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content-
+Type : ,Content-Length : 18636,Host : play.googleapis.com,User-Agent : Cakemix/
+1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=An
+droid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5.
+0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/52
+5.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding 
+: gzip, additionalHeaders=}
+all_logcat_auto.log:4183:02-23 09:17:42.433 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4189:02-23 09:17:42.692 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4197:02-23 09:17:43.434 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4206:02-23 09:17:43.694 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4212:02-23 09:17:44.419 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4218:02-23 09:17:44.680 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4230:02-23 09:17:45.422 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4239:02-23 09:17:45.683 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4246:02-23 09:17:46.425 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4252:02-23 09:17:46.685 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4270:02-23 09:17:47.241 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4279:02-23 09:17:47.677 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4305:02-23 09:17:48.421 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4311:02-23 09:17:48.682 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4319:02-23 09:17:49.424 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4328:02-23 09:17:49.684 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4334:02-23 09:17:50.427 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4340:02-23 09:17:50.687 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4352:02-23 09:17:51.429 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4361:02-23 09:17:51.689 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4369:02-23 09:17:52.432 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4375:02-23 09:17:52.692 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4388:02-23 09:17:53.434 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4397:02-23 09:17:53.695 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4407:02-23 09:17:54.437 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4413:02-23 09:17:54.697 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4437:02-23 09:17:55.421 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4448:02-23 09:17:55.714 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4468:02-23 09:17:56.425 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4540:02-23 09:17:56.685 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4552:02-23 09:17:57.428 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4562:02-23 09:17:57.688 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4568:02-23 09:17:58.430 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4574:02-23 09:17:58.690 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4585:02-23 09:17:59.433 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4594:02-23 09:17:59.693 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4600:02-23 09:18:00.060 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4667:02-23 09:18:00.311 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4695:02-23 09:18:01.420 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4704:02-23 09:18:01.680 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4710:02-23 09:18:02.423 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4716:02-23 09:18:02.684 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4727:02-23 09:18:03.428 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4747:02-23 09:18:03.876 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4753:02-23 09:18:04.420 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4759:02-23 09:18:04.680 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4768:02-23 09:18:05.422 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4777:02-23 09:18:05.683 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=6
+0.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:4791:02-23 09:18:05.986 D/DisplayModeController( 1076): set
+DesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate=
+120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:4906:02-23 09:18:05.915 I/        (    0): [NVT-ts-spi] nvt
+_ts_suspend 2137: cancel delayed work sync
+all_logcat_auto.log:5957:02-23 09:18:53.187 W/dprz    (22886): Failed to sync A
+SSISTANT_CONTACT_AFFINITY corpus.
+all_logcat_auto.log:6481:02-23 09:19:19.086 W/HttpCallTransport( 5414): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(izm@6a33ca4), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15964,Host : play.go
+ogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:6527:02-23 09:19:22.374 W/HttpCallTransport( 6223): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(orb@7817c86), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15179,Host : play.go
+ogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007J
+17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Build
+/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile 
+Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:6552:02-23 09:19:22.384 W/HttpCallTransport( 6204): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.menu
+.b@6c8acd5), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnNo
+nHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content-
+Type : ,Content-Length : 18636,Host : play.googleapis.com,User-Agent : Cakemix/
+1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=An
+droid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5.
+0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/52
+5.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding 
+: gzip, additionalHeaders=}
+all_logcat_auto.log:7768:02-23 09:20:59.109 W/HttpCallTransport( 5414): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(izm@4c86c6c), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 16242,Host : play.go
+ogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:7834:02-23 09:21:02.397 W/HttpCallTransport( 6223): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(orb@762530e), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15472,Host : play.go
+ogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007J
+17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Build
+/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile 
+Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:7859:02-23 09:21:02.403 W/HttpCallTransport( 6204): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.menu
+.b@71407fd), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnNo
+nHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content-
+Type : ,Content-Length : 18932,Host : play.googleapis.com,User-Agent : Cakemix/
+1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=An
+droid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5.
+0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/52
+5.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding 
+: gzip, additionalHeaders=}
+all_logcat_auto.log:8338:02-23 09:21:37.212 D/BoundBrokerSvc( 9956): onBind: In
+tent { act=com.google.android.gms.auth.aang.events.services.AppRestrictionsSync
+Service.ACTION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms/.c
+himera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:8339:02-23 09:21:37.212 D/BoundBrokerSvc( 9956): Loading bo
+und service for intent: Intent { act=com.google.android.gms.auth.aang.events.se
+rvices.AppRestrictionsSyncService.ACTION_TASK_READY dat=chimera-action:/... cmp
+=com.google.android.gms/.chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:8340:02-23 09:21:37.216 I/NetworkScheduler.Stats( 9922): Ta
+sk com.google.android.gms/com.google.android.gms.auth.aang.events.services.AppR
+estrictionsSyncService started execution. cause:5 exec_start_elapsed_seconds: 1
+41236 [CONTEXT service_id=218 ]
+all_logcat_auto.log:8345:02-23 09:21:37.245 I/Auth    ( 9956): [GeneralRestrict
+ionsSyncer] Starting general restrictions sync [CONTEXT service_id=343 ]
+all_logcat_auto.log:8746:02-23 09:22:07.303 W/Auth    ( 9956): [GeneralRestrict
+ionsSyncer] Sync for accountId 117259702086190656024 failed with error [CONTEXT
+ service_id=343 ]
+all_logcat_auto.log:8772:02-23 09:22:07.540 W/Auth    ( 9956): [GeneralRestrict
+ionsSyncer] Sync post work failed [CONTEXT service_id=343 ]
+all_logcat_auto.log:8798:02-23 09:22:07.545 D/BoundBrokerSvc( 9956): onUnbind: 
+Intent { act=com.google.android.gms.auth.aang.events.services.AppRestrictionsSy
+ncService.ACTION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms/
+.chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:8799:02-23 09:22:07.545 I/NetworkScheduler.Stats( 9922): Ta
+sk com.google.android.gms/com.google.android.gms.auth.aang.events.services.AppR
+estrictionsSyncService finished executing. cause:5 result: 3 elapsed_millis: 30
+341 uptime_millis: 30340 exec_start_elapsed_seconds: 141236 [CONTEXT service_id
+=218 ]
+all_logcat_auto.log:9193:02-23 09:22:39.133 W/HttpCallTransport( 5414): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(izm@7fa0aff), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 16242,Host : play.go
+ogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:9246:02-23 09:22:42.418 W/HttpCallTransport( 6223): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(orb@ceefbe9), hasRequestBody=true, acceptHttpR
+esponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fal
+se, contextRequestHeaders=Content-Type : ,Content-Length : 15472,Host : play.go
+ogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) G
+oogle.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007J
+17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Build
+/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile 
+Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:9271:02-23 09:22:42.423 W/HttpCallTransport( 6204): IO erro
+r getting auth token for CelloHttpCall{method=POST, url=https://play.googleapis
+.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.menu
+.b@c84fd87), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnNo
+nHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content-
+Type : ,Content-Length : 18932,Host : play.googleapis.com,User-Agent : Cakemix/
+1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=An
+droid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5.
+0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/52
+5.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding 
+: gzip, additionalHeaders=}
+all_logcat_auto.log:10336:02-23 09:23:55.954 I/Finsky  ( 5532): [2] [ContentSyn
+c] job stopped
+all_logcat_auto.log:10707:02-23 09:24:19.157 W/HttpCallTransport( 5414): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(izm@f5159a6), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 16242,Host : play.g
+oogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) 
+Google.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M200
+7J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Bui
+ld/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobil
+e Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:10751:02-23 09:24:22.439 W/HttpCallTransport( 6223): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(orb@4e2b4b8), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 15472,Host : play.g
+oogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) 
+Google.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:10776:02-23 09:24:22.445 W/HttpCallTransport( 6204): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.men
+u.b@acba749), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnN
+onHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content
+-Type : ,Content-Length : 18932,Host : play.googleapis.com,User-Agent : Cakemix
+/1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=A
+ndroid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5
+.0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/5
+25.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding
+ : gzip, additionalHeaders=}
+all_logcat_auto.log:12407:02-23 09:25:33.435 D/ACDB-LOADER(  981): ACDB -> ACDB
+_AVSYNC_INFO: ACDB_CMD_GET_DEVICE_PROPERTY
+all_logcat_auto.log:12955:02-23 09:25:39.177 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:12964:02-23 09:25:39.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:12970:02-23 09:25:39.696 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13025:02-23 09:25:40.437 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13034:02-23 09:25:40.697 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13107:02-23 09:25:41.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13124:02-23 09:25:41.906 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13150:02-23 09:25:42.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13159:02-23 09:25:42.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13168:02-23 09:25:43.419 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13174:02-23 09:25:43.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13180:02-23 09:25:44.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13189:02-23 09:25:44.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13201:02-23 09:25:45.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13207:02-23 09:25:45.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13213:02-23 09:25:46.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13222:02-23 09:25:46.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13231:02-23 09:25:47.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13237:02-23 09:25:47.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13247:02-23 09:25:48.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13256:02-23 09:25:48.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13265:02-23 09:25:49.436 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13271:02-23 09:25:49.695 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13287:02-23 09:25:49.848 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13294:02-23 09:25:50.127 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13300:02-23 09:25:50.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13309:02-23 09:25:50.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13319:02-23 09:25:51.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13328:02-23 09:25:51.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13334:02-23 09:25:52.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13343:02-23 09:25:52.686 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13352:02-23 09:25:53.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13358:02-23 09:25:53.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13364:02-23 09:25:54.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13377:02-23 09:25:54.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13386:02-23 09:25:55.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13392:02-23 09:25:55.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13415:02-23 09:25:56.419 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13424:02-23 09:25:56.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13499:02-23 09:25:57.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13508:02-23 09:25:57.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13523:02-23 09:25:58.027 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13531:02-23 09:25:58.314 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13537:02-23 09:25:58.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13538:02-23 09:25:58.433 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910023995000)
+all_logcat_auto.log:13544:02-23 09:25:58.449 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910040751000)
+all_logcat_auto.log:13545:02-23 09:25:58.458 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910049091000)
+all_logcat_auto.log:13546:02-23 09:25:58.466 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910057383000)
+all_logcat_auto.log:13547:02-23 09:25:58.474 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910065733000)
+all_logcat_auto.log:13548:02-23 09:25:58.483 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910074096000)
+all_logcat_auto.log:13549:02-23 09:25:58.491 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910082447000)
+all_logcat_auto.log:13550:02-23 09:25:58.500 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=68910090801000)
+all_logcat_auto.log:13554:02-23 09:25:58.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13563:02-23 09:25:59.176 W/HttpCallTransport( 5414): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(izm@9d73c2e), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 16242,Host : play.g
+oogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) 
+Google.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M200
+7J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Bui
+ld/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobil
+e Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:13592:02-23 09:25:59.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13598:02-23 09:25:59.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13604:02-23 09:26:00.057 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13610:02-23 09:26:00.207 I/Authzen ( 9956): [DeviceStateSyn
+cManager] The server is in sync with current state. Nothing to do
+all_logcat_auto.log:13611:02-23 09:26:00.308 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13626:02-23 09:26:01.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13632:02-23 09:26:01.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13638:02-23 09:26:02.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13644:02-23 09:26:02.454 W/HttpCallTransport( 6223): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(orb@ef52000), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 15472,Host : play.g
+oogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) 
+Google.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:13669:02-23 09:26:02.459 W/HttpCallTransport( 6204): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.men
+u.b@9ce81f1), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnN
+onHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content
+-Type : ,Content-Length : 18932,Host : play.googleapis.com,User-Agent : Cakemix
+/1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=A
+ndroid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5
+.0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/5
+25.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding
+ : gzip, additionalHeaders=}
+all_logcat_auto.log:13697:02-23 09:26:02.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13706:02-23 09:26:03.420 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13715:02-23 09:26:03.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13727:02-23 09:26:04.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13736:02-23 09:26:04.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13745:02-23 09:26:05.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13751:02-23 09:26:05.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13766:02-23 09:26:06.190 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13788:02-23 09:26:06.676 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13797:02-23 09:26:07.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13803:02-23 09:26:07.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13812:02-23 09:26:08.425 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13821:02-23 09:26:08.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13846:02-23 09:26:09.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13855:02-23 09:26:09.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13861:02-23 09:26:10.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13870:02-23 09:26:10.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13940:02-23 09:26:11.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13946:02-23 09:26:11.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13952:02-23 09:26:12.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13965:02-23 09:26:12.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13973:02-23 09:26:13.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:13979:02-23 09:26:13.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:13994:02-23 09:26:14.370 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14003:02-23 09:26:14.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14012:02-23 09:26:15.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14021:02-23 09:26:15.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14027:02-23 09:26:16.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14036:02-23 09:26:16.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14045:02-23 09:26:17.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14051:02-23 09:26:17.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14071:02-23 09:26:18.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14084:02-23 09:26:18.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14096:02-23 09:26:19.436 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14102:02-23 09:26:19.696 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14108:02-23 09:26:20.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14117:02-23 09:26:20.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14128:02-23 09:26:21.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14137:02-23 09:26:21.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14159:02-23 09:26:22.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14178:02-23 09:26:22.808 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14187:02-23 09:26:23.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14193:02-23 09:26:23.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14226:02-23 09:26:24.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14239:02-23 09:26:24.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14247:02-23 09:26:25.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14253:02-23 09:26:25.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14261:02-23 09:26:26.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14270:02-23 09:26:26.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14342:02-23 09:26:27.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14351:02-23 09:26:27.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14364:02-23 09:26:28.425 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14373:02-23 09:26:28.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14383:02-23 09:26:29.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14392:02-23 09:26:29.888 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14436:02-23 09:26:30.189 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14437:02-23 09:26:30.190 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14438:02-23 09:26:30.190 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14439:02-23 09:26:30.191 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14440:02-23 09:26:30.191 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14441:02-23 09:26:30.192 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14442:02-23 09:26:30.192 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14443:02-23 09:26:30.192 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14444:02-23 09:26:30.193 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14445:02-23 09:26:30.193 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14446:02-23 09:26:30.193 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14447:02-23 09:26:30.194 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14448:02-23 09:26:30.194 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14449:02-23 09:26:30.194 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14450:02-23 09:26:30.194 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14451:02-23 09:26:30.195 W/Finsky  ( 5532): [2] [DAS] Falli
+ng back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:14466:02-23 09:26:30.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14489:02-23 09:26:30.561 I/Finsky  ( 5532): [45] [PLUS] Tri
+ggering sync due to NOW_EXCLUSIVE urgency payload
+all_logcat_auto.log:14490:02-23 09:26:30.561 I/Finsky  ( 5532): [51] [PLUS] Syn
+cing for users with urgency above: NOW_EXCLUSIVE
+all_logcat_auto.log:14497:02-23 09:26:30.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14513:02-23 09:26:30.725 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14519:02-23 09:26:30.975 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14527:02-23 09:26:31.058 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14533:02-23 09:26:31.309 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14539:02-23 09:26:31.440 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14545:02-23 09:26:31.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14551:02-23 09:26:32.417 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14560:02-23 09:26:32.677 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14571:02-23 09:26:33.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14577:02-23 09:26:33.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14586:02-23 09:26:34.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14611:02-23 09:26:34.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14620:02-23 09:26:35.084 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14626:02-23 09:26:35.336 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14632:02-23 09:26:35.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14638:02-23 09:26:35.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14644:02-23 09:26:36.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14653:02-23 09:26:36.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14665:02-23 09:26:37.090 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14672:02-23 09:26:37.341 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14687:02-23 09:26:37.438 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14693:02-23 09:26:37.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14703:02-23 09:26:38.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:14712:02-23 09:26:38.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:14727:02-23 09:26:38.920 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:15059:02-23 09:26:39.171 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:15360:02-23 09:26:39.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:15366:02-23 09:26:39.686 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:15375:02-23 09:26:40.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:15384:02-23 09:26:40.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:15454:02-23 09:26:41.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16065:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752793, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16066:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752801, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16067:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752873, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16068:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752881, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16069:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752937, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16070:02-23 09:26:42.207 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1752953, CUJ=J<LAUNCHER_APP_CLOSE_TO_HOME_FALLBACK
+>
+all_logcat_auto.log:16073:02-23 09:26:42.228 D/PickerSyncLockManager( 3936): Tr
+ying to acquire lock com.android.providers.media.photopicker.sync.CloseableReen
+trantLock@9449591[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that may 
+be waiting to acquire this lock = []
+all_logcat_auto.log:16074:02-23 09:26:42.228 D/CloseableReentrantLock( 3936): S
+uccessfully acquired lock com.android.providers.media.photopicker.sync.Closeabl
+eReentrantLock@9449591[Locked by thread main]. Lock Name = CLOUD_PROVIDER_LOCK.
+ Threads that may be waiting to acquire this lock = []
+all_logcat_auto.log:16075:02-23 09:26:42.228 D/CloseableReentrantLock( 3936): S
+uccessfully released lock com.android.providers.media.photopicker.sync.Closeabl
+eReentrantLock@9449591[Unlocked]. Lock Name = CLOUD_PROVIDER_LOCK. Threads that
+ may be waiting to acquire this lock = []
+all_logcat_auto.log:16143:02-23 09:26:42.303 I/Finsky:background( 5974): [56] R
+ECEIVER_PACKAGE_MONITOR_BACKGROUND#logWorkEndAndFinishGoAsync: SUCCESS
+all_logcat_auto.log:16175:02-23 09:26:42.321 I/Finsky  ( 5532): [32] RECEIVER_P
+ACKAGE_MONITOR#logWorkEndAndFinishGoAsync: SUCCESS
+all_logcat_auto.log:16217:02-23 09:26:42.649 I/Finsky  ( 5532): [39] [ContentSy
+nc] finished, scheduled=true
+all_logcat_auto.log:16233:02-23 09:26:42.671 I/Finsky  ( 5532): [41] [ContentSy
+nc] finished, scheduled=true
+all_logcat_auto.log:16234:02-23 09:26:42.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16246:02-23 09:26:43.105 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16253:02-23 09:26:43.357 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16260:02-23 09:26:43.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16266:02-23 09:26:43.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16273:02-23 09:26:44.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16282:02-23 09:26:44.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16291:02-23 09:26:45.118 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16297:02-23 09:26:45.370 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16303:02-23 09:26:45.444 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16309:02-23 09:26:45.695 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16318:02-23 09:26:46.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16327:02-23 09:26:46.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16342:02-23 09:26:47.100 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16351:02-23 09:26:47.351 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16357:02-23 09:26:47.436 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16379:02-23 09:26:47.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16385:02-23 09:26:48.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16396:02-23 09:26:48.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16408:02-23 09:26:49.437 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16414:02-23 09:26:49.695 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16420:02-23 09:26:50.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16429:02-23 09:26:50.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16438:02-23 09:26:51.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16444:02-23 09:26:51.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16522:02-23 09:26:52.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16528:02-23 09:26:52.488 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.games.chimera.GamesSyncServic
+eMainProxy started execution. cause:4 exec_start_elapsed_seconds: 141552 [CONTE
+XT service_id=218 ]
+all_logcat_auto.log:16529:02-23 09:26:52.496 I/PlayGamesServices[GamesSyncAdapt
+er]( 9956): Starting sync for 176e3477
+all_logcat_auto.log:16530:02-23 09:26:52.499 I/PlayGamesServices[GamesSyncAdapt
+er]( 9956): Sync duration for 176e3477: 1
+all_logcat_auto.log:16531:02-23 09:26:52.514 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.games.chimera.GamesSyncServic
+eMainProxy finished executing. cause:4 result: 1 elapsed_millis: 45 uptime_mill
+is: 46 exec_start_elapsed_seconds: 141552 [CONTEXT service_id=218 ]
+all_logcat_auto.log:16538:02-23 09:26:52.541 D/BoundBrokerSvc( 9956): onBind: I
+ntent { act=com.google.android.gms.findmydevice.spot.sync.EidCachingService.ACT
+ION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms/.chimera.GmsI
+nternalBoundBrokerService }
+all_logcat_auto.log:16539:02-23 09:26:52.541 D/BoundBrokerSvc( 9956): Loading b
+ound service for intent: Intent { act=com.google.android.gms.findmydevice.spot.
+sync.EidCachingService.ACTION_TASK_READY dat=chimera-action:/... cmp=com.google
+.android.gms/.chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:16540:02-23 09:26:52.544 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.findmydevice.spot.sync.EidCac
+hingService started execution. cause:5 exec_start_elapsed_seconds: 141552 [CONT
+EXT service_id=218 ]
+all_logcat_auto.log:16542:02-23 09:26:52.550 D/BoundBrokerSvc( 9956): onBind: I
+ntent { act=com.google.android.gms.auth.aang.events.services.AppRestrictionsSyn
+cService.ACTION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms/.
+chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:16543:02-23 09:26:52.551 D/BoundBrokerSvc( 9956): Loading b
+ound service for intent: Intent { act=com.google.android.gms.auth.aang.events.s
+ervices.AppRestrictionsSyncService.ACTION_TASK_READY dat=chimera-action:/... cm
+p=com.google.android.gms/.chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:16544:02-23 09:26:52.553 D/BoundBrokerSvc( 9956): onUnbind:
+ Intent { act=com.google.android.gms.findmydevice.spot.sync.EidCachingService.A
+CTION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms/.chimera.Gm
+sInternalBoundBrokerService }
+all_logcat_auto.log:16545:02-23 09:26:52.553 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.findmydevice.spot.sync.EidCac
+hingService finished executing. cause:5 result: 1 elapsed_millis: 14 uptime_mil
+lis: 13 exec_start_elapsed_seconds: 141552 [CONTEXT service_id=218 ]
+all_logcat_auto.log:16546:02-23 09:26:52.557 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.auth.aang.events.services.App
+RestrictionsSyncService started execution. cause:5 exec_start_elapsed_seconds: 
+141552 [CONTEXT service_id=218 ]
+all_logcat_auto.log:16548:02-23 09:26:52.576 I/Auth    ( 9956): [GeneralRestric
+tionsSyncer] Starting general restrictions sync [CONTEXT service_id=343 ]
+all_logcat_auto.log:16552:02-23 09:26:52.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16561:02-23 09:26:53.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16567:02-23 09:26:53.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16573:02-23 09:26:54.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16582:02-23 09:26:54.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16604:02-23 09:26:55.281 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16610:02-23 09:26:55.678 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16616:02-23 09:26:56.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16625:02-23 09:26:56.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16701:02-23 09:26:57.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16707:02-23 09:26:57.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16717:02-23 09:26:58.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16726:02-23 09:26:58.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16735:02-23 09:26:59.418 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16741:02-23 09:26:59.678 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16747:02-23 09:27:00.023 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16769:02-23 09:27:00.315 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16829:02-23 09:27:01.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:16835:02-23 09:27:01.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:16862:02-23 09:27:01.701 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16863:02-23 09:27:01.701 I/Finsky  ( 5532): [51] [PLUS] Syn
+c complete, number synced: 0, number failed: 2
+all_logcat_auto.log:16864:02-23 09:27:01.701 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16865:02-23 09:27:01.701 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16866:02-23 09:27:01.702 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16867:02-23 09:27:01.702 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16868:02-23 09:27:01.702 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16869:02-23 09:27:01.702 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16870:02-23 09:27:01.702 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16871:02-23 09:27:01.703 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16872:02-23 09:27:01.703 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16873:02-23 09:27:01.703 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16874:02-23 09:27:01.703 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16875:02-23 09:27:01.704 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16876:02-23 09:27:01.705 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16877:02-23 09:27:01.705 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16878:02-23 09:27:01.706 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16879:02-23 09:27:01.707 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16880:02-23 09:27:01.707 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16881:02-23 09:27:01.707 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16882:02-23 09:27:01.707 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16883:02-23 09:27:01.707 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16884:02-23 09:27:01.708 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16885:02-23 09:27:01.708 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16886:02-23 09:27:01.708 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:16887:02-23 09:27:01.709 E/Finsky  ( 5532): [51] [PLUS] Fai
+led to trigger NOW_EXCLUSIVE urgency sync
+all_logcat_auto.log:16888:02-23 09:27:01.709 E/Finsky  ( 5532): com.google.andr
+oid.finsky.unifiedsync.SyncExceptions$SyncCompositeException: CompositeExceptio
+n occurred containing 2 exception(s), unique errors: [Sync failed for account: 
+[LWbuWVY22v2rjZzkdrAdxkXnMQB0r-zUHEldNXNVxvw], payloads: [15], and cause: Error
+ while retrieving auth token, Sync failed for account: null, payloads: [9, 8, 1
+0, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 34], and cause: android.net.
+connectivity.org.chromium.net.impl.NetworkExceptionImpl: Exception in CronetUrl
+Request: net::ERR_CONNECTION_TIMED_OUT, ErrorCode=6, InternalErrorCode=-118, Re
+tryable=true]
+all_logcat_auto.log:16905:02-23 09:27:01.709 E/Finsky  ( 5532): Caused by: com.
+google.android.finsky.unifiedsync.SyncExceptions$WrappedSyncException: Sync fai
+led for account: [LWbuWVY22v2rjZzkdrAdxkXnMQB0r-zUHEldNXNVxvw], payloads: [15],
+ and cause: Error while retrieving auth token
+all_logcat_auto.log:16947:02-23 09:27:01.710 E/Finsky  ( 5532): [55] [PLUS] Syn
+c failed
+all_logcat_auto.log:16948:02-23 09:27:01.710 E/Finsky  ( 5532): com.google.andr
+oid.finsky.unifiedsync.SyncExceptions$SyncCompositeException: CompositeExceptio
+n occurred containing 2 exception(s), unique errors: [Sync failed for account: 
+[LWbuWVY22v2rjZzkdrAdxkXnMQB0r-zUHEldNXNVxvw], payloads: [15], and cause: Error
+ while retrieving auth token, Sync failed for account: null, payloads: [9, 8, 1
+0, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 24, 34], and cause: android.net.
+connectivity.org.chromium.net.impl.NetworkExceptionImpl: Exception in CronetUrl
+Request: net::ERR_CONNECTION_TIMED_OUT, ErrorCode=6, InternalErrorCode=-118, Re
+tryable=true]
+all_logcat_auto.log:16965:02-23 09:27:01.710 E/Finsky  ( 5532): Caused by: com.
+google.android.finsky.unifiedsync.SyncExceptions$WrappedSyncException: Sync fai
+led for account: [LWbuWVY22v2rjZzkdrAdxkXnMQB0r-zUHEldNXNVxvw], payloads: [15],
+ and cause: Error while retrieving auth token
+all_logcat_auto.log:17007:02-23 09:27:01.710 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17008:02-23 09:27:01.710 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17009:02-23 09:27:01.710 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17010:02-23 09:27:01.711 W/Finsky  ( 5532): [51] SUH: Synci
+ng device attributes failed - try selfupdate anyway
+all_logcat_auto.log:17011:02-23 09:27:01.711 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17012:02-23 09:27:01.713 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17013:02-23 09:27:01.713 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17014:02-23 09:27:01.714 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17015:02-23 09:27:01.714 W/Finsky  ( 5532): [46] [DAS] Fall
+ing back to syncing all accounts due to current account auth failure
+all_logcat_auto.log:17016:02-23 09:27:01.716 I/Finsky  ( 5532): [55] [PLUS] Syn
+cing 2 train(s)
+all_logcat_auto.log:17018:02-23 09:27:02.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17027:02-23 09:27:02.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17036:02-23 09:27:03.178 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17049:02-23 09:27:03.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17051:02-23 09:27:03.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17063:02-23 09:27:03.699 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17072:02-23 09:27:04.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17081:02-23 09:27:04.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17094:02-23 09:27:05.193 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17100:02-23 09:27:05.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17212:02-23 09:27:05.988 I/Finsky  ( 5532): [2] [ContentSyn
+c] job started
+all_logcat_auto.log:17368:02-23 09:27:06.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17377:02-23 09:27:06.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17390:02-23 09:27:07.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17396:02-23 09:27:07.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17411:02-23 09:27:08.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17420:02-23 09:27:08.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17429:02-23 09:27:09.202 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17435:02-23 09:27:09.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17444:02-23 09:27:10.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17453:02-23 09:27:10.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17462:02-23 09:27:11.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17476:02-23 09:27:11.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17482:02-23 09:27:12.338 E/AuthPII ( 9922): [RequestTokenMa
+nager] getToken() -> NETWORK_ERROR. App: com.android.chrome, Service: oauth2:ht
+tps://www.googleapis.com/auth/chromesync
+all_logcat_auto.log:17529:02-23 09:27:12.339 W/Auth    ( 9922): [ChimeraGetToke
+n] exception while trying to fetch auth tokens for app=com.android.chrome, scop
+e=oauth2:https://www.googleapis.com/auth/chromesync [CONTEXT service_id=153 ]
+all_logcat_auto.log:17543:02-23 09:27:12.341 W/cr_AuthTaskRetry( 4742): Failed 
+to perform auth task: org.chromium.components.signin.AuthException: Error while
+ getting token for scope 'oauth2:https://www.googleapis.com/auth/chromesync'
+all_logcat_auto.log:17545:02-23 09:27:12.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17554:02-23 09:27:12.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17583:02-23 09:27:13.437 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17589:02-23 09:27:13.697 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17595:02-23 09:27:14.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17604:02-23 09:27:14.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17613:02-23 09:27:15.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17619:02-23 09:27:15.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17628:02-23 09:27:16.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17637:02-23 09:27:16.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17646:02-23 09:27:17.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17652:02-23 09:27:17.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17658:02-23 09:27:18.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17667:02-23 09:27:18.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17679:02-23 09:27:19.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17685:02-23 09:27:19.695 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17700:02-23 09:27:19.822 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17706:02-23 09:27:20.073 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17712:02-23 09:27:20.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17721:02-23 09:27:20.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17806:02-23 09:27:21.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17812:02-23 09:27:21.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17821:02-23 09:27:22.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17891:02-23 09:27:22.619 W/Auth    ( 9956): [GeneralRestric
+tionsSyncer] Sync for accountId 117259702086190656024 failed with error [CONTEX
+T service_id=343 ]
+all_logcat_auto.log:17920:02-23 09:27:22.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17926:02-23 09:27:22.765 W/Auth    ( 9956): [GeneralRestric
+tionsSyncer] Sync post work failed [CONTEXT service_id=343 ]
+all_logcat_auto.log:17952:02-23 09:27:22.770 D/BoundBrokerSvc( 9956): onUnbind:
+ Intent { act=com.google.android.gms.auth.aang.events.services.AppRestrictionsS
+yncService.ACTION_TASK_READY dat=chimera-action:/... cmp=com.google.android.gms
+/.chimera.GmsInternalBoundBrokerService }
+all_logcat_auto.log:17953:02-23 09:27:22.770 I/NetworkScheduler.Stats( 9922): T
+ask com.google.android.gms/com.google.android.gms.auth.aang.events.services.App
+RestrictionsSyncService finished executing. cause:5 result: 3 elapsed_millis: 3
+0219 uptime_millis: 30220 exec_start_elapsed_seconds: 141552 [CONTEXT service_i
+d=218 ]
+all_logcat_auto.log:17958:02-23 09:27:23.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:17964:02-23 09:27:23.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:17999:02-23 09:27:24.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18008:02-23 09:27:24.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18020:02-23 09:27:25.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18026:02-23 09:27:25.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18048:02-23 09:27:26.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18061:02-23 09:27:26.696 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18132:02-23 09:27:27.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18138:02-23 09:27:27.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18154:02-23 09:27:28.009 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18163:02-23 09:27:28.260 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18169:02-23 09:27:28.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18178:02-23 09:27:28.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:18188:02-23 09:27:29.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:18195:02-23 09:27:29.511 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=69001101572000)
+all_logcat_auto.log:18196:02-23 09:27:29.519 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=69001109930000)
+all_logcat_auto.log:18197:02-23 09:27:29.527 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=69001118277000)
+all_logcat_auto.log:18198:02-23 09:27:29.536 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=69001126634000)
+all_logcat_auto.log:18199:02-23 09:27:29.544 W/HWComposer( 1076): Ignoring dupl
+icate VSYNC event from HWC for display 4630946545580055169 (t=69001134993000)
+all_logcat_auto.log:18328:02-23 09:27:29.559 I/        (    0): [NVT-ts-spi] nv
+t_ts_suspend 2137: cancel delayed work sync
+all_logcat_auto.log:19643:02-23 09:27:35.174 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:19650:02-23 09:27:35.182 I/DisplayDeviceRepository( 1773): 
+Display device changed render timings: "鍐呯疆灞忓箷", renderFrameRate=60.000004, pre
+sentationDeadlineNanos=11500000, appVsyncOffsetNanos=2333332, frameRateOverride
+s=[]
+all_logcat_auto.log:19831:02-23 09:27:37.109 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:19849:02-23 09:27:37.122 I/DisplayDeviceRepository( 1773): 
+Display device changed render timings: "鍐呯疆灞忓箷", renderFrameRate=120.00001, pre
+sentationDeadlineNanos=11500000, appVsyncOffsetNanos=2333332, frameRateOverride
+s=[]
+all_logcat_auto.log:19920:02-23 09:27:37.392 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:19926:02-23 09:27:37.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:19932:02-23 09:27:37.677 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:19954:02-23 09:27:38.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20027:02-23 09:27:38.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20087:02-23 09:27:39.194 W/HttpCallTransport( 5414): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(izm@6bab890), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 16242,Host : play.g
+oogleapis.com,User-Agent : Cakemix/2.26.057.00.90 (gauguinpro BP1A.250505.005) 
+Google.Drive/2.26.057.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M200
+7J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Bui
+ld/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobil
+e Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:20113:02-23 09:27:39.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20123:02-23 09:27:39.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20133:02-23 09:27:40.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20142:02-23 09:27:40.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20151:02-23 09:27:41.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20159:02-23 09:27:41.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20176:02-23 09:27:42.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20182:02-23 09:27:42.471 W/HttpCallTransport( 6223): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(orb@ea006f4), hasRequestBody=true, acceptHttp
+ResponseGzipEncoding=true, failOnNonHttpsUrl=false, failOnCleartextPermitted=fa
+lse, contextRequestHeaders=Content-Type : ,Content-Length : 15472,Host : play.g
+oogleapis.com,User-Agent : Cakemix/1.26.061.00.90 (gauguinpro BP1A.250505.005) 
+Google.Docs/1.26.061.00.90 (OS=Android;OSVer=15;Manufacturer=Xiaomi;Model=M2007
+J17C;SyncEngine=Cello) Mozilla/5.0 (Linux; U; Android 15; zh-hk; M2007J17C Buil
+d/BP1A.250505.005) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile
+ Safari/523.12.2,Accept-Encoding : gzip, additionalHeaders=}
+all_logcat_auto.log:20206:02-23 09:27:42.473 W/HttpCallTransport( 6204): IO err
+or getting auth token for CelloHttpCall{method=POST, url=https://play.googleapi
+s.com/log, tags=Suppliers.memoize(com.google.android.apps.docs.editors.ritz.men
+u.b@a97db5b), hasRequestBody=true, acceptHttpResponseGzipEncoding=true, failOnN
+onHttpsUrl=false, failOnCleartextPermitted=false, contextRequestHeaders=Content
+-Type : ,Content-Length : 18932,Host : play.googleapis.com,User-Agent : Cakemix
+/1.26.051.00.90 (gauguinpro BP1A.250505.005) Google.Sheets/1.26.051.00.90 (OS=A
+ndroid;OSVer=15;Manufacturer=Xiaomi;Model=M2007J17C;SyncEngine=Cello) Mozilla/5
+.0 (Linux; U; Android 15; zh-hk; M2007J17C Build/BP1A.250505.005) AppleWebKit/5
+25.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2,Accept-Encoding
+ : gzip, additionalHeaders=}
+all_logcat_auto.log:20234:02-23 09:27:42.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20244:02-23 09:27:43.437 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20250:02-23 09:27:43.697 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20265:02-23 09:27:44.361 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20274:02-23 09:27:44.677 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20286:02-23 09:27:45.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20293:02-23 09:27:45.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20299:02-23 09:27:46.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20308:02-23 09:27:46.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20319:02-23 09:27:47.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20325:02-23 09:27:47.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20335:02-23 09:27:48.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20343:02-23 09:27:48.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20353:02-23 09:27:49.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20359:02-23 09:27:49.695 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20365:02-23 09:27:50.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20374:02-23 09:27:50.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20386:02-23 09:27:51.423 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20480:02-23 09:27:51.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20486:02-23 09:27:52.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20508:02-23 09:27:52.764 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20514:02-23 09:27:53.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20520:02-23 09:27:53.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20530:02-23 09:27:54.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20538:02-23 09:27:54.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20547:02-23 09:27:55.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20553:02-23 09:27:55.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20559:02-23 09:27:56.435 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20568:02-23 09:27:56.697 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20645:02-23 09:27:57.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20651:02-23 09:27:57.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20657:02-23 09:27:58.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20677:02-23 09:27:58.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20689:02-23 09:27:59.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20695:02-23 09:27:59.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20701:02-23 09:28:00.013 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20722:02-23 09:28:00.293 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20740:02-23 09:28:00.723 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20749:02-23 09:28:00.974 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20761:02-23 09:28:01.440 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20767:02-23 09:28:01.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20773:02-23 09:28:02.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20782:02-23 09:28:02.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20794:02-23 09:28:03.420 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20800:02-23 09:28:03.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20823:02-23 09:28:04.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20832:02-23 09:28:04.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20841:02-23 09:28:05.425 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20847:02-23 09:28:05.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20857:02-23 09:28:06.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20865:02-23 09:28:06.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20875:02-23 09:28:07.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20881:02-23 09:28:07.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20887:02-23 09:28:08.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20896:02-23 09:28:08.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20914:02-23 09:28:08.885 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20920:02-23 09:28:09.136 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20929:02-23 09:28:09.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20944:02-23 09:28:09.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20950:02-23 09:28:10.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20959:02-23 09:28:10.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20970:02-23 09:28:11.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20976:02-23 09:28:11.692 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:20986:02-23 09:28:12.434 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:20994:02-23 09:28:12.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21003:02-23 09:28:13.420 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21010:02-23 09:28:13.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21016:02-23 09:28:14.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21025:02-23 09:28:14.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21037:02-23 09:28:15.425 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21043:02-23 09:28:15.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21053:02-23 09:28:16.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21062:02-23 09:28:16.688 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21080:02-23 09:28:17.064 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21102:02-23 09:28:17.315 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21108:02-23 09:28:17.429 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21114:02-23 09:28:17.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21124:02-23 09:28:18.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21132:02-23 09:28:18.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21141:02-23 09:28:19.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21147:02-23 09:28:19.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21153:02-23 09:28:20.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21189:02-23 09:28:20.968 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1759718, CUJ=J<LAUNCHER_OPEN_ALL_APPS::swipe>
+all_logcat_auto.log:21190:02-23 09:28:20.968 W/FrameTracker( 2872): Missing HWU
+I jank callback for vsyncId: 1759838, CUJ=J<LAUNCHER_OPEN_ALL_APPS::swipe>
+all_logcat_auto.log:21191:02-23 09:28:21.217 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21200:02-23 09:28:21.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21267:02-23 09:28:21.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21273:02-23 09:28:22.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21283:02-23 09:28:22.686 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21292:02-23 09:28:23.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21298:02-23 09:28:23.689 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21358:02-23 09:28:24.430 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21366:02-23 09:28:24.691 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21384:02-23 09:28:25.246 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21390:02-23 09:28:25.680 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21396:02-23 09:28:26.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21405:02-23 09:28:26.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21479:02-23 09:28:27.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21485:02-23 09:28:27.683 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21491:02-23 09:28:28.432 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21502:02-23 09:28:28.693 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21512:02-23 09:28:29.417 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21519:02-23 09:28:29.710 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21541:02-23 09:28:30.420 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21553:02-23 09:28:30.681 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21562:02-23 09:28:31.422 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21568:02-23 09:28:31.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:21580:02-23 09:28:31.769 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:21684:02-23 09:28:32.552 D/SYNC    (12933): Processing 1001
+.emb: size=1536, expected=1536
+all_logcat_auto.log:21685:02-23 09:28:32.552 D/SYNC    (12933): Processing 1002
+.emb: size=1536, expected=1536
+all_logcat_auto.log:21686:02-23 09:28:32.553 D/SYNC    (12933): Processing 2481
+50669896483464.emb: size=1536, expected=1536
+all_logcat_auto.log:21688:02-23 09:28:32.553 I/SYNC    (12933): flushed batch s
+ize=3 ok=true
+all_logcat_auto.log:21802:02-23 09:28:32.774 I/DataSyncWorker(12933): doWork st
+arted
+all_logcat_auto.log:21808:02-23 09:28:32.803 I/DataSyncWorker(12933): fillMissi
+ngNormalizedData returned
+all_logcat_auto.log:21809:02-23 09:28:32.805 I/WM-WorkerWrapper(12933): Worker 
+result SUCCESS for Work [ id=cad6f648-6ca0-45ac-8f63-52b34dcf7c03, tags={ com.e
+xample.powerai.data.worker.DataSyncWorker } ]
+all_logcat_auto.log:21831:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761293, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21832:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761315, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21833:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761337, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21834:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761359, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21835:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761439, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21836:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761468, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21837:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761497, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21838:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761526, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21839:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761585, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21840:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761607, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21841:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761629, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21842:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761651, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21843:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761666, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21844:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761681, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21845:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761696, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21846:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761704, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21847:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761719, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21848:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761734, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21849:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761742, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21850:02-23 09:28:33.110 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761765, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21851:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761802, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21852:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761832, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21853:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761854, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21854:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761869, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21855:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761884, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21856:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761906, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21857:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761937, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21858:02-23 09:28:33.111 W/FrameTracker( 2468): Missing SF 
+jank callback for vsyncId: 1761954, CUJ=J<SPLASHSCREEN_EXIT_ANIM>
+all_logcat_auto.log:21995:02-23 09:28:33.678 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22015:02-23 09:28:34.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22024:02-23 09:28:34.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22033:02-23 09:28:35.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22039:02-23 09:28:35.685 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22045:02-23 09:28:36.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22065:02-23 09:28:37.008 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22076:02-23 09:28:37.046 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22106:02-23 09:28:37.298 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22112:02-23 09:28:37.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22119:02-23 09:28:37.682 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22132:02-23 09:28:38.424 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22141:02-23 09:28:38.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22151:02-23 09:28:39.427 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22160:02-23 09:28:39.687 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22171:02-23 09:28:40.015 D/nativeloader(13011): InitDefault
+PublicLibraries for_preload=1: libandroid.so:libaaudio.so:libamidi.so:libbinder
+_ndk.so:libc.so:libcamera2ndk.so:libdl.so:libEGL.so:libGLESv1_CM.so:libGLESv2.s
+o:libGLESv3.so:libicu.so:libicui18n.so:libicuuc.so:libjnigraphics.so:liblog.so:
+libmediandk.so:libm.so:libnativehelper.so:libnativewindow.so:libOpenMAXAL.so:li
+bOpenSLES.so:libRS.so:libstdc++.so:libsync.so:libvulkan.so:libwebviewchromium_p
+lat_support.so:libz.so
+all_logcat_auto.log:22188:02-23 09:28:40.092 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22209:02-23 09:28:40.367 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22215:02-23 09:28:40.420 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22224:02-23 09:28:40.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22241:02-23 09:28:41.163 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22259:02-23 09:28:41.865 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22265:02-23 09:28:42.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22277:02-23 09:28:42.686 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22302:02-23 09:28:43.428 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22310:02-23 09:28:43.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22316:02-23 09:28:44.431 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22325:02-23 09:28:44.690 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22334:02-23 09:28:45.433 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22343:02-23 09:28:45.694 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22349:02-23 09:28:46.418 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22355:02-23 09:28:46.679 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22378:02-23 09:28:47.421 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22384:02-23 09:28:47.715 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+all_logcat_auto.log:22391:02-23 09:28:48.426 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=120.00 Hz, modePtr={id=0, vsyncRate
+=120.00 Hz, peakRefreshRate=120.00 Hz}}, emitEvent=true, force=false}
+all_logcat_auto.log:22401:02-23 09:28:48.684 D/DisplayModeController( 1076): se
+tDesiredMode 4630946545580055169 {mode={fps=60.00 Hz, modePtr={id=2, vsyncRate=
+60.00 Hz, peakRefreshRate=60.00 Hz}}, emitEvent=false, force=false}
+
+

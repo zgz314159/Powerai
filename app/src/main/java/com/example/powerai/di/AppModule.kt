@@ -23,6 +23,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import com.example.powerai.AppConfig
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.inject.Named
@@ -38,7 +39,7 @@ object AppModule {
     @Provides
     @Singleton
     @Named("vector_dim")
-    fun provideVectorDim(): Int = 128
+    fun provideVectorDim(): Int = AppConfig.VECTOR_DIM
 
     @Provides
     @Singleton
@@ -87,10 +88,16 @@ object AppModule {
     fun provideKnowledgeRepositoryImpl(
         @ApplicationContext context: Context,
         dao: com.example.powerai.data.local.dao.KnowledgeDao,
-        db: AppDatabase
+        db: AppDatabase,
+        nativeVectorRepository: com.example.powerai.data.retriever.NativeVectorRepository
     ): KnowledgeRepositoryImpl {
         // EmbeddingRepository will be injected to KnowledgeRepositoryImpl for enqueueing
         val embeddingRepo = com.example.powerai.data.repository.EmbeddingRepositoryImpl(context, db)
+        // provide the native vector repo to embeddingRepo so persisted embeddings
+        // are upserted into the native index as they are written.
+        try {
+            embeddingRepo.setNativeVectorRepository(nativeVectorRepository)
+        } catch (_: Throwable) {}
         return KnowledgeRepositoryImpl(context, dao, embeddingRepo)
     }
 
@@ -187,9 +194,11 @@ object AppModule {
     @Singleton
     fun provideRetrievalFusionService(
         repo: com.example.powerai.domain.repository.KnowledgeRepository,
-        observability: com.example.powerai.util.ObservabilityService
+        observability: com.example.powerai.util.ObservabilityService,
+        annRetriever: com.example.powerai.domain.retriever.AnnRetriever,
+        dao: com.example.powerai.data.local.dao.KnowledgeDao
     ): com.example.powerai.domain.retrieval.RetrievalFusionService {
-        return com.example.powerai.domain.retrieval.RetrievalFusionService(repo, observability)
+        return com.example.powerai.domain.retrieval.RetrievalFusionService(repo, observability, annRetriever, dao)
     }
 
     @Provides

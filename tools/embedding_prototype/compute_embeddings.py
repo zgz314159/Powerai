@@ -107,7 +107,7 @@ def main():
     model = SentenceTransformer(MODEL_NAME)
     items = collect_all_items(TMP_DIRS)
     if not items:
-        print('No items found under', TMP_DIR)
+        print('No items found under', TMP_DIRS)
         return
     contents = [it['content'] for it in items]
     print(f'Found {len(contents)} items, computing embeddings...')

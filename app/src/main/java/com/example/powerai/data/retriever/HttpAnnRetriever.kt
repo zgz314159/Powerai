@@ -9,8 +9,8 @@ import javax.inject.Inject
 class HttpAnnRetriever @Inject constructor(
     private val api: AnnApiService
 ) : AnnRetriever {
-    override suspend fun search(query: String, k: Int): List<Int> {
+    override suspend fun search(query: String, k: Int): List<Long> {
         val resp = api.search(AnnSearchRequest(query, k))
-        return resp.results.map { it.id }
+        return resp.results.map { it.id.toLong() }
     }
 }

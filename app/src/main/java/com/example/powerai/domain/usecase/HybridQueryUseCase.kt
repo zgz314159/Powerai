@@ -13,7 +13,8 @@ class HybridQueryUseCase @Inject constructor(
      * 混合查询：本地优先，少则调AI，返回QueryResult
      */
     suspend fun invoke(question: String): QueryResult {
-        val localResults: List<KnowledgeItem> = localSearchUseCase.invoke(question)
+        // Force ANN-backed retrieval for hybrid (SMART) queries so the native engine is prioritized.
+        val localResults: List<KnowledgeItem> = localSearchUseCase.invoke(question, limit = 10, forceAnn = true)
         val numberedEvidence = buildNumberedEvidence(localResults)
         val answer = try {
             askAiUseCase.invoke(question, numberedEvidence)

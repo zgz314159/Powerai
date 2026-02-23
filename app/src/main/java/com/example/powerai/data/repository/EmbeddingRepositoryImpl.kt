@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
+import android.util.Log
+import com.example.powerai.data.retriever.NativeVectorRepository
 import javax.inject.Singleton
 
 /**
@@ -29,6 +31,12 @@ class EmbeddingRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val db: com.example.powerai.data.local.database.AppDatabase
 ) : EmbeddingRepository {
+    // optional native index repo; injected via AppModule.set after construction
+    private var nativeVectorRepository: NativeVectorRepository? = null
+
+    fun setNativeVectorRepository(repo: NativeVectorRepository) {
+        this.nativeVectorRepository = repo
+    }
     private val baseDir: File by lazy { File(context.filesDir, "embeddings").apply { mkdirs() } }
     private val pendingDir: File by lazy { File(baseDir, "pending").apply { mkdirs() } }
     private val embeddingDao by lazy { db.embeddingDao() }
@@ -89,6 +97,18 @@ class EmbeddingRepositoryImpl @Inject constructor(
                     // launch coroutine safe call
                     kotlinx.coroutines.runBlocking {
                         embeddingDao.upsert(meta)
+                    }
+
+                    // Best-effort: immediately upsert into native index so searches can see it.
+                    try {
+                        nativeVectorRepository?.let { repo ->
+                            val ok = repo.upsert(longArrayOf(itemId), embedding)
+                            if (!ok) {
+                                Log.w("EmbeddingRepo", "native upsert returned false for id=$itemId")
+                            }
+                        }
+                    } catch (e: Throwable) {
+                        Log.w("EmbeddingRepo", "native upsert failed for id=$itemId", e)
                     }
                 } catch (_: Throwable) {
                 }

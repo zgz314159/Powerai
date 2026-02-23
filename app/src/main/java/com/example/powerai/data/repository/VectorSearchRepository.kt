@@ -39,12 +39,12 @@ class VectorSearchRepository @Inject constructor(
             val items = mutableListOf<KnowledgeItem>()
             for (id in ids) {
                 try {
-                    val entity = knowledgeDao.getById(id.toLong())
+                    val entity = knowledgeDao.getById(id)
                     if (entity != null && entity.content.isNotBlank()) {
                         items.add(
                             KnowledgeItem(
                                 id = entity.id,
-                                title = entity.title.ifBlank { "向量检索结果" },
+                                title = "[AI][Semantic] " + entity.title.ifBlank { "向量检索结果" },
                                 content = entity.content,
                                 source = entity.source,
                                 pageNumber = entity.pageNumber,
@@ -92,7 +92,7 @@ class VectorSearchRepository @Inject constructor(
 
         return KnowledgeItem(
             id = id,
-            title = if (unitName.isNotBlank()) unitName else "向量检索结果",
+            title = "[AI][Semantic] " + if (unitName.isNotBlank()) unitName else "向量检索结果",
             content = contentMarkdown,
             source = source,
             pageNumber = null,

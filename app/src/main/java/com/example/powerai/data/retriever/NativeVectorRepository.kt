@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class NativeVectorRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    @Named("vector_dim") private val dim: Int = 128,
+    @Named("vector_dim") private val dim: Int = com.example.powerai.AppConfig.VECTOR_DIM,
     @Named("vector_index_path") private val indexPath: String
 ) : VectorRepository {
     private val TAG = "NativeVectorRepo"
@@ -24,8 +24,11 @@ class NativeVectorRepository @Inject constructor(
     private val indexFile: File = File(context.filesDir, indexPath)
 
     override fun init(dim: Int) {
-        // Instance already initialized with dimension during creation
-        Log.i(TAG, "init dim=$dim")
+        // Validate requested init dimension matches the configured DI dimension.
+        Log.i(TAG, "init requested_dim=$dim configured_dim=${this.dim}")
+        if (dim != this.dim) {
+            throw IllegalStateException("VectorRepository init dimension mismatch: requested=$dim configured=${this.dim}")
+        }
     }
 
     override fun upsert(ids: LongArray, vectors: FloatArray): Boolean {

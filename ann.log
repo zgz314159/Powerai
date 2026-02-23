@@ -1,0 +1,2306 @@
+﻿
+all_logcat_auto.log:8:02-23 09:13:29.847 W/OptProp ( 1773): Cannot read opt pro
+perty android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+all_logcat_auto.log:9:02-23 09:13:29.848 W/OptProp ( 1773): Cannot read opt pro
+perty android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+all_logcat_auto.log:12:02-23 09:13:29.855 W/OptProp ( 1773): Cannot read opt pr
+operty android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+all_logcat_auto.log:851:02-23 09:14:36.352 E/BluetoothPowerStatsCollector( 1773
+): Cannot acquire BluetoothActivityEnergyInfo
+all_logcat_auto.log:879:02-23 09:14:36.434 E/BluetoothPowerStatsCollector( 1773
+): Cannot acquire BluetoothActivityEnergyInfo
+all_logcat_auto.log:1702:02-23 09:15:56.357 E/BluetoothPowerStatsCollector( 177
+3): Cannot acquire BluetoothActivityEnergyInfo
+all_logcat_auto.log:2722:02-23 09:17:07.009 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#628] Ignoring stale input buffer done callback: last flush inde
+x = 7, frameIndex = 7
+all_logcat_auto.log:2768:02-23 09:17:07.295 I/NearbySharing( 9922): Stopping sc
+anning because Bluetooth is disabled.
+all_logcat_auto.log:2772:02-23 09:17:07.308 I/NearbySharing( 9922): Starting sc
+anning for Fast Initiation.
+all_logcat_auto.log:2775:02-23 09:17:07.312 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=f744085
+4-53f7-4951-a5b9-ee08950fdd3a
+all_logcat_auto.log:2776:02-23 09:17:07.313 D/BluetoothLeScanner( 9922): onScan
+nerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:2778:02-23 09:17:07.318 I/NearbySharing( 9922): Started sca
+nning for FastInitiation with mode: SCAN_MODE_BALANCED
+all_logcat_auto.log:2779:02-23 09:17:07.320 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:2780:02-23 09:17:07.320 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:2782:02-23 09:17:07.320 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:2783:02-23 09:17:07.321 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:2786:02-23 09:17:07.321 I/NearbySharing( 9922): Fast Initia
+tion Scanning has started
+all_logcat_auto.log:2787:02-23 09:17:07.322 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:2789:02-23 09:17:07.322 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:2790:02-23 09:17:07.323 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:2792:02-23 09:17:07.323 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId=
+1
+all_logcat_auto.log:2793:02-23 09:17:07.323 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:2796:02-23 09:17:07.325 E/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't supporte
+d
+all_logcat_auto.log:2798:02-23 09:17:07.325 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:2804:02-23 09:17:07.325 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:3124:02-23 09:17:09.481 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#628] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:3125:02-23 09:17:09.481 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#628] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:3127:02-23 09:17:09.482 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#628] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:3261:02-23 09:17:13.327 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:3267:02-23 09:17:13.331 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId=
+1
+all_logcat_auto.log:3268:02-23 09:17:13.332 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:3270:02-23 09:17:13.333 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:3271:02-23 09:17:13.333 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:3272:02-23 09:17:13.333 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:3278:02-23 09:17:13.334 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:150 Unregister: in shim layer, scannerId=1
+all_logcat_auto.log:3281:02-23 09:17:13.334 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:3283:02-23 09:17:13.340 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=787cba1
+f-1a53-45b9-a4dd-66f446db77c6
+all_logcat_auto.log:3284:02-23 09:17:13.342 D/BluetoothLeScanner( 9922): onScan
+nerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:3285:02-23 09:17:13.349 I/NearbySharing( 9922): Started sca
+nning for FastInitiation with mode: SCAN_MODE_AMBIENT_DISCOVERY
+all_logcat_auto.log:3287:02-23 09:17:13.353 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:3288:02-23 09:17:13.354 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:3289:02-23 09:17:13.355 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:3290:02-23 09:17:13.356 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:3291:02-23 09:17:13.357 E/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't supporte
+d
+all_logcat_auto.log:3292:02-23 09:17:13.357 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:3293:02-23 09:17:13.359 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:3294:02-23 09:17:13.359 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:3296:02-23 09:17:13.359 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:3300:02-23 09:17:13.360 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId=
+1
+all_logcat_auto.log:3301:02-23 09:17:13.360 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:3304:02-23 09:17:13.361 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:4873:02-23 09:18:06.451 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:4877:02-23 09:18:06.452 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId=
+1
+all_logcat_auto.log:4878:02-23 09:18:06.452 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:4893:02-23 09:18:06.458 I/bluetooth( 3259): system/gd/hci/l
+e_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:4896:02-23 09:18:06.458 I/NearbySharing( 9922): Stopping sc
+anning because the screen is locked.
+all_logcat_auto.log:4903:02-23 09:18:06.460 I/NearbySharing( 9922): Stopping Fa
+stInitiation scanning because the screen is locked.
+all_logcat_auto.log:4909:02-23 09:18:06.474 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:150 Unregister: in shim layer, scannerId=1
+all_logcat_auto.log:4911:02-23 09:18:06.476 I/NearbySharing( 9922): Stopped sca
+nning for FastInitiation
+all_logcat_auto.log:4912:02-23 09:18:06.476 I/NearbySharing( 9922): Fast Initia
+tion Scanning has stopped
+all_logcat_auto.log:4913:02-23 09:18:06.476 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:4917:02-23 09:18:06.477 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:4918:02-23 09:18:06.478 I/bt_shim_scanner( 3259): system/ma
+in/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, clientI
+f=1
+all_logcat_auto.log:5158:02-23 09:18:06.767 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Query input allocators returned 0 params => BAD_INDEX (6)
+all_logcat_auto.log:5159:02-23 09:18:06.768 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Created input block pool with allocatorID 16 => poolID 68 
+- OK (0)
+all_logcat_auto.log:5161:02-23 09:18:06.768 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Query output allocators returned 0 params => BAD_INDEX (6)
+all_logcat_auto.log:5163:02-23 09:18:06.769 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Query output surface allocator returned 0 params => BAD_IN
+DEX (6)
+all_logcat_auto.log:5164:02-23 09:18:06.769 I/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Created output block pool with allocatorID 18 => poolID 68
+ - OK
+all_logcat_auto.log:5165:02-23 09:18:06.769 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Configured output block pool ids 68 => OK
+all_logcat_auto.log:5178:02-23 09:18:06.781 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Ignoring stale input buffer done callback: last flush inde
+x = 0, frameIndex = 0
+all_logcat_auto.log:5203:02-23 09:18:06.810 D/CCodecBufferChannel( 2600): [c2.q
+ti.hevc.decoder#145] Ignoring stale input buffer done callback: last flush inde
+x = 1, frameIndex = 1
+all_logcat_auto.log:6237:02-23 09:19:07.581 I/WifiScanningService( 1773): Recei
+ved a request to enable scanning, UID = 1000
+all_logcat_auto.log:6239:02-23 09:19:07.581 I/WifiScanningService( 1773): scann
+er impls already exists
+all_logcat_auto.log:6240:02-23 09:19:07.581 E/WifiScanningService( 1773): wifi 
+driver loaded received while already loaded
+all_logcat_auto.log:6243:02-23 09:19:07.581 I/WifiScanRequestProxy( 1773): Scan
+ning is enabled
+all_logcat_auto.log:6244:02-23 09:19:07.581 I/WifiScanRequestProxy( 1773): Scan
+ning for hidden networks is enabled
+all_logcat_auto.log:6246:02-23 09:19:07.582 I/WifiService( 1773): Receive onDri
+verCountryCodeChanged to CN, update available channel list
+all_logcat_auto.log:6248:02-23 09:19:07.586 E/WifiHAL ( 1017): wifi_get_usable_
+channels: Error -3 waiting for response.
+all_logcat_auto.log:6249:02-23 09:19:07.587 E/WifiChipAidlImpl( 1773): getUsabl
+eChannels failed with service-specific exception: android.os.ServiceSpecificExc
+eption:  (code 4)
+all_logcat_auto.log:6258:02-23 09:19:07.590 E/ApConfigUtil( 1773): Malformed ch
+annel value detected: java.lang.NumberFormatException: For input string: ""
+all_logcat_auto.log:6260:02-23 09:19:07.593 E/WifiHAL ( 1017): wifi_get_usable_
+channels: Error -3 waiting for response.
+all_logcat_auto.log:6261:02-23 09:19:07.594 E/WifiChipAidlImpl( 1773): getUsabl
+eChannels failed with service-specific exception: android.os.ServiceSpecificExc
+eption:  (code 4)
+all_logcat_auto.log:6264:02-23 09:19:07.598 E/ApConfigUtil( 1773): Malformed ch
+annel value detected: java.lang.NumberFormatException: For input string: ""
+all_logcat_auto.log:6400:02-23 09:19:11.764 I/WifiScanningService( 1773): Recei
+ved a request to enable scanning, UID = 1000
+all_logcat_auto.log:6401:02-23 09:19:11.764 I/WifiScanningService( 1773): scann
+er impls already exists
+all_logcat_auto.log:6402:02-23 09:19:11.764 E/WifiScanningService( 1773): wifi 
+driver loaded received while already loaded
+all_logcat_auto.log:6403:02-23 09:19:11.765 I/WifiScanRequestProxy( 1773): Scan
+ning is enabled
+all_logcat_auto.log:6404:02-23 09:19:11.765 I/WifiScanRequestProxy( 1773): Scan
+ning for hidden networks is enabled
+all_logcat_auto.log:6406:02-23 09:19:11.765 I/WifiService( 1773): Receive onDri
+verCountryCodeChanged to CN, update available channel list
+all_logcat_auto.log:6409:02-23 09:19:11.770 E/WifiHAL ( 1017): wifi_get_usable_
+channels: Error -3 waiting for response.
+all_logcat_auto.log:6410:02-23 09:19:11.771 E/WifiChipAidlImpl( 1773): getUsabl
+eChannels failed with service-specific exception: android.os.ServiceSpecificExc
+eption:  (code 4)
+all_logcat_auto.log:6418:02-23 09:19:11.774 E/ApConfigUtil( 1773): Malformed ch
+annel value detected: java.lang.NumberFormatException: For input string: ""
+all_logcat_auto.log:6420:02-23 09:19:11.776 E/WifiHAL ( 1017): wifi_get_usable_
+channels: Error -3 waiting for response.
+all_logcat_auto.log:6421:02-23 09:19:11.777 E/WifiChipAidlImpl( 1773): getUsabl
+eChannels failed with service-specific exception: android.os.ServiceSpecificExc
+eption:  (code 4)
+all_logcat_auto.log:6424:02-23 09:19:11.781 E/ApConfigUtil( 1773): Malformed ch
+annel value detected: java.lang.NumberFormatException: For input string: ""
+all_logcat_auto.log:8877:02-23 09:22:18.736 E/gsi soc (    0): qcom,msm_gsi: gs
+i_config_channel_mode:3837 already in requested mode 1 chan_hdl=6
+all_logcat_auto.log:11035:02-23 09:24:32.815 I/app_process64(22886): Native mem
+ory cannot be purged, Android API level < 28.
+all_logcat_auto.log:11047:02-23 09:24:33.357 I/app_process64(22917): Native mem
+ory cannot be purged, Android API level < 28.
+all_logcat_auto.log:11271:02-23 09:24:55.981 E/BluetoothPowerStatsCollector( 17
+73): Cannot acquire BluetoothActivityEnergyInfo
+all_logcat_auto.log:11821:02-23 09:25:29.308 I/adbd    ( 1535): UsbFfs: connect
+ion terminated: read 3049 failed with error Cannot send after transport endpoin
+t shutdown
+all_logcat_auto.log:12216:02-23 09:25:33.326 D/KeyguardUnlock( 2468): playCanne
+dUnlockAnimation
+all_logcat_auto.log:12217:02-23 09:25:33.326 D/KeyguardUnlock( 2468): playCanne
+dUnlockAnimation, isWakeAndUnlock
+all_logcat_auto.log:12285:02-23 09:25:33.377 I/msm8974_platform(  981): platfor
+m_check_and_set_codec_backend_cfg:becf: afe: bitwidth 24, samplerate 48000 chan
+nels 2, backend_idx 1 usecase = 1 device (speaker)
+all_logcat_auto.log:12288:02-23 09:25:33.377 I/msm8974_platform(  981): platfor
+m_check_codec_backend_cfg:becf: afe: bitwidth 24, samplerate 48000 channels 2, 
+backend_idx 1 usecase = 1 device (speaker)
+all_logcat_auto.log:12292:02-23 09:25:33.378 D/msm8974_platform(  981): platfor
+m_check_codec_backend_cfg:becf: updated afe: bitwidth 24, samplerate 48000 chan
+nels 2,backend_idx 1 usecase = 1 device (speaker)
+all_logcat_auto.log:12371:02-23 09:25:33.435 I/audio_hw_utils(  981): send_app_
+type_cfg_for_device PLAYBACK app_type 69937, acdb_dev_id 10011, sample_rate 480
+00, snd_device_be_idx 87, channel is 2
+all_logcat_auto.log:12419:02-23 09:25:33.437 D/ultrasound_extn(  981): dump_use
+case_list: TERT_TDM_RX_0 Channels		 Two
+all_logcat_auto.log:12426:02-23 09:25:33.438 D/ultrasound_extn(  981): dump_use
+case_list: TERT_TDM_RX_1 Channels		 One
+all_logcat_auto.log:12493:02-23 09:25:33.487 D/msm8974_platform(  981): platfor
+m_set_channel_map mixer_ctl_name:Playback Channel Map9
+all_logcat_auto.log:12494:02-23 09:25:33.487 D/msm8974_platform(  981): platfor
+m_set_channel_map: set mapping(1 2 0 0 0 0 0 0) for channel:2
+all_logcat_auto.log:12496:02-23 09:25:33.488 D/adsp_utils(  981): set_channel_r
+everse mode: 0
+all_logcat_auto.log:12582:02-23 09:25:33.894 I/NearbySharing( 9922): Stopping s
+canning because Bluetooth is disabled.
+all_logcat_auto.log:12585:02-23 09:25:33.902 I/NearbySharing( 9922): Starting s
+canning for Fast Initiation.
+all_logcat_auto.log:12588:02-23 09:25:33.904 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=57021b
+63-2bae-410d-8cff-622d6cf7ec52
+all_logcat_auto.log:12589:02-23 09:25:33.906 D/BluetoothLeScanner( 9922): onSca
+nnerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:12591:02-23 09:25:33.913 I/NearbySharing( 9922): Started sc
+anning for FastInitiation with mode: SCAN_MODE_BALANCED
+all_logcat_auto.log:12594:02-23 09:25:33.922 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:12595:02-23 09:25:33.923 I/NearbySharing( 9922): Fast Initi
+ation Scanning has started
+all_logcat_auto.log:12598:02-23 09:25:33.923 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:12601:02-23 09:25:33.924 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:12602:02-23 09:25:33.925 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:12603:02-23 09:25:33.926 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:12604:02-23 09:25:33.926 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:12605:02-23 09:25:33.927 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:12608:02-23 09:25:33.927 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:12609:02-23 09:25:33.927 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:12610:02-23 09:25:33.927 E/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't support
+ed
+all_logcat_auto.log:12611:02-23 09:25:33.927 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:12617:02-23 09:25:33.927 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:12878:02-23 09:25:35.920 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:12879:02-23 09:25:35.921 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:12880:02-23 09:25:35.921 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:12977:02-23 09:25:39.929 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:12980:02-23 09:25:39.930 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:12981:02-23 09:25:39.930 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:12986:02-23 09:25:39.934 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:12987:02-23 09:25:39.934 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:12995:02-23 09:25:39.935 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:12996:02-23 09:25:39.936 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:12997:02-23 09:25:39.937 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:150 Unregister: in shim layer, scannerId=1
+all_logcat_auto.log:12999:02-23 09:25:39.942 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=9e285f
+d5-38ee-4a2f-8f36-dc7c1418a999
+all_logcat_auto.log:13000:02-23 09:25:39.944 D/BluetoothLeScanner( 9922): onSca
+nnerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:13001:02-23 09:25:39.952 I/NearbySharing( 9922): Started sc
+anning for FastInitiation with mode: SCAN_MODE_AMBIENT_DISCOVERY
+all_logcat_auto.log:13003:02-23 09:25:39.954 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:13004:02-23 09:25:39.954 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:13005:02-23 09:25:39.955 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:13006:02-23 09:25:39.955 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:13007:02-23 09:25:39.955 E/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't support
+ed
+all_logcat_auto.log:13008:02-23 09:25:39.956 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:13009:02-23 09:25:39.957 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:13010:02-23 09:25:39.957 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:13012:02-23 09:25:39.957 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:13018:02-23 09:25:39.957 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:13019:02-23 09:25:39.957 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:13020:02-23 09:25:39.958 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:14123:02-23 09:26:20.311 E/gsi soc (    0): qcom,msm_gsi: g
+si_stop_channel:3000 chan=7 busy try again
+all_logcat_auto.log:14734:02-23 09:26:38.990 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: DockObserver
+all_logcat_auto.log:14736:02-23 09:26:38.993 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: SurfaceFlinger
+all_logcat_auto.log:14737:02-23 09:26:38.994 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: SurfaceFlingerAIDL
+all_logcat_auto.log:14738:02-23 09:26:38.995 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: accessibility
+all_logcat_auto.log:14739:02-23 09:26:38.996 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: account
+all_logcat_auto.log:14740:02-23 09:26:38.998 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: activity
+all_logcat_auto.log:14741:02-23 09:26:39.000 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: activity_task
+all_logcat_auto.log:14742:02-23 09:26:39.000 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adb
+all_logcat_auto.log:14743:02-23 09:26:39.001 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adbroot_service
+all_logcat_auto.log:14744:02-23 09:26:39.001 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adservices_manager
+all_logcat_auto.log:14745:02-23 09:26:39.003 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: alarm
+all_logcat_auto.log:14746:02-23 09:26:39.006 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.cameraservice.service.ICameraService/default
+all_logcat_auto.log:14747:02-23 09:26:39.008 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.location.altitude.IAltitudeService/default
+all_logcat_auto.log:14748:02-23 09:26:39.009 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.sensorservice.ISensorManager/default
+all_logcat_auto.log:14749:02-23 09:26:39.010 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.stats.IStats/default
+all_logcat_auto.log:14750:02-23 09:26:39.012 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.vibrator.IVibratorControlService/default
+all_logcat_auto.log:14751:02-23 09:26:39.014 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.biometrics.fingerprint.IFingerprint/default
+all_logcat_auto.log:14752:02-23 09:26:39.015 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/def
+ault
+all_logcat_auto.log:14755:02-23 09:26:39.015 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.drm.IDrmFactory/clearkey
+all_logcat_auto.log:14758:02-23 09:26:39.016 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.health.IHealth/default
+all_logcat_auto.log:14761:02-23 09:26:39.017 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.ir.IConsumerIr/default
+all_logcat_auto.log:14763:02-23 09:26:39.018 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.light.ILights/default
+all_logcat_auto.log:14765:02-23 09:26:39.018 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.media.c2.IComponentStore/software
+all_logcat_auto.log:14768:02-23 09:26:39.019 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.memtrack.IMemtrack/default
+all_logcat_auto.log:14771:02-23 09:26:39.020 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.nfc.INfc/default
+all_logcat_auto.log:14773:02-23 09:26:39.021 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.power.IPower/default
+all_logcat_auto.log:14775:02-23 09:26:39.023 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.usb.IUsb/default
+all_logcat_auto.log:14776:02-23 09:26:39.024 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.usb.gadget.IUsbGadget/default
+all_logcat_auto.log:14778:02-23 09:26:39.024 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.vibrator.IVibrator/default
+all_logcat_auto.log:14779:02-23 09:26:39.025 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.wifi.IWifi/default
+all_logcat_auto.log:14786:02-23 09:26:39.026 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.wifi.supplicant.ISupplicant/default
+all_logcat_auto.log:14787:02-23 09:26:39.026 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.apc
+all_logcat_auto.log:14788:02-23 09:26:39.028 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.authorization
+all_logcat_auto.log:14789:02-23 09:26:39.029 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.compat
+all_logcat_auto.log:14790:02-23 09:26:39.029 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.identity
+all_logcat_auto.log:14791:02-23 09:26:39.030 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.legacykeystore
+all_logcat_auto.log:14792:02-23 09:26:39.031 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.maintenance
+all_logcat_auto.log:14793:02-23 09:26:39.031 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.metrics
+all_logcat_auto.log:14795:02-23 09:26:39.033 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.keystore2.IKeystoreService/default
+all_logcat_auto.log:14796:02-23 09:26:39.033 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.net.netd.INetd/default
+all_logcat_auto.log:14797:02-23 09:26:39.034 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.suspend.ISystemSuspend/default
+all_logcat_auto.log:14798:02-23 09:26:39.035 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_binding
+all_logcat_auto.log:14800:02-23 09:26:39.036 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_hibernation
+all_logcat_auto.log:14801:02-23 09:26:39.037 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_integrity
+all_logcat_auto.log:14802:02-23 09:26:39.037 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_search
+all_logcat_auto.log:14803:02-23 09:26:39.038 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: appops
+all_logcat_auto.log:14804:02-23 09:26:39.038 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: appwidget
+all_logcat_auto.log:14805:02-23 09:26:39.039 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: attestation_verification
+all_logcat_auto.log:14806:02-23 09:26:39.039 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: audio
+all_logcat_auto.log:14807:02-23 09:26:39.040 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: auth
+all_logcat_auto.log:14808:02-23 09:26:39.040 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: authentication_policy
+all_logcat_auto.log:14809:02-23 09:26:39.041 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: autofill
+all_logcat_auto.log:14810:02-23 09:26:39.041 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: background_install_control
+all_logcat_auto.log:14811:02-23 09:26:39.042 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: backup
+all_logcat_auto.log:14812:02-23 09:26:39.042 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: battery
+all_logcat_auto.log:14814:02-23 09:26:39.043 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: batteryproperties
+all_logcat_auto.log:14815:02-23 09:26:39.043 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: batterystats
+all_logcat_auto.log:14816:02-23 09:26:39.044 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: binder_calls_stats
+all_logcat_auto.log:14818:02-23 09:26:39.044 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: biometric
+all_logcat_auto.log:14819:02-23 09:26:39.045 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: blob_store
+all_logcat_auto.log:14820:02-23 09:26:39.045 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: bluetooth_manager
+all_logcat_auto.log:14821:02-23 09:26:39.046 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: bugreport
+all_logcat_auto.log:14822:02-23 09:26:39.046 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cacheinfo
+all_logcat_auto.log:14824:02-23 09:26:39.047 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: carrier_config
+all_logcat_auto.log:14825:02-23 09:26:39.047 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: clipboard
+all_logcat_auto.log:14826:02-23 09:26:39.048 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: color_display
+all_logcat_auto.log:14827:02-23 09:26:39.049 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: companiondevice
+all_logcat_auto.log:14828:02-23 09:26:39.050 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connectivity
+all_logcat_auto.log:14829:02-23 09:26:39.050 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connectivity_native
+all_logcat_auto.log:14830:02-23 09:26:39.050 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connmetrics
+all_logcat_auto.log:14831:02-23 09:26:39.051 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: consumer_ir
+all_logcat_auto.log:14832:02-23 09:26:39.051 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: content
+all_logcat_auto.log:14833:02-23 09:26:39.051 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: contextual_search
+all_logcat_auto.log:14834:02-23 09:26:39.052 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: country_detector
+all_logcat_auto.log:14835:02-23 09:26:39.052 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cpu_monitor
+all_logcat_auto.log:14837:02-23 09:26:39.052 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cpuinfo
+all_logcat_auto.log:14839:02-23 09:26:39.053 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: credential
+all_logcat_auto.log:14840:02-23 09:26:39.053 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: crossprofileapps
+all_logcat_auto.log:14841:02-23 09:26:39.053 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dataloader_manager
+all_logcat_auto.log:14842:02-23 09:26:39.054 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dbinfo
+all_logcat_auto.log:14844:02-23 09:26:39.054 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_config
+all_logcat_auto.log:14846:02-23 09:26:39.054 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_identifiers
+all_logcat_auto.log:14847:02-23 09:26:39.055 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_lock
+all_logcat_auto.log:14848:02-23 09:26:39.055 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_policy
+all_logcat_auto.log:14849:02-23 09:26:39.055 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_state
+all_logcat_auto.log:14850:02-23 09:26:39.055 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: deviceidle
+all_logcat_auto.log:14851:02-23 09:26:39.056 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: devicestoragemonitor
+all_logcat_auto.log:14853:02-23 09:26:39.056 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: diskstats
+all_logcat_auto.log:14855:02-23 09:26:39.057 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: display
+all_logcat_auto.log:14856:02-23 09:26:39.057 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: domain_verification
+all_logcat_auto.log:14857:02-23 09:26:39.057 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dpmservice
+all_logcat_auto.log:14859:02-23 09:26:39.058 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dreams
+all_logcat_auto.log:14860:02-23 09:26:39.058 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: drm.drmManager
+all_logcat_auto.log:14861:02-23 09:26:39.059 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dropbox
+all_logcat_auto.log:14862:02-23 09:26:39.059 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dynamic_system
+all_logcat_auto.log:14863:02-23 09:26:39.059 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ecm_enhanced_confirmation
+all_logcat_auto.log:14864:02-23 09:26:39.060 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: emergency_affordance
+all_logcat_auto.log:14866:02-23 09:26:39.061 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ethernet
+all_logcat_auto.log:14867:02-23 09:26:39.061 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: external_vibrator_service
+all_logcat_auto.log:14868:02-23 09:26:39.062 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: feature_flags
+all_logcat_auto.log:14869:02-23 09:26:39.062 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: file_integrity
+all_logcat_auto.log:14870:02-23 09:26:39.063 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: fingerprint
+all_logcat_auto.log:14872:02-23 09:26:39.063 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: font
+all_logcat_auto.log:14873:02-23 09:26:39.063 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: game
+all_logcat_auto.log:14875:02-23 09:26:39.064 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: gfxinfo
+all_logcat_auto.log:14877:02-23 09:26:39.064 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: gpu
+all_logcat_auto.log:14879:02-23 09:26:39.064 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: grammatical_inflection
+all_logcat_auto.log:14880:02-23 09:26:39.065 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: graphicsstats
+all_logcat_auto.log:14881:02-23 09:26:39.065 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: hardware_properties
+all_logcat_auto.log:14882:02-23 09:26:39.066 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: healthconnect
+all_logcat_auto.log:14883:02-23 09:26:39.066 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: imms
+all_logcat_auto.log:14884:02-23 09:26:39.067 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: incidentcompanion
+all_logcat_auto.log:14885:02-23 09:26:39.067 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: incremental
+all_logcat_auto.log:14886:02-23 09:26:39.067 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: input
+all_logcat_auto.log:14887:02-23 09:26:39.068 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: input_method
+all_logcat_auto.log:14888:02-23 09:26:39.068 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: inputflinger
+all_logcat_auto.log:14889:02-23 09:26:39.069 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ions
+all_logcat_auto.log:14892:02-23 09:26:39.069 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: iphonesubinfo
+all_logcat_auto.log:14893:02-23 09:26:39.069 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ipsec
+all_logcat_auto.log:14894:02-23 09:26:39.070 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: isms
+all_logcat_auto.log:14895:02-23 09:26:39.070 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: isub
+all_logcat_auto.log:14896:02-23 09:26:39.070 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: jobscheduler
+all_logcat_auto.log:14897:02-23 09:26:39.071 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: launcherapps
+all_logcat_auto.log:14898:02-23 09:26:39.071 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: legacy_permission
+all_logcat_auto.log:14899:02-23 09:26:39.071 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lights
+all_logcat_auto.log:14900:02-23 09:26:39.072 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineageglobalactions
+all_logcat_auto.log:14901:02-23 09:26:39.072 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagehardware
+all_logcat_auto.log:14902:02-23 09:26:39.072 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagehealth
+all_logcat_auto.log:14903:02-23 09:26:39.073 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagelivedisplay
+all_logcat_auto.log:14904:02-23 09:26:39.073 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagetrust
+all_logcat_auto.log:14905:02-23 09:26:39.073 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: locale
+all_logcat_auto.log:14906:02-23 09:26:39.074 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: location
+all_logcat_auto.log:14907:02-23 09:26:39.074 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: location_time_zone_manager
+all_logcat_auto.log:14909:02-23 09:26:39.074 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lock_settings
+all_logcat_auto.log:14910:02-23 09:26:39.075 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: logcat
+all_logcat_auto.log:14911:02-23 09:26:39.075 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: logd
+all_logcat_auto.log:14912:02-23 09:26:39.076 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: looper_stats
+all_logcat_auto.log:14914:02-23 09:26:39.076 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: manager
+all_logcat_auto.log:14915:02-23 09:26:39.077 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.aaudio
+all_logcat_auto.log:14916:02-23 09:26:39.078 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.audio_flinger
+all_logcat_auto.log:14917:02-23 09:26:39.078 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.audio_policy
+all_logcat_auto.log:14918:02-23 09:26:39.078 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.camera
+all_logcat_auto.log:14919:02-23 09:26:39.079 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.camera.proxy
+all_logcat_auto.log:14920:02-23 09:26:39.079 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.extractor
+all_logcat_auto.log:14922:02-23 09:26:39.080 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.metrics
+all_logcat_auto.log:14923:02-23 09:26:39.080 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.player
+all_logcat_auto.log:14924:02-23 09:26:39.081 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.resource_manager
+all_logcat_auto.log:14925:02-23 09:26:39.081 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.resource_observer
+all_logcat_auto.log:14926:02-23 09:26:39.082 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_communication
+all_logcat_auto.log:14927:02-23 09:26:39.082 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_metrics
+all_logcat_auto.log:14928:02-23 09:26:39.083 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_projection
+all_logcat_auto.log:14929:02-23 09:26:39.083 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_resource_monitor
+all_logcat_auto.log:14930:02-23 09:26:39.084 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_router
+all_logcat_auto.log:14931:02-23 09:26:39.084 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_session
+all_logcat_auto.log:14932:02-23 09:26:39.085 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: meminfo
+all_logcat_auto.log:14934:02-23 09:26:39.085 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: memtrack.proxy
+all_logcat_auto.log:14935:02-23 09:26:39.086 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: midi
+all_logcat_auto.log:14936:02-23 09:26:39.086 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: mount
+all_logcat_auto.log:14937:02-23 09:26:39.086 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: nearby
+all_logcat_auto.log:14938:02-23 09:26:39.087 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netd_listener
+all_logcat_auto.log:14939:02-23 09:26:39.088 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netpolicy
+all_logcat_auto.log:14940:02-23 09:26:39.088 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netstats
+all_logcat_auto.log:14941:02-23 09:26:39.088 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_management
+all_logcat_auto.log:14943:02-23 09:26:39.089 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_score
+all_logcat_auto.log:14944:02-23 09:26:39.089 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_stack
+all_logcat_auto.log:14945:02-23 09:26:39.090 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_time_update_service
+all_logcat_auto.log:14947:02-23 09:26:39.090 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_watchlist
+all_logcat_auto.log:14948:02-23 09:26:39.091 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: nfc
+all_logcat_auto.log:14949:02-23 09:26:39.091 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: notification
+all_logcat_auto.log:14950:02-23 09:26:39.092 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: oem_lock
+all_logcat_auto.log:14951:02-23 09:26:39.092 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: on_device_intelligence
+all_logcat_auto.log:14952:02-23 09:26:39.092 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ondevicepersonalization_system_service
+all_logcat_auto.log:14953:02-23 09:26:39.093 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: otadexopt
+all_logcat_auto.log:14954:02-23 09:26:39.093 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: overlay
+all_logcat_auto.log:14955:02-23 09:26:39.094 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: pac_proxy
+all_logcat_auto.log:14956:02-23 09:26:39.094 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: package
+all_logcat_auto.log:14957:02-23 09:26:39.094 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: package_native
+all_logcat_auto.log:14958:02-23 09:26:39.095 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: people
+all_logcat_auto.log:14959:02-23 09:26:39.095 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: performance_hint
+all_logcat_auto.log:14960:02-23 09:26:39.096 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permission
+all_logcat_auto.log:14961:02-23 09:26:39.096 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permission_checker
+all_logcat_auto.log:14962:02-23 09:26:39.096 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permissionmgr
+all_logcat_auto.log:14963:02-23 09:26:39.097 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: persistent_data_block
+all_logcat_auto.log:14964:02-23 09:26:39.097 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: phone
+all_logcat_auto.log:14965:02-23 09:26:39.098 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: pinner
+all_logcat_auto.log:14966:02-23 09:26:39.098 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: platform_compat
+all_logcat_auto.log:14967:02-23 09:26:39.099 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: platform_compat_native
+all_logcat_auto.log:14968:02-23 09:26:39.099 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: power
+all_logcat_auto.log:14969:02-23 09:26:39.099 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: powerstats
+all_logcat_auto.log:14970:02-23 09:26:39.100 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: print
+all_logcat_auto.log:14971:02-23 09:26:39.100 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: processinfo
+all_logcat_auto.log:14972:02-23 09:26:39.101 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: procstats
+all_logcat_auto.log:14973:02-23 09:26:39.101 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: profile
+all_logcat_auto.log:14974:02-23 09:26:39.102 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: profiling_service
+all_logcat_auto.log:14975:02-23 09:26:39.102 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: reboot_readiness
+all_logcat_auto.log:14976:02-23 09:26:39.103 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: recovery
+all_logcat_auto.log:14977:02-23 09:26:39.103 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: remote_provisioning
+all_logcat_auto.log:14978:02-23 09:26:39.104 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: resources
+all_logcat_auto.log:14979:02-23 09:26:39.104 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: restrictions
+all_logcat_auto.log:14980:02-23 09:26:39.105 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: role
+all_logcat_auto.log:14981:02-23 09:26:39.105 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: rollback
+all_logcat_auto.log:14982:02-23 09:26:39.106 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: runtime
+all_logcat_auto.log:14984:02-23 09:26:39.106 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: safety_center
+all_logcat_auto.log:14985:02-23 09:26:39.107 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: scheduling_policy
+all_logcat_auto.log:14986:02-23 09:26:39.107 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sdk_sandbox
+all_logcat_auto.log:14987:02-23 09:26:39.108 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: search
+all_logcat_auto.log:14988:02-23 09:26:39.108 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sec_key_att_app_id_provider
+all_logcat_auto.log:14989:02-23 09:26:39.109 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: secure_element
+all_logcat_auto.log:14990:02-23 09:26:39.110 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: security_state
+all_logcat_auto.log:14991:02-23 09:26:39.111 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensitive_content_protection_service
+all_logcat_auto.log:14992:02-23 09:26:39.112 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensor_privacy
+all_logcat_auto.log:14993:02-23 09:26:39.112 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensorservice
+all_logcat_auto.log:14994:02-23 09:26:39.113 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: serial
+all_logcat_auto.log:14995:02-23 09:26:39.114 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: servicediscovery
+all_logcat_auto.log:14996:02-23 09:26:39.115 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: settings
+all_logcat_auto.log:14998:02-23 09:26:39.115 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: shortcut
+all_logcat_auto.log:14999:02-23 09:26:39.116 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: simphonebook
+all_logcat_auto.log:15000:02-23 09:26:39.117 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: slice
+all_logcat_auto.log:15001:02-23 09:26:39.117 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: soundtrigger
+all_logcat_auto.log:15002:02-23 09:26:39.118 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: soundtrigger_middleware
+all_logcat_auto.log:15003:02-23 09:26:39.119 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: speech_recognition
+all_logcat_auto.log:15004:02-23 09:26:39.119 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: stats
+all_logcat_auto.log:15005:02-23 09:26:39.120 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statsbootstrap
+all_logcat_auto.log:15006:02-23 09:26:39.121 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statscompanion
+all_logcat_auto.log:15007:02-23 09:26:39.122 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statsmanager
+all_logcat_auto.log:15008:02-23 09:26:39.122 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statusbar
+all_logcat_auto.log:15009:02-23 09:26:39.123 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storaged
+all_logcat_auto.log:15010:02-23 09:26:39.123 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storaged_pri
+all_logcat_auto.log:15011:02-23 09:26:39.124 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storagestats
+all_logcat_auto.log:15012:02-23 09:26:39.125 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_config
+all_logcat_auto.log:15013:02-23 09:26:39.126 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_server_dumper
+all_logcat_auto.log:15015:02-23 09:26:39.126 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_update
+all_logcat_auto.log:15018:02-23 09:26:39.127 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telecom
+all_logcat_auto.log:15019:02-23 09:26:39.127 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telephony.registry
+all_logcat_auto.log:15020:02-23 09:26:39.128 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telephony_ims
+all_logcat_auto.log:15021:02-23 09:26:39.128 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: testharness
+all_logcat_auto.log:15023:02-23 09:26:39.129 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: tethering
+all_logcat_auto.log:15024:02-23 09:26:39.129 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: textclassification
+all_logcat_auto.log:15025:02-23 09:26:39.130 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: textservices
+all_logcat_auto.log:15026:02-23 09:26:39.130 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: texttospeech
+all_logcat_auto.log:15027:02-23 09:26:39.131 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: thermalservice
+all_logcat_auto.log:15028:02-23 09:26:39.131 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: time_detector
+all_logcat_auto.log:15029:02-23 09:26:39.132 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: time_zone_detector
+all_logcat_auto.log:15030:02-23 09:26:39.133 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: tracing.proxy
+all_logcat_auto.log:15031:02-23 09:26:39.134 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: transparency
+all_logcat_auto.log:15032:02-23 09:26:39.134 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: trust
+all_logcat_auto.log:15033:02-23 09:26:39.135 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: uimode
+all_logcat_auto.log:15034:02-23 09:26:39.135 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: updatelock
+all_logcat_auto.log:15035:02-23 09:26:39.136 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: uri_grants
+all_logcat_auto.log:15036:02-23 09:26:39.137 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: usagestats
+all_logcat_auto.log:15037:02-23 09:26:39.137 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: usb
+all_logcat_auto.log:15038:02-23 09:26:39.137 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: user
+all_logcat_auto.log:15039:02-23 09:26:39.138 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vcn_management
+all_logcat_auto.log:15040:02-23 09:26:39.138 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.lineage.health.IChargingControl/default
+all_logcat_auto.log:15041:02-23 09:26:39.139 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.lineage.health.IFastCharge/default
+all_logcat_auto.log:15042:02-23 09:26:39.139 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.nxp.nxpnfc_aidl.INxpNfc/default
+all_logcat_auto.log:15043:02-23 09:26:39.140 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vibrator_manager
+all_logcat_auto.log:15044:02-23 09:26:39.140 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: virtualdevice
+all_logcat_auto.log:15045:02-23 09:26:39.141 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: virtualdevice_native
+all_logcat_auto.log:15046:02-23 09:26:39.141 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: voiceinteraction
+all_logcat_auto.log:15047:02-23 09:26:39.142 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vpn_management
+all_logcat_auto.log:15048:02-23 09:26:39.143 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wallpaper
+all_logcat_auto.log:15049:02-23 09:26:39.143 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wearable_sensing
+all_logcat_auto.log:15051:02-23 09:26:39.144 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: webviewupdate
+all_logcat_auto.log:15052:02-23 09:26:39.145 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifi
+all_logcat_auto.log:15053:02-23 09:26:39.145 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifiaware
+all_logcat_auto.log:15054:02-23 09:26:39.146 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifinl80211
+all_logcat_auto.log:15055:02-23 09:26:39.146 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifip2p
+all_logcat_auto.log:15056:02-23 09:26:39.146 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifirtt
+all_logcat_auto.log:15057:02-23 09:26:39.147 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifiscanner
+all_logcat_auto.log:15058:02-23 09:26:39.147 W/service (12537): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: window
+all_logcat_auto.log:15066:02-23 09:26:39.246 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: DockObserver
+all_logcat_auto.log:15068:02-23 09:26:39.248 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: SurfaceFlinger
+all_logcat_auto.log:15069:02-23 09:26:39.250 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: SurfaceFlingerAIDL
+all_logcat_auto.log:15070:02-23 09:26:39.250 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: accessibility
+all_logcat_auto.log:15071:02-23 09:26:39.252 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: account
+all_logcat_auto.log:15072:02-23 09:26:39.253 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: activity
+all_logcat_auto.log:15073:02-23 09:26:39.254 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: activity_task
+all_logcat_auto.log:15074:02-23 09:26:39.255 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adb
+all_logcat_auto.log:15075:02-23 09:26:39.256 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adbroot_service
+all_logcat_auto.log:15076:02-23 09:26:39.257 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: adservices_manager
+all_logcat_auto.log:15077:02-23 09:26:39.258 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: alarm
+all_logcat_auto.log:15078:02-23 09:26:39.260 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.cameraservice.service.ICameraService/default
+all_logcat_auto.log:15079:02-23 09:26:39.261 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.location.altitude.IAltitudeService/default
+all_logcat_auto.log:15080:02-23 09:26:39.262 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.sensorservice.ISensorManager/default
+all_logcat_auto.log:15081:02-23 09:26:39.263 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.stats.IStats/default
+all_logcat_auto.log:15082:02-23 09:26:39.263 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.frameworks.vibrator.IVibratorControlService/default
+all_logcat_auto.log:15083:02-23 09:26:39.264 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.biometrics.fingerprint.IFingerprint/default
+all_logcat_auto.log:15084:02-23 09:26:39.265 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/def
+ault
+all_logcat_auto.log:15085:02-23 09:26:39.265 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.drm.IDrmFactory/clearkey
+all_logcat_auto.log:15086:02-23 09:26:39.266 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.health.IHealth/default
+all_logcat_auto.log:15087:02-23 09:26:39.266 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.ir.IConsumerIr/default
+all_logcat_auto.log:15088:02-23 09:26:39.267 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.light.ILights/default
+all_logcat_auto.log:15089:02-23 09:26:39.267 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.media.c2.IComponentStore/software
+all_logcat_auto.log:15090:02-23 09:26:39.268 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.memtrack.IMemtrack/default
+all_logcat_auto.log:15091:02-23 09:26:39.269 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.nfc.INfc/default
+all_logcat_auto.log:15092:02-23 09:26:39.269 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.power.IPower/default
+all_logcat_auto.log:15093:02-23 09:26:39.270 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.thermal.IThermal/default
+all_logcat_auto.log:15094:02-23 09:26:39.270 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.usb.IUsb/default
+all_logcat_auto.log:15095:02-23 09:26:39.271 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.usb.gadget.IUsbGadget/default
+all_logcat_auto.log:15096:02-23 09:26:39.271 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.vibrator.IVibrator/default
+all_logcat_auto.log:15097:02-23 09:26:39.272 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.wifi.IWifi/default
+all_logcat_auto.log:15098:02-23 09:26:39.273 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.hardware.wifi.supplicant.ISupplicant/default
+all_logcat_auto.log:15099:02-23 09:26:39.274 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.apc
+all_logcat_auto.log:15100:02-23 09:26:39.274 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.authorization
+all_logcat_auto.log:15101:02-23 09:26:39.275 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.compat
+all_logcat_auto.log:15102:02-23 09:26:39.275 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.identity
+all_logcat_auto.log:15103:02-23 09:26:39.276 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.legacykeystore
+all_logcat_auto.log:15104:02-23 09:26:39.276 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.maintenance
+all_logcat_auto.log:15105:02-23 09:26:39.277 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.security.metrics
+all_logcat_auto.log:15106:02-23 09:26:39.278 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.keystore2.IKeystoreService/default
+all_logcat_auto.log:15107:02-23 09:26:39.279 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.net.netd.INetd/default
+all_logcat_auto.log:15108:02-23 09:26:39.279 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: android.system.suspend.ISystemSuspend/default
+all_logcat_auto.log:15110:02-23 09:26:39.280 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_binding
+all_logcat_auto.log:15112:02-23 09:26:39.281 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_hibernation
+all_logcat_auto.log:15113:02-23 09:26:39.281 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_integrity
+all_logcat_auto.log:15114:02-23 09:26:39.281 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: app_search
+all_logcat_auto.log:15115:02-23 09:26:39.282 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: appops
+all_logcat_auto.log:15116:02-23 09:26:39.282 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: appwidget
+all_logcat_auto.log:15117:02-23 09:26:39.283 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: attestation_verification
+all_logcat_auto.log:15118:02-23 09:26:39.283 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: audio
+all_logcat_auto.log:15119:02-23 09:26:39.285 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: auth
+all_logcat_auto.log:15120:02-23 09:26:39.285 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: authentication_policy
+all_logcat_auto.log:15121:02-23 09:26:39.286 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: autofill
+all_logcat_auto.log:15122:02-23 09:26:39.286 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: background_install_control
+all_logcat_auto.log:15123:02-23 09:26:39.286 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: backup
+all_logcat_auto.log:15124:02-23 09:26:39.287 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: battery
+all_logcat_auto.log:15126:02-23 09:26:39.287 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: batteryproperties
+all_logcat_auto.log:15127:02-23 09:26:39.287 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: batterystats
+all_logcat_auto.log:15128:02-23 09:26:39.288 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: binder_calls_stats
+all_logcat_auto.log:15130:02-23 09:26:39.288 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: biometric
+all_logcat_auto.log:15131:02-23 09:26:39.288 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: blob_store
+all_logcat_auto.log:15132:02-23 09:26:39.289 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: bluetooth_manager
+all_logcat_auto.log:15133:02-23 09:26:39.289 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: bugreport
+all_logcat_auto.log:15134:02-23 09:26:39.290 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cacheinfo
+all_logcat_auto.log:15136:02-23 09:26:39.290 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: carrier_config
+all_logcat_auto.log:15137:02-23 09:26:39.290 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: clipboard
+all_logcat_auto.log:15138:02-23 09:26:39.291 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: color_display
+all_logcat_auto.log:15139:02-23 09:26:39.291 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: companiondevice
+all_logcat_auto.log:15140:02-23 09:26:39.291 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connectivity
+all_logcat_auto.log:15141:02-23 09:26:39.291 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connectivity_native
+all_logcat_auto.log:15142:02-23 09:26:39.292 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: connmetrics
+all_logcat_auto.log:15143:02-23 09:26:39.292 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: consumer_ir
+all_logcat_auto.log:15144:02-23 09:26:39.292 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: content
+all_logcat_auto.log:15145:02-23 09:26:39.293 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: contextual_search
+all_logcat_auto.log:15146:02-23 09:26:39.293 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: country_detector
+all_logcat_auto.log:15147:02-23 09:26:39.293 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cpu_monitor
+all_logcat_auto.log:15149:02-23 09:26:39.293 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: cpuinfo
+all_logcat_auto.log:15151:02-23 09:26:39.294 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: credential
+all_logcat_auto.log:15152:02-23 09:26:39.295 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: crossprofileapps
+all_logcat_auto.log:15153:02-23 09:26:39.296 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dataloader_manager
+all_logcat_auto.log:15154:02-23 09:26:39.297 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dbinfo
+all_logcat_auto.log:15156:02-23 09:26:39.297 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_config
+all_logcat_auto.log:15158:02-23 09:26:39.298 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_identifiers
+all_logcat_auto.log:15159:02-23 09:26:39.299 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_lock
+all_logcat_auto.log:15160:02-23 09:26:39.299 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_policy
+all_logcat_auto.log:15161:02-23 09:26:39.300 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: device_state
+all_logcat_auto.log:15162:02-23 09:26:39.300 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: deviceidle
+all_logcat_auto.log:15163:02-23 09:26:39.300 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: devicestoragemonitor
+all_logcat_auto.log:15165:02-23 09:26:39.301 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: diskstats
+all_logcat_auto.log:15167:02-23 09:26:39.301 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: display
+all_logcat_auto.log:15168:02-23 09:26:39.302 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: domain_verification
+all_logcat_auto.log:15169:02-23 09:26:39.302 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dpmservice
+all_logcat_auto.log:15170:02-23 09:26:39.303 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dreams
+all_logcat_auto.log:15171:02-23 09:26:39.303 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: drm.drmManager
+all_logcat_auto.log:15172:02-23 09:26:39.304 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dropbox
+all_logcat_auto.log:15173:02-23 09:26:39.304 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: dynamic_system
+all_logcat_auto.log:15174:02-23 09:26:39.305 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ecm_enhanced_confirmation
+all_logcat_auto.log:15175:02-23 09:26:39.305 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: emergency_affordance
+all_logcat_auto.log:15177:02-23 09:26:39.305 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ethernet
+all_logcat_auto.log:15178:02-23 09:26:39.306 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: external_vibrator_service
+all_logcat_auto.log:15179:02-23 09:26:39.306 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: feature_flags
+all_logcat_auto.log:15180:02-23 09:26:39.307 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: file_integrity
+all_logcat_auto.log:15181:02-23 09:26:39.307 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: fingerprint
+all_logcat_auto.log:15182:02-23 09:26:39.308 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: font
+all_logcat_auto.log:15183:02-23 09:26:39.308 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: game
+all_logcat_auto.log:15184:02-23 09:26:39.308 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: gfxinfo
+all_logcat_auto.log:15186:02-23 09:26:39.309 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: gpu
+all_logcat_auto.log:15187:02-23 09:26:39.309 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: grammatical_inflection
+all_logcat_auto.log:15188:02-23 09:26:39.310 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: graphicsstats
+all_logcat_auto.log:15189:02-23 09:26:39.310 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: hardware_properties
+all_logcat_auto.log:15190:02-23 09:26:39.311 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: healthconnect
+all_logcat_auto.log:15191:02-23 09:26:39.311 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: imms
+all_logcat_auto.log:15192:02-23 09:26:39.312 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: incidentcompanion
+all_logcat_auto.log:15193:02-23 09:26:39.312 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: incremental
+all_logcat_auto.log:15194:02-23 09:26:39.313 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: input
+all_logcat_auto.log:15195:02-23 09:26:39.313 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: input_method
+all_logcat_auto.log:15196:02-23 09:26:39.313 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: inputflinger
+all_logcat_auto.log:15197:02-23 09:26:39.314 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ions
+all_logcat_auto.log:15198:02-23 09:26:39.315 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: iphonesubinfo
+all_logcat_auto.log:15199:02-23 09:26:39.315 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ipsec
+all_logcat_auto.log:15200:02-23 09:26:39.315 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: isms
+all_logcat_auto.log:15201:02-23 09:26:39.316 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: isub
+all_logcat_auto.log:15202:02-23 09:26:39.316 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: jobscheduler
+all_logcat_auto.log:15203:02-23 09:26:39.317 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: launcherapps
+all_logcat_auto.log:15204:02-23 09:26:39.317 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: legacy_permission
+all_logcat_auto.log:15205:02-23 09:26:39.318 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lights
+all_logcat_auto.log:15206:02-23 09:26:39.318 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineageglobalactions
+all_logcat_auto.log:15207:02-23 09:26:39.319 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagehardware
+all_logcat_auto.log:15208:02-23 09:26:39.319 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagehealth
+all_logcat_auto.log:15209:02-23 09:26:39.319 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagelivedisplay
+all_logcat_auto.log:15210:02-23 09:26:39.320 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lineagetrust
+all_logcat_auto.log:15211:02-23 09:26:39.320 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: locale
+all_logcat_auto.log:15212:02-23 09:26:39.321 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: location
+all_logcat_auto.log:15213:02-23 09:26:39.321 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: location_time_zone_manager
+all_logcat_auto.log:15215:02-23 09:26:39.322 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: lock_settings
+all_logcat_auto.log:15216:02-23 09:26:39.322 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: logcat
+all_logcat_auto.log:15217:02-23 09:26:39.323 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: logd
+all_logcat_auto.log:15218:02-23 09:26:39.324 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: looper_stats
+all_logcat_auto.log:15220:02-23 09:26:39.324 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: manager
+all_logcat_auto.log:15221:02-23 09:26:39.325 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.aaudio
+all_logcat_auto.log:15222:02-23 09:26:39.326 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.audio_flinger
+all_logcat_auto.log:15223:02-23 09:26:39.327 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.audio_policy
+all_logcat_auto.log:15224:02-23 09:26:39.327 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.camera
+all_logcat_auto.log:15225:02-23 09:26:39.328 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.camera.proxy
+all_logcat_auto.log:15226:02-23 09:26:39.328 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.extractor
+all_logcat_auto.log:15227:02-23 09:26:39.329 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.metrics
+all_logcat_auto.log:15228:02-23 09:26:39.329 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.player
+all_logcat_auto.log:15229:02-23 09:26:39.330 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.resource_manager
+all_logcat_auto.log:15230:02-23 09:26:39.330 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media.resource_observer
+all_logcat_auto.log:15231:02-23 09:26:39.330 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_communication
+all_logcat_auto.log:15232:02-23 09:26:39.331 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_metrics
+all_logcat_auto.log:15233:02-23 09:26:39.331 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_projection
+all_logcat_auto.log:15234:02-23 09:26:39.332 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_resource_monitor
+all_logcat_auto.log:15235:02-23 09:26:39.332 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_router
+all_logcat_auto.log:15236:02-23 09:26:39.333 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: media_session
+all_logcat_auto.log:15237:02-23 09:26:39.333 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: meminfo
+all_logcat_auto.log:15239:02-23 09:26:39.334 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: memtrack.proxy
+all_logcat_auto.log:15240:02-23 09:26:39.334 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: midi
+all_logcat_auto.log:15241:02-23 09:26:39.335 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: mount
+all_logcat_auto.log:15242:02-23 09:26:39.335 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: nearby
+all_logcat_auto.log:15243:02-23 09:26:39.337 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netd_listener
+all_logcat_auto.log:15244:02-23 09:26:39.337 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netpolicy
+all_logcat_auto.log:15245:02-23 09:26:39.338 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: netstats
+all_logcat_auto.log:15246:02-23 09:26:39.338 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_management
+all_logcat_auto.log:15247:02-23 09:26:39.339 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_score
+all_logcat_auto.log:15248:02-23 09:26:39.339 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_stack
+all_logcat_auto.log:15249:02-23 09:26:39.340 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_time_update_service
+all_logcat_auto.log:15251:02-23 09:26:39.340 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: network_watchlist
+all_logcat_auto.log:15252:02-23 09:26:39.341 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: nfc
+all_logcat_auto.log:15253:02-23 09:26:39.342 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: notification
+all_logcat_auto.log:15254:02-23 09:26:39.342 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: oem_lock
+all_logcat_auto.log:15255:02-23 09:26:39.343 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: on_device_intelligence
+all_logcat_auto.log:15256:02-23 09:26:39.343 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: ondevicepersonalization_system_service
+all_logcat_auto.log:15257:02-23 09:26:39.344 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: otadexopt
+all_logcat_auto.log:15258:02-23 09:26:39.345 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: overlay
+all_logcat_auto.log:15259:02-23 09:26:39.345 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: pac_proxy
+all_logcat_auto.log:15260:02-23 09:26:39.346 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: package
+all_logcat_auto.log:15261:02-23 09:26:39.346 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: package_native
+all_logcat_auto.log:15262:02-23 09:26:39.347 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: people
+all_logcat_auto.log:15263:02-23 09:26:39.347 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: performance_hint
+all_logcat_auto.log:15264:02-23 09:26:39.348 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permission
+all_logcat_auto.log:15265:02-23 09:26:39.348 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permission_checker
+all_logcat_auto.log:15266:02-23 09:26:39.349 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: permissionmgr
+all_logcat_auto.log:15267:02-23 09:26:39.349 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: persistent_data_block
+all_logcat_auto.log:15268:02-23 09:26:39.350 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: phone
+all_logcat_auto.log:15269:02-23 09:26:39.351 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: pinner
+all_logcat_auto.log:15270:02-23 09:26:39.351 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: platform_compat
+all_logcat_auto.log:15271:02-23 09:26:39.352 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: platform_compat_native
+all_logcat_auto.log:15272:02-23 09:26:39.352 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: power
+all_logcat_auto.log:15273:02-23 09:26:39.353 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: powerstats
+all_logcat_auto.log:15274:02-23 09:26:39.354 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: print
+all_logcat_auto.log:15275:02-23 09:26:39.355 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: processinfo
+all_logcat_auto.log:15276:02-23 09:26:39.355 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: procstats
+all_logcat_auto.log:15277:02-23 09:26:39.356 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: profile
+all_logcat_auto.log:15278:02-23 09:26:39.357 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: profiling_service
+all_logcat_auto.log:15279:02-23 09:26:39.357 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: reboot_readiness
+all_logcat_auto.log:15280:02-23 09:26:39.358 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: recovery
+all_logcat_auto.log:15281:02-23 09:26:39.359 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: remote_provisioning
+all_logcat_auto.log:15282:02-23 09:26:39.360 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: resources
+all_logcat_auto.log:15283:02-23 09:26:39.361 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: restrictions
+all_logcat_auto.log:15284:02-23 09:26:39.361 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: role
+all_logcat_auto.log:15285:02-23 09:26:39.362 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: rollback
+all_logcat_auto.log:15286:02-23 09:26:39.362 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: runtime
+all_logcat_auto.log:15288:02-23 09:26:39.363 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: safety_center
+all_logcat_auto.log:15289:02-23 09:26:39.363 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: scheduling_policy
+all_logcat_auto.log:15290:02-23 09:26:39.364 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sdk_sandbox
+all_logcat_auto.log:15291:02-23 09:26:39.364 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: search
+all_logcat_auto.log:15292:02-23 09:26:39.365 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sec_key_att_app_id_provider
+all_logcat_auto.log:15293:02-23 09:26:39.366 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: secure_element
+all_logcat_auto.log:15294:02-23 09:26:39.366 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: security_state
+all_logcat_auto.log:15295:02-23 09:26:39.367 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensitive_content_protection_service
+all_logcat_auto.log:15296:02-23 09:26:39.368 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensor_privacy
+all_logcat_auto.log:15297:02-23 09:26:39.368 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: sensorservice
+all_logcat_auto.log:15298:02-23 09:26:39.369 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: serial
+all_logcat_auto.log:15299:02-23 09:26:39.370 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: servicediscovery
+all_logcat_auto.log:15300:02-23 09:26:39.370 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: settings
+all_logcat_auto.log:15302:02-23 09:26:39.371 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: shortcut
+all_logcat_auto.log:15303:02-23 09:26:39.372 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: simphonebook
+all_logcat_auto.log:15304:02-23 09:26:39.373 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: slice
+all_logcat_auto.log:15305:02-23 09:26:39.374 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: soundtrigger
+all_logcat_auto.log:15306:02-23 09:26:39.375 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: soundtrigger_middleware
+all_logcat_auto.log:15307:02-23 09:26:39.375 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: speech_recognition
+all_logcat_auto.log:15308:02-23 09:26:39.376 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: stats
+all_logcat_auto.log:15309:02-23 09:26:39.377 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statsbootstrap
+all_logcat_auto.log:15310:02-23 09:26:39.378 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statscompanion
+all_logcat_auto.log:15311:02-23 09:26:39.378 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statsmanager
+all_logcat_auto.log:15312:02-23 09:26:39.379 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: statusbar
+all_logcat_auto.log:15313:02-23 09:26:39.380 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storaged
+all_logcat_auto.log:15314:02-23 09:26:39.381 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storaged_pri
+all_logcat_auto.log:15315:02-23 09:26:39.381 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: storagestats
+all_logcat_auto.log:15316:02-23 09:26:39.383 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_config
+all_logcat_auto.log:15317:02-23 09:26:39.384 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_server_dumper
+all_logcat_auto.log:15319:02-23 09:26:39.385 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: system_update
+all_logcat_auto.log:15320:02-23 09:26:39.386 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telecom
+all_logcat_auto.log:15321:02-23 09:26:39.387 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telephony.registry
+all_logcat_auto.log:15322:02-23 09:26:39.387 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: telephony_ims
+all_logcat_auto.log:15323:02-23 09:26:39.388 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: testharness
+all_logcat_auto.log:15325:02-23 09:26:39.390 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: tethering
+all_logcat_auto.log:15326:02-23 09:26:39.391 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: textclassification
+all_logcat_auto.log:15327:02-23 09:26:39.392 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: textservices
+all_logcat_auto.log:15328:02-23 09:26:39.393 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: texttospeech
+all_logcat_auto.log:15329:02-23 09:26:39.393 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: thermalservice
+all_logcat_auto.log:15330:02-23 09:26:39.394 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: time_detector
+all_logcat_auto.log:15331:02-23 09:26:39.395 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: time_zone_detector
+all_logcat_auto.log:15332:02-23 09:26:39.395 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: tracing.proxy
+all_logcat_auto.log:15333:02-23 09:26:39.396 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: transparency
+all_logcat_auto.log:15334:02-23 09:26:39.397 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: trust
+all_logcat_auto.log:15335:02-23 09:26:39.397 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: uimode
+all_logcat_auto.log:15336:02-23 09:26:39.398 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: updatelock
+all_logcat_auto.log:15337:02-23 09:26:39.398 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: uri_grants
+all_logcat_auto.log:15338:02-23 09:26:39.399 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: usagestats
+all_logcat_auto.log:15339:02-23 09:26:39.400 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: usb
+all_logcat_auto.log:15340:02-23 09:26:39.401 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: user
+all_logcat_auto.log:15341:02-23 09:26:39.402 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vcn_management
+all_logcat_auto.log:15342:02-23 09:26:39.405 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.lineage.health.IChargingControl/default
+all_logcat_auto.log:15343:02-23 09:26:39.406 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.lineage.health.IFastCharge/default
+all_logcat_auto.log:15344:02-23 09:26:39.408 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vendor.nxp.nxpnfc_aidl.INxpNfc/default
+all_logcat_auto.log:15345:02-23 09:26:39.408 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vibrator_manager
+all_logcat_auto.log:15346:02-23 09:26:39.410 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: virtualdevice
+all_logcat_auto.log:15347:02-23 09:26:39.411 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: virtualdevice_native
+all_logcat_auto.log:15348:02-23 09:26:39.412 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: voiceinteraction
+all_logcat_auto.log:15349:02-23 09:26:39.413 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: vpn_management
+all_logcat_auto.log:15350:02-23 09:26:39.414 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wallpaper
+all_logcat_auto.log:15351:02-23 09:26:39.415 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wearable_sensing
+all_logcat_auto.log:15352:02-23 09:26:39.416 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: webviewupdate
+all_logcat_auto.log:15353:02-23 09:26:39.417 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifi
+all_logcat_auto.log:15354:02-23 09:26:39.418 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifiaware
+all_logcat_auto.log:15355:02-23 09:26:39.419 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifinl80211
+all_logcat_auto.log:15356:02-23 09:26:39.419 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifip2p
+all_logcat_auto.log:15357:02-23 09:26:39.420 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifirtt
+all_logcat_auto.log:15358:02-23 09:26:39.421 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: wifiscanner
+all_logcat_auto.log:15359:02-23 09:26:39.422 W/service (12540): Thread Pool max
+ thread count is 0. Cannot cache binder as linkToDeath cannot be implemented. s
+erviceName: window
+all_logcat_auto.log:15508:02-23 09:26:41.647 W/InputDispatcher( 1773): channel 
+'9249623 com.example.powerai/com.example.powerai.ui.test.EmbeddingTestActivity'
+ ~ Consumer closed input channel or an error occurred.  events=0x9
+all_logcat_auto.log:15509:02-23 09:26:41.647 E/InputDispatcher( 1773): channel 
+'9249623 com.example.powerai/com.example.powerai.ui.test.EmbeddingTestActivity'
+ ~ Channel is unrecoverably broken and will be disposed!
+all_logcat_auto.log:18300:02-23 09:27:30.103 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:18304:02-23 09:27:30.104 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:18305:02-23 09:27:30.104 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:18310:02-23 09:27:30.105 I/NearbySharing( 9922): Stopping s
+canning because the screen is locked.
+all_logcat_auto.log:18313:02-23 09:27:30.106 I/NearbySharing( 9922): Stopping F
+astInitiation scanning because the screen is locked.
+all_logcat_auto.log:18316:02-23 09:27:30.108 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:18322:02-23 09:27:30.109 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:18325:02-23 09:27:30.110 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:18326:02-23 09:27:30.110 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:18333:02-23 09:27:30.120 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:150 Unregister: in shim layer, scannerId=1
+all_logcat_auto.log:18335:02-23 09:27:30.120 I/NearbySharing( 9922): Stopped sc
+anning for FastInitiation
+all_logcat_auto.log:18336:02-23 09:27:30.121 I/NearbySharing( 9922): Fast Initi
+ation Scanning has stopped
+all_logcat_auto.log:18489:02-23 09:27:30.156 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Query input allocators returned 0 params => BAD_INDEX (6)
+all_logcat_auto.log:18490:02-23 09:27:30.157 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Created input block pool with allocatorID 16 => poolID 69
+ - OK (0)
+all_logcat_auto.log:18492:02-23 09:27:30.158 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Query output allocators returned 0 params => BAD_INDEX (6
+)
+all_logcat_auto.log:18494:02-23 09:27:30.158 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Query output surface allocator returned 0 params => BAD_I
+NDEX (6)
+all_logcat_auto.log:18495:02-23 09:27:30.158 I/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Created output block pool with allocatorID 18 => poolID 6
+9 - OK
+all_logcat_auto.log:18496:02-23 09:27:30.159 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Configured output block pool ids 69 => OK
+all_logcat_auto.log:18508:02-23 09:27:30.168 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Ignoring stale input buffer done callback: last flush ind
+ex = 0, frameIndex = 0
+all_logcat_auto.log:18532:02-23 09:27:30.199 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Ignoring stale input buffer done callback: last flush ind
+ex = 1, frameIndex = 1
+all_logcat_auto.log:18581:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Discard frames from previous generation.
+all_logcat_auto.log:18582:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] flushed work; ignored.
+all_logcat_auto.log:18583:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Discard frames from previous generation.
+all_logcat_auto.log:18584:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] flushed work; ignored.
+all_logcat_auto.log:18585:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Discard frames from previous generation.
+all_logcat_auto.log:18586:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] flushed work; ignored.
+all_logcat_auto.log:18587:02-23 09:27:30.222 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Discard frames from previous generation.
+all_logcat_auto.log:19093:02-23 09:27:33.006 I/NearbySharing( 9922): Stopping s
+canning because Bluetooth is disabled.
+all_logcat_auto.log:19096:02-23 09:27:33.012 I/NearbySharing( 9922): Starting s
+canning for Fast Initiation.
+all_logcat_auto.log:19098:02-23 09:27:33.014 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=a6a560
+fd-98c2-486c-a19d-1522d170460d
+all_logcat_auto.log:19099:02-23 09:27:33.015 D/BluetoothLeScanner( 9922): onSca
+nnerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:19103:02-23 09:27:33.018 I/NearbySharing( 9922): Started sc
+anning for FastInitiation with mode: SCAN_MODE_BALANCED
+all_logcat_auto.log:19105:02-23 09:27:33.024 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:19111:02-23 09:27:33.029 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:19116:02-23 09:27:33.030 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:19118:02-23 09:27:33.031 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:19119:02-23 09:27:33.031 E/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't support
+ed
+all_logcat_auto.log:19122:02-23 09:27:33.031 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:19123:02-23 09:27:33.032 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:19124:02-23 09:27:33.032 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:19126:02-23 09:27:33.032 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:19127:02-23 09:27:33.032 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:19128:02-23 09:27:33.032 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:19134:02-23 09:27:33.032 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:19194:02-23 09:27:33.054 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] Ignoring stale input buffer done callback: last flush ind
+ex = 7, frameIndex = 7
+all_logcat_auto.log:19206:02-23 09:27:33.063 I/NearbySharing( 9922): Fast Initi
+ation Scanning has started
+all_logcat_auto.log:19542:02-23 09:27:34.886 W/IWlanNetworkService( 3024): 1239
+6 > Response Processed
+all_logcat_auto.log:19543:02-23 09:27:34.892 W/IWlanNetworkService( 3024): 1239
+7 > Response Processed
+all_logcat_auto.log:19559:02-23 09:27:34.937 D/CellBroadcastReceiver( 2993): St
+art Cell Broadcast configuration for intent=ACTION_ENABLE_CHANNELS
+all_logcat_auto.log:19698:02-23 09:27:35.530 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:19699:02-23 09:27:35.531 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:19701:02-23 09:27:35.531 D/CCodecBufferChannel( 2600): [c2.
+qti.hevc.decoder#145] MediaCodec discarded an unknown buffer
+all_logcat_auto.log:19745:02-23 09:27:36.847 W/IWlanNetworkService( 3024): 1239
+8 > Response Processed
+all_logcat_auto.log:19756:02-23 09:27:36.912 D/CellBroadcastReceiver( 2993): St
+art Cell Broadcast configuration for intent=ACTION_ENABLE_CHANNELS
+all_logcat_auto.log:19817:02-23 09:27:37.067 W/IWlanNetworkService( 3024): 1239
+9 > Response Processed
+all_logcat_auto.log:19834:02-23 09:27:37.110 W/IWlanNetworkService( 3024): 1240
+0 > Response Processed
+all_logcat_auto.log:19870:02-23 09:27:37.142 D/CellBroadcastReceiver( 2993): St
+art Cell Broadcast configuration for intent=ACTION_ENABLE_CHANNELS
+all_logcat_auto.log:19970:02-23 09:27:38.590 W/IWlanNetworkService( 3024): 1240
+1 > Response Processed
+all_logcat_auto.log:20046:02-23 09:27:39.076 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:20049:02-23 09:27:39.076 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:20050:02-23 09:27:39.077 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:20057:02-23 09:27:39.081 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:150 Unregister: in shim layer, scannerId=1
+all_logcat_auto.log:20059:02-23 09:27:39.087 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:144 RegisterScanner: in shim layer, UUID=af0745
+cd-0751-45ff-a1a0-a7b001581890
+all_logcat_auto.log:20060:02-23 09:27:39.088 D/BluetoothLeScanner( 9922): onSca
+nnerRegistered() - status=0 scannerId=1 mScannerId=0
+all_logcat_auto.log:20064:02-23 09:27:39.098 I/NearbySharing( 9922): Started sc
+anning for FastInitiation with mode: SCAN_MODE_AMBIENT_DISCOVERY
+all_logcat_auto.log:20066:02-23 09:27:39.101 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:245 ScanFilterEnable: in shim layer
+all_logcat_auto.log:20067:02-23 09:27:39.103 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:20068:02-23 09:27:39.103 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:20069:02-23 09:27:39.106 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:222 ScanFilterAdd: in shim layer
+all_logcat_auto.log:20070:02-23 09:27:39.106 E/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:1059 update_ad_type_filter: AD type filter isn't support
+ed
+all_logcat_auto.log:20071:02-23 09:27:39.107 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:189 ScanFilterParamSetup: in shim layer, client
+If=1
+all_logcat_auto.log:20072:02-23 09:27:39.109 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:20073:02-23 09:27:39.109 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:20074:02-23 09:27:39.110 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer stopped
+all_logcat_auto.log:20076:02-23 09:27:39.110 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:319 SetScanParameters: in shim layer, scannerId
+=1
+all_logcat_auto.log:20077:02-23 09:27:39.110 I/bt_shim_scanner( 3259): system/m
+ain/shim/le_scanning_manager.cc:156 Scan: in shim layer started
+all_logcat_auto.log:20083:02-23 09:27:39.111 I/bluetooth( 3259): system/gd/hci/
+le_scanning_manager.cc:601 stop_scan: Scanning already stopped, return!
+all_logcat_auto.log:20318:02-23 09:27:46.850 W/IWlanNetworkService( 3024): 1240
+2 > Response Processed
+all_logcat_auto.log:20721:02-23 09:28:00.245 W/IWlanNetworkService( 3024): 1240
+3 > Response Processed
+all_logcat_auto.log:21578:02-23 09:28:31.764 W/OptProp ( 1773): Cannot read opt
+ property android.window.PROPERTY_COMPAT_ALLOW_RESIZEABLE_ACTIVITY_OVERRIDES
+all_logcat_auto.log:21579:02-23 09:28:31.765 W/OptProp ( 1773): Cannot read opt
+ property android.window.PROPERTY_COMPAT_ALLOW_MIN_ASPECT_RATIO_OVERRIDE
+all_logcat_auto.log:21584:02-23 09:28:31.773 W/OptProp ( 1773): Cannot read opt
+ property android.window.PROPERTY_COMPAT_ALLOW_ORIENTATION_OVERRIDE
+all_logcat_auto.log:21698:02-23 09:28:32.608 I/NativeAnnRetriever(12933): embed
+ding step start ts=1771810112608 mode_checking...
+all_logcat_auto.log:21712:02-23 09:28:32.640 E/NativeAnnRetriever(12933): http 
+embedding failed
+all_logcat_auto.log:21713:02-23 09:28:32.640 E/NativeAnnRetriever(12933): java.
+net.ConnectException: Failed to connect to /127.0.0.1:8000
+all_logcat_auto.log:21714:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connectSocket(RealConnection.java:
+147)
+all_logcat_auto.log:21715:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connect(RealConnection.java:116)
+all_logcat_auto.log:21716:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocatio
+n.java:186)
+all_logcat_auto.log:21717:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAl
+location.java:128)
+all_logcat_auto.log:21718:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.jav
+a:97)
+all_logcat_auto.log:21719:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:289)
+all_logcat_auto.log:21720:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:232)
+all_logcat_auto.log:21721:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionI
+mpl.java:465)
+all_logcat_auto.log:21722:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionI
+mpl.java:131)
+all_logcat_auto.log:21723:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLCon
+nectionImpl.java:262)
+all_logcat_auto.log:21724:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.example.powerai.data.retriever.NativeAnnRetriever$search$2.invokeSuspend(Nat
+iveAnnRetriever.kt:55)
+all_logcat_auto.log:21725:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.
+kt:33)
+all_logcat_auto.log:21726:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+all_logcat_auto.log:21727:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:11
+5)
+all_logcat_auto.log:21728:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+all_logcat_auto.log:21729:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt
+:584)
+all_logcat_auto.log:21730:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineSch
+eduler.kt:793)
+all_logcat_auto.log:21731:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineSched
+uler.kt:697)
+all_logcat_auto.log:21732:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.k
+t:684)
+all_logcat_auto.log:21733:02-23 09:28:32.643 E/NativeAnnRetriever(12933): embed
+ding step failed (outer)
+all_logcat_auto.log:21734:02-23 09:28:32.643 E/NativeAnnRetriever(12933): java.
+net.ConnectException: Failed to connect to /127.0.0.1:8000
+all_logcat_auto.log:21735:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connectSocket(RealConnection.java:
+147)
+all_logcat_auto.log:21736:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connect(RealConnection.java:116)
+all_logcat_auto.log:21737:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocatio
+n.java:186)
+all_logcat_auto.log:21738:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAl
+location.java:128)
+all_logcat_auto.log:21739:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.jav
+a:97)
+all_logcat_auto.log:21740:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:289)
+all_logcat_auto.log:21741:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:232)
+all_logcat_auto.log:21742:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionI
+mpl.java:465)
+all_logcat_auto.log:21743:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionI
+mpl.java:131)
+all_logcat_auto.log:21744:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLCon
+nectionImpl.java:262)
+all_logcat_auto.log:21745:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.example.powerai.data.retriever.NativeAnnRetriever$search$2.invokeSuspend(Nat
+iveAnnRetriever.kt:55)
+all_logcat_auto.log:21746:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.
+kt:33)
+all_logcat_auto.log:21747:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+all_logcat_auto.log:21748:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:11
+5)
+all_logcat_auto.log:21749:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+all_logcat_auto.log:21750:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt
+:584)
+all_logcat_auto.log:21751:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineSch
+eduler.kt:793)
+all_logcat_auto.log:21752:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineSched
+uler.kt:697)
+all_logcat_auto.log:21753:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.k
+t:684)
+all_logcat_auto.log:21754:02-23 09:28:32.644 I/NativeAnnRetriever(12933): embed
+ding step end ts=1771810112644 qvec_size=384
+all_logcat_auto.log:21763:02-23 09:28:32.650 I/NativeAnnRetriever(12933): timin
+g embed_ms=35.547 search_ms=5.144 total_ms=40.796
+all_logcat_auto.log:22073:02-23 09:28:37.027 W/IWlanNetworkService( 3024): 1240
+4 > Response Processed
+all_logcat_auto.log:22075:02-23 09:28:37.040 W/IWlanNetworkService( 3024): 1240
+5 > Response Processed
+all_logcat_auto.log:22367:02-23 09:28:47.227 W/IWlanNetworkService( 3024): 1240
+6 > Response Processed
+
+

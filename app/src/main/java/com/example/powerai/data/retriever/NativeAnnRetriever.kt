@@ -24,12 +24,12 @@ class NativeAnnRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
     private val nativeRepo: NativeVectorRepository,
     private val embeddingRepository: EmbeddingRepository,
-    @Named("vector_dim") private val dim: Int = 128
+    @Named("vector_dim") private val dim: Int = com.example.powerai.AppConfig.VECTOR_DIM
 ) : AnnRetriever {
 
     private val TAG = "NativeAnnRetriever"
 
-    override suspend fun search(query: String, k: Int): List<Int> = withContext(Dispatchers.IO) {
+    override suspend fun search(query: String, k: Int): List<Long> = withContext(Dispatchers.IO) {
         val startTotal = System.nanoTime()
         var qvec: FloatArray? = null
         val startEmbed = System.nanoTime()
@@ -151,7 +151,8 @@ class NativeAnnRetriever @Inject constructor(
         val totalMs = (endTotal - startTotal) / 1_000_000.0
         Log.i(TAG, "timing embed_ms=${String.format("%.3f", embedMs)} search_ms=${String.format("%.3f", searchMs)} total_ms=${String.format("%.3f", totalMs)}")
 
-        return@withContext ids.map { it.toInt() }
+        // Preserve native long IDs without narrowing to Int to avoid truncation.
+        return@withContext ids.toList()
     }
 
     private fun normalizeOrPad(src: FloatArray): FloatArray {

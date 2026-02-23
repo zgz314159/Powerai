@@ -1,0 +1,121 @@
+﻿
+all_logcat_auto.log:21698:02-23 09:28:32.608 I/NativeAnnRetriever(12933): embed
+ding step start ts=1771810112608 mode_checking...
+all_logcat_auto.log:21712:02-23 09:28:32.640 E/NativeAnnRetriever(12933): http 
+embedding failed
+all_logcat_auto.log:21713:02-23 09:28:32.640 E/NativeAnnRetriever(12933): java.
+net.ConnectException: Failed to connect to /127.0.0.1:8000
+all_logcat_auto.log:21714:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connectSocket(RealConnection.java:
+147)
+all_logcat_auto.log:21715:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connect(RealConnection.java:116)
+all_logcat_auto.log:21716:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocatio
+n.java:186)
+all_logcat_auto.log:21717:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAl
+location.java:128)
+all_logcat_auto.log:21718:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.jav
+a:97)
+all_logcat_auto.log:21719:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:289)
+all_logcat_auto.log:21720:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:232)
+all_logcat_auto.log:21721:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionI
+mpl.java:465)
+all_logcat_auto.log:21722:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionI
+mpl.java:131)
+all_logcat_auto.log:21723:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLCon
+nectionImpl.java:262)
+all_logcat_auto.log:21724:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at c
+om.example.powerai.data.retriever.NativeAnnRetriever$search$2.invokeSuspend(Nat
+iveAnnRetriever.kt:55)
+all_logcat_auto.log:21725:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.
+kt:33)
+all_logcat_auto.log:21726:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+all_logcat_auto.log:21727:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:11
+5)
+all_logcat_auto.log:21728:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+all_logcat_auto.log:21729:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt
+:584)
+all_logcat_auto.log:21730:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineSch
+eduler.kt:793)
+all_logcat_auto.log:21731:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineSched
+uler.kt:697)
+all_logcat_auto.log:21732:02-23 09:28:32.640 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.k
+t:684)
+all_logcat_auto.log:21733:02-23 09:28:32.643 E/NativeAnnRetriever(12933): embed
+ding step failed (outer)
+all_logcat_auto.log:21734:02-23 09:28:32.643 E/NativeAnnRetriever(12933): java.
+net.ConnectException: Failed to connect to /127.0.0.1:8000
+all_logcat_auto.log:21735:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connectSocket(RealConnection.java:
+147)
+all_logcat_auto.log:21736:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.io.RealConnection.connect(RealConnection.java:116)
+all_logcat_auto.log:21737:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocatio
+n.java:186)
+all_logcat_auto.log:21738:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAl
+location.java:128)
+all_logcat_auto.log:21739:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.jav
+a:97)
+all_logcat_auto.log:21740:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:289)
+all_logcat_auto.log:21741:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:232)
+all_logcat_auto.log:21742:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionI
+mpl.java:465)
+all_logcat_auto.log:21743:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionI
+mpl.java:131)
+all_logcat_auto.log:21744:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLCon
+nectionImpl.java:262)
+all_logcat_auto.log:21745:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at c
+om.example.powerai.data.retriever.NativeAnnRetriever$search$2.invokeSuspend(Nat
+iveAnnRetriever.kt:55)
+all_logcat_auto.log:21746:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.
+kt:33)
+all_logcat_auto.log:21747:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:108)
+all_logcat_auto.log:21748:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:11
+5)
+all_logcat_auto.log:21749:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:103)
+all_logcat_auto.log:21750:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt
+:584)
+all_logcat_auto.log:21751:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineSch
+eduler.kt:793)
+all_logcat_auto.log:21752:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineSched
+uler.kt:697)
+all_logcat_auto.log:21753:02-23 09:28:32.643 E/NativeAnnRetriever(12933): 	at k
+otlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.k
+t:684)
+all_logcat_auto.log:21754:02-23 09:28:32.644 I/NativeAnnRetriever(12933): embed
+ding step end ts=1771810112644 qvec_size=384
+all_logcat_auto.log:21763:02-23 09:28:32.650 I/NativeAnnRetriever(12933): timin
+g embed_ms=35.547 search_ms=5.144 total_ms=40.796
+
+

@@ -1,0 +1,14 @@
+﻿
+all_logcat_auto.log:21673:02-23 09:28:32.463 I/NativeVectorRepo(12933): loadInd
+ex(/data/user/0/com.example.powerai/files/vector_index.bin) -> true
+all_logcat_auto.log:21674:02-23 09:28:32.464 I/NativeVectorRepo(12933): startup
+ loadIndex -> true
+all_logcat_auto.log:21690:02-23 09:28:32.554 I/NativeVectorRepo(12933): backgro
+und save completed: true path=/data/user/0/com.example.powerai/files/vector_ind
+ex.bin
+all_logcat_auto.log:21755:02-23 09:28:32.645 D/NativeVectorRepo(12933): search 
+called dim=384 preview=0.064621,0.003265,0.101257 k=3
+all_logcat_auto.log:21756:02-23 09:28:32.645 D/NativeVectorRepo(12933): VECTOR_
+PREVIEW: 0.064621,0.003265,0.101257
+
+

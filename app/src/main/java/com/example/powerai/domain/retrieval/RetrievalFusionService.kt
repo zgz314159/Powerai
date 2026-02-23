@@ -29,12 +29,21 @@ class RetrievalFusionService @Inject constructor(
             // Force ANN path: call annRetriever directly and map ids -> KnowledgeItem via Room.
             try {
                 val ids = annRetriever.search(query, limit)
-                // ann ids emitted previously for debugging — removed in production
+                // Emit ANN ids for mapping trace (feature branch debugging)
+                try {
+                    observability.logEvent("ANN", "ann_ids=${ids.joinToString(",")}")
+                } catch (_: Throwable) {}
                 val items = mutableListOf<KnowledgeItem>()
                 for (id in ids) {
                     try {
                         val entity = knowledgeDao.getById(id)
-                        // per-id debug logging removed in production build
+                        try {
+                            if (entity == null) {
+                                observability.logEvent("ANN", "id=$id mapped=null")
+                            } else {
+                                observability.logEvent("ANN", "id=$id mapped=found title=${'$'}{entity.title.take(60)}")
+                            }
+                        } catch (_: Throwable) {}
                         if (entity != null && entity.content.isNotBlank()) {
                             items.add(
                                 KnowledgeItem(

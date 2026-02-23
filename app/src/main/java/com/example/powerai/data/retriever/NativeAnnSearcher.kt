@@ -23,7 +23,7 @@ class NativeAnnSearcher private constructor(private val dim: Int) {
         @Volatile
         private var INSTANCE: NativeAnnSearcher? = null
 
-        fun getInstance(dim: Int = 128): NativeAnnSearcher {
+        fun getInstance(dim: Int = com.example.powerai.AppConfig.VECTOR_DIM): NativeAnnSearcher {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: NativeAnnSearcher(dim).also { INSTANCE = it }
             }

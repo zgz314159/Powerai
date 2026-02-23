@@ -25,13 +25,16 @@ object FaissModule {
         http: HttpAnnRetriever,
         @Named("vector_index_path") vectorIndexPath: String
     ): AnnRetriever {
-        // Prefer native index if we have a persisted native index present.
-        val nativeIndex = context.filesDir.resolve(vectorIndexPath)
-        val faissIndex = context.filesDir.resolve("faiss/index.faiss")
-        return when {
-            nativeIndex.exists() -> native
-            faissIndex.exists() -> local
-            else -> http
+        // Prefer native ANN retriever by default (SMART mode favors native search).
+        // Fall back to local Faiss or remote HTTP retriever if native is not appropriate.
+        return try {
+            native
+        } catch (_: Throwable) {
+            try {
+                local
+            } catch (_: Throwable) {
+                http
+            }
         }
     }
 

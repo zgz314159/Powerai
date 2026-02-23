@@ -199,7 +199,12 @@ class HybridViewModel @Inject constructor(
                 }
 
                 DisplayMode.SMART -> {
-                    val result = useCase.invoke(question)
+                    // Use HybridQueryUseCase which already prefers ANN-backed retrieval
+                    val result = try {
+                        useCase.invoke(question)
+                    } catch (t: Throwable) {
+                        com.example.powerai.domain.model.QueryResult(answer = "AI error: ${t.message ?: t::class.simpleName}", references = emptyList(), confidence = 0f)
+                    }
                     _uiState.value = _uiState.value.copy(
                         answer = result.answer,
                         references = result.references,
