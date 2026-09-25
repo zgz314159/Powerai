@@ -20,7 +20,7 @@ class BaselineProfileGenerator {
     @Test
     fun generate() = baselineProfileRule.collect(
         packageName = "com.example.powerai",
-        includeInUpdate = true
+        includeInStartupProfile = true
     ) {
         pressHome()
         startActivityAndWait()
