@@ -79,7 +79,7 @@ class EmbeddingWorkerInstrumentedTest {
 
         // assert Room entry for id 1111 exists (EmbeddingDao.getFileName)
         // Use Room database helper to get instance of the app DB (name created in AppModule)
-        val roomDb = androidx.room.Room.databaseBuilder(ctx, com.example.powerai.data.local.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()
+        val roomDb = androidx.room.Room.databaseBuilder(ctx, com.example.powerai.core.data.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()
         try {
             val fileName = kotlinx.coroutines.runBlocking { roomDb.embeddingDao().getFileName(1111L) }
             assertNotNull("Embedding metadata not upserted to Room", fileName)

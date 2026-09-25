@@ -26,7 +26,7 @@ class LocalFaissAnnRetrieverInstrumentedTest {
 
         val result = runBlocking { retriever.search("test query", 3) }
 
-        // Prototype: either returns empty (JNI absent) or some ids; ensure call succeeded
-        assertTrue(result is List<Int>)
+        // Prototype: result may be empty (JNI absent) or contain RetrievalResult entries; ensure call succeeded
+        assertTrue("Result count exceeds requested limit", result.size <= 3)
     }
 }
