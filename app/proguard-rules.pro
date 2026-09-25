@@ -37,3 +37,10 @@
 # PowerAi specific
 -keep class com.example.powerai.core.model.** { *; }
 -keep class com.example.powerai.data.importer.** { *; }
+
+# MediaPipe ships generated AutoValue implementations; these annotations are compile-time only.
+-dontwarn com.google.auto.value.AutoValue
+-dontwarn com.google.auto.value.AutoValue$Builder
+
+# Markwon HTML treats the GFM strikethrough extension as an optional compile-only dependency.
+-dontwarn org.commonmark.ext.gfm.strikethrough.Strikethrough
