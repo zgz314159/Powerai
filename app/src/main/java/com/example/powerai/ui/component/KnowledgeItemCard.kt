@@ -1,5 +1,7 @@
 package com.example.powerai.ui.component
 
+import com.example.powerai.core.model.KnowledgeItem
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +23,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.ui.theme.HighlightYellow
 
 @Composable
@@ -86,7 +87,7 @@ fun KnowledgeItemCard(
                 overflow = TextOverflow.Ellipsis
             )
 
-            val meta = metaLine?.takeIf { it.isNotBlank() }
+            val meta = (metaLine ?: item.contextLabel)?.takeIf { it.isNotBlank() }
             if (meta != null) {
                 Spacer(modifier = Modifier.padding(top = 2.dp))
                 Text(
@@ -138,186 +139,5 @@ fun KnowledgeItemCard(
                 }
             }
         }
-    }
-}
-
-private fun buildHighlightedPreview(
-    fullText: String,
-    keyword: String,
-    highlightStyle: SpanStyle,
-    maxChars: Int,
-    beforeChars: Int = -1
-): AnnotatedString {
-    val raw = keyword.trim()
-    if (maxChars <= 0) return AnnotatedString("")
-
-    val candidates = listOf(
-        raw,
-        raw.filterNot { it.isWhitespace() },
-        raw.filter { Character.isLetterOrDigit(it) }
-    ).map { it.trim() }.filter { it.isNotBlank() }.distinct()
-
-    var matchIndex = -1
-    var matchedKeyword = ""
-    for (cand in candidates) {
-        val idx = findMatchIndexIgnoringWhitespace(fullText, cand)
-        if (idx >= 0) {
-            matchIndex = idx
-            matchedKeyword = cand
-            break
-        }
-    }
-
-    val (rawSnippet, snippetStart, snippetEnd) = if (matchIndex < 0) {
-        val s = fullText.take(maxChars)
-        Triple(s, 0, s.length)
-    } else {
-        val desiredBefore = if (beforeChars >= 0) beforeChars else (maxChars / 3).coerceAtLeast(24)
-        var start = (matchIndex - desiredBefore).coerceAtLeast(0)
-        var end = (start + maxChars).coerceAtMost(fullText.length)
-        // If caller explicitly controls `beforeChars`, don't shift start backward.
-        // Shifting backward makes hits near the end fall outside visible `maxLines`.
-        if (beforeChars < 0 && end - start < maxChars && start > 0) {
-            start = (end - maxChars).coerceAtLeast(0)
-        }
-        val s = fullText.substring(start, end)
-        Triple(s, start, end)
-    }
-
-    val snippet = buildString {
-        if (snippetStart > 0) append('…')
-        append(rawSnippet)
-        if (snippetEnd < fullText.length) append('…')
-    }
-
-    val kw = matchedKeyword.ifBlank { raw }
-    if (kw.isBlank()) return AnnotatedString(snippet)
-    return highlightAllWithWhitespaceFallback(
-        text = snippet,
-        keyword = kw,
-        highlightStyle = highlightStyle
-    )
-}
-
-private fun findMatchIndexIgnoringWhitespace(fullText: String, keyword: String): Int {
-    val k = keyword.trim()
-    if (k.isBlank()) return -1
-
-    val direct = fullText.indexOf(k, ignoreCase = true)
-    if (direct >= 0) return direct
-
-    // Fallback: ignore any non-letter/digit separators in text (whitespace, punctuation, zero-width chars, etc.)
-    // This aligns better with `TextSanitizer.normalizeForSearch` used by indexing/search.
-    val keyCompact = k.filter { Character.isLetterOrDigit(it) }
-    if (keyCompact.isBlank()) return -1
-    return findFirstFuzzyMatchStart(text = fullText, keyCompact = keyCompact)
-}
-
-private fun findFirstFuzzyMatchStart(text: String, keyCompact: String): Int {
-    if (keyCompact.isBlank()) return -1
-    var i = 0
-    while (i < text.length) {
-        var t = i
-        var j = 0
-        while (t < text.length && j < keyCompact.length) {
-            val tc = text[t]
-            if (!Character.isLetterOrDigit(tc)) {
-                t++
-                continue
-            }
-            val kc = keyCompact[j]
-            if (!tc.equals(kc, ignoreCase = true)) break
-            t++
-            j++
-        }
-        if (j == keyCompact.length) return i
-        i++
-    }
-    return -1
-}
-
-private fun highlightAllWithWhitespaceFallback(
-    text: String,
-    keyword: String,
-    highlightStyle: SpanStyle
-): AnnotatedString {
-    val k = keyword.trim()
-    if (k.isBlank()) return AnnotatedString(text)
-
-    // Fast path: exact substring highlight (all occurrences).
-    run {
-        val lowerText = text.lowercase()
-        val lowerKey = k.lowercase()
-        var start = 0
-        var index = lowerText.indexOf(lowerKey, startIndex = 0)
-        if (index < 0) return@run
-
-        return buildAnnotatedString {
-            while (index >= 0) {
-                if (index > start) append(text.substring(start, index))
-                withStyle(highlightStyle) { append(text.substring(index, index + k.length)) }
-                start = index + k.length
-                index = lowerText.indexOf(lowerKey, startIndex = start)
-            }
-            if (start < text.length) append(text.substring(start))
-        }
-    }
-
-    // Fallback: fuzzy match that allows separators (whitespace/punctuation/zero-width chars) between keyword characters.
-    val keyCompact = k.filter { Character.isLetterOrDigit(it) }
-    if (keyCompact.isBlank()) return AnnotatedString(text)
-    val spans = ArrayList<IntRange>()
-
-    var i = 0
-    while (i < text.length) {
-        var t = i
-        var j = 0
-        while (t < text.length && j < keyCompact.length) {
-            val tc = text[t]
-            if (!Character.isLetterOrDigit(tc)) {
-                t++
-                continue
-            }
-            val kc = keyCompact[j]
-            if (!tc.equals(kc, ignoreCase = true)) break
-            t++
-            j++
-        }
-        if (j == keyCompact.length) {
-            // matched from i..(t-1), including whitespace inside
-            spans.add(i until t)
-            i = t
-        } else {
-            i++
-        }
-    }
-
-    if (spans.isEmpty()) return AnnotatedString(text)
-
-    // Merge overlapping/adjacent ranges to keep output stable.
-    val merged = spans.sortedBy { it.first }.fold(mutableListOf<IntRange>()) { acc, r ->
-        if (acc.isEmpty()) {
-            acc.add(r)
-        } else {
-            val last = acc.last()
-            if (r.first <= last.last + 1) {
-                acc[acc.lastIndex] = last.first..maxOf(last.last, r.last)
-            } else {
-                acc.add(r)
-            }
-        }
-        acc
-    }
-
-    return buildAnnotatedString {
-        var cursor = 0
-        for (range in merged) {
-            val start = range.first.coerceIn(0, text.length)
-            val endExclusive = (range.last + 1).coerceIn(0, text.length)
-            if (start > cursor) append(text.substring(cursor, start))
-            withStyle(highlightStyle) { append(text.substring(start, endExclusive)) }
-            cursor = endExclusive
-        }
-        if (cursor < text.length) append(text.substring(cursor))
     }
 }

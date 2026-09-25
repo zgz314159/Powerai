@@ -1,14 +1,14 @@
 package com.example.powerai.ui.screen.detail
 
 import android.content.Context
-import android.util.Log
+// android.util.Log removed per TODO order; occasional warnings not needed
 
 internal object KnowledgeDetailMarkdownAssetImagesRewriteHelpers {
     fun listAssetImagesLower(context: Context): Set<String> {
         return try {
             context.assets.list("images")?.map { it.lowercase() }?.toSet() ?: emptySet()
         } catch (t: Throwable) {
-            Log.w("KnowledgeDetailScreen", "convertAssetPathsToImages: failed to list assets/images", t)
+            // log removed: convertAssetPathsToImages: failed to list assets/images
             emptySet()
         }
     }

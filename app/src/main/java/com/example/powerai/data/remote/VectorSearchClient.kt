@@ -1,6 +1,6 @@
 package com.example.powerai.data.remote
 
-import android.util.Log
+// android.util.Log removed per TODO; fallback errors suppressed
 import com.example.powerai.BuildConfig
 import com.example.powerai.data.remote.api.VectorSearchApiService
 import com.example.powerai.data.remote.dto.VectorSearchHit
@@ -26,7 +26,7 @@ class VectorSearchClient @Inject constructor(
                 )
                 resp.results
             } catch (t: Throwable) {
-                Log.w("VectorSearchClient", "Vector search failed, fallback to DB. reason=${t.message}")
+                // log removed: Vector search failed, fallback to DB. reason=${t.message}
                 emptyList()
             }
         }

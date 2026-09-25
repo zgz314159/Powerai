@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
 /**
- * Compose 组件：文件选择（SAF，支持 PDF/TXT），通过回调返回 Uri。
+ * Compose 组件：文件选择（SAF，支PDF/TXT），通过回调返回 Uri
  */
 @Composable
 fun DocumentPicker(onDocumentPicked: (Uri?) -> Unit) {

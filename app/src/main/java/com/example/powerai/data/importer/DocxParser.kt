@@ -1,8 +1,10 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.model.util.TextSanitizer
+
 import android.content.ContentResolver
 import android.net.Uri
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
@@ -14,12 +16,13 @@ import java.security.MessageDigest
  * extraction. Replace with Apache POI implementation when dependency is
  * intentionally added.
  */
-class DocxParser(private val contentResolver: ContentResolver) {
+class DocxParser(private val contentResolver: ContentResolver) : FileParser {
 
-    suspend fun parse(
+    // implementation of FileParser.parse interface
+    override suspend fun parse(
         uri: Uri,
         fileName: String,
-        batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
+        batchSize: Int,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
     ): String = withContext(Dispatchers.IO) {
         val input = contentResolver.openInputStream(uri) ?: throw IllegalArgumentException("Cannot open uri")
@@ -44,4 +47,5 @@ class DocxParser(private val contentResolver: ContentResolver) {
         val fileId = digest.digest().joinToString("") { "%02x".format(it) }
         fileId
     }
+
 }

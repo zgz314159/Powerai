@@ -36,6 +36,6 @@ internal fun KnowledgeDetailPdfButton(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        Text("查看 PDF：${pdfRef.fileName}")
+        Text("查看 PDF${pdfRef.fileName}")
     }
 }

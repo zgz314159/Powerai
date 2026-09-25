@@ -1,6 +1,6 @@
 package com.example.powerai.data.importer
 
-import android.util.Log
+import com.example.powerai.util.PLog
 import java.io.File
 import java.io.FileInputStream
 
@@ -13,10 +13,10 @@ object ImportMemoryBenchmark {
             val f = File(path)
             FileInputStream(f).use { fis ->
                 val result = StreamingJsonResourceImporter.parseDry(fis, sampleInterval = 1000)
-                Log.i("ImportMemoryBenchmark", "parsed=${result.itemsParsed}, maxMem=${result.maxMemoryBytes}, durMs=${result.durationMs}")
+                PLog.i("ImportMemoryBenchmark", "parsed=${result.itemsParsed}, maxMem=${result.maxMemoryBytes}, durMs=${result.durationMs}")
             }
         } catch (e: Exception) {
-            Log.e("ImportMemoryBenchmark", "benchmark failed", e)
+            PLog.e("ImportMemoryBenchmark", "benchmark failed", e)
         }
     }
 }

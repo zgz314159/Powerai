@@ -24,7 +24,7 @@ internal fun normalizeTableBlocks(markdown: String): String {
     while (i < lines.size) {
         val line = lines[i]
 
-        if (!KnowledgeDetailMarkdownTableNormalizeHelpers.isTableLine(line)) {
+        if (!TableNormalizeHelpers.isTableLine(line)) {
             out.add(line)
             i++
             continue
@@ -32,16 +32,16 @@ internal fun normalizeTableBlocks(markdown: String): String {
 
         // collect a contiguous table block
         val block = ArrayList<String>()
-        while (i < lines.size && KnowledgeDetailMarkdownTableNormalizeHelpers.isTableLine(lines[i])) {
+        while (i < lines.size && TableNormalizeHelpers.isTableLine(lines[i])) {
             block.add(lines[i])
             i++
         }
 
         if (block.isEmpty()) continue
 
-        KnowledgeDetailMarkdownTableBlockWriter.ensureTwoBlankLinesBefore(out)
-        out.addAll(KnowledgeDetailMarkdownTableBlockNormalizer.normalizeOrKeep(block))
-        KnowledgeDetailMarkdownTableBlockWriter.appendTwoBlankLines(out)
+        TableBlockWriter.ensureTwoBlankLinesBefore(out)
+        out.addAll(TableBlockNormalizer.normalizeOrKeep(block))
+        TableBlockWriter.appendTwoBlankLines(out)
     }
 
     return out.joinToString("\n")

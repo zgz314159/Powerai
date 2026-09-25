@@ -13,14 +13,19 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
 /**
- * 可复用的搜索输入框组件。
- * 不依赖 ViewModel，接受 value/onValueChange/onSearch 回调以便在不同场景复用。
+ * 可复用的搜索输入框组件
+ * 不依ViewModel，接value/onValueChange/onSearch 回调以便在不同场景复用
  */
 @Composable
 fun SearchBar(
@@ -28,18 +33,30 @@ fun SearchBar(
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit,
     onClear: () -> Unit,
-    label: String = "搜索知识点",
+    label: String = "搜索知识",
     placeholder: String? = null,
     leading: (@Composable () -> Unit)? = null,
     suffix: (@Composable () -> Unit)? = null,
     trailing: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
-    onFocusChanged: ((Boolean) -> Unit)? = null
+    onFocusChanged: ((Boolean) -> Unit)? = null,
+    autoFocus: Boolean = false
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(autoFocus) {
+        if (autoFocus) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        }
+    }
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier
+            .focusRequester(focusRequester)
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .onFocusChanged { st -> onFocusChanged?.invoke(st.isFocused) },

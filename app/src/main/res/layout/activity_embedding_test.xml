@@ -32,5 +32,17 @@
         android:text="TEST JNI SEARCH"
         android:layout_marginTop="12dp" />
 
-    
+    <Button
+        android:id="@+id/btn_test_fts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FTS Test: 查询 '变压器'"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btn_mock_incremental"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mock Incremental Upsert"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

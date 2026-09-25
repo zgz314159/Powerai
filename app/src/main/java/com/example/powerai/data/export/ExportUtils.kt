@@ -1,6 +1,6 @@
 package com.example.powerai.data.export
 
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.google.gson.Gson
 
 object ExportUtils {

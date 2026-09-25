@@ -49,7 +49,7 @@ fun KnowledgeEntryCard(
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "${entry.category.orEmpty()} • ${PdfSourceRef.display(entry.source)}",
+                    text = "${entry.category.orEmpty()} ${PdfSourceRef.display(entry.source)}",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall
                 )

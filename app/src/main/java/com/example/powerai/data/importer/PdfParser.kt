@@ -1,8 +1,10 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.model.util.TextSanitizer
+
 import android.content.ContentResolver
 import android.net.Uri
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
@@ -14,7 +16,7 @@ import java.security.MessageDigest
  * interpreting bytes as UTF-8 (best-effort). Replace with PDFBox-based
  * implementation when adding the dependency back.
  */
-class PdfParser(private val contentResolver: ContentResolver) {
+class PdfParser(private val contentResolver: ContentResolver) : FileParser {
 
     suspend fun parse(
         uri: Uri,
@@ -50,5 +52,15 @@ class PdfParser(private val contentResolver: ContentResolver) {
         if (batch.isNotEmpty()) onBatchReady(batch.toList())
         val fileId = digest.digest().joinToString("") { "%02x".format(it) }
         fileId
+    }
+
+    // adapter for FileParser interface -------------------------------------------------------
+    override suspend fun parse(
+        uri: Uri,
+        fileName: String,
+        batchSize: Int,
+        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
+    ): String {
+        return parse(uri, fileName, batchSize, onBatchReady)
     }
 }

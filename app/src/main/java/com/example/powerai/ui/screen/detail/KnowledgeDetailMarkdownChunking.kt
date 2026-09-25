@@ -25,7 +25,7 @@ internal fun chunkContent(content: String, maxChunkSize: Int = 1800): List<Strin
     while (i < lines.size) {
         val line = lines[i]
 
-        if (!KnowledgeDetailMarkdownTableNormalizeHelpers.isTableLine(line)) {
+        if (!TableNormalizeHelpers.isTableLine(line)) {
             val addition = if (sb.isEmpty()) line else "\n$line"
             if (sb.length + addition.length > maxChunkSize) {
                 flushTextChunk()
@@ -41,7 +41,7 @@ internal fun chunkContent(content: String, maxChunkSize: Int = 1800): List<Strin
         flushTextChunk()
 
         val start = i
-        while (i < lines.size && KnowledgeDetailMarkdownTableNormalizeHelpers.isTableLine(lines[i])) {
+        while (i < lines.size && TableNormalizeHelpers.isTableLine(lines[i])) {
             i++
         }
         val blockLines = lines.subList(start, i)

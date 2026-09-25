@@ -1,7 +1,7 @@
 package com.example.powerai.ui.screen.detail
 
 import android.content.Context
-import android.util.Log
+// android.util.Log removed per TODO order; occasional warning suppressed
 
 internal object KnowledgeDetailMarkdownAssetImagesRewriter {
     // Find image-like asset paths and normalize them to file:///android_asset/images/[filename]
@@ -55,10 +55,7 @@ internal object KnowledgeDetailMarkdownAssetImagesRewriter {
                 replaced++
                 val candidate = "file:///android_asset/images/$filename"
 
-                Log.w(
-                    "KnowledgeDetailScreen",
-                    "convertAssetPathsToImages: asset not found in list: images/$filename — emitting canonical + alt hints"
-                )
+                // log removed: asset not found in list, emitting canonical + alt hints
 
                 KnowledgeDetailMarkdownAssetImagesRewriteHelpers.buildReplacementText(
                     sb,

@@ -3,31 +3,28 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.baselineprofile)
 }
-
-// Apply static analysis plugins
-apply(plugin = "io.gitlab.arturbosch.detekt")
-apply(plugin = "org.jlleitschuh.gradle.ktlint")
-// Hilt Gradle plugin temporarily disabled here; Hilt dependencies remain
 
 android {
     namespace = "com.example.powerai"
-    compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    ndkVersion = libs.versions.ndkVersion.get()
 
     defaultConfig {
         applicationId = "com.example.powerai"
-        minSdk = 26
-        targetSdk = 36
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // BuildConfig fields
-        // Prefer local Gradle properties (do NOT commit secrets).
         val rootLocalProps: Properties by lazy {
             val p = Properties()
             val f = rootProject.file("local.properties")
@@ -37,7 +34,6 @@ android {
             p
         }
 
-        // Optional: module-local properties (rare, but some setups put secrets here).
         val moduleLocalProps: Properties by lazy {
             val p = Properties()
             val f = project.file("local.properties")
@@ -77,31 +73,21 @@ android {
         val aiBaseUrl = propAny("AI_BASE_URL", "OPENAI_BASE_URL", "DEEPSEEK_BASE_URL")
         val aiApiKey = propAny("AI_API_KEY", "OPENAI_API_KEY", "DEEPSEEK_API_KEY")
         if (aiBaseUrl.isBlank()) {
-            // For local developer convenience, default to Android emulator host loopback
             val defaultLocal = "http://10.0.2.2:8000"
-            logger.warn("AI not configured: defaulting AI_BASE_URL to $defaultLocal for local emulator testing. Set AI_BASE_URL in local.properties to override.")
-            // Use emulator host address so Android emulator can reach local FastAPI service
+            logger.warn("AI not configured: defaulting AI_BASE_URL to $defaultLocal for local emulator testing.")
             project.extensions.extraProperties.set("AI_BASE_URL_DEFAULT", defaultLocal)
         }
 
         val bingKey = propAny("BING_SEARCH_API_KEY", "BING_API_KEY")
-        val bingEndpoint = propAny("BING_SEARCH_ENDPOINT").ifBlank { "https://api.bing.microsoft.com/v7.0/search" }
-        val bingMkt = propAny("BING_SEARCH_MKT").ifBlank { "zh-CN" }
-
-        val googleCseKey = propAny("GOOGLE_CSE_API_KEY", "GOOGLE_API_KEY", "GOOGLE_CUSTOM_SEARCH_API_KEY")
-        val googleSearchEngineId = propAny("SEARCH_ENGINE_ID", "GOOGLE_CSE_ENGINE_ID")
-
-        val serperKey = propAny("SERPER_API_KEY", "SERPER_DEV_API_KEY", "SERPERDEV_API_KEY")
+        val serperKey = propAny("SERPER_API_KEY", "SERPERDEV_API_KEY")
 
         buildConfigField("String", "AI_API_KEY", q(aiApiKey))
         val resolvedAiBase = if (aiBaseUrl.isNotBlank()) aiBaseUrl else (project.extensions.extraProperties.get("AI_BASE_URL_DEFAULT") as String? ?: "")
         buildConfigField("String", "AI_BASE_URL", q(resolvedAiBase))
         buildConfigField("String", "BING_SEARCH_API_KEY", q(bingKey))
-        buildConfigField("String", "BING_SEARCH_ENDPOINT", q(bingEndpoint))
-        buildConfigField("String", "BING_SEARCH_MKT", q(bingMkt))
-        buildConfigField("String", "GOOGLE_CSE_API_KEY", q(googleCseKey))
-        buildConfigField("String", "SEARCH_ENGINE_ID", q(googleSearchEngineId))
         buildConfigField("String", "SERPER_API_KEY", q(serperKey))
+        buildConfigField("String", "BING_SEARCH_ENDPOINT", q(prop("BING_SEARCH_ENDPOINT")))
+        buildConfigField("String", "BING_SEARCH_MKT", q(prop("BING_SEARCH_MKT")))
         buildConfigField("String", "VECTOR_SEARCH_COLLECTION", q(prop("VECTOR_SEARCH_COLLECTION")))
         buildConfigField("String", "GEMINI_API_KEY", q(prop("GEMINI_API_KEY")))
         buildConfigField("String", "GEMINI_MODEL", q(prop("GEMINI_MODEL")))
@@ -110,21 +96,24 @@ android {
         buildConfigField("String", "AI_VISION_BASE_URL", q(prop("AI_VISION_BASE_URL")))
         buildConfigField("String", "AI_VISION_PATH", q(prop("AI_VISION_PATH")))
         buildConfigField("String", "DEEPSEEK_LOGIC_MODEL", q(prop("DEEPSEEK_LOGIC_MODEL")))
+        buildConfigField("boolean", "DEEPSEEK_SELF_BUILT_JNI_ENABLED", "false")
 
-        // Native (JNI) prototype settings: enable building our minimal native_search
         ndk {
-            // limit ABIs for local testing; extend as needed for CI packaging
-            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
+            abiFilters.add("arm64-v8a")
         }
+        // Native sources moved to :engine:native; app no longer builds CMake.
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Ensure release build is not debuggable by default
+            signingConfig = signingConfigs.getByName("debug") // Use debug key for now as placeholder
         }
     }
     compileOptions {
@@ -136,122 +125,114 @@ android {
         jvmTarget = "17"
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
     }
 
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
+    packaging {
+        resources {
+            pickFirsts += "**/libmediapipe_tasks_genai_jni.so"
+            pickFirsts += "lib/arm64-v8a/libc++_shared.so"
+        }
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
+    baselineProfile {
+        filter {
+            include("com.example.powerai.**")
         }
     }
 }
 
 dependencies {
-
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(project(":core:model-contract"))
+    implementation(project(":core:data"))
+    implementation(project(":engine:native"))
+    implementation(project(":engine:ai"))
+    implementation(project(":feature:search-chat"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    // Lifecycle Compose integration (lifecycle-aware Compose utilities)
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-
-    // Retrofit 网络库
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation(libs.androidx.compose.material3)
-    // Room
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.gson)
+
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    add("ksp", libs.androidx.room.compiler)
-    // Encoding detection
-    implementation("com.github.albfernandez:juniversalchardet:2.4.0")
-    // PDF parsing (pdfbox-android)
-    // For now keep pdf/docx parsing as optional; robust parsers can be added later
-    // DOCX parsing (Apache POI)
-    // implementation("org.apache.poi:poi-ooxml:5.2.3")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    // Hilt
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.juniversalchardet)
+    implementation(libs.pdfbox.android)
+
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
 
-    // WorkManager + Hilt Worker injection
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
 
-    // OkHttp (for toMediaType/toRequestBody extensions used by streaming clients)
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    // OkHttp SSE support for Server-Sent Events
-    implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.sse)
+    implementation(libs.okhttp.logging)
 
-    // OkHttp logging interceptor for debugging HTTP request/response bodies
-    debugImplementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    // Glide (asset image loading, detail photo viewer, markdown images)
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.glide)
+    implementation(libs.coil.compose)
+    implementation(libs.mediapipe.tasks.genai)
 
-    // Compose material icons extended (e.g., Icons.Filled.Inbox)
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.markwon.core)
+    implementation(libs.markwon.html)
+    implementation(libs.markwon.ext.tables)
+    implementation(libs.markwon.image.glide)
+    implementation(libs.markwon.inline.parser)
+    implementation(libs.markwon.ext.latex)
 
-    // Markwon (Markdown rendering in detail screen)
-    implementation("io.noties.markwon:core:4.6.2")
-    implementation("io.noties.markwon:html:4.6.2")
-    implementation("io.noties.markwon:ext-tables:4.6.2")
-    implementation("io.noties.markwon:image-glide:4.6.2")
-    implementation("io.noties.markwon:inline-parser:4.6.2")
-    implementation("io.noties.markwon:ext-latex:4.6.2")
+    implementation(libs.androidx.navigation.compose)
 
-    // PDF parsing (pdfbox-android)
-    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
-
-    // Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.7.0")
     testImplementation(libs.junit)
-    // Robolectric + Room testing for JVM in-memory DB integration tests
-    testImplementation("org.robolectric:robolectric:4.10.3")
-    testImplementation("androidx.test:core:1.5.0")
-    testImplementation("androidx.room:room-testing:2.5.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // MockWebServer for instrumentation HTTP mocking used by EmbeddingWorker tests
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+    androidTestImplementation(libs.okhttp.mockwebserver)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
-// Note: ktlint/detekt plugins are applied above. Use default configurations
-// or configure via the plugin-provided typed extensions if desired.
-
-// Ensure detekt tasks use a compatible jvm target
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "17"
     config.setFrom(files("${project.rootDir}/config/detekt/detekt.yml"))
 }
 
-// Make lint checks non-blocking for local-only development: report but do not fail the build
 extensions.configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
     ignoreFailures = true
 }
 
 extensions.configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    // ktlint plugin exposes a property as a provider
     this.ignoreFailures.set(true)
 }
 
-// Convenience task to run all code quality checks manually
 tasks.register("codeQuality") {
     group = "verification"
     description = "Run ktlint and detekt reports (non-blocking)."

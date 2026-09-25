@@ -1,10 +1,11 @@
 package com.example.powerai.domain.retrieval
 
-import com.example.powerai.domain.model.KnowledgeItem
-import com.example.powerai.domain.model.RetrievalResult
-import com.example.powerai.domain.repository.KnowledgeRepository
-import com.example.powerai.data.local.dao.KnowledgeDao
-import com.example.powerai.domain.retriever.AnnRetriever
+import com.example.powerai.core.repository.KnowledgeRepository
+
+import com.example.powerai.core.model.KnowledgeItem
+
+import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.repository.AnnRetriever
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,43 +18,39 @@ import javax.inject.Singleton
 @Singleton
 class RetrievalFusionService @Inject constructor(
     private val repository: KnowledgeRepository,
-    private val observability: com.example.powerai.util.ObservabilityService,
-    private val annRetriever: AnnRetriever,
-    private val knowledgeDao: KnowledgeDao
+    private val observability: com.example.powerai.core.model.ObservabilityService,
+    private val annRetriever: AnnRetriever
 ) {
     suspend fun retrieve(query: String, limit: Int = 10, forceAnn: Boolean = false): List<RetrievalResult> {
         val start = System.currentTimeMillis()
         observability.retrievalStarted(query)
 
         val raw: List<KnowledgeItem> = if (forceAnn) {
-            // Force ANN path: call annRetriever directly and map ids -> KnowledgeItem via Room.
+            // Force ANN path: call annRetriever directly and map ids -> KnowledgeItem via Repository.
             try {
-                val ids = annRetriever.search(query, limit)
+                val hits = annRetriever.search(query, limit)
                 // Emit ANN ids for mapping trace (feature branch debugging)
                 try {
-                    observability.logEvent("ANN", "ann_ids=${ids.joinToString(",")}")
+                    val idsStr = hits.mapNotNull { it.id }.joinToString(",")
+                    observability.logEvent("ANN", "ann_ids=$idsStr")
                 } catch (_: Throwable) {}
                 val items = mutableListOf<KnowledgeItem>()
-                for (id in ids) {
+                for (hit in hits) {
+                    val id = hit.id ?: continue
                     try {
-                        val entity = knowledgeDao.getById(id)
+                        val item = repository.getLocalItemById(id)
                         try {
-                            if (entity == null) {
+                            if (item == null) {
                                 observability.logEvent("ANN", "id=$id mapped=null")
                             } else {
-                                observability.logEvent("ANN", "id=$id mapped=found title=${'$'}{entity.title.take(60)}")
+                                observability.logEvent("ANN", "id=$id mapped=found title=${item.title.take(60)}")
                             }
                         } catch (_: Throwable) {}
-                        if (entity != null && entity.content.isNotBlank()) {
+                        if (item != null && item.content.isNotBlank()) {
                             items.add(
-                                KnowledgeItem(
-                                    id = entity.id,
-                                    title = "[AI][Semantic] " + entity.title.ifBlank { "向量检索结果" },
-                                    content = entity.content,
-                                    source = entity.source,
-                                    pageNumber = entity.pageNumber,
-                                    category = entity.category.ifBlank { "VECTOR" },
-                                    keywords = if (entity.keywordsSerialized.isBlank()) emptyList() else entity.keywordsSerialized.split(',')
+                                item.copy(
+                                    title = "[AI][Semantic] " + item.title.ifBlank { "向量检索结" },
+                                    category = item.category.ifBlank { "VECTOR" }
                                 )
                             )
                         }

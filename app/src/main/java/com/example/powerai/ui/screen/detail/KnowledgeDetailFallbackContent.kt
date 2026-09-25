@@ -1,6 +1,8 @@
 package com.example.powerai.ui.screen.detail
 
-import android.util.Log
+
+import com.example.powerai.core.model.KnowledgeBlock
+// android.util.Log removed per TODO; parsing diagnostics suppressed
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,22 +26,18 @@ internal fun KnowledgeDetailFallbackContent(
     modifier: Modifier = Modifier
 ) {
     // If the content itself is a blocks JSON payload, parse on background dispatcher and render when ready.
-    val parsedBlocksState by produceState<List<com.example.powerai.ui.blocks.KnowledgeBlock>?>(initialValue = null, key1 = content) {
+    val parsedBlocksState by produceState<List<com.example.powerai.core.model.KnowledgeBlock>?>(initialValue = null, key1 = content) {
         val start = System.currentTimeMillis()
-        Log.d("PowerAi.Trace", "parseBlocks(produced) START contentLen=${content.length}")
+        // log removed: parseBlocks(produced) START contentLen=${content.length}
         value = withContext(Dispatchers.Default) {
             runCatching {
                 BlocksParser.parseBlocks(content)
             }.getOrElse { t ->
-                Log.w(
-                    "PowerAi.Trace",
-                    "parseBlocks(produced) FAILED contentLen=${content.length} thread=${Thread.currentThread().name}",
-                    t
-                )
+                // log removed: parseBlocks(produced) FAILED contentLen=${content.length}
                 null
             }
         }
-        Log.d("PowerAi.Trace", "parseBlocks(produced) DONE count=${value?.size ?: 0} took=${System.currentTimeMillis() - start}ms")
+        // log removed: parseBlocks(produced) DONE count=${value?.size ?: 0} took=${System.currentTimeMillis() - start}ms
     }
 
     val parsedBlocks = parsedBlocksState?.takeIf { it.isNotEmpty() }
@@ -59,7 +57,7 @@ internal fun KnowledgeDetailFallbackContent(
     }
 
     val list = chunks.orEmpty()
-    Log.d("PowerAi.Trace", "fallback render chunks size=${list.size}")
+    // log removed: fallback render chunks size=${list.size}
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),

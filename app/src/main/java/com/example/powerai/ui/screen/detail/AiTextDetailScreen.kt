@@ -45,7 +45,7 @@ fun AiTextDetailScreen(navController: NavHostController) {
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
-                Text("暂无可显示内容")
+                Text("暂无可显示内")
             }
             return@Scaffold
         }

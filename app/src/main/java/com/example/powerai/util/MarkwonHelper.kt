@@ -3,7 +3,7 @@ package com.example.powerai.util
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
-import android.util.Log
+// android.util.Log removed per TODO
 import android.util.TypedValue
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -34,13 +34,13 @@ object MarkwonHelper {
 
     fun create(context: Context): Markwon {
         cachedMarkwonWithTables?.let {
-            Log.d(TAG, "returning cached Markwon (with tables)")
+            // log removed
             return it
         }
 
         synchronized(this) {
             cachedMarkwonWithTables?.let {
-                Log.d(TAG, "returning cached Markwon (with tables)")
+                // log removed
                 return it
             }
             val markwon = buildMarkwon(context, enableTables = true)
@@ -56,13 +56,13 @@ object MarkwonHelper {
      */
     fun createNoTables(context: Context): Markwon {
         cachedMarkwonNoTables?.let {
-            Log.d(TAG, "returning cached Markwon (no tables)")
+            // log removed
             return it
         }
 
         synchronized(this) {
             cachedMarkwonNoTables?.let {
-                Log.d(TAG, "returning cached Markwon (no tables)")
+                // log removed
                 return it
             }
             val markwon = buildMarkwon(context, enableTables = false)
@@ -72,7 +72,7 @@ object MarkwonHelper {
     }
 
     private fun buildMarkwon(context: Context, enableTables: Boolean): Markwon {
-        Log.d(TAG, "buildMarkwon: enableTables=$enableTables")
+        // log removed: buildMarkwon enableTables=$enableTables
 
         val builder = Markwon.builder(context)
             .usePlugin(CorePlugin.create())
@@ -81,13 +81,13 @@ object MarkwonHelper {
                 JLatexMathPlugin.create(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_SP,
-                        16f,
+                        18f,
                         context.resources.displayMetrics
                     )
                 ) { latexBuilder ->
                     latexBuilder.inlinesEnabled(true)
                     latexBuilder.theme()
-                        .blockFitCanvas(true)
+                        .blockFitCanvas(false)
                         .blockPadding(JLatexMathTheme.Padding.symmetric(0, dpToPx(context, 8)))
                         .inlinePadding(JLatexMathTheme.Padding.symmetric(dpToPx(context, 2), dpToPx(context, 1)))
                 }
@@ -113,14 +113,14 @@ object MarkwonHelper {
                 val resolver: ImageSizeResolver = object : ImageSizeResolver() {
                     override fun resolveImageSize(drawable: AsyncDrawable): Rect {
                         // NOTE:
-                        // ImageSizeResolverDef 在某些 Drawable(intrinsicWidth=0) 场景下可能触发整数除零。
-                        // 这里完全使用自定义逻辑，确保不会抛出 ArithmeticException。
+                        // ImageSizeResolverDef 在某Drawable(intrinsicWidth=0) 场景下可能触发整数除零
+                        // 这里完全使用自定义逻辑，确保不会抛ArithmeticException
                         return try {
                             val canvasWidth = drawable.lastKnownCanvasWidth
                             val iw = drawable.intrinsicWidth
                             val ih = drawable.intrinsicHeight
 
-                            // 如果拿不到图片固有尺寸（0 或 -1），给一个最小尺寸，避免后续计算除零。
+                            // 如果拿不到图片固有尺寸（0 -1），给一个最小尺寸，避免后续计算除零
                             if (iw <= 0 || ih <= 0) {
                                 val w = if (canvasWidth > 0) canvasWidth else 1
                                 return Rect(0, 0, w, 1)
@@ -139,7 +139,7 @@ object MarkwonHelper {
 
                             Rect(0, 0, w.coerceAtLeast(1), h.coerceAtLeast(1))
                         } catch (t: Throwable) {
-                            Log.w(TAG, "imageSizeResolver: fallback due to ${t.javaClass.simpleName}: ${t.message}")
+                            // log removed: imageSizeResolver fallback due to ${t.javaClass.simpleName}: ${t.message}
                             Rect(0, 0, 1, 1)
                         }
                     }
@@ -163,13 +163,13 @@ object MarkwonHelper {
                 }
             }
             builder.usePlugin(GlideImagesPlugin.create(requestManager))
-            Log.d(TAG, "GlideImagesPlugin registered with request defaults (asset support relies on AppGlideModule)")
+            // log removed: GlideImagesPlugin registered with request defaults
         } catch (t: Throwable) {
-            Log.w(TAG, "GlideImagesPlugin registration failed", t)
+            // log removed: GlideImagesPlugin registration failed
         }
 
         val markwon = builder.build()
-        Log.d(TAG, "Markwon build complete")
+        // log removed: Markwon build complete
         return markwon
     }
 }

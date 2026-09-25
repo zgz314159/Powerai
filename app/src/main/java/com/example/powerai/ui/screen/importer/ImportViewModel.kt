@@ -1,22 +1,33 @@
 package com.example.powerai.ui.screen.importer
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class ImportUiState(
+    val progress: ImportProgress? = null
+)
+
 @HiltViewModel
 class ImportViewModel @Inject constructor(
     private val importer: DocumentImportManager
-) : ViewModel() {
+) : BaseMviViewModel<ImportIntent, ImportUiState, Nothing>(
+    initialState = ImportUiState()
+) {
 
-    val progress: StateFlow<com.example.powerai.data.importer.ImportProgress?> = importer.progress
+    override fun onIntent(intent: ImportIntent) {
+        when (intent) {
+            is ImportIntent.ImportUri -> importUri(intent.uri, intent.batchSize)
+        }
+    }
 
-    fun importUri(uri: Uri, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) {
+    private fun importUri(uri: Uri, batchSize: Int) {
         viewModelScope.launch {
             importer.importUri(uri, batchSize)
         }

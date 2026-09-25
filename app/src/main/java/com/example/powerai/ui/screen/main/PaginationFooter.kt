@@ -37,7 +37,7 @@ internal fun PaginationFooter(
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
         OutlinedIconButton(onClick = onPrev, enabled = hasPrev) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "上一页")
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "上一")
         }
 
         Surface(
@@ -52,7 +52,7 @@ internal fun PaginationFooter(
         }
 
         OutlinedIconButton(onClick = onNext, enabled = hasNext) {
-            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "下一页")
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "下一")
         }
     }
 }

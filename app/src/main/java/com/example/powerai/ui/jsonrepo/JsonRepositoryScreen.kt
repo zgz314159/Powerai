@@ -42,8 +42,9 @@ import java.io.File
 @Composable
 @Suppress("UNUSED_PARAMETER")
 fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonRepositoryViewModel) {
-    val files by viewModel.files.collectAsState()
-    val entries by viewModel.entries.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val files = uiState.files
+    val entries = uiState.entries
 
     val importProgress by viewModel.importProgress.collectAsState()
     val context = LocalContext.current
@@ -54,7 +55,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
     var filter by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        viewModel.loadFiles()
+        viewModel.onIntent(JsonRepoIntent.LoadFiles)
     }
 
     Column(Modifier.fillMaxSize().padding(12.dp)) {
@@ -63,7 +64,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text("Files", style = MaterialTheme.typography.titleMedium)
-            Button(onClick = { viewModel.loadFiles() }) { Text("Refresh") }
+            Button(onClick = { viewModel.onIntent(JsonRepoIntent.LoadFiles) }) { Text("Refresh") }
         }
 
         Spacer(Modifier.height(8.dp))
@@ -72,7 +73,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
             items(files) { f: JsonKnowledgeFile ->
                 FileRow(f) {
                     selectedFileId = f.fileId
-                    viewModel.selectFile(f.fileId)
+                    viewModel.onIntent(JsonRepoIntent.SelectFile(f.fileId))
                 }
             }
         }
@@ -96,7 +97,7 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
                     items(displayed) { e: JsonEntry ->
                         EntryRow(e, onSave = { updated ->
                             val fileId = selectedFileId ?: return@EntryRow
-                            viewModel.updateEntry(fileId, updated)
+                            viewModel.onIntent(JsonRepoIntent.UpdateEntry(fileId, updated))
                         })
                     }
                 }
@@ -124,9 +125,9 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
                     return@Button
                 }
                 val target = File(context.filesDir, "export_$fid.csv")
-                viewModel.exportCsv(fid, target) { ok ->
+                viewModel.onIntent(JsonRepoIntent.ExportCsv(fid, target) { ok ->
                     coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "CSV 导出成功: ${target.name}" else "CSV 导出失败") }
-                }
+                })
             }) { Text("Export CSV") }
 
             Spacer(Modifier.width(8.dp))
@@ -137,9 +138,9 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
                     return@Button
                 }
                 val target = File(context.filesDir, "export_$fid.json")
-                viewModel.exportJson(fid, target) { ok ->
+                viewModel.onIntent(JsonRepoIntent.ExportJson(fid, target) { ok ->
                     coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "JSON 导出成功: ${target.name}" else "JSON 导出失败") }
-                }
+                })
             }) { Text("Export JSON") }
         }
     }

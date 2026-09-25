@@ -2,7 +2,7 @@ package com.example.powerai.util
 
 import android.content.res.AssetManager
 import android.net.Uri
-import android.util.Log
+// android.util.Log removed per TODO order; logging replaced with comments if needed
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.data.DataFetcher
@@ -14,10 +14,10 @@ import java.io.IOException
 import java.io.InputStream
 
 class AssetModelLoader(private val assets: AssetManager) : ModelLoader<Uri, InputStream> {
-    private val TAG = "AssetModelLoader"
+    // TAG constant removed; logging suppressed
     override fun buildLoadData(model: Uri, width: Int, height: Int, options: Options): ModelLoader.LoadData<InputStream>? {
         val s = model.toString()
-        Log.d(TAG, "buildLoadData called for: $s")
+        // log removed: buildLoadData called for: $s
         if (!s.startsWith("file:///android_asset/")) return null
         val assetPath = s.removePrefix("file:///android_asset/")
         return ModelLoader.LoadData(ObjectKey(model), AssetDataFetcher(assets, assetPath))
@@ -34,24 +34,24 @@ class AssetModelLoader(private val assets: AssetManager) : ModelLoader<Uri, Inpu
     }
 
     class AssetDataFetcher(private val assets: AssetManager, private val assetPath: String) : DataFetcher<InputStream> {
-        private val TAG = "AssetDataFetcher"
+        // TAG constant removed; logging suppressed
         private var stream: InputStream? = null
 
         override fun loadData(priority: com.bumptech.glide.Priority, callback: DataFetcher.DataCallback<in InputStream>) {
-            Log.d(TAG, "loadData START for assetPath=$assetPath thread=${Thread.currentThread().name} ts=${System.currentTimeMillis()}")
+            // log removed: loadData START for assetPath=$assetPath
             try {
                 stream = assets.open(assetPath)
-                Log.d(TAG, "loadData opened stream for $assetPath available=${stream?.available()}")
+                // log removed: loadData opened stream for $assetPath
                 callback.onDataReady(stream)
             } catch (e: IOException) {
-                Log.w(TAG, "loadData failed for $assetPath", e)
+                // log removed: loadData failed for $assetPath
                 callback.onLoadFailed(e)
             }
         }
 
         override fun cleanup() {
             try {
-                Log.d(TAG, "cleanup stream for $assetPath thread=${Thread.currentThread().name} ts=${System.currentTimeMillis()}")
+                // log removed: cleanup stream for $assetPath
                 stream?.close()
             } catch (_: IOException) {}
         }

@@ -1,6 +1,6 @@
 package com.example.powerai.ui.search
 
-import com.example.powerai.data.importer.TextSanitizer
+import com.example.powerai.core.model.util.TextSanitizer
 
 internal object SearchTextNormalization {
     fun normalizeForSearch(raw: String): String {

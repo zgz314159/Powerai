@@ -8,14 +8,14 @@ internal fun ensureBlankLinesAroundImages(markdown: String): String {
 
     // Protect table blocks by replacing them with placeholders, run the old logic on the rest,
     // then restore them. This keeps images embedded inside table cells intact.
-    val protected = KnowledgeDetailMarkdownTableBlockProtector.protect(markdown)
+    val protected = TableBlockProtector.protect(markdown)
     val protectedMarkdown = protected.protectedText
 
     val imageRegex = Regex("!\\[[^\\]]*]\\([^\\n)]+\\)")
     val matches = imageRegex.findAll(protectedMarkdown).toList()
     if (matches.isEmpty()) {
         // Nothing to do, just restore table blocks.
-        return KnowledgeDetailMarkdownTableBlockProtector.restore(protectedMarkdown, protected.blocks)
+        return TableBlockProtector.restore(protectedMarkdown, protected.blocks)
     }
 
     val sb = StringBuilder(protectedMarkdown.length + matches.size * 4)
@@ -50,5 +50,5 @@ internal fun ensureBlankLinesAroundImages(markdown: String): String {
     }
     sb.append(protectedMarkdown.substring(last))
 
-    return KnowledgeDetailMarkdownTableBlockProtector.restore(sb.toString(), protected.blocks)
+    return TableBlockProtector.restore(sb.toString(), protected.blocks)
 }

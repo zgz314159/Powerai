@@ -34,16 +34,16 @@ internal fun KnowledgeDetailMatchNavigator(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "命中：${currentMatchIndex + 1}/$totalMatches",
+            text = "命中${currentMatchIndex + 1}/$totalMatches",
             style = MaterialTheme.typography.labelLarge
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onPrev) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "上一个")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "上一")
             }
 
             IconButton(onClick = onNext) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "下一个")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "下一")
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.powerai.ui.screen.detail
 
-import android.util.Log
+// android.util.Log removed per TODO; webview diagnostics removed
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.compose.runtime.Composable
@@ -16,21 +16,17 @@ import kotlinx.coroutines.withContext
 internal fun MarkdownTableWebView(markdown: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val htmlState by produceState<String?>(initialValue = null, key1 = markdown) {
-        Log.d("PowerAi.Trace", "tableHtml START len=${markdown.length}")
+        // log removed: tableHtml START len=${markdown.length}
         val start = System.currentTimeMillis()
         value = withContext(Dispatchers.Default) {
             runCatching {
                 buildHtmlForMarkdownTable(markdown)
             }.getOrElse { t ->
-                Log.w(
-                    "PowerAi.Trace",
-                    "tableHtml FAILED len=${markdown.length} thread=${Thread.currentThread().name}",
-                    t
-                )
+                // log removed: tableHtml FAILED len=${markdown.length}
                 null
             }
         }
-        Log.d("PowerAi.Trace", "tableHtml DONE len=${value?.length ?: -1} took=${System.currentTimeMillis() - start}ms")
+        // log removed: tableHtml DONE len=${value?.length ?: -1} took=${System.currentTimeMillis() - start}ms
     }
     val html = htmlState
 
@@ -42,7 +38,7 @@ internal fun MarkdownTableWebView(markdown: String, modifier: Modifier = Modifie
                     KnowledgeDetailWebViewDefaults.applyTableDefaults(this)
                 }
             }.getOrElse { t ->
-                Log.w("PowerAi.Trace", "WebView create FAILED; falling back to TextView", t)
+                // log removed: WebView create FAILED; falling back to TextView
                 TextView(context).apply {
                     text = markdown
                 }

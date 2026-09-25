@@ -84,25 +84,26 @@ fun AiStreamCard(
     onRetry: () -> Unit = {}
 ) {
     val actualVm = viewModel ?: hiltViewModel<com.example.powerai.ui.screen.main.AiStreamViewModel>()
-    val state by actualVm.aiStreamState.collectAsState()
+    val uiState by actualVm.uiState.collectAsState()
+    val state = uiState.aiStreamState
 
     Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(0.dp)) {
         Column(modifier = Modifier.padding(8.dp)) {
             when (state) {
-                is com.example.powerai.ui.screen.main.AiStreamState.Idle -> Text("等待输入问题...")
-                is com.example.powerai.ui.screen.main.AiStreamState.Loading -> {
+                is com.example.powerai.domain.model.chat.AiStreamState.Idle -> Text("等待输入问题...")
+                is com.example.powerai.domain.model.chat.AiStreamState.Loading -> {
                     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.height(4.dp))
                         Text("AI 正在生成答案...")
                     }
                 }
-                is com.example.powerai.ui.screen.main.AiStreamState.Success -> {
-                    val text = (state as com.example.powerai.ui.screen.main.AiStreamState.Success).text
+                is com.example.powerai.domain.model.chat.AiStreamState.Success -> {
+                    val text = (state as com.example.powerai.domain.model.chat.AiStreamState.Success).text
                     Text(text = text)
                 }
-                is com.example.powerai.ui.screen.main.AiStreamState.Error -> {
-                    val msg = (state as com.example.powerai.ui.screen.main.AiStreamState.Error).message
+                is com.example.powerai.domain.model.chat.AiStreamState.Error -> {
+                    val msg = (state as com.example.powerai.domain.model.chat.AiStreamState.Error).message
                     Column {
                         Text(text = "AI 解析失败: $msg", color = MaterialTheme.colorScheme.error)
                         Spacer(modifier = Modifier.height(6.dp))

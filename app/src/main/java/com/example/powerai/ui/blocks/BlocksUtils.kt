@@ -1,6 +1,23 @@
 package com.example.powerai.ui.blocks
 
-import com.example.powerai.data.importer.TextSanitizer
+
+
+
+
+
+
+
+
+import com.example.powerai.core.model.UnknownBlock
+import com.example.powerai.core.model.FigureNodeBlock
+import com.example.powerai.core.model.CodeBlock
+import com.example.powerai.core.model.TableBlock
+import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.ImageBlock
+import com.example.powerai.core.model.TextBlock
+import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.util.TextSanitizer
+import com.example.powerai.core.model.util.BlocksJsonUtils
 
 /**
  * Helpers for matching/search-highlighting/navigation.
@@ -14,6 +31,7 @@ object BlocksUtils {
             is ListBlock -> block.items.joinToString("\n")
             is TableBlock -> block.rows.joinToString("\n") { row -> row.joinToString("\t") }
             is CodeBlock -> block.code
+            is FigureNodeBlock -> listOfNotNull(block.caption, block.images.joinToString(",")).joinToString(" ")
             is UnknownBlock -> block.rawText
         }
     }

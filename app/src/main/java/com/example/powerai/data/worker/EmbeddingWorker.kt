@@ -1,11 +1,15 @@
 package com.example.powerai.data.worker
 
+import com.example.powerai.core.repository.EmbeddingRepository
+
 import android.content.Context
-import android.util.Log
+
+// note: android.util.Log removed from this file per TODO order; logs replaced with comments.
+
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.powerai.data.repository.EmbeddingRepositoryImpl
+import com.example.powerai.core.data.repository.EmbeddingRepositoryImpl
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +33,7 @@ class EmbeddingWorker @AssistedInject constructor(
     private val embeddingRepo: EmbeddingRepositoryImpl
 ) : CoroutineWorker(context, params) {
 
-    private val TAG = "EmbeddingWorker"
+
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
@@ -57,7 +61,7 @@ class EmbeddingWorker @AssistedInject constructor(
                         batch.put(j)
                     }
                 } catch (t: Throwable) {
-                    Log.w(TAG, "skipping pending file ${f.name}", t)
+                    // skipping pending file ${f.name} (log removed)
                 }
             }
 
@@ -86,7 +90,7 @@ class EmbeddingWorker @AssistedInject constructor(
 
                 val code = conn.responseCode
                 if (code !in 200..299) {
-                    Log.w(TAG, "embedding service returned HTTP $code")
+                    // log removed: embedding service returned HTTP $code
                     failures += files.size
                     writeMetrics(applicationContext, startTs, processed, failures)
                     return@withContext Result.retry()
@@ -113,7 +117,7 @@ class EmbeddingWorker @AssistedInject constructor(
                     val out = p.inputStream.bufferedReader().use { it.readText() }
                     val exit = p.waitFor()
                     if (exit != 0) {
-                        Log.w(TAG, "embed CLI exited $exit; output=$out")
+                        // log removed: embed CLI exited $exit; output=$out
                         failures += files.size
                         writeMetrics(applicationContext, startTs, processed, failures)
                         return@withContext Result.retry()
@@ -122,7 +126,7 @@ class EmbeddingWorker @AssistedInject constructor(
                     val tmp = respObj.optJSONObject("results") ?: org.json.JSONObject()
                     for (k in tmp.keys()) results.put(k, tmp.get(k))
                 } catch (t: Throwable) {
-                    Log.w(TAG, "failed to run embed CLI", t)
+                    // log removed: failed to run embed CLI
                     failures += files.size
                     writeMetrics(applicationContext, startTs, processed, failures)
                     return@withContext Result.retry()
@@ -154,7 +158,7 @@ class EmbeddingWorker @AssistedInject constructor(
                     }
                     processed += 1
                 } catch (t: Throwable) {
-                    Log.w(TAG, "failed to persist embedding for key $key", t)
+                    // log removed: failed to persist embedding for key $key
                     failures += 1
                 }
             }
@@ -166,10 +170,10 @@ class EmbeddingWorker @AssistedInject constructor(
 
             val duration = System.currentTimeMillis() - startTs
             writeMetrics(applicationContext, startTs, processed, failures)
-            Log.i(TAG, "EmbeddingWorker finished: processed=$processed failures=$failures durationMs=$duration")
+            // log removed: EmbeddingWorker finished: processed=$processed failures=$failures durationMs=$duration
             Result.success()
         } catch (t: Throwable) {
-            Log.e(TAG, "worker failed", t)
+            // log removed: worker failed
             // record failure
             try { writeMetrics(applicationContext, System.currentTimeMillis(), 0, 1) } catch (_: Throwable) {}
             Result.retry()
@@ -189,7 +193,7 @@ class EmbeddingWorker @AssistedInject constructor(
             }
             metrics.appendText(entry.toString() + "\n")
         } catch (t: Throwable) {
-            Log.w(TAG, "failed to write metrics", t)
+            // log removed: failed to write metrics
         }
     }
 }

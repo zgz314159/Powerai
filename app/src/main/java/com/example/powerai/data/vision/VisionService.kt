@@ -26,7 +26,7 @@ class VisionService @Inject constructor(
     suspend fun analyzeTableToMarkdownWithGemini(imageUri: String, prompt: String): String = withContext(Dispatchers.IO) {
         val apiKey = BuildConfig.GEMINI_API_KEY.trim()
         if (apiKey.isBlank()) {
-            throw IllegalStateException("GEMINI_API_KEY 未配置")
+            throw IllegalStateException("GEMINI_API_KEY 未配")
         }
 
         val bytes = readBytesFromUriOrNull(imageUri)

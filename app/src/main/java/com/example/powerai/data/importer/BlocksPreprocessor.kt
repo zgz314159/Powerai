@@ -1,5 +1,8 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.model.util.TextSanitizer
+
+import com.example.powerai.core.model.util.BlocksTextExtractor
 import com.google.gson.Gson
 
 /**

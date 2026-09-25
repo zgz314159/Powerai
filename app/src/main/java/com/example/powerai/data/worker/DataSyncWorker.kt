@@ -1,12 +1,14 @@
 package com.example.powerai.data.worker
 
+import com.example.powerai.core.data.dao.KnowledgeDao
+
 import android.content.Context
-import android.util.Log
+
+// android.util.Log removed per TODO; use TraceLogger or other observability if needed
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.powerai.data.local.dao.KnowledgeDao
-import com.example.powerai.data.local.database.DatabaseMigrationUtils
+import com.example.powerai.core.data.database.DatabaseMigrationUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -17,13 +19,13 @@ class DataSyncWorker @AssistedInject constructor(
     private val dao: KnowledgeDao
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
-        Log.i("DataSyncWorker", "doWork started")
+        // log removed: doWork started
         return try {
             DatabaseMigrationUtils.fillMissingNormalizedData(dao)
-            Log.i("DataSyncWorker", "fillMissingNormalizedData returned")
+            // log removed: fillMissingNormalizedData returned
             Result.success()
         } catch (t: Throwable) {
-            Log.e("DataSyncWorker", "doWork failed", t)
+            // log removed: doWork failed
             Result.retry()
         }
     }
