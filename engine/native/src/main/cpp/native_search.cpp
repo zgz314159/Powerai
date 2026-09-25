@@ -25,8 +25,11 @@ static std::mutex g_mutex;
 
 static const char* LOG_TAG = "JNI_NEON";
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+// Shared implementations used by both the legacy NativeAnnSearcher JNI
+// entry points and the NativeVectorRepository JNI bridge. All of them operate
+// on the single global index state (g_ids/g_vectors/g_dim) above.
+
+static jboolean init_impl(JNIEnv* env, jint dim) {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_dim = dim;
     g_ids.clear();
@@ -35,11 +38,7 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env
     return JNI_TRUE;
 }
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEnv* env, jobject thiz,
-                                                                         jlongArray ids,
-                                                                         jfloatArray vectors,
-                                                                         jint dim) {
+static jboolean add_vectors_impl(JNIEnv* env, jlongArray ids, jfloatArray vectors, jint dim) {
     std::lock_guard<std::mutex> lock(g_mutex);
     if (dim != g_dim) {
         __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "dim mismatch: %d vs %d", dim, g_dim);
@@ -66,6 +65,19 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEn
     env->ReleaseFloatArrayElements(vectors, vec_buf, 0);
     __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "nativeAddVectors added=%d total=%zu", n_ids, g_ids.size());
     return JNI_TRUE;
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+    return init_impl(env, dim);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEnv* env, jobject thiz,
+                                                                         jlongArray ids,
+                                                                         jfloatArray vectors,
+                                                                         jint dim) {
+    return add_vectors_impl(env, ids, vectors, dim);
 }
 
 // Helper: compute squared L2 distance between query and vector at base index.
@@ -97,10 +109,7 @@ static inline float neon_l2_distance(const float* a, const float* b, int dim) {
 #endif
 }
 
-extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* env, jobject thiz,
-                                                                     jfloatArray query,
-                                                                     jint k) {
+static jlongArray search_impl(JNIEnv* env, jfloatArray query, jint k) {
     jsize qlen = env->GetArrayLength(query);
     if (qlen != g_dim) return env->NewLongArray(0);
 
@@ -162,8 +171,7 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* e
     return out;
 }
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSaveIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+static jboolean save_index_impl(JNIEnv* env, jstring jpath) {
     const char* path = env->GetStringUTFChars(jpath, nullptr);
     if (!path) return JNI_FALSE;
     std::lock_guard<std::mutex> lock(g_mutex);
@@ -194,8 +202,7 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSaveIndex(JNIEnv
     return ok ? JNI_TRUE : JNI_FALSE;
 }
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeLoadIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+static jboolean load_index_impl(JNIEnv* env, jstring jpath) {
     const char* path = env->GetStringUTFChars(jpath, nullptr);
     if (!path) return JNI_FALSE;
     std::lock_guard<std::mutex> lock(g_mutex);
@@ -236,4 +243,68 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeLoadIndex(JNIEnv
     }
     env->ReleaseStringUTFChars(jpath, path);
     return ok ? JNI_TRUE : JNI_FALSE;
+}
+
+// ---------------------------------------------------------------------------
+// Legacy JNI entry points (NativeAnnSearcher) — kept for existing callers.
+// ---------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* env, jobject thiz,
+                                                                     jfloatArray query,
+                                                                     jint k) {
+    return search_impl(env, query, k);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSaveIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    return save_index_impl(env, jpath);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeLoadIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    return load_index_impl(env, jpath);
+}
+
+// ---------------------------------------------------------------------------
+// NativeVectorRepository JNI bridge — reuses the same global index state
+// (g_ids/g_vectors/g_dim) and the shared implementations above.
+// ---------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+    return init_impl(env, dim);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeUpsert(JNIEnv* env, jobject thiz,
+                                                                         jlongArray ids,
+                                                                         jfloatArray vectors) {
+    jint dim;
+    {
+        std::lock_guard<std::mutex> lock(g_mutex);
+        dim = g_dim;
+    }
+    if (dim <= 0) {
+        __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "nativeUpsert: index not initialized (g_dim=%d)", dim);
+        return JNI_FALSE;
+    }
+    return add_vectors_impl(env, ids, vectors, dim);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeSearch(JNIEnv* env, jobject thiz,
+                                                                     jfloatArray query,
+                                                                     jint k) {
+    return search_impl(env, query, k);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeSaveIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    return save_index_impl(env, jpath);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeLoadIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    return load_index_impl(env, jpath);
 }

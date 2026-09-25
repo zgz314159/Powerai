@@ -41,16 +41,19 @@ class EmbeddingWorkerInstrumentedTest {
         val url = server.url("/embed_batch").toString()
         prefs.edit().putString("embedding_service_mode", "http").putString("embedding_service_url", url).apply()
 
-        // prepare pending JSON for id 1111
+        // prepare pending JSON for id 1111 (start from a clean embeddings dir
+        // so stale metrics from previous runs cannot affect assertions)
         val base = File(ctx.filesDir, "embeddings")
+        base.deleteRecursively()
         val pending = File(base, "pending")
         pending.mkdirs()
         val pendingFile = File(pending, "1111.json")
         val payload = "{\"id\":\"1111\",\"title\":\"T\",\"content\":\"Hello embedding test\"}"
         pendingFile.writeText(payload)
 
-        // prepare mock response: returns embedding vector for id 1111
-        val respBody = "{\"results\":{\"1111\":[0.1,0.2,0.3]}}"
+        // prepare mock response: returns a 384-dim embedding vector for id 1111
+        val embeddingJson = List(384) { "0.1" }.joinToString(",")
+        val respBody = """{"results":{"1111":[$embeddingJson]}}"""
         server.enqueue(MockResponse().setResponseCode(200).setBody(respBody))
 
         // enqueue the worker (same unique name used by EmbeddingRepositoryImpl)

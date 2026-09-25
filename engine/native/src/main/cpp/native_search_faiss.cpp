@@ -21,8 +21,11 @@ static std::unique_ptr<faiss::IndexIDMap> g_idmap;
 
 static const char* LOG_TAG = "JNI_FAISS";
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+// Shared implementations used by both the legacy NativeAnnSearcher JNI
+// entry points and the NativeVectorRepository JNI bridge. All of them operate
+// on the single FAISS index state (g_index/g_idmap/g_dim) above.
+
+static jboolean init_impl(JNIEnv* env, jint dim) {
     std::lock_guard<std::mutex> lock(g_mutex);
     g_dim = dim;
 #ifdef HAVE_FAISS
@@ -44,11 +47,7 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env
 #endif
 }
 
-extern "C" JNIEXPORT jboolean JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEnv* env, jobject thiz,
-                                                                         jlongArray ids,
-                                                                         jfloatArray vectors,
-                                                                         jint dim) {
+static jboolean add_vectors_impl(JNIEnv* env, jlongArray ids, jfloatArray vectors, jint dim) {
     std::lock_guard<std::mutex> lock(g_mutex);
     if (dim != g_dim) {
         __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "dim mismatch: got %d expected %d", dim, g_dim);
@@ -99,10 +98,7 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEn
 #endif
 }
 
-extern "C" JNIEXPORT jlongArray JNICALL
-Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* env, jobject thiz,
-                                                                     jfloatArray query,
-                                                                     jint k) {
+static jlongArray search_impl(JNIEnv* env, jfloatArray query, jint k) {
     std::lock_guard<std::mutex> lock(g_mutex);
     jsize qlen = env->GetArrayLength(query);
     if (qlen != g_dim) return nullptr;
@@ -141,4 +137,75 @@ Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* e
     __android_log_print(ANDROID_LOG_WARN, LOG_TAG, "Faiss not available at build time; nativeSearch fallback returns empty");
     return env->NewLongArray(0);
 #endif
+}
+
+// ---------------------------------------------------------------------------
+// Legacy JNI entry points (NativeAnnSearcher) — kept for existing callers.
+// ---------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+    return init_impl(env, dim);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeAddVectors(JNIEnv* env, jobject thiz,
+                                                                         jlongArray ids,
+                                                                         jfloatArray vectors,
+                                                                         jint dim) {
+    return add_vectors_impl(env, ids, vectors, dim);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_example_powerai_data_retriever_NativeAnnSearcher_nativeSearch(JNIEnv* env, jobject thiz,
+                                                                     jfloatArray query,
+                                                                     jint k) {
+    return search_impl(env, query, k);
+}
+
+// ---------------------------------------------------------------------------
+// NativeVectorRepository JNI bridge — reuses the same FAISS index state
+// (g_index/g_idmap/g_dim) and the shared implementations above.
+// ---------------------------------------------------------------------------
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeInit(JNIEnv* env, jobject thiz, jint dim) {
+    return init_impl(env, dim);
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeUpsert(JNIEnv* env, jobject thiz,
+                                                                         jlongArray ids,
+                                                                         jfloatArray vectors) {
+    jint dim;
+    {
+        std::lock_guard<std::mutex> lock(g_mutex);
+        dim = g_dim;
+    }
+    if (dim <= 0) {
+        __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "nativeUpsert: index not initialized (g_dim=%d)", dim);
+        return JNI_FALSE;
+    }
+    return add_vectors_impl(env, ids, vectors, dim);
+}
+
+extern "C" JNIEXPORT jlongArray JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeSearch(JNIEnv* env, jobject thiz,
+                                                                     jfloatArray query,
+                                                                     jint k) {
+    return search_impl(env, query, k);
+}
+
+// This FAISS backend has no index persistence implementation. Return an
+// explicit failure instead of leaving the JNI symbol unresolved.
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeSaveIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "NativeVectorRepository nativeSaveIndex is not supported by the FAISS backend");
+    return JNI_FALSE;
+}
+
+extern "C" JNIEXPORT jboolean JNICALL
+Java_com_example_powerai_engine_nativecore_NativeVectorRepository_nativeLoadIndex(JNIEnv* env, jobject thiz, jstring jpath) {
+    __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "NativeVectorRepository nativeLoadIndex is not supported by the FAISS backend");
+    return JNI_FALSE;
 }

@@ -26,8 +26,16 @@ class NativeVectorRepository @Inject constructor(
         }
     }
 
+    init {
+        check(nativeInit(dim)) {
+            "Failed to initialize native vector index with dimension $dim"
+        }
+    }
+
     override fun init(dim: Int) {
-        nativeInit(dim)
+        check(nativeInit(dim)) {
+            "Failed to initialize native vector index with dimension $dim"
+        }
     }
 
     override fun upsert(ids: LongArray, vectors: FloatArray): Boolean {
@@ -54,7 +62,7 @@ class NativeVectorRepository @Inject constructor(
         return false
     }
 
-    private external fun nativeInit(dim: Int)
+    private external fun nativeInit(dim: Int): Boolean
     private external fun nativeUpsert(ids: LongArray, vectors: FloatArray): Boolean
     private external fun nativeSearch(query: FloatArray, k: Int): LongArray
     private external fun nativeSaveIndex(path: String): Boolean
