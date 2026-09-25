@@ -93,7 +93,7 @@ fun JsonDrawerContent(
 ) {
     ModalDrawerSheet(modifier = Modifier.width(300.dp)) {
         Box(Modifier.padding(24.dp)) {
-            Text("知识库文件", style = MaterialTheme.typography.headlineSmall)
+            Text("知识库文", style = MaterialTheme.typography.headlineSmall)
         }
         LazyColumn(Modifier.fillMaxSize()) {
             items(files) { file ->

@@ -38,7 +38,7 @@ fun EntryRow(entry: JsonEntry, onSave: (JsonEntry) -> Unit) {
             Spacer(Modifier.height(8.dp))
             OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("Content") }, maxLines = 6)
             Spacer(Modifier.height(8.dp))
-            Text(text = "状态: ${entry.status}", color = statusColor, style = MaterialTheme.typography.bodySmall)
+            Text(text = "状 ${entry.status}", color = statusColor, style = MaterialTheme.typography.bodySmall)
             Spacer(Modifier.height(8.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 TextButton(onClick = { onSave(entry.copy(title = title, content = content)) }) { Text("Save") }

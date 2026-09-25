@@ -21,8 +21,8 @@ import com.example.powerai.ui.component.SearchBar
 
 // ViewModel is supplied by the caller (avoid default composable viewModel())
 /**
- * 简单的搜索页面，将 UI 状态从 `SearchViewModel` 中读取并以 Compose 展示。
- * 该层不包含业务逻辑，所有动作都委托给 ViewModel。
+ * 简单的搜索页面，将 UI 状态从 `SearchViewModel` 中读取并Compose 展示
+ * 该层不包含业务逻辑，所有动作都委托ViewModel
  */
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
@@ -32,9 +32,9 @@ fun SearchScreen(viewModel: SearchViewModel) {
         Column(modifier = Modifier.padding(16.dp)) {
             SearchBar(
                 value = uiState.query,
-                onValueChange = { viewModel.onQueryChanged(it) },
-                onSearch = { viewModel.onSearch() },
-                onClear = { viewModel.onQueryChanged("") }
+                onValueChange = { viewModel.onIntent(SearchIntent.QueryChanged(it)) },
+                onSearch = { viewModel.onIntent(SearchIntent.Search) },
+                onClear = { viewModel.onIntent(SearchIntent.QueryChanged("")) }
             )
 
             if (uiState.isLoading) {
@@ -42,7 +42,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
             } else {
                 if (uiState.results.isEmpty()) {
                     Text(
-                        text = "无匹配结果",
+                        text = "没有找到相关内容",
                         modifier = Modifier.padding(top = 16.dp),
                         style = MaterialTheme.typography.bodyLarge
                     )

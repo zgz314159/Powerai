@@ -1,6 +1,6 @@
 package com.example.powerai.domain.eval
 
-import com.example.powerai.domain.model.KnowledgeItem
+import com.example.powerai.core.model.KnowledgeItem
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

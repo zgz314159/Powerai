@@ -2,7 +2,7 @@ package com.example.powerai.data.vision
 
 import android.content.Context
 import android.util.Base64
-import android.util.Log
+// android.util.Log removed per TODO; logging suppressed or rerouted elsewhere
 import com.example.powerai.BuildConfig
 import com.example.powerai.data.remote.api.AiApiService
 import com.example.powerai.data.remote.api.ChatCompletionsRequest
@@ -86,15 +86,12 @@ class VisionBoostRepositoryImpl @Inject constructor(
             .post(reqJson.toRequestBody(mediaType))
             .build()
 
-        Log.d(
-            "PowerAi.Trace",
-            "VisionBoost(gateway) request START url=$url model=${BuildConfig.AI_VISION_MODEL} imageBytes=${bytes.size} uri=$imageUri"
-        )
+        // log removed: VisionBoost(gateway) request START url=$url model=${BuildConfig.AI_VISION_MODEL} imageBytes=${bytes.size} uri=$imageUri
 
         return client.newCall(request).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                Log.w("PowerAi.Trace", "VisionBoost(gateway) HTTP ${resp.code} body=${body.take(600)}")
+                // log removed: VisionBoost(gateway) HTTP ${resp.code} body=${body.take(600)}
                 throw IllegalStateException("VisionBoost HTTP ${resp.code}: ${body.take(300)}")
             }
             val extracted = VisionBoostJson.extractChatContent(body)
@@ -112,17 +109,17 @@ class VisionBoostRepositoryImpl @Inject constructor(
         val model = BuildConfig.DEEPSEEK_LOGIC_MODEL.trim().ifBlank { "deepseek-chat" }
 
         val system = """
-你是一个严谨的逻辑审计专家。你的任务是对给定的 Markdown 表格/内容做一致性检查。
+你是一个严谨的逻辑审计专家。你的任务是对给定的 Markdown 表格/内容做一致性检查
 
-要求：
-- 如果有金额/数量等可计算字段，检查行内/列内的加总是否一致。
-- 检查明显的自相矛盾（例如合计与明细不符、单位不一致）。
-- 不要编造缺失数据；如果无法验证，明确写出原因。
-- 输出用 Markdown：先给出结论（✅/⚠️/❌），然后列出发现的问题与建议。
+要求
+- 如果有金数量等可计算字段，检查行列内的加总是否一致
+- 检查明显的自相矛盾（例如合计与明细不符、单位不一致）
+- 不要编造缺失数据；如果无法验证，明确写出原因
+- 输出Markdown：先给出结论（✅/⚠️/❌），然后列出发现的问题与建议
         """.trimIndent()
 
         val user = """
-请对下面内容做深度逻辑验证（尤其是表格内数据一致性）：
+请对下面内容做深度逻辑验证（尤其是表格内数据一致性）
 
 $input
         """.trimIndent()
@@ -143,13 +140,13 @@ $input
 
     private fun buildPromptForTable(): String {
         return """
-你是一个文档结构化助手。请将图片中的表格内容转换成 Markdown 表格。
+你是一个文档结构化助手。请将图片中的表格内容转换成 Markdown 表格
 
-要求：
-- 输出必须是 Markdown 表格（使用 | 分隔）。
-- 尽量保持原表格的行列结构与文字内容，不要漏行漏列。
-- 如果单元格中有换行，请用 <br/> 保留。
-- 不要输出解释、不要加前后缀，只输出 Markdown。
+要求
+- 输出必须Markdown 表格（使| 分隔）
+- 尽量保持原表格的行列结构与文字内容，不要漏行漏列
+- 如果单元格中有换行，请用 <br/> 保留
+- 不要输出解释、不要加前后缀，只输出 Markdown
         """.trimIndent()
     }
 

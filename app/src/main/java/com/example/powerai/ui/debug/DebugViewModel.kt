@@ -1,27 +1,40 @@
 package com.example.powerai.ui.debug
 
-import androidx.lifecycle.ViewModel
+import com.example.powerai.core.data.dao.KnowledgeDao
+
 import androidx.lifecycle.viewModelScope
-import com.example.powerai.data.local.dao.KnowledgeDao
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class DebugViewModel @Inject constructor(private val dao: KnowledgeDao) : ViewModel() {
-    private val _items = MutableStateFlow<List<KnowledgeEntity>>(emptyList())
-    val items: StateFlow<List<KnowledgeEntity>> = _items
+data class DebugUiState(
+    val items: List<KnowledgeEntity> = emptyList()
+)
 
-    fun reloadAll() {
-        viewModelScope.launch {
-            _items.value = dao.getAll()
+@HiltViewModel
+class DebugViewModel @Inject constructor(
+    private val dao: KnowledgeDao
+) : BaseMviViewModel<DebugIntent, DebugUiState, Nothing>(
+    initialState = DebugUiState()
+) {
+
+    override fun onIntent(intent: DebugIntent) {
+        when (intent) {
+            is DebugIntent.ReloadAll -> reloadAll()
+            is DebugIntent.UpdateEntry -> updateEntry(intent.entity)
         }
     }
 
-    fun updateEntry(entity: KnowledgeEntity) {
+    private fun reloadAll() {
+        viewModelScope.launch {
+            val items = dao.getAll()
+            updateState { copy(items = items) }
+        }
+    }
+
+    private fun updateEntry(entity: KnowledgeEntity) {
         viewModelScope.launch {
             dao.update(entity)
             reloadAll()

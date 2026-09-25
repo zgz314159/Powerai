@@ -7,9 +7,9 @@ import com.example.powerai.data.export.ExportUtils
 import com.example.powerai.data.importer.DocxParser
 import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.data.importer.PdfParser
-import com.example.powerai.data.importer.TextSanitizer
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.data.importer.TxtParser
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -170,7 +170,6 @@ class JsonRepository @Inject constructor(private val context: Context) {
 
     suspend fun importUri(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) = withContext(Dispatchers.IO) {
         try {
-            val lower = displayName.lowercase()
             val temp = tempFileFor(displayName)
             val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(temp), Charsets.UTF_8))
             // write header
@@ -201,24 +200,25 @@ class JsonRepository @Inject constructor(private val context: Context) {
                 writer.flush()
             }
 
-            val fileId = when {
-                lower.endsWith(".txt") -> {
-                    val parser = TxtParser(contentResolver)
-                    parser.parse(uri, displayName, batchSize, onBatch)
-                }
-                lower.endsWith(".pdf") -> {
-                    val parser = PdfParser(contentResolver)
-                    parser.parse(uri, displayName, batchSize, onBatch, onProgressPages = { p, t ->
-                        val percent = if (t > 0) (p * 100 / t) else 0
-                        _importProgress.value = ImportProgress(fileId = "", fileName = displayName, totalItems = t.toLong(), importedItems = p.toLong(), percent = percent, status = "in_progress")
-                    })
-                }
-                lower.endsWith(".docx") || lower.endsWith(".doc") -> {
-                    val parser = DocxParser(contentResolver)
-                    parser.parse(uri, displayName, batchSize, onBatch)
-                }
-                else -> throw IllegalArgumentException("Unsupported file type")
+            val parserProvider = object : FormatParserProvider {
+                override fun txtParser(contentResolver: ContentResolver) = TxtParser(contentResolver)
+                override fun pdfParser(contentResolver: ContentResolver) = PdfParser(contentResolver)
+                override fun docxParser(contentResolver: ContentResolver) = DocxParser(contentResolver)
             }
+
+            val handler = ImportFormatHandlerFactory.create(displayName, parserProvider)
+                ?: throw IllegalArgumentException("Unsupported file type: $displayName")
+
+            val fileId = handler.import(
+                uri = uri,
+                contentResolver = contentResolver,
+                displayName = displayName,
+                batchSize = batchSize,
+                onBatch = onBatch,
+                onProgress = { progress ->
+                    _importProgress.value = progress
+                }
+            )
 
             // close entries array
             writer.write("\n],\n")

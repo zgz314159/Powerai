@@ -1,6 +1,6 @@
 package com.example.powerai.ui.screen.detail
 
-import android.util.Log
+// android.util.Log removed per TODO order; diagnostic trace removed
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -16,10 +16,7 @@ internal fun KnowledgeDetailFallbackChunkItem(
 ) {
     val isTable = runCatching { looksLikeMarkdownTableChunk(chunk) }.getOrDefault(false)
 
-    Log.d(
-        "PowerAi.Trace",
-        "fallback chunk render index=$index len=${chunk.length} isTable=$isTable thread=${Thread.currentThread().name}"
-    )
+    // log removed: fallback chunk render index=$index len=${chunk.length} isTable=$isTable thread=${Thread.currentThread().name}
 
     if (isTable) {
         // Avoid WebView and Markwon table rendering here: both can be extremely heavy and trigger ANR/GC churn.

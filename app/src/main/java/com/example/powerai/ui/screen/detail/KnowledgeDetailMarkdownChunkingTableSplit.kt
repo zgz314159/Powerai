@@ -6,7 +6,7 @@ internal object KnowledgeDetailMarkdownChunkingTableSplit {
         maxChunkSize: Int
     ): List<String>? {
         if (tableLines.size < 2) return null
-        if (!KnowledgeDetailMarkdownTableNormalizeHelpers.isSeparatorLine(tableLines[1])) return null
+        if (!TableNormalizeHelpers.isSeparatorLine(tableLines[1])) return null
 
         val header = tableLines[0]
         val sep = tableLines[1]

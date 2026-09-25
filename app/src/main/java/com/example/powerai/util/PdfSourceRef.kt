@@ -7,6 +7,7 @@ package com.example.powerai.util
  */
 object PdfSourceRef {
     private val pattern = Regex("^pdf:([0-9a-f]{64})::(.*)$", RegexOption.IGNORE_CASE)
+    private val opaqueHexPattern = Regex("^(?:sha256:)?[0-9a-f]{24,64}$", RegexOption.IGNORE_CASE)
 
     private const val ASSETS_KB_PREFIX = "assets/kb/"
     private const val ASSETS_LEGACY_PREFIX = "assets/原件截图/"
@@ -41,5 +42,55 @@ object PdfSourceRef {
             normalized.startsWith(ASSETS_LEGACY_PREFIX) -> normalized.removePrefix(ASSETS_LEGACY_PREFIX)
             else -> raw
         }
+    }
+
+    fun userVisibleSource(source: String?): String {
+        return sanitizeDisplayPart(source).orEmpty()
+    }
+
+    fun cleanCompositeLabel(label: String?): String {
+        val raw = label?.trim().orEmpty()
+        if (raw.isBlank()) return ""
+        return raw
+            .split(Regex("\\s*[·•|｜]\\s*"))
+            .mapNotNull(::sanitizeDisplayPart)
+            .distinct()
+            .joinToString(" · ")
+    }
+
+    fun buildUserVisibleLabel(vararg parts: String?): String {
+        return parts
+            .flatMap { part ->
+                val trimmed = part?.trim().orEmpty()
+                if (trimmed.isBlank()) emptyList() else trimmed.split(Regex("\\s*[·•|｜]\\s*"))
+            }
+            .mapNotNull(::sanitizeDisplayPart)
+            .distinct()
+            .joinToString(" · ")
+    }
+
+    private fun sanitizeDisplayPart(value: String?): String? {
+        val raw = value?.trim().orEmpty()
+        if (raw.isBlank()) return null
+
+        val displayed = display(raw).trim()
+        if (displayed.isBlank()) return null
+        if (displayed.startsWith("pdf:", ignoreCase = true)) return null
+
+        val leafName = displayed
+            .replace('\\', '/')
+            .substringAfterLast('/')
+            .trim()
+
+        return when {
+            looksOpaqueId(displayed) -> null
+            leafName.isNotBlank() && looksOpaqueId(leafName) -> null
+            else -> displayed
+        }
+    }
+
+    private fun looksOpaqueId(value: String): Boolean {
+        val normalized = value.trim().removePrefix("sha256:")
+        return normalized.length >= 24 && opaqueHexPattern.matches(value.trim())
     }
 }

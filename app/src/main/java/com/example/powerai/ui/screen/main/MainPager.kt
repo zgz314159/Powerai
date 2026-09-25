@@ -1,7 +1,8 @@
 package com.example.powerai.ui.screen.main
 
+import com.example.powerai.core.model.KnowledgeItem
+
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
@@ -14,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.navigation.Screen
 import com.example.powerai.ui.screen.hybrid.AiUiState
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import com.example.powerai.ui.screen.hybrid.HybridUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,7 +29,7 @@ internal fun MainPagerTabsAndPages(
     isPagerScrolling: Boolean,
     isPageChanging: Boolean,
     effectiveHighlight: String,
-    uiState: HybridViewModel.UiStateWithImport,
+    uiState: HybridUiState,
     localResults: List<KnowledgeItem>,
     metaProvider: ((KnowledgeItem) -> String?)? = null,
     expandedItemId: Long?,
@@ -79,7 +80,7 @@ internal fun MainPagerTabsAndPages(
                     onToggleExpand = onToggleExpand,
                     highlight = effectiveHighlight,
                     metaProvider = metaProvider,
-                    onOpenDetail = { id, blockIndex, blockId ->
+                    onOpenDetail = { id, blockIndex, blockId, _ ->
                         val encoded = Uri.encode(effectiveHighlight)
                         onOpenDetailRoute(Screen.Detail.createRoute(id, encoded, blockIndex, blockId))
                     },
@@ -92,10 +93,6 @@ internal fun MainPagerTabsAndPages(
                     showEmptyState = uiState.question.isNotBlank(),
                     animateItems = !isPagerScrolling && !isPageChanging,
                     isPageLoading = isPageChanging
-                )
-                Log.d(
-                    "MainScreen",
-                    "Rendered LOCAL page=$currentPage animateItems=${!isPagerScrolling && !isPageChanging} isPagerScrolling=$isPagerScrolling isPageChanging=$isPageChanging localSize=${localResults.size}"
                 )
             }
             DisplayMode.AI -> {
@@ -114,32 +111,16 @@ internal fun MainPagerTabsAndPages(
                 SmartPage(
                     aiText = aiResult,
                     localResults = localResults,
-                    expandedItemId = expandedItemId,
-                    onToggleExpand = onToggleExpand,
                     highlight = effectiveHighlight,
                     metaProvider = metaProvider,
-                    onOpenDetail = { id, blockIndex, blockId ->
-                        val encoded = Uri.encode(effectiveHighlight)
+                    onOpenDetail = { id, blockIndex, blockId, detailHighlight ->
+                        val encoded = Uri.encode(detailHighlight ?: effectiveHighlight)
                         onOpenDetailRoute(Screen.Detail.createRoute(id, encoded, blockIndex, blockId))
-                    },
-                    onOpenAiDetail = { title, content ->
-                        onOpenAiDetail(title, content, effectiveHighlight)
                     },
                     onRetry = onRetryAi,
                     onCopy = onCopyToClipboard,
-                    currentPage = currentPage,
-                    totalPages = totalPages,
-                    hasPrev = hasPrev,
-                    hasNext = hasNext,
-                    onPrev = onPrev,
-                    onNext = onNext,
                     showEmptyState = uiState.question.isNotBlank(),
-                    animateItems = !isPagerScrolling && !isPageChanging,
                     isPageLoading = isPageChanging
-                )
-                Log.d(
-                    "MainScreen",
-                    "Rendered SMART page=$currentPage animateItems=${!isPagerScrolling && !isPageChanging} isPagerScrolling=$isPagerScrolling isPageChanging=$isPageChanging localSize=${localResults.size}"
                 )
             }
         }

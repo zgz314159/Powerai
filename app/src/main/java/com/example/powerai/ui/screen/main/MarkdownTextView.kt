@@ -16,6 +16,57 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.powerai.data.importer.MarkdownTableNormalizer
 import com.example.powerai.util.MarkwonHelper
 
+private fun hasBalancedBraces(input: String): Boolean {
+    var depth = 0
+    var i = 0
+    while (i < input.length) {
+        val c = input[i]
+        val escaped = i > 0 && input[i - 1] == '\\'
+        if (!escaped) {
+            if (c == '{') depth++
+            if (c == '}') {
+                depth--
+                if (depth < 0) return false
+            }
+        }
+        i++
+    }
+    return depth == 0
+}
+
+private fun isSafeLatexBody(body: String): Boolean {
+    val t = body.trim()
+    if (t.isBlank()) return false
+    if (t.contains('`')) return false
+    return hasBalancedBraces(t)
+}
+
+private fun sanitizeExistingLatexDelimiters(input: String): String {
+    if (input.isBlank()) return input
+
+    val blockSanitized = input.replace(
+        Regex("\\$\\$(.*?)\\$\\$", setOf(RegexOption.DOT_MATCHES_ALL))
+    ) { m ->
+        val body = m.groupValues[1]
+        if (isSafeLatexBody(body)) {
+            "$$\n${body.trim()}\n$$"
+        } else {
+            body
+        }
+    }
+
+    return blockSanitized.replace(
+        Regex("(?<!\\\\)\\$(?!\\$)(.+?)(?<!\\\\)\\$(?!\\$)", setOf(RegexOption.DOT_MATCHES_ALL))
+    ) { m ->
+        val body = m.groupValues[1]
+        if (isSafeLatexBody(body)) {
+            "$$${body.trim()}$$"
+        } else {
+            body
+        }
+    }
+}
+
 private fun normalizeMathMarkdown(input: String): String {
     if (input.isBlank()) return input
     // Markwon LaTeX extension supports blocks and inline with $$...$$ delimiters.
@@ -23,12 +74,14 @@ private fun normalizeMathMarkdown(input: String): String {
     val blockNormalized = input.replace(
         Regex("\\\\\\[(.*?)\\\\\\]", setOf(RegexOption.DOT_MATCHES_ALL))
     ) { m ->
-        "$$\n${m.groupValues[1].trim()}\n$$"
+        val body = m.groupValues[1]
+        if (isSafeLatexBody(body)) "$$\n${body.trim()}\n$$" else body
     }
     val inlineNormalized = blockNormalized.replace(
         Regex("\\\\\\((.*?)\\\\\\)", setOf(RegexOption.DOT_MATCHES_ALL))
     ) { m ->
-        "$$${m.groupValues[1].trim()}$$"
+        val body = m.groupValues[1]
+        if (isSafeLatexBody(body)) "$$${body.trim()}$$" else body
     }
 
     // Auto-wrap plain TeX formula lines (e.g. "X_C = \\frac{1}{2\\pi f C}")
@@ -38,7 +91,7 @@ private fun normalizeMathMarkdown(input: String): String {
     return lines.joinToString("\n") { line ->
         val trimmed = line.trim()
         val alreadyMath = trimmed.contains("$$") || trimmed.startsWith("$") || trimmed.endsWith("$")
-        if (!alreadyMath && texCmd.containsMatchIn(trimmed) && trimmed.length <= 160) {
+        if (!alreadyMath && texCmd.containsMatchIn(trimmed) && trimmed.length <= 160 && isSafeLatexBody(trimmed)) {
             "$$$trimmed$$"
         } else {
             line
@@ -140,6 +193,14 @@ private fun recoverAccidentalIndentedMarkdown(input: String): String {
     }
 }
 
+private fun applyMarkdownTextStyle(tv: TextView, textColor: Int) {
+    tv.setTextColor(textColor)
+    tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+    tv.movementMethod = LinkMovementMethod.getInstance()
+    tv.setHorizontallyScrolling(false)
+    tv.isSingleLine = false
+}
+
 @Composable
 internal fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -151,24 +212,19 @@ internal fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
         val recoveredIndent = recoverAccidentalIndentedMarkdown(recoveredCodeBlocks)
         val recoveredTables = restoreCollapsedMarkdownTables(recoveredIndent)
         val uiTableNormalized = MarkdownTableNormalizer.normalizeMarkdownTablesForUi(recoveredTables)
-        normalizeMathMarkdown(uiTableNormalized)
+        val mathNormalized = normalizeMathMarkdown(uiTableNormalized)
+        sanitizeExistingLatexDelimiters(mathNormalized)
     }
 
     AndroidView(
         modifier = modifier.fillMaxWidth(),
         factory = { ctx ->
             TextView(ctx).apply {
-                setTextColor(textColor)
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-                movementMethod = LinkMovementMethod.getInstance()
-                setHorizontallyScrolling(false)
-                isSingleLine = false
+                applyMarkdownTextStyle(this, textColor)
             }
         },
         update = { tv ->
-            tv.setTextColor(textColor)
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-            tv.setHorizontallyScrolling(false)
+            applyMarkdownTextStyle(tv, textColor)
             try {
                 markwonWithTables.setMarkdown(tv, normalized)
             } catch (_: Throwable) {

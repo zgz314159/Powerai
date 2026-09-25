@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
           cache: gradle
 
       - name: Cache Gradle
@@ -38,7 +38,7 @@ jobs:
   benchmarks:
     name: Optional Benchmarks
     runs-on: ubuntu-latest
-    if: env.RUN_BENCHMARKS == 'true'
+    if: ${{ vars.RUN_BENCHMARKS == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
           cache: gradle
 
       - name: Build tools

@@ -1,6 +1,6 @@
 package com.example.powerai.data.chat
 
-import android.util.Log
+// android.util.Log removed per TODO order
 import com.example.powerai.domain.model.chat.ChatHistorySnapshot
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +24,7 @@ class ChatHistoryStore @Inject constructor(
             if (json.isBlank()) return@runCatching null
             gson.fromJson(json, ChatHistorySnapshot::class.java)
         }.onFailure { t ->
-            Log.w(tag, "load failed: ${t.message}", t)
+            // log removed: load failed: ${t.message}
         }.getOrNull()
     }
 
@@ -33,7 +33,7 @@ class ChatHistoryStore @Inject constructor(
             val json = gson.toJson(snapshot)
             file.writeText(json, Charsets.UTF_8)
         }.onFailure { t ->
-            Log.w(tag, "save failed: ${t.message}", t)
+            // log removed: save failed: ${t.message}
         }
     }
 }

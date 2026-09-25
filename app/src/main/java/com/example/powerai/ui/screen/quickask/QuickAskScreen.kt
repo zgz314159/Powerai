@@ -2,6 +2,8 @@
 
 package com.example.powerai.ui.screen.quickask
 
+import com.example.powerai.core.model.KnowledgeItem
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.powerai.domain.model.KnowledgeItem
 import com.example.powerai.ui.component.KnowledgeItemCard
 import com.example.powerai.ui.component.SearchBar
 

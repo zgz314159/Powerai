@@ -25,7 +25,8 @@ fun ImportScreen(
     onPickFiles: (List<Uri>) -> Unit = {},
     viewModel: ImportViewModel
 ) {
-    val progress by viewModel.progress.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val progress = uiState.progress
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),

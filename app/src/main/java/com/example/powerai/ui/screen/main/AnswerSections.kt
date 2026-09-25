@@ -2,6 +2,8 @@
 
 package com.example.powerai.ui.screen.main
 
+import com.example.powerai.core.model.KnowledgeItem
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.powerai.domain.model.KnowledgeItem
 
 /**
  * Small, reusable Compose components for the three answer display areas.
@@ -22,7 +23,7 @@ fun AiAnswerArea(answer: String, modifier: Modifier = Modifier) {
     Card(modifier = modifier.fillMaxWidth().padding(8.dp)) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(text = "AI 搜索答案", modifier = Modifier.padding(bottom = 6.dp))
-            Text(text = if (answer.isBlank()) "无 AI 结果" else answer)
+            Text(text = if (answer.isBlank()) "AI 结果" else answer)
         }
     }
 }
@@ -33,7 +34,7 @@ fun LocalAnswerArea(items: List<KnowledgeItem>, modifier: Modifier = Modifier) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(text = "本地数据答案", modifier = Modifier.padding(bottom = 6.dp))
             if (items.isEmpty()) {
-                Text(text = "未找到本地结果")
+                Text(text = "未找到本地结")
             } else {
                 items.forEach { it ->
                     Text(text = "- ${it.title}: ${it.content}", modifier = Modifier.padding(bottom = 4.dp))
@@ -54,8 +55,8 @@ fun SmartAnswerArea(aiAnswer: String, localItems: List<KnowledgeItem>, modifier:
                     Text(text = "- ${it.title}: ${it.content}", modifier = Modifier.padding(bottom = 4.dp))
                 }
             }
-            Text(text = "AI 总结：")
-            Text(text = if (aiAnswer.isBlank()) "无 AI 结果" else aiAnswer)
+            Text(text = "AI 总结")
+            Text(text = if (aiAnswer.isBlank()) "AI 结果" else aiAnswer)
         }
     }
 }

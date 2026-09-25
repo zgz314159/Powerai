@@ -64,7 +64,7 @@ internal object PdfTextLineHeuristics {
 
     private fun isHeaderLike(line: String): Boolean {
         if (line.length > 60) return false
-        val headerKeywords = listOf("岗位", "招聘", "公告", "事业单位", "考试", "名录", "表", "市", "年")
+        val headerKeywords = listOf("岗位", "招聘", "公告", "事业单位", "考试", "名录", "", "", "")
         return headerKeywords.any { line.contains(it) }
     }
 }

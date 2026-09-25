@@ -22,21 +22,30 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.powerai.ui.screen.settings.SettingsBody
+import com.example.powerai.ui.screen.settings.SettingsIntent
 import com.example.powerai.ui.screen.settings.SettingsSection
 import com.example.powerai.ui.screen.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MineScreen(navController: NavHostController) {
+fun MineScreen(
+    navController: NavHostController,
+    showTopBar: Boolean = true,
+    innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
+) {
     val viewModel = hiltViewModel<SettingsViewModel>()
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri: Uri? -> uri?.let { viewModel.importUri(it) } }
+        onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } }
     )
 
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text("我的") }) },
+        topBar = {
+            if (showTopBar) {
+                CenterAlignedTopAppBar(title = { Text("我的") })
+            }
+        },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
@@ -63,6 +72,8 @@ fun MineScreen(navController: NavHostController) {
             viewModel = viewModel,
             modifier = Modifier
                 .fillMaxSize()
+                .padding(innerPadding)
+                .padding(top = if (showTopBar) 16.dp else 64.dp)
                 .padding(16.dp)
                 .padding(inner),
             topContent = {

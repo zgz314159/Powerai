@@ -1,6 +1,6 @@
 package com.example.powerai.domain.usecase
 
-import com.example.powerai.domain.model.KnowledgeItem
+import com.example.powerai.core.model.KnowledgeItem
 
 class CategoryFilterUseCase {
     fun filterByCategory(items: List<KnowledgeItem>, category: String): List<KnowledgeItem> {

@@ -1,12 +1,10 @@
 package com.example.powerai.ui.screen.hybrid
 
-import android.util.Log
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 
 internal object HybridAiStreamingClient {
-    private const val TAG = "HybridAiStreaming"
 
     suspend fun streamAnswer(
         question: String,
@@ -58,7 +56,6 @@ internal object HybridAiStreamingClient {
         client.newCall(req).execute().use { resp ->
             if (!resp.isSuccessful) {
                 val msg = resp.body?.string() ?: "HTTP ${resp.code}"
-                Log.d(TAG, "HTTP error msg: \"$msg\" code:${resp.code}")
                 throw IllegalStateException(msg)
             }
 

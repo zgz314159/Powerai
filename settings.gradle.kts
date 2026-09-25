@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "PowerAi"
 include(":app")
+include(":core:model-contract")
+include(":core:data")
+include(":engine:native")
+include(":engine:ai")
+include(":feature:search-chat")
+include(":benchmark")

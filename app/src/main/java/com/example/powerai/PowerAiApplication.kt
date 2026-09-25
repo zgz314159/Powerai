@@ -18,7 +18,7 @@ class PowerAiApplication : Application(), Configuration.Provider {
     lateinit var workerFactory: HiltWorkerFactory
 
     @Inject
-    lateinit var nativeVectorRepository: com.example.powerai.data.retriever.NativeVectorRepository
+    lateinit var nativeVectorRepository: com.example.powerai.engine.nativecore.NativeVectorRepository
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -41,12 +41,25 @@ class PowerAiApplication : Application(), Configuration.Provider {
             Thread {
                 try {
                     val loaded = nativeVectorRepository.loadDefaultIndexIfExists()
-                    android.util.Log.i("NativeVectorRepo", "startup loadIndex -> $loaded")
+                    // log removed: startup loadIndex -> $loaded
                 } catch (e: Throwable) {
-                    android.util.Log.e("NativeVectorRepo", "startup load failed", e)
+                    // log removed: startup load failed
                 }
             }.start()
         } catch (_: Throwable) {
+        }
+
+        // Install global crash handler so we can capture stack traces to disk for
+        // further post‑mortem analysis. This complements the ViewModel-level
+        // logging we already perform elsewhere.
+        Thread.setDefaultUncaughtExceptionHandler { thread, ex ->
+            try {
+                filesDir.resolve("rag_crash.log")
+                    .appendText(" uncaught:${thread.name}: ${ex.stackTraceToString()}\n")
+            } catch (_: Throwable) {}
+            // let Android proceed with default kill after logging
+            android.os.Process.killProcess(android.os.Process.myPid())
+            System.exit(2)
         }
 
         // Kick off asset KB import once. KEEP to avoid duplicate concurrent imports.

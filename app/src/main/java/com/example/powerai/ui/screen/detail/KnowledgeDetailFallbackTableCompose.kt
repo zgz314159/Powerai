@@ -1,6 +1,6 @@
 package com.example.powerai.ui.screen.detail
 
-import android.util.Log
+// android.util.Log removed per TODO; heavy parsing traces removed
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -32,15 +32,9 @@ internal fun MarkdownTableCompose(
     ) {
         value = ParsedTable(header = emptyList(), rows = emptyList(), maxCols = -1)
         val start = System.currentTimeMillis()
-        Log.d(
-            "PowerAi.Trace",
-            "tableCompose parse START len=${markdown.length} thread=${Thread.currentThread().name}"
-        )
+        // log removed: tableCompose parse START len=${markdown.length}
         value = withContext(Dispatchers.Default) {
-            Log.d(
-                "PowerAi.Trace",
-                "tableCompose parse BG START len=${markdown.length} thread=${Thread.currentThread().name}"
-            )
+            // log removed: tableCompose parse BG START len=${markdown.length}
             runCatching {
                 withTimeout(1200) {
                     // IMPORTANT: do NOT call ensureTableSeparators() here.
@@ -97,21 +91,18 @@ internal fun MarkdownTableCompose(
                     )
                 }
             }.getOrElse { t ->
-                Log.w("PowerAi.Trace", "tableCompose parse FAILED/timeout", t)
+                // log removed: tableCompose parse FAILED/timeout
                 ParsedTable(header = emptyList(), rows = emptyList(), maxCols = 0)
             }
         }
-        Log.d(
-            "PowerAi.Trace",
-            "tableCompose parse DONE rows=${value.rows.size} cols=${value.maxCols} took=${System.currentTimeMillis() - start}ms"
-        )
+        // log removed: tableCompose parse DONE rows=${value.rows.size} cols=${value.maxCols} took=${System.currentTimeMillis() - start}ms
     }
     val rows = parsedState
 
     if (rows.maxCols == -1) {
         // Loading: keep UI responsive and visible while parsing happens in background.
         Text(
-            text = "表格解析中…",
+            text = "表格解析中",
             modifier = modifier.fillMaxWidth().padding(12.dp),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant

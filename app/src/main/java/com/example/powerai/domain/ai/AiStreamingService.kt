@@ -11,8 +11,9 @@ import okhttp3.sse.EventSources
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import com.example.powerai.domain.common.JsonUtils
 
-class AiStreamingService @Inject constructor(private val observability: com.example.powerai.util.ObservabilityService) {
+class AiStreamingService @Inject constructor(private val observability: com.example.powerai.core.model.ObservabilityService) {
     private val client: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .readTimeout(0, TimeUnit.MILLISECONDS)
@@ -24,7 +25,7 @@ class AiStreamingService @Inject constructor(private val observability: com.exam
         return buildString {
             append('{')
             append("\"model\":\"")
-            append(escapeJson(model))
+            append(JsonUtils.escapeJson(model))
             append("\",")
             append("\"stream\":")
             append(if (stream) "true" else "false")
@@ -167,16 +168,8 @@ class AiStreamingService @Inject constructor(private val observability: com.exam
         } catch (_: Throwable) { false }
     }
 
-    private fun escapeJson(s: String): String {
-        return s.replace("\\", "\\\\")
-            .replace("\"", "\\\"")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-    }
-
-    private fun unescapeJson(s: String): String {
-        return s.replace("\\n", "\n")
-            .replace("\\\"", "\"")
-            .replace("\\\\", "\\")
-    }
+    // JSON escaping now provided by JsonUtils; keep these helpers around only for
+    // backward-compatibility if other code path uses them.
+    private fun escapeJson(s: String): String = JsonUtils.escapeJson(s)
+    private fun unescapeJson(s: String): String = JsonUtils.unescapeJson(s)
 }

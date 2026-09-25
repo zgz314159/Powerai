@@ -1,8 +1,10 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.model.util.TextSanitizer
+
 import android.content.ContentResolver
 import android.net.Uri
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.mozilla.universalchardet.UniversalDetector
@@ -12,8 +14,11 @@ import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.security.MessageDigest
 
-class TxtParser(private val contentResolver: ContentResolver) {
+class TxtParser(private val contentResolver: ContentResolver) : FileParser {
 
+    /**
+     * Original parse implementation with optional byte progress.
+     */
     suspend fun parse(
         uri: Uri,
         fileName: String,
@@ -76,5 +81,16 @@ class TxtParser(private val contentResolver: ContentResolver) {
         // return final digest hex
         val fileId = digest.digest().joinToString("") { "%02x".format(it) }
         fileId
+    }
+
+    // --- FileParser interface implementation ------------------------------------------------
+    override suspend fun parse(
+        uri: Uri,
+        fileName: String,
+        batchSize: Int,
+        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
+    ): String {
+        // delegate to full implementation, ignore byte-progress
+        return parse(uri, fileName, batchSize, onBatchReady)
     }
 }

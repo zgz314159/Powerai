@@ -21,7 +21,7 @@ fun JsonContentArea(
     onUpdateEntry: (JsonEntry) -> Unit
 ) {
     if (!showEntries) {
-        EmptyState("请选择文件以查看数据")
+        EmptyState("请选择文件以查看数")
     } else {
         if (isWide) {
             LazyVerticalGrid(

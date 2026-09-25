@@ -4,16 +4,12 @@
     package="com.example.powerai">
 
     <application>
-        <!-- Expose EmbeddingTestActivity only in debug builds so we can launch it for testing -->
+        <!-- In debug builds we keep EmbeddingTestActivity available for manual launch,
+             but do NOT override the app launcher intent so MainActivity remains the entrypoint. -->
         <activity
             android:name=".ui.test.EmbeddingTestActivity"
-            android:exported="true"
-            tools:replace="android:exported">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            tools:replace="android:exported" />
     </application>
 
 </manifest>

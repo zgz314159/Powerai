@@ -32,7 +32,7 @@ fun ImportProgressIndicator(
 
     Column(modifier = modifier.padding(8.dp)) {
         Text(
-            text = "Importing ${progress.fileName} — ${progress.importedItems}/${progress.totalItems?.toString().orEmpty().ifBlank { "?" }} (${percentFloat?.toInt() ?: 0}%)",
+            text = "Importing ${progress.fileName} ${progress.importedItems}/${progress.totalItems?.toString().orEmpty().ifBlank { "?" }} (${percentFloat?.toInt() ?: 0}%)",
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = MaterialTheme.typography.bodySmall.fontSize * fontScale,
                 fontWeight = FontWeight.Normal

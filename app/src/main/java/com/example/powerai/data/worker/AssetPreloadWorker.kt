@@ -1,12 +1,13 @@
 package com.example.powerai.data.worker
 
 import android.content.Context
-import android.util.Log
+
+// android.util.Log removed per TODO order; TraceLogger remains for diagnostics
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.util.TraceLogger
+import com.example.powerai.core.data.util.TraceLogger
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.lang.StringBuilder
@@ -18,15 +19,15 @@ class AssetPreloadWorker @AssistedInject constructor(
     private val importManager: DocumentImportManager
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
-        Log.i("AssetPreloadWorker", "doWork started")
+        // log removed: doWork started
         try { TraceLogger.append(applicationContext, "AssetPreloadWorker", "doWork started") } catch (_: Throwable) {}
         return try {
             importManager.importAssetsIfNeed()
-            Log.i("AssetPreloadWorker", "importAssetsIfNeed returned")
+            // log removed: importAssetsIfNeed returned
             try { TraceLogger.append(applicationContext, "AssetPreloadWorker", "importAssetsIfNeed returned") } catch (_: Throwable) {}
             Result.success()
         } catch (t: Throwable) {
-            Log.e("AssetPreloadWorker", "doWork failed", t)
+            // log removed: doWork failed
             try {
                 val sb = StringBuilder()
                 sb.append("doWork failed: ")

@@ -1,8 +1,9 @@
 package com.example.powerai.data.mappers
 
-import com.example.powerai.data.importer.TextSanitizer
-import com.example.powerai.data.local.entity.KnowledgeEntity
-import com.example.powerai.domain.model.KnowledgeItem
+import com.example.powerai.core.model.KnowledgeItem
+
+import com.example.powerai.core.model.util.TextSanitizer
+import com.example.powerai.core.data.entity.KnowledgeEntity
 
 fun KnowledgeEntity.toDomain(): KnowledgeItem = KnowledgeItem(
     id = this.id,

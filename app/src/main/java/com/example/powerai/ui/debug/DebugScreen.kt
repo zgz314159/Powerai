@@ -21,18 +21,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.powerai.data.local.entity.KnowledgeEntity
+import com.example.powerai.core.data.entity.KnowledgeEntity
 
 @Composable
 fun DebugScreen(viewModel: com.example.powerai.ui.debug.DebugViewModel) {
-    val items by viewModel.items.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Button(onClick = { viewModel.reloadAll() }) { Text("Reload") }
+        Button(onClick = { viewModel.onIntent(DebugIntent.ReloadAll) }) { Text("Reload") }
         Spacer(modifier = Modifier.height(8.dp))
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(items) { e ->
-                EditableEntry(e = e, onSave = { updated -> viewModel.updateEntry(updated) })
+            items(uiState.items) { e ->
+                EditableEntry(e = e, onSave = { updated -> viewModel.onIntent(DebugIntent.UpdateEntry(updated)) })
             }
         }
     }

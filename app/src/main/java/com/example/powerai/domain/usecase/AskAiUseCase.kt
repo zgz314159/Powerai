@@ -1,13 +1,12 @@
 package com.example.powerai.domain.usecase
 
-import android.util.Log
-import com.example.powerai.BuildConfig
-import com.example.powerai.data.remote.api.AiApiService
-import com.example.powerai.data.remote.api.ChatCompletionsRequest
-import com.example.powerai.data.remote.api.ChatMessage
-import com.example.powerai.data.remote.search.GoogleCustomSearchClient
-import com.example.powerai.data.remote.search.WebSearchResult
+import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.domain.ai.AiPromptProvider
+import com.example.powerai.core.model.chat.ChatCompletionsRequest
+import com.example.powerai.core.model.chat.ChatMessage
+import com.example.powerai.core.repository.AiServiceRepository
+import com.example.powerai.domain.repository.WebSearchRepository
+import com.example.powerai.domain.repository.WebSearchResult
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.text.SimpleDateFormat
@@ -16,8 +15,9 @@ import java.util.Locale
 import javax.inject.Inject
 
 class AskAiUseCase @Inject constructor(
-    private val api: AiApiService,
-    private val googleCse: GoogleCustomSearchClient
+    private val aiRepository: AiServiceRepository,
+    private val webSearchRepository: WebSearchRepository,
+    private val config: RemoteConfigRepository
 ) {
     private val tag = "AskAiUseCase"
 
@@ -30,123 +30,119 @@ class AskAiUseCase @Inject constructor(
     }
 
     /**
-     * 接收问题和本地参考内容，返回 AI 文本回答
+     * ͱزοݣ AI ıش
      */
     suspend fun invoke(question: String, reference: String): String {
         val systemPrompt = AiPromptProvider.buildReferenceWithCitationRules(reference, deviceToday = deviceToday())
-        val model = BuildConfig.DEEPSEEK_LOGIC_MODEL.trim().ifBlank { "deepseek-chat" }
-        val req = ChatCompletionsRequest(
-            model = model,
-            stream = false,
-            messages = listOf(
-                ChatMessage(role = "system", content = systemPrompt),
-                ChatMessage(role = "user", content = question)
-            )
-        )
-        return try {
-            val resp = api.chatCompletions(req)
-            val content = resp.choices
-                ?.firstOrNull()
-                ?.message
-                ?.content
-                ?.trim()
-                .orEmpty()
-
-            if (content.isNotBlank()) {
-                content
-            } else {
-                "AI empty response"
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is SocketTimeoutException -> {
-                    "AI 请求超时：请检查网络后重试（已放宽超时时间）。"
-                }
-                is HttpException -> {
-                    val code = t.code()
-                    val body = try { t.response()?.errorBody()?.string() } catch (_: Throwable) { null }
-                    val extra = body?.takeIf { it.isNotBlank() }?.take(200)
-                    if (extra != null) {
-                        "AI service HTTP $code: $extra"
-                    } else {
-                        "AI service HTTP $code"
-                    }
-                }
-                else -> "AI service error: ${t.message ?: t::class.simpleName}"
-            }
-        }
+        val req = buildChatRequest(systemPrompt, question)
+        return callAiAndHandleErrors(req)
     }
 
     /**
-     * AI-only 提问：不注入本地证据，也不要求引用编号。
-     * 用于“AI tab 纯 AI”模式。
+     * AI-only ʣע뱾֤ݣҲҪñš
+     * "AI tab  AI"ģʽ
      */
     suspend fun invokeAiOnly(question: String): String {
         val systemPrompt = AiPromptProvider.buildAiOnlyPrompt(deviceToday = deviceToday())
-        val model = BuildConfig.DEEPSEEK_LOGIC_MODEL.trim().ifBlank { "deepseek-chat" }
-        val req = ChatCompletionsRequest(
-            model = model,
-            stream = false,
-            messages = listOf(
-                ChatMessage(role = "system", content = systemPrompt),
-                ChatMessage(role = "user", content = question)
-            )
+        val req = buildChatRequest(systemPrompt, question)
+        return callAiAndHandleErrors(req)
+    }
+
+    /**
+     * AI + Web SearchȼٰѼΪ"ⲿ"ιģܽᡣ
+     * -  webSearchEnabled=true á
+     * - δ SERPER_API_KEYȷʾ˵ AI-only
+     */
+    suspend fun invokeAiSearch(question: String, webSearchEnabled: Boolean): String {
+        if (!webSearchEnabled) return invokeAiOnly(question)
+
+        if (!webSearchRepository.isConfigured()) {
+            return "δ local.properties  SERPER_API_KEY\n\n" + invokeAiOnly(question)
+        }
+
+        val results: List<WebSearchResult> = try {
+            webSearchRepository.search(question, count = 5)
+        } catch (_: Throwable) {
+            emptyList()
+        }
+
+        val evidence = formatSearchResults(results)
+        val systemPrompt = AiPromptProvider.buildAiWebSearchPrompt(
+            deviceToday = deviceToday(),
+            searchResults = evidence
         )
+
+        val req = buildChatRequest(systemPrompt, question)
+
         return try {
-            val resp = api.chatCompletions(req)
-            val content = resp.choices
-                ?.firstOrNull()
-                ?.message
-                ?.content
-                ?.trim()
-                .orEmpty()
-            if (content.isNotBlank()) content else "AI empty response"
+            var content = callApiGetContent(req)
+
+            if (content.isBlank()) content = "AI empty response"
+
+            val enriched = enrichContentWithSources(content, results)
+            enriched
         } catch (t: Throwable) {
             when (t) {
-                is SocketTimeoutException -> {
-                    "AI 请求超时：请检查网络后重试（已放宽超时时间）。"
-                }
-                is HttpException -> {
-                    val code = t.code()
-                    val body = try { t.response()?.errorBody()?.string() } catch (_: Throwable) { null }
-                    val extra = body?.takeIf { it.isNotBlank() }?.take(200)
-                    if (extra != null) {
-                        "AI service HTTP $code: $extra"
-                    } else {
-                        "AI service HTTP $code"
-                    }
-                }
-                else -> "AI service error: ${t.message ?: t::class.simpleName}"
+                is SocketTimeoutException, is HttpException -> invokeAiOnly(question)
+                else -> invokeAiOnly(question)
             }
         }
     }
 
-    /**
-     * AI + Web Search：先检索，再把检索结果作为“外部材料”喂给模型总结。
-     * - 仅当 webSearchEnabled=true 才启用。
-     * - 若未配置 SERPER_API_KEY，则给出明确提示并回退到 AI-only。
-     */
-    suspend fun invokeAiSearch(question: String, webSearchEnabled: Boolean): String {
-        Log.d(tag, "invokeAiSearch enabled=$webSearchEnabled q='${question.take(60)}'")
-        if (!webSearchEnabled) return invokeAiOnly(question)
+    // Helper methods
 
-        if (!googleCse.isConfigured()) {
-            Log.d(tag, "invokeAiSearch aborted: googleCse not configured")
-            // Keep it short; user can configure in local.properties.
-            return "未配置联网检索：请在 local.properties 配置 SERPER_API_KEY。\n\n" + invokeAiOnly(question)
+    private fun buildChatRequest(systemPrompt: String, userQuestion: String): ChatCompletionsRequest {
+        val model = config.getDeepSeekModel().trim().ifBlank { "deepseek-chat" }
+        return ChatCompletionsRequest(
+            model = model,
+            stream = false,
+            messages = listOf(
+                ChatMessage(role = "system", content = systemPrompt),
+                ChatMessage(role = "user", content = userQuestion)
+            )
+        )
+    }
+
+    private suspend fun callAiAndHandleErrors(req: ChatCompletionsRequest): String {
+        return try {
+            callApiGetContent(req)
+        } catch (t: Throwable) {
+            handleApiError(t)
         }
+    }
 
-        val results: List<WebSearchResult> = try {
-            Log.d(tag, "invokeAiSearch calling googleCse.search q='${question.take(80)}' count=5")
-            googleCse.search(question, count = 5)
-        } catch (_: Throwable) {
-            Log.d(tag, "invokeAiSearch googleCse.search threw")
-            emptyList()
+    private suspend fun callApiGetContent(req: ChatCompletionsRequest): String {
+        val resp = aiRepository.chatCompletions(req)
+        val content = resp.choices
+            .firstOrNull()
+            ?.message
+            ?.content
+            ?.trim()
+            .orEmpty()
+        return if (content.isNotBlank()) content else "AI empty response"
+    }
+
+    private fun handleApiError(t: Throwable): String {
+        return when (t) {
+            is SocketTimeoutException -> {
+                "AI ʱԣѷſʱʱ䣩"
+            }
+            is HttpException -> {
+                val code = t.code()
+                val body = try { t.response()?.errorBody()?.string() } catch (_: Throwable) { null }
+                val extra = body?.takeIf { it.isNotBlank() }?.take(200)
+                if (extra != null) {
+                    "AI service HTTP $code: $extra"
+                } else {
+                    "AI service HTTP $code"
+                }
+            }
+            else -> "AI service error: ${t.message ?: t::class.simpleName}"
         }
+    }
 
-        Log.d(tag, "invokeAiSearch google results=${results.size}")
-
-        val evidence = results.mapIndexed { idx, r ->
+    private fun formatSearchResults(results: List<WebSearchResult>): String {
+        return results.mapIndexed { idx, r ->
             buildString {
                 append("[R")
                 append(idx + 1)
@@ -160,67 +156,29 @@ class AskAiUseCase @Inject constructor(
                 append(r.url)
             }
         }.joinToString("\n\n")
+    }
 
-        val systemPrompt = AiPromptProvider.buildAiWebSearchPrompt(
-            deviceToday = deviceToday(),
-            searchResults = evidence
-        )
+    private fun enrichContentWithSources(content: String, results: List<WebSearchResult>): String {
+        if (results.isEmpty()) return content
 
-        Log.d(tag, "invokeAiSearch evidenceLen=${evidence.length}")
+        val hasAnyUrl = results.any { r -> r.url.isNotBlank() && content.contains(r.url, ignoreCase = true) }
+        if (hasAnyUrl) return content
 
-        val model = BuildConfig.DEEPSEEK_LOGIC_MODEL.trim().ifBlank { "deepseek-chat" }
-        Log.d(tag, "invokeAiSearch model='$model'")
-        val req = ChatCompletionsRequest(
-            model = model,
-            stream = false,
-            messages = listOf(
-                ChatMessage(role = "system", content = systemPrompt),
-                ChatMessage(role = "user", content = question)
-            )
-        )
+        val sources = results
+            .take(5)
+            .map { it.url }
+            .filter { it.isNotBlank() }
+            .distinct()
 
-        return try {
-            val resp = api.chatCompletions(req)
-            var content = resp.choices
-                ?.firstOrNull()
-                ?.message
-                ?.content
-                ?.trim()
-                .orEmpty()
+        if (sources.isEmpty()) return content
 
-            Log.d(tag, "invokeAiSearch deepseek ok contentLen=${content.length}")
-
-            if (content.isBlank()) content = "AI empty response"
-
-            if (results.isNotEmpty()) {
-                val hasAnyUrl = results.any { r -> r.url.isNotBlank() && content.contains(r.url, ignoreCase = true) }
-                if (!hasAnyUrl) {
-                    val sources = results
-                        .take(5)
-                        .map { it.url }
-                        .filter { it.isNotBlank() }
-                        .distinct()
-                    if (sources.isNotEmpty()) {
-                        content = buildString {
-                            append(content.trim())
-                            append("\n\n来源：\n")
-                            sources.forEach { u ->
-                                append(u)
-                                append("\n")
-                            }
-                        }.trimEnd()
-                    }
-                }
+        return buildString {
+            append(content.trim())
+            append("\n\nԴ\n")
+            sources.forEach { u ->
+                append(u)
+                append("\n")
             }
-
-            content
-        } catch (t: Throwable) {
-            Log.d(tag, "invokeAiSearch deepseek error=${t::class.simpleName}:${t.message}")
-            // Search failed? Still return an AI-only fallback rather than hard-failing.
-            when (t) {
-                is SocketTimeoutException, is HttpException -> invokeAiOnly(question)
-                else -> invokeAiOnly(question)
-            }
-        }
+        }.trimEnd()
     }
 }

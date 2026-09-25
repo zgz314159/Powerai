@@ -1,6 +1,6 @@
 package com.example.powerai.data.remote.search
 
-import android.util.Log
+// android.util.Log removed; diagnostic logs suppressed
 import com.example.powerai.BuildConfig
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -36,14 +36,14 @@ class GoogleCustomSearchClient @Inject constructor() {
     fun isConfigured(): Boolean {
         val key = BuildConfig.SERPER_API_KEY.trim()
         val keyOk = key.isNotBlank()
-        Log.d(tag, "isConfigured provider=serper keyOk=$keyOk keyLen=${key.length}")
+        // log removed: isConfigured provider=serper keyOk=$keyOk keyLen=${key.length}
         return keyOk
     }
 
     suspend fun search(query: String, count: Int = 5): List<WebSearchResult> {
         val key = BuildConfig.SERPER_API_KEY.trim()
         if (key.isBlank()) {
-            Log.d(tag, "search skipped: missing SERPER_API_KEY (keyLen=${key.length})")
+            // log removed: search skipped: missing SERPER_API_KEY (keyLen=${key.length})
             return emptyList()
         }
 
@@ -53,11 +53,11 @@ class GoogleCustomSearchClient @Inject constructor() {
         val maxOut = count.coerceIn(1, 10)
         val httpUrl = endpoint.toHttpUrlOrNull()?.newBuilder()?.build()
             ?: run {
-                Log.d(tag, "search failed: bad endpoint url")
+                // log removed: search failed: bad endpoint url
                 return emptyList()
             }
 
-        Log.d(tag, "search provider=serper q='${query.take(60)}' num=$maxOut url=$httpUrl")
+        // log removed: search provider=serper q='${query.take(60)}' num=$maxOut url=$httpUrl
 
         val payload = JsonObject().apply {
             addProperty("q", query)
@@ -66,7 +66,7 @@ class GoogleCustomSearchClient @Inject constructor() {
             addProperty("gl", "cn")
         }
         val json = payload.toString()
-        Log.d(tag, "search payload=${json.take(200)}")
+        // log removed: search payload=${json.take(200)}
 
         val requestBody = json.toRequestBody("application/json".toMediaType())
 
@@ -82,21 +82,21 @@ class GoogleCustomSearchClient @Inject constructor() {
             client.newCall(req).execute().use { resp ->
                 val code = resp.code
                 val bodyRaw = resp.body?.string().orEmpty()
-                Log.d(tag, "search http response code=$code bodyLen=${bodyRaw.length}")
+                // log removed: search http response code=$code bodyLen=${bodyRaw.length}
                 if (!resp.isSuccessful) {
                     val bodyPreview = bodyRaw.take(2000)
-                    Log.d(tag, "search http error code=$code body='$bodyPreview'")
+                    // log removed: search http error code=$code body='$bodyPreview'
                     return@use emptyList()
                 }
 
                 val body = bodyRaw.trim()
                 if (body.isBlank()) {
-                    Log.d(tag, "search empty body")
+                    // log removed: search empty body
                     return@use emptyList()
                 }
 
                 val root = try { JsonParser().parse(body).asJsonObject } catch (_: Throwable) {
-                    Log.d(tag, "search parse json failed")
+                    // log removed: search parse json failed
                     return@use emptyList()
                 }
 
@@ -104,7 +104,7 @@ class GoogleCustomSearchClient @Inject constructor() {
                 val items = root.getAsJsonArray("organic")
                     ?: root.getAsJsonArray("news")
                     ?: run {
-                        Log.d(tag, "search ok but no organic/news array")
+                        // log removed: search ok but no organic/news array
                         return@use emptyList()
                     }
 
@@ -118,7 +118,7 @@ class GoogleCustomSearchClient @Inject constructor() {
                     out.add(WebSearchResult(title = title, url = url, snippet = snippet))
                 }
                 val trimmed = if (out.size > maxOut) out.take(maxOut) else out
-                Log.d(tag, "search parsed results=${out.size} trimmed=${trimmed.size}")
+                // log removed: search parsed results=${out.size} trimmed=${trimmed.size}
                 trimmed
             }
         }

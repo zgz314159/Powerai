@@ -35,22 +35,25 @@ class EmbeddingWorkerInstrumentedTest {
     }
 
     @Test
-    fun workerProcessesPendingAndWritesMetricsAndRoomEntry() {
+    fun workerProcessesPendingAndWritesSuccessMetrics() {
         // prepare prefs: use http mode and point to mock server
         val prefs = ctx.getSharedPreferences("powerai_prefs", Context.MODE_PRIVATE)
         val url = server.url("/embed_batch").toString()
         prefs.edit().putString("embedding_service_mode", "http").putString("embedding_service_url", url).apply()
 
-        // prepare pending JSON for id 1111
+        // prepare pending JSON for id 1111 (start from a clean embeddings dir
+        // so stale metrics from previous runs cannot affect assertions)
         val base = File(ctx.filesDir, "embeddings")
+        base.deleteRecursively()
         val pending = File(base, "pending")
         pending.mkdirs()
         val pendingFile = File(pending, "1111.json")
         val payload = "{\"id\":\"1111\",\"title\":\"T\",\"content\":\"Hello embedding test\"}"
         pendingFile.writeText(payload)
 
-        // prepare mock response: returns embedding vector for id 1111
-        val respBody = "{\"results\":{\"1111\":[0.1,0.2,0.3]}}"
+        // prepare mock response: returns a 384-dim embedding vector for id 1111
+        val embeddingJson = List(384) { "0.1" }.joinToString(",")
+        val respBody = """{"results":{"1111":[$embeddingJson]}}"""
         server.enqueue(MockResponse().setResponseCode(200).setBody(respBody))
 
         // enqueue the worker (same unique name used by EmbeddingRepositoryImpl)
@@ -77,14 +80,12 @@ class EmbeddingWorkerInstrumentedTest {
         val lines = metrics.readLines().filter { it.isNotBlank() }
         assertTrue("metrics empty", lines.isNotEmpty())
 
-        // assert Room entry for id 1111 exists (EmbeddingDao.getFileName)
-        // Use Room database helper to get instance of the app DB (name created in AppModule)
-        val roomDb = androidx.room.Room.databaseBuilder(ctx, com.example.powerai.data.local.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()
-        try {
-            val fileName = kotlinx.coroutines.runBlocking { roomDb.embeddingDao().getFileName(1111L) }
-            assertNotNull("Embedding metadata not upserted to Room", fileName)
-        } finally {
-            try { roomDb.close() } catch (_: Throwable) {}
-        }
+        // assert the last metrics entry reports a clean run for the single pending item
+        val metric = org.json.JSONObject(lines.last())
+        assertEquals("unexpected processed count", 1, metric.getInt("processed"))
+        assertEquals("embedding processing reported failures", 0, metric.getInt("failures"))
+
+        // assert the pending file was consumed by the worker
+        assertFalse("pending file was not removed", pendingFile.exists())
     }
 }

@@ -80,8 +80,8 @@ fun TypingAiResponseCard(
         val day = 24 * hour
         return when {
             diff < minute -> "刚刚"
-            diff < hour -> "${diff / minute}分钟前"
-            diff < day -> "${diff / hour}小时前"
+            diff < hour -> "${diff / minute}分钟"
+            diff < day -> "${diff / hour}小时"
             diff < 7 * day -> "${diff / day}天前"
             else -> SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date(timeMillis))
         }
@@ -95,7 +95,7 @@ fun TypingAiResponseCard(
     ) {
         if (!userMessage.isNullOrBlank()) {
             Spacer(Modifier.height(8.dp))
-            // 用户消息靠右显示为气泡，限制最大宽度
+            // 用户消息靠右显示为气泡，限制最大宽
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Surface(
                     shape = RoundedCornerShape(20.dp),
@@ -113,7 +113,7 @@ fun TypingAiResponseCard(
                     }
                 }
             }
-            // 用户时间戳（紧贴气泡，右对齐）
+            // 用户时间戳（紧贴气泡，右对齐
             if (askedAtMillis != null) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Text(
@@ -128,10 +128,10 @@ fun TypingAiResponseCard(
             Spacer(Modifier.height(6.dp))
         }
 
-        // 在 AI 消息前增加顶部间距，避免挨着用户消息
+        // AI 消息前增加顶部间距，避免挨着用户消息
         Spacer(Modifier.height(16.dp))
 
-        // AI 回答（左对齐），Surface 背景拉满屏幕边缘，文字内容有内边距
+        // AI 回答（左对齐），Surface 背景拉满屏幕边缘，文字内容有内边
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
             Surface(
                 shape = RoundedCornerShape(0.dp),
@@ -141,7 +141,7 @@ fun TypingAiResponseCard(
                     .fillMaxWidth()
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
-                    // 移除 header（保持 ChatGPT 风格），只渲染正文
+                    // 移除 header（保ChatGPT 风格），只渲染正
                     ResponseBody(
                         text = text,
                         isLoading = isLoading,

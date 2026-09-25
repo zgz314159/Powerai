@@ -8,17 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import com.example.powerai.ui.screen.hybrid.HybridUiState
 
 @Composable
 internal fun MainInlineDiagnostics(
-    uiState: HybridViewModel.UiStateWithImport,
+    uiState: HybridUiState,
     onRetryImport: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     uiState.importProgress?.let { p ->
         val totalStr = p.totalItems?.let { "/$it" }.orEmpty()
         Text(
-            text = "导入：${p.status} ${p.percent}% (${p.importedItems}$totalStr) ${p.fileName}",
+            text = "导入${p.status} ${p.percent}% (${p.importedItems}$totalStr) ${p.fileName}",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = modifier.padding(horizontal = 16.dp)

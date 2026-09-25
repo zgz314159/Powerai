@@ -16,6 +16,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import com.example.powerai.ui.screen.main.DisplayMode
 import com.example.powerai.ui.theme.PowerAiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +39,20 @@ fun AppEntry() {
     val dark = isSystemInDarkTheme()
     PowerAiTheme(darkTheme = dark) {
         Surface(color = MaterialTheme.colorScheme.background) {
+            val context = LocalContext.current
             val navController = rememberNavController()
+            // auto-run query injection for diagnostics
+            val hybridViewModel: com.example.powerai.ui.screen.hybrid.HybridViewModel = hiltViewModel()
+            LaunchedEffect(key1 = context) {
+                val act = context as? android.app.Activity
+                val raw = act?.intent?.getStringExtra("auto_query")
+                val q = raw?.let {
+                    try { java.net.URLDecoder.decode(it, "UTF-8") } catch (_: Throwable) { it }
+                }
+                if (!q.isNullOrBlank()) {
+                    hybridViewModel.submitQuery(q, DisplayMode.LOCAL)
+                }
+            }
             com.example.powerai.ui.AppNavHost(navController)
         }
     }

@@ -1,6 +1,7 @@
 package com.example.powerai.ui.screen.detail
 
-import com.example.powerai.ui.blocks.KnowledgeBlock
+
+import com.example.powerai.core.model.KnowledgeBlock
 import io.noties.markwon.Markwon
 
 internal data class MarkwonRenderState(

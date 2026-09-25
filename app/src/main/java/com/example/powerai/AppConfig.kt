@@ -6,4 +6,7 @@ package com.example.powerai
 object AppConfig {
     // Anchor the vector embedding dimension used across JVM and native layers.
     const val VECTOR_DIM: Int = 384
+
+    const val BUNDLED_KB_ROOT = "kb"
+    const val EXTERNAL_KB_DIR = "kb_external"
 }

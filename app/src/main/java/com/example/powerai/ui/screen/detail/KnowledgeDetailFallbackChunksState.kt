@@ -1,6 +1,6 @@
 package com.example.powerai.ui.screen.detail
 
-import android.util.Log
+// android.util.Log removed per TODO order; diagnostics suppressed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
@@ -14,20 +14,17 @@ internal fun produceFallbackChunksState(content: String): State<List<String>?> {
         key1 = content
     ) {
         value = null
-        Log.d("PowerAi.Trace", "chunkContent START len=${content.length}")
+        // log removed: chunkContent START len=${content.length}
         val start = System.currentTimeMillis()
         value = withContext(Dispatchers.Default) {
             runCatching {
                 chunkContent(content)
             }.getOrElse { t ->
-                Log.w(
-                    "PowerAi.Trace",
-                    "chunkContent FAILED len=${content.length} thread=${Thread.currentThread().name}",
-                    t
-                )
+                // log removed: chunkContent FAILED len=${content.length}
+                listOf(content)
                 listOf(content)
             }
         }
-        Log.d("PowerAi.Trace", "chunkContent DONE size=${value?.size ?: 0} took=${System.currentTimeMillis() - start}ms")
+        // log removed: chunkContent DONE size=${value?.size ?: 0} took=${System.currentTimeMillis() - start}ms
     }
 }
