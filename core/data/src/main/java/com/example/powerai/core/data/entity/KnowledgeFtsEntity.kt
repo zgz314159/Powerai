@@ -1,0 +1,12 @@
+package com.example.powerai.core.data.entity
+
+import androidx.room.Entity
+import androidx.room.Fts4
+
+@Entity(tableName = "knowledge_fts")
+@Fts4(contentEntity = KnowledgeEntity::class)
+data class KnowledgeFtsEntity(
+    val title: String,
+    val source: String,
+    val searchContent: String
+)
