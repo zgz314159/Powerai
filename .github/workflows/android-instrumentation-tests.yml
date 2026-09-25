@@ -50,4 +50,4 @@ jobs:
           emulator-options: -no-snapshot-load -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           disable-animations: true
           # 核心：直接在插件内部运行命令
-          script: ./gradlew connectedAndroidTest --no-daemon -Dorg.gradle.jvmargs="-Xmx2g"
+          script: ./gradlew :app:connectedDebugAndroidTest --no-daemon -Dorg.gradle.jvmargs="-Xmx2g"
