@@ -8,6 +8,7 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
+/.cursor/
 /build
 /captures
 .externalNativeBuild
@@ -16,3 +17,21 @@ local.properties
 
 # Ignore IDE edit history backups that cause false positives in code searches
 .history/
+
+# PowerAi specific ignores
+*.db-shm
+*.db-wal
+/app/last_res.txt
+/ai-core-zip/
+ai-core.zip
+/llama_library/
+
+# Python & Cache
+*$py.class
+.venv/
+.cache/
+.artifacts/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/

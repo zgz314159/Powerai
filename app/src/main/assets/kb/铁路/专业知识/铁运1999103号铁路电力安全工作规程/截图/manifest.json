@@ -2,14 +2,13 @@
   "version": 1,
   "fileId": "铁路/专业知识/铁运1999103号铁路电力安全工作规程",
   "generatedAt": 1770729916164,
-  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
-  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages",
-  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图",
+  "root": "app/src/main/assets/kb",
+  "pagesDir": "app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages",
+  "outDir": "app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图",
   "items": [
     {
       "kind": "legend",
       "pageNumber": 25,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_025_p25.png",
       "outFile": "legend_p25_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p25_idx1.png",
       "method": "rect_edges",
@@ -90,7 +89,6 @@
     {
       "kind": "legend",
       "pageNumber": 26,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_026_p26.png",
       "outFile": "legend_p26_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p26_idx1.png",
       "method": "rect_edges",
@@ -131,7 +129,6 @@
     {
       "kind": "legend",
       "pageNumber": 69,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_069_p69.png",
       "outFile": "legend_p69_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p69_idx1.png",
       "method": "rect_edges",
@@ -212,7 +209,6 @@
     {
       "kind": "legend",
       "pageNumber": 69,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_069_p69.png",
       "outFile": "legend_p69_idx2.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p69_idx2.png",
       "method": "rect_edges",
@@ -293,7 +289,6 @@
     {
       "kind": "legend",
       "pageNumber": 72,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_072_p72.png",
       "outFile": "legend_p72_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p72_idx1.png",
       "method": "rect_edges",
@@ -334,7 +329,6 @@
     {
       "kind": "legend",
       "pageNumber": 74,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_074_p74.png",
       "outFile": "legend_p74_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p74_idx1.png",
       "method": "rect_edges",
@@ -383,7 +377,6 @@
     {
       "kind": "legend",
       "pageNumber": 76,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_076_p76.png",
       "outFile": "legend_p76_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p76_idx1.png",
       "method": "rect_edges",
@@ -424,7 +417,6 @@
     {
       "kind": "legend",
       "pageNumber": 78,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_078_p78.png",
       "outFile": "legend_p78_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p78_idx1.png",
       "method": "rect_edges",
@@ -465,7 +457,6 @@
     {
       "kind": "legend",
       "pageNumber": 81,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_081_p81.png",
       "outFile": "legend_p81_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p81_idx1.png",
       "method": "rect_edges",
@@ -514,7 +505,6 @@
     {
       "kind": "legend",
       "pageNumber": 85,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_085_p85.png",
       "outFile": "legend_p85_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p85_idx1.png",
       "method": "rect_edges",
@@ -595,7 +585,6 @@
     {
       "kind": "legend",
       "pageNumber": 86,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_086_p86.png",
       "outFile": "legend_p86_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p86_idx1.png",
       "method": "rect_edges",
@@ -636,7 +625,6 @@
     {
       "kind": "legend",
       "pageNumber": 87,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/pages/page_087_p87.png",
       "outFile": "legend_p87_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁运1999103号铁路电力安全工作规程/截图/legend_p87_idx1.png",
       "method": "rect_edges",
