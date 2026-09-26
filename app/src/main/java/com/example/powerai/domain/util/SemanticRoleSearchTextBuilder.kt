@@ -420,7 +420,7 @@ internal object SemanticRoleSearchTextBuilder {
 
     private fun looksLikeBodyFallback(text: String): Boolean {
         if (text.length >= 40) return true
-        if (Regex("[绗?锛圿\\d+[)锛塢").containsMatchIn(text)) return true
+        if (Regex("[绗?锛圿]\\d+[)锛塢]").containsMatchIn(text)) return true
         if (Regex("[銆傦紱锛?;]").findAll(text).count() >= 2) return true
         if (Regex("[\\u4e00-\\u9fff]").findAll(text).count() >= 20) return true
         return false
