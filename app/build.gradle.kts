@@ -6,8 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.baselineprofile)
 }
 
@@ -220,21 +218,10 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
-tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
-    jvmTarget = "17"
-    config.setFrom(files("${project.rootDir}/config/detekt/detekt.yml"))
-}
-
-extensions.configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
-    ignoreFailures = true
-}
-
-extensions.configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    this.ignoreFailures.set(true)
-}
-
+// Detekt and ktlint are configured once in the root build script so every
+// module shares the same guardrails and baseline.
 tasks.register("codeQuality") {
     group = "verification"
-    description = "Run ktlint and detekt reports (non-blocking)."
-    dependsOn("ktlintCheck", "detekt")
+    description = "Run ktlint and detekt reports (baseline-guarded)."
+    dependsOn("ktlintCheck", ":detekt")
 }
