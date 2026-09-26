@@ -21,6 +21,7 @@ local.properties
 # PowerAi specific ignores
 *.db-shm
 *.db-wal
+/app/last_res.txt
 /ai-core-zip/
 ai-core.zip
 /llama_library/
