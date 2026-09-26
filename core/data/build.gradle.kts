@@ -13,10 +13,9 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        // Local defaults; the app module remains the source of real secrets/URLs.
-        buildConfigField("String", "AI_API_KEY", "\"\"")
-        buildConfigField("String", "AI_BASE_URL", "\"\"")
-        buildConfigField("String", "DEEPSEEK_LOGIC_MODEL", "\"\"")
+        // Runtime AI configuration is injected from the app composition root
+        // through RemoteConfigRepository; this module must not declare its own
+        // (always-empty) copies of those fields.
     }
 
     buildTypes {

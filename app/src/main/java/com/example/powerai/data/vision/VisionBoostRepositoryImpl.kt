@@ -3,6 +3,7 @@ package com.example.powerai.data.vision
 import android.content.Context
 import android.util.Base64
 import com.example.powerai.BuildConfig
+import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.domain.vision.VisionBoostRepository
 import com.example.powerai.engine.ai.AiApiService
 import com.example.powerai.engine.ai.ApiChatCompletionsRequest
@@ -27,7 +28,8 @@ class VisionBoostRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val gson: Gson,
     @Named("visionValidation") private val aiApiService: AiApiService,
-    private val visionService: VisionService
+    private val visionService: VisionService,
+    private val remoteConfigRepository: RemoteConfigRepository,
 ) : VisionBoostRepository {
 
     private val client: OkHttpClient = OkHttpClient.Builder()
@@ -106,7 +108,7 @@ class VisionBoostRepositoryImpl @Inject constructor(
         val input = markdown.trim().take(20000)
         if (input.isBlank()) return ""
 
-        val model = BuildConfig.DEEPSEEK_LOGIC_MODEL.trim().ifBlank { "deepseek-chat" }
+        val model = remoteConfigRepository.getDeepSeekModel().trim().ifBlank { "deepseek-chat" }
 
         val system = """
 你是一个严谨的逻辑审计专家。你的任务是对给定的 Markdown 表格/内容做一致性检查
