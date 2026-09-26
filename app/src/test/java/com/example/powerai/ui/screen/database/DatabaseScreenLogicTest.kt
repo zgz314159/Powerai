@@ -257,20 +257,22 @@ class DatabaseScreenLogicTest {
 
     @Test
     fun `duplicate item ids resolve to the first group in order`() {
-        val duplicated = listOf(
-            group("g1", "手册A.pdf", listOf(row(item(5)), row(item(6)))),
-            group("g2", "手册B.pdf", listOf(row(item(5)))),
-        )
+        val duplicated =
+            listOf(
+                group("g1", "手册A.pdf", listOf(row(item(5)), row(item(6)))),
+                group("g2", "手册B.pdf", listOf(row(item(5)))),
+            )
 
         val byId = findDatabaseItemLocation(duplicated, 5L, emptySet())
         assertEquals("g1", byId?.groupKey)
         assertEquals(1, byId?.listIndex)
 
-        val byTarget = findDatabaseItemLocation(
-            duplicated,
-            DatabaseFocusTarget(itemId = 5L),
-            emptySet()
-        )
+        val byTarget =
+            findDatabaseItemLocation(
+                duplicated,
+                DatabaseFocusTarget(itemId = 5L),
+                emptySet(),
+            )
         assertEquals("g1", byTarget?.groupKey)
         assertEquals(1, byTarget?.listIndex)
     }
