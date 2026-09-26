@@ -2,13 +2,17 @@ package com.example.powerai.di
 
 import android.content.Context
 import com.example.powerai.BuildConfig
-import com.example.powerai.data.remote.api.AiApiService
 import com.example.powerai.data.remote.api.VectorSearchApiService
 import com.example.powerai.data.remote.dto.VectorSearchRequest
 import com.example.powerai.data.remote.dto.VectorSearchResponse
 import com.example.powerai.data.retriever.AnnApiService
 import com.example.powerai.data.retriever.AnnSearchRequest
 import com.example.powerai.data.retriever.AnnSearchResponse
+import com.example.powerai.engine.ai.AiApiService
+import com.example.powerai.engine.ai.ApiChatChoice
+import com.example.powerai.engine.ai.ApiChatCompletionsRequest
+import com.example.powerai.engine.ai.ApiChatCompletionsResponse
+import com.example.powerai.engine.ai.ApiChatMessage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +23,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -30,21 +35,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAiApiService(): AiApiService {
+    @Named("visionValidation")
+    fun provideVisionValidationAiApiService(): AiApiService {
         val base = BuildConfig.AI_BASE_URL.trim()
         if (base.isBlank()) {
+            val message =
+                ApiChatMessage(
+                    role = "assistant",
+                    content = "AI 未配置：请在本地通过 Gradle 配置 BuildConfig.AI_BASE_URL（以及可选的 AI_API_KEY）",
+                )
+            val choice = ApiChatChoice(message = message)
             return object : AiApiService {
-                override suspend fun chatCompletions(request: com.example.powerai.data.remote.api.ChatCompletionsRequest): com.example.powerai.data.remote.api.ChatCompletionsResponse {
-                    return com.example.powerai.data.remote.api.ChatCompletionsResponse(
-                        choices = listOf(
-                            com.example.powerai.data.remote.api.ChatChoice(
-                                message = com.example.powerai.data.remote.api.ChatMessage(
-                                    role = "assistant",
-                                    content = "AI 未配置：请在本地通过 Gradle 配置 BuildConfig.AI_BASE_URL（以及可选的 AI_API_KEY）"
-                                )
-                            )
-                        )
-                    )
+                override suspend fun chatCompletions(request: ApiChatCompletionsRequest): ApiChatCompletionsResponse {
+                    return ApiChatCompletionsResponse(choices = listOf(choice))
                 }
             }
         }

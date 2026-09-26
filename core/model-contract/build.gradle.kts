@@ -39,4 +39,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("javax.inject:javax.inject:1")
+
+    testImplementation(libs.junit)
 }

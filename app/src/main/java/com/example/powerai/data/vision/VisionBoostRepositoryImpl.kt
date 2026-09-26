@@ -2,12 +2,11 @@ package com.example.powerai.data.vision
 
 import android.content.Context
 import android.util.Base64
-// android.util.Log removed per TODO; logging suppressed or rerouted elsewhere
 import com.example.powerai.BuildConfig
-import com.example.powerai.data.remote.api.AiApiService
-import com.example.powerai.data.remote.api.ChatCompletionsRequest
-import com.example.powerai.data.remote.api.ChatMessage
 import com.example.powerai.domain.vision.VisionBoostRepository
+import com.example.powerai.engine.ai.AiApiService
+import com.example.powerai.engine.ai.ApiChatCompletionsRequest
+import com.example.powerai.engine.ai.ApiChatMessage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,13 +19,14 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class VisionBoostRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val gson: Gson,
-    private val aiApiService: AiApiService,
+    @Named("visionValidation") private val aiApiService: AiApiService,
     private val visionService: VisionService
 ) : VisionBoostRepository {
 
@@ -125,12 +125,12 @@ $input
         """.trimIndent()
 
         val resp = aiApiService.chatCompletions(
-            ChatCompletionsRequest(
+            ApiChatCompletionsRequest(
                 model = model,
                 stream = false,
                 messages = listOf(
-                    ChatMessage(role = "system", content = system),
-                    ChatMessage(role = "user", content = user)
+                    ApiChatMessage(role = "system", content = system),
+                    ApiChatMessage(role = "user", content = user),
                 )
             )
         )

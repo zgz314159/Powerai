@@ -7,7 +7,6 @@ import com.example.powerai.core.repository.AnnRetriever
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.core.model.ObservabilityService
-import com.example.powerai.data.remote.api.AiApiService
 import com.example.powerai.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.ai.LlmFactualityScorer
 import com.example.powerai.domain.retrieval.HybridRetrievalService

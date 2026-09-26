@@ -45,7 +45,6 @@
       "app/src/main/java/com/example/powerai/data/local/SmartSearchHistoryStore.kt": 39,
       "app/src/main/java/com/example/powerai/data/mappers/KnowledgeMappers.kt": 28,
       "app/src/main/java/com/example/powerai/data/remote/VectorSearchClient.kt": 34,
-      "app/src/main/java/com/example/powerai/data/remote/api/AiApiService.kt": 36,
       "app/src/main/java/com/example/powerai/data/remote/api/VectorSearchApiService.kt": 11,
       "app/src/main/java/com/example/powerai/data/remote/bing/BingWebSearchClient.kt": 82,
       "app/src/main/java/com/example/powerai/data/remote/dto/VectorSearchDtos.kt": 21,
@@ -74,15 +73,14 @@
       "app/src/main/java/com/example/powerai/data/worker/AssetPreloadWorker.kt": 42,
       "app/src/main/java/com/example/powerai/data/worker/DataSyncWorker.kt": 32,
       "app/src/main/java/com/example/powerai/data/worker/EmbeddingWorker.kt": 199,
-      "app/src/main/java/com/example/powerai/di/AIModule.kt": 112,
+      "app/src/main/java/com/example/powerai/di/AIModule.kt": 111,
       "app/src/main/java/com/example/powerai/di/AppModule.kt": 24,
       "app/src/main/java/com/example/powerai/di/CoreModule.kt": 54,
       "app/src/main/java/com/example/powerai/di/DataModule.kt": 44,
       "app/src/main/java/com/example/powerai/di/FaissModule.kt": 26,
-      "app/src/main/java/com/example/powerai/di/NetworkModule.kt": 151,
+      "app/src/main/java/com/example/powerai/di/NetworkModule.kt": 154,
       "app/src/main/java/com/example/powerai/di/RepositoryModule.kt": 41,
       "app/src/main/java/com/example/powerai/domain/ai/AiPromptProvider.kt": 105,
-      "app/src/main/java/com/example/powerai/domain/ai/AiStreamingService.kt": 175,
       "app/src/main/java/com/example/powerai/domain/ai/LlmFactualityScorer.kt": 53,
       "app/src/main/java/com/example/powerai/domain/eval/AnswerEval.kt": 89,
       "app/src/main/java/com/example/powerai/domain/eval/DetailedEvalResult.kt": 24,
@@ -95,7 +93,7 @@
       "app/src/main/java/com/example/powerai/domain/model/QueryResult.kt": 18,
       "app/src/main/java/com/example/powerai/domain/model/SearchHistoryModels.kt": 12,
       "app/src/main/java/com/example/powerai/domain/model/chat/AiStreamState.kt": 8,
-      "app/src/main/java/com/example/powerai/domain/model/chat/ChatModels.kt": 50,
+      "app/src/main/java/com/example/powerai/domain/model/chat/ChatModels.kt": 25,
       "app/src/main/java/com/example/powerai/domain/repository/ChatHistoryRepository.kt": 10,
       "app/src/main/java/com/example/powerai/domain/repository/RemoteAiRepository.kt": 28,
       "app/src/main/java/com/example/powerai/domain/repository/SearchHistoryRepository.kt": 11,
@@ -528,8 +526,8 @@
     },
     "modules": {
       "app": {
-        "files": 335,
-        "lines": 30576
+        "files": 333,
+        "lines": 30342
       },
       "benchmark": {
         "files": 2,
@@ -562,10 +560,10 @@
       "newFunctionMaxLines": 80
     },
     "totals": {
-      "appFileShare": 0.7251,
-      "appLineShare": 0.7486,
-      "files": 462,
-      "lines": 40842
+      "appFileShare": 0.7239,
+      "appLineShare": 0.7472,
+      "files": 460,
+      "lines": 40608
     }
   }
 }

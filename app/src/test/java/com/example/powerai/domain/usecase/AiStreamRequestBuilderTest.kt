@@ -30,4 +30,20 @@ class AiStreamRequestBuilderTest {
         assertTrue(fragments.first().contains("\\\"there\\\""))
         assertTrue(fragments.last().contains("\\n"))
     }
+
+    @Test
+    fun `buildMessageFragments pins exact json shape and order`() {
+        val turns =
+            listOf(
+                ChatTurn(id = 1L, question = "Q1", answer = "A1", askedAtMillis = 0),
+            )
+        val fragments = AiStreamRequestBuilder.buildMessageFragments(turns, "hi \"there\"")
+        val expected =
+            listOf(
+                "{\"role\":\"user\",\"content\":\"Q1\"}",
+                "{\"role\":\"assistant\",\"content\":\"A1\"}",
+                "{\"role\":\"user\",\"content\":\"hi \\\"there\\\"\"}",
+            )
+        assertEquals(expected, fragments)
+    }
 }
