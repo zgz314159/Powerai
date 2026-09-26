@@ -29,6 +29,15 @@ complexity:
   #   NestedBlockDepth:        threshold 4
   #   TooManyFunctions:        thresholdIn* 11
 
+naming:
+  active: true
+  # Compose composables are PascalCase by Android convention. Detekt 1.23's
+  # FunctionNaming has no ignoreAnnotated switch, so widen the pattern to accept
+  # both casings and keep the rule live for snake_case/kebab/dotted names
+  # instead of growing the baseline with every new composable.
+  FunctionNaming:
+    functionPattern: '[A-Za-z][a-zA-Z0-9]*'
+
 style:
   active: true
   # 140 matches ktlint's default max_line_length so both tools agree on the
