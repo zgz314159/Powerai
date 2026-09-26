@@ -1,7 +1,7 @@
 {
   "detekt": {
     "baselineFile": "config/detekt/detekt-baseline.xml",
-    "findings": 1461
+    "findings": 1459
   },
   "sourceSize": {
     "files": {
@@ -68,17 +68,18 @@
       "app/src/main/java/com/example/powerai/data/util/AndroidDomainLogger.kt": 25,
       "app/src/main/java/com/example/powerai/data/util/AndroidNativeResourceProvider.kt": 79,
       "app/src/main/java/com/example/powerai/data/vision/VisionBoostJson.kt": 114,
-      "app/src/main/java/com/example/powerai/data/vision/VisionBoostRepositoryImpl.kt": 214,
+      "app/src/main/java/com/example/powerai/data/vision/VisionBoostRepositoryImpl.kt": 216,
       "app/src/main/java/com/example/powerai/data/vision/VisionService.kt": 179,
       "app/src/main/java/com/example/powerai/data/worker/AssetPreloadWorker.kt": 42,
       "app/src/main/java/com/example/powerai/data/worker/DataSyncWorker.kt": 32,
       "app/src/main/java/com/example/powerai/data/worker/EmbeddingWorker.kt": 199,
       "app/src/main/java/com/example/powerai/di/AIModule.kt": 111,
+      "app/src/main/java/com/example/powerai/di/AiConfigModule.kt": 68,
       "app/src/main/java/com/example/powerai/di/AppModule.kt": 24,
       "app/src/main/java/com/example/powerai/di/CoreModule.kt": 54,
       "app/src/main/java/com/example/powerai/di/DataModule.kt": 44,
       "app/src/main/java/com/example/powerai/di/FaissModule.kt": 26,
-      "app/src/main/java/com/example/powerai/di/NetworkModule.kt": 154,
+      "app/src/main/java/com/example/powerai/di/NetworkModule.kt": 157,
       "app/src/main/java/com/example/powerai/di/RepositoryModule.kt": 41,
       "app/src/main/java/com/example/powerai/domain/ai/AiPromptProvider.kt": 105,
       "app/src/main/java/com/example/powerai/domain/ai/LlmFactualityScorer.kt": 53,
@@ -346,7 +347,7 @@
       "core/data/src/main/java/com/example/powerai/core/data/database/AppDatabase.kt": 29,
       "core/data/src/main/java/com/example/powerai/core/data/database/DatabaseMigrationUtils.kt": 63,
       "core/data/src/main/java/com/example/powerai/core/data/di/DatabaseModule.kt": 55,
-      "core/data/src/main/java/com/example/powerai/core/data/di/RepositoryModule.kt": 36,
+      "core/data/src/main/java/com/example/powerai/core/data/di/RepositoryModule.kt": 28,
       "core/data/src/main/java/com/example/powerai/core/data/entity/EmbeddingMetadataEntity.kt": 12,
       "core/data/src/main/java/com/example/powerai/core/data/entity/ImportedFileEntity.kt": 12,
       "core/data/src/main/java/com/example/powerai/core/data/entity/KnowledgeEntity.kt": 54,
@@ -363,7 +364,6 @@
       "core/data/src/main/java/com/example/powerai/core/data/repository/KnowledgeSearchSqlPatterns.kt": 41,
       "core/data/src/main/java/com/example/powerai/core/data/repository/KnowledgeSnippetBuilder.kt": 79,
       "core/data/src/main/java/com/example/powerai/core/data/repository/LocalSearchDiagnostics.kt": 83,
-      "core/data/src/main/java/com/example/powerai/core/data/repository/RemoteConfigRepositoryImpl.kt": 24,
       "core/data/src/main/java/com/example/powerai/core/data/util/ObservabilityServiceImpl.kt": 58,
       "core/data/src/main/java/com/example/powerai/core/data/util/TraceLogger.kt": 27,
       "core/model-contract/src/main/java/com/example/powerai/core/model/GenerationMetrics.kt": 8,
@@ -526,16 +526,16 @@
     },
     "modules": {
       "app": {
-        "files": 333,
-        "lines": 30342
+        "files": 334,
+        "lines": 30415
       },
       "benchmark": {
         "files": 2,
         "lines": 60
       },
       "core:data": {
-        "files": 26,
-        "lines": 1406
+        "files": 25,
+        "lines": 1374
       },
       "core:model-contract": {
         "files": 34,
@@ -560,10 +560,10 @@
       "newFunctionMaxLines": 80
     },
     "totals": {
-      "appFileShare": 0.7239,
-      "appLineShare": 0.7472,
+      "appFileShare": 0.7261,
+      "appLineShare": 0.7482,
       "files": 460,
-      "lines": 40608
+      "lines": 40649
     }
   }
 }

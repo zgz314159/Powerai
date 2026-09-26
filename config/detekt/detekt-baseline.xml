@@ -11,7 +11,6 @@
     <ID>ComplexCondition:VisionService.kt$VisionService$bytes.size &gt;= 3 &amp;&amp; bytes[0] == 0xFF.toByte() &amp;&amp; bytes[1] == 0xD8.toByte() &amp;&amp; bytes[2] == 0xFF.toByte()</ID>
     <ID>ComplexCondition:VisionService.kt$VisionService$bytes.size &gt;= 8 &amp;&amp; bytes[0] == 0x89.toByte() &amp;&amp; bytes[1] == 0x50.toByte() &amp;&amp; bytes[2] == 0x4E.toByte() &amp;&amp; bytes[3] == 0x47.toByte()</ID>
     <ID>ConstructorParameterNaming:AiApiService.kt$ApiChatChoice$val finish_reason: String? = null</ID>
-    <ID>ConstructorParameterNaming:AiApiService.kt$ChatChoice$val finish_reason: String? = null</ID>
     <ID>CyclomaticComplexMethod:AiStreamingService.kt$AiStreamingService$fun extractTextChunk(jsonLike: String): String?</ID>
     <ID>CyclomaticComplexMethod:BingWebSearchClient.kt$BingWebSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;BingWebSearchResult&gt;</ID>
     <ID>CyclomaticComplexMethod:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractTableCells(obj: JsonObject): List&lt;TableCell&gt;?</ID>
@@ -961,7 +960,6 @@
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;$override</ID>
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;.&lt;no name provided&gt;$override</ID>
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;.&lt;no name provided&gt;$return com.bumptech.glide.load.model.ModelLoader.LoadData(com.bumptech.glide.signature.ObjectKey(model), com.example.powerai.util.AssetModelLoader.AssetDataFetcher(context.assets, assetPath))</ID>
-    <ID>MaxLineLength:NetworkModule.kt$NetworkModule.&lt;no name provided&gt;$override suspend</ID>
     <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity$Log.d(TAG, "Glide PhotoViewer START uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")</ID>
     <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity.&lt;no name provided&gt;$Log.d(TAG, "Glide PhotoViewer DONE uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")</ID>
     <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity.&lt;no name provided&gt;$override</ID>
@@ -1072,8 +1070,8 @@
     <ID>ReturnCount:BlocksTextExtractor.kt$BlocksTextExtractor$private fun tryExtractCodeField(obj: JsonObject): String?</ID>
     <ID>ReturnCount:BlocksUtils.kt$BlocksUtils$fun matchIndicesNormalized(normalizedBlockTexts: List&lt;String&gt;, keyword: String): List&lt;Int&gt;</ID>
     <ID>ReturnCount:ContextualSearchTextBuilder.kt$ContextualSearchTextBuilder$fun contextualizeBlocksJson( blocksJson: String, title: String, source: String, category: String, pageNumber: Int? ): String</ID>
-    <ID>ReturnCount:DatabaseScreen.kt$private fun findDatabaseItemLocation( groups: List&lt;DatabaseFileGroup&gt;, itemId: Long, collapsedGroupKeys: Set&lt;String&gt; ): DatabaseItemLocation?</ID>
-    <ID>ReturnCount:DatabaseScreen.kt$private fun resolveCollapsedGroupKeys( existing: Set&lt;String&gt;, currentKeys: Set&lt;String&gt;, isSearching: Boolean, newestKey: String?, keepExpandedKey: String? ): Set&lt;String&gt;</ID>
+    <ID>ReturnCount:DatabaseScreen.kt$internal fun findDatabaseItemLocation( groups: List&lt;DatabaseFileGroup&gt;, itemId: Long, collapsedGroupKeys: Set&lt;String&gt; ): DatabaseItemLocation?</ID>
+    <ID>ReturnCount:DatabaseScreen.kt$internal fun resolveCollapsedGroupKeys( existing: Set&lt;String&gt;, currentKeys: Set&lt;String&gt;, isSearching: Boolean, newestKey: String?, keepExpandedKey: String? ): Set&lt;String&gt;</ID>
     <ID>ReturnCount:DatabaseUseCase.kt$private fun normalizeImportedDisplayName(fileName: String): String</ID>
     <ID>ReturnCount:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchSizeLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>ReturnCount:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
@@ -1171,7 +1169,7 @@
     <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun matchesQuery(text: String, normalizedQuery: String, noSpaceQuery: String): Boolean</ID>
     <ID>ReturnCount:SmartAnswerGuard.kt$SmartAnswerGuard$fun isMetaReasoningLead(text: String): Boolean</ID>
     <ID>ReturnCount:SmartAnswerGuard.kt$SmartAnswerGuard$fun stripMetaReasoningLead(text: String): String</ID>
-    <ID>ReturnCount:SmartPage.kt$private fun buildSmartBubbleLabel( currentIndex: Int, currentAnchor: LazyListScrollAnchor?, anchors: List&lt;LazyListScrollAnchor&gt; ): String</ID>
+    <ID>ReturnCount:SmartPage.kt$internal fun buildSmartBubbleLabel( currentIndex: Int, currentAnchor: LazyListScrollAnchor?, anchors: List&lt;LazyListScrollAnchor&gt; ): String</ID>
     <ID>ReturnCount:SnapshotUriSelector.kt$SnapshotUriSelector$fun select( imageUrisJson: String?, pageNumber: Int?, blockId: String?, isTable: Boolean ): String?</ID>
     <ID>ReturnCount:SnapshotUriSelector.kt$SnapshotUriSelector$private fun parseImageUrisJson(json: String?): List&lt;String&gt;</ID>
     <ID>ReturnCount:SparseSearcher.kt$SparseSearcher$fun search(query: String, topN: Int = 2): List&lt;SafetyEntry&gt;</ID>
