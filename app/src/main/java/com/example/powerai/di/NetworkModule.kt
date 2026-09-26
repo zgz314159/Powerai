@@ -1,7 +1,7 @@
 package com.example.powerai.di
 
 import android.content.Context
-import com.example.powerai.BuildConfig
+import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.data.remote.api.VectorSearchApiService
 import com.example.powerai.data.remote.dto.VectorSearchRequest
 import com.example.powerai.data.remote.dto.VectorSearchResponse
@@ -36,8 +36,8 @@ object NetworkModule {
     @Provides
     @Singleton
     @Named("visionValidation")
-    fun provideVisionValidationAiApiService(): AiApiService {
-        val base = BuildConfig.AI_BASE_URL.trim()
+    fun provideVisionValidationAiApiService(config: RemoteConfigRepository): AiApiService {
+        val base = config.getAiBaseUrl().trim()
         if (base.isBlank()) {
             val message =
                 ApiChatMessage(
@@ -61,14 +61,14 @@ object NetworkModule {
             .callTimeout(120, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .apply {
-                if (BuildConfig.DEBUG) {
+                if (config.isDebug()) {
                     val logger = HttpLoggingInterceptor()
                     logger.level = HttpLoggingInterceptor.Level.BODY
                     addInterceptor(logger)
                 }
             }
             .addInterceptor { chain ->
-                val apiKey = BuildConfig.AI_API_KEY.trim()
+                val apiKey = config.getAiApiKey().trim()
                 val req0 = chain.request()
                 val req = req0.newBuilder()
                     .addHeader("Content-Type", "application/json")
@@ -102,8 +102,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAnnApiService(@ApplicationContext context: Context): AnnApiService {
-        var base = BuildConfig.AI_BASE_URL.trim()
+    fun provideAnnApiService(
+        @ApplicationContext context: Context,
+        config: RemoteConfigRepository,
+    ): AnnApiService {
+        var base = config.getAiBaseUrl().trim()
 
         // If BuildConfig doesn't provide a URL (common during debug), allow overriding
         // by placing a plaintext file `ai_base_url.txt` in the app's files dir containing
@@ -136,7 +139,7 @@ object NetworkModule {
             .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .apply {
-                if (BuildConfig.DEBUG) {
+                if (config.isDebug()) {
                     val logger = HttpLoggingInterceptor()
                     logger.level = HttpLoggingInterceptor.Level.BODY
                     addInterceptor(logger)
