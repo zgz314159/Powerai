@@ -6,5 +6,4 @@ package com.example.powerai.ui.screen.detail
 // - KnowledgeDetailMarkdownTableFix.kt
 // - KnowledgeDetailMarkdownImages.kt
 // - KnowledgeDetailMarkdownChunking.kt
-// - KnowledgeDetailMarkdownHighlight.kt
 // - KnowledgeDetailMarkdownDimens.kt

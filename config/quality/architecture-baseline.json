@@ -9,10 +9,6 @@
       "app",
       "engine:ai"
     ],
-    "Cancellable": [
-      "app",
-      "core:model-contract"
-    ],
     "ChatChoice": [
       "app",
       "core:model-contract"
@@ -26,10 +22,6 @@
       "core:model-contract"
     ],
     "ChatMessage": [
-      "app",
-      "core:model-contract"
-    ],
-    "JsonUtils": [
       "app",
       "core:model-contract"
     ],

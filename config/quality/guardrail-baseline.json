@@ -84,7 +84,6 @@
       "app/src/main/java/com/example/powerai/domain/ai/AiPromptProvider.kt": 105,
       "app/src/main/java/com/example/powerai/domain/ai/AiStreamingService.kt": 175,
       "app/src/main/java/com/example/powerai/domain/ai/LlmFactualityScorer.kt": 53,
-      "app/src/main/java/com/example/powerai/domain/common/JsonUtils.kt": 19,
       "app/src/main/java/com/example/powerai/domain/eval/AnswerEval.kt": 89,
       "app/src/main/java/com/example/powerai/domain/eval/DetailedEvalResult.kt": 24,
       "app/src/main/java/com/example/powerai/domain/eval/EvalMetrics.kt": 33,
@@ -123,7 +122,6 @@
       "app/src/main/java/com/example/powerai/domain/usecase/LocalExtractiveAnswerBuilder.kt": 215,
       "app/src/main/java/com/example/powerai/domain/usecase/LocalSearchUseCase.kt": 20,
       "app/src/main/java/com/example/powerai/domain/usecase/SessionBufferCollator.kt": 70,
-      "app/src/main/java/com/example/powerai/domain/util/Cancellable.kt": 8,
       "app/src/main/java/com/example/powerai/domain/util/ContextualSearchTextBuilder.kt": 100,
       "app/src/main/java/com/example/powerai/domain/util/DomainLogger.kt": 11,
       "app/src/main/java/com/example/powerai/domain/util/HybridLogic.kt": 59,
@@ -196,7 +194,6 @@
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownChunking.kt": 69,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownChunkingTableSplit.kt": 51,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownDimens.kt": 6,
-      "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownHighlight.kt": 3,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownImageBlankLines.kt": 54,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownImages.kt": 6,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownTableExpanders.kt": 125,
@@ -204,7 +201,7 @@
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownTableNormalize.kt": 48,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownTableProcessor.kt": 311,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownTableSeparators.kt": 31,
-      "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownUtils.kt": 10,
+      "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkdownUtils.kt": 9,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkwonInteractions.kt": 78,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMarkwonRemember.kt": 13,
       "app/src/main/java/com/example/powerai/ui/screen/detail/KnowledgeDetailMatchIndexing.kt": 13,
@@ -531,8 +528,8 @@
     },
     "modules": {
       "app": {
-        "files": 338,
-        "lines": 30607
+        "files": 335,
+        "lines": 30576
       },
       "benchmark": {
         "files": 2,
@@ -565,10 +562,10 @@
       "newFunctionMaxLines": 80
     },
     "totals": {
-      "appFileShare": 0.7269,
-      "appLineShare": 0.7488,
-      "files": 465,
-      "lines": 40873
+      "appFileShare": 0.7251,
+      "appLineShare": 0.7486,
+      "files": 462,
+      "lines": 40842
     }
   }
 }

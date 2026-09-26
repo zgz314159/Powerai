@@ -1,7 +1,7 @@
 package com.example.powerai.domain.usecase
 
+import com.example.powerai.core.model.util.JsonUtils
 import com.example.powerai.domain.model.chat.ChatTurn
-import com.example.powerai.domain.common.JsonUtils
 
 /**
  * Helper for constructing the JSON fragments passed to the AI streaming API.
