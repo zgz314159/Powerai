@@ -2,14 +2,13 @@
   "version": 1,
   "fileId": "铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254",
   "generatedAt": 1770730602788,
-  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
-  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages",
-  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图",
+  "root": "app/src/main/assets/kb",
+  "pagesDir": "app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages",
+  "outDir": "app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图",
   "items": [
     {
       "kind": "legend",
       "pageNumber": 1,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages/page_001_p1.png",
       "outFile": "legend_p1_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图/legend_p1_idx1.png",
       "method": "rect_edges",
@@ -82,7 +81,6 @@
     {
       "kind": "legend",
       "pageNumber": 38,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/pages/page_038_p38.png",
       "outFile": "legend_p38_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/铁路电力线路工岗位学标考标必知必会手册第2版20254/截图/legend_p38_idx1.png",
       "method": "rect_edges",

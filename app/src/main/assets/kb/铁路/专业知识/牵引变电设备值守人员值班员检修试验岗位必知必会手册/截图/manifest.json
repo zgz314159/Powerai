@@ -2,14 +2,13 @@
   "version": 1,
   "fileId": "铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册",
   "generatedAt": 1770731298436,
-  "root": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb",
-  "pagesDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages",
-  "outDir": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图",
+  "root": "app/src/main/assets/kb",
+  "pagesDir": "app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages",
+  "outDir": "app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图",
   "items": [
     {
       "kind": "legend",
       "pageNumber": 1,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_001_p1.png",
       "outFile": "legend_p1_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p1_idx1.png",
       "method": "rect_edges",
@@ -90,7 +89,6 @@
     {
       "kind": "legend",
       "pageNumber": 22,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_022_p22.png",
       "outFile": "legend_p22_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p22_idx1.png",
       "method": "rect_edges",
@@ -131,7 +129,6 @@
     {
       "kind": "legend",
       "pageNumber": 43,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_043_p43.png",
       "outFile": "legend_p43_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p43_idx1.png",
       "method": "rect_edges",
@@ -180,7 +177,6 @@
     {
       "kind": "legend",
       "pageNumber": 44,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_044_p44.png",
       "outFile": "legend_p44_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p44_idx1.png",
       "method": "rect_edges",
@@ -261,7 +257,6 @@
     {
       "kind": "legend",
       "pageNumber": 50,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_050_p50.png",
       "outFile": "legend_p50_idx1.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p50_idx1.png",
       "method": "rect_edges",
@@ -302,7 +297,6 @@
     {
       "kind": "legend",
       "pageNumber": 50,
-      "sourcePageImage": "C:/Users/zgz31/AndroidStudioProjects/PowerAi/app/src/main/assets/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/pages/page_050_p50.png",
       "outFile": "legend_p50_idx2.png",
       "assetUri": "file:///android_asset/kb/铁路/专业知识/牵引变电设备值守人员值班员检修试验岗位必知必会手册/截图/legend_p50_idx2.png",
       "method": "rect_edges",
