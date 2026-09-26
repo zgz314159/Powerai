@@ -36,12 +36,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-private data class SmartEvidenceEntry(
+internal data class SmartEvidenceEntry(
     val number: Int,
     val item: KnowledgeItem
 )
 
-private data class SmartEvidenceSegment(
+internal data class SmartEvidenceSegment(
     val key: String,
     val fileName: String,
     val entries: List<SmartEvidenceEntry>
@@ -247,7 +247,7 @@ fun SmartPage(
     }
 }
 
-private fun buildSmartEvidenceSegments(
+internal fun buildSmartEvidenceSegments(
     entries: List<SmartEvidenceEntry>
 ): List<SmartEvidenceSegment> {
     if (entries.isEmpty()) return emptyList()
@@ -284,7 +284,7 @@ private fun buildSmartEvidenceSegments(
     return segments
 }
 
-private fun buildSmartAnchors(
+internal fun buildSmartAnchors(
     aiText: String,
     hasThinkingSection: Boolean,
     evidenceSegments: List<SmartEvidenceSegment>
@@ -330,7 +330,7 @@ private fun buildSmartAnchors(
     }
 }
 
-private fun buildCitationTargetIndices(
+internal fun buildCitationTargetIndices(
     evidenceSegments: List<SmartEvidenceSegment>
 ): Map<Int, Int> {
     if (evidenceSegments.isEmpty()) return emptyMap()
@@ -347,7 +347,7 @@ private fun buildCitationTargetIndices(
     }
 }
 
-private fun limitSmartEvidenceSegments(
+internal fun limitSmartEvidenceSegments(
     segments: List<SmartEvidenceSegment>,
     maxEntries: Int
 ): List<SmartEvidenceSegment> {
@@ -366,7 +366,7 @@ private fun limitSmartEvidenceSegments(
     }
 }
 
-private fun buildSmartBubbleLabel(
+internal fun buildSmartBubbleLabel(
     currentIndex: Int,
     currentAnchor: LazyListScrollAnchor?,
     anchors: List<LazyListScrollAnchor>
@@ -387,7 +387,7 @@ private fun buildSmartBubbleLabel(
     }
 }
 
-private fun smartEvidenceFileName(item: KnowledgeItem): String {
+internal fun smartEvidenceFileName(item: KnowledgeItem): String {
     return PdfSourceRef.parse(item.source)?.fileName
         ?: PdfSourceRef.userVisibleSource(item.source).ifBlank { "参考资" }
 }
@@ -406,7 +406,7 @@ private fun CompactEvidenceButton(
     }
 }
 
-private fun smartShortLabel(fileName: String): String {
+internal fun smartShortLabel(fileName: String): String {
     val safeName = fileName.ifBlank { "参考资" }
     return if (safeName.length <= 14) safeName else safeName.take(14) + "..."
 }

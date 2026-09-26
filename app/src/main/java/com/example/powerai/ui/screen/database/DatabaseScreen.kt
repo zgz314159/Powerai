@@ -342,12 +342,12 @@ fun DatabaseScreen(
     }
 }
 
-private data class DatabaseItemLocation(
+internal data class DatabaseItemLocation(
     val groupKey: String,
     val listIndex: Int
 )
 
-private fun findDatabaseItemLocation(
+internal fun findDatabaseItemLocation(
     groups: List<DatabaseFileGroup>,
     target: DatabaseFocusTarget,
     collapsedGroupKeys: Set<String>
@@ -385,7 +385,7 @@ private fun findDatabaseItemLocation(
     return best?.let { DatabaseItemLocation(groupKey = it.first, listIndex = it.second) }
 }
 
-private fun findDatabaseItemLocation(
+internal fun findDatabaseItemLocation(
     groups: List<DatabaseFileGroup>,
     itemId: Long,
     collapsedGroupKeys: Set<String>
@@ -408,7 +408,7 @@ private fun findDatabaseItemLocation(
     return null
 }
 
-private fun findDatabaseGroupHeaderIndex(
+internal fun findDatabaseGroupHeaderIndex(
     groups: List<DatabaseFileGroup>,
     targetGroupKey: String,
     collapsedGroupKeys: Set<String>
@@ -430,7 +430,7 @@ private fun LazyListState.isItemVisible(index: Int): Boolean {
     return layoutInfo.visibleItemsInfo.any { it.index == index }
 }
 
-private fun listIndexFor(
+internal fun listIndexFor(
     groups: List<DatabaseFileGroup>,
     targetGroupKey: String,
     targetRowIndex: Int,
@@ -449,7 +449,7 @@ private fun listIndexFor(
     return 0
 }
 
-private fun fallbackMatchScore(
+internal fun fallbackMatchScore(
     group: DatabaseFileGroup,
     row: DatabaseRow,
     target: DatabaseFocusTarget
@@ -491,7 +491,7 @@ private fun fallbackMatchScore(
     return score
 }
 
-private fun normalizeDbMatchText(value: String?): String {
+internal fun normalizeDbMatchText(value: String?): String {
     return value
         .orEmpty()
         .replace(Regex("\\s+"), "")
@@ -500,7 +500,7 @@ private fun normalizeDbMatchText(value: String?): String {
         .trim()
 }
 
-private fun buildDatabaseAnchors(
+internal fun buildDatabaseAnchors(
     groups: List<DatabaseFileGroup>,
     collapsedGroupKeys: Set<String>
 ): List<LazyListScrollAnchor> {
@@ -522,11 +522,11 @@ private fun buildDatabaseAnchors(
     }
 }
 
-private fun shortAnchorLabel(fileName: String): String {
+internal fun shortAnchorLabel(fileName: String): String {
     return if (fileName.length <= 14) fileName else fileName.take(14) + "..."
 }
 
-private fun buildDatabaseBubbleLabel(
+internal fun buildDatabaseBubbleLabel(
     currentIndex: Int,
     currentAnchor: LazyListScrollAnchor?,
     anchors: List<LazyListScrollAnchor>
@@ -544,7 +544,7 @@ private fun buildDatabaseBubbleLabel(
     }
 }
 
-private fun resolveCollapsedGroupKeys(
+internal fun resolveCollapsedGroupKeys(
     existing: Set<String>,
     currentKeys: Set<String>,
     isSearching: Boolean,
@@ -559,11 +559,11 @@ private fun resolveCollapsedGroupKeys(
     return keepExpandedKey?.let { defaultCollapsed - it } ?: defaultCollapsed
 }
 
-private fun emptyStateMessage(isSearching: Boolean): String {
+internal fun emptyStateMessage(isSearching: Boolean): String {
     return if (isSearching) "未找到相关结果" else "数据库为空"
 }
 
-private fun buildGroupHitMeta(
+internal fun buildGroupHitMeta(
     isSearching: Boolean,
     searchQuery: String,
     hitCount: Int,
@@ -582,7 +582,7 @@ private fun buildGroupHitMeta(
     }
 }
 
-private fun buildItemMetaLine(row: DatabaseRow): String {
+internal fun buildItemMetaLine(row: DatabaseRow): String {
     val item = row.item
     return buildString {
         if (row.imagesCount > 0) append("截图 ${row.imagesCount} · ")
