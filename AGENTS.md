@@ -103,6 +103,11 @@ Ask → Plan → Review → Execute → Verify → Memory Update
 | KB 目录规范 | [KB_TAXONOMY_GUIDE.md](KB_TAXONOMY_GUIDE.md) |
 | 局域网 embedding 调试 | [README.md](README.md) |
 | FAISS / NDK | [docs/faiss_ndk_design.md](docs/faiss_ndk_design.md) |
+| Copilot 专用补充指导（不取代本文件） | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
+
+> `.github/copilot-instructions.md` 是面向 **GitHub Copilot** 的补充指导，不是所有代理的通用入口，也不取代本文件。
+> 本文件仍是本仓库代理协作与安全边界的主要说明；使用 Copilot 时可与本文件并行参考。
+> 两者冲突时，以作用域更明确且适用于当前工具的规则为准，不得把 Copilot 专属规则无条件扩展到其他代理。
 
 ---
 
