@@ -81,7 +81,6 @@
       "app/src/main/java/com/example/powerai/di/NetworkModule.kt": 154,
       "app/src/main/java/com/example/powerai/di/RepositoryModule.kt": 41,
       "app/src/main/java/com/example/powerai/domain/ai/AiPromptProvider.kt": 105,
-      "app/src/main/java/com/example/powerai/domain/ai/AiStreamingService.kt": 175,
       "app/src/main/java/com/example/powerai/domain/ai/LlmFactualityScorer.kt": 53,
       "app/src/main/java/com/example/powerai/domain/eval/AnswerEval.kt": 89,
       "app/src/main/java/com/example/powerai/domain/eval/DetailedEvalResult.kt": 24,
@@ -527,8 +526,8 @@
     },
     "modules": {
       "app": {
-        "files": 334,
-        "lines": 30517
+        "files": 333,
+        "lines": 30342
       },
       "benchmark": {
         "files": 2,
@@ -561,10 +560,10 @@
       "newFunctionMaxLines": 80
     },
     "totals": {
-      "appFileShare": 0.7245,
-      "appLineShare": 0.7483,
-      "files": 461,
-      "lines": 40783
+      "appFileShare": 0.7239,
+      "appLineShare": 0.7472,
+      "files": 460,
+      "lines": 40608
     }
   }
 }

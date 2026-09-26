@@ -56,4 +56,7 @@ dependencies {
 
     // Coroutines (StateFlow etc.)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    testImplementation(libs.junit)
+    testImplementation(libs.okhttp.mockwebserver)
 }

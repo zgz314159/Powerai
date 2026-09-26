@@ -1,10 +1,6 @@
 {
   "androidImportsInDomain": [],
   "duplicateTopLevelTypes": {
-    "AiStreamingService": [
-      "app",
-      "engine:ai"
-    ],
     "NativeResourceProvider": [
       "core:model-contract",
       "engine:ai"
