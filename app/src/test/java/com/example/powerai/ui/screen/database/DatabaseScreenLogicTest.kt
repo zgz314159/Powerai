@@ -6,6 +6,7 @@ import com.example.powerai.domain.model.DatabaseFocusTarget
 import com.example.powerai.domain.model.DatabaseRow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -238,5 +239,51 @@ class DatabaseScreenLogicTest {
         val browsing = buildGroupHitMeta(isSearching = false, searchQuery = "短路", hitCount = 2, imageCount = 1)
         assertEquals("当前显示 2 · 关联截图 1", browsing.text)
         assertFalse(browsing.spanStyles.isNotEmpty())
+    }
+
+    @Test
+    fun `stable list keys are deterministic and unique across groups`() {
+        assertEquals("header::g1", databaseGroupHeaderKey("g1"))
+        assertEquals("row::g1::42", databaseRowKey("g1", 42L))
+        // recomposition with the same inputs must produce identical keys
+        assertEquals(databaseRowKey("g1", 42L), databaseRowKey("g1", 42L))
+        // the same item id under another group is a distinct row
+        assertNotEquals(databaseRowKey("g1", 42L), databaseRowKey("g2", 42L))
+        // header keys and row keys can never collide
+        assertNotEquals(databaseGroupHeaderKey("g1"), databaseRowKey("g1", 0L))
+        assertFalse(databaseGroupHeaderKey("g1").startsWith("row::"))
+        assertFalse(databaseRowKey("g1", 1L).startsWith("header::"))
+    }
+
+    @Test
+    fun `duplicate item ids resolve to the first group in order`() {
+        val duplicated =
+            listOf(
+                group("g1", "手册A.pdf", listOf(row(item(5)), row(item(6)))),
+                group("g2", "手册B.pdf", listOf(row(item(5)))),
+            )
+
+        val byId = findDatabaseItemLocation(duplicated, 5L, emptySet())
+        assertEquals("g1", byId?.groupKey)
+        assertEquals(1, byId?.listIndex)
+
+        val byTarget =
+            findDatabaseItemLocation(
+                duplicated,
+                DatabaseFocusTarget(itemId = 5L),
+                emptySet(),
+            )
+        assertEquals("g1", byTarget?.groupKey)
+        assertEquals(1, byTarget?.listIndex)
+    }
+
+    @Test
+    fun `direct id hit inside a collapsed group still resolves`() {
+        // characterization of existing behaviour: the direct id scan does not
+        // consult collapsed state, only the fallback/index walk does.
+        val location = findDatabaseItemLocation(twoGroups, 1L, setOf("g1"))
+
+        assertEquals("g1", location?.groupKey)
+        assertEquals(1, location?.listIndex)
     }
 }
