@@ -1,0 +1,42 @@
+{
+  "androidImportsInDomain": [],
+  "duplicateTopLevelTypes": {
+    "AiApiService": [
+      "app",
+      "engine:ai"
+    ],
+    "AiStreamingService": [
+      "app",
+      "engine:ai"
+    ],
+    "ChatChoice": [
+      "app",
+      "core:model-contract"
+    ],
+    "ChatCompletionsRequest": [
+      "app",
+      "core:model-contract"
+    ],
+    "ChatCompletionsResponse": [
+      "app",
+      "core:model-contract"
+    ],
+    "ChatMessage": [
+      "app",
+      "core:model-contract"
+    ],
+    "NativeResourceProvider": [
+      "core:model-contract",
+      "engine:ai"
+    ],
+    "PowerAIEngine": [
+      "core:model-contract",
+      "engine:ai"
+    ],
+    "RepositoryModule": [
+      "app",
+      "core:data"
+    ]
+  },
+  "featureAppDependsOn": []
+}

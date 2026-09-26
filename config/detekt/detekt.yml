@@ -1,17 +1,42 @@
-processors:
-  active: false
-
+# Detekt configuration for the PowerAi refactor quality guardrails (R01).
+#
+# The root `detekt` task runs with `buildUponDefaultConfig = true`, so this file
+# only records deliberate deviations from the detekt 1.23.7 default config.
+# Historical findings live in config/detekt/detekt-baseline.xml; any finding that
+# is not covered by that baseline fails the build.
+#
+# Covered sources: production Kotlin under src/main of every module
+# (app, core/model-contract, core/data, engine/native, engine/ai,
+# feature/search-chat, benchmark).
 config:
   validation: true
 
-style:
-  active: true
-
-comments:
-  active: false
-
 complexity:
   active: true
+  # Guardrail: new or refactored functions must stay <= 80 lines.
+  LongMethod:
+    active: true
+    threshold: 80
+  # Guardrail: no production type above the 400-line file ceiling.
+  LargeClass:
+    active: true
+    threshold: 400
+  # Explicitly kept on their defaults, documented here so future edits are
+  # deliberate rather than accidental:
+  #   CyclomaticComplexMethod: threshold 15
+  #   ComplexCondition:        threshold 4
+  #   LongParameterList:       functionThreshold 6 / constructorThreshold 7
+  #   NestedBlockDepth:        threshold 4
+  #   TooManyFunctions:        thresholdIn* 11
 
-empty-blocks:
-  active: false
+style:
+  active: true
+  # 140 matches ktlint's default max_line_length so both tools agree on the
+  # same line-length rule instead of double-reporting different thresholds.
+  MaxLineLength:
+    active: true
+    maxLineLength: 140
+    excludePackageStatements: true
+    excludeImportStatements: true
+    excludeCommentStatements: false
+    excludeRawStrings: true

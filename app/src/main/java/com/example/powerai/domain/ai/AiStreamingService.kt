@@ -1,5 +1,6 @@
 package com.example.powerai.domain.ai
 
+import com.example.powerai.core.model.util.JsonUtils
 import com.google.gson.JsonParser
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -11,7 +12,6 @@ import okhttp3.sse.EventSources
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import com.example.powerai.domain.common.JsonUtils
 
 class AiStreamingService @Inject constructor(private val observability: com.example.powerai.core.model.ObservabilityService) {
     private val client: OkHttpClient by lazy {
