@@ -3,14 +3,10 @@ package com.example.powerai.ui.screen.pdf
 import androidx.lifecycle.viewModelScope
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -18,21 +14,20 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
+import org.mockito.kotlin.doSuspendableAnswer
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 
 /**
  * Characterization tests for [PdfFigureListViewModel].
  *
- * Covers first load, repeat load, blank ids, page ordering, image de
- * duplication, page fallback, empty results, repository failure and lifecycle
- * cancellation. Only fake DAO rows are used; the ViewModel's IO hop is
- * synchronized through StateFlow transitions, never through sleeps.
+ * Covers first load, repeat load, blank ids, page ordering, image
+ * de-duplication, page fallback, empty results, repository failure and
+ * lifecycle cancellation. Only fake DAO rows are used and every wait is
+ * driven by the virtual test scheduler — no sleeps, latches or real time.
  */
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class PdfFigureListViewModelTest {
@@ -48,37 +43,9 @@ class PdfFigureListViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun runVmTest(body: suspend TestScope.() -> Unit) =
-        runTest {
-            Dispatchers.setMain(StandardTestDispatcher(testScheduler))
-            try {
-                body()
-            } finally {
-                Dispatchers.resetMain()
-            }
-        }
-
-    private fun entity(
-        source: String = "assets/kb/doc",
-        pageNumber: Int? = null,
-        blocksJson: String? = null,
-    ): KnowledgeEntity =
-        KnowledgeEntity(
-            title = "title",
-            content = "content",
-            source = source,
-            pageNumber = pageNumber,
-            contentBlocksJson = blocksJson,
-        )
-
-    private suspend fun awaitLoad(viewModel: PdfFigureListViewModel) {
-        viewModel.isLoading.first { it }
-        viewModel.isLoading.first { !it }
-    }
-
     @Test
     fun `first load maps images and tables sorted by page`() {
-        runVmTest {
+        runPdfVmTest {
             val blocks =
                 """
                 {"blocks":[
@@ -88,13 +55,13 @@ class PdfFigureListViewModelTest {
                 ]}
                 """.trimIndent()
             whenever(dao.sampleBySourcePrefix("assets/kb/doc", 5000))
-                .thenReturn(listOf(entity(blocksJson = blocks)))
-            val viewModel = PdfFigureListViewModel(dao)
+                .thenReturn(listOf(pdfEntity(blocksJson = blocks)))
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
-            awaitLoad(viewModel)
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+            testScheduler.advanceUntilIdle()
 
-            val items = viewModel.figures.value
+            val items = viewModel.uiState.value.figures
             assertEquals(listOf(2, 4, 9), items.map { it.pageNumber })
             assertEquals(listOf(true, false, false), items.map { it.isTable })
 
@@ -112,51 +79,51 @@ class PdfFigureListViewModelTest {
             assertEquals("图 · 第 9 页", defaultCaption.caption)
 
             verify(dao).sampleBySourcePrefix("assets/kb/doc", 5000)
-            assertEquals(false, viewModel.isLoading.value)
+            assertEquals(false, viewModel.uiState.value.isLoading)
         }
     }
 
     @Test
     fun `repeat load for the same file is a no-op`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(dao.sampleBySourcePrefix(any(), any())).thenReturn(emptyList())
-            val viewModel = PdfFigureListViewModel(dao)
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
-            awaitLoad(viewModel)
-            viewModel.loadFor("doc")
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+            testScheduler.advanceUntilIdle()
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
             testScheduler.advanceUntilIdle()
 
             verify(dao, times(1)).sampleBySourcePrefix(any(), any())
-            assertTrue(viewModel.figures.value.isEmpty())
+            assertTrue(viewModel.uiState.value.figures.isEmpty())
         }
     }
 
     @Test
     fun `blank file ids are ignored`() {
-        runVmTest {
-            val viewModel = PdfFigureListViewModel(dao)
+        runPdfVmTest {
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("")
-            viewModel.loadFor("   ")
+            viewModel.onIntent(PdfFigureListIntent.Load(""))
+            viewModel.onIntent(PdfFigureListIntent.Load("   "))
             testScheduler.advanceUntilIdle()
 
             verify(dao, never()).sampleBySourcePrefix(any(), any())
-            assertTrue(viewModel.figures.value.isEmpty())
-            assertEquals(false, viewModel.isLoading.value)
+            assertTrue(viewModel.uiState.value.figures.isEmpty())
+            assertEquals(false, viewModel.uiState.value.isLoading)
         }
     }
 
     @Test
     fun `different file ids reload with a lowercased prefix`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(dao.sampleBySourcePrefix(any(), any())).thenReturn(emptyList())
-            val viewModel = PdfFigureListViewModel(dao)
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("Alpha")
-            awaitLoad(viewModel)
-            viewModel.loadFor("beta")
-            awaitLoad(viewModel)
+            viewModel.onIntent(PdfFigureListIntent.Load("Alpha"))
+            testScheduler.advanceUntilIdle()
+            viewModel.onIntent(PdfFigureListIntent.Load("beta"))
+            testScheduler.advanceUntilIdle()
 
             verify(dao).sampleBySourcePrefix("assets/kb/alpha", 5000)
             verify(dao).sampleBySourcePrefix("assets/kb/beta", 5000)
@@ -166,7 +133,7 @@ class PdfFigureListViewModelTest {
 
     @Test
     fun `duplicate image uris collapse to a single item`() {
-        runVmTest {
+        runPdfVmTest {
             val first =
                 """
                 {"blocks":[{"id":"a","type":"image","src":"file:///same.png","page":1}]}
@@ -176,13 +143,13 @@ class PdfFigureListViewModelTest {
                 {"blocks":[{"id":"b","type":"image","src":"file:///same.png","page":2}]}
                 """.trimIndent()
             whenever(dao.sampleBySourcePrefix(any(), any()))
-                .thenReturn(listOf(entity(blocksJson = first), entity(blocksJson = second)))
-            val viewModel = PdfFigureListViewModel(dao)
+                .thenReturn(listOf(pdfEntity(blocksJson = first), pdfEntity(blocksJson = second)))
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
-            awaitLoad(viewModel)
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+            testScheduler.advanceUntilIdle()
 
-            val items = viewModel.figures.value
+            val items = viewModel.uiState.value.figures
             assertEquals(1, items.size)
             assertEquals("file:///same.png", items[0].imageUri)
             assertEquals("a", items[0].id)
@@ -191,7 +158,7 @@ class PdfFigureListViewModelTest {
 
     @Test
     fun `missing pages fall back to the entity page and pageless blocks are dropped`() {
-        runVmTest {
+        runPdfVmTest {
             val blocksOnEntityPage =
                 """
                 {"blocks":[{"id":"withEntity","type":"image","src":"file:///entity-page.png"}]}
@@ -206,18 +173,18 @@ class PdfFigureListViewModelTest {
             whenever(dao.sampleBySourcePrefix(any(), any()))
                 .thenReturn(
                     listOf(
-                        entity(pageNumber = 7, blocksJson = blocksOnEntityPage),
-                        entity(pageNumber = null, blocksJson = mixed),
+                        pdfEntity(pageNumber = 7, blocksJson = blocksOnEntityPage),
+                        pdfEntity(pageNumber = null, blocksJson = mixed),
                     ),
                 )
-            val viewModel = PdfFigureListViewModel(dao)
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
-            awaitLoad(viewModel)
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+            testScheduler.advanceUntilIdle()
 
             // withPage keeps its own page 3, withEntity inherits 7, pageless is
             // dropped because neither the block nor the entity carries a page
-            val items = viewModel.figures.value
+            val items = viewModel.uiState.value.figures
             assertEquals(listOf("withOwnPage", "withEntity"), items.map { it.id })
             assertEquals(listOf(3, 7), items.map { it.pageNumber })
         }
@@ -225,15 +192,15 @@ class PdfFigureListViewModelTest {
 
     @Test
     fun `empty rows yield an empty list`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(dao.sampleBySourcePrefix(any(), any())).thenReturn(emptyList())
-            val viewModel = PdfFigureListViewModel(dao)
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
-            awaitLoad(viewModel)
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+            testScheduler.advanceUntilIdle()
 
-            assertTrue(viewModel.figures.value.isEmpty())
-            assertEquals(false, viewModel.isLoading.value)
+            assertTrue(viewModel.uiState.value.figures.isEmpty())
+            assertEquals(false, viewModel.uiState.value.isLoading)
         }
     }
 
@@ -245,28 +212,22 @@ class PdfFigureListViewModelTest {
         try {
             val outcome =
                 runCatching {
-                    runTest {
-                        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+                    runPdfVmTest {
                         val failingDao = mock<KnowledgeDao>()
                         whenever(failingDao.sampleBySourcePrefix(any(), any()))
                             .thenThrow(IllegalStateException("db down"))
-                        val viewModel = PdfFigureListViewModel(failingDao)
+                        val viewModel = pdfFigureViewModel(failingDao)
 
-                        viewModel.loadFor("doc")
-                        viewModel.isLoading.first { it }
-
-                        val deadline = System.currentTimeMillis() + 2000
-                        while (surfaced == null && System.currentTimeMillis() < deadline) {
-                            val drain = runCatching { testScheduler.advanceUntilIdle() }
-                            if (drain.isFailure) {
-                                surfaced = drain.exceptionOrNull()
-                                break
-                            }
+                        viewModel.onIntent(PdfFigureListIntent.Load("doc"))
+                        try {
+                            testScheduler.advanceUntilIdle()
+                        } catch (error: Throwable) {
+                            surfaced = surfaced ?: error
                         }
 
                         // state stays loading with no fabricated results
-                        assertEquals(true, viewModel.isLoading.value)
-                        assertTrue(viewModel.figures.value.isEmpty())
+                        assertEquals(true, viewModel.uiState.value.isLoading)
+                        assertTrue(viewModel.uiState.value.figures.isEmpty())
                     }
                 }
             if (surfaced == null) {
@@ -286,36 +247,25 @@ class PdfFigureListViewModelTest {
 
     @Test
     fun `cancelling the scope mid load freezes the state`() {
-        runVmTest {
-            val entered = CountDownLatch(1)
-            val release = CountDownLatch(1)
-            val finished = CountDownLatch(1)
-            whenever(dao.sampleBySourcePrefix(any(), any())).thenAnswer {
-                entered.countDown()
-                release.await(5, TimeUnit.SECONDS)
-                finished.countDown()
+        runPdfVmTest {
+            val gate = CompletableDeferred<Unit>()
+            whenever(dao.sampleBySourcePrefix(any(), any())).doSuspendableAnswer {
+                gate.await()
                 emptyList<KnowledgeEntity>()
             }
-            val viewModel = PdfFigureListViewModel(dao)
+            val viewModel = pdfFigureViewModel(dao)
 
-            viewModel.loadFor("doc")
+            viewModel.onIntent(PdfFigureListIntent.Load("doc"))
             testScheduler.advanceUntilIdle()
-            assertTrue("dao must have started", entered.await(5, TimeUnit.SECONDS))
-            assertEquals(true, viewModel.isLoading.value)
+            assertEquals(true, viewModel.uiState.value.isLoading)
 
             viewModel.viewModelScope.cancel()
-            release.countDown()
-            assertTrue("dao must finish", finished.await(5, TimeUnit.SECONDS))
-            // drain the cancelled continuation's resume while Main is still the
-            // test dispatcher, so nothing leaks into the next test
-            val deadline = System.currentTimeMillis() + 2000
-            while (System.currentTimeMillis() < deadline) {
-                testScheduler.advanceUntilIdle()
-            }
+            gate.complete(Unit)
+            testScheduler.advanceUntilIdle()
 
             // cancellation prevents the loaded results from being published
-            assertEquals(true, viewModel.isLoading.value)
-            assertTrue(viewModel.figures.value.isEmpty())
+            assertEquals(true, viewModel.uiState.value.isLoading)
+            assertTrue(viewModel.uiState.value.figures.isEmpty())
         }
     }
 }
