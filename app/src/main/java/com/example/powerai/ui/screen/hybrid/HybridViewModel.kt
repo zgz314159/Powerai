@@ -160,10 +160,10 @@ class HybridViewModel
                 )
             applySubmissionPreparation(preparation)
 
-            submitJob?.cancel()
             submitJob =
                 modeExecutor.submit(
                     scope = viewModelScope,
+                    previousJob = submitJob,
                     preparation = preparation,
                     question = question,
                     mode = mode,
