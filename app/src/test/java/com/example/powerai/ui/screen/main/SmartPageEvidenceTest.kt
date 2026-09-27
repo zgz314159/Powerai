@@ -199,4 +199,16 @@ class SmartPageEvidenceTest {
         val long = "一个明显超过十四个字符限制的文件名称"
         assertEquals(long.take(14) + "...", smartShortLabel(long))
     }
+
+    @Test
+    fun `buildNumberedEvidence caps at ten and prefixes sequential titles`() {
+        val items = (1L..12L).map { id -> item(id, sourceA) }
+
+        val numbered = buildNumberedEvidence(items)
+
+        assertEquals(10, numbered.size)
+        assertEquals((1..10).toList(), numbered.map { it.number })
+        assertEquals("[1] title-1", numbered[0].item.title)
+        assertTrue(numbered.none { it.item.title.startsWith("[11]") })
+    }
 }
