@@ -9,9 +9,9 @@ import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.domain.repository.SearchHistoryRepository
-import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.usecase.DatabaseUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
@@ -83,13 +83,27 @@ internal class FakeKnowledgeRepository : KnowledgeRepository {
 
     override suspend fun isFileImported(fileId: String): Boolean = false
 
-    override suspend fun markFileImported(fileId: String, fileName: String, timestamp: Long, status: String) = Unit
+    override suspend fun markFileImported(
+        fileId: String,
+        fileName: String,
+        timestamp: Long,
+        status: String,
+    ) = Unit
 
-    override suspend fun resolveHighlightTarget(itemId: Long, highlight: String): LocalHighlightTarget? = null
+    override suspend fun resolveHighlightTarget(
+        itemId: Long,
+        highlight: String,
+    ): LocalHighlightTarget? = null
 
-    override suspend fun countKnowledgeByPage(fileId: String, page: Int): Int = 0
+    override suspend fun countKnowledgeByPage(
+        fileId: String,
+        page: Int,
+    ): Int = 0
 
-    override suspend fun getItemsByPage(fileId: String, page: Int): List<KnowledgeItem> = emptyList()
+    override suspend fun getItemsByPage(
+        fileId: String,
+        page: Int,
+    ): List<KnowledgeItem> = emptyList()
 }
 
 internal class FakeSearchHistoryRepository : SearchHistoryRepository {
@@ -101,10 +115,12 @@ internal class FakeSearchHistoryRepository : SearchHistoryRepository {
 
     fun storedQueries(): List<String> = store[HistoryScope.DATABASE].orEmpty().map { it.query }
 
-    override suspend fun loadHistory(scope: HistoryScope): List<SearchEntry> =
-        store[scope]?.toList() ?: emptyList()
+    override suspend fun loadHistory(scope: HistoryScope): List<SearchEntry> = store[scope]?.toList() ?: emptyList()
 
-    override suspend fun saveHistory(scope: HistoryScope, history: List<SearchEntry>) {
+    override suspend fun saveHistory(
+        scope: HistoryScope,
+        history: List<SearchEntry>,
+    ) {
         store[scope] = history.toMutableList()
     }
 
@@ -120,19 +136,21 @@ internal fun knowledgeItem(
     content: String = "内容$id",
     pageNumber: Int? = null,
     contextLabel: String? = null,
-): KnowledgeItem = KnowledgeItem(
-    id = id,
-    title = title,
-    content = content,
-    source = source,
-    pageNumber = pageNumber,
-    category = "安规",
-    keywords = emptyList(),
-    contextLabel = contextLabel,
-)
+): KnowledgeItem =
+    KnowledgeItem(
+        id = id,
+        title = title,
+        content = content,
+        source = source,
+        pageNumber = pageNumber,
+        category = "安规",
+        keywords = emptyList(),
+        contextLabel = contextLabel,
+    )
 
-private const val PDF_SOURCE_FILE_ID = "pdf:" + "0123456789abcdef0123456789abcdef" +
-    "0123456789abcdef0123456789abcdef::"
+private const val PDF_SOURCE_FILE_ID =
+    "pdf:" + "0123456789abcdef0123456789abcdef" +
+        "0123456789abcdef0123456789abcdef::"
 
 internal fun pdfSource(fileName: String): String = PDF_SOURCE_FILE_ID + fileName
 
@@ -146,10 +164,11 @@ internal class DatabaseViewModelTestHarness(
     val diagnosticsFlow: MutableStateFlow<AssetImportDiagnostics> =
         MutableStateFlow(AssetImportDiagnostics()),
 ) {
-    val importer: DocumentImportManager = Mockito.mock(DocumentImportManager::class.java).also { manager ->
-        Mockito.`when`(manager.importDiagnostics).thenReturn(diagnosticsFlow)
-        Mockito.`when`(manager.progress).thenReturn(MutableStateFlow<ImportProgress?>(null))
-    }
+    val importer: DocumentImportManager =
+        Mockito.mock(DocumentImportManager::class.java).also { manager ->
+            Mockito.`when`(manager.importDiagnostics).thenReturn(diagnosticsFlow)
+            Mockito.`when`(manager.progress).thenReturn(MutableStateFlow<ImportProgress?>(null))
+        }
 
     private val createdViewModels = mutableListOf<DatabaseViewModel>()
 
@@ -158,12 +177,13 @@ internal class DatabaseViewModelTestHarness(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
     ): DatabaseViewModel {
         val useCase = DatabaseUseCase(repo, historyRepo)
-        val viewModel = DatabaseViewModel(
-            useCase,
-            importer,
-            savedStateHandle,
-            StandardTestDispatcher(scope.testScheduler),
-        )
+        val viewModel =
+            DatabaseViewModel(
+                useCase,
+                importer,
+                savedStateHandle,
+                StandardTestDispatcher(scope.testScheduler),
+            )
         createdViewModels += viewModel
         return viewModel
     }
