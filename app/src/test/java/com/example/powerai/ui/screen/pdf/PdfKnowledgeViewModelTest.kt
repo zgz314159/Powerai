@@ -2,16 +2,11 @@ package com.example.powerai.ui.screen.pdf
 
 import androidx.lifecycle.viewModelScope
 import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.TextBlock
 import com.example.powerai.core.repository.KnowledgeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -30,9 +25,8 @@ import org.mockito.kotlin.whenever
  * Characterization tests for [PdfKnowledgeViewModel].
  *
  * Covers first load, repeat load, empty results, page switching, repository
- * failure and lifecycle cancellation with fake repository data only. The load
- * path has no IO hop, so the test scheduler drives everything
- * deterministically.
+ * failure and lifecycle cancellation with fake repository data only; every
+ * wait is driven by the virtual test scheduler.
  */
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class PdfKnowledgeViewModelTest {
@@ -48,30 +42,6 @@ class PdfKnowledgeViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun runVmTest(body: suspend TestScope.() -> Unit) =
-        runTest {
-            Dispatchers.setMain(StandardTestDispatcher(testScheduler))
-            try {
-                body()
-            } finally {
-                Dispatchers.resetMain()
-            }
-        }
-
-    private fun item(
-        id: Long,
-        blocksJson: String? = null,
-    ): KnowledgeItem =
-        KnowledgeItem(
-            id = id,
-            title = "title-$id",
-            content = "content",
-            source = "source.pdf",
-            category = "分类",
-            keywords = emptyList(),
-            contentBlocksJson = blocksJson,
-        )
-
     private val twoBlockJson =
         """
         {"blocks":[
@@ -82,20 +52,21 @@ class PdfKnowledgeViewModelTest {
 
     @Test
     fun `first load reads count items first id and page blocks`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(repository.countKnowledgeByPage("file1", 3)).thenReturn(2)
             whenever(repository.getItemsByPage("file1", 3))
-                .thenReturn(listOf(item(10L, twoBlockJson), item(20L)))
-            val viewModel = PdfKnowledgeViewModel(repository)
+                .thenReturn(listOf(pdfItem(10L, twoBlockJson), pdfItem(20L)))
+            val viewModel = pdfKnowledgeViewModel(repository)
 
-            viewModel.updatePage("file1", 3)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 3))
             testScheduler.advanceUntilIdle()
 
-            assertEquals(2, viewModel.knowledgeCount.value)
-            assertEquals(listOf(10L, 20L), viewModel.pageItems.value.map { it.id })
-            assertEquals(10L, viewModel.firstItemId.value)
+            val state = viewModel.uiState.value
+            assertEquals(2, state.knowledgeCount)
+            assertEquals(listOf(10L, 20L), state.pageItems.map { it.id })
+            assertEquals(10L, state.firstItemId)
 
-            val blocks = viewModel.pageBlocks.value
+            val blocks = state.pageBlocks
             assertEquals(2, blocks.size)
             assertEquals(10L, blocks[0].first)
             assertTrue(blocks[0].second is TextBlock)
@@ -106,76 +77,77 @@ class PdfKnowledgeViewModelTest {
 
     @Test
     fun `empty page count clears the previous state`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(repository.countKnowledgeByPage("file1", 3)).thenReturn(1)
-            whenever(repository.getItemsByPage("file1", 3)).thenReturn(listOf(item(10L)))
+            whenever(repository.getItemsByPage("file1", 3)).thenReturn(listOf(pdfItem(10L)))
             whenever(repository.countKnowledgeByPage("file1", 4)).thenReturn(0)
-            val viewModel = PdfKnowledgeViewModel(repository)
+            val viewModel = pdfKnowledgeViewModel(repository)
 
-            viewModel.updatePage("file1", 3)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 3))
             testScheduler.advanceUntilIdle()
-            assertEquals(listOf(10L), viewModel.pageItems.value.map { it.id })
+            assertEquals(listOf(10L), viewModel.uiState.value.pageItems.map { it.id })
 
-            viewModel.updatePage("file1", 4)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 4))
             testScheduler.advanceUntilIdle()
 
-            assertEquals(0, viewModel.knowledgeCount.value)
-            assertTrue(viewModel.pageItems.value.isEmpty())
-            assertNull(viewModel.firstItemId.value)
-            assertTrue(viewModel.pageBlocks.value.isEmpty())
+            val state = viewModel.uiState.value
+            assertEquals(0, state.knowledgeCount)
+            assertTrue(state.pageItems.isEmpty())
+            assertNull(state.firstItemId)
+            assertTrue(state.pageBlocks.isEmpty())
         }
     }
 
     @Test
     fun `repeat same page is a no-op`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(repository.countKnowledgeByPage("file1", 3)).thenReturn(1)
-            whenever(repository.getItemsByPage("file1", 3)).thenReturn(listOf(item(10L)))
-            val viewModel = PdfKnowledgeViewModel(repository)
+            whenever(repository.getItemsByPage("file1", 3)).thenReturn(listOf(pdfItem(10L)))
+            val viewModel = pdfKnowledgeViewModel(repository)
 
-            viewModel.updatePage("file1", 3)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 3))
             testScheduler.advanceUntilIdle()
-            viewModel.updatePage("file1", 3)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 3))
             testScheduler.advanceUntilIdle()
 
             verify(repository, times(1)).countKnowledgeByPage("file1", 3)
-            assertEquals(listOf(10L), viewModel.pageItems.value.map { it.id })
+            assertEquals(listOf(10L), viewModel.uiState.value.pageItems.map { it.id })
         }
     }
 
     @Test
     fun `blank file ids are ignored`() {
-        runVmTest {
-            val viewModel = PdfKnowledgeViewModel(repository)
+        runPdfVmTest {
+            val viewModel = pdfKnowledgeViewModel(repository)
 
-            viewModel.updatePage("", 9)
-            viewModel.updatePage("   ", 9)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("", 9))
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("   ", 9))
             testScheduler.advanceUntilIdle()
 
             verify(repository, never()).countKnowledgeByPage(any(), any())
-            assertEquals(0, viewModel.knowledgeCount.value)
-            assertTrue(viewModel.pageItems.value.isEmpty())
+            assertEquals(0, viewModel.uiState.value.knowledgeCount)
+            assertTrue(viewModel.uiState.value.pageItems.isEmpty())
         }
     }
 
     @Test
     fun `page switch queries the new page`() {
-        runVmTest {
+        runPdfVmTest {
             whenever(repository.countKnowledgeByPage("file1", 1)).thenReturn(1)
-            whenever(repository.getItemsByPage("file1", 1)).thenReturn(listOf(item(10L)))
+            whenever(repository.getItemsByPage("file1", 1)).thenReturn(listOf(pdfItem(10L)))
             whenever(repository.countKnowledgeByPage("file1", 2)).thenReturn(0)
-            val viewModel = PdfKnowledgeViewModel(repository)
+            val viewModel = pdfKnowledgeViewModel(repository)
 
-            viewModel.updatePage("file1", 1)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 1))
             testScheduler.advanceUntilIdle()
-            assertEquals(listOf(10L), viewModel.pageItems.value.map { it.id })
+            assertEquals(listOf(10L), viewModel.uiState.value.pageItems.map { it.id })
 
-            viewModel.updatePage("file1", 2)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 2))
             testScheduler.advanceUntilIdle()
 
             verify(repository).countKnowledgeByPage("file1", 1)
             verify(repository).countKnowledgeByPage("file1", 2)
-            assertTrue(viewModel.pageItems.value.isEmpty())
+            assertTrue(viewModel.uiState.value.pageItems.isEmpty())
         }
     }
 
@@ -187,29 +159,30 @@ class PdfKnowledgeViewModelTest {
         try {
             val outcome =
                 runCatching {
-                    runTest {
-                        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+                    runPdfVmTest {
                         whenever(repository.countKnowledgeByPage("file1", 1)).thenReturn(1)
                         whenever(repository.getItemsByPage("file1", 1))
-                            .thenReturn(listOf(item(10L)))
+                            .thenReturn(listOf(pdfItem(10L)))
                         whenever(repository.countKnowledgeByPage("file1", 2))
                             .thenThrow(IllegalStateException("db down"))
-                        val viewModel = PdfKnowledgeViewModel(repository)
+                        val viewModel = pdfKnowledgeViewModel(repository)
 
-                        viewModel.updatePage("file1", 1)
+                        viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 1))
                         testScheduler.advanceUntilIdle()
-                        assertEquals(listOf(10L), viewModel.pageItems.value.map { it.id })
+                        assertEquals(listOf(10L), viewModel.uiState.value.pageItems.map { it.id })
 
-                        viewModel.updatePage("file1", 2)
-                        val drain = runCatching { testScheduler.advanceUntilIdle() }
-                        if (drain.isFailure) {
-                            surfaced = drain.exceptionOrNull()
+                        viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 2))
+                        try {
+                            testScheduler.advanceUntilIdle()
+                        } catch (error: Throwable) {
+                            surfaced = surfaced ?: error
                         }
 
                         // the previous page survives the failure untouched
-                        assertEquals(listOf(10L), viewModel.pageItems.value.map { it.id })
-                        assertEquals(10L, viewModel.firstItemId.value)
-                        assertEquals(1, viewModel.knowledgeCount.value)
+                        val state = viewModel.uiState.value
+                        assertEquals(listOf(10L), state.pageItems.map { it.id })
+                        assertEquals(10L, state.firstItemId)
+                        assertEquals(1, state.knowledgeCount)
                     }
                 }
             if (surfaced == null) {
@@ -229,17 +202,17 @@ class PdfKnowledgeViewModelTest {
 
     @Test
     fun `cancelling the view model scope makes update page inert`() {
-        runVmTest {
-            val viewModel = PdfKnowledgeViewModel(repository)
+        runPdfVmTest {
+            val viewModel = pdfKnowledgeViewModel(repository)
 
             viewModel.viewModelScope.cancel()
-            viewModel.updatePage("file1", 1)
+            viewModel.onIntent(PdfKnowledgeIntent.UpdatePage("file1", 1))
             testScheduler.advanceUntilIdle()
 
             verify(repository, never()).countKnowledgeByPage(any(), any())
-            assertEquals(0, viewModel.knowledgeCount.value)
-            assertTrue(viewModel.pageItems.value.isEmpty())
-            assertNull(viewModel.firstItemId.value)
+            assertEquals(0, viewModel.uiState.value.knowledgeCount)
+            assertTrue(viewModel.uiState.value.pageItems.isEmpty())
+            assertNull(viewModel.uiState.value.firstItemId)
         }
     }
 }
