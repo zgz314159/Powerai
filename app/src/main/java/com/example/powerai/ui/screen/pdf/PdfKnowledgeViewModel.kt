@@ -1,12 +1,9 @@
 package com.example.powerai.ui.screen.pdf
 
-import com.example.powerai.core.model.KnowledgeBlock
-import com.example.powerai.core.repository.KnowledgeRepository
-
-import com.example.powerai.core.model.KnowledgeItem
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.domain.usecase.PdfKnowledgeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,8 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PdfKnowledgeViewModel @Inject constructor(
-    private val repository: KnowledgeRepository
+    private val repository: KnowledgeRepository,
 ) : ViewModel() {
+
+    private val useCase = PdfKnowledgeUseCase(repository)
 
     private val _knowledgeCount = MutableStateFlow(0)
     val knowledgeCount: StateFlow<Int> = _knowledgeCount
@@ -40,23 +39,11 @@ class PdfKnowledgeViewModel @Inject constructor(
         currentPage = page
 
         viewModelScope.launch {
-            val count = repository.countKnowledgeByPage(fileId, page)
-            _knowledgeCount.value = count
-            if (count > 0) {
-                val items = repository.getItemsByPage(fileId, page)
-                _pageItems.value = items
-                _firstItemId.value = items.firstOrNull()?.id
-
-                // Extract all blocks for hotspot display
-                val allBlocks = items.flatMap { item ->
-                    com.example.powerai.ui.blocks.BlocksParser.parseBlocks(item.contentBlocksJson).orEmpty().map { item.id to it }
-                }
-                _pageBlocks.value = allBlocks
-            } else {
-                _pageItems.value = emptyList()
-                _firstItemId.value = null
-                _pageBlocks.value = emptyList()
-            }
+            val result = useCase.loadPage(fileId, page)
+            _knowledgeCount.value = result.knowledgeCount
+            _pageItems.value = result.pageItems
+            _firstItemId.value = result.pageItems.firstOrNull()?.id
+            _pageBlocks.value = result.pageBlocks
         }
     }
 }
