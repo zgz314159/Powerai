@@ -10,6 +10,7 @@ import com.example.powerai.domain.model.DatabaseFocusTarget
 import com.example.powerai.domain.model.DatabaseRow
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,9 @@ data class DatabaseUiState(
 class DatabaseViewModel @Inject constructor(
     private val useCase: com.example.powerai.domain.usecase.DatabaseUseCase,
     private val importManager: com.example.powerai.data.importer.DocumentImportManager,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    @javax.inject.Named("io")
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseMviViewModel<DatabaseIntent, DatabaseUiState, Nothing>(
     initialState = DatabaseUiState(
         currentQuery = savedStateHandle[KEY_CURRENT_QUERY] ?: "",
@@ -87,7 +90,7 @@ class DatabaseViewModel @Inject constructor(
     }
 
     fun refreshImportDiagnostics() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             importManager.refreshImportDiagnostics()
         }
     }
@@ -124,7 +127,7 @@ class DatabaseViewModel @Inject constructor(
 
     private fun loadAllInternal() {
         hasLoadedContent = true
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             PLog.d(TAG, "loadAllInternal start query=${currentState.currentQuery} directoryGroups=${_directoryGroups.value.size}")
             updateState { copy(isLoading = true, errorMessage = null) }
             try {
@@ -152,7 +155,7 @@ class DatabaseViewModel @Inject constructor(
     private fun searchInternal(query: String, addToHistory: Boolean) {
         hasLoadedContent = true
         if (addToHistory) addSearchHistory(query)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             PLog.d(TAG, "searchInternal start query=$query addToHistory=$addToHistory directoryGroups=${_directoryGroups.value.size}")
             updateState { copy(isLoading = true, errorMessage = null) }
             try {
@@ -275,7 +278,7 @@ class DatabaseViewModel @Inject constructor(
             .distinct()
         if (unresolvedIds.isEmpty()) return
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             val resolved = buildMap<Long, String> {
                 for (itemId in unresolvedIds) {
                     val fileName = useCase.resolveFileNameForItemId(itemId)
@@ -309,20 +312,20 @@ class DatabaseViewModel @Inject constructor(
         val deduped = currentState.searchHistory.filter { it.query != trimmed }
         val newList = listOf(com.example.powerai.domain.model.SearchEntry(trimmed, now)) + deduped
         updateState { copy(searchHistory = if (newList.size > 50) newList.take(50) else newList) }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             useCase.addSearchHistory(trimmed)
         }
     }
 
     fun clearSearchHistory() {
         updateState { copy(searchHistory = emptyList()) }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             useCase.clearSearchHistory()
         }
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             try {
                 importManager.refreshImportDiagnostics()
             } catch (_: Throwable) {}
@@ -332,7 +335,7 @@ class DatabaseViewModel @Inject constructor(
             } catch (_: Throwable) {}
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(ioDispatcher) {
             importDiagnostics.collectLatest { diagnostics ->
                 val completionSignature = if (
                     diagnostics.scannedCount > 0 &&
