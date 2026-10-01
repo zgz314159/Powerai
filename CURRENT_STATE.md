@@ -20,8 +20,9 @@
 | PR #1 | 已合并 | merge commit `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` |
 | 已合并 PR head | `7683e9a3c5cb0d0a8bf4c23fa7df0bff14a90240` | `refs/remotes/origin/codex/powerai-stabilization-clean-publication` |
 | `origin/main` | `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` | `git rev-parse origin/main` |
+| 表格 `rows` 契约（PowerAi × PaddleModels） | 已加固并通过真实 fixture 验收 | `app/src/test/resources/contracts/paddlemodels_v2_table_rows_contract.json`（3209 B，sha256 `f2f18cb1…d05026`）；`PaddleModelsTableRowsContractTest` 11/11 |
 
-> §6 的数值均取自**合并窗口前后已有的机器产物**，本文件更新时**未重新执行**任何 Gradle 任务。
+> §6 的 JVM 全量单测数值为本任务在隔离工作树上**实测**（`:app:testDebugUnitTest --no-daemon --offline`）；其余数值取自既有机器产物。
 
 ## 3. 模块与架构
 
@@ -58,13 +59,13 @@
   - `app/src/main/java/com/example/powerai/ui/screen/pdf/PdfFigureListViewModel.kt`
   - `app/src/main/java/com/example/powerai/ui/screen/pdf/PdfKnowledgeViewModel.kt`
 - 复现统计：`find … -name "*ViewModel.kt" ! -name "BaseMviViewModel.kt"` 计总数，再 `grep BaseMviViewModel` 计已迁移数
-- **BlocksParser**：`type: "figure"` 映射为 **`FigureNodeBlock`**（`ui/blocks/BlocksParser.kt`）；`semanticRole: figure_callout` **不会**被自动过滤——`BlocksParserTest` 明确断言按 `semanticRole` 保留 code 块
+- **BlocksParser**：`type: "figure"` 映射为 **`FigureNodeBlock`**（`ui/blocks/BlocksParser.kt`）；`semanticRole: figure_callout` **不会**被自动过滤——`BlocksParserTest` 明确断言按 `semanticRole` 保留 code 块；表格 `rows` 契约：仅 array 型 `rows`（含空数组）优先，历史整数 `rows` 不再遮蔽 `table_rows`，`cells` 不再被当作二维 rows，由 `PaddleModelsTableRowsContractTest` 以 PaddleModels 真实生产 fixture 锁定
 
 ## 6. 测试与 CI 证据
 
 | 项 | 结果 | 证据与时间 | 限制 |
 |----|------|-----------|------|
-| JVM 全量单测 | **250 tests / 0 failures / 0 errors / 0 skipped**（71 个测试类） | 目标工作树 `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-09-25 23:07:22 | **最近一次有机器产物支持的完整 JVM 单测结果**；产物被 `app/.gitignore` 忽略，本文件更新时未重跑 |
+| JVM 全量单测 | **395 tests / 0 failures / 0 errors / 0 skipped**（91 个测试类） | 本任务隔离工作树 `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-02（`:app:testDebugUnitTest --no-daemon --offline`） | 本任务新增 `PaddleModelsTableRowsContractTest`（11 项）后实测；本提交基线原有 384 项（此前记录的 250 属更早提交产物） |
 | instrumentation（app） | **3/3** | PR 合并门禁结果；`android-instrumentation-tests.yml` 执行 `:app:connectedDebugAndroidTest`，`app/src/androidTest` 3 个测试类各 1 个 `@Test` | 合并前 CI 结果，本批未复跑 |
 | Android lint | **0 errors**，既有 **66 warnings** | 合并前 lint 报告 `lint-results-debug.xml`（2026-09-24 23:31） | warnings 未清零，此处不逐条复制 |
 | CI 任务范围 | `test` job：`:app:ktlintMainSourceSetCheck` + `:app:compileDebugKotlin` + `:app:testDebugUnitTest`；`benchmarks` job 受 `vars.RUN_BENCHMARKS` 控制，默认不执行 | `.github/workflows/ci.yml` | 配置现状，本批未修改 |
@@ -102,3 +103,4 @@
 | 2026-08-17 | MVI 重构启动并覆盖绝大多数 ViewModel（当前进度见 §5） |
 | 2026-09-12 | `DeepSeekViewModel` 逻辑交由 Orchestrator；`LlamaJni` 拆为 Native/Reflection Bridge、Controller、Metrics（均在 `engine/ai`） |
 | 2026-09-19 | 依赖方向治理、`KbManifest` 引入、Version Catalog 全面迁移（`gradle/libs.versions.toml`） |
+| 2026-10-02 | 表格 `rows` 契约加固：array `rows` 优先、整数 `rows` 不遮蔽 `table_rows`、cells 矩形重建；纳入 PaddleModels 真实 fixture 契约测试 |

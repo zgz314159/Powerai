@@ -73,10 +73,14 @@ internal object BlocksElementExtractors {
     }
 
     fun extractTableRows(obj: JsonObject): List<List<String>> {
-        val rowsEl = obj.get("rows") ?: obj.get("table_rows") ?: obj.get("cells")
-        if (rowsEl != null && rowsEl.isJsonArray) {
-            val out = ArrayList<List<String>>()
-            for (rowEl in rowsEl.asJsonArray) {
+        // 1. Canonical 2D grid: only an array-typed `rows` (including an empty array) takes priority.
+        val canonicalRows = obj.get("rows")?.takeIf { it.isJsonArray }?.asJsonArray
+        // 2. Legacy array-typed `table_rows` is only used when `rows` is absent or not an array.
+        val gridRows = canonicalRows
+            ?: obj.get("table_rows")?.takeIf { it.isJsonArray }?.asJsonArray
+        if (gridRows != null) {
+            val out = ArrayList<List<String>>(gridRows.size())
+            for (rowEl in gridRows) {
                 if (!rowEl.isJsonArray) continue
                 val row = ArrayList<String>()
                 for (cellEl in rowEl.asJsonArray) {
@@ -92,18 +96,22 @@ internal object BlocksElementExtractors {
             return out
         }
 
-        // Fallback: reconstruct rows from flat table_cells if present
-        val cells = extractTableCells(obj)
-        if (!cells.isNullOrEmpty()) {
-            val maxRow = cells.maxOf { it.row }
-            val rows = MutableList(maxRow + 1) { mutableListOf<String>() }
-            for (c in cells.sortedWith(compareBy({ it.row }, { it.col }))) {
-                rows[c.row].add(c.text)
-            }
-            return rows
+        // 3. Last resort: rebuild a rectangular grid from flat cells, anchored at (row, col).
+        val cells = extractTableCells(obj) ?: return emptyList()
+        var maxRow = -1
+        var maxCol = -1
+        for (c in cells) {
+            if (c.row < 0 || c.col < 0) continue
+            maxRow = maxOf(maxRow, c.row + c.rowSpan.coerceAtLeast(1) - 1)
+            maxCol = maxOf(maxCol, c.col + c.colSpan.coerceAtLeast(1) - 1)
         }
-
-        return emptyList()
+        if (maxRow < 0 || maxCol < 0) return emptyList()
+        val grid = MutableList(maxRow + 1) { MutableList(maxCol + 1) { "" } }
+        for (c in cells) {
+            if (c.row < 0 || c.col < 0 || c.row > maxRow || c.col > maxCol) continue
+            grid[c.row][c.col] = c.text
+        }
+        return grid
     }
 
     fun extractTableCells(obj: JsonObject): List<TableCell>? {
