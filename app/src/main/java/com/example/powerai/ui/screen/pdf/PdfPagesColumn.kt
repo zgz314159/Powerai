@@ -69,7 +69,10 @@ internal fun PdfPagesColumn(
 
     val pages = remember(pageCount) { (0 until pageCount).toList() }
 
-    LaunchedEffect(pageCount, highlightPageIndex) {
+    // Key on the highlight box too, so a new locate request for the same page
+    // (different bbox) re-anchors the target page. Plain recomposition and
+    // manual scrolling keep the keys unchanged and are never pulled back.
+    LaunchedEffect(pageCount, highlightPageIndex, highlightBox) {
         val idx = resolvePdfLocateIndex(highlightPageIndex, pageCount) ?: return@LaunchedEffect
         listState.scrollToItem(idx)
     }

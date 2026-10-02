@@ -153,6 +153,32 @@ class PdfPagesColumnLocateInstrumentedTest {
     }
 
     @Test
+    fun samePageNewBboxAfterManualScroll_relocatesTargetPage() {
+        val pdf = createPdf("locate_new_bbox.pdf", pages = 6)
+        val state = LazyListState()
+        var box by mutableStateOf<PdfBoundingBox?>(PdfBoundingBox(10f, 20f, 60f, 80f))
+        var userScrolled by mutableStateOf(false)
+        rule.setContent {
+            LaunchedEffect(userScrolled) {
+                if (userScrolled) {
+                    state.scrollToItem(5)
+                }
+            }
+            PdfPagesColumn(Modifier.fillMaxSize(), pdf, 1, box, state)
+        }
+        awaitContent(state)
+        assertEquals(1, state.firstVisibleItemIndex)
+        rule.runOnIdle { userScrolled = true }
+        rule.waitUntil(5_000) { state.firstVisibleItemIndex == 5 }
+        rule.waitForIdle()
+        assertEquals(5, state.firstVisibleItemIndex)
+        rule.runOnIdle { box = PdfBoundingBox(30f, 40f, 90f, 120f) }
+        rule.waitUntil(5_000) { state.firstVisibleItemIndex == 1 }
+        rule.waitForIdle()
+        assertEquals(1, state.firstVisibleItemIndex)
+    }
+
+    @Test
     fun invalidPageIndex_isSafeNoOp() {
         val pdf = createPdf("locate_invalid.pdf", pages = 3)
         val state = LazyListState()
