@@ -12,7 +12,7 @@
 |----|------|------|------|
 | KI-01 | `AiStreamViewModel.kt`, `AiChatScaffold.kt` | ViewModel/Scaffold 仍偏大 | ✅ 已完成 MVI 重构；状态拆分、更多 UI 组件分层；逻辑已部分下沉 UseCase |
 | KI-02 | `HybridViewModel.kt` | 仍承担较多 UI 编排 | ✅ 已完成 MVI 重构；继续下沉 UseCase；已有 runtime support 拆分 |
-| KI-03 | `StreamingJsonResourceImporter.kt`, `JsonResourceImporter.kt` | 导入流程仍长 | 按阶段拆分（parse / map / write）；`FileParserFactory` 已引入 |
+| KI-03 | `StreamingJsonResourceImporter.kt` | 导入流程仍长 | 按阶段拆分（parse / map / write）；`FileParserFactory` 已引入 |
 | KI-04 | `SparseSearcher.kt`, `KnowledgeLocalSearch` 相关 | 检索逻辑可再拆 | 扫描/tokenize/score 子模块；`SparseSearchUtils`、`LocalSearchDiagnostics` 已部分完成 |
 | KI-05 | `MainPages.kt` | 占位符文件 | 评估删除 |
 | KI-06 | `ui/screen/detail/*` | 详情 markdown/table 文件多 | 保持 normalize 在 data/importer，避免 UI 层继续堆结构修复 |
