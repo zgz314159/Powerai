@@ -28,6 +28,18 @@ interface KnowledgeRepository {
     /** Resolve a more precise block-level highlight target */
     suspend fun resolveHighlightTarget(itemId: Long, highlight: String): LocalHighlightTarget?
 
+    /**
+     * Re-point search hits that land on a table's caption/label block to the table block
+     * it labels — in the same entry or, when the table lives in a sibling entry on the same
+     * page, by promoting the item to that entry. [matchedText] (e.g. the user query) locates
+     * the label block when the item carries no block hit yet. Ordinary body hits are
+     * returned unchanged.
+     */
+    suspend fun resolveTableLabelTargets(
+        items: List<KnowledgeItem>,
+        matchedText: String? = null,
+    ): List<KnowledgeItem>
+
     /** Count knowledge items associated with a specific PDF page */
     suspend fun countKnowledgeByPage(fileId: String, page: Int): Int
 

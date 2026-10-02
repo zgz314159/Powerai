@@ -95,6 +95,13 @@ class KnowledgeRepositoryImpl @Inject constructor(
         return LocalHighlightTarget(blockIndex = blockIndex, blockId = blockId)
     }
 
+    override suspend fun resolveTableLabelTargets(
+        items: List<KnowledgeItem>,
+        matchedText: String?,
+    ): List<KnowledgeItem> {
+        return KnowledgeTableLabelTargets.resolve(items, dao, ::entityToItem, matchedText)
+    }
+
     override suspend fun countKnowledgeByPage(fileId: String, page: Int): Int {
         return dao.countByPage(fileId, page)
     }

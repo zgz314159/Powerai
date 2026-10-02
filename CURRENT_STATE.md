@@ -23,7 +23,9 @@
 | 表格 `rows` 契约（PowerAi × PaddleModels） | 已加固并通过真实 fixture 验收 | `app/src/test/resources/contracts/paddlemodels_v2_table_rows_contract.json`（3209 B，sha256 `f2f18cb1…d05026`）；`PaddleModelsTableRowsContractTest` 11/11 |
 | PDF MVI | 已完成 | `PdfFigureListViewModel` / `PdfKnowledgeViewModel` 继承 `BaseMviViewModel`；契约测试 `PdfFigureListMviContractTest` / `PdfKnowledgeMviContractTest` |
 | 真机定位链路 | 已完成 | 真机「DB 列表 → 详情 → 点表格块 → magic window → 在 PDF 中定位」命中原始 PDF **第 29 页 table 1** 与 **第 32 页 table 2**（提交 `d29ea78` 体记录） |
-| 搜索结果表格标题定位 | 已修复并回归 | 本地搜索命中表格标题/题注块时，详情块选择与「在 PDF 中定位」改指其所属表格块；`TableLabelPdfLocateRegressionTest` 3/3；真实 `103号(2)` KB 两条查询命中 `p29_tbl1` / `p32_tbl1`（见 §9） |
+| 搜索结果表格标题定位（`searchLocal` 旧链） | 已修复并回归 | `searchLocal` 命中表格标题/题注块时，详情块选择与「在 PDF 中定位」改指所属表格块；`TableLabelPdfLocateRegressionTest` 5/5 |
+| 搜索结果表格标题定位（「本地」hybrid 链） | 已修复并真机验收 | `HybridQueryUseCase.localMode` → `KnowledgeRepository.resolveTableLabelTargets` 复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`，题注命中改指同条目或同页跨条目表格；`LocalModeTableEvidenceRegressionTest` 5/5；真机 Android 16 两条查询黄色框分别落在 PDF 第 29 页 `p29_tbl1`、第 32 页 `p32_tbl1`（见 §9） |
+| 本地证据零结果（`发电机允许温升表`） | 已修复 | 根因：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而检索命中依赖 indexed block 文本；题注仅在块内的表格条目被以 coverage=0 丢弃 → UI 0 结果。现评分纳入 `contentBlocksJson` 明文 |
 
 > §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
@@ -66,7 +68,7 @@
 
 | 项 | 结果 | 证据与时间 | 限制 |
 |----|------|-----------|------|
-| JVM 单测（`:app`，CI 范围） | **404 tests / 0 failures / 0 errors / 0 skipped**（93 个测试类） | `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-02（`testDebugUnitTest`） | 跨模块合计 **471 tests**（另 `core:model-contract` 7 / `engine:ai` 35 / `feature:search-chat` 25），全部 0 failures |
+| JVM 单测（`:app`，CI 范围） | **419 tests / 0 failures / 0 errors / 0 skipped**（96 个测试类） | `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-02（`testDebugUnitTest`） | 跨模块合计 **486 tests**（另 `core:model-contract` 7 / `engine:ai` 35 / `feature:search-chat` 25），全部 0 failures |
 | instrumentation（app） | **3/3** | PR 合并门禁结果；`android-instrumentation-tests.yml` 执行 `:app:connectedDebugAndroidTest`（`api-level: 35`，x86_64 模拟器），`app/src/androidTest` 3 个测试类各 1 个 `@Test` | **限制**：合并前 CI 结果，本批未复跑；仅在 API 35 模拟器验证（`arm64-v8a`-only 本地库需 ARM translation），**Android 16 / API 36 仪器测试未覆盖** |
 | Android lint | **0 errors**，既有 **66 warnings** | 合并前 lint 报告 `lint-results-debug.xml`（2026-09-24 23:31） | warnings 未清零，此处不逐条复制 |
 | CI 任务范围 | `test` job：`:app:ktlintMainSourceSetCheck` + `:app:compileDebugKotlin` + `:app:testDebugUnitTest`；`benchmarks` job 受 `vars.RUN_BENCHMARKS` 控制，默认不执行 | `.github/workflows/ci.yml` | 配置现状，本批未修改 |
@@ -108,3 +110,4 @@
 | 2026-10-02 | 状态基线校正：PDF MVI 已完成（PR #9，两个 PDF ViewModel → `BaseMviViewModel`）；真机验证详情表格块 → PDF 定位命中第 29/32 页（`d29ea78`） |
 | 2026-10-02 | PDF 定位视口修复：页面列表底部预留视口高度，目标页跳转不再被 `scrollToItem` 钳制；`PdfRenderer` 渲染串行化；新增定位回归测试（instrumentation + JVM） |
 | 2026-10-02 | 表格标题块命中修正：本地搜索结果落在表格标题/题注块（而非表格块）时，详情块选择与「在 PDF 中定位」改指其所属表格块；同条目优先，跨条目按同页邻接推断并入表格条目。新增 JVM 回归 `TableLabelPdfLocateRegressionTest` |
+| 2026-10-02 | 「本地」hybrid 链表格证据闭环：题注→表格改指接入真实 UI 检索/证据链（`HybridQueryUseCase.localMode` → `KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`，支持跨条目同页几何最近）；修复 `LocalEvidenceRefiner` 仅按 markdown 预览评分导致 `发电机允许温升表` UI 0 结果（现纳入 indexed block 文本）。新增 `LocalModeTableEvidenceRegressionTest`（经 `localMode` + 详情/PDF 目标解析）；真机 Android 16 复验第 29/32 页黄色框命中 |

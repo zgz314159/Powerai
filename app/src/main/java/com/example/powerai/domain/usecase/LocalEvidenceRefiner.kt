@@ -1,10 +1,11 @@
 package com.example.powerai.domain.usecase
 
-import com.example.powerai.core.model.util.TextSanitizer
-import com.example.powerai.domain.util.ContextualSearchTextBuilder
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.model.util.BlocksTextExtractor
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.domain.query.QueryIntent
 import com.example.powerai.domain.query.QueryUnderstandingPipeline
+import com.example.powerai.domain.util.ContextualSearchTextBuilder
 import java.util.Locale
 
 internal object LocalEvidenceRefiner {
@@ -42,7 +43,7 @@ internal object LocalEvidenceRefiner {
         val matchedFigureLabel = (result.debug?.get("semantic_matched_figure_label") as? String) ?: result.metadata["semantic_matched_figure_label"].orEmpty()
         val matchedFigureCaption = (result.debug?.get("semantic_matched_figure_caption") as? String) ?: result.metadata["semantic_matched_figure_caption"].orEmpty()
 
-        val normalized = TextSanitizer.normalizeForSearch("$title $content $matchedFigureLabel $matchedFigureCaption")
+        val normalized = evidenceText(result, title, content, matchedFigureLabel, matchedFigureCaption)
         if (normalized.isBlank()) return null
 
         val tokenGroups = LocalEvidenceScorer.informativeTokenGroups(understanding)
@@ -115,6 +116,26 @@ internal object LocalEvidenceRefiner {
 
         val finalScore = rerankScore.coerceIn(0f, 1f)
         return CandidateEvaluation(result.copy(score = finalScore, confidence = finalScore, debug = debug), null)
+    }
+
+    /**
+     * Text used to score a candidate. It includes the entry's indexed block text because the
+     * retriever matches against it: table captions/notes may never appear in the markdown
+     * preview, and scoring the preview alone used to discard genuine hits with zero coverage.
+     */
+    private fun evidenceText(
+        result: RetrievalResult,
+        title: String,
+        content: String,
+        matchedFigureLabel: String,
+        matchedFigureCaption: String,
+    ): String {
+        val blockText =
+            result.item?.contentBlocksJson
+                ?.takeIf { it.isNotBlank() }
+                ?.let { BlocksTextExtractor.extractPlainText(it) }
+                .orEmpty()
+        return TextSanitizer.normalizeForSearch("$title $content $blockText $matchedFigureLabel $matchedFigureCaption")
     }
 
     private fun deduplicate(retrievals: List<RetrievalResult>, understanding: com.example.powerai.domain.query.QueryUnderstandingResult): List<RetrievalResult> {

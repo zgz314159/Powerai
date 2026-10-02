@@ -73,8 +73,7 @@ class HybridQueryUseCase @Inject constructor(
         val refinement = LocalEvidenceRefiner.refine(rawQuestion, materialized)
         val preliminaryRetrievals = refinement.retrievals
         val preliminaryAssessment = LocalAnswerPlanner.assess(rawQuestion, preliminaryRetrievals)
-        val extractiveAnswer = LocalExtractiveAnswerBuilder.extract(rawQuestion, preliminaryRetrievals, preliminaryAssessment)
-        val refinedRetrievals = attachExtractiveHighlightTargets(preliminaryRetrievals, extractiveAnswer)
+        val (extractiveAnswer, refinedRetrievals) = resolveEvidenceTargets(preliminaryRetrievals, preliminaryAssessment, rawQuestion)
         val items = refinedRetrievals.mapNotNull { it.item }
         val assessment = LocalAnswerPlanner.assess(rawQuestion, refinedRetrievals)
         if (refinedRetrievals.isEmpty()) {
@@ -165,6 +164,57 @@ class HybridQueryUseCase @Inject constructor(
                 )
             )
         }
+    }
+
+    /**
+     * Attaches answer highlights and then re-points caption/label hits to the table they
+     * label. Returns the (possibly re-aligned) extractive answer together with the resolved
+     * retrievals; the pair keeps [localMode] readable under the function-size guardrails.
+     */
+    private suspend fun resolveEvidenceTargets(
+        retrievals: List<com.example.powerai.core.model.RetrievalResult>,
+        assessment: LocalEvidenceAssessment,
+        query: String,
+    ): Pair<LocalExtractiveAnswer?, List<com.example.powerai.core.model.RetrievalResult>> {
+        val answer = LocalExtractiveAnswerBuilder.extract(query, retrievals, assessment)
+        val highlighted = attachExtractiveHighlightTargets(retrievals, answer)
+        val redirected = redirectTableLabelHits(highlighted, query)
+        return alignExtractiveAnswer(answer, highlighted, redirected) to redirected
+    }
+
+    /**
+     * Re-points a caption/label hit to the table it labels — in the same entry or, when the
+     * table lives in a sibling entry on the same page, by promoting the item to that entry.
+     * Delegates the geometry to the shared repository resolver so the "本地" evidence chain
+     * obeys exactly the same rule as `searchLocal`. Ordinary body hits are left untouched.
+     */
+    private suspend fun redirectTableLabelHits(
+        retrievals: List<com.example.powerai.core.model.RetrievalResult>,
+        matchedText: String,
+    ): List<com.example.powerai.core.model.RetrievalResult> {
+        if (retrievals.isEmpty()) return retrievals
+        return retrievals.map { retrieval ->
+            val item = retrieval.item ?: return@map retrieval
+            val redirected =
+                try {
+                    knowledgeRepository.resolveTableLabelTargets(listOf(item), matchedText).firstOrNull()
+                } catch (_: Throwable) {
+                    null
+                }
+            if (redirected != null && redirected != item) retrieval.copy(item = redirected) else retrieval
+        }
+    }
+
+    /** Keeps the extractive answer attached to the entry an answer-aligned hit was promoted to. */
+    private fun alignExtractiveAnswer(
+        answer: LocalExtractiveAnswer?,
+        before: List<com.example.powerai.core.model.RetrievalResult>,
+        after: List<com.example.powerai.core.model.RetrievalResult>,
+    ): LocalExtractiveAnswer? {
+        val oldId = answer?.retrievalId
+        val index = if (oldId == null) -1 else before.indexOfFirst { it.item?.id == oldId }
+        val newId = if (index >= 0) after.getOrNull(index)?.item?.id ?: oldId else oldId
+        return if (answer != null && newId != null && newId != oldId) answer.copy(retrievalId = newId) else answer
     }
 
     /**
