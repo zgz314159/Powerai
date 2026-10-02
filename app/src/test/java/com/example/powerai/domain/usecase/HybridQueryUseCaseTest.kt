@@ -58,13 +58,22 @@ class HybridQueryUseCaseTest {
     }
 
     @Test
-    fun `localMode handles empty fallback`() = runBlocking {
-        whenever(localSearch.invokeResults("x")).thenThrow(RuntimeException("fail"))
-        val outcome = useCase.localMode("x", "x", this) {}
-        outcome.gemmaJob?.join()
-        assertTrue(outcome.query.retrievals.isEmpty())
-        assertTrue(outcome.query.items.isEmpty())
-    }
+    fun `localMode propagates retrieval failure instead of faking an empty result`() =
+        runBlocking {
+            whenever(localSearch.invokeResults("x")).thenThrow(RuntimeException("fail"))
+            val error = runCatching { useCase.localMode("x", "x", this) {} }.exceptionOrNull()
+            assertTrue(error is RuntimeException)
+            assertEquals("fail", error?.message)
+        }
+
+    @Test
+    fun `localMode propagates cancellation`() =
+        runBlocking {
+            whenever(localSearch.invokeResults("x"))
+                .thenThrow(kotlinx.coroutines.CancellationException("cancelled"))
+            val error = runCatching { useCase.localMode("x", "x", this) {} }.exceptionOrNull()
+            assertTrue(error is kotlinx.coroutines.CancellationException)
+        }
 
     @Test
     fun `aiMode invokes AskAiUseCase and propagates answer`() = runBlocking {

@@ -1,8 +1,18 @@
 package com.example.powerai.ui.screen.main
 
+import com.example.powerai.ui.screen.hybrid.HybridUiState
 import com.example.powerai.ui.screen.hybrid.LocalDiagnosticSnapshot
 import com.example.powerai.ui.screen.hybrid.LocalPageState
 import com.example.powerai.ui.screen.hybrid.LocalSummaryState
+
+/**
+ * Visible failure copy for the "本地" page, or `null` when the state is not a
+ * search failure (a genuine zero-hit result renders the ordinary empty state).
+ */
+internal fun localResultsFailureMessage(state: HybridUiState): String? =
+    state.localSummaryState
+        .takeIf { it.pageState == LocalPageState.ERROR }
+        ?.let { fallbackLocalSummaryText(it) }
 
 internal fun buildLocalSummaryMeta(state: LocalSummaryState): String {
     if (state.evidenceCount <= 0) return ""
@@ -24,7 +34,7 @@ internal fun defaultLocalSummaryTitle(state: LocalSummaryState): String =
         LocalPageState.ANSWER_READY -> "回答"
         LocalPageState.TOPIC_OVERVIEW -> "概览"
         LocalPageState.INSUFFICIENT_EVIDENCE -> "资料不足"
-        LocalPageState.ERROR -> "暂时无法生成回答"
+        LocalPageState.ERROR -> "搜索失败"
         LocalPageState.EVIDENCE_ONLY -> "参考资料"
         LocalPageState.IDLE -> ""
     }
@@ -36,7 +46,7 @@ internal fun fallbackLocalSummaryText(state: LocalSummaryState): String =
         LocalPageState.INSUFFICIENT_EVIDENCE ->
             state.errorMessage
                 ?: "当前找到的相关内容还不够，建议换个更具体的问法试试。"
-        LocalPageState.ERROR -> state.errorMessage ?: "暂时没能生成回答，请稍后重试。"
+        LocalPageState.ERROR -> state.errorMessage ?: "本地检索暂时不可用，请重试。"
         LocalPageState.ANSWER_READY,
         LocalPageState.TOPIC_OVERVIEW,
         LocalPageState.IDLE,

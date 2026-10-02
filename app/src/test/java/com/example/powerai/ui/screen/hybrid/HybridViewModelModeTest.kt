@@ -94,6 +94,9 @@ class HybridViewModelModeTest {
             assertFalse(state.isLoading)
             assertEquals(sanitized, state.localSummaryState.query)
             assertTrue(state.evidenceList.isEmpty())
+            // a failed search is a retryable error, not a zero-hit "no match" state
+            assertEquals(LocalPageState.ERROR, state.localSummaryState.pageState)
+            assertFalse(state.localSummaryState.errorMessage.orEmpty().contains("local down"))
             // the failed attempt still lands in local history (pre-existing behavior)
             assertEquals(listOf(sanitized), harness.historyUseCase.localHistory.value.map { it.query })
         }

@@ -1,22 +1,19 @@
 package com.example.powerai.ui.screen.hybrid
 
 import com.example.powerai.domain.model.QueryResult
-import com.example.powerai.domain.usecase.HybridQueryUseCase
-import com.example.powerai.domain.usecase.LocalAnswerPlanner
 
 internal object HybridModeFallbackFactory {
-
-    fun localFailure(rawQuestion: String): HybridQueryUseCase.LocalModeResult {
-        return HybridQueryUseCase.LocalModeResult(
-            query = HybridQueryUseCase.LocalQueryResult(
-                retrievals = emptyList(),
-                items = emptyList(),
-                totalCandidateCount = 0,
-                refinedCandidateCount = 0,
-                extractiveAnswer = null
-            ),
-            assessment = LocalAnswerPlanner.assess(rawQuestion, emptyList()),
-            gemmaJob = null
+    /**
+     * Retryable local-search failure. Unlike a genuine zero-hit result this
+     * must not be rendered as the "no match" empty state, and it never carries
+     * the exception message into the UI state.
+     */
+    fun localFailure(query: String): LocalModeUiPayload {
+        return LocalModeUiPayload(
+            references = emptyList(),
+            evidence = emptyList(),
+            summaryState = LocalSummaryStateFactory.searchFailed(query),
+            gemmaJob = null,
         )
     }
 

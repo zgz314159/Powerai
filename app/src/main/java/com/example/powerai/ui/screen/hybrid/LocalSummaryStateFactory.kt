@@ -5,7 +5,34 @@ import com.example.powerai.domain.usecase.LocalAnswerIntent
 import com.example.powerai.domain.usecase.LocalEvidenceAssessment
 import com.example.powerai.domain.usecase.LocalExtractiveAnswer
 
+@Suppress("TooManyFunctions")
 internal object LocalSummaryStateFactory {
+    /**
+     * User-facing copy for a failed local search. Deliberately generic: the UI
+     * must never leak the underlying exception message or other internals.
+     */
+    const val SEARCH_FAILED_MESSAGE = "本地检索暂时不可用，请重试。"
+
+    /**
+     * Distinguishes "retrieval/import failed" from a genuine zero-hit result:
+     * the page reports a retryable error instead of the "no match" empty state.
+     */
+    fun searchFailed(query: String): LocalSummaryState {
+        return LocalSummaryState(
+            pageState = LocalPageState.ERROR,
+            query = query,
+            intent = LocalQueryIntent.FACT_QUESTION,
+            title = "搜索失败",
+            supportNote = "",
+            summary = "",
+            evidenceCount = 0,
+            totalEvidenceCount = 0,
+            isStreaming = false,
+            canRunGemma = false,
+            errorMessage = SEARCH_FAILED_MESSAGE,
+        )
+    }
+
     fun initial(query: String, intent: LocalAnswerIntent): LocalSummaryState {
         return LocalSummaryState(
             pageState = LocalPageState.SEARCHING,

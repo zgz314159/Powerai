@@ -1,13 +1,32 @@
 package com.example.powerai.ui.screen.main
 
+import com.example.powerai.ui.screen.hybrid.HybridUiState
 import com.example.powerai.ui.screen.hybrid.LocalDiagnosticGateLabelFormatter
 import com.example.powerai.ui.screen.hybrid.LocalDiagnosticGateSummary
 import com.example.powerai.ui.screen.hybrid.LocalDiscardedDiagnosticHit
+import com.example.powerai.ui.screen.hybrid.LocalPageState
+import com.example.powerai.ui.screen.hybrid.LocalSummaryState
+import com.example.powerai.ui.screen.hybrid.LocalSummaryStateFactory
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class LocalSummaryCardFormattingTest {
+
+    @Test
+    fun `local page failure copy only appears for the error page state`() {
+        val failed = HybridUiState().copy(localSummaryState = LocalSummaryStateFactory.searchFailed("q"))
+        assertEquals(LocalSummaryStateFactory.SEARCH_FAILED_MESSAGE, localResultsFailureMessage(failed))
+        assertEquals("搜索失败", defaultLocalSummaryTitle(failed.localSummaryState))
+
+        assertNull(localResultsFailureMessage(HybridUiState()))
+
+        val noMatch =
+            HybridUiState().copy(localSummaryState = LocalSummaryState(pageState = LocalPageState.INSUFFICIENT_EVIDENCE))
+        assertNull(localResultsFailureMessage(noMatch))
+    }
 
     @Test
     fun `discarded summary line keeps gate details collapsed by default`() {
