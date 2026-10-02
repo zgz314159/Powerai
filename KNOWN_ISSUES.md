@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-08-17
+**最后同步**：2026-10-02
 
 ---
 
@@ -50,6 +50,8 @@
 
 ## 已关闭（仅供参考）
 
+- 「本地」页搜索命中表格题注块时未改指所属表格：「本地」hybrid 证据链此前只在 `searchLocal` 旧链做改指；已将题注→表格改指接入 `HybridQueryUseCase.localMode`（`KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`），支持同条目与同页跨条目几何最近表格
+- 「本地」页 `发电机允许温升表` 返回 0 结果：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而 FTS/LIKE 命中依赖 indexed block 文本；题注仅存在于块内的表格条目被判 coverage=0 丢弃；现评分纳入 `contentBlocksJson` 明文
 - PDF 定位目标页未滚入视口：页面项在 bitmap 渲染前为短占位高度，`scrollToItem` 被列表滚动范围钳制；已通过底部预留视口高度修复
 - `PdfRenderer` 并发渲染导致 `IllegalStateException: Current page not closed`：多个页面项并行渲染；已将渲染调度串行化
 - 重复 `ui/components` → 已统一 `ui.component`

@@ -95,6 +95,11 @@ internal class FakeKnowledgeRepository : KnowledgeRepository {
         highlight: String,
     ): LocalHighlightTarget? = null
 
+    override suspend fun resolveTableLabelTargets(
+        items: List<KnowledgeItem>,
+        matchedText: String?,
+    ): List<KnowledgeItem> = items
+
     override suspend fun countKnowledgeByPage(
         fileId: String,
         page: Int,

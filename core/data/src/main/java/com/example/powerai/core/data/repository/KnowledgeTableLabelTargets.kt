@@ -3,6 +3,7 @@ package com.example.powerai.core.data.repository
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.model.KnowledgeItem
+import com.example.powerai.core.model.util.BlocksTextExtractor
 import com.example.powerai.core.model.util.TableLabelBlockResolver
 
 /**
@@ -12,6 +13,10 @@ import com.example.powerai.core.model.util.TableLabelBlockResolver
  * A table label may sit in the same entry as its table, or in a sibling entry on
  * the same page (the PaddleModels chunker splits a table into its own entry). In the
  * latter case the whole result is promoted to the table's entry.
+ *
+ * [resolve] optionally takes the text that produced the hit (e.g. the user query or
+ * the highlight phrase). When the item carries no block hit yet, that text is used to
+ * locate the label block through the same block matcher the rest of the app uses.
  */
 internal object KnowledgeTableLabelTargets {
     private data class LabelHit(
@@ -25,11 +30,12 @@ internal object KnowledgeTableLabelTargets {
         items: List<KnowledgeItem>,
         dao: KnowledgeDao,
         entityToItem: (KnowledgeEntity) -> KnowledgeItem,
+        matchedText: String? = null,
     ): List<KnowledgeItem> {
         if (items.isEmpty()) return items
         return items.map { item ->
             try {
-                resolveOne(item, dao, entityToItem)
+                resolveOne(item, dao, entityToItem, matchedText)
             } catch (_: Throwable) {
                 item
             }
@@ -40,8 +46,9 @@ internal object KnowledgeTableLabelTargets {
         item: KnowledgeItem,
         dao: KnowledgeDao,
         entityToItem: (KnowledgeEntity) -> KnowledgeItem,
+        matchedText: String?,
     ): KnowledgeItem {
-        val hit = prepareLabelHit(item, dao) ?: return item
+        val hit = prepareLabelHit(item, dao, matchedText) ?: return item
         return sameEntryTarget(hit, item)
             ?: crossEntryTarget(hit, dao, entityToItem)
             ?: item
@@ -50,21 +57,36 @@ internal object KnowledgeTableLabelTargets {
     private suspend fun prepareLabelHit(
         item: KnowledgeItem,
         dao: KnowledgeDao,
+        matchedText: String?,
     ): LabelHit? {
         val entity = dao.getById(item.id)
         val blocks = entity?.let { TableLabelBlockResolver.blockInfos(it.contentBlocksJson) }.orEmpty()
-        val index = hitIndexIn(blocks, item)
+        val index = entity?.let { hitIndexIn(blocks, item, it.contentBlocksJson, matchedText) }
         val label = index?.let { blocks.getOrNull(it) }
-        if (entity == null || index == null || label == null) return null
-        return if (TableLabelBlockResolver.isTableLabel(label)) LabelHit(entity, blocks, index, label) else null
+        return if (entity == null || index == null || label == null) {
+            null
+        } else if (TableLabelBlockResolver.isTableLabel(label)) {
+            LabelHit(entity, blocks, index, label)
+        } else {
+            null
+        }
     }
 
     private fun hitIndexIn(
         blocks: List<TableLabelBlockResolver.BlockInfo>,
         item: KnowledgeItem,
+        blocksJson: String?,
+        matchedText: String?,
     ): Int? {
         val byIndex = item.hitBlockIndex?.takeIf { it in blocks.indices }
-        return byIndex ?: item.hitBlockId?.let { id -> blocks.indexOfFirst { it.id == id }.takeIf { it >= 0 } }
+        val byId = item.hitBlockId?.let { id -> blocks.indexOfFirst { it.id == id }.takeIf { it >= 0 } }
+        val byText =
+            if (matchedText.isNullOrBlank() || blocksJson.isNullOrBlank()) {
+                null
+            } else {
+                BlocksTextExtractor.findFirstMatchingBlockIndex(blocksJson, matchedText)
+            }
+        return byIndex ?: byId ?: byText
     }
 
     private fun sameEntryTarget(
