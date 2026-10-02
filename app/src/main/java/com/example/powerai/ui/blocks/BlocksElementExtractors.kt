@@ -108,7 +108,8 @@ internal object BlocksElementExtractors {
         if (maxRow < 0 || maxCol < 0) return emptyList()
         val grid = MutableList(maxRow + 1) { MutableList(maxCol + 1) { "" } }
         for (c in cells) {
-            if (c.row < 0 || c.col < 0 || c.row > maxRow || c.col > maxCol) continue
+            val inBounds = c.row >= 0 && c.col >= 0 && c.row <= maxRow && c.col <= maxCol
+            if (!inBounds) continue
             grid[c.row][c.col] = c.text
         }
         return grid

@@ -45,7 +45,9 @@ object JsonEntryMapper {
             try {
                 val blocksRoot = JsonParser().parse(blocksJson)
                 val imgs = ArrayList<String>()
-                val bboxes = ArrayList<String>()
+                // Single parseable box for the detail header "查看 PDF" button; the
+                // first block that carries a bbox is the entry's primary locate target.
+                var primaryBbox: String? = null
 
                 fun visit(el: com.google.gson.JsonElement?) {
                     if (el == null || el.isJsonNull) return
@@ -62,13 +64,11 @@ object JsonEntryMapper {
                                     if (s.isNotBlank()) imgs.add(s)
                                 }
                             }
-                            // bounding box
-                            val bb = obj.get("boundingBox") ?: obj.get("bbox")
-                            if (bb != null && !bb.isJsonNull) {
-                                if (bb.isJsonPrimitive) {
-                                    bboxes.add(bb.asString)
-                                } else {
-                                    bboxes.add(bb.toString())
+                            // bounding box (first block with a box wins)
+                            if (primaryBbox == null) {
+                                val bb = obj.get("boundingBox") ?: obj.get("bbox")
+                                if (bb != null && !bb.isJsonNull) {
+                                    primaryBbox = if (bb.isJsonPrimitive) bb.asString else bb.toString()
                                 }
                             }
 
@@ -79,7 +79,7 @@ object JsonEntryMapper {
 
                 visit(blocksRoot)
                 if (imgs.isNotEmpty()) imageUrisJson = gson.toJson(imgs)
-                if (bboxes.isNotEmpty()) bboxJson = gson.toJson(bboxes)
+                bboxJson = primaryBbox
             } catch (_: Throwable) {
             }
         } else {
