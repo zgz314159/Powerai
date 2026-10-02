@@ -34,18 +34,20 @@ object JsonEntryMapper {
         val isSplitEntry = (e.entryId?.contains("__p3_split") == true) ||
             (e.jobTitle?.contains("（图") == true)
 
-        val sourceForEntity = metadata.source?.takeIf { it.isNotBlank() }
-            ?: metadata.fileId.takeIf { it.isNotBlank() }
-            ?: metadata.fileName
+        val sourceForEntity =
+            e.source?.takeIf { it.isNotBlank() }
+                ?: metadata.source?.takeIf { it.isNotBlank() }
+                ?: metadata.fileId.takeIf { it.isNotBlank() }
+                ?: metadata.fileName
 
-        // collect image URIs and bounding box info from blocksJson when available
         var imageUrisJson: String? = null
         var bboxJson: String? = null
         if (!blocksJson.isNullOrBlank()) {
             try {
                 val blocksRoot = JsonParser().parse(blocksJson)
                 val imgs = ArrayList<String>()
-                val bboxes = ArrayList<String>()
+                // First block with a bbox is the entry's primary PDF locate target.
+                var primaryBbox: String? = null
 
                 fun visit(el: com.google.gson.JsonElement?) {
                     if (el == null || el.isJsonNull) return
@@ -62,13 +64,11 @@ object JsonEntryMapper {
                                     if (s.isNotBlank()) imgs.add(s)
                                 }
                             }
-                            // bounding box
-                            val bb = obj.get("boundingBox") ?: obj.get("bbox")
-                            if (bb != null && !bb.isJsonNull) {
-                                if (bb.isJsonPrimitive) {
-                                    bboxes.add(bb.asString)
-                                } else {
-                                    bboxes.add(bb.toString())
+                            // bounding box (first block with a box wins)
+                            if (primaryBbox == null) {
+                                val bb = obj.get("boundingBox") ?: obj.get("bbox")
+                                if (bb != null && !bb.isJsonNull) {
+                                    primaryBbox = if (bb.isJsonPrimitive) bb.asString else bb.toString()
                                 }
                             }
 
@@ -79,7 +79,7 @@ object JsonEntryMapper {
 
                 visit(blocksRoot)
                 if (imgs.isNotEmpty()) imageUrisJson = gson.toJson(imgs)
-                if (bboxes.isNotEmpty()) bboxJson = gson.toJson(bboxes)
+                bboxJson = primaryBbox
             } catch (_: Throwable) {
             }
         } else {

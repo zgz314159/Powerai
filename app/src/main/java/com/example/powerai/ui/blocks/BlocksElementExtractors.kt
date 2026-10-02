@@ -1,17 +1,14 @@
 package com.example.powerai.ui.blocks
 import com.example.powerai.core.model.TableCell
-
 import com.example.powerai.core.model.util.BlocksJsonUtils.asJsonObjectOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.booleanOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.boundingBoxAsStringOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.intOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.stringOrNull
-import com.example.powerai.core.model.util.BlocksJsonUtils
-import com.google.gson.JsonObject
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 
 internal object BlocksElementExtractors {
-
     fun firstNonBlank(vararg values: String?): String? {
         return values.firstOrNull { !it.isNullOrBlank() }?.trim()
     }
@@ -21,8 +18,9 @@ internal object BlocksElementExtractors {
         return el.asJsonArray.mapNotNull { item ->
             when {
                 item.isJsonPrimitive && item.asJsonPrimitive.isString -> item.asString
-                item.isJsonObject -> item.asJsonObject.stringOrNull("imageUri")
-                    ?: item.asJsonObject.stringOrNull("src")
+                item.isJsonObject ->
+                    item.asJsonObject.stringOrNull("imageUri")
+                        ?: item.asJsonObject.stringOrNull("src")
                 else -> null
             }
         }
@@ -73,18 +71,24 @@ internal object BlocksElementExtractors {
     }
 
     fun extractTableRows(obj: JsonObject): List<List<String>> {
-        val rowsEl = obj.get("rows") ?: obj.get("table_rows") ?: obj.get("cells")
-        if (rowsEl != null && rowsEl.isJsonArray) {
-            val out = ArrayList<List<String>>()
-            for (rowEl in rowsEl.asJsonArray) {
+        // 1. Canonical 2D grid: only an array-typed `rows` (including an empty array) takes priority.
+        val canonicalRows = obj.get("rows")?.takeIf { it.isJsonArray }?.asJsonArray
+        // 2. Legacy array-typed `table_rows` is only used when `rows` is absent or not an array.
+        val gridRows =
+            canonicalRows
+                ?: obj.get("table_rows")?.takeIf { it.isJsonArray }?.asJsonArray
+        if (gridRows != null) {
+            val out = ArrayList<List<String>>(gridRows.size())
+            for (rowEl in gridRows) {
                 if (!rowEl.isJsonArray) continue
                 val row = ArrayList<String>()
                 for (cellEl in rowEl.asJsonArray) {
-                    val cellText = when {
-                        cellEl.isJsonPrimitive && cellEl.asJsonPrimitive.isString -> cellEl.asString
-                        cellEl.isJsonObject -> extractText(cellEl.asJsonObject)
-                        else -> ""
-                    }
+                    val cellText =
+                        when {
+                            cellEl.isJsonPrimitive && cellEl.asJsonPrimitive.isString -> cellEl.asString
+                            cellEl.isJsonObject -> extractText(cellEl.asJsonObject)
+                            else -> ""
+                        }
                     row.add(cellText)
                 }
                 out.add(row)
@@ -92,18 +96,23 @@ internal object BlocksElementExtractors {
             return out
         }
 
-        // Fallback: reconstruct rows from flat table_cells if present
-        val cells = extractTableCells(obj)
-        if (!cells.isNullOrEmpty()) {
-            val maxRow = cells.maxOf { it.row }
-            val rows = MutableList(maxRow + 1) { mutableListOf<String>() }
-            for (c in cells.sortedWith(compareBy({ it.row }, { it.col }))) {
-                rows[c.row].add(c.text)
-            }
-            return rows
+        // 3. Last resort: rebuild a rectangular grid from flat cells, anchored at (row, col).
+        val cells = extractTableCells(obj) ?: return emptyList()
+        var maxRow = -1
+        var maxCol = -1
+        for (c in cells) {
+            if (c.row < 0 || c.col < 0) continue
+            maxRow = maxOf(maxRow, c.row + c.rowSpan.coerceAtLeast(1) - 1)
+            maxCol = maxOf(maxCol, c.col + c.colSpan.coerceAtLeast(1) - 1)
         }
-
-        return emptyList()
+        if (maxRow < 0 || maxCol < 0) return emptyList()
+        val grid = MutableList(maxRow + 1) { MutableList(maxCol + 1) { "" } }
+        for (c in cells) {
+            val inBounds = c.row >= 0 && c.col >= 0 && c.row <= maxRow && c.col <= maxCol
+            if (!inBounds) continue
+            grid[c.row][c.col] = c.text
+        }
+        return grid
     }
 
     fun extractTableCells(obj: JsonObject): List<TableCell>? {
@@ -132,9 +141,10 @@ internal object BlocksElementExtractors {
                     isHeader = co.booleanOrNull("isHeader") ?: co.booleanOrNull("h") ?: false,
                     alignment = co.stringOrNull("alignment"),
                     boundingBox = co.boundingBoxAsStringOrNull() ?: co.get("bbox")?.toString(),
-                    confidence = co.get("confidence")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
-                        ?: co.get("score")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
-                )
+                    confidence =
+                        co.get("confidence")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
+                            ?: co.get("score")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat,
+                ),
             )
         }
         return out.takeIf { it.isNotEmpty() }

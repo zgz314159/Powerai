@@ -20,8 +20,11 @@
 | PR #1 | 已合并 | merge commit `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` |
 | 已合并 PR head | `7683e9a3c5cb0d0a8bf4c23fa7df0bff14a90240` | `refs/remotes/origin/codex/powerai-stabilization-clean-publication` |
 | `origin/main` | `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` | `git rev-parse origin/main` |
+| 表格 `rows` 契约（PowerAi × PaddleModels） | 已加固并通过真实 fixture 验收 | `app/src/test/resources/contracts/paddlemodels_v2_table_rows_contract.json`（3209 B，sha256 `f2f18cb1…d05026`）；`PaddleModelsTableRowsContractTest` 11/11 |
+| PDF MVI | 已完成 | `PdfFigureListViewModel` / `PdfKnowledgeViewModel` 继承 `BaseMviViewModel`；契约测试 `PdfFigureListMviContractTest` / `PdfKnowledgeMviContractTest` |
+| 真机定位链路 | 已完成 | 真机「DB 列表 → 详情 → 点表格块 → magic window → 在 PDF 中定位」命中原始 PDF **第 29 页 table 1** 与 **第 32 页 table 2**（提交 `d29ea78` 体记录） |
 
-> §6 的数值均取自**合并窗口前后已有的机器产物**，本文件更新时**未重新执行**任何 Gradle 任务。
+> §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
 ## 3. 模块与架构
 
@@ -52,20 +55,18 @@
 
 ## 5. UI/MVI 迁移状态
 
-- 全仓 **12 个具体 ViewModel**（`:app` 11 + `:feature:search-chat` 1），其中 **10 个**继承 `BaseMviViewModel`
+- 全仓 **12 个具体 ViewModel**（`:app` 11 + `:feature:search-chat` 1），**12 个**均继承 `BaseMviViewModel`
 - `DeepSeekViewModel` **已完成迁移**（位于 `:feature:search-chat`），`DeepSeekIntent.kt` 存在并被 UI 调用
-- **尚未迁移（2 个）**：
-  - `app/src/main/java/com/example/powerai/ui/screen/pdf/PdfFigureListViewModel.kt`
-  - `app/src/main/java/com/example/powerai/ui/screen/pdf/PdfKnowledgeViewModel.kt`
+- PDF：`PdfFigureListViewModel`、`PdfKnowledgeViewModel` **已完成 MVI 迁移**（State/Intent/Effect + use case；契约测试 `PdfFigureListMviContractTest`、`PdfKnowledgeMviContractTest`）
 - 复现统计：`find … -name "*ViewModel.kt" ! -name "BaseMviViewModel.kt"` 计总数，再 `grep BaseMviViewModel` 计已迁移数
-- **BlocksParser**：`type: "figure"` 映射为 **`FigureNodeBlock`**（`ui/blocks/BlocksParser.kt`）；`semanticRole: figure_callout` **不会**被自动过滤——`BlocksParserTest` 明确断言按 `semanticRole` 保留 code 块
+- **BlocksParser**：`type: "figure"` 映射为 **`FigureNodeBlock`**（`ui/blocks/BlocksParser.kt`）；`semanticRole: figure_callout` **不会**被自动过滤——`BlocksParserTest` 明确断言按 `semanticRole` 保留 code 块；表格 `rows` 契约：仅 array 型 `rows`（含空数组）优先，历史整数 `rows` 不再遮蔽 `table_rows`，`cells` 不再被当作二维 rows，由 `PaddleModelsTableRowsContractTest` 以 PaddleModels 真实生产 fixture 锁定
 
 ## 6. 测试与 CI 证据
 
 | 项 | 结果 | 证据与时间 | 限制 |
 |----|------|-----------|------|
-| JVM 全量单测 | **250 tests / 0 failures / 0 errors / 0 skipped**（71 个测试类） | 目标工作树 `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-09-25 23:07:22 | **最近一次有机器产物支持的完整 JVM 单测结果**；产物被 `app/.gitignore` 忽略，本文件更新时未重跑 |
-| instrumentation（app） | **3/3** | PR 合并门禁结果；`android-instrumentation-tests.yml` 执行 `:app:connectedDebugAndroidTest`，`app/src/androidTest` 3 个测试类各 1 个 `@Test` | 合并前 CI 结果，本批未复跑 |
+| JVM 单测（`:app`，CI 范围） | **404 tests / 0 failures / 0 errors / 0 skipped**（93 个测试类） | `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-02（`testDebugUnitTest`） | 跨模块合计 **471 tests**（另 `core:model-contract` 7 / `engine:ai` 35 / `feature:search-chat` 25），全部 0 failures |
+| instrumentation（app） | **3/3** | PR 合并门禁结果；`android-instrumentation-tests.yml` 执行 `:app:connectedDebugAndroidTest`（`api-level: 35`，x86_64 模拟器），`app/src/androidTest` 3 个测试类各 1 个 `@Test` | **限制**：合并前 CI 结果，本批未复跑；仅在 API 35 模拟器验证（`arm64-v8a`-only 本地库需 ARM translation），**Android 16 / API 36 仪器测试未覆盖** |
 | Android lint | **0 errors**，既有 **66 warnings** | 合并前 lint 报告 `lint-results-debug.xml`（2026-09-24 23:31） | warnings 未清零，此处不逐条复制 |
 | CI 任务范围 | `test` job：`:app:ktlintMainSourceSetCheck` + `:app:compileDebugKotlin` + `:app:testDebugUnitTest`；`benchmarks` job 受 `vars.RUN_BENCHMARKS` 控制，默认不执行 | `.github/workflows/ci.yml` | 配置现状，本批未修改 |
 
@@ -82,16 +83,16 @@
 
 ## 7. 已知限制
 
-- 2 个 PDF ViewModel 尚未迁移到 MVI（见 §5）
 - `benchmarks` CI job 默认不执行（依赖 `vars.RUN_BENCHMARKS`）
 - `llama_library/` 预置库未入库，需本地准备
 - lint 66 个 warning 未清零
+- instrumentation 仅在 API 35 x86_64 模拟器验证；**Android 16 / API 36 仪器测试未覆盖**（`compileSdk` 36，本地库仅 `arm64-v8a`）
 
 ## 8. 下一步工作
 
-- 将 2 个 PDF ViewModel 迁移到 MVI —— **计划**，未开始
 - 维持 lint error 为 0 —— **待验证**（下一次 lint 运行）
 - 端侧推理停止行为与中文输出的真机回归 —— **待验证**
+- 补齐 Android 16 / API 36 的仪器测试覆盖 —— **未开始**
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
 
@@ -102,3 +103,5 @@
 | 2026-08-17 | MVI 重构启动并覆盖绝大多数 ViewModel（当前进度见 §5） |
 | 2026-09-12 | `DeepSeekViewModel` 逻辑交由 Orchestrator；`LlamaJni` 拆为 Native/Reflection Bridge、Controller、Metrics（均在 `engine/ai`） |
 | 2026-09-19 | 依赖方向治理、`KbManifest` 引入、Version Catalog 全面迁移（`gradle/libs.versions.toml`） |
+| 2026-10-02 | 表格 `rows` 契约加固：array `rows` 优先、整数 `rows` 不遮蔽 `table_rows`、cells 矩形重建；纳入 PaddleModels 真实 fixture 契约测试 |
+| 2026-10-02 | 状态基线校正：PDF MVI 已完成（PR #9，两个 PDF ViewModel → `BaseMviViewModel`）；真机验证详情表格块 → PDF 定位命中第 29/32 页（`d29ea78`） |

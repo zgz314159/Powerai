@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bumptech.glide.Glide
+import com.example.powerai.ui.screen.pdf.pdfLocateTargetForBlock
 
 private fun resolvePageNumber(block: KnowledgeBlock, fallback: Int?): Int? =
     block.pageNumber ?: fallback
@@ -91,21 +92,20 @@ internal fun MagicWindowControls(
     onClearCacheAfterApplyChanged: (Boolean) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val effectivePageNumber = resolvePageNumber(block, pageNumber)
-    
+    val locateTarget = pdfLocateTargetForBlock(block, pageNumber)
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         OutlinedButton(
             onClick = {
-                val bbox = block.boundingBox
-                if (pdfRef != null && !bbox.isNullOrBlank()) {
-                    onOpenPdfAtBox(effectivePageNumber, bbox)
+                if (pdfRef != null && locateTarget != null) {
+                    onOpenPdfAtBox(locateTarget.pageNumber, locateTarget.bboxJson)
                     onDismiss()
                 }
             },
-            enabled = pdfRef != null && !block.boundingBox.isNullOrBlank()
+            enabled = pdfRef != null && locateTarget != null,
         ) {
             Text("在 PDF 中定位")
         }
