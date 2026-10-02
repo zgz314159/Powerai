@@ -46,6 +46,9 @@ object TableLabelBlockResolver {
         val bottom: Float?,
     )
 
+    /** A table directly below a label, with its effective vertical gap (table top − label bottom). */
+    data class TableBelow(val index: Int, val gap: Float)
+
     fun blockInfos(blocksJson: String?): List<BlockInfo> {
         val root =
             blocksJson?.takeIf { it.isNotBlank() }?.let { BlocksJsonUtils.parseRoot(it) }
@@ -80,17 +83,19 @@ object TableLabelBlockResolver {
         matchedIndex: Int,
     ): Int? {
         val label = blocks.getOrNull(matchedIndex) ?: return null
-        return if (isTableLabel(label)) nearestTableBelow(blocks, label) else null
+        return if (isTableLabel(label)) nearestTableBelowWithGap(blocks, label)?.index else null
     }
 
     /**
-     * Index of the table whose top is closest below [label] on the label's page.
-     * [blocks] may belong to the label's entry or to a sibling entry on the same page.
+     * Nearest table directly below [label] on the same page, with its effective vertical
+     * gap. Callers that only need the block use [TableBelow.index]; selecting across
+     * sibling entries needs the gap so the closest table wins even when the DAO returns
+     * candidates ordered by entity id.
      */
-    fun nearestTableBelow(
+    fun nearestTableBelowWithGap(
         blocks: List<BlockInfo>,
         label: BlockInfo,
-    ): Int? {
+    ): TableBelow? {
         val page = label.page
         val labelBottom = label.bottom
         return if (page == null || labelBottom == null) {
@@ -98,11 +103,9 @@ object TableLabelBlockResolver {
         } else {
             blocks.asSequence()
                 .filter { it.type == "table" && it.page == page }
-                .mapNotNull { block -> block.top?.let { top -> block to (top - labelBottom) } }
-                .filter { (_, gap) -> gap >= -GAP_EPSILON && gap <= MAX_LABEL_GAP }
-                .minByOrNull { (_, gap) -> gap }
-                ?.first
-                ?.index
+                .mapNotNull { block -> block.top?.let { top -> TableBelow(block.index, top - labelBottom) } }
+                .filter { it.gap >= -GAP_EPSILON && it.gap <= MAX_LABEL_GAP }
+                .minByOrNull { it.gap }
         }
     }
 

@@ -84,23 +84,39 @@ internal object KnowledgeTableLabelTargets {
         return dao.getByPage(hit.entity.source, page)
             .asSequence()
             .filter { it.id != hit.entity.id }
-            .mapNotNull { sibling -> tableTargetIn(sibling, hit.label, page, entityToItem) }
-            .firstOrNull()
+            .mapNotNull { sibling -> tableCandidateIn(sibling, hit.label, page, entityToItem) }
+            .minWithOrNull(CANDIDATE_ORDER)
+            ?.item
     }
 
-    private fun tableTargetIn(
+    private fun tableCandidateIn(
         sibling: KnowledgeEntity,
         label: TableLabelBlockResolver.BlockInfo,
         page: Int,
         entityToItem: (KnowledgeEntity) -> KnowledgeItem,
-    ): KnowledgeItem? {
+    ): TableCandidate? {
         val siblingBlocks = TableLabelBlockResolver.blockInfos(sibling.contentBlocksJson)
-        val tableIndex = TableLabelBlockResolver.nearestTableBelow(siblingBlocks, label) ?: return null
-        return entityToItem(sibling).copy(
-            title = label.text.trim(),
-            pageNumber = page,
-            hitBlockIndex = tableIndex,
-            hitBlockId = siblingBlocks[tableIndex].id,
-        )
+        val table = TableLabelBlockResolver.nearestTableBelowWithGap(siblingBlocks, label) ?: return null
+        val item =
+            entityToItem(sibling).copy(
+                title = label.text.trim(),
+                pageNumber = page,
+                hitBlockIndex = table.index,
+                hitBlockId = siblingBlocks[table.index].id,
+            )
+        return TableCandidate(gap = table.gap, siblingId = sibling.id, blockIndex = table.index, item = item)
     }
+
+    private data class TableCandidate(
+        val gap: Float,
+        val siblingId: Long,
+        val blockIndex: Int,
+        val item: KnowledgeItem,
+    )
+
+    /** Nearest table wins; equal gaps fall back to a deterministic sibling id / block index order. */
+    private val CANDIDATE_ORDER: Comparator<TableCandidate> =
+        compareBy<TableCandidate> { it.gap }
+            .thenBy { it.siblingId }
+            .thenBy { it.blockIndex }
 }

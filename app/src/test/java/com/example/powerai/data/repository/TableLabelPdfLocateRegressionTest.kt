@@ -97,6 +97,45 @@ class TableLabelPdfLocateRegressionTest {
         return block!! to resolvedEntity
     }
 
+    private fun insertEntity(
+        id: Long,
+        source: String,
+        content: String,
+        blocksJson: String,
+    ) {
+        runBlocking {
+            db.knowledgeDao().insert(
+                KnowledgeEntity(
+                    id = id,
+                    title = "Page 1",
+                    content = content,
+                    source = source,
+                    contentNormalized = content,
+                    searchContent = content,
+                    pageNumber = 1,
+                    contentBlocksJson = blocksJson,
+                ),
+            )
+        }
+    }
+
+    private fun captionBlocksJson(
+        id: String,
+        text: String,
+        top: Float,
+        bottom: Float,
+    ): String {
+        return """[{"id":"$id","type":"code","code":"$text","pageNumber":1,"bbox":{"left":40,"top":$top,"right":202,"bottom":$bottom}}]"""
+    }
+
+    private fun tableBlocksJson(
+        id: String,
+        top: Float,
+        bottom: Float,
+    ): String {
+        return """[{"id":"$id","type":"table","pageNumber":1,"bbox":{"left":22,"top":$top,"right":221,"bottom":$bottom}}]"""
+    }
+
     @Test
     fun `cross entry caption hit resolves to the table on the same page`() {
         import(CROSS_ENTRY_KB)
@@ -147,6 +186,52 @@ class TableLabelPdfLocateRegressionTest {
         val (block, _) = resolvedBlock(results.first())
         assertTrue("body hit must stay in the text entry", block !is TableBlock)
         assertEquals("p1_b1", block.id)
+    }
+
+    @Test
+    fun `cross entry caption picks the nearest table regardless of sibling id order`() {
+        val source = "verify-nearest"
+        val caption = "内燃机带负荷磨合的运转时间表 表1"
+        insertEntity(
+            id = 900L,
+            source = source,
+            content = caption,
+            blocksJson = captionBlocksJson("cap_near", caption, top = 90f, bottom = 100f),
+        )
+        // The farther table has the smaller id, so dao.getByPage (ORDER BY id) yields it first.
+        insertEntity(id = 100L, source = source, content = "顺号 负荷", blocksJson = tableBlocksJson("far_tbl", top = 130f, bottom = 160f))
+        insertEntity(id = 200L, source = source, content = "顺号 负荷", blocksJson = tableBlocksJson("near_tbl", top = 104f, bottom = 150f))
+
+        val results = search("内燃机带负荷磨合的运转时间表")
+        assertTrue(results.isNotEmpty())
+
+        val (block, entity) = resolvedBlock(results.first())
+        assertTrue("expected the adjacent table, not the farther one", block is TableBlock)
+        assertEquals("near_tbl", block.id)
+        assertEquals(200L, entity.id)
+    }
+
+    @Test
+    fun `cross entry equal distance resolves deterministically`() {
+        val source = "verify-tie"
+        val caption = "发电机允许温升表 表2"
+        insertEntity(
+            id = 900L,
+            source = source,
+            content = caption,
+            blocksJson = captionBlocksJson("cap_tie", caption, top = 90f, bottom = 100f),
+        )
+        insertEntity(id = 300L, source = source, content = "顺号 部件", blocksJson = tableBlocksJson("tie_b", top = 110f, bottom = 140f))
+        insertEntity(id = 150L, source = source, content = "顺号 部件", blocksJson = tableBlocksJson("tie_a", top = 110f, bottom = 140f))
+
+        val results = search("发电机允许温升表")
+        assertTrue(results.isNotEmpty())
+
+        val (block, entity) = resolvedBlock(results.first())
+        assertTrue(block is TableBlock)
+        // Equal gaps: deterministic tie-break by sibling id (150 < 300).
+        assertEquals("tie_a", block.id)
+        assertEquals(150L, entity.id)
     }
 
     private companion object {
