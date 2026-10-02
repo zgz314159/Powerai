@@ -31,8 +31,7 @@ object JsonEntryMapper {
             e.contentNormalized ?: contentMarkdown
         }
 
-        val isSplitEntry = (e.entryId?.contains("__p3_split") == true) ||
-            (e.jobTitle?.contains("（图") == true)
+        val isSplitEntry = e.entryId?.contains("__p3_split") == true || e.jobTitle?.contains("（图") == true
 
         val sourceForEntity = e.source?.takeIf { it.isNotBlank() }
             ?: metadata.source?.takeIf { it.isNotBlank() }

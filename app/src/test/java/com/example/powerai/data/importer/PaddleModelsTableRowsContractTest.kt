@@ -23,9 +23,9 @@ class PaddleModelsTableRowsContractTest {
     @Test
     fun `fixture is the byte-identical PaddleModels production sample`() {
         val bytes = fixtureBytes()
-        assertEquals(3209, bytes.size)
+        assertEquals(3082, bytes.size)
         assertEquals(
-            "f2f18cb19bfbd747e778f95a7ef1fefe165aecaf7656522edd4629f246d05026",
+            "ba5e21e8737daabafc816964c79a3777eda04289782ba650f89766dc9f824b8b",
             sha256Hex(bytes)
         )
     }
@@ -158,9 +158,15 @@ class PaddleModelsTableRowsContractTest {
         assertTrue(parseSingleTable("""{"type": "table", "rows": {"a": 1}}""").rows.isEmpty())
     }
 
-    private fun fixtureBytes(): ByteArray =
-        javaClass.getResourceAsStream(FIXTURE_PATH)?.use { it.readBytes() }
+    /**
+     * Canonical LF bytes. The sample is committed with LF; a CRLF Windows checkout
+     * (or resource filtering) must not change the byte-identity contract.
+     */
+    private fun fixtureBytes(): ByteArray {
+        val raw = javaClass.getResourceAsStream(FIXTURE_PATH)?.use { it.readBytes() }
             ?: error("fixture not found on classpath: $FIXTURE_PATH")
+        return String(raw, Charsets.UTF_8).replace("\r\n", "\n").toByteArray(Charsets.UTF_8)
+    }
 
     private fun fixtureText(): String = String(fixtureBytes(), Charsets.UTF_8)
 

@@ -118,9 +118,7 @@ internal fun KnowledgeDetailBlocksContent(
         itemsIndexed(displayParams.blocks) { _, block ->
             val canOpenMagicWindow = block !is ImageBlock && !block.boundingBox.isNullOrBlank()
 
-            // The reading item owns the tap gesture (it also handles long-press peek),
-            // so hand it the magic-window action rather than wrapping it in another
-            // clickable whose gesture the inner one would consume.
+            // The reading item owns the tap gesture, so it receives the magic-window action directly.
             val onBlockClick: (() -> Unit)? =
                 if (canOpenMagicWindow) {
                     {
