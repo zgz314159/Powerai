@@ -78,19 +78,24 @@ internal class HybridModeExecutor(
         sanitized: String,
         alive: () -> Boolean,
     ) {
-        val outcome =
+        val payload =
             try {
-                withContext(ioDispatcher) {
-                    importer.importAssetsIfNeed()
-                    useCase.localMode(
-                        question = sanitized,
-                        rawQuestion = sanitized,
-                        scope = scope,
-                        onGemmaResult = { text ->
-                            if (alive()) onLocalGemmaResult(query = sanitized, text = text)
-                        },
-                    )
-                }
+                val outcome =
+                    withContext(ioDispatcher) {
+                        importer.importAssetsIfNeed()
+                        useCase.localMode(
+                            question = sanitized,
+                            rawQuestion = sanitized,
+                            scope = scope,
+                            onGemmaResult = { text ->
+                                if (alive()) onLocalGemmaResult(query = sanitized, text = text)
+                            },
+                        )
+                    }
+                LocalModeUiPayloadFactory.fromOutcome(
+                    query = sanitized,
+                    outcome = outcome,
+                )
             } catch (c: CancellationException) {
                 throw c
             } catch (_: Throwable) {
@@ -98,11 +103,6 @@ internal class HybridModeExecutor(
             }
 
         if (!alive()) return
-        val payload =
-            LocalModeUiPayloadFactory.fromOutcome(
-                query = sanitized,
-                outcome = outcome,
-            )
         applyLocalModePayload(scope, payload, alive)
         sideEffectCoordinator.addLocalQuery(scope, sanitized)
     }

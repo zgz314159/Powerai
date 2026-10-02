@@ -1,6 +1,5 @@
 package com.example.powerai.ui.screen.hybrid
 
-import com.example.powerai.domain.usecase.LocalAnswerPlanner
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -9,15 +8,15 @@ import org.junit.Test
 class HybridModeFallbackFactoryTest {
 
     @Test
-    fun `local failure returns empty local result with assessed fallback`() {
-        val rawQuestion = "hello"
+    fun `local failure returns a retryable error payload with safe copy`() {
+        val fallback = HybridModeFallbackFactory.localFailure("hello")
 
-        val fallback = HybridModeFallbackFactory.localFailure(rawQuestion)
-
-        assertTrue(fallback.query.retrievals.isEmpty())
-        assertTrue(fallback.query.items.isEmpty())
-        assertEquals(LocalAnswerPlanner.assess(rawQuestion, emptyList()), fallback.assessment)
+        assertTrue(fallback.references.isEmpty())
+        assertTrue(fallback.evidence.isEmpty())
         assertNull(fallback.gemmaJob)
+        assertEquals(LocalPageState.ERROR, fallback.summaryState.pageState)
+        assertEquals(LocalSummaryStateFactory.SEARCH_FAILED_MESSAGE, fallback.summaryState.errorMessage)
+        assertEquals("hello", fallback.summaryState.query)
     }
 
     @Test

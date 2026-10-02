@@ -49,11 +49,7 @@ class HybridQueryUseCase @Inject constructor(
         scope: kotlinx.coroutines.CoroutineScope,
         onGemmaResult: (String) -> Unit
     ): LocalModeResult {
-        val raw = try {
-            localSearchUseCase.invokeResults(question)
-        } catch (_: Throwable) {
-            emptyList()
-        }
+        val raw = localSearchUseCase.invokeResults(question)
         val materialized = raw.map { rr ->
             val item = rr.item
                 ?: rr.id?.takeIf { it > 0L }?.let { knowledgeRepository.getLocalItemById(it) }

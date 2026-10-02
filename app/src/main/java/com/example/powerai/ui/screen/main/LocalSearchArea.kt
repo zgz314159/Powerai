@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -84,6 +86,13 @@ fun LocalSearchArea(
     val displayList = remember(uiState.references, pageSize) {
         uiState.references.distinctBy { it.content }.take(pageSize)
     }
+    val localFailureMessage = localResultsFailureMessage(uiState)
+    val retryLocalSearch: (() -> Unit)? =
+        if (uiState.question.isNotBlank()) {
+            { hybridViewModel.submitQuery(uiState.question, DisplayMode.LOCAL) }
+        } else {
+            null
+        }
 
     Box(modifier = Modifier.fillMaxSize()) {
         val localCoroutineScope = rememberCoroutineScope()
@@ -127,22 +136,34 @@ fun LocalSearchArea(
                     hasNext = hasNext,
                     onPrev = onPrev,
                     onNext = onNext,
-                    showEmptyState = showEmptyState,
-                    topContent = if (uiState.answer.isNotBlank()) {
-                        {
-                            ResponseBody(
-                                text = uiState.answer,
-                                isLoading = uiState.isLoading,
-                                onCopy = { onCopy(uiState.answer) },
-                                onRetry = onRetry,
-                                allowRetry = false,
-                                onCitationClick = null,
-                                renderMarkdownWhenPossible = true
-                            )
-                        }
-                    } else {
-                        null
-                    },
+                    showEmptyState = showEmptyState && localFailureMessage == null,
+                    topContent =
+                        when {
+                            localFailureMessage != null -> {
+                                {
+                                    LocalSearchFailureNotice(
+                                        message = localFailureMessage,
+                                        onRetry = retryLocalSearch,
+                                    )
+                                }
+                            }
+
+                            uiState.answer.isNotBlank() -> {
+                                {
+                                    ResponseBody(
+                                        text = uiState.answer,
+                                        isLoading = uiState.isLoading,
+                                        onCopy = { onCopy(uiState.answer) },
+                                        onRetry = onRetry,
+                                        allowRetry = false,
+                                        onCitationClick = null,
+                                        renderMarkdownWhenPossible = true,
+                                    )
+                                }
+                            }
+
+                            else -> null
+                        },
                     animateItems = animateItems,
                     isPageLoading = isPageLoading
                 )
@@ -177,6 +198,36 @@ fun LocalSearchArea(
                     }
                 }
             }
+        }
+    }
+}
+
+/**
+ * Retryable failure notice for the "本地" page. Shows a plain, user-safe
+ * message (never exception detail) plus a retry action when the question is
+ * still available to resubmit.
+ */
+@Suppress("ktlint:standard:function-naming")
+@Composable
+private fun LocalSearchFailureNotice(
+    message: String,
+    onRetry: (() -> Unit)?,
+) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = message,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (onRetry != null) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(onClick = onRetry) { Text("重试") }
         }
     }
 }
