@@ -23,6 +23,7 @@
 | 表格 `rows` 契约（PowerAi × PaddleModels） | 已加固并通过真实 fixture 验收 | `app/src/test/resources/contracts/paddlemodels_v2_table_rows_contract.json`（3209 B，sha256 `f2f18cb1…d05026`）；`PaddleModelsTableRowsContractTest` 11/11 |
 | PDF MVI | 已完成 | `PdfFigureListViewModel` / `PdfKnowledgeViewModel` 继承 `BaseMviViewModel`；契约测试 `PdfFigureListMviContractTest` / `PdfKnowledgeMviContractTest` |
 | 真机定位链路 | 已完成 | 真机「DB 列表 → 详情 → 点表格块 → magic window → 在 PDF 中定位」命中原始 PDF **第 29 页 table 1** 与 **第 32 页 table 2**（提交 `d29ea78` 体记录） |
+| 搜索结果表格标题定位 | 已修复并回归 | 本地搜索命中表格标题/题注块时，详情块选择与「在 PDF 中定位」改指其所属表格块；`TableLabelPdfLocateRegressionTest` 3/3；真实 `103号(2)` KB 两条查询命中 `p29_tbl1` / `p32_tbl1`（见 §9） |
 
 > §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
@@ -106,3 +107,4 @@
 | 2026-10-02 | 表格 `rows` 契约加固：array `rows` 优先、整数 `rows` 不遮蔽 `table_rows`、cells 矩形重建；纳入 PaddleModels 真实 fixture 契约测试 |
 | 2026-10-02 | 状态基线校正：PDF MVI 已完成（PR #9，两个 PDF ViewModel → `BaseMviViewModel`）；真机验证详情表格块 → PDF 定位命中第 29/32 页（`d29ea78`） |
 | 2026-10-02 | PDF 定位视口修复：页面列表底部预留视口高度，目标页跳转不再被 `scrollToItem` 钳制；`PdfRenderer` 渲染串行化；新增定位回归测试（instrumentation + JVM） |
+| 2026-10-02 | 表格标题块命中修正：本地搜索结果落在表格标题/题注块（而非表格块）时，详情块选择与「在 PDF 中定位」改指其所属表格块；同条目优先，跨条目按同页邻接推断并入表格条目。新增 JVM 回归 `TableLabelPdfLocateRegressionTest` |

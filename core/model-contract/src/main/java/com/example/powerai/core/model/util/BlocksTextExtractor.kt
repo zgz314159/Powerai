@@ -204,7 +204,16 @@ object BlocksTextExtractor {
         highlight: String,
         fallbackContext: String? = null
     ): BlockTarget {
-        val index = findFirstMatchingBlockIndex(blocksJson, highlight)
+        val matched = findFirstMatchingBlockIndex(blocksJson, highlight)
+        // When the match lands on a table's caption/label, target the table it labels
+        // so the detail selection and PDF locate point at the table, not the caption.
+        val index =
+            matched?.let { raw ->
+                TableLabelBlockResolver.tableIndexForLabel(
+                    TableLabelBlockResolver.blockInfos(blocksJson),
+                    raw,
+                ) ?: raw
+            }
         val id = if (index != null) computeStableBlockIds(blocksJson).getOrNull(index) else null
         return BlockTarget(index, id)
     }
