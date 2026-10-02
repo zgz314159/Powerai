@@ -8,9 +8,9 @@ import com.google.gson.JsonParser
 
 /**
  * Converts a parsed JSON entry together with file metadata into a
- * [KnowledgeEntity].  This logic was previously embedded in
- * [JsonResourceImporter.importFromJson] and is now a standalone helper
- * to keep the importer lean and make the transformation easier to test.
+ * [KnowledgeEntity]. Extracted from the original importer into a standalone
+ * helper so [StreamingJsonResourceImporter] stays lean and the transformation
+ * is easier to test.
  */
 object JsonEntryMapper {
     fun toEntity(

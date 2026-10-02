@@ -6,9 +6,8 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 
 /**
- * Shared parsing logic used by both [JsonResourceImporter] and
- * [StreamingJsonResourceImporter].  Extracted from the original importer
- * to reduce duplication and shrink remaining files.
+ * Shared parsing logic used by [StreamingJsonResourceImporter]. Extracted from
+ * the original importer to reduce duplication and shrink remaining files.
  */
 object JsonResourceParser {
     data class FileMetadata(

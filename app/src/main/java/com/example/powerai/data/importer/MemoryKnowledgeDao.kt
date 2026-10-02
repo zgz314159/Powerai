@@ -209,7 +209,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
             val memory = MemoryKnowledgeDao()
             var importedSoFar = 0L
             runBlocking {
-                val importer = JsonResourceImporter(memory)
+                val importer = StreamingJsonResourceImporter(memory)
                 importer.importFromJson(
                     inputStream,
                     batchSize,
