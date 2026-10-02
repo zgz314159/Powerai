@@ -50,6 +50,8 @@
 
 ## 已关闭（仅供参考）
 
+- PDF 定位目标页未滚入视口：页面项在 bitmap 渲染前为短占位高度，`scrollToItem` 被列表滚动范围钳制；已通过底部预留视口高度修复
+- `PdfRenderer` 并发渲染导致 `IllegalStateException: Current page not closed`：多个页面项并行渲染；已将渲染调度串行化
 - 重复 `ui/components` → 已统一 `ui.component`
 - 重复 `ui/importer` → 已删，用 `ui.screen.importer`
 - 重复 `data/saf/DocumentImportManager` → 已删

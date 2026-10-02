@@ -105,3 +105,4 @@
 | 2026-09-19 | 依赖方向治理、`KbManifest` 引入、Version Catalog 全面迁移（`gradle/libs.versions.toml`） |
 | 2026-10-02 | 表格 `rows` 契约加固：array `rows` 优先、整数 `rows` 不遮蔽 `table_rows`、cells 矩形重建；纳入 PaddleModels 真实 fixture 契约测试 |
 | 2026-10-02 | 状态基线校正：PDF MVI 已完成（PR #9，两个 PDF ViewModel → `BaseMviViewModel`）；真机验证详情表格块 → PDF 定位命中第 29/32 页（`d29ea78`） |
+| 2026-10-02 | PDF 定位视口修复：页面列表底部预留视口高度，目标页跳转不再被 `scrollToItem` 钳制；`PdfRenderer` 渲染串行化；新增定位回归测试（instrumentation + JVM） |
