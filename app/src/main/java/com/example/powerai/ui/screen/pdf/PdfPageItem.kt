@@ -34,6 +34,62 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+// PdfRenderer keeps only one page open at a time, so page renders are
+// serialized even though items compose on parallel IO threads.
+private val renderDispatcher = Dispatchers.IO.limitedParallelism(1)
+
+private data class PageRender(val bitmap: Bitmap?, val pageSize: Size)
+
+private suspend fun renderPage(
+    renderer: PdfRenderer,
+    pageIndex: Int,
+    targetWidthPx: Int,
+): PageRender =
+    withContext(renderDispatcher) {
+        var page: PdfRenderer.Page? = null
+        try {
+            page = renderer.openPage(pageIndex)
+            val pageW = page.width.coerceAtLeast(1)
+            val pageH = page.height.coerceAtLeast(1)
+            val pageSize = Size(pageW.toFloat(), pageH.toFloat())
+
+            val maxW = 2400
+            val maxH = 3600
+
+            val desiredW = maxOf(pageW, targetWidthPx).coerceAtMost(maxW)
+            val scaleW = desiredW.toFloat() / pageW.toFloat()
+            val scaleH = (maxH.toFloat() / pageH.toFloat()).coerceAtMost(scaleW)
+            val scale = minOf(scaleW, scaleH).coerceAtLeast(1f)
+
+            val outW = (pageW * scale).toInt().coerceAtLeast(1).coerceAtMost(maxW)
+            val outH = (pageH * scale).toInt().coerceAtLeast(1).coerceAtMost(maxH)
+
+            val bitmap = Bitmap.createBitmap(outW, outH, Bitmap.Config.ARGB_8888)
+            bitmap.eraseColor(android.graphics.Color.WHITE)
+
+            val matrix =
+                android.graphics.Matrix().apply {
+                    postScale(scale, scale)
+                }
+
+            try {
+                page.render(bitmap, null, matrix, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+                PageRender(bitmap, pageSize)
+            } catch (_: Throwable) {
+                try {
+                    bitmap.recycle()
+                } catch (_: Throwable) {
+                }
+                PageRender(null, pageSize)
+            }
+        } finally {
+            try {
+                page?.close()
+            } catch (_: Throwable) {
+            }
+        }
+    }
+
 @Composable
 internal fun PdfPageItem(
     pageIndex: Int,
@@ -62,49 +118,9 @@ internal fun PdfPageItem(
         ) {
             value = null
             if (renderer == null) return@produceState
-            value = withContext(Dispatchers.IO) {
-                var page: PdfRenderer.Page? = null
-                try {
-                    page = renderer.openPage(pageIndex)
-                    val pageW = page.width.coerceAtLeast(1)
-                    val pageH = page.height.coerceAtLeast(1)
-                    originalPageSize = Size(pageW.toFloat(), pageH.toFloat())
-
-                    val maxW = 2400
-                    val maxH = 3600
-
-                    val desiredW = maxOf(pageW, targetWidthPx).coerceAtMost(maxW)
-                    val scaleW = desiredW.toFloat() / pageW.toFloat()
-                    val scaleH = (maxH.toFloat() / pageH.toFloat()).coerceAtMost(scaleW)
-                    val scale = minOf(scaleW, scaleH).coerceAtLeast(1f)
-
-                    val outW = (pageW * scale).toInt().coerceAtLeast(1).coerceAtMost(maxW)
-                    val outH = (pageH * scale).toInt().coerceAtLeast(1).coerceAtMost(maxH)
-
-                    val bitmap = Bitmap.createBitmap(outW, outH, Bitmap.Config.ARGB_8888)
-                    bitmap.eraseColor(android.graphics.Color.WHITE)
-
-                    val matrix = android.graphics.Matrix().apply {
-                        postScale(scale, scale)
-                    }
-
-                    try {
-                        page.render(bitmap, null, matrix, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-                        bitmap
-                    } catch (_: Throwable) {
-                        try {
-                            bitmap.recycle()
-                        } catch (_: Throwable) {
-                        }
-                        null
-                    }
-                } finally {
-                    try {
-                        page?.close()
-                    } catch (_: Throwable) {
-                    }
-                }
-            }
+            val rendered = renderPage(renderer, pageIndex, targetWidthPx)
+            originalPageSize = rendered.pageSize
+            value = rendered.bitmap
         }
 
         val bmp = bitmapState.value
