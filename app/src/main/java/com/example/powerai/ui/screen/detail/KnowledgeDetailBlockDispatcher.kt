@@ -1,21 +1,5 @@
 package com.example.powerai.ui.screen.detail
 
-
-
-
-
-
-
-
-
-import com.example.powerai.core.model.UnknownBlock
-import com.example.powerai.core.model.FigureNodeBlock
-import com.example.powerai.core.model.CodeBlock
-import com.example.powerai.core.model.TableBlock
-import com.example.powerai.core.model.ListBlock
-import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.TextBlock
-import com.example.powerai.core.model.KnowledgeBlock
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -23,6 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.powerai.core.model.CodeBlock
+import com.example.powerai.core.model.FigureNodeBlock
+import com.example.powerai.core.model.ImageBlock
+import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.TableBlock
+import com.example.powerai.core.model.TextBlock
+import com.example.powerai.core.model.UnknownBlock
 import com.example.powerai.ui.blocks.*
 import com.example.powerai.ui.image.AssetImageUriNormalizer
 
@@ -35,20 +27,22 @@ internal fun KnowledgeDetailReadingBlockItem(
     fontScale: Float,
     subfolder: String? = null,
     onAnchorClick: ((String) -> Unit)? = null,
-    onBlockClick: (() -> Unit)? = null
+    onBlockClick: (() -> Unit)? = null,
 ) {
     var showPeek by remember { mutableStateOf(false) }
-    val peekUri = remember(block.imageUri, subfolder) {
-        block.imageUri?.let { AssetImageUriNormalizer.normalize(it) }
-    }
+    val peekUri =
+        remember(block.imageUri, subfolder) {
+            block.imageUri?.let { AssetImageUriNormalizer.normalize(it) }
+        }
 
     Box(
-        modifier = Modifier
-            .padding(vertical = 2.dp)
-            .combinedClickable(
-                onClick = { onBlockClick?.invoke() },
-                onLongClick = { if (!peekUri.isNullOrBlank()) showPeek = true }
-            )
+        modifier =
+            Modifier
+                .padding(vertical = 2.dp)
+                .combinedClickable(
+                    onClick = { onBlockClick?.invoke() },
+                    onLongClick = { if (!peekUri.isNullOrBlank()) showPeek = true },
+                ),
     ) {
         when (block) {
             is TextBlock -> DetailTextBlockItem(block = block, highlight = highlight, fontScale = fontScale, onAnchorClick = onAnchorClick)
@@ -65,7 +59,7 @@ internal fun KnowledgeDetailReadingBlockItem(
         VisualPeekPopup(
             imageUri = peekUri,
             caption = (block as? TextBlock)?.text?.take(30) ?: "原文查验",
-            onDismiss = { showPeek = false }
+            onDismiss = { showPeek = false },
         )
     }
 }

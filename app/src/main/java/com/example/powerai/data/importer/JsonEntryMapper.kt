@@ -31,22 +31,22 @@ object JsonEntryMapper {
             e.contentNormalized ?: contentMarkdown
         }
 
-        val isSplitEntry = e.entryId?.contains("__p3_split") == true || e.jobTitle?.contains("（图") == true
+        val isSplitEntry = (e.entryId?.contains("__p3_split") == true) ||
+            (e.jobTitle?.contains("（图") == true)
 
-        val sourceForEntity = e.source?.takeIf { it.isNotBlank() }
-            ?: metadata.source?.takeIf { it.isNotBlank() }
-            ?: metadata.fileId.takeIf { it.isNotBlank() }
-            ?: metadata.fileName
+        val sourceForEntity =
+            e.source?.takeIf { it.isNotBlank() }
+                ?: metadata.source?.takeIf { it.isNotBlank() }
+                ?: metadata.fileId.takeIf { it.isNotBlank() }
+                ?: metadata.fileName
 
-        // collect image URIs and bounding box info from blocksJson when available
         var imageUrisJson: String? = null
         var bboxJson: String? = null
         if (!blocksJson.isNullOrBlank()) {
             try {
                 val blocksRoot = JsonParser().parse(blocksJson)
                 val imgs = ArrayList<String>()
-                // Single parseable box for the detail header "查看 PDF" button; the
-                // first block that carries a bbox is the entry's primary locate target.
+                // First block with a bbox is the entry's primary PDF locate target.
                 var primaryBbox: String? = null
 
                 fun visit(el: com.google.gson.JsonElement?) {

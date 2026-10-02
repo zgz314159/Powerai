@@ -1,9 +1,7 @@
 package com.example.powerai.data.importer
 
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.google.gson.Gson
-import com.example.powerai.data.importer.EntityBuilder
+import com.google.gson.JsonObject
 
 /**
  * Helper responsible for converting a JSON entry object into a populated
@@ -23,7 +21,7 @@ internal object StreamingJsonEntryParser {
         obj: JsonObject,
         builder: EntityBuilder,
         existingIds: MutableSet<Long>,
-        fallbackMeta: JsonResourceParser.FileMetadata
+        fallbackMeta: JsonResourceParser.FileMetadata,
     ): Boolean {
         // parse entry with Gson (new instance is cheap here)
         val entry = Gson().fromJson(obj, JsonResourceParser.JsonEntry::class.java)
@@ -60,6 +58,14 @@ internal object StreamingJsonEntryParser {
     }
 
     private fun JsonObject.getAsNullableInt(name: String): Int? {
-        return if (has(name) && !get(name).isJsonNull) try { get(name).asInt } catch (_: Throwable) { null } else null
+        return if (has(name) && !get(name).isJsonNull) {
+            try {
+                get(name).asInt
+            } catch (_: Throwable) {
+                null
+            }
+        } else {
+            null
+        }
     }
 }

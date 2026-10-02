@@ -32,15 +32,15 @@ import java.io.InputStream
 @Config(sdk = [28], application = android.app.Application::class)
 @RunWith(RobolectricTestRunner::class)
 class PaddleModelsTableRowsFullChainTest {
-
     private lateinit var db: AppDatabase
 
     @Before
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java
-        ).allowMainThreadQueries().build()
+        db =
+            Room.inMemoryDatabaseBuilder(
+                ApplicationProvider.getApplicationContext(),
+                AppDatabase::class.java,
+            ).allowMainThreadQueries().build()
     }
 
     @After
@@ -48,8 +48,7 @@ class PaddleModelsTableRowsFullChainTest {
         db.close()
     }
 
-    private fun fixtureStream(): InputStream =
-        javaClass.getResourceAsStream(FIXTURE_PATH) ?: error("fixture not found: $FIXTURE_PATH")
+    private fun fixtureStream(): InputStream = javaClass.getResourceAsStream(FIXTURE_PATH) ?: error("fixture not found: $FIXTURE_PATH")
 
     private fun importFixture(): KnowledgeEntity {
         runBlocking {
@@ -59,7 +58,7 @@ class PaddleModelsTableRowsFullChainTest {
                 batchSize = 64,
                 trace = null,
                 fallbackFileName = "knowledge_base.json",
-                fallbackFileId = "sample_doc"
+                fallbackFileId = "sample_doc",
             ).collect { }
         }
         val all = runBlocking { db.knowledgeDao().getAll() }
@@ -89,9 +88,9 @@ class PaddleModelsTableRowsFullChainTest {
             listOf(
                 listOf("H1", "H2"),
                 listOf("merged-span", "b1"),
-                listOf("", "b2")
+                listOf("", "b2"),
             ),
-            table.rows
+            table.rows,
         )
         assertEquals(3, table.rows.size)
         assertEquals(2, table.rows[0].size)
@@ -154,26 +153,27 @@ class PaddleModelsTableRowsFullChainTest {
 
     @Test
     fun `historical table_rows and boundingBox inputs are honored through the chain`() {
-        val legacy = """
-        {
-          "entries": [
+        val legacy =
+            """
             {
-              "entryId": "legacy_1",
-              "unitName": "u",
-              "jobTitle": "Legacy",
-              "pageNumber": 2,
-              "blocks": [
+              "entries": [
                 {
-                  "id": "legacy_tbl",
-                  "type": "table",
-                  "table_rows": [["A", "B"], ["C", "D"]],
-                  "boundingBox": {"left": 5, "top": 6, "right": 7, "bottom": 8}
+                  "entryId": "legacy_1",
+                  "unitName": "u",
+                  "jobTitle": "Legacy",
+                  "pageNumber": 2,
+                  "blocks": [
+                    {
+                      "id": "legacy_tbl",
+                      "type": "table",
+                      "table_rows": [["A", "B"], ["C", "D"]],
+                      "boundingBox": {"left": 5, "top": 6, "right": 7, "bottom": 8}
+                    }
+                  ]
                 }
               ]
             }
-          ]
-        }
-        """.trimIndent()
+            """.trimIndent()
 
         runBlocking {
             StreamingJsonResourceImporter(db.knowledgeDao()).importFromJson(
@@ -181,13 +181,14 @@ class PaddleModelsTableRowsFullChainTest {
                 batchSize = 16,
                 trace = null,
                 fallbackFileName = "legacy.json",
-                fallbackFileId = "legacy"
+                fallbackFileId = "legacy",
             ).collect { }
         }
 
         val entity = runBlocking { db.knowledgeDao().getAll() }.single()
-        val table = BlocksParser.parseBlocks(entity.contentBlocksJson).orEmpty()
-            .filterIsInstance<TableBlock>().single()
+        val table =
+            BlocksParser.parseBlocks(entity.contentBlocksJson).orEmpty()
+                .filterIsInstance<TableBlock>().single()
         assertEquals(listOf(listOf("A", "B"), listOf("C", "D")), table.rows)
         assertEquals("legacy_tbl", table.id)
         // The legacy block carries no page of its own; the entry page is the fallback.

@@ -105,7 +105,7 @@ internal fun MagicWindowControls(
                     onDismiss()
                 }
             },
-            enabled = pdfRef != null && locateTarget != null
+            enabled = pdfRef != null && locateTarget != null,
         ) {
             Text("在 PDF 中定位")
         }

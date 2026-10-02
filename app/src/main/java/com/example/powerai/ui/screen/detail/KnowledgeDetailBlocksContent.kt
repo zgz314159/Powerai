@@ -122,15 +122,7 @@ internal fun KnowledgeDetailBlocksContent(
             val onBlockClick: (() -> Unit)? =
                 if (canOpenMagicWindow) {
                     {
-                        val chosen =
-                            block.imageUri
-                                ?.let { AssetImageUriNormalizer.normalize(it) }
-                                ?: SnapshotUriSelector.select(
-                                    imageUrisJson = resourceParams.imageUrisJson,
-                                    pageNumber = block.pageNumber ?: resourceParams.pageNumber,
-                                    blockId = block.id,
-                                    isTable = block is TableBlock
-                                )
+                        val chosen = resolveMagicWindowImage(block, resourceParams)
                         if (!chosen.isNullOrBlank()) {
                             magicWindowBlock = block
                             magicWindowImageUri = chosen
@@ -149,13 +141,26 @@ internal fun KnowledgeDetailBlocksContent(
                         block = block,
                         highlight = displayParams.highlight,
                         fontScale = displayParams.fontScale,
-                        onBlockClick = onBlockClick
+                        onBlockClick = onBlockClick,
                     )
                 }
             }
         }
     }
 }
+
+private fun resolveMagicWindowImage(
+    block: KnowledgeBlock,
+    resourceParams: BlocksDocumentResourceParams,
+): String? =
+    block.imageUri
+        ?.let { AssetImageUriNormalizer.normalize(it) }
+        ?: SnapshotUriSelector.select(
+            imageUrisJson = resourceParams.imageUrisJson,
+            pageNumber = block.pageNumber ?: resourceParams.pageNumber,
+            blockId = block.id,
+            isTable = block is TableBlock,
+        )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("UNUSED_PARAMETER")

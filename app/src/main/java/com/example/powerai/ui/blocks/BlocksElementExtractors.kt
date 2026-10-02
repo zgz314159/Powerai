@@ -1,17 +1,14 @@
 package com.example.powerai.ui.blocks
 import com.example.powerai.core.model.TableCell
-
 import com.example.powerai.core.model.util.BlocksJsonUtils.asJsonObjectOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.booleanOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.boundingBoxAsStringOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.intOrNull
 import com.example.powerai.core.model.util.BlocksJsonUtils.stringOrNull
-import com.example.powerai.core.model.util.BlocksJsonUtils
-import com.google.gson.JsonObject
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 
 internal object BlocksElementExtractors {
-
     fun firstNonBlank(vararg values: String?): String? {
         return values.firstOrNull { !it.isNullOrBlank() }?.trim()
     }
@@ -21,8 +18,9 @@ internal object BlocksElementExtractors {
         return el.asJsonArray.mapNotNull { item ->
             when {
                 item.isJsonPrimitive && item.asJsonPrimitive.isString -> item.asString
-                item.isJsonObject -> item.asJsonObject.stringOrNull("imageUri")
-                    ?: item.asJsonObject.stringOrNull("src")
+                item.isJsonObject ->
+                    item.asJsonObject.stringOrNull("imageUri")
+                        ?: item.asJsonObject.stringOrNull("src")
                 else -> null
             }
         }
@@ -76,19 +74,21 @@ internal object BlocksElementExtractors {
         // 1. Canonical 2D grid: only an array-typed `rows` (including an empty array) takes priority.
         val canonicalRows = obj.get("rows")?.takeIf { it.isJsonArray }?.asJsonArray
         // 2. Legacy array-typed `table_rows` is only used when `rows` is absent or not an array.
-        val gridRows = canonicalRows
-            ?: obj.get("table_rows")?.takeIf { it.isJsonArray }?.asJsonArray
+        val gridRows =
+            canonicalRows
+                ?: obj.get("table_rows")?.takeIf { it.isJsonArray }?.asJsonArray
         if (gridRows != null) {
             val out = ArrayList<List<String>>(gridRows.size())
             for (rowEl in gridRows) {
                 if (!rowEl.isJsonArray) continue
                 val row = ArrayList<String>()
                 for (cellEl in rowEl.asJsonArray) {
-                    val cellText = when {
-                        cellEl.isJsonPrimitive && cellEl.asJsonPrimitive.isString -> cellEl.asString
-                        cellEl.isJsonObject -> extractText(cellEl.asJsonObject)
-                        else -> ""
-                    }
+                    val cellText =
+                        when {
+                            cellEl.isJsonPrimitive && cellEl.asJsonPrimitive.isString -> cellEl.asString
+                            cellEl.isJsonObject -> extractText(cellEl.asJsonObject)
+                            else -> ""
+                        }
                     row.add(cellText)
                 }
                 out.add(row)
@@ -141,9 +141,10 @@ internal object BlocksElementExtractors {
                     isHeader = co.booleanOrNull("isHeader") ?: co.booleanOrNull("h") ?: false,
                     alignment = co.stringOrNull("alignment"),
                     boundingBox = co.boundingBoxAsStringOrNull() ?: co.get("bbox")?.toString(),
-                    confidence = co.get("confidence")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
-                        ?: co.get("score")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
-                )
+                    confidence =
+                        co.get("confidence")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat
+                            ?: co.get("score")?.asJsonPrimitive?.takeIf { it.isNumber }?.asFloat,
+                ),
             )
         }
         return out.takeIf { it.isNotEmpty() }

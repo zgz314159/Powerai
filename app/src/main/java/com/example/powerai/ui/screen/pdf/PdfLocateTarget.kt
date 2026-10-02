@@ -12,7 +12,7 @@ import com.example.powerai.core.model.KnowledgeBlock
 internal data class PdfLocateTarget(
     val pageNumber: Int?,
     val bboxJson: String,
-    val boundingBox: PdfBoundingBox
+    val boundingBox: PdfBoundingBox,
 )
 
 /**
@@ -22,7 +22,7 @@ internal data class PdfLocateTarget(
  */
 internal fun pdfLocateTargetForBlock(
     block: KnowledgeBlock,
-    fallbackPageNumber: Int? = null
+    fallbackPageNumber: Int? = null,
 ): PdfLocateTarget? {
     val bboxJson = block.boundingBox?.takeIf { it.isNotBlank() }
     val boundingBox = bboxJson?.let { parsePdfBoundingBoxOrNull(it) }
@@ -30,7 +30,7 @@ internal fun pdfLocateTargetForBlock(
         PdfLocateTarget(
             pageNumber = block.pageNumber ?: fallbackPageNumber,
             bboxJson = bboxJson,
-            boundingBox = boundingBox
+            boundingBox = boundingBox,
         )
     } else {
         null

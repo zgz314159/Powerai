@@ -25,15 +25,15 @@ import java.io.ByteArrayInputStream
 @Config(sdk = [28], application = android.app.Application::class)
 @RunWith(RobolectricTestRunner::class)
 class StreamingImporterSourceContractTest {
-
     private lateinit var db: AppDatabase
 
     @Before
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java
-        ).allowMainThreadQueries().build()
+        db =
+            Room.inMemoryDatabaseBuilder(
+                ApplicationProvider.getApplicationContext(),
+                AppDatabase::class.java,
+            ).allowMainThreadQueries().build()
     }
 
     @After
@@ -41,14 +41,17 @@ class StreamingImporterSourceContractTest {
         db.close()
     }
 
-    private fun import(kbJson: String, fallbackFileId: String = "asset_path_hash") {
+    private fun import(
+        kbJson: String,
+        fallbackFileId: String = "asset_path_hash",
+    ) {
         runBlocking {
             StreamingJsonResourceImporter(db.knowledgeDao()).importFromJson(
                 inputStream = ByteArrayInputStream(kbJson.toByteArray(Charsets.UTF_8)),
                 batchSize = 16,
                 trace = null,
                 fallbackFileName = "knowledge_base.json",
-                fallbackFileId = fallbackFileId
+                fallbackFileId = fallbackFileId,
             ).collect { }
         }
     }
@@ -58,7 +61,7 @@ class StreamingImporterSourceContractTest {
     @Test
     fun `declared fileMetadata source survives streaming import`() {
         val sha = "a".repeat(64)
-        val link = "pdf:${sha}::doc.pdf"
+        val link = "pdf:$sha::doc.pdf"
         import(
             """
             {
@@ -75,7 +78,7 @@ class StreamingImporterSourceContractTest {
                 }
               ]
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         val entity = singleEntity()
@@ -98,15 +101,15 @@ class StreamingImporterSourceContractTest {
         import(
             """
             {
-              "fileMetadata": { "source": "pdf:${declared}::a.pdf" },
+              "fileMetadata": { "source": "pdf:$declared::a.pdf" },
               "entries": [
-                { "entryId": "e1", "source": "pdf:${perEntry}::b.pdf", "jobTitle": "t" }
+                { "entryId": "e1", "source": "pdf:$perEntry::b.pdf", "jobTitle": "t" }
               ]
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
-        assertEquals("pdf:${perEntry}::b.pdf", singleEntity().source)
+        assertEquals("pdf:$perEntry::b.pdf", singleEntity().source)
     }
 
     @Test
@@ -117,7 +120,7 @@ class StreamingImporterSourceContractTest {
               { "entryId": "e1", "jobTitle": "t", "contentMarkdown": "hello" }
             ]
             """.trimIndent(),
-            fallbackFileId = "asset_path_hash"
+            fallbackFileId = "asset_path_hash",
         )
 
         assertEquals("asset_path_hash", singleEntity().source)
