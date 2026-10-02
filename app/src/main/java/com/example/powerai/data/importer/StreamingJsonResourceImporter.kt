@@ -103,11 +103,12 @@ class StreamingJsonResourceImporter(
                         fileName = fallbackFileName.orEmpty(),
                         fileId = fallbackFileId.orEmpty()
                     )
+                    val context = StreamedEntryContext(seenIds, batchWriter, fallbackFileName, fallbackFileId)
                     while (jsonReader.hasNext()) {
                         try {
                             val el: JsonElement = JsonParser().parse(jsonReader)
                             val obj = (if (el.isJsonObject) el.asJsonObject else null) ?: continue
-                            importedSoFar = writeEntry(this, obj, seenIds, arrayFallbackMeta, batchWriter, importedSoFar, fallbackFileName, fallbackFileId)
+                            importedSoFar = writeEntry(this, obj, arrayFallbackMeta, importedSoFar, context)
                         } catch (elemEx: Throwable) {
                             try { trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}") } catch (_: Throwable) {}
                         }
@@ -133,10 +134,11 @@ class StreamingJsonResourceImporter(
                             source = declaredSource
                         )
                         val seenIds = HashSet<Long>()
+                        val context = StreamedEntryContext(seenIds, batchWriter, fallbackFileName, fallbackFileId)
                         for (el in arr) {
                             val obj = if (el.isJsonObject) el.asJsonObject else continue
                             try {
-                                importedSoFar = writeEntry(this, obj, seenIds, objectFallbackMeta, batchWriter, importedSoFar, fallbackFileName, fallbackFileId)
+                                importedSoFar = writeEntry(this, obj, objectFallbackMeta, importedSoFar, context)
                             } catch (elemEx: Throwable) {
                                 try { trace?.invoke("StreamingJsonResourceImporter: element failed: ${'$'}{elemEx.message}") } catch (_: Throwable) {}
                                 continue
@@ -169,26 +171,31 @@ class StreamingJsonResourceImporter(
         }
     }.flowOn(Dispatchers.IO)
 
+    /** Loop-invariant inputs for [writeEntry], grouped to keep the parameter list short. */
+    private class StreamedEntryContext(
+        val seenIds: MutableSet<Long>,
+        val batchWriter: StreamingJsonBatchWriter,
+        val fileName: String?,
+        val fileId: String?
+    )
+
     private suspend fun writeEntry(
         collector: FlowCollector<ImportProgress>,
         obj: JsonObject,
-        seenIds: MutableSet<Long>,
         fallbackMeta: JsonResourceParser.FileMetadata,
-        batchWriter: StreamingJsonBatchWriter,
         importedSoFar: Long,
-        fileName: String?,
-        fileId: String?
+        context: StreamedEntryContext
     ): Long {
         val builder = obtainBuilder()
-        if (!StreamingJsonEntryParser.fillBuilder(obj, builder, seenIds, fallbackMeta)) {
+        if (!StreamingJsonEntryParser.fillBuilder(obj, builder, context.seenIds, fallbackMeta)) {
             releaseBuilder(builder)
             return importedSoFar
         }
-        val total = importedSoFar + batchWriter.add(builder)
+        val total = importedSoFar + context.batchWriter.add(builder)
         collector.emit(
             ImportProgress(
-                fileId = fileId.orEmpty(),
-                fileName = fileName.orEmpty(),
+                fileId = context.fileId.orEmpty(),
+                fileName = context.fileName.orEmpty(),
                 totalItems = null,
                 importedItems = total,
                 percent = 0,
