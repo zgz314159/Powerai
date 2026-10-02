@@ -76,7 +76,7 @@ internal object KnowledgeLocalSearch {
             }
 
             if (result.isNotEmpty()) {
-                return postProcess(result)
+                return KnowledgeTableLabelTargets.resolve(postProcess(result), dao, entityToItem)
             }
 
             emptyList()
@@ -95,10 +95,12 @@ internal object KnowledgeLocalSearch {
             } catch (_: Throwable) {
                 dao.searchByKeyword(query)
             }
-            entities.map { e ->
-                val item = entityToItem(e)
-                item.copy(content = KnowledgeSnippetBuilder.snippetAroundQuery(item.content, query))
-            }
+            val items =
+                entities.map { e ->
+                    val item = entityToItem(e)
+                    item.copy(content = KnowledgeSnippetBuilder.snippetAroundQuery(item.content, query))
+                }
+            KnowledgeTableLabelTargets.resolve(items, dao, entityToItem)
         }
     }
 }
