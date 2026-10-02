@@ -3,7 +3,7 @@
 > 生成日期：2026-09-26  
 > 审计基线：PR #2 head `347b53a09cd6e40957508fdc199ac626436136be`  
 > 对应远端 `main` merge commit：`135b3ffe37d7279bb77c4a9ce3151fb29e2f619a`  
-> 文档性质：后续重构的唯一执行路线图。现有 `REFACTOR_PLAN.md` 作为历史记录，不再作为当前待办清单。
+> 文档性质：**历史审计基线（2026-09-26 快照）**。文中规模、测试数与问题清单纯属当时审计结果，已不代表当前状态，**不再是“当前执行路线图”**。当前状态见 [CURRENT_STATE.md](CURRENT_STATE.md)；历史待办见 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与 [KNOWN_ISSUES.md](KNOWN_ISSUES.md)。
 
 ## 1. 结论摘要
 
