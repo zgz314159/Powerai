@@ -97,6 +97,10 @@ class StreamingJsonResourceImporter(
                 JsonToken.BEGIN_ARRAY -> {
                     jsonReader.beginArray()
                     val seenIds = HashSet<Long>()
+                    val arrayFallbackMeta = JsonResourceParser.FileMetadata(
+                        fileName = fallbackFileName.orEmpty(),
+                        fileId = fallbackFileId.orEmpty()
+                    )
                     while (jsonReader.hasNext()) {
                         try {
                             val el: JsonElement = JsonParser().parse(jsonReader)
@@ -109,8 +113,7 @@ class StreamingJsonResourceImporter(
                                 obj = obj,
                                 builder = builder,
                                 existingIds = seenIds,
-                                fallbackFileName = fallbackFileName,
-                                fallbackFileId = fallbackFileId
+                                fallbackMeta = arrayFallbackMeta
                             )
                             if (!added) {
                                 releaseBuilder(builder)
@@ -134,6 +137,19 @@ class StreamingJsonResourceImporter(
                     val rootEl = JsonParser().parse(jsonReader)
                     if (rootEl.isJsonObject && rootEl.asJsonObject.has("entries")) {
                         val arr = rootEl.asJsonObject.getAsJsonArray("entries")
+                        // KB-declared source (e.g. "pdf:{sha256}::{name}") must survive import.
+                        val declaredSource = rootEl.asJsonObject
+                            .get("fileMetadata")
+                            ?.takeIf { it.isJsonObject }
+                            ?.asJsonObject
+                            ?.get("source")
+                            ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }
+                            ?.asString
+                        val objectFallbackMeta = JsonResourceParser.FileMetadata(
+                            fileName = fallbackFileName.orEmpty(),
+                            fileId = fallbackFileId.orEmpty(),
+                            source = declaredSource
+                        )
                         val seenIds = HashSet<Long>()
                         for (el in arr) {
                             val obj = if (el.isJsonObject) el.asJsonObject else continue
@@ -143,8 +159,7 @@ class StreamingJsonResourceImporter(
                                     obj = obj,
                                     builder = builder,
                                     existingIds = seenIds,
-                                    fallbackFileName = fallbackFileName,
-                                    fallbackFileId = fallbackFileId
+                                    fallbackMeta = objectFallbackMeta
                                 )
                                 if (!added) {
                                     releaseBuilder(builder)

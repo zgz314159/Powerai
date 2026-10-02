@@ -11,11 +11,11 @@ class StreamingJsonEntryParserTest {
         val seen = mutableSetOf<Long>()
         val obj = JsonParser.parseString("{\"entryId\":\"a\"}").asJsonObject
         val builder1 = EntityBuilder()
-        val first = StreamingJsonEntryParser.fillBuilder(obj, builder1, seen, null, null)
+        val first = StreamingJsonEntryParser.fillBuilder(obj, builder1, seen, JsonResourceParser.FileMetadata("", ""))
         assertTrue(first)
         // second time should be skipped due to existing id
         val builder2 = EntityBuilder()
-        val added = StreamingJsonEntryParser.fillBuilder(obj, builder2, seen, null, null)
+        val added = StreamingJsonEntryParser.fillBuilder(obj, builder2, seen, JsonResourceParser.FileMetadata("", ""))
         assertFalse(added)
     }
 
@@ -24,7 +24,7 @@ class StreamingJsonEntryParserTest {
         val seen = mutableSetOf<Long>()
         val obj = JsonParser.parseString("{\"entryId\":\"id\",\"unitName\":\"U\",\"jobTitle\":\"J\",\"contentMarkdown\":\"foo\",\"tags\":[\"x\",\"y\"]}").asJsonObject
         val builder = EntityBuilder()
-        val added = StreamingJsonEntryParser.fillBuilder(obj, builder, seen, "f", "fid")
+        val added = StreamingJsonEntryParser.fillBuilder(obj, builder, seen, JsonResourceParser.FileMetadata(fileName = "f", fileId = "fid"))
         assertTrue(added)
         assertEquals("J", builder.title)
         assertEquals("foo", builder.content)

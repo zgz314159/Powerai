@@ -34,7 +34,8 @@ object JsonEntryMapper {
         val isSplitEntry = (e.entryId?.contains("__p3_split") == true) ||
             (e.jobTitle?.contains("（图") == true)
 
-        val sourceForEntity = metadata.source?.takeIf { it.isNotBlank() }
+        val sourceForEntity = e.source?.takeIf { it.isNotBlank() }
+            ?: metadata.source?.takeIf { it.isNotBlank() }
             ?: metadata.fileId.takeIf { it.isNotBlank() }
             ?: metadata.fileName
 

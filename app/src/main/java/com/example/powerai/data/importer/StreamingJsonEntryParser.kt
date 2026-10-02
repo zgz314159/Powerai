@@ -23,18 +23,15 @@ internal object StreamingJsonEntryParser {
         obj: JsonObject,
         builder: EntityBuilder,
         existingIds: MutableSet<Long>,
-        fallbackFileName: String?,
-        fallbackFileId: String?
+        fallbackMeta: JsonResourceParser.FileMetadata
     ): Boolean {
         // parse entry with Gson (new instance is cheap here)
         val entry = Gson().fromJson(obj, JsonResourceParser.JsonEntry::class.java)
 
-        // mapper will compute stable id and populate all fields
-        val fakeMeta = JsonResourceParser.FileMetadata(
-            fileName = fallbackFileName.orEmpty(),
-            fileId = fallbackFileId.orEmpty()
-        )
-        val entity = JsonEntryMapper.toEntity(entry, fakeMeta, Gson())
+        // mapper will compute stable id and populate all fields. A KB-declared
+        // source (e.g. "pdf:{sha256}::{name}") is carried in fallbackMeta.source so
+        // it survives the streaming import instead of the asset-path fallback id.
+        val entity = JsonEntryMapper.toEntity(entry, fallbackMeta, Gson())
 
         if (existingIds.contains(entity.id)) {
             return false
