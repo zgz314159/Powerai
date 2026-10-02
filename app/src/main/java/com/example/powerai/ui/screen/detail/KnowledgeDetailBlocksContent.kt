@@ -8,7 +8,6 @@ import com.example.powerai.core.model.ImageBlock
 import com.example.powerai.core.model.KnowledgeBlock
 import android.content.Intent
 import android.widget.ImageView
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -119,30 +118,31 @@ internal fun KnowledgeDetailBlocksContent(
         itemsIndexed(displayParams.blocks) { _, block ->
             val canOpenMagicWindow = block !is ImageBlock && !block.boundingBox.isNullOrBlank()
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .then(
-                        if (canOpenMagicWindow) {
-                            Modifier.clickable {
-                                val chosen = block.imageUri
-                                    ?.let { AssetImageUriNormalizer.normalize(it) }
-                                    ?: SnapshotUriSelector.select(
-                                        imageUrisJson = resourceParams.imageUrisJson,
-                                        pageNumber = block.pageNumber ?: resourceParams.pageNumber,
-                                        blockId = block.id,
-                                        isTable = block is TableBlock
-                                    )
-                                if (!chosen.isNullOrBlank()) {
-                                    magicWindowBlock = block
-                                    magicWindowImageUri = chosen
-                                }
-                            }
-                        } else {
-                            Modifier
+            // The reading item owns the tap gesture (it also handles long-press peek),
+            // so hand it the magic-window action rather than wrapping it in another
+            // clickable whose gesture the inner one would consume.
+            val onBlockClick: (() -> Unit)? =
+                if (canOpenMagicWindow) {
+                    {
+                        val chosen =
+                            block.imageUri
+                                ?.let { AssetImageUriNormalizer.normalize(it) }
+                                ?: SnapshotUriSelector.select(
+                                    imageUrisJson = resourceParams.imageUrisJson,
+                                    pageNumber = block.pageNumber ?: resourceParams.pageNumber,
+                                    blockId = block.id,
+                                    isTable = block is TableBlock
+                                )
+                        if (!chosen.isNullOrBlank()) {
+                            magicWindowBlock = block
+                            magicWindowImageUri = chosen
                         }
-                    )
-            ) {
+                    }
+                } else {
+                    null
+                }
+
+            Box(modifier = Modifier.fillMaxWidth()) {
                 val cached = cacheKey(block.id)?.let { visionParams.visionMarkdownByBlockId[it] }
                 if (block is TableBlock && !cached.isNullOrBlank()) {
                     MarkdownChunkTextView(markdown = cached)
@@ -150,7 +150,8 @@ internal fun KnowledgeDetailBlocksContent(
                     KnowledgeDetailReadingBlockItem(
                         block = block,
                         highlight = displayParams.highlight,
-                        fontScale = displayParams.fontScale
+                        fontScale = displayParams.fontScale,
+                        onBlockClick = onBlockClick
                     )
                 }
             }

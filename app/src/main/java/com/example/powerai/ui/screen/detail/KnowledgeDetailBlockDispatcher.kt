@@ -27,13 +27,15 @@ import com.example.powerai.ui.blocks.*
 import com.example.powerai.ui.image.AssetImageUriNormalizer
 
 @OptIn(ExperimentalFoundationApi::class)
+@Suppress("LongParameterList")
 @Composable
 internal fun KnowledgeDetailReadingBlockItem(
     block: KnowledgeBlock,
     highlight: String,
     fontScale: Float,
     subfolder: String? = null,
-    onAnchorClick: ((String) -> Unit)? = null
+    onAnchorClick: ((String) -> Unit)? = null,
+    onBlockClick: (() -> Unit)? = null
 ) {
     var showPeek by remember { mutableStateOf(false) }
     val peekUri = remember(block.imageUri, subfolder) {
@@ -44,7 +46,7 @@ internal fun KnowledgeDetailReadingBlockItem(
         modifier = Modifier
             .padding(vertical = 2.dp)
             .combinedClickable(
-                onClick = {},
+                onClick = { onBlockClick?.invoke() },
                 onLongClick = { if (!peekUri.isNullOrBlank()) showPeek = true }
             )
     ) {

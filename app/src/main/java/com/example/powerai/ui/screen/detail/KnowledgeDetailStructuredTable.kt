@@ -37,10 +37,12 @@ import com.example.powerai.ui.screen.pdf.parsePdfBoundingBoxOrNull
 import com.example.powerai.ui.screen.detail.scaledSp
 
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import kotlin.math.max
+
+/** Fallback probe size used for intrinsic measurement when constraints are unbounded. */
+private const val INTRINSIC_PROBE_FALLBACK_PX = 2000
 
 /**
  * Renders a structured table with support for rowSpan and colSpan in Compose.
@@ -210,25 +212,21 @@ private fun TableLayout(
         val colWidths = IntArray(colCount) { minCellWidth }
         val rowHeights = IntArray(rowCount) { 0 }
 
-        val placeables = arrayOfNulls<Placeable>(measurables.size)
+        // Compose forbids measuring the same Measurable more than once, so size the
+        // grid from intrinsic measurements and call measure() only inside layout{}.
+        val probeWidth = if (constraints.hasBoundedWidth) constraints.maxWidth else INTRINSIC_PROBE_FALLBACK_PX
+        val probeHeight = if (constraints.hasBoundedHeight) constraints.maxHeight else INTRINSIC_PROBE_FALLBACK_PX
 
-        // First pass: measure all cells
+        // First pass: intrinsic sizing (no measure()) for single-span cells
         measurables.forEachIndexed { index, measurable ->
             val cell = cells[index]
-            val cellConstraints = Constraints(
-                minWidth = 0,
-                maxWidth = Constraints.Infinity,
-                minHeight = 0,
-                maxHeight = Constraints.Infinity
-            )
-            val p = measurable.measure(cellConstraints)
-            placeables[index] = p
-
             if (cell.colSpan == 1) {
-                colWidths[cell.col] = max(colWidths[cell.col], p.width)
+                val w = measurable.maxIntrinsicWidth(probeHeight).coerceAtLeast(1)
+                colWidths[cell.col] = max(colWidths[cell.col], w)
             }
             if (cell.rowSpan == 1) {
-                rowHeights[cell.row] = max(rowHeights[cell.row], p.height)
+                val h = measurable.minIntrinsicHeight(probeWidth).coerceAtLeast(1)
+                rowHeights[cell.row] = max(rowHeights[cell.row], h)
             }
         }
 
@@ -243,20 +241,22 @@ private fun TableLayout(
             }
         }
 
-        // Second pass: refine multi-span cells
-        cells.forEachIndexed { index, cell ->
-            val p = placeables[index]!!
+        // Second pass: refine multi-span cells using intrinsics (no re-measure)
+        measurables.forEachIndexed { index, measurable ->
+            val cell = cells[index]
             if (cell.colSpan > 1) {
+                val w = measurable.maxIntrinsicWidth(probeHeight)
                 val currentSpanWidth = (cell.col until (cell.col + cell.colSpan)).sumOf { colWidths[it] }
-                if (p.width > currentSpanWidth) {
-                    val extra = (p.width - currentSpanWidth) / cell.colSpan
+                if (w > currentSpanWidth) {
+                    val extra = (w - currentSpanWidth) / cell.colSpan
                     for (c in cell.col until (cell.col + cell.colSpan)) colWidths[c] += extra
                 }
             }
             if (cell.rowSpan > 1) {
+                val h = measurable.minIntrinsicHeight(probeWidth)
                 val currentSpanHeight = (cell.row until (cell.row + cell.rowSpan)).sumOf { rowHeights[it] }
-                if (p.height > currentSpanHeight) {
-                    val extra = (p.height - currentSpanHeight) / cell.rowSpan
+                if (h > currentSpanHeight) {
+                    val extra = (h - currentSpanHeight) / cell.rowSpan
                     for (r in cell.row until (cell.row + cell.rowSpan)) rowHeights[r] += extra
                 }
             }
