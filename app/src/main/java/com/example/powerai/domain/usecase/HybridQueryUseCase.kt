@@ -182,7 +182,7 @@ class HybridQueryUseCase @Inject constructor(
      * Re-points a caption/label hit to the table it labels — in the same entry or, when the
      * table lives in a sibling entry on the same page, by promoting the item to that entry.
      * Delegates the geometry to the shared repository resolver so the "本地" evidence chain
-     * obeys exactly the same rule as `searchLocal`. Ordinary body hits are left untouched.
+     * obeys exactly the same table-label rule. Ordinary body hits are left untouched.
      */
     private suspend fun redirectTableLabelHits(
         retrievals: List<com.example.powerai.core.model.RetrievalResult>,

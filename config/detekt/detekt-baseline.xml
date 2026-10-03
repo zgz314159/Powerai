@@ -52,9 +52,7 @@
     <ID>CyclomaticComplexMethod:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$fun normalizeSeparatorWidthsAndPadBlankLines( lines: MutableList&lt;String&gt;, separatorLineRegex: Regex )</ID>
     <ID>CyclomaticComplexMethod:KnowledgeDetailStructuredTable.kt$@Composable internal fun StructuredTableCompose( cells: List&lt;TableCell&gt;, fontScale: Float = 1f, modifier: Modifier = Modifier )</ID>
     <ID>CyclomaticComplexMethod:KnowledgeDetailStructuredTable.kt$@Composable private fun TableLayout( cells: List&lt;TableCell&gt;, rowCount: Int, colCount: Int, borderColor: Color, content: @Composable () -&gt; Unit )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeLocalSearchProcessor.kt$KnowledgeLocalSearchProcessor$fun postProcess( entities: List&lt;KnowledgeEntity&gt;, built: KnowledgeLocalSearchQuery, entityToItem: (KnowledgeEntity) -&gt; KnowledgeItem ): List&lt;KnowledgeItem&gt;</ID>
     <ID>CyclomaticComplexMethod:KnowledgeResultList.kt$@Composable fun KnowledgeResultList( items: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String = "", metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onItemClick: ((KnowledgeItem) -&gt; Unit)? = null, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean = true, showPagination: Boolean = true, currentPage: Int = 1, totalPages: Int? = null, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean = true, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$fun snippetAroundQuery(text: String, rawQuery: String): String</ID>
     <ID>CyclomaticComplexMethod:LazyListScrollIndicator.kt$@Composable fun LazyListScrollIndicator( listState: LazyListState, modifier: Modifier = Modifier, thickness: Dp = 4.dp, touchWidth: Dp = 18.dp, minThumbHeight: Dp = 36.dp, topPadding: Dp = 96.dp, bottomPadding: Dp = 16.dp, anchors: List&lt;LazyListScrollAnchor&gt; = emptyList(), bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -&gt; String)? = null )</ID>
     <ID>CyclomaticComplexMethod:LlamaJniMetrics.kt$LlamaJniMetrics$fun logStreamBottleneckAssessment( now: Long, phase: String, lastStreamRequestedAtMs: Long, lastStreamExecutorStartedAtMs: Long, lastStreamInvokeStartedAtMs: Long, lastStreamInvokeReturnedAtMs: Long )</ID>
     <ID>CyclomaticComplexMethod:LlamaJniReflection.kt$LlamaJniReflection$fun createNamedCallbackProxy(interfaceType: Class&lt;*&gt;, callbackKind: String): Any</ID>
@@ -74,7 +72,6 @@
     <ID>CyclomaticComplexMethod:PdfFigureListViewModel.kt$PdfFigureListViewModel$private suspend fun loadPdfFigures(dao: KnowledgeDao, fileId: String): List&lt;PdfFigureItem&gt;</ID>
     <ID>CyclomaticComplexMethod:PromptBuilder.kt$PromptBuilder$fun buildPrompt(question: String, results: List&lt;RetrievalResult&gt;): Prompt</ID>
     <ID>CyclomaticComplexMethod:ResponseBody.kt$@Composable internal fun ResponseBody( text: String, isLoading: Boolean, onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onThumbUp: (() -&gt; Unit)? = null, onThumbDown: (() -&gt; Unit)? = null, isThumbUpSelected: Boolean = false, isThumbDownSelected: Boolean = false, onShowSources: (() -&gt; Unit)? = null, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true, supplementalContent: (@Composable () -&gt; Unit)? = null )</ID>
-    <ID>CyclomaticComplexMethod:RetrievalFusionService.kt$RetrievalFusionService$suspend fun retrieve(query: String, limit: Int = 10, forceAnn: Boolean = false): List&lt;RetrievalResult&gt;</ID>
     <ID>CyclomaticComplexMethod:RoomFtsRetriever.kt$RoomFtsRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
     <ID>CyclomaticComplexMethod:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$fun analyze(blocksJson: String?, fallbackPlainText: String = "", query: String = ""): SemanticRoleProfile</ID>
     <ID>CyclomaticComplexMethod:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun collectFigureNodeSignals(root: JsonElement?, query: String): FigureNodeSignals</ID>
@@ -102,7 +99,6 @@
     <ID>ExplicitItLambdaParameter:KnowledgeDetailStructuredTable.kt${ it: TableCell -&gt; (it.row + it.rowSpan - 1).toInt() }</ID>
     <ID>ForbiddenComment:HybridViewModel.kt$// TODO: 大部分业务逻辑已迁移至 UseCase（HybridQueryUseCase、HybridHistoryUseCase 等）</ID>
     <ID>ForbiddenComment:JsonResourceImporter.kt$// TODO: 导入器逻辑已划分为解析 ([JsonResourceParser]) 和批次提交，</ID>
-    <ID>ForbiddenComment:KnowledgeLocalSearch.kt$// TODO: 本地搜索实现曾经较长；索引构建、snippet/merge、查询策略均已脱出</ID>
     <ID>ForbiddenComment:StreamingJsonResourceImporter.kt$// TODO: 本组件负责流JSON 导入。解析逻辑已抽取到</ID>
     <ID>FunctionOnlyReturningConstant:AIModule.kt$AIModule$@Provides @Singleton @Named("fts_top_bonus") fun provideFtsTopBonus(): Double</ID>
     <ID>FunctionOnlyReturningConstant:AIModule.kt$AIModule$@Provides @Singleton @Named("vector_index_path") fun provideVectorIndexPath(): String</ID>
@@ -114,7 +110,6 @@
     <ID>ImplicitDefaultLocale:BlocksJsonUtils.kt$BlocksJsonUtils$String.format("%02x", b)</ID>
     <ID>ImplicitDefaultLocale:DeepSeekScreen.kt$String.format("%.2f", it)</ID>
     <ID>ImplicitDefaultLocale:ImportUtils.kt$ImportUtils$String.format("%08x", h)</ID>
-    <ID>ImplicitDefaultLocale:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$String.format("%02x", it)</ID>
     <ID>ImplicitDefaultLocale:SettingsScreen.kt$String.format("%.2f", detailContentFontScale)</ID>
     <ID>ImplicitDefaultLocale:SmartDeepSeekProgressCard.kt$String.format("%.1f", elapsedMs / 1000.0)</ID>
     <ID>ImplicitDefaultLocale:SmartDeepSeekProgressCard.kt$String.format("%.1fs", elapsedMs / 1000.0)</ID>
@@ -252,8 +247,6 @@
     <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownChunking.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownTableNormalize.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$while</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeLocalSearchProcessor.kt$KnowledgeLocalSearchProcessor$for</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$while</ID>
     <ID>LoopWithTooManyJumpStatements:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$for</ID>
     <ID>LoopWithTooManyJumpStatements:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$while</ID>
     <ID>LoopWithTooManyJumpStatements:MarkdownTextView.kt$while</ID>
@@ -263,7 +256,6 @@
     <ID>LoopWithTooManyJumpStatements:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$while</ID>
     <ID>LoopWithTooManyJumpStatements:TextHighlightUtils.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$for</ID>
-    <ID>LoopWithTooManyJumpStatements:VectorSearchRepository.kt$VectorSearchRepository$for</ID>
     <ID>MagicNumber:AiHistoryDrawerContent.kt$0xFF6C5B7B</ID>
     <ID>MagicNumber:AiHistoryDrawerContent.kt$40</ID>
     <ID>MagicNumber:AiNetworkModule.kt$AiNetworkModule$120</ID>
@@ -444,14 +436,10 @@
     <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFB00020</ID>
     <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFD32F2F</ID>
     <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFFFA000</ID>
-    <ID>MagicNumber:KnowledgeLocalSearchQuery.kt$KnowledgeLocalSearchQueryBuilder$0x4E00</ID>
-    <ID>MagicNumber:KnowledgeLocalSearchQuery.kt$KnowledgeLocalSearchQueryBuilder$0x9FFF</ID>
     <ID>MagicNumber:KnowledgeResultList.kt$10</ID>
     <ID>MagicNumber:KnowledgeResultList.kt$5</ID>
     <ID>MagicNumber:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$12</ID>
     <ID>MagicNumber:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$3</ID>
-    <ID>MagicNumber:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$100</ID>
-    <ID>MagicNumber:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$300</ID>
     <ID>MagicNumber:LazyListScrollIndicator.kt$0.035f</ID>
     <ID>MagicNumber:LazyListScrollIndicator.kt$0.08f</ID>
     <ID>MagicNumber:LazyListScrollIndicator.kt$900</ID>
@@ -533,7 +521,6 @@
     <ID>MagicNumber:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$4</ID>
     <ID>MagicNumber:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$48</ID>
     <ID>MagicNumber:LocalResultsPage.kt$10</ID>
-    <ID>MagicNumber:LocalSearchDiagnostics.kt$LocalSearchDiagnostics$24</ID>
     <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$24</ID>
     <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$25</ID>
     <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$26</ID>
@@ -605,13 +592,6 @@
     <ID>MagicNumber:ResponseCard.kt$60</ID>
     <ID>MagicNumber:ResponseCard.kt$60_000L</ID>
     <ID>MagicNumber:ResponseCard.kt$7</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.04f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.05f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.06f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.08f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.6f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$0.85f</ID>
-    <ID>MagicNumber:RetrievalFusionService.kt$RetrievalFusionService$60</ID>
     <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase$1000000L</ID>
     <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase$120</ID>
     <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase.RetrievalAggregate$0.03f</ID>
@@ -664,7 +644,6 @@
     <ID>MagicNumber:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$500</ID>
     <ID>MagicNumber:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$5000</ID>
     <ID>MagicNumber:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$7</ID>
-    <ID>MagicNumber:VectorSearchRepository.kt$VectorSearchRepository$5</ID>
     <ID>MagicNumber:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$200</ID>
     <ID>MagicNumber:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$20000</ID>
     <ID>MagicNumber:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$30</ID>
@@ -841,14 +820,10 @@
     <ID>NestedBlockDepth:KnowledgeDetailMarkdownChunkingTableSplit.kt$KnowledgeDetailMarkdownChunkingTableSplit$fun splitOversizedTableOrNull( tableLines: List&lt;String&gt;, maxChunkSize: Int ): List&lt;String&gt;?</ID>
     <ID>NestedBlockDepth:KnowledgeDetailMarkdownTableExpanders.kt$TableEmbeddedSeparatorRowExpander$fun expandLinesWithEmbeddedSeparatorRows( normalized: String, separatorLineRegex: Regex ): List&lt;String&gt;</ID>
     <ID>NestedBlockDepth:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$fun normalizeSeparatorWidthsAndPadBlankLines( lines: MutableList&lt;String&gt;, separatorLineRegex: Regex )</ID>
-    <ID>NestedBlockDepth:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$suspend fun searchLocal( dao: KnowledgeDao, query: String, entityToItem: (KnowledgeEntity) -&gt; KnowledgeItem ): List&lt;KnowledgeItem&gt;</ID>
-    <ID>NestedBlockDepth:KnowledgeLocalSearchStrategies.kt$GenericSearchStrategy$override suspend fun search( dao: KnowledgeDao, built: KnowledgeLocalSearchQuery ): List&lt;KnowledgeEntity&gt;</ID>
-    <ID>NestedBlockDepth:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$fun snippetAroundQuery(text: String, rawQuery: String): String</ID>
     <ID>NestedBlockDepth:LlamaJniReflection.kt$LlamaJniReflection$fun ensureNativeInstance(appContext: android.content.Context?, currentInstance: Any?): Any?</ID>
     <ID>NestedBlockDepth:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
     <ID>NestedBlockDepth:MarkdownTextView.kt$private fun hasBalancedBraces(input: String): Boolean</ID>
     <ID>NestedBlockDepth:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$fun restorePdfFromAssetsIfPossible(context: Context, fileId: String): Boolean</ID>
-    <ID>NestedBlockDepth:RetrievalFusionService.kt$RetrievalFusionService$suspend fun retrieve(query: String, limit: Int = 10, forceAnn: Boolean = false): List&lt;RetrievalResult&gt;</ID>
     <ID>NestedBlockDepth:RoomFtsRetriever.kt$RoomFtsRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
     <ID>NestedBlockDepth:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun extractText(element: JsonElement?): String</ID>
     <ID>NestedBlockDepth:SparseScorer.kt$SparseScorer$fun scoreWithBreakdown( entries: List&lt;SparseSearcher.SafetyEntry&gt;, tokens: List&lt;String&gt; ): List&lt;Score&gt;</ID>
@@ -865,7 +840,6 @@
     <ID>NewLineAtEndOfFile:GemmaFallbackProvider.kt$com.example.powerai.engine.ai.GemmaFallbackProvider.kt</ID>
     <ID>NewLineAtEndOfFile:GemmaInferenceEngine.kt$com.example.powerai.engine.ai.GemmaInferenceEngine.kt</ID>
     <ID>NewLineAtEndOfFile:GemmaResponseLogger.kt$com.example.powerai.engine.ai.GemmaResponseLogger.kt</ID>
-    <ID>NewLineAtEndOfFile:KnowledgeSnippetBuilder.kt$com.example.powerai.core.data.repository.KnowledgeSnippetBuilder.kt</ID>
     <ID>NewLineAtEndOfFile:LocalSearchQueryVariantBuilder.kt$com.example.powerai.domain.usecase.LocalSearchQueryVariantBuilder.kt</ID>
     <ID>NewLineAtEndOfFile:LocalSummaryCard.kt$com.example.powerai.ui.screen.main.LocalSummaryCard.kt</ID>
     <ID>NewLineAtEndOfFile:LocalSummaryStateFactory.kt$com.example.powerai.ui.screen.hybrid.LocalSummaryStateFactory.kt</ID>
@@ -944,15 +918,8 @@
     <ID>ReturnCount:KnowledgeDetailMarkwonInteractions.kt$KnowledgeDetailMarkwonInteractions$private fun findTappedUrlUri(text: Spannable, offset: Int): String?</ID>
     <ID>ReturnCount:KnowledgeDetailMarkwonInteractions.kt$KnowledgeDetailMarkwonInteractions$private fun normalizeAssetImageUri(raw: String): String?</ID>
     <ID>ReturnCount:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$private suspend fun updateEntityWithMarkdown(entityId: Long, targetId: String, markdown: String): KnowledgeEntity?</ID>
-    <ID>ReturnCount:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$suspend fun searchLocal( dao: KnowledgeDao, query: String, entityToItem: (KnowledgeEntity) -&gt; KnowledgeItem ): List&lt;KnowledgeItem&gt;</ID>
-    <ID>ReturnCount:KnowledgeLocalSearchProcessor.kt$KnowledgeLocalSearchProcessor$fun computeBlockHit(blocksJson: String, normalizedQuery: String): BlockHit</ID>
-    <ID>ReturnCount:KnowledgeLocalSearchProcessor.kt$KnowledgeLocalSearchProcessor$fun containsQuery(text: String, normalizedQuery: String): Boolean</ID>
-    <ID>ReturnCount:KnowledgeLocalSearchQuery.kt$KnowledgeLocalSearchQueryBuilder$fun buildOrNull(query: String): KnowledgeLocalSearchQuery?</ID>
-    <ID>ReturnCount:KnowledgeLocalSearchStrategies.kt$GenericSearchStrategy$override suspend fun search( dao: KnowledgeDao, built: KnowledgeLocalSearchQuery ): List&lt;KnowledgeEntity&gt;</ID>
     <ID>ReturnCount:KnowledgeRepositoryImpl.kt$KnowledgeRepositoryImpl$override suspend fun resolveHighlightTarget(itemId: Long, highlight: String): LocalHighlightTarget?</ID>
     <ID>ReturnCount:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$fun buildFtsMatchQuery(normalizedQuery: String): String</ID>
-    <ID>ReturnCount:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$fun findFirstFuzzyMatchStart(hay: String, needleNoWs: String): Int</ID>
-    <ID>ReturnCount:KnowledgeSnippetBuilder.kt$KnowledgeSnippetBuilder$fun snippetAroundQuery(text: String, rawQuery: String): String</ID>
     <ID>ReturnCount:LazyListScrollIndicator.kt$fun anchorSnapIndex(rawFraction: Float): Int?</ID>
     <ID>ReturnCount:LazyListScrollIndicator.kt$fun scrollToFraction(rawFraction: Float, preferAnchorSnap: Boolean): Int</ID>
     <ID>ReturnCount:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$override fun safeInitModel(path: String?, useGpu: Boolean): Boolean</ID>
@@ -1034,9 +1001,6 @@
     <ID>SwallowedException:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$t: Throwable</ID>
     <ID>SwallowedException:JsonRepository.kt$JsonRepository$t: Throwable</ID>
     <ID>SwallowedException:KnowledgeDetailMarkdownAssetImagesRewriteHelpers.kt$KnowledgeDetailMarkdownAssetImagesRewriteHelpers$t: Throwable</ID>
-    <ID>SwallowedException:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$t: Throwable</ID>
-    <ID>SwallowedException:KnowledgeLocalSearchStrategies.kt$CjkSearchStrategy$t: Throwable</ID>
-    <ID>SwallowedException:KnowledgeLocalSearchStrategies.kt$GenericSearchStrategy$t: Throwable</ID>
     <ID>SwallowedException:LlamaJni.kt$LlamaJni$t: Throwable</ID>
     <ID>SwallowedException:LlamaJniReflection.kt$LlamaJniReflection$e: Throwable</ID>
     <ID>SwallowedException:LocalFaissAnnRetriever.kt$LocalFaissAnnRetriever$t: Throwable</ID>
@@ -1074,9 +1038,6 @@
     <ID>TooGenericExceptionCaught:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$e: Exception</ID>
     <ID>TooGenericExceptionCaught:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$e: Throwable</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeLocalSearchStrategies.kt$CjkSearchStrategy$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeLocalSearchStrategies.kt$GenericSearchStrategy$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:KnowledgeRepositoryImpl.kt$KnowledgeRepositoryImpl$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LlamaEngineController.kt$LlamaEngineController$t: Throwable</ID>
@@ -1145,8 +1106,6 @@
     <ID>UnusedParameter:KnowledgeDetailFallbackMarkwonTextView.kt$textAlign: androidx.compose.ui.text.style.TextAlign = androidx.compose.ui.text.style.TextAlign.Start</ID>
     <ID>UnusedParameter:KnowledgeDetailStructuredTable.kt$borderColor: Color</ID>
     <ID>UnusedParameter:KnowledgeDetailSuccessContent.kt$entryNavigation: com.example.powerai.domain.model.DetailEntryNavigation?</ID>
-    <ID>UnusedParameter:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$query: String</ID>
-    <ID>UnusedParameter:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$tag: String</ID>
     <ID>UnusedParameter:LlamaContext.kt$LlamaContext$callback: (String) -&gt; Unit</ID>
     <ID>UnusedParameter:LlamaContext.kt$LlamaContext$params: Map&lt;String, Any&gt;</ID>
     <ID>UnusedParameter:LlamaEngineController.kt$LlamaEngineController$context: Context?</ID>
@@ -1224,11 +1183,6 @@
     <ID>UnusedPrivateProperty:KnowledgeDetailMarkdownAssetImages.kt$val hasSquare = markdown.contains("[") &amp;&amp; markdown.contains("]")</ID>
     <ID>UnusedPrivateProperty:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$val lower = displayName.lowercase()</ID>
     <ID>UnusedPrivateProperty:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$val mimeType = try { context.contentResolver.getType(uri) } catch (_: Exception) { null }</ID>
-    <ID>UnusedPrivateProperty:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$// When result set is large, block-json parsing becomes the bottleneck. // Limit block-level hit locating to keep local search responsive. private const val MAX_BLOCK_HIT_PROCESSING = 120</ID>
-    <ID>UnusedPrivateProperty:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$val after = rt.freeMemory()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$val before = rt.freeMemory()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$val hex = qNormalized.toByteArray(Charsets.UTF_8).joinToString(" ") { String.format("%02x", it) }</ID>
-    <ID>UnusedPrivateProperty:KnowledgeLocalSearch.kt$KnowledgeLocalSearch$val q = built.raw</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_MIN_P = 0.0f</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_TEMPERATURE = 0.7f</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_TOP_K = 20</ID>
@@ -1238,7 +1192,6 @@
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$val requestId = ++stopRequestSerial</ID>
     <ID>UnusedPrivateProperty:LlamaJniDiagnostics.kt$LlamaJniDiagnostics$private const val TAG = "llama_jni_diag"</ID>
     <ID>UnusedPrivateProperty:LlamaJniReflection.kt$LlamaJniReflection$val p = params[idx]</ID>
-    <ID>UnusedPrivateProperty:LocalSearchDiagnostics.kt$LocalSearchDiagnostics$val ftsRows = dao.countFts()</ID>
     <ID>UnusedPrivateProperty:MarkwonHelper.kt$MarkwonHelper$private const val TAG = "MarkwonHelper"</ID>
     <ID>UnusedPrivateProperty:MyAppGlideModule.kt$MyAppGlideModule$val TAG = "MyAppGlideModule"</ID>
     <ID>UnusedPrivateProperty:NativeAnnRetriever.kt$NativeAnnRetriever$private val embeddingRepository: EmbeddingRepository</ID>

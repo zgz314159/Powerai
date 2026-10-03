@@ -68,7 +68,7 @@ DOCX/PDF
 User Query
   → QueryUnderstandingPipeline (normalize, intent, retrieval queries)
   → retrieval
-       ├─ sparse / KnowledgeLocalSearch (contentNormalized)
+       ├─ RoomFtsRetriever (lexical FTS: contentNormalized / searchContent)
        ├─ HybridRetrievalService / HybridQueryUseCase
        └─ AnnRetriever (native → local Faiss → HTTP)
   → fusion / evidence (LocalEvidenceRefiner, RetrievalFusionUseCase)

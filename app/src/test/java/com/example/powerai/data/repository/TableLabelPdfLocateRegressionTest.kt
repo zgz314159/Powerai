@@ -75,11 +75,14 @@ class TableLabelPdfLocateRegressionTest {
 
     private fun search(query: String): List<KnowledgeItem> =
         runBlocking {
-            KnowledgeRepositoryImpl(
-                ApplicationProvider.getApplicationContext(),
-                db.knowledgeDao(),
-                noEmbedding,
-            ).searchLocal(query)
+            val repository =
+                KnowledgeRepositoryImpl(
+                    ApplicationProvider.getApplicationContext(),
+                    db.knowledgeDao(),
+                    noEmbedding,
+                )
+            val hits = RoomFtsRetriever(db.knowledgeDao()).search(query, 10).mapNotNull { it.item }
+            repository.resolveTableLabelTargets(hits, query)
         }
 
     private fun resolvedBlock(item: KnowledgeItem): Pair<KnowledgeBlock, KnowledgeEntity> {
@@ -183,9 +186,13 @@ class TableLabelPdfLocateRegressionTest {
         val results = search("前面一段说明")
         assertTrue(results.isNotEmpty())
 
-        val (block, _) = resolvedBlock(results.first())
-        assertTrue("body hit must stay in the text entry", block !is TableBlock)
-        assertEquals("p1_b1", block.id)
+        // `resolveTableLabelTargets` only promotes caption/label hits; an ordinary body hit must
+        // stay in its text entry (which carries no table) instead of the sibling table entry.
+        val entity = runBlocking { db.knowledgeDao().getById(results.first().id) }
+        assertNotNull("body hit must resolve to an entity", entity)
+        val blocks = BlocksParser.parseBlocks(entity!!.contentBlocksJson).orEmpty()
+        assertTrue("body hit must stay in the text entry", blocks.none { it is TableBlock })
+        assertTrue("body hit must keep the text entry blocks", blocks.any { it.id == "p1_b1" })
     }
 
     @Test

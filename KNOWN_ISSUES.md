@@ -13,7 +13,7 @@
 | KI-01 | `AiStreamViewModel.kt`, `AiChatScaffold.kt` | ViewModel/Scaffold 仍偏大 | ✅ 已完成 MVI 重构；状态拆分、更多 UI 组件分层；逻辑已部分下沉 UseCase |
 | KI-02 | `HybridViewModel.kt` | 仍承担较多 UI 编排 | ✅ 已完成 MVI 重构；继续下沉 UseCase；已有 runtime support 拆分 |
 | KI-03 | `StreamingJsonResourceImporter.kt` | 导入流程仍长 | 按阶段拆分（parse / map / write）；`FileParserFactory` 已引入 |
-| KI-04 | `SparseSearcher.kt`, `KnowledgeLocalSearch` 相关 | 检索逻辑可再拆 | 扫描/tokenize/score 子模块；`SparseSearchUtils`、`LocalSearchDiagnostics` 已部分完成 |
+| KI-04 | `SparseSearcher.kt` | 检索逻辑可再拆 | 扫描/tokenize/score 子模块；`SparseSearchUtils` 已部分完成；旧 `KnowledgeLocalSearch`/`LocalSearchDiagnostics` 支线已于 2026-10-03 退役 |
 | KI-05 | `MainPages.kt` | 占位符文件 | 评估删除 |
 | KI-06 | `ui/screen/detail/*` | 详情 markdown/table 文件多 | 保持 normalize 在 data/importer，避免 UI 层继续堆结构修复 |
 
@@ -51,7 +51,8 @@
 ## 已关闭（仅供参考）
 
 - 「本地」页检索/导入异常被伪装成「未找到相关结果」：`HybridQueryUseCase.localMode` 捕获 `Throwable` 后返回 `emptyList()`，`HybridModeExecutor` 兜底又构造空检索结果，最终与「确实 0 命中」共用同一空态。现将可恢复错误映射为可重试的 `LocalPageState.ERROR`（安全文案，不泄露异常详情），仅真正 0 命中保留「无匹配」；`CancellationException` 继续传播，取消/新旧查询竞态不再回写结果/错误/历史（`LocalSearchFailureUiStateTest`）
-- 「本地」页搜索命中表格题注块时未改指所属表格：「本地」hybrid 证据链此前只在 `searchLocal` 旧链做改指；已将题注→表格改指接入 `HybridQueryUseCase.localMode`（`KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`），支持同条目与同页跨条目几何最近表格
+- 「本地」页搜索命中表格题注块时未改指所属表格：题注→表格改指已接入 `HybridQueryUseCase.localMode`（`KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`），支持同条目与同页跨条目几何最近表格；旧 `searchLocal` 支线已于 2026-10-03 退役，规则保留在主路径
+- 本地检索曾存在两条并行支线（真实 UI 走 `HybridRetrievalService`，旧 `searchLocal`/`RetrievalFusionService` 无生产调用）：已退役旧支线及其无用 DI 绑定，收敛为一条 UI 主路径（2026-10-03）
 - 「本地」页 `发电机允许温升表` 返回 0 结果：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而 FTS/LIKE 命中依赖 indexed block 文本；题注仅存在于块内的表格条目被判 coverage=0 丢弃；现评分纳入 `contentBlocksJson` 明文
 - PDF 定位目标页未滚入视口：页面项在 bitmap 渲染前为短占位高度，`scrollToItem` 被列表滚动范围钳制；已通过底部预留视口高度修复
 - `PdfRenderer` 并发渲染导致 `IllegalStateException: Current page not closed`：多个页面项并行渲染；已将渲染调度串行化

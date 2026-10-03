@@ -23,7 +23,7 @@
 | 表格 `rows` 契约（PowerAi × PaddleModels） | 已加固并通过真实 fixture 验收 | `app/src/test/resources/contracts/paddlemodels_v2_table_rows_contract.json`（3209 B，sha256 `f2f18cb1…d05026`）；`PaddleModelsTableRowsContractTest` 11/11 |
 | PDF MVI | 已完成 | `PdfFigureListViewModel` / `PdfKnowledgeViewModel` 继承 `BaseMviViewModel`；契约测试 `PdfFigureListMviContractTest` / `PdfKnowledgeMviContractTest` |
 | 真机定位链路 | 已完成 | 真机「DB 列表 → 详情 → 点表格块 → magic window → 在 PDF 中定位」命中原始 PDF **第 29 页 table 1** 与 **第 32 页 table 2**（提交 `d29ea78` 体记录） |
-| 搜索结果表格标题定位（`searchLocal` 旧链） | 已修复并回归 | `searchLocal` 命中表格标题/题注块时，详情块选择与「在 PDF 中定位」改指所属表格块；`TableLabelPdfLocateRegressionTest` 5/5 |
+| 搜索结果表格标题定位（`searchLocal` 旧链） | 已退役，规则保留在主路径 | 旧 `KnowledgeRepository.searchLocal`／`KnowledgeLocalSearch` 支线已删除；题注→表格改指保留在 `KnowledgeRepository.resolveTableLabelTargets`（UI 主路径使用）；`TableLabelPdfLocateRegressionTest` 5/5（改为驱动生产 FTS 检索 + resolver） |
 | 搜索结果表格标题定位（「本地」hybrid 链） | 已修复并真机验收 | `HybridQueryUseCase.localMode` → `KnowledgeRepository.resolveTableLabelTargets` 复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`，题注命中改指同条目或同页跨条目表格；`LocalModeTableEvidenceRegressionTest` 5/5；真机 Android 16 两条查询黄色框分别落在 PDF 第 29 页 `p29_tbl1`、第 32 页 `p32_tbl1`（见 §9） |
 | 本地证据零结果（`发电机允许温升表`） | 已修复 | 根因：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而检索命中依赖 indexed block 文本；题注仅在块内的表格条目被以 coverage=0 丢弃 → UI 0 结果。现评分纳入 `contentBlocksJson` 明文 |
 | 本地搜索失败语义（错误 vs 真正 0 命中） | 已修复并回归 | `HybridQueryUseCase.localMode` 不再 `catch (Throwable) → emptyList()`；`HybridModeExecutor` 将可恢复的检索/导入错误映射为 `LocalPageState.ERROR`（安全文案、可重试），真正 0 命中仍保留「无匹配」；`CancellationException` 继续传播。`LocalSearchFailureUiStateTest` 5/5、`HybridQueryUseCaseTest` 8/8、`LocalModeTableEvidenceRegressionTest` 5/5 |
@@ -48,7 +48,7 @@
 
 ## 4. 搜索、AI 与 Native 状态
 
-- **词法检索**：`KnowledgeEntity.contentNormalized` + `KnowledgeLocalSearch`
+- **词法检索**：`KnowledgeEntity.contentNormalized`/`searchContent` → `RoomFtsRetriever`（FTS），经 `HybridRetrievalService` RRF 融合（旧 `KnowledgeLocalSearch` 支线已于 2026-10-03 退役）
 - **Query**：`QueryUnderstandingPipeline` → `HybridRetrievalService` / `AnnRetriever`（native → local → HTTP）
 - **融合与作答**：`RetrievalFusionUseCase`、`LocalEvidenceRefiner`、`LocalAnswerPlanner`、`AiStreamUseCase`
 - **端侧引擎**：`PowerAIEngine`（位于 `engine/ai`），DeepSeek / Gemma 经 `DeepSeekNativeRuntimeBridge` 选择与回退
@@ -113,3 +113,4 @@
 | 2026-10-02 | 表格标题块命中修正：本地搜索结果落在表格标题/题注块（而非表格块）时，详情块选择与「在 PDF 中定位」改指其所属表格块；同条目优先，跨条目按同页邻接推断并入表格条目。新增 JVM 回归 `TableLabelPdfLocateRegressionTest` |
 | 2026-10-02 | 「本地」hybrid 链表格证据闭环：题注→表格改指接入真实 UI 检索/证据链（`HybridQueryUseCase.localMode` → `KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`，支持跨条目同页几何最近）；修复 `LocalEvidenceRefiner` 仅按 markdown 预览评分导致 `发电机允许温升表` UI 0 结果（现纳入 indexed block 文本）。新增 `LocalModeTableEvidenceRegressionTest`（经 `localMode` + 详情/PDF 目标解析）；真机 Android 16 复验第 29/32 页黄色框命中 |
 | 2026-10-02 | 「本地」搜索失败语义修复：明确区分「检索/导入失败」与「确实 0 命中」。`HybridQueryUseCase.localMode` 停止吞异常（含 `CancellationException` 继续传播）；`HybridModeExecutor` 将可恢复错误写入可重试的 `LocalPageState.ERROR`（安全文案，不含异常详情）；`LocalSearchArea` 在失败时展示失败提示与「重试」。新增 `LocalSearchFailureUiStateTest`（失败/导入失败/取消竞态/成功有结果/成功零结果） |
+| 2026-10-03 | 本地检索主路径收敛（退役旧支线）：删除无生产调用的 `LocalSearchUseCase`、`VectorSearchRepository`、`RetrievalFusionService`（含 `AIModule` 无用 Hilt Provider）及 `KnowledgeRepository.searchLocal` 与 `KnowledgeLocalSearch`/`KnowledgeLocalSearchQuery`/`KnowledgeLocalSearchStrategies`/`KnowledgeLocalSearchProcessor`/`LocalSearchDiagnostics`/`KnowledgeSnippetBuilder`。「本地」页统一走 `HybridModeExecutor → HybridQueryUseCase → RetrievalFusionUseCase → HybridRetrievalService`。保留 `resolveTableLabelTargets` 题注→表格规则与 `LocalPageState.ERROR`/取消语义 |

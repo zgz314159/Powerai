@@ -43,8 +43,8 @@
   - `ImportUtils` gained `sha256Hex` helper; redundant code removed from manager.
   - Added interface `FileParser` for testable, pluggable parsing.
   - Constructor now accepts injectable `CoroutineScope` and `FileParserFactoryType` to aid unit testing; comprehensive unit tests for `DocumentImportManager.importUri` and `FileParserFactory` added.
-- `SparseSearcher.kt`（313 行）和 `KnowledgeLocalSearch.kt` 等检索服务应分解为扫描、tokenize、score、存储等子模块。
-  - 诊断与自愈逻辑已抽离到 `LocalSearchDiagnostics.kt`，文件体积进一步缩小。
+- `SparseSearcher.kt`（313 行）等检索服务应分解为扫描、tokenize、score、存储等子模块。
+  - **已退役（2026-10-03）**：旧 `KnowledgeLocalSearch.kt` 支线（含 `LocalSearchDiagnostics`、策略/处理器/查询构造器、`KnowledgeSnippetBuilder`）无生产调用，已连同 `KnowledgeRepository.searchLocal` 一并删除；「本地」页统一走 `HybridRetrievalService`。
   - `HybridQueryUseCase` 已添加覆盖其 `invoke`、`aiMode`、`localMode` 和 `hybridQuery` 分支的单元测试。
   - 搜索内部的 tie-break 与 permissive-fallback行为提取到 `SparseSearchUtils.kt`，并为其添加独立单元测试。
   - **部分完成**：日志审计已移至 `SparseSearchAuditLogger`，剩余文件长度已显著减小，可评估是否需要进一步拆分。
