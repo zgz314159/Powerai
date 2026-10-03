@@ -114,6 +114,15 @@ interface KnowledgeDao {
     @Query("SELECT COUNT(1) FROM knowledge WHERE source LIKE :sourcePrefix || '%'")
     suspend fun countBySourcePrefix(sourcePrefix: String): Int
 
+    /**
+     * Rows owned by one built-in KB asset package. Asset imports attribute every row with
+     * `packageId` = the package's asset-path hash, which stays authoritative even when the KB
+     * declares a non-asset `source` (e.g. a PDF-derived `pdf:{sha}::{name}`); a source-prefix count
+     * misses every such row.
+     */
+    @Query("SELECT COUNT(1) FROM knowledge WHERE packageId = :packageId")
+    suspend fun countByPackageId(packageId: String): Int
+
     @Query(
         "SELECT COUNT(1) FROM knowledge " +
             "WHERE source LIKE :sourcePrefix || '%' " +

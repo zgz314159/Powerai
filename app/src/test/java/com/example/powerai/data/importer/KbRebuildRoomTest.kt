@@ -199,6 +199,11 @@ class KbRebuildRoomTest {
         val result = rebuild()
 
         assertTrue("reported success", result is KbRebuildState.Success)
+        assertEquals(
+            "success reports the real row count even for a pdf-sourced asset",
+            2,
+            (result as KbRebuildState.Success).knowledgeRows,
+        )
         assertEquals("new rows", 2, rows().size)
         assertTrue("every row attributed to the package", rows().all { it.packageId == fileId })
         assertTrue("legacy title gone", rows().none { it.title == "legacy" })

@@ -31,6 +31,8 @@ class StreamingJsonBatchWriterTest {
         override suspend fun countFts(): Int = 0
         override suspend fun getSample(n: Int): List<KnowledgeEntity> = emptyList()
         override suspend fun countBySourcePrefix(sourcePrefix: String): Int = 0
+
+        override suspend fun countByPackageId(packageId: String): Int = 0
         override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int = 0
         override suspend fun sampleBySourcePrefix(sourcePrefix: String, limit: Int): List<KnowledgeEntity> = emptyList()
         override suspend fun searchByKeywordNoSpace(keywordNoSpace: String): List<KnowledgeEntity> = emptyList()

@@ -58,12 +58,17 @@ class AssetImportScanner @Inject constructor(
     }
 
     suspend fun countImportedRows(assetPath: String, fileId: String): Int {
+        // Asset imports attribute rows by packageId (the package's asset-path hash), which is the
+        // authoritative owner key; a source-prefix count misses PDF-derived assets whose declared
+        // source is `pdf:{sha}::{name}` (no asset path) and so reported 0 rows for a full import.
+        // Source prefixes stay as a fallback for pre-fingerprint legacy rows without packageId.
+        val byPackage = runCatching { dao.countByPackageId(fileId) }.getOrDefault(0)
+        if (byPackage > 0) return byPackage
         val sourcePrefix = KbAssetPathNormalizer.sourcePrefixForAsset(assetPath)
         val bySource = sourcePrefix?.let { prefix ->
             runCatching { dao.countBySourcePrefix(prefix) }.getOrDefault(0)
         } ?: 0
-        if (bySource > 0) return bySource
-        return runCatching { dao.countBySourcePrefix(fileId) }.getOrDefault(0)
+        return if (bySource > 0) bySource else runCatching { dao.countBySourcePrefix(fileId) }.getOrDefault(0)
     }
 
     fun publishDiagnostics(assetRoot: String, entries: Collection<AssetImportDiagnosticEntry>) {
