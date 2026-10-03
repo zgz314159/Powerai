@@ -3,6 +3,7 @@ package com.example.powerai.data.importer
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.database.AppDatabase
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.ui.blocks.BlocksParser
 import com.example.powerai.ui.screen.pdf.parsePdfBoundingBoxOrNull
 import com.example.powerai.util.PdfSourceRef

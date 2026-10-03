@@ -1,8 +1,8 @@
 package com.example.powerai.ui.screen.hybrid
 
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.domain.model.LocalAnswerFeedback
 import com.example.powerai.domain.model.LocalSearchEntry
 

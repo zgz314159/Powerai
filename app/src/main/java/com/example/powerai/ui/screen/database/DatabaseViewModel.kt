@@ -25,7 +25,7 @@ data class DatabaseUiState(
     val pendingSelectedItemScrollId: Long? = null,
     val searchHistory: List<com.example.powerai.domain.model.SearchEntry> = emptyList(),
     val sourceFileNames: Map<Long, String> = emptyMap(),
-    val importProgress: com.example.powerai.data.importer.ImportProgress? = null,
+    val importProgress: com.example.powerai.core.data.importer.ImportProgress? = null,
     val importDiagnostics: com.example.powerai.data.importer.AssetImportDiagnostics? = null,
 )
 
@@ -79,7 +79,7 @@ class DatabaseViewModel
         val directoryGroups: StateFlow<List<DatabaseFileGroup>>
             get() = loadCoordinator.directoryGroups
 
-        val importProgress: StateFlow<com.example.powerai.data.importer.ImportProgress?> = importManager.progress
+        val importProgress: StateFlow<com.example.powerai.core.data.importer.ImportProgress?> = importManager.progress
         val importDiagnostics: StateFlow<com.example.powerai.data.importer.AssetImportDiagnostics> = importManager.importDiagnostics
 
         override fun onIntent(intent: DatabaseIntent) {

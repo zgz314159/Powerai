@@ -2,8 +2,8 @@ package com.example.powerai.importer
 
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.powerai.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.data.database.AppDatabase
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
@@ -13,7 +13,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.ByteArrayInputStream
-import com.example.powerai.core.data.dao.KnowledgeDao
 
 @Config(sdk = [28], application = android.app.Application::class)
 @RunWith(RobolectricTestRunner::class)

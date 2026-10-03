@@ -1,4 +1,4 @@
-package com.example.powerai.data.importer
+package com.example.powerai.core.data.importer
 
 import java.nio.ByteBuffer
 import java.security.MessageDigest
@@ -6,7 +6,7 @@ import java.security.MessageDigest
 /**
  * Shared helper utilities used by import components.
  */
-internal object ImportUtils {
+object ImportUtils {
     /**
      * Deterministic 64-bit id derived from SHA-256. Keep it positive and non-zero.
      * Falls back to hashCode if SHA-256 is unavailable.

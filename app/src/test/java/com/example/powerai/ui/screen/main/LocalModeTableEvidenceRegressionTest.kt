@@ -4,13 +4,13 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
 import com.example.powerai.core.model.TableBlock
 import com.example.powerai.core.repository.AnnRetriever
 import com.example.powerai.core.repository.EmbeddingRepository
-import com.example.powerai.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.usecase.AskAiUseCase

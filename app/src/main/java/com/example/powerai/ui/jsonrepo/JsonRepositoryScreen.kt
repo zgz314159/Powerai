@@ -107,11 +107,10 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
         Spacer(Modifier.height(8.dp))
 
         importProgress?.let { p ->
-            val progressFloat = if (p.totalItems != null && p.totalItems > 0) {
-                p.importedItems.toFloat() / p.totalItems.toFloat()
-            } else {
-                (p.percent.toFloat() / 100f).coerceIn(0f, 1f)
-            }
+            val progressFloat =
+                p.totalItems?.takeIf { it > 0 }?.let {
+                    p.importedItems.toFloat() / it.toFloat()
+                } ?: (p.percent.toFloat() / 100f).coerceIn(0f, 1f)
             LinearProgressIndicator(progress = { progressFloat }, modifier = Modifier.fillMaxWidth())
             Text("Import: ${p.status} ${p.importedItems}/${p.totalItems ?: "-"}")
         }

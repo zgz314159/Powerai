@@ -1,4 +1,4 @@
-package com.example.powerai.data.importer
+package com.example.powerai.core.data.importer
 
 /**
  * Normalizes markdown tables that come from DOCX conversions.

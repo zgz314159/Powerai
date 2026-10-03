@@ -1,4 +1,4 @@
-package com.example.powerai.data.importer
+package com.example.powerai.core.data.importer
 
 import com.example.powerai.core.data.dao.KnowledgeDao
 

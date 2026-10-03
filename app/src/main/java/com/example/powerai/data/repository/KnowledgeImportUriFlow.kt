@@ -1,17 +1,16 @@
 package com.example.powerai.data.repository
 
-import com.example.powerai.core.data.dao.KnowledgeDao
-
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.example.powerai.core.data.dao.KnowledgeDao
 // android.util.Log removed per TODO order; use TraceLogger if needed
+import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportProgress
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.data.importer.BlocksPreprocessor
 import com.example.powerai.data.importer.FileParserFactory
-import com.example.powerai.data.importer.ImportProgress
-import com.example.powerai.core.model.util.TextSanitizer
-import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.domain.model.KnowledgeEntry
 import com.example.powerai.domain.model.KnowledgeFile
 import com.google.gson.Gson

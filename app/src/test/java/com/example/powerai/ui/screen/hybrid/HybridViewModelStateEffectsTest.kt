@@ -1,7 +1,7 @@
 package com.example.powerai.ui.screen.hybrid
 
 import androidx.lifecycle.viewModelScope
-import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.domain.model.QueryResult
 import com.example.powerai.ui.screen.main.DisplayMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.core.data.importer.ImportProgress
 
 @Composable
 @Suppress("DEPRECATION")
@@ -23,10 +23,11 @@ fun ImportProgressIndicator(
 ) {
     if (progress == null) return
 
+    val totalItems = progress.totalItems
     val percentFloat: Float? = when {
         progress.percent > 0 -> progress.percent.coerceIn(0, 100).toFloat()
-        progress.totalItems != null && progress.totalItems > 0 ->
-            (progress.importedItems.toFloat() / progress.totalItems.toFloat() * 100f)
+        totalItems != null && totalItems > 0 ->
+            (progress.importedItems.toFloat() / totalItems.toFloat() * 100f)
         else -> null
     }
 

@@ -2,8 +2,8 @@ package com.example.powerai.ui.screen.importer
 
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow

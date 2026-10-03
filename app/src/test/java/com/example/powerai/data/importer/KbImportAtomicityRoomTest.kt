@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.ObservabilityService

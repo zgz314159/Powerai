@@ -6,8 +6,9 @@ import android.content.res.AssetManager
 import android.net.Uri
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.entity.KnowledgeEntity
-import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.data.importer.MemoryKnowledgeDao
 import com.example.powerai.core.model.ObservabilityService
+import com.example.powerai.core.repository.KnowledgeRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle

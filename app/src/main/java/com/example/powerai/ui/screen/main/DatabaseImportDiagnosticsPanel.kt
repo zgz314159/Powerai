@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun DatabaseImportDiagnosticsPanel(
     diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics,
-    progress: com.example.powerai.data.importer.ImportProgress?,
+    progress: com.example.powerai.core.data.importer.ImportProgress?,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {

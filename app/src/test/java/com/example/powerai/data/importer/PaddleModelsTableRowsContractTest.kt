@@ -1,5 +1,6 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.data.importer.JsonResourceParser
 import com.example.powerai.core.model.TableBlock
 import com.example.powerai.ui.blocks.BlocksParser
 import com.google.gson.Gson
