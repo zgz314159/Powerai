@@ -9,6 +9,7 @@ import com.example.powerai.core.model.LocalHighlightTarget
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.data.importer.KbRebuildState
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.domain.repository.SearchHistoryRepository
@@ -167,10 +168,13 @@ internal class DatabaseViewModelTestHarness(
     val diagnosticsFlow: MutableStateFlow<AssetImportDiagnostics> =
         MutableStateFlow(AssetImportDiagnostics()),
 ) {
+    val rebuildStateFlow: MutableStateFlow<KbRebuildState> = MutableStateFlow(KbRebuildState.Idle)
+
     val importer: DocumentImportManager =
         Mockito.mock(DocumentImportManager::class.java).also { manager ->
             Mockito.`when`(manager.importDiagnostics).thenReturn(diagnosticsFlow)
             Mockito.`when`(manager.progress).thenReturn(MutableStateFlow<ImportProgress?>(null))
+            Mockito.`when`(manager.rebuildState).thenReturn(rebuildStateFlow)
         }
 
     private val createdViewModels = mutableListOf<DatabaseViewModel>()
