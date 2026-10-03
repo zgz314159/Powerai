@@ -39,7 +39,7 @@ class DocumentImportManagerTest {
         val resolver: ContentResolver = mock()
         whenever(context.contentResolver).thenReturn(resolver)
         repo = mock()
-        dao = mock()
+        dao = MemoryKnowledgeDao()
         scanner = mock()
         observability = mock()
     }
@@ -96,7 +96,6 @@ class DocumentImportManagerTest {
             whenever(scanner.listAssetFilesRecursive("kb")).thenReturn(listOf("kb/knowledge_base.json"))
             whenever(scanner.shouldImportAssetJson("kb/knowledge_base.json")).thenReturn(true)
             whenever(scanner.assetDisplayName("kb/knowledge_base.json")).thenReturn("kb")
-            whenever(dao.getImportedFileStatus(any())).thenReturn(null)
             val assets = mock<AssetManager>()
             whenever(context.assets).thenReturn(assets)
             whenever(assets.open("kb/knowledge_base.json")).thenReturn(CancellingInputStream())
