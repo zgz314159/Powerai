@@ -67,7 +67,7 @@
 
 | ID | 位置 | 说明 | 建议 |
 |----|------|------|------|
-| KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | 迁移前（Room < 6）已导入的资产没有内容指纹，其旧条目**无法无歧义归属**（不能用 `source`/`docSha256` 猜测，否则会误删 source 相同的其他包）。升级后这类 legacy 资产在自动导入中被**检测并跳过替换**（诊断状态 `legacy`），避免新旧混合或误删；升级后**新导入**的资产走完整 A/B 替换。 | ✅ 已提供**用户主动**的「重建内置知识库」入口（`DocumentImportManager.rebuildBuiltInKnowledgeBase`）：仅在用户确认后，单事务清除本应用 `knowledge` + FTS + `imported_files`，失效 `vision_cache`/`embedding_metadata`（按知识条目 id）并删除应用私有 `vector_index.bin`，再由当前内置资产重建；状态区分 running/success/failed/cancelled，失败整体回滚可重试。仍**不**按 source 猜测归属、**不**静默清理；未做真机 UI 验收 |
+| KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | 迁移前（Room < 6）已导入的资产没有内容指纹，其旧条目**无法无歧义归属**（不能用 `source`/`docSha256` 猜测，否则会误删 source 相同的其他包）。升级后这类 legacy 资产在自动导入中被**检测并跳过替换**（诊断状态 `legacy`），避免新旧混合或误删；升级后**新导入**的资产走完整 A/B 替换。 | ✅ 已提供**用户主动**的「重建内置知识库」入口（`DocumentImportManager.rebuildBuiltInKnowledgeBase`）：仅在用户确认后，单事务清除本应用 `knowledge` + FTS + `imported_files`，失效 `vision_cache`/`embedding_metadata`（按知识条目 id），并在提交后**同一进程内清空原生向量索引**（`VectorRepository.clear()`；`NativeVectorRepository` 以锁串行化 `search`/`upsert`/`clear`）并删除应用私有 `vector_index.bin`（磁盘删除失败不报完整成功）；再由当前内置资产重建；状态区分 running/success/failed/cancelled，失败整体回滚可重试。仍**不**按 source 猜测归属、**不**静默清理；未做真机 UI 验收 |
 
 ---
 
