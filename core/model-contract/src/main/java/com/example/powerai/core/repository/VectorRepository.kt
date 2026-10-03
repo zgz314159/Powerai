@@ -9,4 +9,11 @@ interface VectorRepository {
     fun search(query: FloatArray, k: Int): LongArray
     fun saveIndex(path: String): Boolean
     fun loadIndex(path: String): Boolean
+
+    /**
+     * Drop every vector held in memory, keeping the configured dimension. Used when the app's
+     * knowledge rows are rebuilt so ids that no longer have a row are no longer returned by
+     * [search] in the same process (no restart required).
+     */
+    fun clear()
 }

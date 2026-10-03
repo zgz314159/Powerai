@@ -2,7 +2,9 @@ package com.example.powerai.data.importer
 
 import android.content.Context
 import android.net.Uri
+import com.example.powerai.core.data.dao.EmbeddingDao
 import com.example.powerai.core.data.dao.KnowledgeDao
+import com.example.powerai.core.data.dao.VisionCacheDao
 import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.importer.ImportDefaults
 import com.example.powerai.core.data.importer.ImportProgress
@@ -10,6 +12,7 @@ import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.importer.NonClosingInputStream
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.repository.VectorRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +24,7 @@ import kotlinx.coroutines.sync.withLock
 import java.security.DigestInputStream
 import java.security.MessageDigest
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Suppress("LongParameterList")
@@ -28,18 +32,25 @@ import javax.inject.Singleton
 class DocumentImportManager
     @Inject
     constructor(
-        private val context: Context,
+        internal val context: Context,
         private val repo: KnowledgeRepository,
-        private val dao: KnowledgeDao,
-        private val scanner: AssetImportScanner,
+        internal val dao: KnowledgeDao,
+        internal val scanner: AssetImportScanner,
         private val observability: com.example.powerai.core.model.ObservabilityService,
         private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO + Job()),
         private val parserFactory: FileParserFactoryType = FileParserFactory,
+        internal val visionCacheDao: VisionCacheDao? = null,
+        internal val embeddingDao: EmbeddingDao? = null,
+        internal val vectorRepository: VectorRepository? = null,
+        @Named("vector_index_path") internal val vectorIndexPath: String = "vector_index.bin",
     ) {
-        private val assetImportMutex = Mutex()
+        internal val assetImportMutex = Mutex()
 
         private val _progress = MutableStateFlow<ImportProgress?>(null)
         val progress: StateFlow<ImportProgress?> = _progress
+
+        internal val rebuildStateFlow = MutableStateFlow<KbRebuildState>(KbRebuildState.Idle)
+        val rebuildState: StateFlow<KbRebuildState> = rebuildStateFlow
 
         val importDiagnostics: StateFlow<AssetImportDiagnostics> = scanner.importDiagnostics
 
@@ -71,7 +82,7 @@ class DocumentImportManager
             }
         }
 
-        suspend fun importAssetsIfNeed(assetRoot: String = "kb") {
+        suspend fun importAssetsIfNeed(assetRoot: String = "kb"): AssetImportOutcome =
             assetImportMutex.withLock {
                 val files =
                     scanner.listAssetFilesRecursive(assetRoot)
@@ -80,7 +91,7 @@ class DocumentImportManager
 
                 if (files.isEmpty()) {
                     scanner.publishDiagnostics(assetRoot, emptyList())
-                    return
+                    return@withLock AssetImportOutcome()
                 }
 
                 val diagnostics = buildDiagnostics(files)
@@ -90,8 +101,11 @@ class DocumentImportManager
                 for ((index, assetPath) in files.withIndex()) {
                     importOneAsset(assetRoot, assetPath, index, files.size, importer, diagnostics)
                 }
+                summarizeImportOutcome(diagnostics.values, files.size)
             }
-        }
+
+        /** User-confirmed rebuild of the built-in KB; see [performBuiltInKnowledgeBaseRebuild]. */
+        suspend fun rebuildBuiltInKnowledgeBase(assetRoot: String = "kb"): KbRebuildState = performBuiltInKnowledgeBaseRebuild(assetRoot)
 
         private suspend fun buildDiagnostics(files: List<String>): LinkedHashMap<String, AssetImportDiagnosticEntry> {
             val diagnostics = LinkedHashMap<String, AssetImportDiagnosticEntry>()
@@ -212,7 +226,7 @@ class DocumentImportManager
          * parser), rebuild FTS, then commit the new fingerprint with the marker. Any throw (including
          * cancellation) rolls the whole package back.
          */
-        private suspend fun replacePackage(
+        internal suspend fun replacePackage(
             assetPath: String,
             fileId: String,
             displayName: String,
@@ -294,25 +308,6 @@ class DocumentImportManager
             observability.importFailed(fileId, displayName, error.message)
         }
 
-        private fun displayStatus(marker: ImportedFileEntity?): String {
-            val raw = marker?.status?.trim()?.lowercase().orEmpty()
-            return when {
-                raw.isBlank() -> STATUS_MISSING
-                raw == STATUS_IMPORTED && marker?.contentSha256.isNullOrBlank() -> STATUS_LEGACY
-                else -> raw
-            }
-        }
-
-        private fun progressPercent(
-            index: Int,
-            total: Int,
-        ): Int =
-            if (total <= 0) {
-                0
-            } else {
-                (index.toFloat() / total * PERCENT_SCALE).toInt().coerceIn(0, PERCENT_SCALE)
-            }
-
         fun importUri(
             uri: Uri,
             batchSize: Int = 100,
@@ -321,13 +316,12 @@ class DocumentImportManager
         }
 
         private companion object {
-            const val STATUS_MISSING = "missing"
-            const val STATUS_IMPORTED = "imported"
-            const val STATUS_IN_PROGRESS = "in_progress"
-            const val STATUS_FAILED = "failed"
-            const val STATUS_LEGACY = "legacy"
+            const val STATUS_MISSING = AssetImportStatus.MISSING
+            const val STATUS_IMPORTED = AssetImportStatus.IMPORTED
+            const val STATUS_IN_PROGRESS = AssetImportStatus.IN_PROGRESS
+            const val STATUS_FAILED = AssetImportStatus.FAILED
+            const val STATUS_LEGACY = AssetImportStatus.LEGACY
             const val LEGACY_NOTE = "pre-migration import without content fingerprint; auto-replace skipped"
             const val HASH_DRAIN_BUFFER = 8192
-            const val PERCENT_SCALE = 100
         }
     }

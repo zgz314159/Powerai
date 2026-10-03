@@ -10,6 +10,7 @@ import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.core.data.util.TraceLogger
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import java.lang.StringBuilder
 
 @HiltWorker
@@ -22,10 +23,20 @@ class AssetPreloadWorker @AssistedInject constructor(
         // log removed: doWork started
         try { TraceLogger.append(applicationContext, "AssetPreloadWorker", "doWork started") } catch (_: Throwable) {}
         return try {
-            importManager.importAssetsIfNeed()
+            val outcome = importManager.importAssetsIfNeed()
             // log removed: importAssetsIfNeed returned
-            try { TraceLogger.append(applicationContext, "AssetPreloadWorker", "importAssetsIfNeed returned") } catch (_: Throwable) {}
-            Result.success()
+            runCatching {
+                TraceLogger.append(
+                    applicationContext,
+                    "AssetPreloadWorker",
+                    "importAssetsIfNeed returned imported=${outcome.imported} failed=${outcome.failed}",
+                )
+            }
+            // A single failed asset must not be reported as an overall success; retry later.
+            if (outcome.hasFailures) Result.retry() else Result.success()
+        } catch (c: CancellationException) {
+            // The worker was stopped; let WorkManager observe the cancellation.
+            throw c
         } catch (t: Throwable) {
             // log removed: doWork failed
             try {

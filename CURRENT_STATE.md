@@ -32,9 +32,10 @@
 | KB 资产导入原子性 | 已修复并验证 | 单文件导入包进一个 SQLite 事务（`KnowledgeDao.runInTransaction`）：成功才提交 knowledge 行 + FTS + imported 标记；读取/解析失败或取消整体回滚，不残留可搜索半包、不标 imported，重试同一 fileId 成功。`KbImportAtomicityRoomTest` 5/5（Room 生产链）；未改 Room schema |
 | KB 导入不静默部分成功 | 已修复并验证 | `StreamingJsonResourceImporter` 不再 `catch (elemEx: Throwable)` 后仅 trace 继续：entry 解析/映射/批写与 `rebuildFts()` 的真实失败向上抛出、经单文件事务回滚；非对象 entry 视为无效并失败（不再无声跳过）；重复 entry 仍按既有语义去重跳过。取消继续传播。`KbImportAtomicityRoomTest` 11/11（新增批写失败/FTS 失败/无效 entry 对象根与数组根/数组根尾部失败/重复跳过）；未改 Room schema |
 | 内置 KB 资产更新闭环 | 已修复并验证 | 同一 asset 路径内容变化时按**内容指纹**识别新版本：`imported_files.contentSha256`（流式 SHA-256）决定跳过/更新；`knowledge.packageId`（= asset fileId）标注条目归属，单文件事务内 `deleteByPackageId` → 重导入 → `rebuildFts` → 写新指纹与标记。未变内容跳过且零写入；失败/取消回滚保留旧版条目/FTS/标记；用户导入行（null）与其他包（即使 source/docSha256 相同）不受影响；迁移前 legacy 资产（无指纹）不自动替换。Room 5→6 **仅加列**（`packageId`、`contentSha256`），旧数据保留。`KbAssetUpdateReplaceRoomTest` 3/3、`KbAssetUpdateResilienceRoomTest` 3/3、`AppDatabaseMigration5To6Test` 1/1；仓库外 158 页 KB 经生产链读回 48 entries / 839 blocks / 48 FTS、第 29/32 页表格与 PDF source 不变 |
+| 内置 KB 旧库重建 + 失败重试闭环 | 已修复并验证 | ① `DocumentImportManager.importAssetsIfNeed` 返回 `AssetImportOutcome`；`AssetPreloadWorker` 单资产失败 → `Result.retry`（不再误报 success），`CancellationException` 继续传播。② 数据库页「重试导入」真正重跑生产导入（此前只刷新诊断）。③ 新增用户主动「重建内置知识库」：仅确认后**单事务**清除本应用 `knowledge` + FTS + `imported_files`，失效 `vision_cache`/`embedding_metadata`（按知识条目 id），并在提交后**同一进程内清空原生向量索引**（`VectorRepository.clear()`，`NativeVectorRepository` Java 层串行化 `search`/`upsert`/`clear`）并删除应用私有 `vector_index.bin`（磁盘删除失败不报完整成功）；再由当前内置资产重建；状态区分 running/success/failed/cancelled，失败整体回滚可重试。`KbRebuildRoomTest` 5/5、`KbRebuildVectorIndexTest` 4/4（重建前旧 ID 可检索、重建后同进程不再出现）、`AssetPreloadWorkerTest` 4/4、`DatabaseViewModelRebuildTest` 5/5（真实 Room + 生产编排 + ViewModel/Mockito）。外部 158 页 KB 经 `ExternalKbReadBackTest` 读回 48 entries / 839 blocks / 48 FTS，第 29/32 页表格断言通过 |
 | Smart/DeepSeek 生成停止闭环 | 已修复并 JVM 验证（fake engine） | `DeepSeekViewModel.abortGeneration` 真正停止：取消运行中的 generation job 并调用 `PowerAIEngine.stopGeneration()`；`isRunActive` 顺序纠正后委托 `DeepSeekSessionManager.isRunActive(runToken, sessionId)`，停止后迟到 chunk/最终结果/完成回调被拒；`generateGroundedAnswer` 在 `prepareForNextGeneration` 之后mint runToken，修掉 token 被提前失效。`DeepSeekGenerationStopTest` 8/8（真实 ViewModel+编排器+SessionManager+fake engine）。**真机模型生成尚未验证** |
 
-> §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
+> §6 的 JVM 单测数值为 2026-10-03 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
 ## 3. 模块与架构
 
@@ -75,7 +76,7 @@
 
 | 项 | 结果 | 证据与时间 | 限制 |
 |----|------|-----------|------|
-| JVM 单测（`:app`，CI 范围） | **426 tests / 0 failures / 0 errors / 0 skipped**（97 个测试类） | `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-02（`testDebugUnitTest`） | 跨模块合计 **493 tests**（另 `core:model-contract` 7 / `engine:ai` 35 / `feature:search-chat` 25），全部 0 failures |
+| JVM 单测（`:app`，CI 范围） | **446 tests / 0 failures / 0 errors / 1 skipped**（97 个测试类） | `app/build/test-results/testDebugUnitTest/TEST-*.xml`，2026-10-03（`testDebugUnitTest`） | 跨模块合计 **543 tests**（另 `core:data` 22 / `core:model-contract` 7 / `engine:ai` 35 / `feature:search-chat` 33），全部 0 failures。唯一 skip 为 `ExternalKbReadBackTest`（未设 `POWERAI_KB_FILE`；设样本后实测 48/839/48 通过） |
 | instrumentation（app） | **3/3** | PR 合并门禁结果；`android-instrumentation-tests.yml` 执行 `:app:connectedDebugAndroidTest`（`api-level: 35`，x86_64 模拟器），`app/src/androidTest` 3 个测试类各 1 个 `@Test` | **限制**：合并前 CI 结果，本批未复跑；仅在 API 35 模拟器验证（`arm64-v8a`-only 本地库需 ARM translation），**Android 16 / API 36 仪器测试未覆盖** |
 | Android lint | **0 errors**，既有 **66 warnings** | 合并前 lint 报告 `lint-results-debug.xml`（2026-09-24 23:31） | warnings 未清零，此处不逐条复制 |
 | CI 任务范围 | `test` job：`:app:ktlintMainSourceSetCheck` + `:app:compileDebugKotlin` + `:app:testDebugUnitTest`；`benchmarks` job 受 `vars.RUN_BENCHMARKS` 控制，默认不执行 | `.github/workflows/ci.yml` | 配置现状，本批未修改 |
@@ -102,6 +103,7 @@
 
 - 维持 lint error 为 0 —— **待验证**（下一次 lint 运行）
 - 端侧推理停止行为与中文输出的真机回归 —— **待验证**（停止闭环已用 fake engine 在 JVM 确定性验收；真机模型未验证）
+- 内置 KB 旧库重建的真机验收（确认弹窗、running/success/failed/cancelled 状态、失败重试）—— **待验证**（JVM + 真实 Room 已确定性验收；真机 UI 未验证）
 - 补齐 Android 16 / API 36 的仪器测试覆盖 —— **未开始**
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
@@ -126,3 +128,4 @@
 | 2026-10-03 | Smart/DeepSeek 生成停止闭环：`DeepSeekViewModel.isRunActive` 由恒 `true` 改为按接口顺序委托 `DeepSeekSessionManager.isRunActive(runToken, sessionId)`；`abortGeneration` 取消 generation job 并调用 `engine.stopGeneration()`，置 `STOPPING→CANCELLED`；`generateGroundedAnswer` 在 `prepareForNextGeneration` 之后mint runToken；编排器异常路径在运行已失效时归类为取消而非「推理失败」，并确保流式 collector 在所有退出路径被取消。UI「停止生成」按钮显隐改为 `canAbortGeneration`（进行中生成才可见）。`DeepSeekGenerationStopTest` 8/8（真实 ViewModel+编排器+SessionManager+fake engine）；未改推理算法/提示词/模型路径 |
 | 2026-10-03 | KB 导入核心归属 `:core:data`：`StreamingJsonResourceImporter` 及其解析/映射/批写、`JsonResourceParser`、`JsonEntryMapper`、`ImportUtils`/`ImportDefaults`/`ImportProgress`、`MarkdownTableNormalizer`/`MarkdownTableUtils`、`MemoryKnowledgeDao` 迁入 `core/data/importer`；`:app` 保留 `DocumentImportManager`、资产扫描与 SAF/URI 适配。直测随迁入 `:core:data`，Room/app 编排集成测留在 `:app`；无反向依赖、无双重生产入口；仓库外 103号 KB 读回迁移前后逐字节一致（135 entries / 148 blocks / 135 FTS） |
 | 2026-10-03 | 内置 KB 资产更新闭环：新增 `imported_files.contentSha256`（流式 SHA-256 内容指纹）与 `knowledge.packageId`（= asset fileId 归属）；`DocumentImportManager` 在**同一 asset 路径内容变化**时以单文件事务替换**仅本包**旧条目（`deleteByPackageId` → 重导入 → `rebuildFts` → 写指纹与标记），未变内容跳过且零写入，失败/取消回滚保留旧版条目/FTS/标记，用户导入行与其他包（即使 source/docSha256 相同）不受影响；URI 导入抽到 `UriDocumentImporter`。Room 5→6 **仅加列**（`packageId`、`contentSha256`）。新增 `KbAssetUpdateReplaceRoomTest`/`KbAssetUpdateResilienceRoomTest`/`AppDatabaseMigration5To6Test`/`ExternalKbReadBackTest`；仓库外 158 页 KB 经生产链读回 48 entries / 839 blocks / 48 FTS。迁移前 legacy 资产（无指纹）不自动替换（见 [KNOWN_ISSUES.md](KNOWN_ISSUES.md)） |
+| 2026-10-03 | 内置 KB 旧库重建 + 失败重试：`importAssetsIfNeed` 返回 `AssetImportOutcome`，`AssetPreloadWorker` 单资产失败改为 `Result.retry`（取消继续传播）；数据库页「重试导入」真正重跑生产导入；新增用户主动「重建内置知识库」（`DocumentImportManager.rebuildBuiltInKnowledgeBase` + `DatabaseImportCoordinator` + `KbRebuildBlock`）：仅确认后单事务清除本应用 knowledge/FTS/imported_files 并失效 `vision_cache`/`embedding_metadata`/私有 `vector_index.bin`，再由内置资产重建，状态区分 running/success/failed/cancelled。新增 `KbRebuildRoomTest` 5/5、`AssetPreloadWorkerTest` 4/4、`DatabaseViewModelRebuildTest` 5/5；移除 16 个无引用的旧 DOCX `assets/images/*_rId*` 抽取图 |

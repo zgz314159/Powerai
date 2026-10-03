@@ -27,6 +27,7 @@ data class DatabaseUiState(
     val sourceFileNames: Map<Long, String> = emptyMap(),
     val importProgress: com.example.powerai.core.data.importer.ImportProgress? = null,
     val importDiagnostics: com.example.powerai.data.importer.AssetImportDiagnostics? = null,
+    val isRebuildConfirmVisible: Boolean = false,
 )
 
 @HiltViewModel
@@ -76,11 +77,19 @@ class DatabaseViewModel
                 setCollapsedGroupKeys = { keys -> setCollapsedGroupKeys(keys) },
             )
 
+        private val importCoordinator =
+            DatabaseImportCoordinator(
+                importManager = importManager,
+                reduce = { reducer -> updateState(reducer) },
+                reload = { reloadCurrentContent() },
+            )
+
         val directoryGroups: StateFlow<List<DatabaseFileGroup>>
             get() = loadCoordinator.directoryGroups
 
         val importProgress: StateFlow<com.example.powerai.core.data.importer.ImportProgress?> = importManager.progress
         val importDiagnostics: StateFlow<com.example.powerai.data.importer.AssetImportDiagnostics> = importManager.importDiagnostics
+        val kbRebuildState: StateFlow<com.example.powerai.data.importer.KbRebuildState> = importManager.rebuildState
 
         override fun onIntent(intent: DatabaseIntent) {
             when (intent) {
@@ -99,7 +108,11 @@ class DatabaseViewModel
                 is DatabaseIntent.ToggleCollapsedGroup -> toggleCollapsedGroupKey(intent.key)
                 is DatabaseIntent.SetCollapsedGroupKeys -> setCollapsedGroupKeys(intent.keys)
                 is DatabaseIntent.ClearSearchHistory -> clearSearchHistory()
-                is DatabaseIntent.RefreshImportDiagnostics -> refreshImportDiagnostics()
+                is DatabaseIntent.RefreshImportDiagnostics -> retryAssetImport()
+                is DatabaseIntent.RetryAssetImport -> retryAssetImport()
+                is DatabaseIntent.RequestRebuildKnowledgeBase -> requestRebuildKnowledgeBase()
+                is DatabaseIntent.ConfirmRebuildKnowledgeBase -> confirmRebuildKnowledgeBase()
+                is DatabaseIntent.CancelRebuildKnowledgeBase -> cancelRebuildKnowledgeBase()
             }
         }
 
@@ -107,9 +120,24 @@ class DatabaseViewModel
             reloadCurrentContent()
         }
 
-        fun refreshImportDiagnostics() {
+        /** Retry failed/missing built-in assets (real import retry), not just a diagnostics refresh. */
+        fun retryAssetImport() {
             viewModelScope.launch(ioDispatcher) {
-                importManager.refreshImportDiagnostics()
+                importCoordinator.retryImport()
+            }
+        }
+
+        fun requestRebuildKnowledgeBase() {
+            importCoordinator.requestRebuild()
+        }
+
+        fun cancelRebuildKnowledgeBase() {
+            importCoordinator.cancelRebuild()
+        }
+
+        fun confirmRebuildKnowledgeBase() {
+            viewModelScope.launch(ioDispatcher) {
+                importCoordinator.confirmRebuild()
             }
         }
 

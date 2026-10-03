@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.powerai.domain.model.DatabaseFileGroup
 
+@Suppress("LongParameterList")
 @Composable
 internal fun DatabaseHistoryDrawerContent(
     groups: List<DatabaseFileGroup>,
@@ -37,15 +38,16 @@ internal fun DatabaseHistoryDrawerContent(
     isLoading: Boolean,
     diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics,
     progress: com.example.powerai.core.data.importer.ImportProgress?,
+    rebuildUi: KbRebuildUiState,
     onSelectGroup: (String) -> Unit,
-    onRefreshDiagnostics: () -> Unit,
-    onEdgeAction: (() -> Unit)? = null
+    onRetryImport: () -> Unit,
+    onEdgeAction: (() -> Unit)? = null,
 ) {
     DrawerWrapper(
         title = "数据库原文件",
-        actionLabel = "重扫诊断",
-        onAction = onRefreshDiagnostics,
-        onEdgeAction = onEdgeAction
+        actionLabel = "重试导入",
+        onAction = onRetryImport,
+        onEdgeAction = onEdgeAction,
     ) {
         val normalizedQuery = currentQuery.trim()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -53,18 +55,20 @@ internal fun DatabaseHistoryDrawerContent(
                 DatabaseImportDiagnosticsPanel(
                     diagnostics = diagnostics,
                     progress = progress,
-                    onRefresh = onRefreshDiagnostics
+                    onRefresh = onRetryImport,
                 )
+                KbRebuildBlock(ui = rebuildUi)
             }
 
             when {
                 isLoading && groups.isEmpty() -> {
                     item(key = "drawer_loading") {
                         Box(
-                            modifier = Modifier
-                                .fillParentMaxWidth()
-                                .padding(vertical = 40.dp),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .fillParentMaxWidth()
+                                    .padding(vertical = 40.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
                             androidx.compose.material3.CircularProgressIndicator()
                         }
@@ -74,10 +78,11 @@ internal fun DatabaseHistoryDrawerContent(
                 groups.isEmpty() -> {
                     item(key = "drawer_empty") {
                         Box(
-                            modifier = Modifier
-                                .fillParentMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 32.dp),
-                            contentAlignment = Alignment.Center
+                            modifier =
+                                Modifier
+                                    .fillParentMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 32.dp),
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(text = "暂无原始文件", color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
@@ -86,103 +91,14 @@ internal fun DatabaseHistoryDrawerContent(
 
                 else -> {
                     item(key = "drawer_directory_intro") {
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 6.dp),
-                            shape = RoundedCornerShape(20.dp),
-                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
-                            ) {
-                                Text(
-                                    text = "原始文件目录",
-                                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = if (normalizedQuery.isBlank()) {
-                                        "${groups.size} 份原始文件，点击可快速展开并定位对应词条组"
-                                    } else {
-                                        "目录：${groups.size} 份原始文件；当前关键词「${normalizedQuery}」下点击文件会先退出搜索再定位"
-                                    },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
+                        DatabaseDirectoryIntro(
+                            groupCount = groups.size,
+                            normalizedQuery = normalizedQuery,
+                        )
                     }
 
                     items(groups, key = { it.key }) { group ->
-                        Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp, vertical = 6.dp)
-                                .clip(RoundedCornerShape(18.dp))
-                                .clickable { onSelectGroup(group.key) },
-                            shape = RoundedCornerShape(18.dp),
-                            color = MaterialTheme.colorScheme.surface,
-                            tonalElevation = 1.dp,
-                            shadowElevation = 0.dp
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.Top,
-                                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .size(32.dp)
-                                            .clip(RoundedCornerShape(10.dp))
-                                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Description,
-                                            contentDescription = null,
-                                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                    Column(
-                                        modifier = Modifier.weight(1f),
-                                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                                    ) {
-                                        Text(
-                                            text = group.fileName.ifBlank { "未命名文" },
-                                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
-                                            maxLines = 2,
-                                            overflow = TextOverflow.Ellipsis,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                        Text(
-                                            text = buildString {
-                                                append("命中 ${group.rows.size} ")
-                                                append(" · 关联截图 ${group.totalImages} ")
-                                            },
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = Color(0xFF7A5C00)
-                                        )
-                                    }
-                                }
-
-                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
-
-                                Text(
-                                    text = buildString {
-                                        append("总条文 ${group.totalRowsCount} 条")
-                                        append(" · 总截图 ${group.totalImageCount} 张")
-                                    },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
+                        DatabaseGroupCard(group = group, onClick = { onSelectGroup(group.key) })
                     }
                 }
             }
@@ -190,6 +106,120 @@ internal fun DatabaseHistoryDrawerContent(
             item(key = "drawer_bottom_spacer") {
                 Box(modifier = Modifier.height(20.dp))
             }
+        }
+    }
+}
+
+@Composable
+private fun DatabaseDirectoryIntro(
+    groupCount: Int,
+    normalizedQuery: String,
+) {
+    Surface(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Text(
+                text = "原始文件目录",
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Text(
+                text =
+                    if (normalizedQuery.isBlank()) {
+                        "$groupCount 份原始文件，点击可快速展开并定位对应词条组"
+                    } else {
+                        "目录：$groupCount 份原始文件；当前关键词「$normalizedQuery」下点击文件会先退出搜索再定位"
+                    },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DatabaseGroupCard(
+    group: DatabaseFileGroup,
+    onClick: () -> Unit,
+) {
+    Surface(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 6.dp)
+                .clip(RoundedCornerShape(18.dp))
+                .clickable(onClick = onClick),
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 1.dp,
+        shadowElevation = 0.dp,
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Box(
+                    modifier =
+                        Modifier
+                            .size(32.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Description,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    Text(
+                        text = group.fileName.ifBlank { "未命名文" },
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Text(
+                        text =
+                            buildString {
+                                append("命中 ${group.rows.size} ")
+                                append(" · 关联截图 ${group.totalImages} ")
+                            },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF7A5C00),
+                    )
+                }
+            }
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+
+            Text(
+                text =
+                    buildString {
+                        append("总条文 ${group.totalRowsCount} 条")
+                        append(" · 总截图 ${group.totalImageCount} 张")
+                    },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

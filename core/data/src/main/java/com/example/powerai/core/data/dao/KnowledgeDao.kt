@@ -181,6 +181,18 @@ interface KnowledgeDao {
     @Query("DELETE FROM knowledge WHERE packageId = :packageId")
     suspend fun deleteByPackageId(packageId: String): Int
 
+    /**
+     * Delete every knowledge row. Reserved for an explicit, user-confirmed rebuild: pre-migration
+     * rows carry `packageId = NULL` and cannot be told apart from manual imports, so only the user
+     * deciding to rebuild may invoke this. `knowledge_fts` is content-synced with these rows.
+     */
+    @Query("DELETE FROM knowledge")
+    suspend fun deleteAllKnowledge(): Int
+
+    /** Delete every imported-file marker; used together with [deleteAllKnowledge] on rebuild. */
+    @Query("DELETE FROM imported_files")
+    suspend fun deleteAllImportedFiles(): Int
+
     @Query("SELECT * FROM imported_files ORDER BY timestamp DESC")
     suspend fun getImportedFiles(): List<ImportedFileEntity>
 

@@ -237,6 +237,11 @@ class HybridRetrievalServiceTest {
             override suspend fun getImportedFile(fileId: String): ImportedFileEntity? = null
 
             override suspend fun deleteByPackageId(packageId: String): Int = 0
+
+            override suspend fun deleteAllKnowledge(): Int = 0
+
+            override suspend fun deleteAllImportedFiles(): Int = 0
+
             override suspend fun countByPage(fileId: String, page: Int): Int = 0
             override suspend fun getByPage(fileId: String, page: Int): List<com.example.powerai.core.data.entity.KnowledgeEntity> = emptyList()
         }

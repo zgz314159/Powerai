@@ -57,3 +57,10 @@ cpp_space_around_assignment_operator=insert
 cpp_space_pointer_reference_alignment=left
 cpp_space_around_ternary_operator=insert
 cpp_wrap_preserve_blocks=one_liners
+
+[*.{kt,kts}]
+# Compose composables are PascalCase by Android convention; keep ktlint's
+# function-naming rule live for snake_case/kebab/dotted names without flagging
+# every @Composable (mirrors the detekt FunctionNaming widening).
+ktlint_function_naming_ignore_when_annotated_with = Composable
+
