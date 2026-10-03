@@ -174,6 +174,13 @@ interface KnowledgeDao {
     @Query("SELECT status FROM imported_files WHERE fileId = :fileId LIMIT 1")
     suspend fun getImportedFileStatus(fileId: String): String?
 
+    @Query("SELECT * FROM imported_files WHERE fileId = :fileId LIMIT 1")
+    suspend fun getImportedFile(fileId: String): ImportedFileEntity?
+
+    /** Delete only the rows owned by one KB asset package; user rows (null packageId) are safe. */
+    @Query("DELETE FROM knowledge WHERE packageId = :packageId")
+    suspend fun deleteByPackageId(packageId: String): Int
+
     @Query("SELECT * FROM imported_files ORDER BY timestamp DESC")
     suspend fun getImportedFiles(): List<ImportedFileEntity>
 

@@ -50,5 +50,13 @@ data class KnowledgeEntity(
      * Timestamp (epoch ms) when this entity was last indexed.
      */
     @ColumnInfo(name = "indexed_at")
-    val indexedAt: Long = 0L
+    val indexedAt: Long = 0L,
+
+    /**
+     * Owning built-in KB package id (`sha256("asset:$assetPath")`) for rows written by the asset
+     * importer. Null for user-imported rows and for pre-migration (legacy) rows; such rows are
+     * never deleted by a package replacement.
+     */
+    @ColumnInfo(name = "packageId")
+    val packageId: String? = null
 )

@@ -24,6 +24,7 @@ internal class EntityBuilder {
     var imageUris: String? = null
     var category: String = ""
     var keywordsSerialized: String = ""
+    var packageId: String? = null
 
     fun toEntity(): KnowledgeEntity {
         return KnowledgeEntity(
@@ -38,7 +39,8 @@ internal class EntityBuilder {
             bboxJson = bboxJson,
             imageUris = imageUris,
             category = category,
-            keywordsSerialized = keywordsSerialized
+            keywordsSerialized = keywordsSerialized,
+            packageId = packageId
         )
     }
 
@@ -55,6 +57,7 @@ internal class EntityBuilder {
         imageUris = null
         category = ""
         keywordsSerialized = ""
+        packageId = null
     }
 }
 

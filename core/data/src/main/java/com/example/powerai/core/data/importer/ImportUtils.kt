@@ -1,5 +1,6 @@
 package com.example.powerai.core.data.importer
 
+import java.io.InputStream
 import java.nio.ByteBuffer
 import java.security.MessageDigest
 
@@ -36,5 +37,61 @@ object ImportUtils {
             val h = input.hashCode()
             String.format("%08x", h)
         }
+    }
+
+    /** Hex SHA-256 of raw bytes. */
+    fun sha256Hex(bytes: ByteArray): String {
+        return try {
+            MessageDigest.getInstance("SHA-256").digest(bytes)
+                .joinToString("") { "%02x".format(it) }
+        } catch (_: Throwable) {
+            String.format("%08x", bytes.contentHashCode())
+        }
+    }
+
+    /**
+     * Streaming hex SHA-256 of an [InputStream] (constant memory).
+     *
+     * Returns "" when the stream cannot be read or the digest is unavailable. Callers must treat
+     * an empty result as "unknown" and never as a match for a stored fingerprint.
+     */
+    fun sha256Hex(inputStream: InputStream): String {
+        return try {
+            val digest = MessageDigest.getInstance("SHA-256")
+            val buffer = ByteArray(HASH_BUFFER_BYTES)
+            while (true) {
+                val read = inputStream.read(buffer)
+                if (read < 0) break
+                if (read > 0) digest.update(buffer, 0, read)
+            }
+            sha256Hex(digest.digest())
+        } catch (_: Throwable) {
+            ""
+        }
+    }
+
+    private const val HASH_BUFFER_BYTES = 8192
+}
+
+/**
+ * Forwards reads to [delegate] but ignores [close]. The streaming parser closes its reader when it
+ * finishes; keeping the underlying (hashing) stream open lets the caller drain any bytes the parser
+ * did not consume, so the fingerprint covers the whole file in a single pass.
+ */
+class NonClosingInputStream(
+    private val delegate: InputStream,
+) : InputStream() {
+    override fun read(): Int = delegate.read()
+
+    override fun read(
+        b: ByteArray,
+        off: Int,
+        len: Int,
+    ): Int = delegate.read(b, off, len)
+
+    override fun available(): Int = delegate.available()
+
+    override fun close() {
+        // Intentionally no-op; the owner closes the underlying stream.
     }
 }

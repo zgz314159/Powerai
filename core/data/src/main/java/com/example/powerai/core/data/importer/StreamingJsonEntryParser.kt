@@ -49,6 +49,7 @@ internal object StreamingJsonEntryParser {
         builder.imageUris = entity.imageUris
         builder.category = entity.category
         builder.keywordsSerialized = entity.keywordsSerialized
+        builder.packageId = entity.packageId
 
         return true
     }

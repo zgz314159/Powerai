@@ -66,6 +66,7 @@ internal class StreamingJsonBatchWriter(
             this.imageUris = e.imageUris
             this.category = e.category
             this.keywordsSerialized = e.keywordsSerialized
+            this.packageId = e.packageId
         })
         if (batchBuilders.size >= batchSize) {
             return flushInternal()
