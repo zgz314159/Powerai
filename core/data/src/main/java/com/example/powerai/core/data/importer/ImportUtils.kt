@@ -39,11 +39,22 @@ object ImportUtils {
         }
     }
 
-    /** Hex SHA-256 of raw bytes; "" when the digest is unavailable (callers treat it as unknown). */
+    /** Lowercase hex encoding of raw bytes, e.g. an already-computed `MessageDigest.digest()`. */
+    fun hex(bytes: ByteArray): String {
+        return try {
+            bytes.joinToString("") { "%02x".format(it) }
+        } catch (_: Throwable) {
+            ""
+        }
+    }
+
+    /**
+     * Hex SHA-256 **of** the given raw [bytes] (it hashes them). "" when the digest is
+     * unavailable (callers treat it as unknown). To encode an already-computed digest use [hex].
+     */
     fun sha256Hex(bytes: ByteArray): String {
         return try {
-            MessageDigest.getInstance("SHA-256").digest(bytes)
-                .joinToString("") { "%02x".format(it) }
+            hex(MessageDigest.getInstance("SHA-256").digest(bytes))
         } catch (_: Throwable) {
             ""
         }
@@ -64,7 +75,8 @@ object ImportUtils {
                 if (read < 0) break
                 if (read > 0) digest.update(buffer, 0, read)
             }
-            sha256Hex(digest.digest())
+            // digest.digest() is already the SHA-256; encode it, do not hash it again.
+            hex(digest.digest())
         } catch (_: Throwable) {
             ""
         }

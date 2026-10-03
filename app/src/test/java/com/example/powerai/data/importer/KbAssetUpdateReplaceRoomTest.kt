@@ -18,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +28,7 @@ import org.mockito.kotlin.whenever
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.ByteArrayInputStream
+import java.security.MessageDigest
 
 /**
  * Same asset path, KB content updated: the production import chain
@@ -217,5 +219,19 @@ class KbAssetUpdateReplaceRoomTest {
             "imported",
             runBlocking { db.knowledgeDao().getImportedFileStatus(ImportUtils.sha256Hex("asset:$atomicPath")) },
         )
+    }
+
+    @Test
+    fun `imported package fingerprint is the single hash of the asset bytes`() {
+        importAll()
+        val fileId = ImportUtils.sha256Hex("asset:$atomicPath")
+        val stored = runBlocking { db.knowledgeDao().getImportedFile(fileId) }?.contentSha256
+        val bytes = versionA().toByteArray(Charsets.UTF_8)
+
+        assertEquals("contentSha256 == SHA-256(asset bytes)", ImportUtils.sha256Hex(bytes), stored)
+
+        // Guard against the double-hash regression: hashing the digest again must not match.
+        val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
+        assertNotEquals("must not be SHA-256(SHA-256(file))", ImportUtils.sha256Hex(digest), stored)
     }
 }

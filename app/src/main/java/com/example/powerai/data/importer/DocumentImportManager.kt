@@ -239,7 +239,8 @@ class DocumentImportManager
                     while (hashing.read(buffer) >= 0) {
                         // drain
                     }
-                    contentSha = ImportUtils.sha256Hex(digest.digest())
+                    // digest.digest() is already the SHA-256 over the whole file; only hex-encode it.
+                    contentSha = ImportUtils.hex(digest.digest())
                 }
                 dao.insertImportedFile(
                     ImportedFileEntity(
