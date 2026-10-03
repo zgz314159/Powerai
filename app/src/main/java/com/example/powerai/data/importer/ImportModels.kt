@@ -1,15 +1,5 @@
 package com.example.powerai.data.importer
 
-data class ImportProgress(
-    val fileId: String,
-    val fileName: String,
-    val totalItems: Long?,
-    val importedItems: Long,
-    val percent: Int,
-    val status: String,
-    val message: String? = null
-)
-
 data class AssetImportDiagnosticEntry(
     val assetPath: String,
     val fileId: String,

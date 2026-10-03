@@ -3,6 +3,7 @@ package com.example.powerai.data.importer
 import android.content.ContentResolver
 import android.net.Uri
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportDefaults
 
 /**
  * Generic interface for parsing a URI into batches of [[KnowledgeEntity]] objects.

@@ -1,7 +1,7 @@
 package com.example.powerai.ui.jsonrepo
 
 import androidx.lifecycle.viewModelScope
-import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.json.JsonEntry
 import com.example.powerai.data.json.JsonKnowledgeFile
 import com.example.powerai.data.json.JsonRepository

@@ -3,13 +3,14 @@ package com.example.powerai.data.json
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportDefaults
+import com.example.powerai.core.data.importer.ImportProgress
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.data.export.ExportUtils
 import com.example.powerai.data.importer.DocxParser
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.data.importer.PdfParser
-import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.data.importer.TxtParser
-import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -168,7 +169,12 @@ class JsonRepository @Inject constructor(private val context: Context) {
         return File.createTempFile("import_${safe}_", ".tmp", dir)
     }
 
-    suspend fun importUri(uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE) = withContext(Dispatchers.IO) {
+    suspend fun importUri(
+        uri: Uri,
+        contentResolver: ContentResolver,
+        displayName: String,
+        batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE,
+    ) = withContext(Dispatchers.IO) {
         try {
             val temp = tempFileFor(displayName)
             val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(temp), Charsets.UTF_8))

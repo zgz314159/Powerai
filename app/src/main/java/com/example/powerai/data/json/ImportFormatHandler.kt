@@ -2,12 +2,11 @@ package com.example.powerai.data.json
 
 import android.content.ContentResolver
 import android.net.Uri
+import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.DocxParser
-import com.example.powerai.data.importer.ImportDefaults
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.data.importer.PdfParser
 import com.example.powerai.data.importer.TxtParser
-import com.example.powerai.core.data.entity.KnowledgeEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**

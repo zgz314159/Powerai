@@ -1,10 +1,9 @@
 package com.example.powerai.data.importer
 
-import com.example.powerai.core.model.util.TextSanitizer
-
 import android.content.ContentResolver
 import android.net.Uri
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.model.util.TextSanitizer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
@@ -21,7 +20,7 @@ class PdfParser(private val contentResolver: ContentResolver) : FileParser {
     suspend fun parse(
         uri: Uri,
         fileName: String,
-        batchSize: Int = com.example.powerai.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
+        batchSize: Int = com.example.powerai.core.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
         onProgressPages: (page: Int, totalPages: Int) -> Unit = { _, _ -> }
     ): String = withContext(Dispatchers.IO) {

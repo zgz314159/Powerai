@@ -54,4 +54,8 @@ dependencies {
     // Hilt
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
+
+    // The JSON KB import core lives here; its direct unit tests are JVM-only.
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

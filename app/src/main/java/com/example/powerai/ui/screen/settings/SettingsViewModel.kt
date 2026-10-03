@@ -1,11 +1,10 @@
 package com.example.powerai.ui.screen.settings
 
-import com.example.powerai.core.data.dao.KnowledgeDao
-
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import com.example.powerai.data.importer.ImportProgress
+import com.example.powerai.core.data.dao.KnowledgeDao
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.data.json.JsonRepository
 import com.example.powerai.data.settings.FontSettings
@@ -13,11 +12,11 @@ import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
 data class PdfImportDiagnostics(

@@ -3,6 +3,10 @@ package com.example.powerai.data.importer
 import android.content.Context
 import android.net.Uri
 import com.example.powerai.core.data.dao.KnowledgeDao
+import com.example.powerai.core.data.importer.ImportDefaults
+import com.example.powerai.core.data.importer.ImportProgress
+import com.example.powerai.core.data.importer.ImportUtils
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.repository.KnowledgeRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

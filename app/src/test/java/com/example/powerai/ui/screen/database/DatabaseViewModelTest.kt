@@ -1,17 +1,17 @@
 package com.example.powerai.ui.screen.database
 
 import androidx.lifecycle.SavedStateHandle
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.domain.usecase.DatabaseUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before

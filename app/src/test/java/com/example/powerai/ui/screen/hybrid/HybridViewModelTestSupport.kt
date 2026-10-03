@@ -3,11 +3,11 @@ package com.example.powerai.ui.screen.hybrid
 import android.content.SharedPreferences
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.data.settings.LocalAnswerFeedbackStore
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope

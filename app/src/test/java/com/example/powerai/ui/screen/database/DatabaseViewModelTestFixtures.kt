@@ -2,13 +2,13 @@ package com.example.powerai.ui.screen.database
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.ImportedFile
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.LocalHighlightTarget
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.domain.repository.SearchHistoryRepository

@@ -41,9 +41,9 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | Compose UI、ViewModel、导航、Hilt 装配、Room 与 importer |
+| `:app` | Compose UI、ViewModel、导航、Hilt 装配、导入编排（`DocumentImportManager`）、资产扫描、SAF/URI 入口与 importer 装配 |
 | `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类 |
-| `:core:data` | `KnowledgeEntity`、仓储实现与本地检索 |
+| `:core:data` | `KnowledgeEntity`、仓储实现、本地检索与 JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
 | `:feature:search-chat` | 搜索与对话功能域 |
@@ -123,3 +123,4 @@
 | 2026-10-03 | KB 导入原子性：`DocumentImportManager.importAssetsIfNeed` 将单文件导入（含 FTS 重建与 imported 标记）包进 `dao.runInTransaction`，失败/取消整体回滚；`StreamingJsonResourceImporter` 失败改为向调用方抛出而非吞成 failed 进度。新增 Room 生产链 `KbImportAtomicityRoomTest`（有效首次 / 两批后尾部失败 / 取消 / 同 fileId 重试 / 旧同 fileId 数据与无关 KB 保护）；仓库外完整 KB 经 manager 链读回 48/839/48 与第 29/32 页表格目标不变 |
 | 2026-10-03 | KB 导入不静默部分成功：移除 `StreamingJsonResourceImporter` 数组根/对象根 entry 循环里吞掉 `elemEx` 后继续的 `catch`，并移除 `dao.rebuildFts()` 的非取消吞错——单条 entry 解析/映射/批写与 FTS 重建失败改为抛出，由 PR #20 的单文件事务回滚；非对象 entry 视为无效失败而非无声跳过；重复 entry 保持既有去重跳过（测试明确）。`KbImportAtomicityRoomTest` 扩到 11/11；仓库外完整 KB 经 manager 链读回 48/839/48、第 29/32 页表格目标不变 |
 | 2026-10-03 | Smart/DeepSeek 生成停止闭环：`DeepSeekViewModel.isRunActive` 由恒 `true` 改为按接口顺序委托 `DeepSeekSessionManager.isRunActive(runToken, sessionId)`；`abortGeneration` 取消 generation job 并调用 `engine.stopGeneration()`，置 `STOPPING→CANCELLED`；`generateGroundedAnswer` 在 `prepareForNextGeneration` 之后mint runToken；编排器异常路径在运行已失效时归类为取消而非「推理失败」，并确保流式 collector 在所有退出路径被取消。UI「停止生成」按钮显隐改为 `canAbortGeneration`（进行中生成才可见）。`DeepSeekGenerationStopTest` 8/8（真实 ViewModel+编排器+SessionManager+fake engine）；未改推理算法/提示词/模型路径 |
+| 2026-10-03 | KB 导入核心归属 `:core:data`：`StreamingJsonResourceImporter` 及其解析/映射/批写、`JsonResourceParser`、`JsonEntryMapper`、`ImportUtils`/`ImportDefaults`/`ImportProgress`、`MarkdownTableNormalizer`/`MarkdownTableUtils`、`MemoryKnowledgeDao` 迁入 `core/data/importer`；`:app` 保留 `DocumentImportManager`、资产扫描与 SAF/URI 适配。直测随迁入 `:core:data`，Room/app 编排集成测留在 `:app`；无反向依赖、无双重生产入口；仓库外 103号 KB 读回迁移前后逐字节一致（135 entries / 148 blocks / 135 FTS） |

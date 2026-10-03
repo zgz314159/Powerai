@@ -1,7 +1,7 @@
 package com.example.powerai.ui.screen.hybrid
 
+import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.data.importer.ImportProgress
 import com.example.powerai.domain.usecase.HybridHistoryUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow

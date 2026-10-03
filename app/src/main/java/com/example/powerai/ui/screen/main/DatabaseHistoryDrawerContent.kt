@@ -1,6 +1,4 @@
 package com.example.powerai.ui.screen.main
-import com.example.powerai.domain.model.DatabaseFileGroup
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.Icon
+import com.example.powerai.domain.model.DatabaseFileGroup
 
 @Composable
 internal fun DatabaseHistoryDrawerContent(
@@ -37,7 +36,7 @@ internal fun DatabaseHistoryDrawerContent(
     currentQuery: String,
     isLoading: Boolean,
     diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics,
-    progress: com.example.powerai.data.importer.ImportProgress?,
+    progress: com.example.powerai.core.data.importer.ImportProgress?,
     onSelectGroup: (String) -> Unit,
     onRefreshDiagnostics: () -> Unit,
     onEdgeAction: (() -> Unit)? = null

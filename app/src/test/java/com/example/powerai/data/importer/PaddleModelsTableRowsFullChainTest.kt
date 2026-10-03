@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.model.TableBlock
 import com.example.powerai.ui.blocks.BlocksParser
 import com.example.powerai.ui.screen.pdf.parsePdfBoundingBoxOrNull

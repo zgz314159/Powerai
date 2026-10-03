@@ -33,7 +33,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          ./gradlew :app:ktlintMainSourceSetCheck :app:compileDebugKotlin :app:testDebugUnitTest --no-daemon --warning-mode all
+          ./gradlew :app:ktlintMainSourceSetCheck :app:compileDebugKotlin :core:data:compileDebugKotlin :app:testDebugUnitTest :core:data:testDebugUnitTest --no-daemon --warning-mode all
 
   quality:
     name: Quality Guardrails

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.example.powerai.data.importer.MarkdownTableNormalizer
+import com.example.powerai.core.data.importer.MarkdownTableNormalizer
 import com.example.powerai.util.MarkwonHelper
 
 private fun hasBalancedBraces(input: String): Boolean {

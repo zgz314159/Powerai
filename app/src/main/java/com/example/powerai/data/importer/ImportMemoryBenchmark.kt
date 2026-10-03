@@ -1,5 +1,6 @@
 package com.example.powerai.data.importer
 
+import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.util.PLog
 import java.io.File
 import java.io.FileInputStream
