@@ -66,6 +66,7 @@ android {
         }
 
         fun prop(name: String): String = propOne(name)
+
         fun q(value: String): String = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
 
         val aiBaseUrl = propAny("AI_BASE_URL", "OPENAI_BASE_URL", "DEEPSEEK_BASE_URL")
@@ -108,7 +109,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             // Ensure release build is not debuggable by default
             signingConfig = signingConfigs.getByName("debug") // Use debug key for now as placeholder
@@ -204,6 +205,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.androidx.work.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
