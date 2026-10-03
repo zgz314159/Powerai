@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.ObservabilityService
@@ -108,8 +109,7 @@ class KbAssetUpdateReplaceRoomTest {
         title: String,
         position: Int,
         text: String,
-    ): String =
-        """{"entryId":"$id","jobTitle":"$title","position":$position,"contentMarkdown":"$text"}"""
+    ): String = """{"entryId":"$id","jobTitle":"$title","position":$position,"contentMarkdown":"$text"}"""
 
     private fun kb(vararg entries: String): String =
         """{"fileMetadata":{"schemaVersion":"2.0","fileId":"doc","docSha256":"$sha",""" +
@@ -132,8 +132,7 @@ class KbAssetUpdateReplaceRoomTest {
         )
 
     /** A different package that declares the SAME source/docSha256 as atomic. */
-    private fun otherKb(): String =
-        kb(entry("o1", "other alpha", 1, "other alpha body"))
+    private fun otherKb(): String = kb(entry("o1", "other alpha", 1, "other alpha body"))
 
     private fun importAll() = runBlocking { manager.importAssetsIfNeed("kb") }
 
@@ -141,8 +140,7 @@ class KbAssetUpdateReplaceRoomTest {
 
     private fun ftsCount(): Int = runBlocking { db.knowledgeDao().countFts() }
 
-    private fun ftsHits(match: String): List<KnowledgeEntity> =
-        runBlocking { db.knowledgeDao().searchByFts(match) }
+    private fun ftsHits(match: String): List<KnowledgeEntity> = runBlocking { db.knowledgeDao().searchByFts(match) }
 
     private fun titles(): List<String> = rows().map { it.title }
 
@@ -186,5 +184,38 @@ class KbAssetUpdateReplaceRoomTest {
         assertEquals("other id unchanged", otherBefore?.id, otherAfter?.id)
         assertEquals("other content unchanged", otherBefore?.content, otherAfter?.content)
         assertEquals("other source unchanged", otherBefore?.source, otherAfter?.source)
+    }
+
+    /** Delegates to the real Room DAO (and its transaction) while counting package deletes. */
+    private class CountingDeleteDao(
+        private val delegate: KnowledgeDao,
+    ) : KnowledgeDao by delegate {
+        var packageDeletes = 0
+
+        override suspend fun deleteByPackageId(packageId: String): Int {
+            packageDeletes++
+            return delegate.deleteByPackageId(packageId)
+        }
+    }
+
+    @Test
+    fun `unchanged content is skipped without writes or package deletes`() {
+        importAll()
+        val rowsBefore = rows().map { it.id to it.content }
+        val ftsBefore = ftsCount()
+
+        // Second run with identical bytes, on a DAO that records package deletes.
+        val spy = CountingDeleteDao(db.knowledgeDao())
+        manager = buildManager(spy)
+        importAll()
+
+        assertEquals("rows unchanged", rowsBefore, rows().map { it.id to it.content })
+        assertEquals("fts unchanged", ftsBefore, ftsCount())
+        assertEquals("no package delete when unchanged", 0, spy.packageDeletes)
+        assertEquals(
+            "imported marker intact",
+            "imported",
+            runBlocking { db.knowledgeDao().getImportedFileStatus(ImportUtils.sha256Hex("asset:$atomicPath")) },
+        )
     }
 }
