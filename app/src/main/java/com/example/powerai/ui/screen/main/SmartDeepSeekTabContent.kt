@@ -105,7 +105,7 @@ internal fun SmartDeepSeekTabContent(
                             progressState = deepState.progressState,
                             askedAtMillis = deepState.askedAtMillis,
                             thinkingPreview = deepState.thinkingPreview,
-                            showAbort = deepState.isLoading,
+                            showAbort = deepState.canAbortGeneration,
                             onAbort = deepSeekViewModel::abortGeneration,
                             modifier = Modifier.fillMaxWidth()
                         )
