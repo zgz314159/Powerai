@@ -15,5 +15,5 @@ data class ImportedFileEntity(
      * therefore cannot be proven unchanged and are never auto-replaced.
      */
     @ColumnInfo(name = "contentSha256", defaultValue = "")
-    val contentSha256: String = ""
+    val contentSha256: String = "",
 )

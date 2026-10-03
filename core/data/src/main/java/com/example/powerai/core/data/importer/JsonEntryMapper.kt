@@ -125,8 +125,7 @@ object JsonEntryMapper {
             bboxJson = bboxJson,
             imageUris = imageUrisJson,
             category = e.unitName.orEmpty().ifBlank { "未分" },
-            keywordsSerialized = keywordsSerialized,
-            packageId = metadata.fileId.takeIf { it.isNotBlank() }
+            keywordsSerialized = keywordsSerialized, packageId = metadata.fileId.takeIf { it.isNotBlank() },
         )
     }
 }

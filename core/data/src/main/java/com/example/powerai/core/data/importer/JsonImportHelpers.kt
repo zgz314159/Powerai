@@ -40,7 +40,7 @@ internal class EntityBuilder {
             imageUris = imageUris,
             category = category,
             keywordsSerialized = keywordsSerialized,
-            packageId = packageId
+            packageId = packageId,
         )
     }
 

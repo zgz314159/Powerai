@@ -6,5 +6,5 @@ data class ImportedFile(
     val timestamp: Long,
     val status: String,
     /** SHA-256 of the imported source bytes; empty for pre-migration (legacy) imports. */
-    val contentSha256: String = ""
+    val contentSha256: String = "",
 )

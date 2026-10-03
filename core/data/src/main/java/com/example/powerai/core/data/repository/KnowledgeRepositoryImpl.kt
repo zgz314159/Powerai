@@ -109,7 +109,7 @@ class KnowledgeRepositoryImpl @Inject constructor(
                 fileName = it.fileName,
                 timestamp = it.timestamp,
                 status = it.status,
-                contentSha256 = it.contentSha256
+                contentSha256 = it.contentSha256,
             )
         }
     }

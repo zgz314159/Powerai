@@ -39,13 +39,13 @@ object ImportUtils {
         }
     }
 
-    /** Hex SHA-256 of raw bytes. */
+    /** Hex SHA-256 of raw bytes; "" when the digest is unavailable (callers treat it as unknown). */
     fun sha256Hex(bytes: ByteArray): String {
         return try {
             MessageDigest.getInstance("SHA-256").digest(bytes)
                 .joinToString("") { "%02x".format(it) }
         } catch (_: Throwable) {
-            String.format("%08x", bytes.contentHashCode())
+            ""
         }
     }
 

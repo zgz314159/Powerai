@@ -46,12 +46,14 @@ object DatabaseModule {
 
     // Additive only: package attribution for KB rows + a content fingerprint for imported files.
     // Existing rows keep packageId = NULL and contentSha256 = '' (legacy; never auto-replaced).
-    private val MIGRATION_5_6: Migration = object : Migration(5, 6) {
-        override fun migrate(db: SupportSQLiteDatabase) {
-            db.execSQL("ALTER TABLE `knowledge` ADD COLUMN `packageId` TEXT")
-            db.execSQL("ALTER TABLE `imported_files` ADD COLUMN `contentSha256` TEXT NOT NULL DEFAULT ''")
+    @Suppress("MagicNumber")
+    val MIGRATION_5_6: Migration =
+        object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `knowledge` ADD COLUMN `packageId` TEXT")
+                db.execSQL("ALTER TABLE `imported_files` ADD COLUMN `contentSha256` TEXT NOT NULL DEFAULT ''")
+            }
         }
-    }
 
     @Provides
     fun provideKnowledgeDao(db: AppDatabase): KnowledgeDao = db.knowledgeDao()
