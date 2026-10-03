@@ -41,6 +41,10 @@ class StreamingJsonBatchWriterTest {
         override suspend fun insertImportedFile(file: ImportedFileEntity) {}
         override suspend fun importedFileExists(fileId: String): Int = 0
         override suspend fun getImportedFileStatus(fileId: String): String? = null
+
+        override suspend fun getImportedFile(fileId: String): ImportedFileEntity? = null
+
+        override suspend fun deleteByPackageId(packageId: String): Int = 0
         override suspend fun getImportedFiles(): List<ImportedFileEntity> = emptyList()
         override suspend fun countByPage(fileId: String, page: Int): Int = 0
         override suspend fun getByPage(fileId: String, page: Int): List<KnowledgeEntity> = emptyList()

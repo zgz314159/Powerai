@@ -182,6 +182,14 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getImportedFileStatus(fileId: String): String? = null
 
+    override suspend fun getImportedFile(fileId: String): ImportedFileEntity? = null
+
+    override suspend fun deleteByPackageId(packageId: String): Int {
+        val before = list.size
+        list.removeAll { it.packageId == packageId }
+        return before - list.size
+    }
+
     override suspend fun getImportedFiles(): List<ImportedFileEntity> = emptyList()
 
     override suspend fun countByPage(fileId: String, page: Int): Int =

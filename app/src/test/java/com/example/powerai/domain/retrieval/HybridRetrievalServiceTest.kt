@@ -233,6 +233,10 @@ class HybridRetrievalServiceTest {
             override suspend fun searchByKeywordNoSpaceInContentForDatabase(keywordNoSpace: String) = emptyList<com.example.powerai.core.data.entity.KnowledgeListItemEntity>()
             override suspend fun getLargestKnowledgeRows(limit: Int) = emptyList<com.example.powerai.core.data.entity.KnowledgeRowPayloadStat>()
             override suspend fun getImportedFileStatus(fileId: String): String? = null
+
+            override suspend fun getImportedFile(fileId: String): ImportedFileEntity? = null
+
+            override suspend fun deleteByPackageId(packageId: String): Int = 0
             override suspend fun countByPage(fileId: String, page: Int): Int = 0
             override suspend fun getByPage(fileId: String, page: Int): List<com.example.powerai.core.data.entity.KnowledgeEntity> = emptyList()
         }
