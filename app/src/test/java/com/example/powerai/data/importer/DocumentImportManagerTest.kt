@@ -2,22 +2,27 @@ package com.example.powerai.data.importer
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.AssetManager
 import android.net.Uri
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.model.ObservabilityService
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import java.io.InputStream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DocumentImportManagerTest {
@@ -82,5 +87,32 @@ class DocumentImportManagerTest {
         val last = manager.progress.value
         assertEquals("imported", last?.status)
         assertEquals("file123", last?.fileId)
+    }
+
+    @Test
+    fun `importAssetsIfNeed propagates cancellation without marking the file`() =
+        runTest {
+            manager = DocumentImportManager(context, repo, dao, scanner, observability, this)
+            whenever(scanner.listAssetFilesRecursive("kb")).thenReturn(listOf("kb/knowledge_base.json"))
+            whenever(scanner.shouldImportAssetJson("kb/knowledge_base.json")).thenReturn(true)
+            whenever(scanner.assetDisplayName("kb/knowledge_base.json")).thenReturn("kb")
+            whenever(dao.getImportedFileStatus(any())).thenReturn(null)
+            val assets = mock<AssetManager>()
+            whenever(context.assets).thenReturn(assets)
+            whenever(assets.open("kb/knowledge_base.json")).thenReturn(CancellingInputStream())
+
+            var cancelled = false
+            try {
+                manager.importAssetsIfNeed()
+            } catch (c: CancellationException) {
+                cancelled = true
+            }
+
+            assertTrue("cancellation must propagate from importAssetsIfNeed", cancelled)
+            verify(repo, never()).markFileImported(any(), any(), any(), any())
+        }
+
+    private class CancellingInputStream : InputStream() {
+        override fun read(): Int = throw CancellationException("cancelled mid-import")
     }
 }

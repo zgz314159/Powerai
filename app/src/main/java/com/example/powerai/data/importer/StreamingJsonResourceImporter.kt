@@ -12,6 +12,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -116,10 +117,16 @@ class StreamingJsonResourceImporter(
 
                 try {
                     dao.rebuildFts()
+                } catch (c: CancellationException) {
+                    throw c
                 } catch (_: Throwable) {
                 }
 
                 emit(importedProgress(fallbackFileName, fallbackFileId, importedSoFar, "imported"))
+            } catch (c: CancellationException) {
+                // Cancellation must propagate: swallowing it here would let the caller
+                // record a successful import for an aborted run.
+                throw c
             } catch (e: Exception) {
                 // use provided trace callback for diagnostics instead of android.util.Log
                 val msg =
@@ -179,6 +186,8 @@ class StreamingJsonResourceImporter(
                 val el: JsonElement = JsonParser().parse(jsonReader)
                 val obj = (if (el.isJsonObject) el.asJsonObject else null) ?: continue
                 imported = writeEntry(this, obj, fallbackMeta, imported, context)
+            } catch (c: CancellationException) {
+                throw c
             } catch (elemEx: Throwable) {
                 try {
                     trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}")
@@ -190,7 +199,12 @@ class StreamingJsonResourceImporter(
         return imported
     }
 
-    /** Stream a top-level `{ "entries": [...] }` object, returning the number of rows written. */
+    /**
+     * Stream a top-level object root (`{"fileMetadata":…,"entries":[…]}` or the legacy
+     * `{"entries":[…]}`) one field / one entry at a time, so entries are never materialised as
+     * a whole. Unknown root fields are skipped; the KB-declared `fileMetadata.source` is applied
+     * to every entry that has no source of its own.
+     */
     private suspend fun FlowCollector<ImportProgress>.streamObject(
         jsonReader: JsonReader,
         batchWriter: StreamingJsonBatchWriter,
@@ -198,41 +212,110 @@ class StreamingJsonResourceImporter(
         fallbackFileId: String?,
         trace: ((String) -> Unit)?,
     ): Long {
-        val rootEl = JsonParser().parse(jsonReader)
-        if (!rootEl.isJsonObject || !rootEl.asJsonObject.has("entries")) return 0L
-        val arr = rootEl.asJsonObject.getAsJsonArray("entries")
-        // KB-declared source (e.g. "pdf:{sha256}::{name}") must survive import.
-        val fallbackMeta =
-            JsonResourceParser.FileMetadata(
-                fileName = fallbackFileName.orEmpty(),
-                fileId = fallbackFileId.orEmpty(),
-                source = declaredSourceOf(rootEl.asJsonObject),
-            )
+        jsonReader.beginObject()
         val context = StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId)
+        val fallbackSourceValue = fallbackFileId?.takeIf { it.isNotBlank() } ?: fallbackFileName.orEmpty()
+        var declaredSource: String? = null
+        var metadataSeen = false
+        var entriesSeenBeforeMetadata = false
         var imported = 0L
-        for (el in arr) {
-            val obj = if (el.isJsonObject) el.asJsonObject else continue
-            try {
-                imported = writeEntry(this, obj, fallbackMeta, imported, context)
-            } catch (elemEx: Throwable) {
-                try {
-                    trace?.invoke("StreamingJsonResourceImporter: element failed: ${'$'}{elemEx.message}")
-                } catch (_: Throwable) {
+        while (jsonReader.hasNext()) {
+            when (jsonReader.nextName()) {
+                "fileMetadata" -> {
+                    declaredSource = readDeclaredSource(jsonReader)
+                    metadataSeen = true
+                    // Legacy order: entries were already written with the asset-path fallback;
+                    // flush the pending batch, then re-point them now that the source is known.
+                    val source = declaredSource
+                    if (entriesSeenBeforeMetadata && !source.isNullOrBlank()) {
+                        imported += context.batchWriter.flush()
+                        repointSource(context.seenIds, source, fallbackSourceValue)
+                    }
                 }
-                continue
+                "entries" -> {
+                    if (!metadataSeen) entriesSeenBeforeMetadata = true
+                    val fallbackMeta =
+                        JsonResourceParser.FileMetadata(
+                            fileName = fallbackFileName.orEmpty(),
+                            fileId = fallbackFileId.orEmpty(),
+                            source = declaredSource,
+                        )
+                    imported = streamEntries(jsonReader, fallbackMeta, imported, context, trace)
+                }
+                else -> jsonReader.skipValue()
             }
         }
+        jsonReader.endObject()
         return imported
     }
 
-    private fun declaredSourceOf(root: JsonObject): String? =
-        root
-            .get("fileMetadata")
-            ?.takeIf { it.isJsonObject }
-            ?.asJsonObject
-            ?.get("source")
-            ?.takeIf { it.isJsonPrimitive && it.asJsonPrimitive.isString }
-            ?.asString
+    /** Read entries one element at a time from the enclosing array, flushing batches as usual. */
+    private suspend fun FlowCollector<ImportProgress>.streamEntries(
+        jsonReader: JsonReader,
+        fallbackMeta: JsonResourceParser.FileMetadata,
+        importedSoFar: Long,
+        context: StreamedEntryContext,
+        trace: ((String) -> Unit)?,
+    ): Long {
+        if (jsonReader.peek() != JsonToken.BEGIN_ARRAY) {
+            jsonReader.skipValue()
+            return importedSoFar
+        }
+        jsonReader.beginArray()
+        var imported = importedSoFar
+        while (jsonReader.hasNext()) {
+            try {
+                val el: JsonElement = JsonParser().parse(jsonReader)
+                val obj = if (el.isJsonObject) el.asJsonObject else null
+                if (obj != null) imported = writeEntry(this, obj, fallbackMeta, imported, context)
+            } catch (c: CancellationException) {
+                throw c
+            } catch (elemEx: Throwable) {
+                try {
+                    trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}")
+                } catch (_: Throwable) {
+                }
+            }
+        }
+        jsonReader.endArray()
+        return imported
+    }
+
+    /** Read the KB-declared `source` from a `fileMetadata` object, skipping its other fields. */
+    private fun readDeclaredSource(jsonReader: JsonReader): String? {
+        if (jsonReader.peek() != JsonToken.BEGIN_OBJECT) {
+            jsonReader.skipValue()
+            return null
+        }
+        var source: String? = null
+        jsonReader.beginObject()
+        while (jsonReader.hasNext()) {
+            if (jsonReader.nextName() == "source" && jsonReader.peek() == JsonToken.STRING) {
+                source = jsonReader.nextString()
+            } else {
+                jsonReader.skipValue()
+            }
+        }
+        jsonReader.endObject()
+        return source?.takeIf { it.isNotBlank() }
+    }
+
+    /**
+     * Bounded compatibility for legacy roots that list `entries` before `fileMetadata`: the
+     * declared source is only known after the rows were written, so re-point the rows that fell
+     * back to the asset-path source. Rows with their own entry-level source are left untouched.
+     */
+    private suspend fun repointSource(
+        ids: Set<Long>,
+        declaredSource: String,
+        fallbackSourceValue: String,
+    ) {
+        for (id in ids) {
+            val entity = dao.getById(id) ?: continue
+            if (entity.source != fallbackSourceValue) continue
+            dao.update(entity.copy(source = declaredSource))
+        }
+    }
 
     /** Loop-invariant inputs for [writeEntry], grouped to keep the parameter list short. */
     private class StreamedEntryContext(

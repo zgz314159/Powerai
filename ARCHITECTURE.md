@@ -53,7 +53,7 @@ DOCX/PDF
   → normalize (blocks, markdown tables, kb path sanitizer)
   → knowledge_base.json (+ 截图 manifest)
   → assets/kb/<fileId>/  或  用户导入 URI
-  → import (StreamingJsonResourceImporter / DocumentImportManager)
+  → import (StreamingJsonResourceImporter: JsonReader 逐条流式 / DocumentImportManager)
   → storage (Room KnowledgeEntity, contentNormalized)
   → optional: vector index (NativeVectorRepository)
 ```

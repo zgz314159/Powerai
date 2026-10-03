@@ -467,7 +467,7 @@
       "feature/search-chat/src/main/java/com/example/powerai/feature/searchchat/SmartUiStates.kt": 26
     },
     "longFunctions": {
-      "app/src/main/java/com/example/powerai/data/importer/DocumentImportManager.kt::importAssetsIfNeed": 110,
+      "app/src/main/java/com/example/powerai/data/importer/DocumentImportManager.kt::importAssetsIfNeed": 113,
       "app/src/main/java/com/example/powerai/data/importer/JsonEntryMapper.kt::toEntity": 115,
       "app/src/main/java/com/example/powerai/data/importer/JsonResourceImporter.kt::importFromJson": 96,
       "app/src/main/java/com/example/powerai/data/importer/StreamingJsonResourceImporter.kt::importFromJson": 108,

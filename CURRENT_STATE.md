@@ -28,6 +28,8 @@
 | 本地证据零结果（`发电机允许温升表`） | 已修复 | 根因：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而检索命中依赖 indexed block 文本；题注仅在块内的表格条目被以 coverage=0 丢弃 → UI 0 结果。现评分纳入 `contentBlocksJson` 明文 |
 | 本地搜索失败语义（错误 vs 真正 0 命中） | 已修复并回归 | `HybridQueryUseCase.localMode` 不再 `catch (Throwable) → emptyList()`；`HybridModeExecutor` 将可恢复的检索/导入错误映射为 `LocalPageState.ERROR`（安全文案、可重试），真正 0 命中仍保留「无匹配」；`CancellationException` 继续传播。`LocalSearchFailureUiStateTest` 5/5、`HybridQueryUseCaseTest` 8/8、`LocalModeTableEvidenceRegressionTest` 5/5 |
 
+| v2 对象根真正流式导入 | 已修复并验证 | `importFromJson` 的 `streamObject` 改为 `JsonReader` 逐字段 / 逐 entry 读取，不再整根 `JsonParser().parse`；尾部不可读前先落首批；取消不再被吞或误报成功。`StreamingJsonObjectRootStreamingTest` 4/4；仓库外完整 KB 经生产链读回 48 entries / 839 blocks / FTS 48，source+docSha256 与第 29/32 页表格 rows/cells/bbox/定位目标与旧整根映射逐字节一致 |
+
 > §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
 ## 3. 模块与架构
@@ -114,3 +116,4 @@
 | 2026-10-02 | 「本地」hybrid 链表格证据闭环：题注→表格改指接入真实 UI 检索/证据链（`HybridQueryUseCase.localMode` → `KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`，支持跨条目同页几何最近）；修复 `LocalEvidenceRefiner` 仅按 markdown 预览评分导致 `发电机允许温升表` UI 0 结果（现纳入 indexed block 文本）。新增 `LocalModeTableEvidenceRegressionTest`（经 `localMode` + 详情/PDF 目标解析）；真机 Android 16 复验第 29/32 页黄色框命中 |
 | 2026-10-02 | 「本地」搜索失败语义修复：明确区分「检索/导入失败」与「确实 0 命中」。`HybridQueryUseCase.localMode` 停止吞异常（含 `CancellationException` 继续传播）；`HybridModeExecutor` 将可恢复错误写入可重试的 `LocalPageState.ERROR`（安全文案，不含异常详情）；`LocalSearchArea` 在失败时展示失败提示与「重试」。新增 `LocalSearchFailureUiStateTest`（失败/导入失败/取消竞态/成功有结果/成功零结果） |
 | 2026-10-03 | 本地检索主路径收敛（退役旧支线）：删除无生产调用的 `LocalSearchUseCase`、`VectorSearchRepository`、`RetrievalFusionService`（含 `AIModule` 无用 Hilt Provider）及 `KnowledgeRepository.searchLocal` 与 `KnowledgeLocalSearch`/`KnowledgeLocalSearchQuery`/`KnowledgeLocalSearchStrategies`/`KnowledgeLocalSearchProcessor`/`LocalSearchDiagnostics`/`KnowledgeSnippetBuilder`。「本地」页统一走 `HybridModeExecutor → HybridQueryUseCase → RetrievalFusionUseCase → HybridRetrievalService`。保留 `resolveTableLabelTargets` 题注→表格规则与 `LocalPageState.ERROR`/取消语义 |
+| 2026-10-03 | v2 KB 真正流式导入：`StreamingJsonResourceImporter.streamObject` 从整根 `JsonParser().parse` 改为 `JsonReader` 按根字段/entry 逐项读取（未知根字段安全跳过；`entries` 先于 `fileMetadata` 的有界兼容：先 flush 再按 stable id 回填 `fileMetadata.source`）。`DocumentImportManager` 与 flow 均重新抛出 `CancellationException`。新增 `StreamingJsonObjectRootStreamingTest`（尾部不可读前已落首批 / entries-first 保留 source / 未知根字段 / 取消传播）；仓库外完整 KB 逐字节等价读回 |
