@@ -27,6 +27,17 @@ interface KnowledgeDao {
         upsertBatch(entities)
     }
 
+    /**
+     * Runs [block] inside a single SQLite transaction so a whole-file import is all-or-nothing:
+     * any throw (including cancellation) rolls back every row written by [block]. The default
+     * body is a pass-through, so hand-written in-memory DAOs keep working without a real
+     * transaction.
+     */
+    @Transaction
+    suspend fun runInTransaction(block: suspend () -> Unit) {
+        block()
+    }
+
     @Query("SELECT * FROM knowledge")
     suspend fun getAll(): List<KnowledgeEntity>
 

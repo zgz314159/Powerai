@@ -128,18 +128,13 @@ class StreamingJsonResourceImporter(
                 // record a successful import for an aborted run.
                 throw c
             } catch (e: Exception) {
-                // use provided trace callback for diagnostics instead of android.util.Log
-                val msg =
-                    try {
-                        e.stackTraceToString().take(1000)
-                    } catch (_: Throwable) {
-                        e.message
-                    }
+                // A failed import must reach the caller so it can roll the partial writes back and
+                // retry instead of marking the file imported. Only a diagnostic trace is emitted.
                 try {
-                    trace?.invoke("StreamingJsonResourceImporter: failed: $msg")
+                    trace?.invoke("StreamingJsonResourceImporter: failed: ${e.message}")
                 } catch (_: Throwable) {
                 }
-                emit(importedProgress(fallbackFileName, fallbackFileId, importedSoFar, "failed", msg))
+                throw e
             } finally {
                 try {
                     jsonReader.close()
@@ -153,7 +148,6 @@ class StreamingJsonResourceImporter(
         fileId: String?,
         imported: Long,
         status: String,
-        message: String? = null,
     ): ImportProgress =
         ImportProgress(
             fileId = fileId.orEmpty(),
@@ -162,7 +156,6 @@ class StreamingJsonResourceImporter(
             importedItems = imported,
             percent = if (status == "imported") 100 else 0,
             status = status,
-            message = message,
         )
 
     /** Stream a top-level JSON array of entries, returning the number of rows written. */

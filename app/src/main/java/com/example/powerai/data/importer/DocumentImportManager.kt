@@ -120,18 +120,21 @@ class DocumentImportManager @Inject constructor(
                 )
 
                 try {
-                    context.assets.open(assetPath).use { input ->
-                        importer.importFromJson(
-                            inputStream = input,
-                            batchSize = ImportDefaults.DEFAULT_BATCH_SIZE,
-                            trace = null,
-                            fallbackFileName = displayName,
-                            fallbackFileId = fileId
-                        ).collect { p ->
-                            _progress.value = p.copy(fileId = fileId, fileName = displayName)
+                    // One transaction per file: rows + FTS + imported marker commit or roll back together.
+                    dao.runInTransaction {
+                        context.assets.open(assetPath).use { input ->
+                            importer.importFromJson(
+                                inputStream = input,
+                                batchSize = ImportDefaults.DEFAULT_BATCH_SIZE,
+                                trace = null,
+                                fallbackFileName = displayName,
+                                fallbackFileId = fileId,
+                            ).collect { p ->
+                                _progress.value = p.copy(fileId = fileId, fileName = displayName)
+                            }
                         }
+                        repo.markFileImported(fileId, displayName, System.currentTimeMillis(), "imported")
                     }
-                    repo.markFileImported(fileId, displayName, System.currentTimeMillis(), "imported")
                     diagnostics[fileId] = AssetImportDiagnosticEntry(
                         assetPath = assetPath,
                         fileId = fileId,

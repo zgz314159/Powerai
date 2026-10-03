@@ -60,16 +60,20 @@ class StreamingJsonObjectRootStreamingTest {
         batchSize: Int,
     ): List<ImportProgress> {
         val progress = mutableListOf<ImportProgress>()
-        runBlocking {
-            StreamingJsonResourceImporter(dao)
-                .importFromJson(
-                    inputStream = stream,
-                    batchSize = batchSize,
-                    trace = null,
-                    fallbackFileName = "doc.pdf",
-                    fallbackFileId = "asset_hash",
-                )
-                .collect { progress.add(it) }
+        // The importer now propagates failures; the tests here observe the writes it streamed
+        // before the tail failed (the manager adds the rollback boundary).
+        runCatching {
+            runBlocking {
+                StreamingJsonResourceImporter(dao)
+                    .importFromJson(
+                        inputStream = stream,
+                        batchSize = batchSize,
+                        trace = null,
+                        fallbackFileName = "doc.pdf",
+                        fallbackFileId = "asset_hash",
+                    )
+                    .collect { progress.add(it) }
+            }
         }
         return progress
     }
