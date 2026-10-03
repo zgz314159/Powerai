@@ -4,13 +4,11 @@ import android.content.Context
 import com.example.powerai.AppConfig
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.repository.AnnRetriever
-import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.core.model.ObservabilityService
 import com.example.powerai.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.ai.LlmFactualityScorer
 import com.example.powerai.domain.retrieval.HybridRetrievalService
-import com.example.powerai.domain.retrieval.RetrievalFusionService
 import com.example.powerai.engine.ai.GemmaLocalInference
 import com.example.powerai.engine.ai.SparseSearcher
 import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
@@ -56,16 +54,6 @@ object AIModule {
         observability: ObservabilityService
     ): LlmFactualityScorer {
         return LlmFactualityScorer(ai, config, observability)
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrievalFusionService(
-        repo: KnowledgeRepository,
-        observability: ObservabilityService,
-        annRetriever: AnnRetriever
-    ): RetrievalFusionService {
-        return RetrievalFusionService(repo, observability, annRetriever)
     }
 
     @Provides

@@ -38,7 +38,7 @@ JNI API 设计（草案）
   - external fun search(handle: Int, query: FloatArray, k: Int): FaissSearchResult
 
 错误处理与回退策略
-- 若 `openIndex` 失败或 `search` 抛错，`LocalFaissAnnRetriever` 将抛出或返回空结果并记录日志；上层 `VectorSearchRepository` 检测到空结果后回退到 `HttpAnnRetriever` 或仅使用 lexical FTS。
+- 若 `openIndex` 失败或 `search` 抛错，`LocalFaissAnnRetriever` 将抛出或返回空结果并记录日志；上层 `AnnRetriever` 链／`HybridRetrievalService` 检测到空结果后回退到 `HttpAnnRetriever`，或仅使用 lexical FTS（`RoomFtsRetriever`）。
 
 构建与 CI 建议
 - 将 FAISS 源码作为子模块或下载预编译二进制：
@@ -66,7 +66,7 @@ JNI API 设计（草案）
 1. 草拟设计（本文件） — 完成
 2. 在 CI 中能交叉编译 FAISS 并产出 `jniLibs`（原型）
 3. 实现并发布 `LocalFaissAnnRetriever`（Kotlin + JNI）并在本地跑通查询
-4. 与 `VectorSearchRepository` 集成并做 A/B 测试（HTTP vs 本地）
+4. 与 `AnnRetriever`／`HybridRetrievalService` 集成并做 A/B 测试（HTTP vs 本地）
 5. 性能调优与索引参数选择（IVF/PQ/HNSW）
 
 风险与缓解

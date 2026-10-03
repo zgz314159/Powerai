@@ -8,9 +8,6 @@ import com.example.powerai.core.model.ImportedFile
  * 定义电力知识相关的数据访问能力
  */
 interface KnowledgeRepository {
-    /** 在本地知识库中根据关键词搜索匹配条目 */
-    suspend fun searchLocal(query: String): List<KnowledgeItem>
-
     /** 根据本地知识条目 id 获取完整条目 */
     suspend fun getLocalItemById(id: Long): KnowledgeItem?
 

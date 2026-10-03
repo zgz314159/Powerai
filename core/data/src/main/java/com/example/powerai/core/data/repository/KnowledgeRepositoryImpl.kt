@@ -25,14 +25,6 @@ class KnowledgeRepositoryImpl @Inject constructor(
     private fun entityToItem(e: KnowledgeEntity): KnowledgeItem =
         KnowledgeEntityMapper.toItem(e)
 
-    override suspend fun searchLocal(query: String): List<KnowledgeItem> {
-        return KnowledgeLocalSearch.searchLocal(
-            dao = dao,
-            query = query,
-            entityToItem = ::entityToItem
-        )
-    }
-
     override suspend fun getLocalItemById(id: Long): KnowledgeItem? {
         if (id <= 0L) return null
         return dao.getById(id)?.let(::entityToItem)

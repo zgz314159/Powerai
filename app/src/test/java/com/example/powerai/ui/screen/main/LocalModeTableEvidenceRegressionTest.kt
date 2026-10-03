@@ -43,9 +43,10 @@ import org.robolectric.annotation.Config
  *     the markdown preview, which used to make the evidence refiner discard the hit (0 UI
  *     results). It must surface and resolve to the table block.
  *
- * Unlike [com.example.powerai.data.repository.TableLabelPdfLocateRegressionTest] (which drives
- * `KnowledgeRepository.searchLocal`), this test drives the exact use case the "本地" page uses
- * ([HybridQueryUseCase.localMode]) and then walks the final detail / PDF locate resolution.
+ * Unlike [com.example.powerai.data.repository.TableLabelPdfLocateRegressionTest] (which isolates
+ * the production FTS retriever + [KnowledgeRepository.resolveTableLabelTargets] resolver), this
+ * test drives the exact use case the "本地" page uses ([HybridQueryUseCase.localMode]) and then
+ * walks the final detail / PDF locate resolution.
  */
 @Config(sdk = [28], application = android.app.Application::class)
 @RunWith(RobolectricTestRunner::class)

@@ -75,8 +75,6 @@ internal class FakeKnowledgeRepository : KnowledgeRepository {
 
     override suspend fun getLocalItemById(id: Long): KnowledgeItem? = itemsById[id]
 
-    override suspend fun searchLocal(query: String): List<KnowledgeItem> = searchItems(query)
-
     override suspend fun importDocuments(uris: List<String>): Result<Unit> = Result.success(Unit)
 
     override suspend fun insertBatch(items: List<KnowledgeItem>) = Unit
