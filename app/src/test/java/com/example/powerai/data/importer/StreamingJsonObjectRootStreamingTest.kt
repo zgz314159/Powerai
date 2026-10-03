@@ -86,13 +86,31 @@ class StreamingJsonObjectRootStreamingTest {
                 """{"entryId":"e2","jobTitle":"t2","contentMarkdown":"bravo"}"""
         val dao = MemoryKnowledgeDao()
 
-        val progress =
-            collect(dao, TruncatedTailInputStream(prefix.toByteArray(Charsets.UTF_8)), batchSize = 1)
+        collect(dao, TruncatedTailInputStream(prefix.toByteArray(Charsets.UTF_8)), batchSize = 1)
 
-        // The first entries must be flushed before the tail read fails; whole-root parsing cannot do this.
+        // The first entries must be flushed before the tail read fails; whole-root parsing cannot do
+        // this. (Progress emitted just before the failure is not asserted here: the upstream failure
+        // may discard still-buffered emissions.)
         val written = runBlocking { dao.getAll() }
         assertEquals(2, written.size)
-        assertTrue("progress must report flushed items", progress.any { it.importedItems >= 1 })
+    }
+
+    @Test
+    fun `a successful import advances progress and ends imported`() {
+        val json =
+            """{"fileMetadata":{"source":"$declaredSource"},"entries":[""" +
+                """{"entryId":"e1","jobTitle":"t1","position":1,"contentMarkdown":"a"},""" +
+                """{"entryId":"e2","jobTitle":"t2","position":2,"contentMarkdown":"b"}]}"""
+        val dao = MemoryKnowledgeDao()
+
+        val progress = collect(dao, ByteArrayInputStream(json.toByteArray(Charsets.UTF_8)), batchSize = 1)
+
+        assertEquals(
+            "in_progress items are emitted per flushed batch",
+            listOf(1L, 2L),
+            progress.filter { it.status == "in_progress" }.map { it.importedItems },
+        )
+        assertEquals("imported", progress.last().status)
     }
 
     @Test

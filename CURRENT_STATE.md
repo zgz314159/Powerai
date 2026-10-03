@@ -30,6 +30,7 @@
 
 | v2 对象根真正流式导入 | 已修复并验证 | `importFromJson` 的 `streamObject` 改为 `JsonReader` 逐字段 / 逐 entry 读取，不再整根 `JsonParser().parse`；尾部不可读前先落首批；取消不再被吞或误报成功。`StreamingJsonObjectRootStreamingTest` 4/4；仓库外完整 KB 经生产链读回 48 entries / 839 blocks / FTS 48，source+docSha256 与第 29/32 页表格 rows/cells/bbox/定位目标与旧整根映射逐字节一致 |
 | KB 资产导入原子性 | 已修复并验证 | 单文件导入包进一个 SQLite 事务（`KnowledgeDao.runInTransaction`）：成功才提交 knowledge 行 + FTS + imported 标记；读取/解析失败或取消整体回滚，不残留可搜索半包、不标 imported，重试同一 fileId 成功。`KbImportAtomicityRoomTest` 5/5（Room 生产链）；未改 Room schema |
+| KB 导入不静默部分成功 | 已修复并验证 | `StreamingJsonResourceImporter` 不再 `catch (elemEx: Throwable)` 后仅 trace 继续：entry 解析/映射/批写与 `rebuildFts()` 的真实失败向上抛出、经单文件事务回滚；非对象 entry 视为无效并失败（不再无声跳过）；重复 entry 仍按既有语义去重跳过。取消继续传播。`KbImportAtomicityRoomTest` 11/11（新增批写失败/FTS 失败/无效 entry 对象根与数组根/数组根尾部失败/重复跳过）；未改 Room schema |
 
 > §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
@@ -119,3 +120,4 @@
 | 2026-10-03 | 本地检索主路径收敛（退役旧支线）：删除无生产调用的 `LocalSearchUseCase`、`VectorSearchRepository`、`RetrievalFusionService`（含 `AIModule` 无用 Hilt Provider）及 `KnowledgeRepository.searchLocal` 与 `KnowledgeLocalSearch`/`KnowledgeLocalSearchQuery`/`KnowledgeLocalSearchStrategies`/`KnowledgeLocalSearchProcessor`/`LocalSearchDiagnostics`/`KnowledgeSnippetBuilder`。「本地」页统一走 `HybridModeExecutor → HybridQueryUseCase → RetrievalFusionUseCase → HybridRetrievalService`。保留 `resolveTableLabelTargets` 题注→表格规则与 `LocalPageState.ERROR`/取消语义 |
 | 2026-10-03 | v2 KB 真正流式导入：`StreamingJsonResourceImporter.streamObject` 从整根 `JsonParser().parse` 改为 `JsonReader` 按根字段/entry 逐项读取（未知根字段安全跳过；`entries` 先于 `fileMetadata` 的有界兼容：先 flush 再按 stable id 回填 `fileMetadata.source`）。`DocumentImportManager` 与 flow 均重新抛出 `CancellationException`。新增 `StreamingJsonObjectRootStreamingTest`（尾部不可读前已落首批 / entries-first 保留 source / 未知根字段 / 取消传播）；仓库外完整 KB 逐字节等价读回 |
 | 2026-10-03 | KB 导入原子性：`DocumentImportManager.importAssetsIfNeed` 将单文件导入（含 FTS 重建与 imported 标记）包进 `dao.runInTransaction`，失败/取消整体回滚；`StreamingJsonResourceImporter` 失败改为向调用方抛出而非吞成 failed 进度。新增 Room 生产链 `KbImportAtomicityRoomTest`（有效首次 / 两批后尾部失败 / 取消 / 同 fileId 重试 / 旧同 fileId 数据与无关 KB 保护）；仓库外完整 KB 经 manager 链读回 48/839/48 与第 29/32 页表格目标不变 |
+| 2026-10-03 | KB 导入不静默部分成功：移除 `StreamingJsonResourceImporter` 数组根/对象根 entry 循环里吞掉 `elemEx` 后继续的 `catch`，并移除 `dao.rebuildFts()` 的非取消吞错——单条 entry 解析/映射/批写与 FTS 重建失败改为抛出，由 PR #20 的单文件事务回滚；非对象 entry 视为无效失败而非无声跳过；重复 entry 保持既有去重跳过（测试明确）。`KbImportAtomicityRoomTest` 扩到 11/11；仓库外完整 KB 经 manager 链读回 48/839/48、第 29/32 页表格目标不变 |

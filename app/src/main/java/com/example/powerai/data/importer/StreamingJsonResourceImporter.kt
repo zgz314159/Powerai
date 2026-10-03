@@ -100,10 +100,10 @@ class StreamingJsonResourceImporter(
                 when (val peek = jsonReader.peek()) {
                     JsonToken.BEGIN_ARRAY ->
                         importedSoFar +=
-                            streamArray(jsonReader, batchWriter, fallbackFileName, fallbackFileId, trace)
+                            streamArray(jsonReader, batchWriter, fallbackFileName, fallbackFileId)
                     JsonToken.BEGIN_OBJECT ->
                         importedSoFar +=
-                            streamObject(jsonReader, batchWriter, fallbackFileName, fallbackFileId, trace)
+                            streamObject(jsonReader, batchWriter, fallbackFileName, fallbackFileId)
                     else -> throw IllegalArgumentException("Unsupported JSON top-level token: $peek")
                 }
 
@@ -115,12 +115,9 @@ class StreamingJsonResourceImporter(
                 } catch (_: Throwable) {
                 }
 
-                try {
-                    dao.rebuildFts()
-                } catch (c: CancellationException) {
-                    throw c
-                } catch (_: Throwable) {
-                }
+                // An FTS rebuild failure is a real import failure: propagate it so the file
+                // transaction rolls back instead of committing rows that are not searchable.
+                dao.rebuildFts()
 
                 emit(importedProgress(fallbackFileName, fallbackFileId, importedSoFar, "imported"))
             } catch (c: CancellationException) {
@@ -164,7 +161,6 @@ class StreamingJsonResourceImporter(
         batchWriter: StreamingJsonBatchWriter,
         fallbackFileName: String?,
         fallbackFileId: String?,
-        trace: ((String) -> Unit)?,
     ): Long {
         jsonReader.beginArray()
         val fallbackMeta =
@@ -175,18 +171,8 @@ class StreamingJsonResourceImporter(
         val context = StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId)
         var imported = 0L
         while (jsonReader.hasNext()) {
-            try {
-                val el: JsonElement = JsonParser().parse(jsonReader)
-                val obj = (if (el.isJsonObject) el.asJsonObject else null) ?: continue
-                imported = writeEntry(this, obj, fallbackMeta, imported, context)
-            } catch (c: CancellationException) {
-                throw c
-            } catch (elemEx: Throwable) {
-                try {
-                    trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}")
-                } catch (_: Throwable) {
-                }
-            }
+            val obj = readEntryObject(jsonReader)
+            imported = writeEntry(this, obj, fallbackMeta, imported, context)
         }
         jsonReader.endArray()
         return imported
@@ -203,7 +189,6 @@ class StreamingJsonResourceImporter(
         batchWriter: StreamingJsonBatchWriter,
         fallbackFileName: String?,
         fallbackFileId: String?,
-        trace: ((String) -> Unit)?,
     ): Long {
         jsonReader.beginObject()
         val context = StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId)
@@ -233,7 +218,7 @@ class StreamingJsonResourceImporter(
                             fileId = fallbackFileId.orEmpty(),
                             source = declaredSource,
                         )
-                    imported = streamEntries(jsonReader, fallbackMeta, imported, context, trace)
+                    imported = streamEntries(jsonReader, fallbackMeta, imported, context)
                 }
                 else -> jsonReader.skipValue()
             }
@@ -248,7 +233,6 @@ class StreamingJsonResourceImporter(
         fallbackMeta: JsonResourceParser.FileMetadata,
         importedSoFar: Long,
         context: StreamedEntryContext,
-        trace: ((String) -> Unit)?,
     ): Long {
         if (jsonReader.peek() != JsonToken.BEGIN_ARRAY) {
             jsonReader.skipValue()
@@ -257,18 +241,8 @@ class StreamingJsonResourceImporter(
         jsonReader.beginArray()
         var imported = importedSoFar
         while (jsonReader.hasNext()) {
-            try {
-                val el: JsonElement = JsonParser().parse(jsonReader)
-                val obj = if (el.isJsonObject) el.asJsonObject else null
-                if (obj != null) imported = writeEntry(this, obj, fallbackMeta, imported, context)
-            } catch (c: CancellationException) {
-                throw c
-            } catch (elemEx: Throwable) {
-                try {
-                    trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}")
-                } catch (_: Throwable) {
-                }
-            }
+            val obj = readEntryObject(jsonReader)
+            imported = writeEntry(this, obj, fallbackMeta, imported, context)
         }
         jsonReader.endArray()
         return imported
@@ -334,4 +308,14 @@ class StreamingJsonResourceImporter(
         collector.emit(importedProgress(context.fileName, context.fileId, total, "in_progress"))
         return total
     }
+}
+
+/**
+ * Parse one entry element and require it to be a JSON object. A non-object element is a malformed
+ * entry: failing here rolls the whole file back instead of silently dropping it.
+ */
+private fun readEntryObject(jsonReader: JsonReader): JsonObject {
+    val el: JsonElement = JsonParser().parse(jsonReader)
+    require(el.isJsonObject) { "StreamingJsonResourceImporter: entry is not a JSON object" }
+    return el.asJsonObject
 }

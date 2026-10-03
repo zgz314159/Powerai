@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
@@ -121,16 +122,38 @@ class KbImportAtomicityRoomTest {
         whenever(assets.list("kb/atomic")).thenReturn(arrayOf("knowledge_base.json"))
         whenever(assets.list("kb/atomic/knowledge_base.json")).thenReturn(emptyArray<String>())
 
-        val dao = db.knowledgeDao()
-        manager =
-            DocumentImportManager(
-                context = context,
-                repo = KnowledgeRepositoryImpl(context, dao, noEmbedding),
-                dao = dao,
-                scanner = AssetImportScanner(context, dao),
-                observability = mock<ObservabilityService>(),
-                scope = CoroutineScope(Dispatchers.IO + Job()),
-            )
+        manager = buildManager(db.knowledgeDao())
+    }
+
+    private fun buildManager(dao: KnowledgeDao): DocumentImportManager =
+        DocumentImportManager(
+            context = context,
+            repo = KnowledgeRepositoryImpl(context, dao, noEmbedding),
+            dao = dao,
+            scanner = AssetImportScanner(context, dao),
+            observability = mock<ObservabilityService>(),
+            scope = CoroutineScope(Dispatchers.IO + Job()),
+        )
+
+    /** Delegates to the real Room DAO (including its transaction) but fails batch writes. */
+    private class FailingBatchDao(
+        private val delegate: KnowledgeDao,
+        private val failFromFlush: Int,
+    ) : KnowledgeDao by delegate {
+        private var flushes = 0
+
+        override suspend fun upsertBatchTransactional(entities: List<KnowledgeEntity>) {
+            flushes++
+            if (flushes >= failFromFlush) throw IOException("batch write failed")
+            delegate.upsertBatchTransactional(entities)
+        }
+    }
+
+    /** Delegates to the real Room DAO but fails the FTS rebuild. */
+    private class FailingFtsDao(private val delegate: KnowledgeDao) : KnowledgeDao by delegate {
+        override suspend fun rebuildFts() {
+            throw IllegalStateException("fts rebuild failed")
+        }
     }
 
     @After
@@ -260,5 +283,76 @@ class KbImportAtomicityRoomTest {
 
         assertEquals("no half-imported rows committed", 2, rows().size)
         println("STATE protection rows=${rows().size} sameContent=${same.content} otherContent=${other.content}")
+    }
+
+    @Test
+    fun `second batch write failure rolls back and never marks imported`() {
+        manager = buildManager(FailingBatchDao(db.knowledgeDao(), failFromFlush = 2))
+        runImport(ByteArrayInputStream(bytesOf(fullKb(250))))
+
+        assertEquals("no searchable rows", 0, rows().size)
+        assertEquals("no fts rows", 0, ftsCount())
+        assertEquals("failed", importedStatus())
+        println("STATE batch-failure rows=${rows().size} fts=${ftsCount()} status=${importedStatus()}")
+    }
+
+    @Test
+    fun `fts rebuild failure rolls back and never marks imported`() {
+        manager = buildManager(FailingFtsDao(db.knowledgeDao()))
+        runImport(ByteArrayInputStream(bytesOf(fullKb(5))))
+
+        assertEquals("no searchable rows", 0, rows().size)
+        assertEquals("no fts rows", 0, ftsCount())
+        assertEquals("failed", importedStatus())
+        println("STATE fts-failure rows=${rows().size} fts=${ftsCount()} status=${importedStatus()}")
+    }
+
+    @Test
+    fun `invalid entry in an object root fails the import instead of silently dropping it`() {
+        val kb =
+            """{"fileMetadata":{"source":"$declaredSource"},"entries":[""" +
+                """${entries(2)},"not-an-entry",${entries(2, from = 3)}]}"""
+        runImport(ByteArrayInputStream(bytesOf(kb)))
+
+        assertEquals("no searchable rows", 0, rows().size)
+        assertEquals("no fts rows", 0, ftsCount())
+        assertEquals("failed", importedStatus())
+        println("STATE invalid-entry-object rows=${rows().size} status=${importedStatus()}")
+    }
+
+    @Test
+    fun `invalid entry in an array root fails the import instead of silently dropping it`() {
+        val kb = """[${entries(2)},"not-an-entry",${entries(2, from = 3)}]"""
+        runImport(ByteArrayInputStream(bytesOf(kb)))
+
+        assertEquals("no searchable rows", 0, rows().size)
+        assertEquals("no fts rows", 0, ftsCount())
+        assertEquals("failed", importedStatus())
+        println("STATE invalid-entry-array rows=${rows().size} status=${importedStatus()}")
+    }
+
+    @Test
+    fun `array root with an unreadable tail rolls back and never marks imported`() {
+        val prefix = "[" + entries(200)
+        runImport(FailingTailInputStream(bytesOf(prefix)))
+
+        assertEquals("no searchable rows", 0, rows().size)
+        assertEquals("no fts rows", 0, ftsCount())
+        assertNotEquals("imported", importedStatus())
+        println("STATE array-tail rows=${rows().size} fts=${ftsCount()} status=${importedStatus()}")
+    }
+
+    @Test
+    fun `duplicate entry within a file is skipped while the import still succeeds`() {
+        val kb =
+            """{"fileMetadata":{"source":"$declaredSource"},"entries":[""" +
+                """{"entryId":"dup","jobTitle":"t","position":1,"contentMarkdown":"a"},""" +
+                """{"entryId":"dup","jobTitle":"t","position":1,"contentMarkdown":"b"}]}"""
+        runImport(ByteArrayInputStream(bytesOf(kb)))
+
+        assertEquals("duplicate skipped", 1, rows().size)
+        assertEquals(1, ftsCount())
+        assertEquals("imported", importedStatus())
+        println("STATE duplicate-skip rows=${rows().size} status=${importedStatus()}")
     }
 }
