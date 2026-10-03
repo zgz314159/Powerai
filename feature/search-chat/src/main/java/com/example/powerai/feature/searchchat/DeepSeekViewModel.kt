@@ -26,7 +26,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.UUID
 import javax.inject.Inject
 
 import kotlinx.coroutines.flow.flatMapLatest
@@ -115,10 +114,12 @@ class DeepSeekViewModel @Inject constructor(
         }
     }
 
+    @Suppress("ktlint:standard:multiline-expression-wrapping")
     fun generate(prompt: String, maxTokens: Int) {
-        val runToken = sessionManager.startNewRun()
-        val sessionId = sessionManager.currentSessionId ?: UUID.randomUUID().toString()
-        viewModelScope.launch {
+        sessionManager.generationJob = viewModelScope.launch {
+            val runToken = sessionManager.startNewRun()
+            val sessionId = sessionManager.currentSessionId
+                ?: sessionManager.openSmartSession(prompt.take(50), state.answerMode, state.backendMode, state.threadPreset)
             generationOrchestrator.runGeneration(
                 delegate = this@DeepSeekViewModel,
                 engine = sessionManager.engine,
@@ -133,10 +134,11 @@ class DeepSeekViewModel @Inject constructor(
         }
     }
 
+    @Suppress("ktlint:standard:multiline-expression-wrapping")
     private fun generateGroundedAnswer(question: String, maxTokens: Int) {
-        val runToken = sessionManager.startNewRun()
-        viewModelScope.launch {
+        sessionManager.generationJob = viewModelScope.launch {
             sessionManager.prepareForNextGeneration(state.isLoading)
+            val runToken = sessionManager.startNewRun()
             val askedAt = System.currentTimeMillis()
             updateState { copy(askedAtMillis = askedAt, result = "", thinking = emptyList()) }
 
@@ -328,9 +330,20 @@ class DeepSeekViewModel @Inject constructor(
 
     fun abortGeneration() {
         sessionManager.setStopRequested(true)
+        updateProgress(SmartProgressPhase.STOPPING, "已发送停止请求", "正在等待底层模型停稳", showAsActive = false)
+        viewModelScope.launch {
+            sessionManager.generationJob?.cancel()
+            sessionManager.generationJob = null
+            sessionManager.engine?.stopGeneration()
+            updateProgress(SmartProgressPhase.CANCELLED, "已停止生成", "当前回答已停止，可重新提问。", showAsActive = false)
+        }
     }
 
-    override fun isRunActive(sessionId: String, runToken: String): Boolean = true
+    override fun isRunActive(
+        runToken: String,
+        sessionId: String,
+    ): Boolean = sessionManager.isRunActive(runToken, sessionId)
+
     override fun cachePromptEnabled(): Boolean = true
     override fun isContextOverflowMessage(msg: String): Boolean = false
 }

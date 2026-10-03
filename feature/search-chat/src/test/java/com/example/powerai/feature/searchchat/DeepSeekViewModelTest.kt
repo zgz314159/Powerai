@@ -64,6 +64,7 @@ class DeepSeekViewModelTest {
         generationOrchestrator = mock()
         benchmarkOrchestrator = mock()
         whenever(sessionManager.engineFlow).thenReturn(MutableStateFlow<PowerAIEngine?>(null))
+        whenever(sessionManager.openSmartSession(any(), any(), any(), any())).thenReturn("session-mock")
     }
 
     @After
@@ -286,16 +287,18 @@ class DeepSeekViewModelTest {
     }
 
     @Test
-    fun `abort sets the stop flag and the run guard stays hard wired to true`() {
+    fun `abort requests a stop and the run guard delegates to the session manager`() {
         runVmTest {
+            whenever(sessionManager.isRunActive("run-t", "sess-s")).thenReturn(true)
             val vm = createViewModel()
 
             vm.abortGeneration()
-            verify(sessionManager).setStopRequested(true)
+            testScheduler.advanceUntilIdle()
 
-            // characterization of the delegate guard: parameter names are swapped
-            // versus the interface and the body always returns true
-            assertTrue(vm.isRunActive("token-a", "session-b"))
+            verify(sessionManager).setStopRequested(true)
+            // the delegate forwards (runToken, sessionId) to the session manager in the interface order
+            assertTrue(vm.isRunActive("run-t", "sess-s"))
+            verify(sessionManager).isRunActive("run-t", "sess-s")
         }
     }
 

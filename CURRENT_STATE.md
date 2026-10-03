@@ -31,6 +31,7 @@
 | v2 对象根真正流式导入 | 已修复并验证 | `importFromJson` 的 `streamObject` 改为 `JsonReader` 逐字段 / 逐 entry 读取，不再整根 `JsonParser().parse`；尾部不可读前先落首批；取消不再被吞或误报成功。`StreamingJsonObjectRootStreamingTest` 4/4；仓库外完整 KB 经生产链读回 48 entries / 839 blocks / FTS 48，source+docSha256 与第 29/32 页表格 rows/cells/bbox/定位目标与旧整根映射逐字节一致 |
 | KB 资产导入原子性 | 已修复并验证 | 单文件导入包进一个 SQLite 事务（`KnowledgeDao.runInTransaction`）：成功才提交 knowledge 行 + FTS + imported 标记；读取/解析失败或取消整体回滚，不残留可搜索半包、不标 imported，重试同一 fileId 成功。`KbImportAtomicityRoomTest` 5/5（Room 生产链）；未改 Room schema |
 | KB 导入不静默部分成功 | 已修复并验证 | `StreamingJsonResourceImporter` 不再 `catch (elemEx: Throwable)` 后仅 trace 继续：entry 解析/映射/批写与 `rebuildFts()` 的真实失败向上抛出、经单文件事务回滚；非对象 entry 视为无效并失败（不再无声跳过）；重复 entry 仍按既有语义去重跳过。取消继续传播。`KbImportAtomicityRoomTest` 11/11（新增批写失败/FTS 失败/无效 entry 对象根与数组根/数组根尾部失败/重复跳过）；未改 Room schema |
+| Smart/DeepSeek 生成停止闭环 | 已修复并 JVM 验证（fake engine） | `DeepSeekViewModel.abortGeneration` 真正停止：取消运行中的 generation job 并调用 `PowerAIEngine.stopGeneration()`；`isRunActive` 顺序纠正后委托 `DeepSeekSessionManager.isRunActive(runToken, sessionId)`，停止后迟到 chunk/最终结果/完成回调被拒；`generateGroundedAnswer` 在 `prepareForNextGeneration` 之后mint runToken，修掉 token 被提前失效。`DeepSeekGenerationStopTest` 8/8（真实 ViewModel+编排器+SessionManager+fake engine）。**真机模型生成尚未验证** |
 
 > §6 的 JVM 单测数值为 2026-10-02 在本分支工作树**实测**（`testDebugUnitTest`）；其余数值取自既有机器产物。
 
@@ -99,7 +100,7 @@
 ## 8. 下一步工作
 
 - 维持 lint error 为 0 —— **待验证**（下一次 lint 运行）
-- 端侧推理停止行为与中文输出的真机回归 —— **待验证**
+- 端侧推理停止行为与中文输出的真机回归 —— **待验证**（停止闭环已用 fake engine 在 JVM 确定性验收；真机模型未验证）
 - 补齐 Android 16 / API 36 的仪器测试覆盖 —— **未开始**
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
@@ -121,3 +122,4 @@
 | 2026-10-03 | v2 KB 真正流式导入：`StreamingJsonResourceImporter.streamObject` 从整根 `JsonParser().parse` 改为 `JsonReader` 按根字段/entry 逐项读取（未知根字段安全跳过；`entries` 先于 `fileMetadata` 的有界兼容：先 flush 再按 stable id 回填 `fileMetadata.source`）。`DocumentImportManager` 与 flow 均重新抛出 `CancellationException`。新增 `StreamingJsonObjectRootStreamingTest`（尾部不可读前已落首批 / entries-first 保留 source / 未知根字段 / 取消传播）；仓库外完整 KB 逐字节等价读回 |
 | 2026-10-03 | KB 导入原子性：`DocumentImportManager.importAssetsIfNeed` 将单文件导入（含 FTS 重建与 imported 标记）包进 `dao.runInTransaction`，失败/取消整体回滚；`StreamingJsonResourceImporter` 失败改为向调用方抛出而非吞成 failed 进度。新增 Room 生产链 `KbImportAtomicityRoomTest`（有效首次 / 两批后尾部失败 / 取消 / 同 fileId 重试 / 旧同 fileId 数据与无关 KB 保护）；仓库外完整 KB 经 manager 链读回 48/839/48 与第 29/32 页表格目标不变 |
 | 2026-10-03 | KB 导入不静默部分成功：移除 `StreamingJsonResourceImporter` 数组根/对象根 entry 循环里吞掉 `elemEx` 后继续的 `catch`，并移除 `dao.rebuildFts()` 的非取消吞错——单条 entry 解析/映射/批写与 FTS 重建失败改为抛出，由 PR #20 的单文件事务回滚；非对象 entry 视为无效失败而非无声跳过；重复 entry 保持既有去重跳过（测试明确）。`KbImportAtomicityRoomTest` 扩到 11/11；仓库外完整 KB 经 manager 链读回 48/839/48、第 29/32 页表格目标不变 |
+| 2026-10-03 | Smart/DeepSeek 生成停止闭环：`DeepSeekViewModel.isRunActive` 由恒 `true` 改为按接口顺序委托 `DeepSeekSessionManager.isRunActive(runToken, sessionId)`；`abortGeneration` 取消 generation job 并调用 `engine.stopGeneration()`，置 `STOPPING→CANCELLED`；`generateGroundedAnswer` 在 `prepareForNextGeneration` 之后mint runToken；编排器异常路径在运行已失效时归类为取消而非「推理失败」，并确保流式 collector 在所有退出路径被取消。UI「停止生成」按钮显隐改为 `canAbortGeneration`（进行中生成才可见）。`DeepSeekGenerationStopTest` 8/8（真实 ViewModel+编排器+SessionManager+fake engine）；未改推理算法/提示词/模型路径 |

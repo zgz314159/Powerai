@@ -179,33 +179,22 @@ class DeepSeekGenerationOrchestrator @Inject constructor() {
                 }
             }
 
-            val out = withContext(Dispatchers.IO) {
-                engine.infer(prompt, maxTokens, stream = true)
-            }
-            collectorJob.cancel()
+            val out =
+                try {
+                    withContext(Dispatchers.IO) {
+                        engine.infer(prompt, maxTokens, stream = true)
+                    }
+                } finally {
+                    collectorJob.cancel()
+                }
 
             coroutineContext.ensureActive()
             if (!delegate.isRunActive(runToken, sessionId)) {
                 throw CancellationException("stale generation ignored")
             }
 
-            val extractedThinking = ThinkingInterceptor.extractThinkingSegments(out).distinct()
-            if (extractedThinking.isNotEmpty()) {
-                delegate.reduceState { copy(thinking = extractedThinking) }
-            }
-
-            val finalVisibleAnswer = DeepSeekTextCodec.normalizeFinalAnswer(
-                ThinkingInterceptor.stripThinkingSegments(out)
-            )
             val streamedChunks = engine.metrics.value.streamedTokenCount
-            val resolvedFinalAnswer = SmartAnswerGuard.stripMetaReasoningLead(finalVisibleAnswer)
-
-            val currentVisibleAnswer = delegate.state.result
-            if (resolvedFinalAnswer.isNotBlank() && (currentVisibleAnswer.isBlank() || resolvedFinalAnswer.length > currentVisibleAnswer.length)) {
-                delegate.reduceState { copy(result = resolvedFinalAnswer) }
-            }
-
-            delegate.reduceState { copy(thinkingPreview = "") }
+            val resolvedFinalAnswer = applyResolvedAnswer(delegate, out)
 
             val firstTokenLatencyMs = engine.metrics.value.firstTokenLatencyMs ?: 0L
             val decodeWindowMs = (SystemClock.elapsedRealtime() - generationStartedAt - firstTokenLatencyMs).coerceAtLeast(1L)
@@ -225,11 +214,45 @@ class DeepSeekGenerationOrchestrator @Inject constructor() {
             logBenchmarkRecord(delegate, sessionId, query, answerMode, startedAtEpochMs, "cancelled", t.message, benchmarkKind, benchmarkGroupId, benchmarkOrder, prefixReuseHit, stateSnapshotReuseHit, stateSnapshotBytes)
             SmartGenerationRunResult(status = "cancelled", errorMessage = t.message)
         } catch (t: Throwable) {
+            // 用户主动停止或被新会话抢占后运行已失效：迟到/中断的真实异常按取消处理，不污染状态。
+            if (!delegate.isRunActive(runToken, sessionId)) {
+                return@coroutineScope SmartGenerationRunResult(status = "cancelled", errorMessage = t.message)
+            }
             delegate.reduceState { copy(result = "推理失败: ${t.message}", thinkingPreview = "") }
             delegate.updateProgress(phase = SmartProgressPhase.ERROR, statusText = "推理失败", detailText = t.message.orEmpty(), showAsActive = false)
             logBenchmarkRecord(delegate, sessionId, query, answerMode, startedAtEpochMs, "error", t.message, benchmarkKind, benchmarkGroupId, benchmarkOrder, prefixReuseHit, stateSnapshotReuseHit, stateSnapshotBytes)
             SmartGenerationRunResult(status = "error", errorMessage = t.message)
         }
+    }
+
+    /**
+     * 把最终输出写回界面：思考段、最终答案与思考预览；返回规范化后的最终答案供指标与日志使用。
+     */
+    private fun applyResolvedAnswer(
+        delegate: GenerationDelegate,
+        out: String,
+    ): String {
+        val extractedThinking = ThinkingInterceptor.extractThinkingSegments(out).distinct()
+        if (extractedThinking.isNotEmpty()) {
+            delegate.reduceState { copy(thinking = extractedThinking) }
+        }
+
+        val resolvedFinalAnswer =
+            SmartAnswerGuard.stripMetaReasoningLead(
+                DeepSeekTextCodec.normalizeFinalAnswer(
+                    ThinkingInterceptor.stripThinkingSegments(out),
+                ),
+            )
+        val currentVisibleAnswer = delegate.state.result
+        val shouldReplaceAnswer =
+            resolvedFinalAnswer.isNotBlank() &&
+                (currentVisibleAnswer.isBlank() || resolvedFinalAnswer.length > currentVisibleAnswer.length)
+        if (shouldReplaceAnswer) {
+            delegate.reduceState { copy(result = resolvedFinalAnswer) }
+        }
+
+        delegate.reduceState { copy(thinkingPreview = "") }
+        return resolvedFinalAnswer
     }
 
     private fun logBenchmarkRecord(

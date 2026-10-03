@@ -36,4 +36,11 @@ data class DeepSeekUiState(
     val progressState: SmartProgressUiState = SmartProgressUiState(),
     val threadBenchmarkState: SmartThreadBenchmarkUiState = SmartThreadBenchmarkUiState(),
     val prefillBenchmarkState: SmartPrefillBenchmarkUiState = SmartPrefillBenchmarkUiState()
-)
+) {
+    /**
+     * 是否有可被用户主动中止的进行中生成：驱动「停止生成」按钮的显隐。
+     * 与 [progressState] 的 showAsActive 一致（活跃阶段为 true，完成/停止/错误/空闲为 false）。
+     */
+    val canAbortGeneration: Boolean
+        get() = progressState.showAsActive
+}
