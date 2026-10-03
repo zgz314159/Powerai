@@ -1,21 +1,14 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-
-import com.example.powerai.util.PLog
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -26,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.SearchBar
 import com.example.powerai.ui.screen.database.DatabaseScreen
 import com.example.powerai.ui.screen.database.DatabaseViewModel
-import com.example.powerai.ui.screen.mine.MineScreen
-import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.ui.screen.hybrid.HybridUiState
+import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import com.example.powerai.ui.screen.mine.MineScreen
+import com.example.powerai.util.PLog
 import kotlinx.coroutines.launch
 
 /**
@@ -50,8 +45,6 @@ internal fun DatabaseTabContent(
     onShowSearchBarChange: (Boolean) -> Unit,
     innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
 ) {
-    val logTag = "PowerAiDbDebug"
-    val localCoroutineScope = rememberCoroutineScope()
     val dbUiState by dbViewModel.uiState.collectAsState()
     val currentDbQuery = dbUiState.currentQuery
 
@@ -65,43 +58,13 @@ internal fun DatabaseTabContent(
         drawerState = dbDrawerState,
         scrimColor = Color.Black.copy(alpha = 0.18f),
         drawerContent = {
-            val dbUiState by dbViewModel.uiState.collectAsState()
-            val directoryGroups by dbViewModel.directoryGroups.collectAsState()
-            val importDiagnostics by dbViewModel.importDiagnostics.collectAsState()
-            val importProgress by dbViewModel.importProgress.collectAsState()
-            val drawerGroups = if (directoryGroups.isNotEmpty()) directoryGroups else dbUiState.groups
-            val drawerLoading = dbUiState.isLoading && drawerGroups.isEmpty()
-            androidx.compose.runtime.LaunchedEffect(
-                dbUiState.isLoading,
-                dbUiState.groups.size,
-                directoryGroups.size,
-                drawerGroups.size,
-                currentDbQuery,
-                importDiagnostics.importedCount,
-                importDiagnostics.scannedCount
-            ) {
-                PLog.d(
-                    logTag,
-                    "DatabaseTabContent drawer loading=$drawerLoading uiGroups=${dbUiState.groups.size} directoryGroups=${directoryGroups.size} drawerGroups=${drawerGroups.size} query=${currentDbQuery.trim()} diagnostics=${importDiagnostics.importedCount}/${importDiagnostics.scannedCount} sample=${drawerGroups.take(3).joinToString { it.fileName }}"
-                )
-            }
-            DatabaseHistoryDrawerContent(
-                groups = drawerGroups,
-                currentQuery = currentDbQuery,
-                isLoading = drawerLoading,
-                diagnostics = importDiagnostics,
-                progress = importProgress,
-                onSelectGroup = { groupKey ->
-                    if (currentDbQuery.isNotBlank()) onQueryChange("")
-                    dbViewModel.focusGroupFromDrawer(groupKey)
-                    localCoroutineScope.launch { dbDrawerState.close() }
-                },
-                onRefreshDiagnostics = dbViewModel::refreshImportDiagnostics,
-                onEdgeAction = {
-                    localCoroutineScope.launch { dbDrawerState.close() }
-                }
+            DatabaseTabDrawer(
+                dbViewModel = dbViewModel,
+                dbDrawerState = dbDrawerState,
+                currentDbQuery = currentDbQuery,
+                onQueryChange = onQueryChange,
             )
-        }
+        },
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             DatabaseScreen(
@@ -113,19 +76,20 @@ internal fun DatabaseTabContent(
                 onClear = onClear,
                 showTopSearchBar = false,
                 isActive = true,
-                innerPadding = innerPadding
+                innerPadding = innerPadding,
             )
 
             if (showSearchBar) {
                 Surface(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .navigationBarsPadding()
-                        .padding(horizontal = 12.dp, vertical = 10.dp),
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                            .padding(horizontal = 12.dp, vertical = 10.dp),
                     shape = MaterialTheme.shapes.large,
                     tonalElevation = 3.dp,
-                    color = MaterialTheme.colorScheme.surface
+                    color = MaterialTheme.colorScheme.surface,
                 ) {
                     SearchBar(
                         value = searchQuery,
@@ -140,12 +104,73 @@ internal fun DatabaseTabContent(
                         onClear = onClear,
                         label = "搜索数据",
                         placeholder = "搜索数据",
-                        autoFocus = showSearchBar
+                        autoFocus = showSearchBar,
                     )
                 }
             }
         }
     }
+}
+
+/** Drawer content of the database tab: source-file groups plus import maintenance controls. */
+@Composable
+private fun DatabaseTabDrawer(
+    dbViewModel: DatabaseViewModel,
+    dbDrawerState: DrawerState,
+    currentDbQuery: String,
+    onQueryChange: (String) -> Unit,
+) {
+    val logTag = "PowerAiDbDebug"
+    val localCoroutineScope = rememberCoroutineScope()
+    val dbUiState by dbViewModel.uiState.collectAsState()
+    val directoryGroups by dbViewModel.directoryGroups.collectAsState()
+    val importDiagnostics by dbViewModel.importDiagnostics.collectAsState()
+    val importProgress by dbViewModel.importProgress.collectAsState()
+    val kbRebuildState by dbViewModel.kbRebuildState.collectAsState()
+    val drawerGroups = if (directoryGroups.isNotEmpty()) directoryGroups else dbUiState.groups
+    val drawerLoading = dbUiState.isLoading && drawerGroups.isEmpty()
+    androidx.compose.runtime.LaunchedEffect(
+        dbUiState.isLoading,
+        dbUiState.groups.size,
+        directoryGroups.size,
+        drawerGroups.size,
+        currentDbQuery,
+        importDiagnostics.importedCount,
+        importDiagnostics.scannedCount,
+    ) {
+        PLog.d(
+            logTag,
+            "DatabaseTabContent drawer loading=$drawerLoading uiGroups=${dbUiState.groups.size} " +
+                "directoryGroups=${directoryGroups.size} drawerGroups=${drawerGroups.size} " +
+                "query=${currentDbQuery.trim()} " +
+                "diagnostics=${importDiagnostics.importedCount}/${importDiagnostics.scannedCount} " +
+                "sample=${drawerGroups.take(3).joinToString { it.fileName }}",
+        )
+    }
+    DatabaseHistoryDrawerContent(
+        groups = drawerGroups,
+        currentQuery = currentDbQuery,
+        isLoading = drawerLoading,
+        diagnostics = importDiagnostics,
+        progress = importProgress,
+        rebuildUi =
+            KbRebuildUiState(
+                state = kbRebuildState,
+                confirmVisible = dbUiState.isRebuildConfirmVisible,
+                onRequest = dbViewModel::requestRebuildKnowledgeBase,
+                onConfirm = dbViewModel::confirmRebuildKnowledgeBase,
+                onCancel = dbViewModel::cancelRebuildKnowledgeBase,
+            ),
+        onSelectGroup = { groupKey ->
+            if (currentDbQuery.isNotBlank()) onQueryChange("")
+            dbViewModel.focusGroupFromDrawer(groupKey)
+            localCoroutineScope.launch { dbDrawerState.close() }
+        },
+        onRetryImport = dbViewModel::retryAssetImport,
+        onEdgeAction = {
+            localCoroutineScope.launch { dbDrawerState.close() }
+        },
+    )
 }
 
 /**
@@ -197,7 +222,7 @@ internal fun SearchTabContent(
         sourceFileNameProvider = sourceFileNameProvider,
         onPrefetchSourceFileNames = onPrefetchSourceFileNames,
         hybridViewModel = hybridViewModel,
-        innerPadding = innerPadding
+        innerPadding = innerPadding,
     )
 }
 
@@ -209,11 +234,12 @@ internal fun QuizTabContent(
     innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(top = 64.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(top = 64.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Text(text = "答题功能未实")
     }

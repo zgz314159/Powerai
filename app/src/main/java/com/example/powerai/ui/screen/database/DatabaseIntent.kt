@@ -53,4 +53,16 @@ sealed interface DatabaseIntent {
 
     /** 刷新导入诊断 */
     data object RefreshImportDiagnostics : DatabaseIntent
+
+    /** 真正重试失败/缺失的内置资产导入（不只是刷新诊断） */
+    data object RetryAssetImport : DatabaseIntent
+
+    /** 请求重建内置知识库：仅弹出确认，不删除任何数据 */
+    data object RequestRebuildKnowledgeBase : DatabaseIntent
+
+    /** 用户确认重建内置知识库 */
+    data object ConfirmRebuildKnowledgeBase : DatabaseIntent
+
+    /** 用户取消重建内置知识库 */
+    data object CancelRebuildKnowledgeBase : DatabaseIntent
 }
