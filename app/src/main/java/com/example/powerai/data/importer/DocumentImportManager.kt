@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.repository.KnowledgeRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -141,6 +142,9 @@ class DocumentImportManager @Inject constructor(
                     )
                     scanner.publishDiagnostics(assetRoot, diagnostics.values)
                     observability.importCompleted(fileId, displayName, 0)
+                } catch (c: CancellationException) {
+                    // Cancellation must propagate instead of being recorded as a failed import.
+                    throw c
                 } catch (t: Throwable) {
                     repo.markFileImported(fileId, displayName, System.currentTimeMillis(), "failed")
                     diagnostics[fileId] = AssetImportDiagnosticEntry(
