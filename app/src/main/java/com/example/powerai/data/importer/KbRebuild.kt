@@ -38,10 +38,15 @@ internal suspend fun DocumentImportManager.performBuiltInKnowledgeBaseRebuild(as
         rebuildStateFlow.value = KbRebuildState.Running(0, files.size, null)
         try {
             val rows = runRebuildTransaction(files)
-            deleteVectorIndex()
-            scanner.publishDiagnostics(assetRoot, rebuildDiagnostics(files))
-            KbRebuildState.Success(knowledgeRows = rows, packages = files.size)
-                .also { rebuildStateFlow.value = it }
+            if (invalidateVectorIndex()) {
+                scanner.publishDiagnostics(assetRoot, rebuildDiagnostics(files))
+                KbRebuildState.Success(knowledgeRows = rows, packages = files.size)
+                    .also { rebuildStateFlow.value = it }
+            } else {
+                // The database committed but the stale on-disk index could not be removed: do not
+                // report a complete success, so the user can retry.
+                failRebuild("旧索引清理失败，请重试")
+            }
         } catch (c: CancellationException) {
             rebuildStateFlow.value = KbRebuildState.Cancelled
             throw c
@@ -92,8 +97,16 @@ private suspend fun DocumentImportManager.rebuildDiagnostics(files: List<String>
         )
     }
 
-private fun DocumentImportManager.deleteVectorIndex() {
-    runCatching { File(context.filesDir, vectorIndexPath).delete() }
+/**
+ * Invalidate the vector index after a committed rebuild, so ids that no longer have a knowledge
+ * row stop being returned by `VectorRepository.search` in the same process (no restart). Clears
+ * the in-memory index first, then removes the persisted file. Returns false when the persisted
+ * index still exists afterwards (deletion failed), so the caller must not report full success.
+ */
+private fun DocumentImportManager.invalidateVectorIndex(): Boolean {
+    vectorRepository?.clear()
+    val file = File(context.filesDir, vectorIndexPath)
+    return !file.exists() || file.delete()
 }
 
 private fun DocumentImportManager.failRebuild(reason: String): KbRebuildState.Failed =

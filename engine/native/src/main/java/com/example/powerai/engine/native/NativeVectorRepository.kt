@@ -4,12 +4,17 @@ import android.content.Context
 import com.example.powerai.core.repository.VectorRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
+import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
+import kotlin.concurrent.withLock
 
 /**
  * Native-backed VectorRepository implementation moved from app module.
+ *
+ * All access to the single native index is serialized by [lock] so a rebuild-triggered [clear]
+ * can never run concurrently with an in-flight [search] or [upsert].
  */
 @Singleton
 class NativeVectorRepository @Inject constructor(
@@ -19,6 +24,7 @@ class NativeVectorRepository @Inject constructor(
 ) : VectorRepository {
 
     private val indexFile: File = File(context.filesDir, indexPath)
+    private val lock = ReentrantLock()
 
     companion object {
         init {
@@ -27,31 +33,41 @@ class NativeVectorRepository @Inject constructor(
     }
 
     init {
-        check(nativeInit(dim)) {
-            "Failed to initialize native vector index with dimension $dim"
+        lock.withLock {
+            check(nativeInit(dim)) {
+                "Failed to initialize native vector index with dimension $dim"
+            }
         }
     }
 
     override fun init(dim: Int) {
-        check(nativeInit(dim)) {
-            "Failed to initialize native vector index with dimension $dim"
+        lock.withLock {
+            check(nativeInit(dim)) {
+                "Failed to initialize native vector index with dimension $dim"
+            }
         }
     }
 
-    override fun upsert(ids: LongArray, vectors: FloatArray): Boolean {
-        return nativeUpsert(ids, vectors)
-    }
+    override fun upsert(
+        ids: LongArray,
+        vectors: FloatArray,
+    ): Boolean = lock.withLock { nativeUpsert(ids, vectors) }
 
-    override fun search(query: FloatArray, k: Int): LongArray {
-        return nativeSearch(query, k)
-    }
+    override fun search(
+        query: FloatArray,
+        k: Int,
+    ): LongArray = lock.withLock { nativeSearch(query, k) }
 
-    override fun saveIndex(path: String): Boolean {
-        return nativeSaveIndex(path)
-    }
+    override fun saveIndex(path: String): Boolean = lock.withLock { nativeSaveIndex(path) }
 
-    override fun loadIndex(path: String): Boolean {
-        return nativeLoadIndex(path)
+    override fun loadIndex(path: String): Boolean = lock.withLock { nativeLoadIndex(path) }
+
+    override fun clear() {
+        lock.withLock {
+            check(nativeInit(dim)) {
+                "Failed to reset native vector index with dimension $dim"
+            }
+        }
     }
 
     /** Helper to attempt loading the default index file if present. */

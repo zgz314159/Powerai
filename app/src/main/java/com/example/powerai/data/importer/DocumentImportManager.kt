@@ -12,6 +12,7 @@ import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.importer.NonClosingInputStream
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.repository.VectorRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ class DocumentImportManager
         private val parserFactory: FileParserFactoryType = FileParserFactory,
         internal val visionCacheDao: VisionCacheDao? = null,
         internal val embeddingDao: EmbeddingDao? = null,
+        internal val vectorRepository: VectorRepository? = null,
         @Named("vector_index_path") internal val vectorIndexPath: String = "vector_index.bin",
     ) {
         internal val assetImportMutex = Mutex()

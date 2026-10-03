@@ -8,6 +8,7 @@ import com.example.powerai.core.data.dao.EmbeddingDao
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.dao.VisionCacheDao
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.repository.VectorRepository
 import com.example.powerai.core.model.ObservabilityService
 import dagger.Module
 import dagger.Provides
@@ -38,6 +39,7 @@ object DataModule {
         observability: ObservabilityService,
         visionCacheDao: VisionCacheDao,
         embeddingDao: EmbeddingDao,
+        vectorRepository: VectorRepository,
         @Named("vector_index_path") vectorIndexPath: String,
     ): DocumentImportManager {
         return DocumentImportManager(
@@ -48,6 +50,7 @@ object DataModule {
             observability = observability,
             visionCacheDao = visionCacheDao,
             embeddingDao = embeddingDao,
+            vectorRepository = vectorRepository,
             vectorIndexPath = vectorIndexPath,
         )
     }
