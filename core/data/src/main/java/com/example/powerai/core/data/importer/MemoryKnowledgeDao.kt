@@ -126,6 +126,8 @@ class MemoryKnowledgeDao : KnowledgeDao {
     override suspend fun countBySourcePrefix(sourcePrefix: String): Int =
         list.count { it.source.startsWith(sourcePrefix) }
 
+    override suspend fun countByPackageId(packageId: String): Int = list.count { it.packageId == packageId }
+
     override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int =
         list.count {
             it.source.startsWith(sourcePrefix) &&

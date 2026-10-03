@@ -219,6 +219,10 @@ class HybridRetrievalServiceTest {
             override suspend fun countFts(): Int { throw NotImplementedError() }
             override suspend fun getSample(n: Int): List<com.example.powerai.core.data.entity.KnowledgeEntity> { throw NotImplementedError() }
             override suspend fun countBySourcePrefix(sourcePrefix: String): Int { throw NotImplementedError() }
+
+            override suspend fun countByPackageId(packageId: String): Int {
+                throw NotImplementedError()
+            }
             override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int { throw NotImplementedError() }
             override suspend fun sampleBySourcePrefix(sourcePrefix: String, limit: Int): List<com.example.powerai.core.data.entity.KnowledgeEntity> { throw NotImplementedError() }
             override suspend fun searchByKeywordNoSpace(keywordNoSpace: String): List<com.example.powerai.core.data.entity.KnowledgeEntity> { throw NotImplementedError() }
