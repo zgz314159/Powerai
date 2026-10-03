@@ -190,6 +190,14 @@ class MemoryKnowledgeDao : KnowledgeDao {
         return before - list.size
     }
 
+    override suspend fun deleteAllKnowledge(): Int {
+        val before = list.size
+        list.clear()
+        return before
+    }
+
+    override suspend fun deleteAllImportedFiles(): Int = 0
+
     override suspend fun getImportedFiles(): List<ImportedFileEntity> = emptyList()
 
     override suspend fun countByPage(fileId: String, page: Int): Int =

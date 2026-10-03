@@ -22,4 +22,11 @@ interface VisionCacheDao {
 
     @Query("DELETE FROM vision_cache WHERE entityId = :entityId")
     suspend fun deleteForEntity(entityId: Long)
+
+    /**
+     * Drop the whole vision cache. It is keyed by knowledge entity id (`entityId`), so a
+     * user-confirmed rebuild that replaces the knowledge rows must invalidate it.
+     */
+    @Query("DELETE FROM vision_cache")
+    suspend fun deleteAll(): Int
 }
