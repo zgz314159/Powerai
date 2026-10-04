@@ -8,7 +8,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito
@@ -106,5 +108,66 @@ class DatabaseViewModelRebuildTest {
             advanceUntilIdle()
 
             Mockito.verify(harness.importer, Mockito.times(1)).importAssetsIfNeed()
+        }
+
+    @Test
+    fun `clear all needs the scope and final confirmation before deleting`() =
+        runTest {
+            Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+            val harness = newHarness()
+            val viewModel = harness.createViewModel(this)
+            advanceUntilIdle()
+
+            viewModel.onIntent(DatabaseIntent.RequestClearAllKnowledgeBase)
+            advanceUntilIdle()
+            assertEquals(ClearAllConfirmStep.SCOPE, viewModel.uiState.value.clearAllStep)
+            Mockito.verify(harness.importer, Mockito.never()).clearAllKnowledgeBases()
+
+            viewModel.onIntent(DatabaseIntent.ContinueClearAllKnowledgeBase)
+            advanceUntilIdle()
+            assertEquals(ClearAllConfirmStep.FINAL, viewModel.uiState.value.clearAllStep)
+            Mockito.verify(harness.importer, Mockito.never()).clearAllKnowledgeBases()
+
+            viewModel.onIntent(DatabaseIntent.ConfirmClearAllKnowledgeBase)
+            advanceUntilIdle()
+            assertEquals(ClearAllConfirmStep.NONE, viewModel.uiState.value.clearAllStep)
+            Mockito.verify(harness.importer, Mockito.times(1)).clearAllKnowledgeBases()
+        }
+
+    @Test
+    fun `cancel clear all deletes nothing`() =
+        runTest {
+            Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+            val harness = newHarness()
+            val viewModel = harness.createViewModel(this)
+            advanceUntilIdle()
+
+            viewModel.onIntent(DatabaseIntent.RequestClearAllKnowledgeBase)
+            viewModel.onIntent(DatabaseIntent.CancelClearAllKnowledgeBase)
+            advanceUntilIdle()
+
+            assertEquals(ClearAllConfirmStep.NONE, viewModel.uiState.value.clearAllStep)
+            Mockito.verify(harness.importer, Mockito.never()).clearAllKnowledgeBases()
+        }
+
+    @Test
+    fun `remove user package only runs after confirmation`() =
+        runTest {
+            Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+            val harness = newHarness()
+            Mockito.`when`(harness.userKbImporter.removePackage("user:x"))
+                .thenReturn(com.example.powerai.data.importer.UserKbPackageRemovalResult.Removed(3))
+            val viewModel = harness.createViewModel(this)
+            advanceUntilIdle()
+
+            viewModel.onIntent(DatabaseIntent.RequestRemoveUserPackage("user:x"))
+            advanceUntilIdle()
+            assertEquals("user:x", viewModel.uiState.value.pendingRemovePackageId)
+            Mockito.verify(harness.userKbImporter, Mockito.never()).removePackage(Mockito.anyString())
+
+            viewModel.onIntent(DatabaseIntent.ConfirmRemoveUserPackage)
+            advanceUntilIdle()
+            assertNull(viewModel.uiState.value.pendingRemovePackageId)
+            Mockito.verify(harness.userKbImporter, Mockito.times(1)).removePackage("user:x")
         }
 }

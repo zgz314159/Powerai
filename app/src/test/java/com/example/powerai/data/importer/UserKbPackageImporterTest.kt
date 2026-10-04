@@ -5,8 +5,10 @@ import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.AppConfig
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.database.AppDatabase
+import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.importer.ImportUtils
+import com.example.powerai.core.repository.VectorRepository
 import com.example.powerai.util.PdfStorage
 import com.google.gson.JsonParser
 import kotlinx.coroutines.CancellationException
@@ -15,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -259,7 +262,142 @@ class UserKbPackageImporterTest {
         assertNull("no prompt once original present", second.pdf)
     }
 
+    // ---------------------------------------------------------------- list / remove
+
+    @Test
+    fun `list packages reports entry count version time and pdf association`() {
+        val source = writeSource(kb(pdfSource, entry("e1", "alpha", 1, null)), emptyMap())
+        runBlocking { importer.importFromSource(FileKbDirectorySource(source)) }
+
+        val summary = runBlocking { importer.listPackages() }.single()
+
+        assertEquals(packageIdOf(source), summary.packageId)
+        assertEquals(1, summary.entries)
+        assertEquals("doc.pdf", summary.pdfFileName)
+        assertTrue("version time recorded", summary.updatedAtMs > 0L)
+        assertTrue("status imported", summary.status.equals("imported", ignoreCase = true))
+        assertFalse("original PDF not associated yet", summary.pdfAssociated)
+    }
+
+    @Test
+    fun `remove deletes only this package rows fts marker and mirror`() {
+        val sourceA = writeSource(kb(pdfSource, entry("a1", "alpha", 1, "shots/a.png")), mapOf("shots/a.png" to byteArrayOf(1)))
+        val sourceB = writeSource(kb(pdfSource, entry("b1", "beta", 1, "shots/b.png")), mapOf("shots/b.png" to byteArrayOf(2)))
+        runBlocking { importer.importFromSource(FileKbDirectorySource(sourceA)) }
+        runBlocking { importer.importFromSource(FileKbDirectorySource(sourceB)) }
+        seedBuiltInAndManualRows()
+        val pkgA = packageIdOf(sourceA)
+        val pkgB = packageIdOf(sourceB)
+        val mirrorA = mirrorDir(pkgA)
+        assertTrue("A mirror exists", mirrorA.exists())
+
+        val result = runBlocking { importer.removePackage(pkgA) }
+
+        assertTrue("reported removed: $result", result is UserKbPackageRemovalResult.Removed)
+        assertTrue("A rows gone", rows().none { it.packageId == pkgA })
+        assertEquals("A marker gone", 0, runBlocking { db.knowledgeDao().importedFileExists(pkgA) })
+        assertFalse("A mirror removed", mirrorA.exists())
+        assertTrue("search no longer finds removed A", runBlocking { db.knowledgeDao().searchByFts("alpha") }.isEmpty())
+        // Nothing else is touched.
+        assertEquals("B rows kept", 1, rows().count { it.packageId == pkgB })
+        assertTrue("B marker kept", runBlocking { db.knowledgeDao().importedFileExists(pkgB) } > 0)
+        assertTrue("built-in row kept", rows().any { it.title == "builtin" })
+        assertTrue("manual row kept", rows().any { it.title == "manual" })
+        assertEquals("fts matches remaining rows", rows().size, countFts())
+    }
+
+    @Test
+    fun `remove refuses a non user package and deletes nothing`() {
+        seedBuiltInAndManualRows()
+        val before = rows().map { it.id to it.title }
+
+        val result = runBlocking { importer.removePackage("builtin-hash") }
+
+        assertTrue("refused: $result", result is UserKbPackageRemovalResult.Failed)
+        assertEquals("nothing deleted", before, rows().map { it.id to it.title })
+        assertTrue("built-in marker kept", runBlocking { db.knowledgeDao().importedFileExists("builtin-hash") } > 0)
+    }
+
+    @Test
+    fun `remove invalidates the native vector index`() {
+        val source = writeSource(kb(pdfSource, entry("e1", "alpha", 1, null)), emptyMap())
+        val vector = CountingVectorRepository()
+        val withVector =
+            UserKbPackageImporter(context, db.knowledgeDao(), db.visionCacheDao(), db.embeddingDao(), vector, "vector_index.bin")
+        runBlocking { withVector.importFromSource(FileKbDirectorySource(source)) }
+        val index = File(context.filesDir, "vector_index.bin")
+        index.writeText("stale")
+
+        val result = runBlocking { withVector.removePackage(packageIdOf(source)) }
+
+        assertTrue(result is UserKbPackageRemovalResult.Removed)
+        assertEquals("in-memory index cleared", 1, vector.clearCount)
+        assertFalse("on-disk index removed", index.exists())
+    }
+
+    @Test
+    fun `failed removal keeps the package and reports failure`() {
+        val source = writeSource(kb(pdfSource, entry("e1", "alpha", 1, null)), emptyMap())
+        runBlocking { importer.importFromSource(FileKbDirectorySource(source)) }
+        val pkg = packageIdOf(source)
+
+        val failing = UserKbPackageImporter(context, FailingDeleteDao(db.knowledgeDao()))
+        val result = runBlocking { failing.removePackage(pkg) }
+
+        assertTrue("reported failure: $result", result is UserKbPackageRemovalResult.Failed)
+        assertEquals("rows kept", 1, rows().count { it.packageId == pkg })
+        assertTrue("marker kept", runBlocking { db.knowledgeDao().importedFileExists(pkg) } > 0)
+    }
+
+    @Test
+    fun `failed update keeps the previous version shots on disk`() {
+        val source = writeSource(kb(pdfSource, entry("e1", "alpha", 1, "shots/a.png")), mapOf("shots/a.png" to byteArrayOf(1)))
+        runBlocking { importer.importFromSource(FileKbDirectorySource(source)) }
+        val pkg = packageIdOf(source)
+        assertTrue("old shot on disk before update", mirrorNames(mirrorDir(pkg)).contains("a.png"))
+
+        // The same directory now references a shot that does not exist → the import fails.
+        File(source, KB_JSON_FILE_NAME).writeText(kb(pdfSource, entry("e9", "beta", 1, "shots/missing.png")))
+        val result = runBlocking { importer.importFromSource(FileKbDirectorySource(source)) }
+
+        assertTrue("reported failure: $result", result is UserKbImportResult.Failed)
+        assertTrue("previous version's shot survives", mirrorNames(mirrorDir(pkg)).contains("a.png"))
+        assertEquals("rows unchanged", 1, rows().count { it.packageId == pkg })
+    }
+
     // ---------------------------------------------------------------- helpers
+
+    private fun seedBuiltInAndManualRows() =
+        runBlocking {
+            db.knowledgeDao().upsertBatch(
+                listOf(
+                    KnowledgeEntity(
+                        id = 900L,
+                        title = "builtin",
+                        content = "builtin body",
+                        contentNormalized = "builtin body",
+                        searchContent = "builtin body",
+                        source = "assets/kb/x",
+                        category = "c",
+                        packageId = "builtin-hash",
+                    ),
+                    KnowledgeEntity(
+                        id = 901L,
+                        title = "manual",
+                        content = "manual body",
+                        contentNormalized = "manual body",
+                        searchContent = "manual body",
+                        source = "manual",
+                        category = "c",
+                        packageId = null,
+                    ),
+                ),
+            )
+            db.knowledgeDao().rebuildFts()
+            db.knowledgeDao().insertImportedFile(
+                ImportedFileEntity("builtin-hash", "builtin", 1L, AssetImportStatus.IMPORTED, "sha-builtin"),
+            )
+        }
 
     private fun rows(): List<KnowledgeEntity> = runBlocking { db.knowledgeDao().getAll() }
 
@@ -354,6 +492,39 @@ class UserKbPackageImporterTest {
     ) : KnowledgeDao by delegate {
         override suspend fun upsertBatchTransactional(entities: List<KnowledgeEntity>) {
             delay(Long.MAX_VALUE)
+        }
+    }
+
+    private class FailingDeleteDao(
+        private val delegate: KnowledgeDao,
+    ) : KnowledgeDao by delegate {
+        override suspend fun deleteByPackageId(packageId: String): Int {
+            throw IllegalStateException("delete failed")
+        }
+    }
+
+    private class CountingVectorRepository : VectorRepository {
+        var clearCount = 0
+            private set
+
+        override fun init(dim: Int) {}
+
+        override fun upsert(
+            ids: LongArray,
+            vectors: FloatArray,
+        ): Boolean = true
+
+        override fun search(
+            query: FloatArray,
+            k: Int,
+        ): LongArray = LongArray(0)
+
+        override fun saveIndex(path: String): Boolean = true
+
+        override fun loadIndex(path: String): Boolean = true
+
+        override fun clear() {
+            clearCount++
         }
     }
 }

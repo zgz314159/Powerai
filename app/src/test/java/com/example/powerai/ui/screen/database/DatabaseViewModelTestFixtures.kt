@@ -10,6 +10,8 @@ import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.data.importer.KbRebuildState
+import com.example.powerai.data.importer.UserKbPackageImporter
+import com.example.powerai.data.importer.UserKbPackageSummary
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.domain.repository.SearchHistoryRepository
@@ -177,6 +179,13 @@ internal class DatabaseViewModelTestHarness(
             Mockito.`when`(manager.rebuildState).thenReturn(rebuildStateFlow)
         }
 
+    val userPackagesFlow: MutableStateFlow<List<UserKbPackageSummary>> = MutableStateFlow(emptyList())
+
+    val userKbImporter: UserKbPackageImporter =
+        Mockito.mock(UserKbPackageImporter::class.java).also { manager ->
+            Mockito.`when`(manager.packages).thenReturn(userPackagesFlow)
+        }
+
     private val createdViewModels = mutableListOf<DatabaseViewModel>()
 
     fun createViewModel(
@@ -188,6 +197,7 @@ internal class DatabaseViewModelTestHarness(
             DatabaseViewModel(
                 useCase,
                 importer,
+                userKbImporter,
                 savedStateHandle,
                 StandardTestDispatcher(scope.testScheduler),
             )

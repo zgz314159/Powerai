@@ -244,6 +244,10 @@ class HybridRetrievalServiceTest {
 
             override suspend fun deleteByPackageId(packageId: String): Int = 0
 
+            override suspend fun getIdsByPackageId(packageId: String): List<Long> = emptyList()
+
+            override suspend fun deleteImportedFile(fileId: String): Int = 0
+
             override suspend fun deleteAllKnowledge(): Int = 0
 
             override suspend fun deleteAllImportedFiles(): Int = 0

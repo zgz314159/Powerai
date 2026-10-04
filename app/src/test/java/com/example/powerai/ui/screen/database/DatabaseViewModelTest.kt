@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.AssetImportDiagnostics
 import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.data.importer.UserKbPackageImporter
+import com.example.powerai.data.importer.UserKbPackageSummary
 import com.example.powerai.domain.usecase.DatabaseUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,6 +28,7 @@ class DatabaseViewModelTest {
 
     private lateinit var useCase: DatabaseUseCase
     private lateinit var importManager: DocumentImportManager
+    private lateinit var userKbImporter: UserKbPackageImporter
     private lateinit var savedStateHandle: SavedStateHandle
     private lateinit var viewModel: DatabaseViewModel
 
@@ -40,8 +43,10 @@ class DatabaseViewModelTest {
         `when`(importManager.progress).thenReturn(
             MutableStateFlow<ImportProgress?>(null)
         )
+        userKbImporter = mock(UserKbPackageImporter::class.java)
+        `when`(userKbImporter.packages).thenReturn(MutableStateFlow<List<UserKbPackageSummary>>(emptyList()))
         savedStateHandle = SavedStateHandle()
-        viewModel = DatabaseViewModel(useCase, importManager, savedStateHandle)
+        viewModel = DatabaseViewModel(useCase, importManager, userKbImporter, savedStateHandle)
     }
 
     @After
@@ -133,14 +138,14 @@ class DatabaseViewModelTest {
     @Test
     fun `initial state should restore currentQuery from SavedStateHandle`() {
         savedStateHandle["database_current_query"] = "saved query"
-        val vm = DatabaseViewModel(useCase, importManager, savedStateHandle)
+        val vm = DatabaseViewModel(useCase, importManager, userKbImporter, savedStateHandle)
         assertEquals("saved query", vm.uiState.value.currentQuery)
     }
 
     @Test
     fun `initial state should restore collapsedGroupKeys from SavedStateHandle`() {
         savedStateHandle["database_collapsed_group_keys"] = arrayListOf("g1", "g2")
-        val vm = DatabaseViewModel(useCase, importManager, savedStateHandle)
+        val vm = DatabaseViewModel(useCase, importManager, userKbImporter, savedStateHandle)
         assertEquals(setOf("g1", "g2"), vm.uiState.value.collapsedGroupKeys)
     }
 }

@@ -127,6 +127,14 @@ interface KnowledgeDao {
     @Query("SELECT * FROM knowledge WHERE packageId = :packageId ORDER BY id ASC LIMIT 1")
     suspend fun getFirstByPackageId(packageId: String): KnowledgeEntity?
 
+    /**
+     * Entity ids owned by one package. Used to invalidate id-keyed caches (vision cache, embedding
+     * metadata) for exactly the rows a package owns when it is replaced or removed, without touching
+     * another package's cache entries.
+     */
+    @Query("SELECT id FROM knowledge WHERE packageId = :packageId")
+    suspend fun getIdsByPackageId(packageId: String): List<Long>
+
     @Query(
         "SELECT COUNT(1) FROM knowledge " +
             "WHERE source LIKE :sourcePrefix || '%' " +
@@ -180,6 +188,10 @@ interface KnowledgeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImportedFile(file: ImportedFileEntity)
+
+    /** Delete one file marker, e.g. when a user KB package is removed. */
+    @Query("DELETE FROM imported_files WHERE fileId = :fileId")
+    suspend fun deleteImportedFile(fileId: String): Int
 
     @Query("SELECT COUNT(1) FROM imported_files WHERE fileId = :fileId")
     suspend fun importedFileExists(fileId: String): Int

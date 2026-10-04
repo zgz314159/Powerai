@@ -39,15 +39,14 @@ import java.io.IOException
 import java.io.InputStream
 
 /**
- * User-confirmed rebuild of the built-in KB through the production chain
- * (`DocumentImportManager.rebuildBuiltInKnowledgeBase` → `StreamingJsonResourceImporter` → real
- * Room). Legacy (pre-migration) rows carry `packageId = NULL` and no fingerprint, so only an
- * explicit rebuild may clear them; the rebuild must be all-or-nothing and must invalidate the
- * caches keyed by knowledge entity id.
+ * The explicit "clear all knowledge" escape hatch (`DocumentImportManager.clearAllKnowledgeBases`)
+ * through the production chain (`StreamingJsonResourceImporter` → real Room). It deletes every row,
+ * marker and id-keyed cache — including pre-migration legacy data — then re-imports the bundled
+ * assets. It must be all-or-nothing: any failure or cancellation rolls everything back.
  */
 @Config(sdk = [28], application = android.app.Application::class)
 @RunWith(RobolectricTestRunner::class)
-class KbRebuildRoomTest {
+class KbClearAllRoomTest {
     private lateinit var db: AppDatabase
     private lateinit var context: Context
     private lateinit var assets: AssetManager
@@ -102,7 +101,7 @@ class KbRebuildRoomTest {
                 ApplicationProvider.getApplicationContext(),
                 AppDatabase::class.java,
             ).allowMainThreadQueries().build()
-        filesDir = File(ApplicationProvider.getApplicationContext<Context>().cacheDir, "kb-rebuild-test")
+        filesDir = File(ApplicationProvider.getApplicationContext<Context>().cacheDir, "kb-clearall-test")
         filesDir.mkdirs()
         assets = mock()
         context = mock()
@@ -186,17 +185,17 @@ class KbRebuildRoomTest {
 
     private fun ftsCount(): Int = runBlocking { db.knowledgeDao().countFts() }
 
-    private fun rebuild() = runBlocking { manager.rebuildBuiltInKnowledgeBase("kb") }
+    private fun clearAll() = runBlocking { manager.clearAllKnowledgeBases("kb") }
 
     private fun state() = manager.rebuildState.value
 
     @Test
-    fun `rebuild clears legacy rows markers and caches then imports bundled assets`() {
+    fun `clear all wipes legacy rows markers and caches then imports bundled assets`() {
         seedLegacyState()
         assertEquals("legacy seeded", 1, rows().size)
         assertEquals("legacy fts", 1, ftsCount())
 
-        val result = rebuild()
+        val result = clearAll()
 
         assertTrue("reported success", result is KbRebuildState.Success)
         assertEquals(
@@ -214,23 +213,23 @@ class KbRebuildRoomTest {
     }
 
     @Test
-    fun `rebuild removes the app-private vector index on success`() {
+    fun `clear all removes the app-private vector index on success`() {
         val index = File(filesDir, "vector_index.bin")
         index.writeText("stale")
         seedLegacyState()
 
-        rebuild()
+        clearAll()
 
         assertFalse("vector index removed", index.exists())
     }
 
     @Test
-    fun `failed rebuild rolls back and keeps legacy data and caches intact`() {
+    fun `failed clear all rolls back and keeps legacy data and caches intact`() {
         seedLegacyState()
         content[assetPath] = truncatedKb()
         whenever(assets.open(assetPath)).thenReturn(FailingTailInputStream(truncatedKb().toByteArray()))
 
-        val result = rebuild()
+        val result = clearAll()
 
         assertTrue("reported failure", result is KbRebuildState.Failed)
         assertEquals("legacy row kept", 1, rows().size)
@@ -246,13 +245,13 @@ class KbRebuildRoomTest {
     }
 
     @Test
-    fun `cancelled rebuild rolls back keeps legacy data and reports cancelled`() {
+    fun `cancelled clear all rolls back keeps legacy data and reports cancelled`() {
         seedLegacyState()
         whenever(assets.open(assetPath)).thenReturn(CancellingTailInputStream(truncatedKb().toByteArray()))
 
         var cancelled = false
         try {
-            runBlocking { manager.rebuildBuiltInKnowledgeBase("kb") }
+            runBlocking { manager.clearAllKnowledgeBases("kb") }
         } catch (c: CancellationException) {
             cancelled = true
         }
@@ -265,10 +264,10 @@ class KbRebuildRoomTest {
     }
 
     @Test
-    fun `retry after failure rebuilds cleanly`() {
+    fun `retry after failure clears cleanly`() {
         seedLegacyState()
         whenever(assets.open(assetPath)).thenReturn(FailingTailInputStream(truncatedKb().toByteArray()))
-        rebuild()
+        clearAll()
         assertTrue("first attempt failed", state() is KbRebuildState.Failed)
         assertEquals("rolled back to legacy", 1, rows().size)
 
@@ -277,7 +276,7 @@ class KbRebuildRoomTest {
         whenever(assets.open(assetPath)).thenAnswer {
             ByteArrayInputStream(content.getValue(assetPath).toByteArray())
         }
-        val result = rebuild()
+        val result = clearAll()
 
         assertTrue("retry succeeded", result is KbRebuildState.Success)
         assertEquals("rebuilt rows", 2, rows().size)
