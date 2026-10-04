@@ -5,11 +5,11 @@ import com.example.powerai.util.PLog
 import kotlinx.coroutines.CancellationException
 
 /**
- * Import maintenance for the database tab: a real retry of failed/missing built-in assets and a
- * user-confirmed rebuild of the built-in KB. The retry re-runs the production asset import (which
- * skips unchanged content and re-imports failed/missing packages) instead of only refreshing the
- * diagnostics view. The rebuild only runs after the user confirms, and its lifecycle is surfaced
- * through [DocumentImportManager.rebuildState].
+ * Import maintenance for the database tab: a real retry of failed/missing built-in assets, a
+ * user-confirmed rebuild of the confirmable built-in packages only, and an explicit two-stage
+ * "clear all knowledge" escape hatch. Nothing is deleted before the user confirms, and each
+ * lifecycle is surfaced through the manager's state flows. User-package lifecycle lives in
+ * [DatabaseUserPackageCoordinator].
  */
 internal class DatabaseImportCoordinator(
     private val importManager: DocumentImportManager,
@@ -35,10 +35,29 @@ internal class DatabaseImportCoordinator(
         reduce { copy(isRebuildConfirmVisible = false) }
     }
 
-    /** Run the confirmed rebuild, then refresh diagnostics and reload the list. */
+    /** Rebuild only the confirmable built-in packages, then refresh diagnostics and reload. */
     suspend fun confirmRebuild() {
         reduce { copy(isRebuildConfirmVisible = false) }
         runSafely("rebuild built-in KB") { importManager.rebuildBuiltInKnowledgeBase() }
+        refreshDiagnostics()
+    }
+
+    fun requestClearAll() {
+        reduce { copy(clearAllStep = ClearAllConfirmStep.SCOPE) }
+    }
+
+    fun continueClearAll() {
+        reduce { copy(clearAllStep = ClearAllConfirmStep.FINAL) }
+    }
+
+    fun cancelClearAll() {
+        reduce { copy(clearAllStep = ClearAllConfirmStep.NONE) }
+    }
+
+    /** Execute the confirmed "clear all": wipe every package, then refresh and reload. */
+    suspend fun confirmClearAll() {
+        reduce { copy(clearAllStep = ClearAllConfirmStep.NONE) }
+        runSafely("clear all knowledge") { importManager.clearAllKnowledgeBases() }
         refreshDiagnostics()
     }
 

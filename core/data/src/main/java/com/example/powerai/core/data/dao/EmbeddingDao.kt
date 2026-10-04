@@ -14,6 +14,10 @@ interface EmbeddingDao {
     @Query("SELECT fileName FROM embedding_metadata WHERE id = :id LIMIT 1")
     suspend fun getFileName(id: Long): String?
 
+    /** Drop the metadata of specific knowledge rows, leaving other packages' entries intact. */
+    @Query("DELETE FROM embedding_metadata WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<Long>): Int
+
     /**
      * Drop the whole embedding-metadata table. Its primary key is the knowledge entity id, so a
      * user-confirmed rebuild that replaces the knowledge rows must invalidate it.

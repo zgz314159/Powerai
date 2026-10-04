@@ -9,6 +9,12 @@ object AssetImportStatus {
     const val LEGACY = "legacy"
 }
 
+/**
+ * Diagnostic note for a pre-migration import whose file has no content fingerprint: its rows carry
+ * no package attribution, so ownership cannot be proven and it is never auto-replaced.
+ */
+const val KB_LEGACY_NOTE: String = "pre-migration import without content fingerprint; auto-replace skipped"
+
 data class AssetImportDiagnosticEntry(
     val assetPath: String,
     val fileId: String,
@@ -101,4 +107,22 @@ sealed interface UserKbImportResult {
     data class Failed(
         val reason: String,
     ) : UserKbImportResult
+}
+
+/** One user-imported KB package as shown in the "用户知识库" management list. */
+data class UserKbPackageSummary(
+    val packageId: String,
+    val displayName: String,
+    val entries: Int,
+    val updatedAtMs: Long,
+    val status: String,
+    val pdfFileName: String?,
+    val pdfAssociated: Boolean,
+)
+
+/** Outcome of removing one user KB package. */
+sealed interface UserKbPackageRemovalResult {
+    data class Removed(val entries: Int) : UserKbPackageRemovalResult
+
+    data class Failed(val reason: String) : UserKbPackageRemovalResult
 }

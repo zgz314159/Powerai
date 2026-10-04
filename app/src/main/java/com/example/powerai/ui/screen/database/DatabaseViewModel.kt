@@ -28,6 +28,9 @@ data class DatabaseUiState(
     val importProgress: com.example.powerai.core.data.importer.ImportProgress? = null,
     val importDiagnostics: com.example.powerai.data.importer.AssetImportDiagnostics? = null,
     val isRebuildConfirmVisible: Boolean = false,
+    val clearAllStep: ClearAllConfirmStep = ClearAllConfirmStep.NONE,
+    val pendingRemovePackageId: String? = null,
+    val userPackageMessage: String? = null,
 )
 
 @HiltViewModel
@@ -36,6 +39,7 @@ class DatabaseViewModel
     constructor(
         private val useCase: com.example.powerai.domain.usecase.DatabaseUseCase,
         private val importManager: com.example.powerai.data.importer.DocumentImportManager,
+        private val userKbPackageImporter: com.example.powerai.data.importer.UserKbPackageImporter,
         private val savedStateHandle: SavedStateHandle,
         @javax.inject.Named("io")
         private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -84,12 +88,21 @@ class DatabaseViewModel
                 reload = { reloadCurrentContent() },
             )
 
+        private val userPackageCoordinator =
+            DatabaseUserPackageCoordinator(
+                userKbPackageImporter = userKbPackageImporter,
+                reduce = { reducer -> updateState(reducer) },
+                reload = { reloadCurrentContent() },
+            )
+
         val directoryGroups: StateFlow<List<DatabaseFileGroup>>
             get() = loadCoordinator.directoryGroups
 
         val importProgress: StateFlow<com.example.powerai.core.data.importer.ImportProgress?> = importManager.progress
         val importDiagnostics: StateFlow<com.example.powerai.data.importer.AssetImportDiagnostics> = importManager.importDiagnostics
         val kbRebuildState: StateFlow<com.example.powerai.data.importer.KbRebuildState> = importManager.rebuildState
+        val userPackages: StateFlow<List<com.example.powerai.data.importer.UserKbPackageSummary>> =
+            userKbPackageImporter.packages
 
         override fun onIntent(intent: DatabaseIntent) {
             when (intent) {
@@ -113,6 +126,15 @@ class DatabaseViewModel
                 is DatabaseIntent.RequestRebuildKnowledgeBase -> requestRebuildKnowledgeBase()
                 is DatabaseIntent.ConfirmRebuildKnowledgeBase -> confirmRebuildKnowledgeBase()
                 is DatabaseIntent.CancelRebuildKnowledgeBase -> cancelRebuildKnowledgeBase()
+                is DatabaseIntent.RequestClearAllKnowledgeBase -> importCoordinator.requestClearAll()
+                is DatabaseIntent.ContinueClearAllKnowledgeBase -> importCoordinator.continueClearAll()
+                is DatabaseIntent.ConfirmClearAllKnowledgeBase -> confirmClearAllKnowledgeBase()
+                is DatabaseIntent.CancelClearAllKnowledgeBase -> importCoordinator.cancelClearAll()
+                is DatabaseIntent.RefreshUserPackages -> refreshUserPackages()
+                is DatabaseIntent.UpdateUserPackage -> updateUserPackage(intent.treeUri)
+                is DatabaseIntent.RequestRemoveUserPackage -> userPackageCoordinator.requestRemove(intent.packageId)
+                is DatabaseIntent.ConfirmRemoveUserPackage -> confirmRemoveUserPackage()
+                is DatabaseIntent.CancelRemoveUserPackage -> userPackageCoordinator.cancelRemove()
             }
         }
 
@@ -138,6 +160,51 @@ class DatabaseViewModel
         fun confirmRebuildKnowledgeBase() {
             viewModelScope.launch(ioDispatcher) {
                 importCoordinator.confirmRebuild()
+            }
+        }
+
+        fun requestClearAllKnowledgeBase() {
+            importCoordinator.requestClearAll()
+        }
+
+        fun continueClearAllKnowledgeBase() {
+            importCoordinator.continueClearAll()
+        }
+
+        fun cancelClearAllKnowledgeBase() {
+            importCoordinator.cancelClearAll()
+        }
+
+        fun confirmClearAllKnowledgeBase() {
+            viewModelScope.launch(ioDispatcher) {
+                importCoordinator.confirmClearAll()
+            }
+        }
+
+        fun refreshUserPackages() {
+            viewModelScope.launch(ioDispatcher) {
+                userPackageCoordinator.refresh()
+            }
+        }
+
+        fun updateUserPackage(treeUri: android.net.Uri) {
+            viewModelScope.launch(ioDispatcher) {
+                userPackageCoordinator.update(treeUri)
+            }
+        }
+
+        fun requestRemoveUserPackage(packageId: String) {
+            userPackageCoordinator.requestRemove(packageId)
+        }
+
+        fun cancelRemoveUserPackage() {
+            userPackageCoordinator.cancelRemove()
+        }
+
+        fun confirmRemoveUserPackage() {
+            val packageId = currentState.pendingRemovePackageId ?: return
+            viewModelScope.launch(ioDispatcher) {
+                userPackageCoordinator.confirmRemove(packageId)
             }
         }
 
@@ -236,6 +303,7 @@ class DatabaseViewModel
                     importManager.refreshImportDiagnostics()
                 } catch (_: Throwable) {
                 }
+                userPackageCoordinator.refresh()
                 historyStore.initialize()
             }
             loadCoordinator.observeImportDiagnostics(viewModelScope)

@@ -39,9 +39,9 @@ internal fun DatabaseHistoryDrawerContent(
     diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics,
     progress: com.example.powerai.core.data.importer.ImportProgress?,
     rebuildUi: KbRebuildUiState,
+    userKbUi: UserKbPackagesUiState,
     onSelectGroup: (String) -> Unit,
     onRetryImport: () -> Unit,
-    onImportDirectory: () -> Unit,
     onEdgeAction: (() -> Unit)? = null,
 ) {
     DrawerWrapper(
@@ -59,7 +59,7 @@ internal fun DatabaseHistoryDrawerContent(
                     onRefresh = onRetryImport,
                 )
                 KbRebuildBlock(ui = rebuildUi)
-                UserKbImportBlock(onImportDirectory = onImportDirectory)
+                UserKbPackagesBlock(ui = userKbUi)
             }
 
             when {

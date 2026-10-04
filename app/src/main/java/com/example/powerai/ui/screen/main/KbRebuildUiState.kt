@@ -18,14 +18,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.powerai.data.importer.KbRebuildState
+import com.example.powerai.ui.screen.database.ClearAllConfirmStep
 
-/** State + callbacks for the rebuild block, bundled to keep drawer call sites short. */
+/** State + callbacks for the rebuild / clear-all block, bundled to keep drawer call sites short. */
 internal data class KbRebuildUiState(
     val state: KbRebuildState,
     val confirmVisible: Boolean,
+    val clearAllStep: ClearAllConfirmStep,
     val onRequest: () -> Unit,
     val onConfirm: () -> Unit,
     val onCancel: () -> Unit,
+    val onRequestClearAll: () -> Unit,
+    val onContinueClearAll: () -> Unit,
+    val onConfirmClearAll: () -> Unit,
+    val onCancelClearAll: () -> Unit,
 )
 
 @Composable
@@ -54,30 +60,81 @@ internal fun KbRebuildBlock(
             )
             Text(
                 text =
-                    "重建会清除本应用的全部知识条目、搜索索引与导入记录，再用当前内置资源重新建立；" +
-                        "手工导入的记录也会被清除，可用原始文件重新导入。",
+                    "重建只清除并按当前内置资源重装**可确认归属的内置知识库**；用户导入的知识库包、" +
+                        "手工导入的资料以及无法确认归属的旧数据都会保留。",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             OutlinedButton(onClick = ui.onRequest) {
                 Text("重建内置知识库")
             }
+            Text(
+                text = "如需删除全部知识（含用户导入包、手工导入与旧数据），请使用下方入口：",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            TextButton(onClick = ui.onRequestClearAll) {
+                Text("清空全部知识…", color = Color(0xFFB3261E))
+            }
             RebuildStatusText(state = ui.state)
         }
     }
 
+    KbRebuildDialogs(ui)
+}
+
+@Composable
+private fun KbRebuildDialogs(ui: KbRebuildUiState) {
     if (ui.confirmVisible) {
         AlertDialog(
             onDismissRequest = ui.onCancel,
             title = { Text("重建内置知识库？") },
             text = {
-                Text("将删除本应用内的全部知识条目、搜索索引与导入记录，并从当前内置资源重新建立。此操作不可撤销。")
+                Text(
+                    "将清除并重装可确认归属的内置知识库条目、搜索索引与导入记录。" +
+                        "用户导入的知识库包、手工导入资料与无法确认归属的旧数据会保留。此操作不可撤销。",
+                )
             },
             confirmButton = {
                 TextButton(onClick = ui.onConfirm) { Text("重建") }
             },
             dismissButton = {
                 TextButton(onClick = ui.onCancel) { Text("取消") }
+            },
+        )
+    }
+
+    if (ui.clearAllStep == ClearAllConfirmStep.SCOPE) {
+        AlertDialog(
+            onDismissRequest = ui.onCancelClearAll,
+            title = { Text("清空全部知识？") },
+            text = {
+                Text(
+                    "这将删除本应用内的全部知识条目、搜索索引、导入记录，包括：用户导入的知识库包、" +
+                        "手工导入的资料、无法确认归属的旧数据。共享 PDF、内置知识库资源文件与用户包私有截图不受影响，但相关条目会被删除。",
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = ui.onContinueClearAll) { Text("继续") }
+            },
+            dismissButton = {
+                TextButton(onClick = ui.onCancelClearAll) { Text("取消") }
+            },
+        )
+    }
+
+    if (ui.clearAllStep == ClearAllConfirmStep.FINAL) {
+        AlertDialog(
+            onDismissRequest = ui.onCancelClearAll,
+            title = { Text("再次确认：清空全部知识") },
+            text = {
+                Text("请再次确认。此操作会删除全部知识条目且不可撤销，完成后仅重新导入内置知识库资源。")
+            },
+            confirmButton = {
+                TextButton(onClick = ui.onConfirmClearAll) { Text("清空全部") }
+            },
+            dismissButton = {
+                TextButton(onClick = ui.onCancelClearAll) { Text("取消") }
             },
         )
     }

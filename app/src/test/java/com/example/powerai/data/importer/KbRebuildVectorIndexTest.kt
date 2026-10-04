@@ -52,7 +52,7 @@ class KbRebuildVectorIndexTest {
     private val assetPath = "kb/atomic/knowledge_base.json"
     private val sha = "e".repeat(64)
     private val declaredSource = "pdf:$sha::doc.pdf"
-    private val legacyEntityId = 111L
+    private val staleEntityId = 111L
     private val fileId: String get() = ImportUtils.sha256Hex("asset:$assetPath")
 
     private val content = linkedMapOf<String, String>()
@@ -172,20 +172,30 @@ class KbRebuildVectorIndexTest {
 
     private fun truncatedKb(): String = """{"fileMetadata":{"source":"$declaredSource"},"entries":[${entry("e1", "alpha")}"""
 
-    /** A legacy row attributed to no package, plus a vector indexed under its id. */
-    private fun seedLegacyRowAndVector() =
+    /** A confirmable built-in package (attributed by packageId) plus a vector indexed under its id. */
+    private fun seedBuiltInRowAndVector() =
         runBlocking {
             db.knowledgeDao().upsertBatch(
                 listOf(
                     KnowledgeEntity(
-                        id = legacyEntityId,
-                        title = "legacy",
-                        content = "legacy body",
-                        contentNormalized = "legacy body",
-                        searchContent = "legacy body",
+                        id = staleEntityId,
+                        title = "stale",
+                        content = "stale body",
+                        contentNormalized = "stale body",
+                        searchContent = "stale body",
                         source = declaredSource,
                         category = "old",
-                        packageId = null,
+                        packageId = fileId,
+                    ),
+                    KnowledgeEntity(
+                        id = staleEntityId + 1,
+                        title = "stale2",
+                        content = "stale2 body",
+                        contentNormalized = "stale2 body",
+                        searchContent = "stale2 body",
+                        source = declaredSource,
+                        category = "old",
+                        packageId = fileId,
                     ),
                 ),
             )
@@ -196,10 +206,10 @@ class KbRebuildVectorIndexTest {
                     fileName = "atomic",
                     timestamp = 1L,
                     status = AssetImportStatus.IMPORTED,
-                    contentSha256 = "",
+                    contentSha256 = "old-fingerprint",
                 ),
             )
-            vectorRepo.upsert(longArrayOf(legacyEntityId), FloatArray(1))
+            vectorRepo.upsert(longArrayOf(staleEntityId), FloatArray(1))
         }
 
     private fun searchIds(): List<Long> = vectorRepo.search(FloatArray(1), 10).toList()
@@ -208,32 +218,32 @@ class KbRebuildVectorIndexTest {
 
     @Test
     fun `successful rebuild drops the old id from the in-memory index in the same process`() {
-        seedLegacyRowAndVector()
-        assertEquals("old id searchable before rebuild", listOf(legacyEntityId), searchIds())
+        seedBuiltInRowAndVector()
+        assertEquals("old id searchable before rebuild", listOf(staleEntityId), searchIds())
 
         val result = rebuild()
 
         assertTrue("reported success", result is KbRebuildState.Success)
         assertTrue("in-memory index was cleared", vectorRepo.clearCount >= 1)
         assertTrue("old id no longer searchable after rebuild", searchIds().isEmpty())
-        assertTrue("old row gone", runBlocking { db.knowledgeDao().getAll() }.none { it.id == legacyEntityId })
+        assertTrue("old row gone", runBlocking { db.knowledgeDao().getAll() }.none { it.id == staleEntityId })
     }
 
     @Test
     fun `failed rebuild keeps the still-valid index and does not clear it`() {
-        seedLegacyRowAndVector()
+        seedBuiltInRowAndVector()
         whenever(assets.open(assetPath)).thenReturn(FailingTailInputStream(truncatedKb().toByteArray()))
 
         val result = rebuild()
 
         assertTrue("reported failure", result is KbRebuildState.Failed)
         assertEquals("index not touched on rollback", 0, vectorRepo.clearCount)
-        assertEquals("old id still searchable", listOf(legacyEntityId), searchIds())
+        assertEquals("old id still searchable", listOf(staleEntityId), searchIds())
     }
 
     @Test
     fun `cancelled rebuild keeps the still-valid index and does not clear it`() {
-        seedLegacyRowAndVector()
+        seedBuiltInRowAndVector()
         whenever(assets.open(assetPath)).thenReturn(CancellingTailInputStream(truncatedKb().toByteArray()))
 
         var cancelled = false
@@ -245,12 +255,12 @@ class KbRebuildVectorIndexTest {
 
         assertTrue("cancellation propagates", cancelled)
         assertEquals("index not touched on cancellation", 0, vectorRepo.clearCount)
-        assertEquals("old id still searchable", listOf(legacyEntityId), searchIds())
+        assertEquals("old id still searchable", listOf(staleEntityId), searchIds())
     }
 
     @Test
     fun `disk deletion failure is not reported as a complete success`() {
-        seedLegacyRowAndVector()
+        seedBuiltInRowAndVector()
         // A non-empty directory cannot be removed by File.delete(), forcing a deletion failure.
         val index = File(filesDir, "vector_index.bin")
         index.mkdirs()

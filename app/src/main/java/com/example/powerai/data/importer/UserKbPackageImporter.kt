@@ -4,20 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.example.powerai.AppConfig
+import com.example.powerai.core.data.dao.EmbeddingDao
 import com.example.powerai.core.data.dao.KnowledgeDao
+import com.example.powerai.core.data.dao.VisionCacheDao
 import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.importer.ImportDefaults
 import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.model.KnowledgePackages
+import com.example.powerai.core.repository.VectorRepository
 import com.example.powerai.util.PdfSourceRef
 import com.example.powerai.util.PdfStorage
 import com.google.gson.JsonParser
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.io.ByteArrayInputStream
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -45,7 +51,84 @@ class UserKbPackageImporter
     constructor(
         @ApplicationContext private val context: Context,
         private val dao: KnowledgeDao,
+        private val visionCacheDao: VisionCacheDao? = null,
+        private val embeddingDao: EmbeddingDao? = null,
+        private val vectorRepository: VectorRepository? = null,
+        @Named("vector_index_path") private val vectorIndexPath: String = "vector_index.bin",
     ) {
+        private val _packages = MutableStateFlow<List<UserKbPackageSummary>>(emptyList())
+
+        /** Observable list of the user-imported packages, refreshed after every import/removal. */
+        val packages: StateFlow<List<UserKbPackageSummary>> = _packages
+
+        /** Re-read the user packages from the database and publish the management list. */
+        suspend fun refreshPackages() {
+            _packages.value = listPackages()
+        }
+
+        /** User-imported packages (`user:` ids), newest first, with entry count and PDF association. */
+        suspend fun listPackages(): List<UserKbPackageSummary> =
+            dao.getImportedFiles()
+                .filter { KnowledgePackages.isUserPackage(it.fileId) }
+                .sortedByDescending { it.timestamp }
+                .map { marker ->
+                    val ref = PdfSourceRef.parse(runCatching { dao.getFirstByPackageId(marker.fileId)?.source }.getOrNull())
+                    UserKbPackageSummary(
+                        packageId = marker.fileId,
+                        displayName = marker.fileName.ifBlank { marker.fileId },
+                        entries = dao.countByPackageId(marker.fileId),
+                        updatedAtMs = marker.timestamp,
+                        status = marker.status,
+                        pdfFileName = ref?.fileName,
+                        pdfAssociated = ref != null && PdfStorage.hasPdf(context, ref.fileId),
+                    )
+                }
+
+        /**
+         * Remove exactly one user package: its rows, FTS entries, id-keyed caches and marker in one
+         * transaction, then — only after the commit — its private mirror directory and the derived
+         * native vector index. Refuses anything that is not a `user:` package, so built-in packages,
+         * other user packages, manual imports and shared PDFs are never touched. A failure leaves the
+         * package fully intact and is reported as such (never a false success).
+         */
+        @Suppress("ReturnCount", "TooGenericExceptionCaught")
+        suspend fun removePackage(packageId: String): UserKbPackageRemovalResult {
+            if (!KnowledgePackages.isUserPackage(packageId)) {
+                return UserKbPackageRemovalResult.Failed("仅支持移除用户导入的知识库包")
+            }
+            if (runCatching { dao.getImportedFile(packageId) }.getOrNull() == null) {
+                return UserKbPackageRemovalResult.Failed("未找到该用户知识库包")
+            }
+            val entries = runCatching { dao.countByPackageId(packageId) }.getOrDefault(0)
+
+            var ownedIds: List<Long> = emptyList()
+            try {
+                dao.runInTransaction {
+                    ownedIds = dao.getIdsByPackageId(packageId)
+                    dao.deleteByPackageId(packageId)
+                    dao.deleteImportedFile(packageId)
+                    dao.rebuildFts()
+                    invalidateEntityCachesFor(visionCacheDao, embeddingDao, ownedIds)
+                }
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (error: Throwable) {
+                return UserKbPackageRemovalResult.Failed(error.message ?: "移除失败")
+            }
+
+            // After the commit: drop only this package's private mirror, then invalidate the derived
+            // index (a stale id must not be returned in the same process).
+            val mirrorDir = packageDirFor(packageId)
+            val mirrorRemoved = runCatching { mirrorDir.deleteRecursively() }.getOrDefault(false) || !mirrorDir.exists()
+            val indexOk = invalidateNativeVectorIndex(context, vectorRepository, vectorIndexPath)
+            refreshPackages()
+            return if (mirrorRemoved && indexOk) {
+                UserKbPackageRemovalResult.Removed(entries)
+            } else {
+                UserKbPackageRemovalResult.Failed("已从数据库移除，但私有资源清理失败，请重试")
+            }
+        }
+
         /** Import the directory behind a SAF tree uri obtained from [android.provider.DocumentsContract]. */
         suspend fun importDirectory(
             treeUri: Uri,
@@ -77,6 +160,7 @@ class UserKbPackageImporter
             if (existing?.status?.trim()?.lowercase() == AssetImportStatus.IMPORTED &&
                 existing.contentSha256 == contentSha
             ) {
+                refreshPackages()
                 return UserKbImportResult.Skipped(
                     entries = dao.countByPackageId(packageId),
                     displayName = source.displayName,
@@ -121,6 +205,7 @@ class UserKbPackageImporter
             }
 
             pruneOldVersions(packageDir, versionDir)
+            refreshPackages()
             return UserKbImportResult.Imported(
                 entries = dao.countByPackageId(packageId),
                 blocks = runCatching { countBlocks(String(bytes, Charsets.UTF_8)) }.getOrDefault(0),

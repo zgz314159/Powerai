@@ -35,6 +35,8 @@ class StreamingJsonBatchWriterTest {
         override suspend fun countByPackageId(packageId: String): Int = 0
 
         override suspend fun getFirstByPackageId(packageId: String): KnowledgeEntity? = null
+
+        override suspend fun getIdsByPackageId(packageId: String): List<Long> = emptyList()
         override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int = 0
         override suspend fun sampleBySourcePrefix(sourcePrefix: String, limit: Int): List<KnowledgeEntity> = emptyList()
         override suspend fun searchByKeywordNoSpace(keywordNoSpace: String): List<KnowledgeEntity> = emptyList()
@@ -43,6 +45,8 @@ class StreamingJsonBatchWriterTest {
         override suspend fun searchByKeywordFuzzy(pattern: String): List<KnowledgeEntity> = emptyList()
         override suspend fun getLargestKnowledgeRows(limit: Int) = emptyList<com.example.powerai.core.data.entity.KnowledgeRowPayloadStat>()
         override suspend fun insertImportedFile(file: ImportedFileEntity) {}
+
+        override suspend fun deleteImportedFile(fileId: String): Int = 0
         override suspend fun importedFileExists(fileId: String): Int = 0
         override suspend fun getImportedFileStatus(fileId: String): String? = null
 

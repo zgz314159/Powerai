@@ -65,4 +65,41 @@ sealed interface DatabaseIntent {
 
     /** 用户取消重建内置知识库 */
     data object CancelRebuildKnowledgeBase : DatabaseIntent
+
+    /** 请求清空全部知识（第一步：说明影响范围，不删除任何数据） */
+    data object RequestClearAllKnowledgeBase : DatabaseIntent
+
+    /** 清空全部的第二步确认（进入最终确认） */
+    data object ContinueClearAllKnowledgeBase : DatabaseIntent
+
+    /** 最终确认清空全部知识（执行删除） */
+    data object ConfirmClearAllKnowledgeBase : DatabaseIntent
+
+    /** 取消清空全部知识 */
+    data object CancelClearAllKnowledgeBase : DatabaseIntent
+
+    /** 刷新用户知识库包列表 */
+    data object RefreshUserPackages : DatabaseIntent
+
+    /** 用所选目录导入或更新用户知识库包（同一目录内容未变化则跳过） */
+    data class UpdateUserPackage(val treeUri: android.net.Uri) : DatabaseIntent
+
+    /** 请求移除某个用户知识库包：仅弹出确认，不删除任何数据 */
+    data class RequestRemoveUserPackage(val packageId: String) : DatabaseIntent
+
+    /** 用户确认移除所选用户知识库包 */
+    data object ConfirmRemoveUserPackage : DatabaseIntent
+
+    /** 用户取消移除 */
+    data object CancelRemoveUserPackage : DatabaseIntent
+}
+
+/**
+ * Two-stage confirmation for the destructive "clear all knowledge" action: the user must first see
+ * the impact scope and then explicitly confirm again before anything is deleted.
+ */
+enum class ClearAllConfirmStep {
+    NONE,
+    SCOPE,
+    FINAL,
 }

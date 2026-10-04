@@ -104,8 +104,16 @@ class DocumentImportManager
                 summarizeImportOutcome(diagnostics.values, files.size)
             }
 
-        /** User-confirmed rebuild of the built-in KB; see [performBuiltInKnowledgeBaseRebuild]. */
-        suspend fun rebuildBuiltInKnowledgeBase(assetRoot: String = "kb"): KbRebuildState = performBuiltInKnowledgeBaseRebuild(assetRoot)
+        /** User-confirmed rebuild of only the confirmable built-in packages; see [performKbRebuild]. */
+        suspend fun rebuildBuiltInKnowledgeBase(assetRoot: String = "kb"): KbRebuildState =
+            performKbRebuild(KbRebuildScope.BUILT_IN, assetRoot)
+
+        /**
+         * Explicit, user-confirmed "clear all": wipe every knowledge row, marker and id-keyed cache
+         * (including user packages, manual imports and unconfirmable legacy data), then re-import the
+         * bundled assets so the app stays usable. Never reachable through the rebuild entry point.
+         */
+        suspend fun clearAllKnowledgeBases(assetRoot: String = "kb"): KbRebuildState = performKbRebuild(KbRebuildScope.ALL, assetRoot)
 
         private suspend fun buildDiagnostics(files: List<String>): LinkedHashMap<String, AssetImportDiagnosticEntry> {
             val diagnostics = LinkedHashMap<String, AssetImportDiagnosticEntry>()
@@ -150,7 +158,7 @@ class DocumentImportManager
             if (priorStatus == STATUS_IMPORTED) {
                 if (prior?.contentSha256.isNullOrBlank()) {
                     diagnostics[fileId] =
-                        diagnostics.getValue(fileId).copy(status = STATUS_LEGACY, errorMessage = LEGACY_NOTE)
+                        diagnostics.getValue(fileId).copy(status = STATUS_LEGACY, errorMessage = KB_LEGACY_NOTE)
                     scanner.publishDiagnostics(assetRoot, diagnostics.values)
                     return
                 }
@@ -321,7 +329,6 @@ class DocumentImportManager
             const val STATUS_IN_PROGRESS = AssetImportStatus.IN_PROGRESS
             const val STATUS_FAILED = AssetImportStatus.FAILED
             const val STATUS_LEGACY = AssetImportStatus.LEGACY
-            const val LEGACY_NOTE = "pre-migration import without content fingerprint; auto-replace skipped"
             const val HASH_DRAIN_BUFFER = 8192
         }
     }

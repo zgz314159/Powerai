@@ -131,6 +131,8 @@ class MemoryKnowledgeDao : KnowledgeDao {
     override suspend fun getFirstByPackageId(packageId: String): KnowledgeEntity? =
         list.filter { it.packageId == packageId }.minByOrNull { it.id }
 
+    override suspend fun getIdsByPackageId(packageId: String): List<Long> = list.filter { it.packageId == packageId }.map { it.id }
+
     override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int =
         list.count {
             it.source.startsWith(sourcePrefix) &&
@@ -182,6 +184,8 @@ class MemoryKnowledgeDao : KnowledgeDao {
     override suspend fun insertImportedFile(file: ImportedFileEntity) {
         // no-op in memory
     }
+
+    override suspend fun deleteImportedFile(fileId: String): Int = 0
 
     override suspend fun importedFileExists(fileId: String): Int = 0
 

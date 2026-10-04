@@ -1,5 +1,7 @@
 package com.example.powerai.ui.screen.main
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -133,6 +135,11 @@ private fun DatabaseTabDrawer(
     val importDiagnostics by dbViewModel.importDiagnostics.collectAsState()
     val importProgress by dbViewModel.importProgress.collectAsState()
     val kbRebuildState by dbViewModel.kbRebuildState.collectAsState()
+    val userPackages by dbViewModel.userPackages.collectAsState()
+    val updateDirectoryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            if (uri != null) dbViewModel.updateUserPackage(uri)
+        }
     val drawerGroups = if (directoryGroups.isNotEmpty()) directoryGroups else dbUiState.groups
     val drawerLoading = dbUiState.isLoading && drawerGroups.isEmpty()
     androidx.compose.runtime.LaunchedEffect(
@@ -163,9 +170,25 @@ private fun DatabaseTabDrawer(
             KbRebuildUiState(
                 state = kbRebuildState,
                 confirmVisible = dbUiState.isRebuildConfirmVisible,
+                clearAllStep = dbUiState.clearAllStep,
                 onRequest = dbViewModel::requestRebuildKnowledgeBase,
                 onConfirm = dbViewModel::confirmRebuildKnowledgeBase,
                 onCancel = dbViewModel::cancelRebuildKnowledgeBase,
+                onRequestClearAll = dbViewModel::requestClearAllKnowledgeBase,
+                onContinueClearAll = dbViewModel::continueClearAllKnowledgeBase,
+                onConfirmClearAll = dbViewModel::confirmClearAllKnowledgeBase,
+                onCancelClearAll = dbViewModel::cancelClearAllKnowledgeBase,
+            ),
+        userKbUi =
+            UserKbPackagesUiState(
+                packages = userPackages,
+                pendingRemovePackageId = dbUiState.pendingRemovePackageId,
+                message = dbUiState.userPackageMessage,
+                onImportDirectory = onImportDirectory,
+                onUpdateDirectory = { updateDirectoryLauncher.launch(null) },
+                onRequestRemove = dbViewModel::requestRemoveUserPackage,
+                onConfirmRemove = dbViewModel::confirmRemoveUserPackage,
+                onCancelRemove = dbViewModel::cancelRemoveUserPackage,
             ),
         onSelectGroup = { groupKey ->
             if (currentDbQuery.isNotBlank()) onQueryChange("")
@@ -173,7 +196,6 @@ private fun DatabaseTabDrawer(
             localCoroutineScope.launch { dbDrawerState.close() }
         },
         onRetryImport = dbViewModel::retryAssetImport,
-        onImportDirectory = onImportDirectory,
         onEdgeAction = {
             localCoroutineScope.launch { dbDrawerState.close() }
         },
