@@ -105,7 +105,7 @@ class RoomFtsRetriever @Inject constructor(private val dao: KnowledgeDao) : FtsR
                 category = e.category,
                 keywords = if (e.keywordsSerialized.isBlank()) emptyList() else e.keywordsSerialized.split(',').map { it.trim() },
                 highlightHint = profile.matchedFigureLabel.ifBlank { profile.matchedFigureCaption.takeIf { it.isNotBlank() } },
-                contentBlocksJson = e.contentBlocksJson
+                contentBlocksJson = e.contentBlocksJson, packageId = e.packageId,
             )
             RetrievalResult(
                 id = e.id,

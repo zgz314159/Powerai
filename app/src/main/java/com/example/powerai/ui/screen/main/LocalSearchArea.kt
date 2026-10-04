@@ -84,7 +84,7 @@ fun LocalSearchArea(
     }
 
     val displayList = remember(uiState.references, pageSize) {
-        uiState.references.distinctBy { it.content }.take(pageSize)
+        selectLocalDisplayResults(uiState.references, pageSize)
     }
     val localFailureMessage = localResultsFailureMessage(uiState)
     val retryLocalSearch: (() -> Unit)? =

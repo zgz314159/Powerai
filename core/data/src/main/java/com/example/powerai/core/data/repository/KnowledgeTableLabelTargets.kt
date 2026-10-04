@@ -106,7 +106,7 @@ internal object KnowledgeTableLabelTargets {
         return dao.getByPage(hit.entity.source, page)
             .asSequence()
             .filter { it.id != hit.entity.id }
-            .mapNotNull { sibling -> tableCandidateIn(sibling, hit.label, page, entityToItem) }
+            .mapNotNull { sibling -> tableCandidateIn(sibling, hit.label, page, hit.entity.packageId, entityToItem) }
             .minWithOrNull(CANDIDATE_ORDER)
             ?.item
     }
@@ -115,6 +115,7 @@ internal object KnowledgeTableLabelTargets {
         sibling: KnowledgeEntity,
         label: TableLabelBlockResolver.BlockInfo,
         page: Int,
+        hitPackageId: String?,
         entityToItem: (KnowledgeEntity) -> KnowledgeItem,
     ): TableCandidate? {
         val siblingBlocks = TableLabelBlockResolver.blockInfos(sibling.contentBlocksJson)
@@ -126,19 +127,30 @@ internal object KnowledgeTableLabelTargets {
                 hitBlockIndex = table.index,
                 hitBlockId = siblingBlocks[table.index].id,
             )
-        return TableCandidate(gap = table.gap, siblingId = sibling.id, blockIndex = table.index, item = item)
+        return TableCandidate(
+            // A caption/label in one package must re-point to a table in the SAME package first, so
+            // a hit in a user-imported package never gets promoted onto an unrelated package's row
+            // that happens to sit on the same page (identical source/document sha).
+            samePackage = sibling.packageId == hitPackageId,
+            gap = table.gap,
+            siblingId = sibling.id,
+            blockIndex = table.index,
+            item = item,
+        )
     }
 
     private data class TableCandidate(
+        val samePackage: Boolean,
         val gap: Float,
         val siblingId: Long,
         val blockIndex: Int,
         val item: KnowledgeItem,
     )
 
-    /** Nearest table wins; equal gaps fall back to a deterministic sibling id / block index order. */
+    /** Same package first, then nearest table; ties fall back to a deterministic sibling id / block index order. */
     private val CANDIDATE_ORDER: Comparator<TableCandidate> =
-        compareBy<TableCandidate> { it.gap }
+        compareByDescending<TableCandidate> { it.samePackage }
+            .thenBy { it.gap }
             .thenBy { it.siblingId }
             .thenBy { it.blockIndex }
 }

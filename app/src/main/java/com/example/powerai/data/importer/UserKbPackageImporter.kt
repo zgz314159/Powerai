@@ -9,6 +9,7 @@ import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.importer.ImportDefaults
 import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
+import com.example.powerai.core.model.KnowledgePackages
 import com.example.powerai.util.PdfSourceRef
 import com.example.powerai.util.PdfStorage
 import com.google.gson.JsonParser
@@ -70,7 +71,7 @@ class UserKbPackageImporter
                     ?: return UserKbImportResult.Failed("所选目录中未找到 knowledge_base.json，请选择包含该文件的输出目录")
 
             val contentSha = ImportUtils.sha256Hex(bytes)
-            val packageId = "user:" + ImportUtils.sha256Hex(source.identity)
+            val packageId = KnowledgePackages.USER_PREFIX + ImportUtils.sha256Hex(source.identity)
 
             val existing = runCatching { dao.getImportedFile(packageId) }.getOrNull()
             if (existing?.status?.trim()?.lowercase() == AssetImportStatus.IMPORTED &&

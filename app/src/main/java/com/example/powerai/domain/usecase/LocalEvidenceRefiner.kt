@@ -154,6 +154,11 @@ internal object LocalEvidenceRefiner {
         val title = result.item?.title ?: result.metadata["title"].orEmpty()
         val content = result.item?.content ?: result.metadata["snippet"].orEmpty()
         val article = LocalEvidenceHeuristics.extractArticleSignature(title, content)
-        return if (article.isNotBlank()) article else TextSanitizer.normalizeForSearch("$title $content").take(48)
+        val base = if (article.isNotBlank()) article else TextSanitizer.normalizeForSearch("$title $content").take(48)
+        // Package-aware: identical title/content from different KB packages are distinct results,
+        // so an imported user package is never collapsed behind an unrelated package with the
+        // same text. Rows without a package id (manual/legacy) still cluster by content alone.
+        val packageKey = result.item?.packageId.orEmpty()
+        return "$base|pkg=$packageKey"
     }
 }

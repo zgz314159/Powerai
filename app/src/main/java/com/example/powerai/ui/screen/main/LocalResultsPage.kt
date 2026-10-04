@@ -180,10 +180,6 @@ fun LocalResultsPage(
     }
 }
 
-private fun applySafeFiltering(results: List<KnowledgeItem>): List<KnowledgeItem> {
-    return results.distinctBy { it.content }.take(10)
-}
-
 private fun buildFileGroups(results: List<KnowledgeItem>): List<FileGroup> {
     if (results.isEmpty()) return emptyList()
     

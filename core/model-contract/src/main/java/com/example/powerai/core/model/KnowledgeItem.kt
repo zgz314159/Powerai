@@ -45,5 +45,13 @@ data class KnowledgeItem(
     val contentBlocksJson: String? = null,
 
     /** Optional: count of images associated with this item. */
-    val imagesCount: Int = 0
+    val imagesCount: Int = 0,
+    /**
+     * Owning KB package id (e.g. `asset:<sha>` for built-in assets, `user:<sha>` for a directory
+     * the user imported); null for manual imports and pre-migration rows. Two rows with identical
+     * title/content but different packages are distinct knowledge and must not be silently merged
+     * in search results — otherwise an imported package the user owns can be hidden behind an
+     * unrelated package that happens to carry the same text.
+     */
+    val packageId: String? = null,
 )
