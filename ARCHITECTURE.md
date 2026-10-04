@@ -52,8 +52,8 @@ DOCX/PDF
   → extraction (tools: docx_reader, pdf pages)
   → normalize (blocks, markdown tables, kb path sanitizer)
   → knowledge_base.json (+ 截图 manifest)
-  → assets/kb/<fileId>/  或  用户导入 URI
-  → import (核心位于 `:core:data` 的 `core/data/importer`：StreamingJsonResourceImporter JsonReader 逐条流式、失败即抛出；`:app` 的 DocumentImportManager 负责 assets/URI 入口与单文件事务原子提交)
+  → assets/kb/<fileId>/（内置）  或  用户选择的输出目录（含 knowledge_base.json + shots/）
+  → import (核心位于 `:core:data` 的 `core/data/importer`：StreamingJsonResourceImporter JsonReader 逐条流式、失败即抛出；`:app` 的 DocumentImportManager 负责 assets/URI 入口与单文件事务原子提交；UserKbPackageImporter 负责「用户目录包」：以内容指纹跳过/替换、把引用的 shots 复制到应用私有镜像并把块内 imageUri 重写为私有 file://，先落文件后提交)
   → storage (Room KnowledgeEntity, contentNormalized)
   → optional: vector index (NativeVectorRepository)
 ```
@@ -96,7 +96,7 @@ KnowledgeEntity / blocks JSON
 | 包 | 职责 |
 |----|------|
 | `core/data/importer` | JSON KB 导入核心（`:core:data`）：`StreamingJsonResourceImporter`、解析/映射/批写、markdown 表规范化、导入进度模型 |
-| `data/importer` | `:app` 侧 Android 适配：资产扫描、URI/SAF 入口、DOCX/PDF/TXT parser、blocks 预处理与路径规范化 |
+| `data/importer` | `:app` 侧 Android 适配：资产扫描、URI/SAF 入口、DOCX/PDF/TXT parser、blocks 预处理与路径规范化；`UserKbPackageImporter`（用户目录包：`packageId = "user:"+sha256(目录标识)`、内容指纹跳过/替换、引用 shots 复制到 `filesDir/kb_user/<包>/<指纹>/` 并重写块内 `imageUri`） |
 | `data/repository` | `KnowledgeRepositoryImpl`、本地搜索处理 |
 | `data/retriever` | ANN、向量索引、HTTP 检索 |
 | `data/local` | Room entity/dao/migration |
