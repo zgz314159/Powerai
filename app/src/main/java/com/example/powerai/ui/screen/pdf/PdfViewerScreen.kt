@@ -32,13 +32,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.powerai.util.PdfAssociation
+import com.example.powerai.util.PdfAssociationResult
 import com.example.powerai.util.PdfOutlineIndexStore
 import com.example.powerai.util.PdfStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.security.MessageDigest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,48 +65,42 @@ fun PdfViewerScreen(
             attemptedAssetRestore = true
             if (!pdfFile.exists()) {
                 isRestoringFromAssets = true
-                val restored = withContext(Dispatchers.IO) {
-                    PdfOutlineIndexStore.restorePdfFromAssetsIfPossible(context, fileId)
-                }
+                val restored =
+                    withContext(Dispatchers.IO) {
+                        PdfOutlineIndexStore.restorePdfFromAssetsIfPossible(context, fileId)
+                    }
                 isRestoringFromAssets = false
                 if (restored) {
-                    missingHint = "Ѵ assets Զָԭ PDFˢ¡"
+                    missingHint = "已从 assets 自动恢复原 PDF 并刷新。"
                     refreshKey++
                 }
             }
         }
     }
-    val relinkLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri: Uri? ->
-            missingHint = null
-            if (uri == null) return@rememberLauncherForActivityResult
-            // ѡ PDFУ sha256  fileId һ¡
-            // ļܽϴ󣬷ŵ IO
-            scope.launch(Dispatchers.IO) {
-                try {
-                    val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-                        ?: throw IllegalArgumentException("无法读取所选文件")
-                    val sha = MessageDigest.getInstance("SHA-256").digest(bytes).joinToString("") { "%02x".format(it) }
-                    if (!sha.equals(fileId, ignoreCase = true)) {
-                        withContext(Dispatchers.Main) {
-                            missingHint = "所选 PDF 与目录不匹配，请选择原始 PDF。期望 fileId=$fileId，实际=$sha"
+    val relinkLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+            onResult = { uri: Uri? ->
+                missingHint = null
+                if (uri == null) return@rememberLauncherForActivityResult
+                // 校验所选 PDF 的 sha256 与 fileId 一致后再关联；文件较大，放到 IO 线程。
+                scope.launch(Dispatchers.IO) {
+                    val result = PdfAssociation.associate(context, uri, fileId)
+                    withContext(Dispatchers.Main) {
+                        when (result) {
+                            is PdfAssociationResult.Associated -> {
+                                missingHint = "已绑定原 PDF 并刷新。"
+                                refreshKey++
+                            }
+                            is PdfAssociationResult.Mismatch ->
+                                missingHint = "所选 PDF 与目录不匹配，请选择原始 PDF。期望 fileId=$fileId，实际=${result.actual}"
+                            is PdfAssociationResult.Failed ->
+                                missingHint = "关联失败：${result.reason}"
                         }
-                        return@launch
-                    }
-                    PdfStorage.savePdfBytes(context, bytes, fileId)
-                    withContext(Dispatchers.Main) {
-                        missingHint = "Ѱ󶨲ԭ PDFˢ¡"
-                        refreshKey++
-                    }
-                } catch (t: Throwable) {
-                    withContext(Dispatchers.Main) {
-                        missingHint = "ʧܣ${t.message}"
                     }
                 }
-            }
-        }
-    )
+            },
+        )
 
     Scaffold(
         topBar = {
@@ -116,28 +110,29 @@ fun PdfViewerScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
             )
-        }
+        },
     ) { inner ->
         if (!pdfFile.exists()) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(inner),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(inner),
+                contentAlignment = Alignment.Center,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(if (isRestoringFromAssets) "ڴ assets ָԭ PDF" else "Ҳ PDF ԭļǾδԭģ")
+                    Text(if (isRestoringFromAssets) "正在从 assets 恢复原 PDF" else "找不到 PDF 原件（该文件未经此应用恢复）")
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "fileId=$fileId",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     OutlinedButton(onClick = { relinkLauncher.launch(arrayOf("application/pdf")) }) {
-                        Text("ѡ PDF °")
+                        Text("选择 PDF 重新关联")
                     }
                     missingHint?.let {
                         Spacer(modifier = Modifier.height(10.dp))
@@ -149,16 +144,16 @@ fun PdfViewerScreen(
         }
 
         PdfPagesColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(inner),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(inner),
             pdfFile = pdfFile,
             highlightPageIndex = initialHighlightPage?.minus(1),
-            highlightBox = remember(initialHighlightBboxJson) {
-                parsePdfBoundingBoxOrNull(initialHighlightBboxJson)
-            }
+            highlightBox =
+                remember(initialHighlightBboxJson) {
+                    parsePdfBoundingBoxOrNull(initialHighlightBboxJson)
+                },
         )
     }
 }
-
-

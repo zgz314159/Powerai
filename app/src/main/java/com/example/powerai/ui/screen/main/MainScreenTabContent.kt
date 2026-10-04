@@ -47,6 +47,7 @@ internal fun DatabaseTabContent(
 ) {
     val dbUiState by dbViewModel.uiState.collectAsState()
     val currentDbQuery = dbUiState.currentQuery
+    val importNavScope = rememberCoroutineScope()
 
     androidx.compose.runtime.LaunchedEffect(currentDbQuery) {
         if (currentDbQuery != searchQuery) {
@@ -63,6 +64,10 @@ internal fun DatabaseTabContent(
                 dbDrawerState = dbDrawerState,
                 currentDbQuery = currentDbQuery,
                 onQueryChange = onQueryChange,
+                onImportDirectory = {
+                    importNavScope.launch { dbDrawerState.close() }
+                    navController.navigate(com.example.powerai.navigation.Screen.KbImport.route)
+                },
             )
         },
     ) {
@@ -119,6 +124,7 @@ private fun DatabaseTabDrawer(
     dbDrawerState: DrawerState,
     currentDbQuery: String,
     onQueryChange: (String) -> Unit,
+    onImportDirectory: () -> Unit,
 ) {
     val logTag = "PowerAiDbDebug"
     val localCoroutineScope = rememberCoroutineScope()
@@ -167,6 +173,7 @@ private fun DatabaseTabDrawer(
             localCoroutineScope.launch { dbDrawerState.close() }
         },
         onRetryImport = dbViewModel::retryAssetImport,
+        onImportDirectory = onImportDirectory,
         onEdgeAction = {
             localCoroutineScope.launch { dbDrawerState.close() }
         },
