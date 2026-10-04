@@ -1,6 +1,7 @@
 package com.example.powerai.ui.screen.main
 
 import com.example.powerai.core.model.KnowledgeItem
+import com.example.powerai.core.model.KnowledgePackages
 
 import java.net.URLEncoder
 import androidx.compose.foundation.layout.Box
@@ -67,6 +68,9 @@ fun MainSearchAndResultsArea(
                 append(sourceFileNameProvider(item))
                 item.pageNumber?.let { append(" · ${it}") }
                 item.hitBlockIndex?.let { append(" · 命中it") }
+                // Mark the package the user imported so it stays identifiable when a bundled
+                // asset carries the same title/content.
+                if (KnowledgePackages.isUserPackage(item.packageId)) append(" · 用户导入")
             }
         }
     }

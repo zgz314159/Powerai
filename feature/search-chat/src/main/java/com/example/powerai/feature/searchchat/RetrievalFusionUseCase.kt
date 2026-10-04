@@ -186,7 +186,10 @@ class RetrievalFusionUseCase @Inject constructor(
         val title = result.item?.title ?: result.metadata["title"].orEmpty()
         val source = result.item?.source ?: result.metadata["source"] ?: result.source
         val content = (result.item?.content ?: result.metadata["snippet"].orEmpty()).take(120)
-        return "$title|$source|$content"
+        // Package-aware: when a hit has no database id, only merge identical text that also
+        // belongs to the same KB package, so two packages with the same document stay distinct.
+        val packageKey = result.item?.packageId.orEmpty()
+        return "$title|$source|$content|pkg=$packageKey"
     }
 
     private data class RetrievalAggregate(

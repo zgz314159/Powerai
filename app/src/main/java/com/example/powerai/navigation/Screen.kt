@@ -6,6 +6,9 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object JsonRepo : Screen("jsonrepo")
 
+    /** 用户知识库目录导入界面。 */
+    object KbImport : Screen("kb-import")
+
     object Detail : Screen("detail/{id}?q={q}&blockIndex={blockIndex}&blockId={blockId}") {
         const val ARG_ID = "id"
         const val ARG_Q = "q"

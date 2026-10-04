@@ -31,6 +31,7 @@ import java.io.InputStreamReader
 class StreamingJsonResourceImporter(
     private val dao: KnowledgeDao,
     private val gson: Gson = Gson(),
+    private val imageUriRewriter: ((String) -> String)? = null,
 ) {
     private val builderPool = EntityBuilderPool()
 
@@ -168,7 +169,8 @@ class StreamingJsonResourceImporter(
                 fileName = fallbackFileName.orEmpty(),
                 fileId = fallbackFileId.orEmpty(),
             )
-        val context = StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId)
+        val context =
+            StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId, imageUriRewriter)
         var imported = 0L
         while (jsonReader.hasNext()) {
             val obj = readEntryObject(jsonReader)
@@ -191,7 +193,8 @@ class StreamingJsonResourceImporter(
         fallbackFileId: String?,
     ): Long {
         jsonReader.beginObject()
-        val context = StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId)
+        val context =
+            StreamedEntryContext(HashSet(), batchWriter, fallbackFileName, fallbackFileId, imageUriRewriter)
         val fallbackSourceValue = fallbackFileId?.takeIf { it.isNotBlank() } ?: fallbackFileName.orEmpty()
         var declaredSource: String? = null
         var metadataSeen = false
@@ -290,6 +293,7 @@ class StreamingJsonResourceImporter(
         val batchWriter: StreamingJsonBatchWriter,
         val fileName: String?,
         val fileId: String?,
+        val imageUriRewriter: ((String) -> String)?,
     )
 
     private suspend fun writeEntry(
@@ -300,7 +304,15 @@ class StreamingJsonResourceImporter(
         context: StreamedEntryContext,
     ): Long {
         val builder = obtainBuilder()
-        if (!StreamingJsonEntryParser.fillBuilder(obj, builder, context.seenIds, fallbackMeta)) {
+        val keep =
+            StreamingJsonEntryParser.fillBuilder(
+                obj,
+                builder,
+                context.seenIds,
+                fallbackMeta,
+                context.imageUriRewriter,
+            )
+        if (!keep) {
             releaseBuilder(builder)
             return importedSoFar
         }

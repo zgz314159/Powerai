@@ -36,7 +36,8 @@ object KnowledgeEntityMapper {
                 e.keywordsSerialized.split(',').map { it.trim() },
             hitBlockIndex = e.pageNumber,
             contentBlocksJson = e.contentBlocksJson,
-            imagesCount = imgCount
+            imagesCount = imgCount,
+            packageId = e.packageId,
         )
     }
 }

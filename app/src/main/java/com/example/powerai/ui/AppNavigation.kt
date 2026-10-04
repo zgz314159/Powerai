@@ -14,6 +14,8 @@ import com.example.powerai.ui.jsonrepo.JsonRepositoryViewModel
 import com.example.powerai.ui.screen.detail.KnowledgeDetailScreen
 import com.example.powerai.ui.screen.hybrid.HybridScreen
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import com.example.powerai.ui.screen.importer.ImportViewModel
+import com.example.powerai.ui.screen.importer.KnowledgeImportScreen
 import com.example.powerai.ui.screen.main.MainScreen
 import com.example.powerai.ui.screen.pdf.PdfViewerScreen
 import com.example.powerai.ui.screen.settings.SettingsScreen
@@ -40,6 +42,11 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.JsonRepo.route) {
             val vm = hiltViewModel<JsonRepositoryViewModel>()
             JsonRepositoryScreen(navController, vm)
+        }
+
+        composable(Screen.KbImport.route) {
+            val vm = hiltViewModel<ImportViewModel>()
+            KnowledgeImportScreen(navController, vm)
         }
 
         composable(

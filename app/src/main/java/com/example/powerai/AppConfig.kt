@@ -9,4 +9,7 @@ object AppConfig {
 
     const val BUNDLED_KB_ROOT = "kb"
     const val EXTERNAL_KB_DIR = "kb_external"
+
+    /** App-private mirror for resources referenced by user-imported KB packages. */
+    const val USER_KB_MIRROR_DIR = "kb_user"
 }

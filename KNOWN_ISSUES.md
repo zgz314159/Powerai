@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-03
+**最后同步**：2026-10-04
 
 ---
 
@@ -68,6 +68,18 @@
 | ID | 位置 | 说明 | 建议 |
 |----|------|------|------|
 | KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | 迁移前（Room < 6）已导入的资产没有内容指纹，其旧条目**无法无歧义归属**（不能用 `source`/`docSha256` 猜测，否则会误删 source 相同的其他包）。升级后这类 legacy 资产在自动导入中被**检测并跳过替换**（诊断状态 `legacy`），避免新旧混合或误删；升级后**新导入**的资产走完整 A/B 替换。 | ✅ 已提供**用户主动**的「重建内置知识库」入口（`DocumentImportManager.rebuildBuiltInKnowledgeBase`）：仅在用户确认后，单事务清除本应用 `knowledge` + FTS + `imported_files`，失效 `vision_cache`/`embedding_metadata`（按知识条目 id），并在提交后**同一进程内清空原生向量索引**（`VectorRepository.clear()`；`NativeVectorRepository` 以锁串行化 `search`/`upsert`/`clear`）并删除应用私有 `vector_index.bin`（磁盘删除失败不报完整成功）；再由当前内置资产重建；状态区分 running/success/failed/cancelled，失败整体回滚可重试。仍**不**按 source 猜测归属、**不**静默清理；未做真机 UI 验收 |
+
+---
+
+## P6 — 用户目录 KB 包导入（新增能力边界）
+
+| ID | 位置 | 说明 | 建议 |
+|----|------|------|------|
+| KI-50 | `UserKbPackageImporter` / `imported_files.contentSha256` | 跳过判定以所选目录的 `knowledge_base.json` 字节 SHA-256 为准；若只改了 `shots/` 而 JSON 未变，则判为「未变化」而跳过，不会被重新复制。 | 契约上 PaddleModels 会同时重生成 JSON 与截图；如未来需要，加入对资源清单的指纹。 |
+| KI-51 | `SafKbDirectorySource` | 通过 `DocumentsContract.buildDocumentUriUsingTree` 以「树文档 id + 相对路径」直接寻址子文档，未做目录枚举；对层级的 ExternalStorage 类 provider（手机内置/外置存储）有效，对使用非层级 opaque document id 的第三方 provider 可能取不到资源。 | 如遇此类 provider，改用子文档枚举（`buildChildDocumentsUriUsingTree`）建立 id 映射。 |
+| KI-52 | `StreamingJsonResourceImporter` / `UserKbPackageImporter` | 用户目录导入会先把 `knowledge_base.json` 整体读入内存（用于先哈希再决定跳过/替换与统计块数）；内置 assets 路径仍为纯流式。 | 大 KB 若需更低峰值内存，可改为两遍流式（先哈希、再导入）。 |
+| KI-53 | `PdfAssociation` / `PdfViewerScreen` | PDF 关联流程为 SHA-256 严格匹配；`PdfViewerScreen` 中我改动的关联回调已更正为正常中文，但该文件仍有其它历史乱码字符串（如按钮文案）未在本次范围内清理。 | 后续单独清理该文件剩余乱码（非本次任务范围）。 |
+| KI-54 | 真机验收 | 用户目录导入的**真机**链路（系统目录选择器 → 导入 → 关联 PDF → 搜索 → 表格截图 → PDF 定位）尚未在本阶段真机执行；JVM + 仓库外样本已验收 48/839/48 与第 29/32 页表格。 | 在 Android 16 真机按验收用例走一遍并补记录。 |
 
 ---
 

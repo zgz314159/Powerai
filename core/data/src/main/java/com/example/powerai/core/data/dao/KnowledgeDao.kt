@@ -123,6 +123,10 @@ interface KnowledgeDao {
     @Query("SELECT COUNT(1) FROM knowledge WHERE packageId = :packageId")
     suspend fun countByPackageId(packageId: String): Int
 
+    /** One representative row of a package, e.g. to read back its declared PDF source. */
+    @Query("SELECT * FROM knowledge WHERE packageId = :packageId ORDER BY id ASC LIMIT 1")
+    suspend fun getFirstByPackageId(packageId: String): KnowledgeEntity?
+
     @Query(
         "SELECT COUNT(1) FROM knowledge " +
             "WHERE source LIKE :sourcePrefix || '%' " +

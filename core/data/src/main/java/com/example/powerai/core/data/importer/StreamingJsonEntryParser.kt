@@ -22,7 +22,14 @@ internal object StreamingJsonEntryParser {
         builder: EntityBuilder,
         existingIds: MutableSet<Long>,
         fallbackMeta: JsonResourceParser.FileMetadata,
+        imageUriRewriter: ((String) -> String)? = null,
     ): Boolean {
+        // User-directory imports rewrite relative shot paths to stable app-private URIs in place
+        // before mapping, so the entry's blocks and extracted image uris stay in sync.
+        if (imageUriRewriter != null) {
+            JsonImageRefRewriter.rewrite(obj, imageUriRewriter)
+        }
+
         // parse entry with Gson (new instance is cheap here)
         val entry = Gson().fromJson(obj, JsonResourceParser.JsonEntry::class.java)
 

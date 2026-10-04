@@ -41,6 +41,7 @@ internal fun DatabaseHistoryDrawerContent(
     rebuildUi: KbRebuildUiState,
     onSelectGroup: (String) -> Unit,
     onRetryImport: () -> Unit,
+    onImportDirectory: () -> Unit,
     onEdgeAction: (() -> Unit)? = null,
 ) {
     DrawerWrapper(
@@ -58,6 +59,7 @@ internal fun DatabaseHistoryDrawerContent(
                     onRefresh = onRetryImport,
                 )
                 KbRebuildBlock(ui = rebuildUi)
+                UserKbImportBlock(onImportDirectory = onImportDirectory)
             }
 
             when {
