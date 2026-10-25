@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.domain.model.SearchEntry
 
 @Composable
-internal fun LocalHistoryDrawerContent(
+fun LocalHistoryDrawerContent(
     history: List<SearchEntry>,
     onSelectQuery: (String) -> Unit,
     onClearHistory: () -> Unit,

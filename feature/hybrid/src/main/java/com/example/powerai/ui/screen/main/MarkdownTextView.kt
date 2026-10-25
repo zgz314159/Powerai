@@ -202,7 +202,7 @@ private fun applyMarkdownTextStyle(tv: TextView, textColor: Int) {
 }
 
 @Composable
-internal fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
+fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
     val markwonWithTables = remember(context) { MarkwonHelper.create(context) }

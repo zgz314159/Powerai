@@ -16,7 +16,7 @@ import com.example.powerai.ui.screen.hybrid.LocalSummaryState
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-internal fun LocalCitationStrip(
+fun LocalCitationStrip(
     citationCount: Int,
     onCitationClick: ((Int) -> Unit)?,
 ) {
@@ -40,7 +40,7 @@ internal fun LocalCitationStrip(
     }
 }
 
-internal fun shouldShowLocalCitationStrip(
+fun shouldShowLocalCitationStrip(
     state: LocalSummaryState,
     citationCount: Int,
 ): Boolean {
@@ -49,7 +49,7 @@ internal fun shouldShowLocalCitationStrip(
 }
 
 @Suppress("ReturnCount", "MagicNumber")
-internal fun buildLocalSummaryDisplayText(
+fun buildLocalSummaryDisplayText(
     summary: String,
     pageState: LocalPageState,
     citationCount: Int,

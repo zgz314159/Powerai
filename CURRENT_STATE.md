@@ -12,13 +12,14 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C13/D1/D2 完成；Main 仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C14/D1/D2 完成；Main 壳/Smart/AiStream 仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| Phase C13（Main 前置：Drawer 壳 + 死代码） | 已完成 | `DrawerWrapper`/`DrawerCardComponents`→`:feature:hybrid`（公开 API）；删除无引用 `DocumentPicker`/`ImportProgressIndicator`/`KnowledgeEntryCard`；Local* 整簇因依赖 ResponseBody/EmptyState 暂留 app（下批 C14）；compile 绿；arch 0 新违规（2026-10-25） |
+| Phase C14（Local/Response 簇 → hybrid） | 已完成 | `Local*` + `ResponseBody*`/`MarkdownTextView`/`AnnotatedTextHelper` + `KnowledgeItemCard`/`TextHighlightUtils`/`EmptyState` → `:feature:hybrid`；hybrid 依赖 knowledge-detail（Markwon）；compile 绿；LocalSummary/LocalSearchFailure 单测绿；arch 0 新违规（2026-10-25） |
+| Phase C13（Main 前置：Drawer 壳 + 死代码） | 已完成 | `DrawerWrapper`/`DrawerCardComponents`→`:feature:hybrid`；删除无引用 DocumentPicker 等；compile 绿（2026-10-25） |
 | Phase C12（EmbeddingTest → debug） | 已完成 | Activity+layout 迁入 `:feature:debug`；app Manifest 去重；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C11（垂直抽 `:feature:quickask`） | 已完成 | QuickAskScreen 迁入；依赖 hybrid SearchBar + database KnowledgeItemCard；compile 绿（2026-10-25） |
 | Phase C10（垂直抽 `:feature:debug`） | 已完成 | 新建模块：Debug 屏/VM；仅依赖 `KnowledgeDao`；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -148,8 +149,9 @@
 |-------|------|------|
 | **C11** quickask | ✅ | `:feature:quickask` |
 | **C12** EmbeddingTest | ✅ | 迁入 `:feature:debug` |
-| **C13** Main 前置 | ✅ | Drawer 壳→hybrid；删死组件；Local* 暂留 |
-| **C14**（下批） | 待做 | 先迁 `ResponseBody*`/`EmptyState` 等到 hybrid，再迁 Local*；随后 Smart*/AiStream* 分簇 |
+| **C13** Main 前置 | ✅ | Drawer 壳→hybrid；删死组件 |
+| **C14** Local/Response | ✅ | Local* + Response/Markdown/Card/EmptyState → hybrid |
+| **C15**（下批） | 待做 | Smart*/AiStream*/Chat* 分簇迁 search-chat 或 hybrid；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

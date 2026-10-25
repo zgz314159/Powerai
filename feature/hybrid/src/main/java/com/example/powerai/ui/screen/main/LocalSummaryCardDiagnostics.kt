@@ -9,12 +9,12 @@ import com.example.powerai.ui.screen.hybrid.LocalSummaryState
  * Visible failure copy for the "本地" page, or `null` when the state is not a
  * search failure (a genuine zero-hit result renders the ordinary empty state).
  */
-internal fun localResultsFailureMessage(state: HybridUiState): String? =
+fun localResultsFailureMessage(state: HybridUiState): String? =
     state.localSummaryState
         .takeIf { it.pageState == LocalPageState.ERROR }
         ?.let { fallbackLocalSummaryText(it) }
 
-internal fun buildLocalSummaryMeta(state: LocalSummaryState): String {
+fun buildLocalSummaryMeta(state: LocalSummaryState): String {
     if (state.evidenceCount <= 0) return ""
     return buildString {
         append("参考了 ")
@@ -28,7 +28,7 @@ internal fun buildLocalSummaryMeta(state: LocalSummaryState): String {
     }
 }
 
-internal fun defaultLocalSummaryTitle(state: LocalSummaryState): String =
+fun defaultLocalSummaryTitle(state: LocalSummaryState): String =
     when (state.pageState) {
         LocalPageState.SEARCHING -> "正在查找相关内容"
         LocalPageState.ANSWER_READY -> "回答"
@@ -39,7 +39,7 @@ internal fun defaultLocalSummaryTitle(state: LocalSummaryState): String =
         LocalPageState.IDLE -> ""
     }
 
-internal fun fallbackLocalSummaryText(state: LocalSummaryState): String =
+fun fallbackLocalSummaryText(state: LocalSummaryState): String =
     when (state.pageState) {
         LocalPageState.SEARCHING -> "正在整理相关内容，请稍候。"
         LocalPageState.EVIDENCE_ONLY -> "已找到 ${state.evidenceCount} 条相关资料，可先查看下方内容。"

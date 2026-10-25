@@ -32,8 +32,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.dp
 import com.example.powerai.ui.component.KnowledgeItemCard
-import com.example.powerai.ui.theme.HighlightYellow
 import com.example.powerai.util.PdfSourceRef
+
+private val HighlightYellow = Color(0xFFFFF59D)
 
 private data class FileGroup(
     val key: String,

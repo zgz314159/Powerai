@@ -49,7 +49,7 @@ private fun LocalDiscardedDiagnosticItem(
     }
 }
 
-internal fun buildDiscardedDiagnosticSummaryLine(
+fun buildDiscardedDiagnosticSummaryLine(
     index: Int,
     hit: LocalDiscardedDiagnosticHit,
 ): String =
@@ -108,7 +108,7 @@ internal fun buildDiscardedDiagnosticSummaryLine(
         }
     }
 
-internal fun buildDiscardedDiagnosticGateDetailLine(hit: LocalDiscardedDiagnosticHit): String =
+fun buildDiscardedDiagnosticGateDetailLine(hit: LocalDiscardedDiagnosticHit): String =
     buildString {
         append("gate详情：")
         append(
@@ -129,7 +129,7 @@ internal fun buildDiscardedDiagnosticGateDetailLine(hit: LocalDiscardedDiagnosti
         )
     }
 
-internal fun buildDiscardedGateToggleLabel(
+fun buildDiscardedGateToggleLabel(
     primaryFailedGate: String,
     failedGateCount: String,
     gateCount: Int,

@@ -24,7 +24,7 @@ import com.example.powerai.ui.screen.hybrid.LocalSummaryState
  */
 @Suppress("LongParameterList", "LongMethod")
 @Composable
-internal fun LocalSummaryCard(
+fun LocalSummaryCard(
     state: LocalSummaryState,
     onCopy: (String) -> Unit,
     onRetry: () -> Unit,

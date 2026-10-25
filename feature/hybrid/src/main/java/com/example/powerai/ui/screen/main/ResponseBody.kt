@@ -77,7 +77,7 @@ private fun splitStreamingMarkdown(text: String): StreamingMarkdownSplit {
 }
 
 @Composable
-internal fun ResponseBody(
+fun ResponseBody(
     text: String,
     isLoading: Boolean,
     onCopy: () -> Unit,

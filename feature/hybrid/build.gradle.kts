@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":engine:ai"))
+    implementation(project(":feature:knowledge-detail"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -51,6 +52,13 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation(libs.markwon.core)
+    implementation(libs.markwon.html)
+    implementation(libs.markwon.ext.tables)
+    implementation(libs.markwon.image.glide)
+    implementation(libs.markwon.inline.parser)
+    implementation(libs.markwon.ext.latex)
 
     implementation(libs.okhttp)
     implementation(libs.retrofit)

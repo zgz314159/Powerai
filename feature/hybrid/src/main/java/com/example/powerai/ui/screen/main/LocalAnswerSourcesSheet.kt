@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.util.PdfSourceRef
 
 @Composable
-internal fun LocalAnswerSourcesSheet(
+fun LocalAnswerSourcesSheet(
     evidenceItems: List<KnowledgeItem>,
     onDismiss: () -> Unit,
     sourceFileNameProvider: (KnowledgeItem) -> String,
@@ -115,12 +115,12 @@ private fun LocalAnswerSourceRow(
     }
 }
 
-internal fun formatHitBlockLabel(hitBlockIndex: Int): String {
+fun formatHitBlockLabel(hitBlockIndex: Int): String {
     val displayIndex = (hitBlockIndex + 1).coerceAtLeast(1)
     return "命中${displayIndex}"
 }
 
-internal fun resolveLocalSourceFileName(
+fun resolveLocalSourceFileName(
     item: KnowledgeItem,
     databaseFileName: String?
 ): String {

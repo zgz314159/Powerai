@@ -19,7 +19,7 @@ import com.example.powerai.ui.screen.hybrid.LocalSummaryState
  */
 @Suppress("LongParameterList", "ktlint:standard:function-naming")
 @Composable
-internal fun LocalSummaryContent(
+fun LocalSummaryContent(
     state: LocalSummaryState,
     summaryDisplayText: String,
     feedback: LocalAnswerFeedback,

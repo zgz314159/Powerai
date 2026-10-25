@@ -17,7 +17,7 @@ import androidx.compose.ui.text.withStyle
  * @param beforeChars Characters to show before the match (default: auto-calculated)
  * @return AnnotatedString with highlighted keyword and ellipsis markers
  */
-internal fun buildHighlightedPreview(
+fun buildHighlightedPreview(
     fullText: String,
     keyword: String,
     highlightStyle: SpanStyle,
