@@ -9,6 +9,17 @@ object KnowledgeDetailNavArgs {
     const val ARG_Q = "q"
     const val ARG_BLOCK_INDEX = "blockIndex"
     const val ARG_BLOCK_ID = "blockId"
+
+    fun createRoute(
+        id: Long,
+        encodedQuery: String,
+        blockIndex: Int?,
+        blockId: String?,
+    ): String {
+        val bi = blockIndex ?: -1
+        val bid = blockId.orEmpty()
+        return "detail/$id?q=$encodedQuery&blockIndex=$bi&blockId=$bid"
+    }
 }
 
 /**

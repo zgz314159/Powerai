@@ -8,9 +8,8 @@ import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.LocalHighlightTarget
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
-import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.data.importer.KbRebuildState
-import com.example.powerai.data.importer.UserKbPackageImporter
 import com.example.powerai.data.importer.UserKbPackageSummary
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
@@ -172,18 +171,14 @@ internal class DatabaseViewModelTestHarness(
 ) {
     val rebuildStateFlow: MutableStateFlow<KbRebuildState> = MutableStateFlow(KbRebuildState.Idle)
 
-    val importer: DocumentImportManager =
-        Mockito.mock(DocumentImportManager::class.java).also { manager ->
+    val userPackagesFlow: MutableStateFlow<List<UserKbPackageSummary>> = MutableStateFlow(emptyList())
+
+    val importer: DatabaseKbPort =
+        Mockito.mock(DatabaseKbPort::class.java).also { manager ->
             Mockito.`when`(manager.importDiagnostics).thenReturn(diagnosticsFlow)
             Mockito.`when`(manager.progress).thenReturn(MutableStateFlow<ImportProgress?>(null))
             Mockito.`when`(manager.rebuildState).thenReturn(rebuildStateFlow)
-        }
-
-    val userPackagesFlow: MutableStateFlow<List<UserKbPackageSummary>> = MutableStateFlow(emptyList())
-
-    val userKbImporter: UserKbPackageImporter =
-        Mockito.mock(UserKbPackageImporter::class.java).also { manager ->
-            Mockito.`when`(manager.packages).thenReturn(userPackagesFlow)
+            Mockito.`when`(manager.userPackages).thenReturn(userPackagesFlow)
         }
 
     private val createdViewModels = mutableListOf<DatabaseViewModel>()
@@ -197,7 +192,6 @@ internal class DatabaseViewModelTestHarness(
             DatabaseViewModel(
                 useCase,
                 importer,
-                userKbImporter,
                 savedStateHandle,
                 StandardTestDispatcher(scope.testScheduler),
             )

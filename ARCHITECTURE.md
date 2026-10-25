@@ -10,8 +10,8 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（`HybridKbImportPort`/`KnowledgeDetailSupportPort`）、剩余 UI |
-| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`VisionBoost*`、`SearchTextNormalization`、MVI、query、`WebSearch`/`SearchHistory` |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（`HybridKbImportPort`/`KnowledgeDetailSupportPort`/`DatabaseKbPort`）、剩余 UI |
+| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
@@ -19,6 +19,7 @@
 | `:feature:hybrid` | Hybrid 主屏垂直切片：`HybridViewModel`/`HybridQueryUseCase`；经 `HybridKbImportPort` 依赖 app 导入 |
 | `:feature:knowledge-detail` | 知识详情垂直切片：`KnowledgeDetailViewModel`/Markwon/Compose blocks/PDF locate；经 `KnowledgeDetailSupportPort` 依赖 app |
 | `:feature:pdf` | PDF 查看垂直切片：Viewer/`PdfKnowledgeViewModel`/`PdfFigureListViewModel`；依赖 knowledge-detail 的 bbox/locate |
+| `:feature:database` | 数据库/KB 管理垂直切片：`DatabaseViewModel`/`DatabaseUseCase`；经 `DatabaseKbPort` 依赖 app 导入 |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 

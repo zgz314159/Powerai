@@ -1,7 +1,7 @@
 package com.example.powerai.ui.screen.database
 
-import com.example.powerai.data.importer.DocumentImportManager
-import com.example.powerai.util.PLog
+import com.example.powerai.feature.database.DatabaseKbPort
+import android.util.Log
 import kotlinx.coroutines.CancellationException
 
 /**
@@ -12,7 +12,7 @@ import kotlinx.coroutines.CancellationException
  * [DatabaseUserPackageCoordinator].
  */
 internal class DatabaseImportCoordinator(
-    private val importManager: DocumentImportManager,
+    private val kbPort: DatabaseKbPort,
     private val reduce: (DatabaseUiState.() -> DatabaseUiState) -> Unit,
     private val reload: () -> Unit,
 ) {
@@ -22,7 +22,7 @@ internal class DatabaseImportCoordinator(
 
     /** Retry failed/missing assets, refresh diagnostics, then reload the list. */
     suspend fun retryImport() {
-        runSafely("retry asset import") { importManager.importAssetsIfNeed() }
+        runSafely("retry asset import") { kbPort.importAssetsIfNeed() }
         refreshDiagnostics()
     }
 
@@ -38,7 +38,7 @@ internal class DatabaseImportCoordinator(
     /** Rebuild only the confirmable built-in packages, then refresh diagnostics and reload. */
     suspend fun confirmRebuild() {
         reduce { copy(isRebuildConfirmVisible = false) }
-        runSafely("rebuild built-in KB") { importManager.rebuildBuiltInKnowledgeBase() }
+        runSafely("rebuild built-in KB") { kbPort.rebuildBuiltInKnowledgeBase() }
         refreshDiagnostics()
     }
 
@@ -57,12 +57,12 @@ internal class DatabaseImportCoordinator(
     /** Execute the confirmed "clear all": wipe every package, then refresh and reload. */
     suspend fun confirmClearAll() {
         reduce { copy(clearAllStep = ClearAllConfirmStep.NONE) }
-        runSafely("clear all knowledge") { importManager.clearAllKnowledgeBases() }
+        runSafely("clear all knowledge") { kbPort.clearAllKnowledgeBases() }
         refreshDiagnostics()
     }
 
     private suspend fun refreshDiagnostics() {
-        runSafely("refresh import diagnostics") { importManager.refreshImportDiagnostics() }
+        runSafely("refresh import diagnostics") { kbPort.refreshImportDiagnostics() }
         reload()
     }
 
@@ -76,7 +76,7 @@ internal class DatabaseImportCoordinator(
         } catch (c: CancellationException) {
             throw c
         } catch (t: Throwable) {
-            PLog.w(TAG, "$label failed: ${t.message}")
+            Log.w(TAG, "$label failed: ${t.message}")
         }
     }
 }

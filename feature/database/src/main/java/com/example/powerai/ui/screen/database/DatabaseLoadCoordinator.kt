@@ -1,10 +1,10 @@
 package com.example.powerai.ui.screen.database
 
 import com.example.powerai.core.model.KnowledgeItem
-import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.domain.model.DatabaseFileGroup
 import com.example.powerai.domain.usecase.DatabaseUseCase
-import com.example.powerai.util.PLog
+import android.util.Log
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
  */
 internal class DatabaseLoadCoordinator(
     private val useCase: DatabaseUseCase,
-    private val importManager: DocumentImportManager,
+    private val kbPort: DatabaseKbPort,
     private val ioDispatcher: CoroutineDispatcher,
     private val state: () -> DatabaseUiState,
     private val reduce: (DatabaseUiState.() -> DatabaseUiState) -> Unit,
@@ -60,7 +60,7 @@ internal class DatabaseLoadCoordinator(
     fun loadAll(scope: CoroutineScope) {
         hasLoadedContent = true
         launchContent(scope) {
-            PLog.d(
+            Log.d(
                 TAG,
                 "loadAllInternal start query=${state().currentQuery} " +
                     "directoryGroups=${_directoryGroups.value.size}",
@@ -68,23 +68,23 @@ internal class DatabaseLoadCoordinator(
             reduce { copy(isLoading = true, errorMessage = null) }
             try {
                 var groups = useCase.loadAll()
-                PLog.d(TAG, "loadAllInternal first load groups=${groups.size}")
+                Log.d(TAG, "loadAllInternal first load groups=${groups.size}")
                 if (groups.isEmpty()) {
-                    PLog.w(TAG, "loadAllInternal got empty groups, triggering importAssetsIfNeed")
-                    runCatching { importManager.importAssetsIfNeed() }
+                    Log.w(TAG, "loadAllInternal got empty groups, triggering importAssetsIfNeed")
+                    runCatching { kbPort.importAssetsIfNeed() }
                     groups = useCase.loadAll()
-                    PLog.d(TAG, "loadAllInternal after import retry groups=${groups.size}")
+                    Log.d(TAG, "loadAllInternal after import retry groups=${groups.size}")
                 }
                 if (groups.isNotEmpty() || _directoryGroups.value.isEmpty()) {
                     _directoryGroups.value = groups
-                    PLog.d(TAG, "loadAllInternal updated directoryGroups=${_directoryGroups.value.size}")
+                    Log.d(TAG, "loadAllInternal updated directoryGroups=${_directoryGroups.value.size}")
                 }
                 reduce { copy(isLoading = false, groups = groups, errorMessage = null) }
-                PLog.d(TAG, "loadAllInternal finish uiGroups=${groups.size} error=null")
+                Log.d(TAG, "loadAllInternal finish uiGroups=${groups.size} error=null")
             } catch (c: CancellationException) {
                 throw c
             } catch (t: Throwable) {
-                PLog.e(TAG, "loadAllInternal failed", t)
+                Log.e(TAG, "loadAllInternal failed", t)
                 reduce { copy(isLoading = false, errorMessage = t.message ?: "加载失败") }
             }
         }
@@ -97,31 +97,31 @@ internal class DatabaseLoadCoordinator(
     ) {
         hasLoadedContent = true
         launchContent(scope) {
-            PLog.d(TAG, "searchInternal start query=$query directoryGroups=${_directoryGroups.value.size}")
+            Log.d(TAG, "searchInternal start query=$query directoryGroups=${_directoryGroups.value.size}")
             reduce { copy(isLoading = true, errorMessage = null) }
             try {
                 val groups = useCase.search(query)
-                PLog.d(TAG, "searchInternal search groups=${groups.size} query=$query")
+                Log.d(TAG, "searchInternal search groups=${groups.size} query=$query")
                 if (_directoryGroups.value.isEmpty()) {
                     var directoryGroups = runCatching { useCase.loadAll() }.getOrDefault(emptyList())
-                    PLog.d(TAG, "searchInternal backfill first load directoryGroups=${directoryGroups.size}")
+                    Log.d(TAG, "searchInternal backfill first load directoryGroups=${directoryGroups.size}")
                     if (directoryGroups.isEmpty()) {
-                        PLog.w(TAG, "searchInternal backfill empty, triggering importAssetsIfNeed")
-                        runCatching { importManager.importAssetsIfNeed() }
+                        Log.w(TAG, "searchInternal backfill empty, triggering importAssetsIfNeed")
+                        runCatching { kbPort.importAssetsIfNeed() }
                         directoryGroups = runCatching { useCase.loadAll() }.getOrDefault(emptyList())
-                        PLog.d(TAG, "searchInternal backfill after import directoryGroups=${directoryGroups.size}")
+                        Log.d(TAG, "searchInternal backfill after import directoryGroups=${directoryGroups.size}")
                     }
                     if (directoryGroups.isNotEmpty()) {
                         _directoryGroups.value = directoryGroups
-                        PLog.d(TAG, "searchInternal updated directoryGroups=${_directoryGroups.value.size}")
+                        Log.d(TAG, "searchInternal updated directoryGroups=${_directoryGroups.value.size}")
                     }
                 }
                 reduce { copy(isLoading = false, groups = groups, errorMessage = null) }
-                PLog.d(TAG, "searchInternal finish uiGroups=${groups.size} query=$query")
+                Log.d(TAG, "searchInternal finish uiGroups=${groups.size} query=$query")
             } catch (c: CancellationException) {
                 throw c
             } catch (t: Throwable) {
-                PLog.e(TAG, "searchInternal failed query=$query", t)
+                Log.e(TAG, "searchInternal failed query=$query", t)
                 reduce { copy(isLoading = false, errorMessage = t.message ?: "搜索失败") }
             }
         }
@@ -153,7 +153,7 @@ internal class DatabaseLoadCoordinator(
 
     fun observeImportDiagnostics(scope: CoroutineScope): Job =
         scope.launch(ioDispatcher) {
-            importManager.importDiagnostics.collectLatest { diagnostics ->
+            kbPort.importDiagnostics.collectLatest { diagnostics ->
                 val completionSignature =
                     if (
                         diagnostics.scannedCount > 0 &&
@@ -170,7 +170,7 @@ internal class DatabaseLoadCoordinator(
 
                 lastCompletedImportSignature = completionSignature
                 if (!hasLoadedContent) {
-                    PLog.d(TAG, "importDiagnostics completed but database tab not loaded yet; skip auto reload")
+                    Log.d(TAG, "importDiagnostics completed but database tab not loaded yet; skip auto reload")
                     return@collectLatest
                 }
 
@@ -178,7 +178,7 @@ internal class DatabaseLoadCoordinator(
                 val imported = diagnostics.importedCount
                 val failed = diagnostics.failedCount
                 val query = state().currentQuery
-                PLog.d(
+                Log.d(
                     TAG,
                     "importDiagnostics completed scanned=$scanned imported=$imported failed=$failed; " +
                         "auto reload currentQuery=$query",

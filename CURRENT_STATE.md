@@ -9,15 +9,16 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：11 个（见 §3；含 `:feature:hybrid` / `knowledge-detail` / `pdf`）
+- **模块**：12 个（见 §3；含 hybrid / knowledge-detail / pdf / database）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C3/D1/D2 完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C4/D1/D2 完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C4（垂直抽 `:feature:database`） | 已完成 | 新建模块：Database 屏/VM/`DatabaseUseCase`、KnowledgeItemCard/EmptyState；`DatabaseKbPort`+`AppDatabaseKbPort` 解耦 importer；`ImportModels`→model-contract；compile 绿；database 单测绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C3（垂直抽 `:feature:pdf`） | 已完成 | 新建模块：PdfViewer/VM、`PdfKnowledgeUseCase`/`PdfFigureListUseCase`、outline store；`PdfAssociation`/`PdfStorage`→`:core:data`（importer 共用）；依赖 `:feature:knowledge-detail`（bbox/locate）；公开 `PdfLocateTarget`；compile 绿；pdf 单测 + `PdfAssociationTest` + `LocalModeTableEvidence` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C2（垂直抽 `:feature:knowledge-detail`） | 已完成 | 新建模块：detail 屏/VM、Compose blocks、Markwon、PDF bbox/locate、PhotoViewer；`KnowledgeDetailSupportPort`（`DatabaseUseCase` 实现）；`BlocksJsonPatcher`/`VisionBoost*`/`DetailModels`→model-contract；`FontSettings`→`:core:data`；`SearchTextNormalization`→model-contract；`:feature:knowledge-detail`+`:app` compile 绿；SnapshotUriSelector 单测绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C2-prep（BlocksParser → model-contract） | 已完成 | JVM 侧 `BlocksParser`/`BlocksUtils`/`BlocksIdGenerator`/`BlocksElementExtractors` + `BlocksParserTest` 迁入 `:core:model-contract`（包名不变）；Compose `BlocksRenderer`/`BlockItemComponents` 仍留 `:app`；解除 Pdf usecase → app ui 解析倒置；`BlocksParserTest` 绿；`compileDebugKotlin` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -55,12 +56,12 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 11 个模块（目录均存在）：
+`settings.gradle.kts` 当前 12 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、导入编排（`HybridKbImportPort`/`KnowledgeDetailSupportPort`）、资产扫描、SAF/URI、剩余 UI |
-| `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`BlocksJsonPatcher`、`VisionBoost*`、`SearchTextNormalization`、`WebSearch`/`SearchHistory` |
+| `:app` | 导航、Hilt 装配、导入编排（`HybridKbImportPort`/`KnowledgeDetailSupportPort`/`DatabaseKbPort`）、资产扫描、SAF/URI、剩余 UI |
+| `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`VisionBoost*`、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
@@ -68,6 +69,7 @@
 | `:feature:hybrid` | Hybrid 主屏垂直切片：VM/编排、`HybridQueryUseCase`、本地/智能 UI |
 | `:feature:knowledge-detail` | 知识详情垂直切片：Detail VM/UI、Markwon、Compose blocks、PDF locate、PhotoViewer |
 | `:feature:pdf` | PDF 查看垂直切片：Viewer/VM、page knowledge/figure usecase、outline |
+| `:feature:database` | 数据库/KB 管理垂直切片：Database VM/UI、`DatabaseUseCase`；经 `DatabaseKbPort` 依赖 app 导入 |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark |
 
@@ -86,8 +88,8 @@
 
 ## 5. UI/MVI 迁移状态
 
-- 全仓 **12 个具体 ViewModel**（`:app` 7 + `:feature:hybrid` 1 + `:feature:knowledge-detail` 1 + `:feature:pdf` 2 + `:feature:search-chat` 1），**12 个**均继承 `BaseMviViewModel`
-- `HybridViewModel`→hybrid；`KnowledgeDetailViewModel`→knowledge-detail；`Pdf*ViewModel`→pdf；`DeepSeekViewModel`→search-chat
+- 全仓 **12 个具体 ViewModel**（`:app` 6 + hybrid 1 + knowledge-detail 1 + pdf 2 + database 1 + search-chat 1），**12 个**均继承 `BaseMviViewModel`
+- Feature VM：Hybrid / KnowledgeDetail / Pdf* / Database / DeepSeek
 - PDF：`PdfFigureListViewModel`、`PdfKnowledgeViewModel` **已完成 MVI 迁移**（State/Intent/Effect + use case；契约测试 `PdfFigureListMviContractTest`、`PdfKnowledgeMviContractTest`）
 - 用户目录导入：`KnowledgeImportScreen` + `ImportViewModel`（继承 `BaseMviViewModel`，`KnowledgeImportUiState` 区分 idle/running/success/skipped/failed/cancelled），已注册导航路由 `Screen.KbImport`，入口位于「数据库」抽屉「用户知识库」区块
 - 用户包管理（本阶段）：抽屉「用户知识库」区块（`UserKbPackagesUiState.kt` / `UserKbPackagesBlock`）列出每个 `user:` 包的名称/条目数/版本时间/PDF 关联，提供「更新（选同一目录）」与确认后「移除」；「内置知识库」区块（`KbRebuildUiState.kt`）提供隔离的「重建内置知识库」与两步确认的「清空全部知识…」。状态经 `DatabaseUserPackageCoordinator` / `DatabaseImportCoordinator` 落到 `DatabaseUiState`（`pendingRemovePackageId`、`userPackageMessage`、`clearAllStep`）

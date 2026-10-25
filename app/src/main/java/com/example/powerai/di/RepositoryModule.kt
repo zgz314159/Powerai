@@ -6,10 +6,12 @@ import com.example.powerai.core.repository.EmbeddingRepository
 
 import com.example.powerai.core.repository.KnowledgeRepository
 
+import com.example.powerai.data.importer.AppDatabaseKbPort
 import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.data.vision.VisionBoostRepositoryImpl
 import com.example.powerai.domain.usecase.DatabaseUseCase
 import com.example.powerai.domain.vision.VisionBoostRepository
+import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.feature.hybrid.HybridKbImportPort
 import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
 import dagger.Binds
@@ -42,4 +44,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindKnowledgeDetailSupportPort(impl: DatabaseUseCase): KnowledgeDetailSupportPort
+
+    @Binds
+    @Singleton
+    abstract fun bindDatabaseKbPort(impl: AppDatabaseKbPort): DatabaseKbPort
 }

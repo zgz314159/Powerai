@@ -23,7 +23,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.example.powerai.ui.theme.HighlightYellow
+private val HighlightYellow = Color(0xFFFFF59D)
 
 @Composable
 fun KnowledgeItemCard(

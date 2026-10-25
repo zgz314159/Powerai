@@ -2,8 +2,8 @@ package com.example.powerai.ui.screen.database
 
 import android.net.Uri
 import com.example.powerai.data.importer.UserKbImportResult
-import com.example.powerai.data.importer.UserKbPackageImporter
 import com.example.powerai.data.importer.UserKbPackageRemovalResult
+import com.example.powerai.feature.database.DatabaseKbPort
 import kotlinx.coroutines.CancellationException
 
 /**
@@ -13,7 +13,7 @@ import kotlinx.coroutines.CancellationException
  * driven by the importer's own state flow.
  */
 internal class DatabaseUserPackageCoordinator(
-    private val userKbPackageImporter: UserKbPackageImporter,
+    private val kbPort: DatabaseKbPort,
     private val reduce: (DatabaseUiState.() -> DatabaseUiState) -> Unit,
     private val reload: () -> Unit,
 ) {
@@ -21,7 +21,7 @@ internal class DatabaseUserPackageCoordinator(
     @Suppress("TooGenericExceptionCaught")
     suspend fun refresh() {
         try {
-            userKbPackageImporter.refreshPackages()
+            kbPort.refreshPackages()
         } catch (cancellation: CancellationException) {
             throw cancellation
         } catch (_: Throwable) {
@@ -41,7 +41,7 @@ internal class DatabaseUserPackageCoordinator(
     suspend fun confirmRemove(packageId: String) {
         reduce { copy(pendingRemovePackageId = null, userPackageMessage = null) }
         val message =
-            when (val result = userKbPackageImporter.removePackage(packageId)) {
+            when (val result = kbPort.removePackage(packageId)) {
                 is UserKbPackageRemovalResult.Removed -> "已移除用户知识库包：${result.entries} 条条目"
                 is UserKbPackageRemovalResult.Failed -> "移除失败：${result.reason}"
             }
@@ -55,7 +55,7 @@ internal class DatabaseUserPackageCoordinator(
         reduce { copy(userPackageMessage = "正在导入/更新…") }
         val message =
             try {
-                when (val result = userKbPackageImporter.importDirectory(treeUri)) {
+                when (val result = kbPort.importDirectory(treeUri)) {
                     is UserKbImportResult.Imported -> "更新完成：${result.displayName} · ${result.entries} 条"
                     is UserKbImportResult.Skipped -> "内容未变化，已跳过：${result.displayName}"
                     is UserKbImportResult.Failed -> "更新失败：${result.reason}"

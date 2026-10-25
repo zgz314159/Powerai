@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.powerai.navigation.Screen
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 
 /**
  * Entry point of the database screen: ViewModel/state subscription, scroll
@@ -96,7 +96,7 @@ fun DatabaseScreen(
             onItemClick = { item ->
                 viewModel.setSelectedItem(item.id)
                 val encoded = android.net.Uri.encode(searchQuery)
-                navController.navigate(Screen.Detail.createRoute(item.id, encoded, null, null))
+                navController.navigate(KnowledgeDetailNavArgs.createRoute(item.id, encoded, null, null))
             },
         )
     }

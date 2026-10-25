@@ -155,7 +155,7 @@ class DatabaseViewModelRebuildTest {
         runTest {
             Dispatchers.setMain(StandardTestDispatcher(testScheduler))
             val harness = newHarness()
-            Mockito.`when`(harness.userKbImporter.removePackage("user:x"))
+            Mockito.`when`(harness.importer.removePackage("user:x"))
                 .thenReturn(com.example.powerai.data.importer.UserKbPackageRemovalResult.Removed(3))
             val viewModel = harness.createViewModel(this)
             advanceUntilIdle()
@@ -163,11 +163,11 @@ class DatabaseViewModelRebuildTest {
             viewModel.onIntent(DatabaseIntent.RequestRemoveUserPackage("user:x"))
             advanceUntilIdle()
             assertEquals("user:x", viewModel.uiState.value.pendingRemovePackageId)
-            Mockito.verify(harness.userKbImporter, Mockito.never()).removePackage(Mockito.anyString())
+            Mockito.verify(harness.importer, Mockito.never()).removePackage(Mockito.anyString())
 
             viewModel.onIntent(DatabaseIntent.ConfirmRemoveUserPackage)
             advanceUntilIdle()
             assertNull(viewModel.uiState.value.pendingRemovePackageId)
-            Mockito.verify(harness.userKbImporter, Mockito.times(1)).removePackage("user:x")
+            Mockito.verify(harness.importer, Mockito.times(1)).removePackage("user:x")
         }
 }

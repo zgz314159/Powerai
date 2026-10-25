@@ -41,6 +41,7 @@ MODULES = {
     "feature:hybrid": "feature/hybrid/src/main",
     "feature:knowledge-detail": "feature/knowledge-detail/src/main",
     "feature:pdf": "feature/pdf/src/main",
+    "feature:database": "feature/database/src/main",
     "benchmark": "benchmark/src/main",
 }
 

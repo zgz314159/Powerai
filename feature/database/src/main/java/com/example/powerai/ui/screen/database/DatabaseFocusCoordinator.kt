@@ -2,7 +2,7 @@ package com.example.powerai.ui.screen.database
 
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.domain.model.DatabaseFocusTarget
-import com.example.powerai.util.PLog
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -73,7 +73,7 @@ internal class DatabaseFocusCoordinator(
         val normalized = groupKey.trim()
         if (normalized.isBlank()) return
         val directoryCount = loadCoordinator.directoryGroups.value.size
-        PLog.d(
+        Log.d(
             TAG,
             "focusGroupFromDrawer groupKey=$normalized directoryGroups=$directoryCount " +
                 "uiGroups=${state().groups.size}",
@@ -86,7 +86,7 @@ internal class DatabaseFocusCoordinator(
             val groupKeys = directoryGroups.map { it.key }.toSet()
             val containsTarget = groupKeys.contains(normalized)
             reduce { copy(isLoading = false, groups = directoryGroups, errorMessage = null) }
-            PLog.d(
+            Log.d(
                 TAG,
                 "focusGroupFromDrawer restored directoryGroups=${directoryGroups.size} " +
                     "containsTarget=$containsTarget",
@@ -99,7 +99,7 @@ internal class DatabaseFocusCoordinator(
         }
 
         reduce { copy(focusGroupKey = normalized) }
-        PLog.w(TAG, "focusGroupFromDrawer directoryGroups empty, falling back to loadAllInternal for group=$normalized")
+        Log.w(TAG, "focusGroupFromDrawer directoryGroups empty, falling back to loadAllInternal for group=$normalized")
         loadCoordinator.loadAll(scope)
     }
 }

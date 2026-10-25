@@ -38,8 +38,7 @@ class DatabaseViewModel
     @Inject
     constructor(
         private val useCase: com.example.powerai.domain.usecase.DatabaseUseCase,
-        private val importManager: com.example.powerai.data.importer.DocumentImportManager,
-        private val userKbPackageImporter: com.example.powerai.data.importer.UserKbPackageImporter,
+        private val kbPort: com.example.powerai.feature.database.DatabaseKbPort,
         private val savedStateHandle: SavedStateHandle,
         @javax.inject.Named("io")
         private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
@@ -58,7 +57,7 @@ class DatabaseViewModel
         private val loadCoordinator =
             DatabaseLoadCoordinator(
                 useCase = useCase,
-                importManager = importManager,
+                kbPort = kbPort,
                 ioDispatcher = ioDispatcher,
                 state = { currentState },
                 reduce = { reducer -> updateState(reducer) },
@@ -83,14 +82,14 @@ class DatabaseViewModel
 
         private val importCoordinator =
             DatabaseImportCoordinator(
-                importManager = importManager,
+                kbPort = kbPort,
                 reduce = { reducer -> updateState(reducer) },
                 reload = { reloadCurrentContent() },
             )
 
         private val userPackageCoordinator =
             DatabaseUserPackageCoordinator(
-                userKbPackageImporter = userKbPackageImporter,
+                kbPort = kbPort,
                 reduce = { reducer -> updateState(reducer) },
                 reload = { reloadCurrentContent() },
             )
@@ -98,11 +97,11 @@ class DatabaseViewModel
         val directoryGroups: StateFlow<List<DatabaseFileGroup>>
             get() = loadCoordinator.directoryGroups
 
-        val importProgress: StateFlow<com.example.powerai.core.data.importer.ImportProgress?> = importManager.progress
-        val importDiagnostics: StateFlow<com.example.powerai.data.importer.AssetImportDiagnostics> = importManager.importDiagnostics
-        val kbRebuildState: StateFlow<com.example.powerai.data.importer.KbRebuildState> = importManager.rebuildState
+        val importProgress: StateFlow<com.example.powerai.core.data.importer.ImportProgress?> = kbPort.progress
+        val importDiagnostics: StateFlow<com.example.powerai.data.importer.AssetImportDiagnostics> = kbPort.importDiagnostics
+        val kbRebuildState: StateFlow<com.example.powerai.data.importer.KbRebuildState> = kbPort.rebuildState
         val userPackages: StateFlow<List<com.example.powerai.data.importer.UserKbPackageSummary>> =
-            userKbPackageImporter.packages
+            kbPort.userPackages
 
         override fun onIntent(intent: DatabaseIntent) {
             when (intent) {
@@ -300,7 +299,7 @@ class DatabaseViewModel
         init {
             viewModelScope.launch(ioDispatcher) {
                 try {
-                    importManager.refreshImportDiagnostics()
+                    kbPort.refreshImportDiagnostics()
                 } catch (_: Throwable) {
                 }
                 userPackageCoordinator.refresh()
