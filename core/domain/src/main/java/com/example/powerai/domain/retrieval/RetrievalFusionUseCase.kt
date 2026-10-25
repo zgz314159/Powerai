@@ -1,8 +1,7 @@
-package com.example.powerai.feature.searchchat
+package com.example.powerai.domain.retrieval
 
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
-import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.usecase.LocalSearchQueryVariant
 import com.example.powerai.domain.usecase.LocalSearchQueryVariantBuilder
 import com.example.powerai.engine.ai.SparseSearcher

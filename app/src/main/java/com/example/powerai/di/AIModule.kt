@@ -11,7 +11,7 @@ import com.example.powerai.domain.ai.LlmFactualityScorer
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.engine.ai.GemmaLocalInference
 import com.example.powerai.engine.ai.SparseSearcher
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

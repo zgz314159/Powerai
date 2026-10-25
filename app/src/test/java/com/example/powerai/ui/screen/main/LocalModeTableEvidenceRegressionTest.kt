@@ -17,7 +17,7 @@ import com.example.powerai.domain.usecase.AskAiUseCase
 import com.example.powerai.domain.usecase.HybridQueryUseCase
 import com.example.powerai.engine.ai.GemmaLocalInference
 import com.example.powerai.engine.ai.SparseSearcher
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.ui.blocks.BlocksParser
 import com.example.powerai.ui.screen.pdf.pdfLocateTargetForBlock
 import kotlinx.coroutines.runBlocking

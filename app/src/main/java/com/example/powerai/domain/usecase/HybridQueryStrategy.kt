@@ -1,10 +1,10 @@
 package com.example.powerai.domain.usecase
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 
 import com.example.powerai.domain.model.QueryResult
 
 class HybridQueryStrategy(
-    private val localSearchUseCase: com.example.powerai.feature.searchchat.RetrievalFusionUseCase,
+    private val localSearchUseCase: RetrievalFusionUseCase,
     private val askAiUseCase: AskAiUseCase,
     private val isNetworkAvailable: () -> Boolean
 ) {

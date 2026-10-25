@@ -33,6 +33,8 @@ android {
 
 dependencies {
     api(project(":core:model-contract"))
+    // SparseSearcher used by RetrievalFusionUseCase (Phase B2).
+    implementation(project(":engine:ai"))
 
     implementation(libs.androidx.core.ktx)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

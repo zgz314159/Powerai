@@ -4,7 +4,7 @@ import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.engine.ai.GemmaLocalInference
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before

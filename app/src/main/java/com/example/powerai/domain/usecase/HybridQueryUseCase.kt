@@ -8,12 +8,13 @@ import com.example.powerai.core.model.KnowledgeItem
 
 import com.example.powerai.domain.model.KnowledgeEntry
 import com.example.powerai.domain.model.QueryResult
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.engine.ai.GemmaInferenceLauncher
 import com.example.powerai.domain.generator.PromptBuilder
 import javax.inject.Inject
 
 class HybridQueryUseCase @Inject constructor(
-    private val localSearchUseCase: com.example.powerai.feature.searchchat.RetrievalFusionUseCase,
+    private val localSearchUseCase: RetrievalFusionUseCase,
     private val askAiUseCase: AskAiUseCase,
     private val gemmaLocalInference: com.example.powerai.engine.ai.GemmaLocalInference,
     private val knowledgeRepository: KnowledgeRepository

@@ -18,7 +18,7 @@ import com.example.powerai.core.model.SmartBatchSizePreset
 import com.example.powerai.core.model.SmartBatchThreadPreset
 import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.repository.VectorRepository
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
