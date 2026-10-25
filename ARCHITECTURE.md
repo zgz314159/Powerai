@@ -10,7 +10,7 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（含 Ports）、剩余 UI（Main/quickask/…） |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（含 Ports）、剩余 UI（Main 壳为主） |
 | `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
@@ -25,9 +25,12 @@
 | `:feature:jsonrepo` | JSON 知识文件管理垂直切片：`JsonRepositoryViewModel`/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
 | `:feature:search` | 简单词法搜索垂直切片：`SearchViewModel`/UI；依赖 hybrid SearchBar + `RetrievalFusionUseCase` |
 | `:feature:mine` | 「我的」页垂直切片：`MineScreen`；依赖 settings；dev backdoor 由 app 回调 |
-| `:feature:debug` | 知识库调试编辑垂直切片：`DebugViewModel`/UI；`KnowledgeDao` |
+| `:feature:debug` | 调试：`DebugViewModel`/UI + `EmbeddingTestActivity` |
+| `:feature:quickask` | 快速问答原型屏 |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
+
+> Main 壳仍在 `:app`；Drawer 共享组件已部分迁入 `:feature:hybrid`（C13）。
 
 ### 1.2 应用内分层
 

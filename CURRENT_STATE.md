@@ -9,15 +9,18 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：18 个（见 §3；含 hybrid…debug / search-chat）
+- **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C10/D1/D2 完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C13/D1/D2 完成；Main 仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C13（Main 前置：Drawer 壳 + 死代码） | 已完成 | `DrawerWrapper`/`DrawerCardComponents`→`:feature:hybrid`（公开 API）；删除无引用 `DocumentPicker`/`ImportProgressIndicator`/`KnowledgeEntryCard`；Local* 整簇因依赖 ResponseBody/EmptyState 暂留 app（下批 C14）；compile 绿；arch 0 新违规（2026-10-25） |
+| Phase C12（EmbeddingTest → debug） | 已完成 | Activity+layout 迁入 `:feature:debug`；app Manifest 去重；compile 绿；arch 0 新违规（2026-10-25） |
+| Phase C11（垂直抽 `:feature:quickask`） | 已完成 | QuickAskScreen 迁入；依赖 hybrid SearchBar + database KnowledgeItemCard；compile 绿（2026-10-25） |
 | Phase C10（垂直抽 `:feature:debug`） | 已完成 | 新建模块：Debug 屏/VM；仅依赖 `KnowledgeDao`；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C9（垂直抽 `:feature:mine`） | 已完成 | 新建模块：MineScreen；依赖 `:feature:settings`；dev backdoor 经 `onDevBackdoor` 由 app `MineTabContent` 打开 EmbeddingTestActivity；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C8（垂直抽 `:feature:search`） | 已完成 | 新建模块：Search 屏/VM；依赖 `:feature:hybrid`（SearchBar/`HybridUtils`）+ `RetrievalFusionUseCase`；无 app Port；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -62,11 +65,11 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 18 个模块（目录均存在）：
+`settings.gradle.kts` 当前 19 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main/quickask/…） |
+| `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main 壳为主） |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
@@ -81,7 +84,8 @@
 | `:feature:jsonrepo` | JSON 知识文件管理垂直切片：JsonRepo VM/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
 | `:feature:search` | 简单词法搜索垂直切片：Search VM/UI；`RetrievalFusionUseCase` + hybrid SearchBar |
 | `:feature:mine` | 「我的」页垂直切片：MineScreen；依赖 settings；dev backdoor 由 app 回调 |
-| `:feature:debug` | 知识库调试编辑垂直切片：Debug VM/UI；`KnowledgeDao` |
+| `:feature:debug` | 调试：Debug VM/UI + `EmbeddingTestActivity` |
+| `:feature:quickask` | 快速问答原型屏；hybrid SearchBar + database KnowledgeItemCard |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark |
 
@@ -138,15 +142,16 @@
 
 ## 8. 下一步工作
 
-### 垂直切片收口计划（C11–C13，本分支连续执行，不逐刀请示）
+### 垂直切片收口计划（连续执行，不逐刀请示）
 
-| Phase | 目标 | 边界 |
+| Phase | 状态 | 说明 |
 |-------|------|------|
-| **C11** | `:feature:quickask` | 迁入 `QuickAskScreen`；依赖 hybrid `SearchBar` + database `KnowledgeItemCard` |
-| **C12** | EmbeddingTest → `:feature:debug` | Activity + layout 迁入 debug；Manifest/回调改 feature FQN；保留 app 仅作入口声明若需要 |
-| **C13** | Main 第一刀 | **不**整包搬 Main（~8k LOC）；先抽自洽簇：`AiStream*`（VM/State/Orchestrator/Intent）→ `:feature:search-chat`（或新建子包），壳仍留 app |
+| **C11** quickask | ✅ | `:feature:quickask` |
+| **C12** EmbeddingTest | ✅ | 迁入 `:feature:debug` |
+| **C13** Main 前置 | ✅ | Drawer 壳→hybrid；删死组件；Local* 暂留 |
+| **C14**（下批） | 待做 | 先迁 `ResponseBody*`/`EmptyState` 等到 hybrid，再迁 Local*；随后 Smart*/AiStream* 分簇 |
 
-其后（C14+，本批若时间不够写进 Memory）：Local*/Smart*/Chat* 分簇迁入 hybrid 或 search-chat；最终 app 仅留 NavHost + Hilt + theme。
+最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
 ### 其他待办（非本批模块化）
 
