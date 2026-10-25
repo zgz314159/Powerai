@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C26/D1/D2 完成；Main 壳编排仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C27/D1/D2 完成；Main 壳编排仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C27（Faiss 原型 → native） | 已完成 | `FaissNative`/`FaissClient`/`LocalFaissAnnRetriever`/`FaissModule` → `:engine:native`；单测随迁；生产 ANN 仍为 NativeAnnRetriever；compile + LocalFaiss 单测绿（2026-10-25） |
 | Phase C26（eval → domain） | 已完成 | `domain/eval` 生产源 + 单测迁入 `:core:domain`；Evaluator/LocalRetrievalEvaluation 单测绿；arch 0 新违规（2026-10-25） |
 | Phase C25（QueryEncoder + 死域/壳整理） | 已完成 | `QueryEncoder`/`ZeroQueryEncoder` → `:core:domain`；删重复 `KnowledgeMappers` 与无注入 `LlmFactualityScorer`；`MainBottomTab` 独立文件；`AiStreamConfigHelper` 改 public 供跨模块单测；Faiss/AiRuntimeConfig 单测绿（2026-10-25） |
 | Phase C24（死 HTTP/向量客户端清理） | 已完成 | 删无用 VectorSearch*/HttpAnnRetriever/AnnApiService/KnowledgeImportUriFlow/AndroidGemmaModelLoader/ImportMemoryBenchmark；NetworkModule 去掉对应 provides；compile 绿；arch 0 新违规（2026-10-25） |
@@ -181,7 +182,8 @@
 | **C24** 死 HTTP/向量客户端 | ✅ | 删 VectorSearch*/HttpAnn/AnnApi 与无用 loader/benchmark |
 | **C25** QueryEncoder + 死域 | ✅ | QueryEncoder → core:domain；删 KnowledgeMappers/LlmFactualityScorer；MainBottomTab 拆分 |
 | **C26** eval → domain | ✅ | domain/eval 生产+单测 → `:core:domain` |
-| **C27**（下批） | 待做 | Main Screen/Chrome 或 Faiss 原型簇迁出；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C27** Faiss 原型 → native | ✅ | FaissNative/Client/LocalFaiss/FaissModule → `:engine:native` |
+| **C28**（下批） | 待做 | 空目录/调试工具清理；Main Chrome；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
