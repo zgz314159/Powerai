@@ -11,9 +11,11 @@ import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.data.vision.VisionBoostRepositoryImpl
 import com.example.powerai.domain.usecase.DatabaseUseCase
 import com.example.powerai.domain.vision.VisionBoostRepository
+import com.example.powerai.data.json.JsonRepository
 import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.feature.hybrid.HybridKbImportPort
 import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
+import com.example.powerai.feature.settings.SettingsImportPort
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -48,4 +50,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindDatabaseKbPort(impl: AppDatabaseKbPort): DatabaseKbPort
+
+    @Binds
+    @Singleton
+    abstract fun bindSettingsImportPort(impl: JsonRepository): SettingsImportPort
 }

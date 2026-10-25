@@ -11,6 +11,7 @@ import com.example.powerai.data.export.ExportUtils
 import com.example.powerai.data.importer.DocxParser
 import com.example.powerai.data.importer.PdfParser
 import com.example.powerai.data.importer.TxtParser
+import com.example.powerai.feature.settings.SettingsImportPort
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,13 +44,13 @@ data class JsonKnowledgeFile(
 
 @Singleton
 @Suppress("UNCHECKED_CAST", "USELESS_CAST")
-class JsonRepository @Inject constructor(private val context: Context) {
+class JsonRepository @Inject constructor(private val context: Context) : SettingsImportPort {
 
     private val gson = Gson()
     private val scope = CoroutineScope(Dispatchers.IO)
 
     private val _importProgress = MutableStateFlow<ImportProgress?>(null)
-    val importProgress: StateFlow<ImportProgress?> = _importProgress
+    override val importProgress: StateFlow<ImportProgress?> = _importProgress
 
     private fun storageDir(): File {
         val dir = File(context.filesDir, "knowledge_json")
@@ -169,11 +170,19 @@ class JsonRepository @Inject constructor(private val context: Context) {
         return File.createTempFile("import_${safe}_", ".tmp", dir)
     }
 
+    override suspend fun importUri(
+        uri: Uri,
+        contentResolver: ContentResolver,
+        displayName: String,
+    ) {
+        importUri(uri, contentResolver, displayName, ImportDefaults.DEFAULT_BATCH_SIZE)
+    }
+
     suspend fun importUri(
         uri: Uri,
         contentResolver: ContentResolver,
         displayName: String,
-        batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE,
+        batchSize: Int,
     ) = withContext(Dispatchers.IO) {
         try {
             val temp = tempFileFor(displayName)

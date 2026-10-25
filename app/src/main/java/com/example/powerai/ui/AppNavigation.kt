@@ -1,7 +1,9 @@
 package com.example.powerai.ui
 
+import android.content.Intent
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -20,6 +22,7 @@ import com.example.powerai.ui.screen.main.MainScreen
 import com.example.powerai.ui.screen.pdf.PdfViewerScreen
 import com.example.powerai.ui.screen.settings.SettingsScreen
 import com.example.powerai.ui.screen.settings.SettingsViewModel
+import com.example.powerai.ui.test.EmbeddingTestActivity
 
 /**
  * Centralized app navigation host. Keeps navigation concerns out of Activity.
@@ -37,7 +40,15 @@ fun AppNavHost(navController: NavHostController) {
         }
         composable(Screen.Settings.route) {
             val vm = hiltViewModel<SettingsViewModel>()
-            SettingsScreen(navController, vm)
+            val context = LocalContext.current
+            SettingsScreen(navController, vm) {
+                try {
+                    context.startActivity(
+                        Intent(context, EmbeddingTestActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    )
+                } catch (_: Throwable) {}
+            }
         }
         composable(Screen.JsonRepo.route) {
             val vm = hiltViewModel<JsonRepositoryViewModel>()

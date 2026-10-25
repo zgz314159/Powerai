@@ -9,15 +9,16 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：12 个（见 §3；含 hybrid / knowledge-detail / pdf / database）
+- **模块**：13 个（见 §3；含 hybrid / knowledge-detail / pdf / database / settings）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C4/D1/D2 完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C5/D1/D2 完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C5（垂直抽 `:feature:settings`） | 已完成 | 新建模块：Settings 屏/VM/组件；`SettingsImportPort`（`JsonRepository` 实现）解耦 JSON 导入；dev backdoor 经 `onDevBackdoor` 回调由 app 打开 `EmbeddingTestActivity`；compile 绿；`SettingsViewModelTest` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C4（垂直抽 `:feature:database`） | 已完成 | 新建模块：Database 屏/VM/`DatabaseUseCase`、KnowledgeItemCard/EmptyState；`DatabaseKbPort`+`AppDatabaseKbPort` 解耦 importer；`ImportModels`→model-contract；compile 绿；database 单测绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C3（垂直抽 `:feature:pdf`） | 已完成 | 新建模块：PdfViewer/VM、`PdfKnowledgeUseCase`/`PdfFigureListUseCase`、outline store；`PdfAssociation`/`PdfStorage`→`:core:data`（importer 共用）；依赖 `:feature:knowledge-detail`（bbox/locate）；公开 `PdfLocateTarget`；compile 绿；pdf 单测 + `PdfAssociationTest` + `LocalModeTableEvidence` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C2（垂直抽 `:feature:knowledge-detail`） | 已完成 | 新建模块：detail 屏/VM、Compose blocks、Markwon、PDF bbox/locate、PhotoViewer；`KnowledgeDetailSupportPort`（`DatabaseUseCase` 实现）；`BlocksJsonPatcher`/`VisionBoost*`/`DetailModels`→model-contract；`FontSettings`→`:core:data`；`SearchTextNormalization`→model-contract；`:feature:knowledge-detail`+`:app` compile 绿；SnapshotUriSelector 单测绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -56,11 +57,11 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 12 个模块（目录均存在）：
+`settings.gradle.kts` 当前 13 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、导入编排（`HybridKbImportPort`/`KnowledgeDetailSupportPort`/`DatabaseKbPort`）、资产扫描、SAF/URI、剩余 UI |
+| `:app` | 导航、Hilt 装配、导入编排（`HybridKbImportPort`/`KnowledgeDetailSupportPort`/`DatabaseKbPort`/`SettingsImportPort`）、资产扫描、SAF/URI、剩余 UI |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`VisionBoost*`、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
@@ -70,6 +71,7 @@
 | `:feature:knowledge-detail` | 知识详情垂直切片：Detail VM/UI、Markwon、Compose blocks、PDF locate、PhotoViewer |
 | `:feature:pdf` | PDF 查看垂直切片：Viewer/VM、page knowledge/figure usecase、outline |
 | `:feature:database` | 数据库/KB 管理垂直切片：Database VM/UI、`DatabaseUseCase`；经 `DatabaseKbPort` 依赖 app 导入 |
+| `:feature:settings` | 设置垂直切片：Settings VM/UI；经 `SettingsImportPort` 依赖 app `JsonRepository` |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark |
 

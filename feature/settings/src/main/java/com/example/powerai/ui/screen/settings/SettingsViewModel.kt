@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.util.TextSanitizer
-import com.example.powerai.data.json.JsonRepository
 import com.example.powerai.data.settings.FontSettings
+import com.example.powerai.feature.settings.SettingsImportPort
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -34,7 +34,7 @@ data class SettingsUiState(
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val repo: JsonRepository,
+    private val importPort: SettingsImportPort,
     private val knowledgeDao: KnowledgeDao,
     private val fontSettings: FontSettings,
     @ApplicationContext private val context: Context
@@ -42,7 +42,7 @@ class SettingsViewModel @Inject constructor(
     initialState = SettingsUiState()
 ) {
 
-    val importProgress: StateFlow<ImportProgress?> = repo.importProgress
+    val importProgress: StateFlow<ImportProgress?> = importPort.importProgress
 
     val detailContentFontScale: StateFlow<Float> = fontSettings.detailContentFontScaleFlow
 
@@ -70,7 +70,7 @@ class SettingsViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            repo.importProgress.collect { p ->
+            importPort.importProgress.collect { p ->
                 if (p == null) return@collect
                 if (p.status != "imported") return@collect
                 val fileId = p.fileId
@@ -130,7 +130,7 @@ class SettingsViewModel @Inject constructor(
                 uri.lastPathSegment
             } ?: "imported"
 
-            repo.importUri(uri, context.contentResolver, name)
+            importPort.importUri(uri, context.contentResolver, name)
         }
     }
 }

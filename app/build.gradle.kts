@@ -157,6 +157,7 @@ dependencies {
     implementation(project(":feature:knowledge-detail"))
     implementation(project(":feature:pdf"))
     implementation(project(":feature:database"))
+    implementation(project(":feature:settings"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

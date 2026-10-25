@@ -29,8 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +38,11 @@ import kotlinx.coroutines.flow.collect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(navController: NavHostController, viewModel: SettingsViewModel) {
+fun SettingsScreen(
+    navController: NavHostController,
+    viewModel: SettingsViewModel,
+    onDevBackdoor: (() -> Unit)? = null,
+) {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } }
@@ -64,7 +66,8 @@ fun SettingsScreen(navController: NavHostController, viewModel: SettingsViewMode
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(inner)
+                .padding(inner),
+            onDevBackdoor = onDevBackdoor,
         )
     }
 }
@@ -74,7 +77,8 @@ fun SettingsBody(
     navController: NavHostController,
     viewModel: SettingsViewModel,
     modifier: Modifier = Modifier,
-    topContent: (@Composable () -> Unit)? = null
+    topContent: (@Composable () -> Unit)? = null,
+    onDevBackdoor: (() -> Unit)? = null,
 ) {
     val progress by viewModel.importProgress.collectAsState()
     val detailContentFontScale by viewModel.detailContentFontScale.collectAsState()
@@ -106,17 +110,11 @@ fun SettingsBody(
 
         // Version display + hidden dev backdoor
         val versionName = uiState.versionName
-        val context = LocalContext.current
 
-        // observe one-shot backdoor event and launch activity when it fires
-        LaunchedEffect(viewModel) {
-            viewModel.devBackdoor.collect {
-                try {
-                    val intent = Intent(context, com.example.powerai.ui.test.EmbeddingTestActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    context.startActivity(intent)
-                } catch (_: Throwable) {}
-            }
+        // App hosts EmbeddingTestActivity; feature only forwards the event.
+        LaunchedEffect(viewModel, onDevBackdoor) {
+            if (onDevBackdoor == null) return@LaunchedEffect
+            viewModel.devBackdoor.collect { onDevBackdoor.invoke() }
         }
 
         Text(

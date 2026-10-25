@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import com.example.powerai.core.data.dao.KnowledgeDao
-import com.example.powerai.data.json.JsonRepository
 import com.example.powerai.data.settings.FontSettings
+import com.example.powerai.feature.settings.SettingsImportPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ import org.mockito.Mockito.`when`
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28], application = android.app.Application::class)
 class SettingsViewModelTest {
-    private lateinit var repo: JsonRepository
+    private lateinit var importPort: SettingsImportPort
     private lateinit var dao: KnowledgeDao
     private lateinit var context: Context
     private lateinit var pm: PackageManager
@@ -40,8 +40,8 @@ class SettingsViewModelTest {
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
 
-        repo = mock(JsonRepository::class.java)
-        `when`(repo.importProgress).thenReturn(MutableStateFlow(null))
+        importPort = mock(SettingsImportPort::class.java)
+        `when`(importPort.importProgress).thenReturn(MutableStateFlow(null))
         dao = mock(KnowledgeDao::class.java)
 
         context = mock(Context::class.java)
@@ -68,7 +68,7 @@ class SettingsViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun createVm() = SettingsViewModel(repo, dao, fontSettings, context)
+    private fun createVm() = SettingsViewModel(importPort, dao, fontSettings, context)
 
     @Test
     fun `versionName initialized from context`() = runTest {

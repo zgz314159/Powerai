@@ -1,5 +1,6 @@
 package com.example.powerai.ui.screen.mine
 
+import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -25,6 +27,7 @@ import com.example.powerai.ui.screen.settings.SettingsBody
 import com.example.powerai.ui.screen.settings.SettingsIntent
 import com.example.powerai.ui.screen.settings.SettingsSection
 import com.example.powerai.ui.screen.settings.SettingsViewModel
+import com.example.powerai.ui.test.EmbeddingTestActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,6 +37,7 @@ fun MineScreen(
     innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
+    val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
@@ -82,7 +86,15 @@ fun MineScreen(
                 }
 
                 Spacer(Modifier.height(8.dp))
-            }
+            },
+            onDevBackdoor = {
+                try {
+                    context.startActivity(
+                        Intent(context, EmbeddingTestActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    )
+                } catch (_: Throwable) {}
+            },
         )
     }
 }
