@@ -138,11 +138,23 @@
 
 ## 8. 下一步工作
 
-- 维持 lint error 为 0 —— **待验证**（下一次 lint 运行）
-- 端侧推理停止行为与中文输出的真机回归 —— **待验证**（停止闭环已用 fake engine 在 JVM 确定性验收；真机模型未验证）
-- 用户包「更新」一键化：把目录 treeUri 持久化到 `imported_files`（非破坏性加列 + 升级测试），免去每次重新选目录 —— **未开始**（见 KI-57）
-- 原生向量索引 per-package 失效：现为整体 `clear()`，会一并丢弃其他包向量缓存（词法 FTS 不受影响）—— **未开始**（见 KI-56）
-- 补齐 Android 16 / API 36 的仪器测试覆盖 —— **未开始**
+### 垂直切片收口计划（C11–C13，本分支连续执行，不逐刀请示）
+
+| Phase | 目标 | 边界 |
+|-------|------|------|
+| **C11** | `:feature:quickask` | 迁入 `QuickAskScreen`；依赖 hybrid `SearchBar` + database `KnowledgeItemCard` |
+| **C12** | EmbeddingTest → `:feature:debug` | Activity + layout 迁入 debug；Manifest/回调改 feature FQN；保留 app 仅作入口声明若需要 |
+| **C13** | Main 第一刀 | **不**整包搬 Main（~8k LOC）；先抽自洽簇：`AiStream*`（VM/State/Orchestrator/Intent）→ `:feature:search-chat`（或新建子包），壳仍留 app |
+
+其后（C14+，本批若时间不够写进 Memory）：Local*/Smart*/Chat* 分簇迁入 hybrid 或 search-chat；最终 app 仅留 NavHost + Hilt + theme。
+
+### 其他待办（非本批模块化）
+
+- 维持 lint error 为 0 —— **待验证**
+- 端侧推理停止行为与中文输出的真机回归 —— **待验证**
+- 用户包「更新」一键化（KI-57）—— **未开始**
+- 原生向量索引 per-package 失效（KI-56）—— **未开始**
+- 补齐 Android 16 / API 36 仪器测试 —— **未开始**
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
 

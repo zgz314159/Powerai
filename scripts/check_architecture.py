@@ -48,6 +48,7 @@ MODULES = {
     "feature:search": "feature/search/src/main",
     "feature:mine": "feature/mine/src/main",
     "feature:debug": "feature/debug/src/main",
+    "feature:quickask": "feature/quickask/src/main",
     "benchmark": "benchmark/src/main",
 }
 

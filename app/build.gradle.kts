@@ -163,6 +163,7 @@ dependencies {
     implementation(project(":feature:search"))
     implementation(project(":feature:mine"))
     implementation(project(":feature:debug"))
+    implementation(project(":feature:quickask"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
