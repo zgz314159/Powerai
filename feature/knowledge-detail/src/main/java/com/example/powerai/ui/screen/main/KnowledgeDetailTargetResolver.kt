@@ -2,14 +2,14 @@ package com.example.powerai.ui.screen.main
 
 import com.example.powerai.core.model.KnowledgeItem
 
-internal data class KnowledgeDetailTarget(
+data class KnowledgeDetailTarget(
     val id: Long,
     val blockIndex: Int?,
     val blockId: String?,
     val detailHighlight: String?
 )
 
-internal fun knowledgeDetailTargetOrNull(
+fun knowledgeDetailTargetOrNull(
     item: KnowledgeItem?,
     fallbackHighlight: String
 ): KnowledgeDetailTarget? {
@@ -24,7 +24,7 @@ internal fun knowledgeDetailTargetOrNull(
     )
 }
 
-internal fun citationDetailTargetOrNull(
+fun citationDetailTargetOrNull(
     citationNumber: Int,
     evidenceItems: List<KnowledgeItem>,
     fallbackHighlight: String
