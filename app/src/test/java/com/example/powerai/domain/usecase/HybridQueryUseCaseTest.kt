@@ -27,7 +27,12 @@ class HybridQueryUseCaseTest {
         askAi = mock()
         gemma = mock()
         knowledgeRepository = mock()
-        useCase = HybridQueryUseCase(localSearch, askAi, gemma, knowledgeRepository)
+        useCase = HybridQueryUseCase(
+            localSearch,
+            askAi,
+            gemma,
+            LocalHybridQueryOrchestrator(localSearch, knowledgeRepository),
+        )
     }
 
     @Test

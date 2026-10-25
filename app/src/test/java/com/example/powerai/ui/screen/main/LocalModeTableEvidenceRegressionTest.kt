@@ -15,6 +15,7 @@ import com.example.powerai.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.usecase.AskAiUseCase
 import com.example.powerai.domain.usecase.HybridQueryUseCase
+import com.example.powerai.domain.usecase.LocalHybridQueryOrchestrator
 import com.example.powerai.engine.ai.GemmaLocalInference
 import com.example.powerai.engine.ai.SparseSearcher
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
@@ -114,11 +115,12 @@ class LocalModeTableEvidenceRegressionTest {
             )
         val sparse = mock<SparseSearcher>()
         whenever(sparse.search(any(), any<Int>())).thenReturn(emptyList())
+        val fusion = RetrievalFusionUseCase(hybrid, sparse)
         return HybridQueryUseCase(
-            RetrievalFusionUseCase(hybrid, sparse),
+            fusion,
             mock<AskAiUseCase>(),
             mock<GemmaLocalInference>(),
-            repo,
+            LocalHybridQueryOrchestrator(fusion, repo),
         )
     }
 

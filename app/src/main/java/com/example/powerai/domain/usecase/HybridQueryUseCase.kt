@@ -1,23 +1,23 @@
 package com.example.powerai.domain.usecase
 
-import com.example.powerai.core.model.RetrievalResult
-
-import com.example.powerai.core.repository.KnowledgeRepository
-
 import com.example.powerai.core.model.KnowledgeItem
-
+import com.example.powerai.domain.generator.PromptBuilder
 import com.example.powerai.domain.model.KnowledgeEntry
 import com.example.powerai.domain.model.QueryResult
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.engine.ai.GemmaInferenceLauncher
-import com.example.powerai.domain.generator.PromptBuilder
+import com.example.powerai.engine.ai.GemmaLocalInference
 import javax.inject.Inject
 
+/**
+ * App-facing hybrid query facade: delegates local evidence to
+ * [LocalHybridQueryOrchestrator] (:core:domain) and owns Gemma / AskAi side effects (Phase B4).
+ */
 class HybridQueryUseCase @Inject constructor(
     private val localSearchUseCase: RetrievalFusionUseCase,
     private val askAiUseCase: AskAiUseCase,
-    private val gemmaLocalInference: com.example.powerai.engine.ai.GemmaLocalInference,
-    private val knowledgeRepository: KnowledgeRepository
+    private val gemmaLocalInference: GemmaLocalInference,
+    private val localHybridOrchestrator: LocalHybridQueryOrchestrator,
 ) {
 
     /**
@@ -30,13 +30,13 @@ class HybridQueryUseCase @Inject constructor(
         val totalCandidateCount: Int,
         val refinedCandidateCount: Int,
         val discardedCandidates: List<LocalDiscardedCandidate> = emptyList(),
-        val extractiveAnswer: LocalExtractiveAnswer? = null
+        val extractiveAnswer: LocalExtractiveAnswer? = null,
     )
 
     data class LocalModeResult(
         val query: LocalQueryResult,
         val assessment: LocalEvidenceAssessment,
-        val gemmaJob: kotlinx.coroutines.Job?
+        val gemmaJob: kotlinx.coroutines.Job?,
     )
 
     /**
@@ -48,170 +48,63 @@ class HybridQueryUseCase @Inject constructor(
         question: String,
         rawQuestion: String,
         scope: kotlinx.coroutines.CoroutineScope,
-        onGemmaResult: (String) -> Unit
+        onGemmaResult: (String) -> Unit,
     ): LocalModeResult {
-        val raw = localSearchUseCase.invokeResults(question)
-        val materialized = raw.map { rr ->
-            val item = rr.item
-                ?: rr.id?.takeIf { it > 0L }?.let { knowledgeRepository.getLocalItemById(it) }
-                ?: KnowledgeItem(
-                    id = -1L,
-                    title = rr.metadata["title"] ?: "(无标题)",
-                    content = rr.metadata["snippet"] ?: "",
-                    source = rr.metadata["source"] ?: rr.source,
-                    pageNumber = null,
-                    category = "",
-                    keywords = emptyList(),
-                    hitBlockIndex = null,
-                    hitBlockId = null
-                )
-            rr.copy(item = item)
-        }
-        val refinement = LocalEvidenceRefiner.refine(rawQuestion, materialized)
-        val preliminaryRetrievals = refinement.retrievals
-        val preliminaryAssessment = LocalAnswerPlanner.assess(rawQuestion, preliminaryRetrievals)
-        val (extractiveAnswer, refinedRetrievals) = resolveEvidenceTargets(preliminaryRetrievals, preliminaryAssessment, rawQuestion)
-        val items = refinedRetrievals.mapNotNull { it.item }
-        val assessment = LocalAnswerPlanner.assess(rawQuestion, refinedRetrievals)
-        if (refinedRetrievals.isEmpty()) {
-            return LocalModeResult(
-                query = LocalQueryResult(
-                    retrievals = refinedRetrievals,
-                    items = items,
-                    totalCandidateCount = refinement.totalCandidateCount,
-                    refinedCandidateCount = refinement.refinedCandidateCount,
-                    discardedCandidates = refinement.discardedCandidates,
-                    extractiveAnswer = null
-                ),
-                assessment = assessment,
-                gemmaJob = null
-            )
-        }
-
-        val gemmaJob = if (assessment.decision == LocalAnswerDecision.USE_GEMMA_ANSWER) {
-            val promptMode = when (assessment.intent) {
-                LocalAnswerIntent.FACT_QUESTION -> com.example.powerai.domain.generator.PromptBuilder.LocalPromptMode.FACT_ANSWER
-                LocalAnswerIntent.TOPIC_OVERVIEW -> com.example.powerai.domain.generator.PromptBuilder.LocalPromptMode.TOPIC_OVERVIEW
-                LocalAnswerIntent.PROCEDURE -> com.example.powerai.domain.generator.PromptBuilder.LocalPromptMode.PROCEDURE_GUIDE
-                LocalAnswerIntent.COMPARISON -> com.example.powerai.domain.generator.PromptBuilder.LocalPromptMode.COMPARISON_SUMMARY
+        val evidence = localHybridOrchestrator.run(question, rawQuestion)
+        val gemmaJob =
+            if (evidence.retrievals.isNotEmpty() &&
+                evidence.assessment.decision == LocalAnswerDecision.USE_GEMMA_ANSWER
+            ) {
+                launchGemma(rawQuestion, evidence, scope, onGemmaResult)
+            } else {
+                null
             }
-            val prompt = com.example.powerai.domain.generator.PromptBuilder(tokenBudget = 1400)
-                .buildLocalGroundedPrompt(
-                    question = rawQuestion,
-                    results = LocalAnswerPlanner.selectPromptEvidence(refinedRetrievals, assessment),
-                    mode = promptMode
-                )
-            GemmaInferenceLauncher.launchGemmaInference(
-                scope = scope,
-                prompt = prompt,
-                gemma = gemmaLocalInference,
-                maxTokens = when (assessment.intent) {
-                    LocalAnswerIntent.FACT_QUESTION -> 180
-                    LocalAnswerIntent.TOPIC_OVERVIEW -> 220
-                    LocalAnswerIntent.PROCEDURE -> 240
-                    LocalAnswerIntent.COMPARISON -> 240
-                },
-                onResult = onGemmaResult
-            )
-        } else {
-            null
-        }
 
         return LocalModeResult(
             query = LocalQueryResult(
-                retrievals = refinedRetrievals,
-                items = items,
-                totalCandidateCount = refinement.totalCandidateCount,
-                refinedCandidateCount = refinement.refinedCandidateCount,
-                discardedCandidates = refinement.discardedCandidates,
-                extractiveAnswer = extractiveAnswer
+                retrievals = evidence.retrievals,
+                items = evidence.items,
+                totalCandidateCount = evidence.totalCandidateCount,
+                refinedCandidateCount = evidence.refinedCandidateCount,
+                discardedCandidates = evidence.discardedCandidates,
+                extractiveAnswer = evidence.extractiveAnswer,
             ),
-            assessment = assessment,
-            gemmaJob = gemmaJob
+            assessment = evidence.assessment,
+            gemmaJob = gemmaJob,
         )
     }
 
-    private suspend fun attachExtractiveHighlightTargets(
-        retrievals: List<com.example.powerai.core.model.RetrievalResult>,
-        extractiveAnswer: LocalExtractiveAnswer?
-    ): List<com.example.powerai.core.model.RetrievalResult> {
-        if (extractiveAnswer == null) return retrievals
-        val highlight = extractiveAnswer.text.trim()
-        if (highlight.isBlank()) return retrievals
-
-        return retrievals.map { retrieval ->
-            val item = retrieval.item ?: return@map retrieval
-            val matched = when {
-                extractiveAnswer.retrievalId != null -> item.id == extractiveAnswer.retrievalId
-                retrievals.size == 1 -> true
-                else -> false
-            }
-            if (!matched) return@map retrieval
-
-            val target = try {
-                knowledgeRepository.resolveHighlightTarget(item.id, highlight)
-            } catch (_: Throwable) {
-                null
-            }
-            retrieval.copy(
-                item = item.copy(
-                    highlightHint = highlight,
-                    hitBlockIndex = target?.blockIndex ?: item.hitBlockIndex,
-                    hitBlockId = target?.blockId ?: item.hitBlockId
-                )
+    private fun launchGemma(
+        rawQuestion: String,
+        evidence: LocalHybridQueryOrchestrator.Result,
+        scope: kotlinx.coroutines.CoroutineScope,
+        onGemmaResult: (String) -> Unit,
+    ): kotlinx.coroutines.Job {
+        val assessment = evidence.assessment
+        val promptMode = when (assessment.intent) {
+            LocalAnswerIntent.FACT_QUESTION -> PromptBuilder.LocalPromptMode.FACT_ANSWER
+            LocalAnswerIntent.TOPIC_OVERVIEW -> PromptBuilder.LocalPromptMode.TOPIC_OVERVIEW
+            LocalAnswerIntent.PROCEDURE -> PromptBuilder.LocalPromptMode.PROCEDURE_GUIDE
+            LocalAnswerIntent.COMPARISON -> PromptBuilder.LocalPromptMode.COMPARISON_SUMMARY
+        }
+        val prompt = PromptBuilder(tokenBudget = 1400)
+            .buildLocalGroundedPrompt(
+                question = rawQuestion,
+                results = LocalAnswerPlanner.selectPromptEvidence(evidence.retrievals, assessment),
+                mode = promptMode,
             )
-        }
-    }
-
-    /**
-     * Attaches answer highlights and then re-points caption/label hits to the table they
-     * label. Returns the (possibly re-aligned) extractive answer together with the resolved
-     * retrievals; the pair keeps [localMode] readable under the function-size guardrails.
-     */
-    private suspend fun resolveEvidenceTargets(
-        retrievals: List<com.example.powerai.core.model.RetrievalResult>,
-        assessment: LocalEvidenceAssessment,
-        query: String,
-    ): Pair<LocalExtractiveAnswer?, List<com.example.powerai.core.model.RetrievalResult>> {
-        val answer = LocalExtractiveAnswerBuilder.extract(query, retrievals, assessment)
-        val highlighted = attachExtractiveHighlightTargets(retrievals, answer)
-        val redirected = redirectTableLabelHits(highlighted, query)
-        return alignExtractiveAnswer(answer, highlighted, redirected) to redirected
-    }
-
-    /**
-     * Re-points a caption/label hit to the table it labels — in the same entry or, when the
-     * table lives in a sibling entry on the same page, by promoting the item to that entry.
-     * Delegates the geometry to the shared repository resolver so the "本地" evidence chain
-     * obeys exactly the same table-label rule. Ordinary body hits are left untouched.
-     */
-    private suspend fun redirectTableLabelHits(
-        retrievals: List<com.example.powerai.core.model.RetrievalResult>,
-        matchedText: String,
-    ): List<com.example.powerai.core.model.RetrievalResult> {
-        if (retrievals.isEmpty()) return retrievals
-        return retrievals.map { retrieval ->
-            val item = retrieval.item ?: return@map retrieval
-            val redirected =
-                try {
-                    knowledgeRepository.resolveTableLabelTargets(listOf(item), matchedText).firstOrNull()
-                } catch (_: Throwable) {
-                    null
-                }
-            if (redirected != null && redirected != item) retrieval.copy(item = redirected) else retrieval
-        }
-    }
-
-    /** Keeps the extractive answer attached to the entry an answer-aligned hit was promoted to. */
-    private fun alignExtractiveAnswer(
-        answer: LocalExtractiveAnswer?,
-        before: List<com.example.powerai.core.model.RetrievalResult>,
-        after: List<com.example.powerai.core.model.RetrievalResult>,
-    ): LocalExtractiveAnswer? {
-        val oldId = answer?.retrievalId
-        val index = if (oldId == null) -1 else before.indexOfFirst { it.item?.id == oldId }
-        val newId = if (index >= 0) after.getOrNull(index)?.item?.id ?: oldId else oldId
-        return if (answer != null && newId != null && newId != oldId) answer.copy(retrievalId = newId) else answer
+        return GemmaInferenceLauncher.launchGemmaInference(
+            scope = scope,
+            prompt = prompt,
+            gemma = gemmaLocalInference,
+            maxTokens = when (assessment.intent) {
+                LocalAnswerIntent.FACT_QUESTION -> 180
+                LocalAnswerIntent.TOPIC_OVERVIEW -> 220
+                LocalAnswerIntent.PROCEDURE -> 240
+                LocalAnswerIntent.COMPARISON -> 240
+            },
+            onResult = onGemmaResult,
+        )
     }
 
     /**
@@ -225,6 +118,7 @@ class HybridQueryUseCase @Inject constructor(
             "AI error: ${t.message ?: t::class.simpleName}"
         }
     }
+
     /**
      * 混合查询：本地优先，少则调AI，返回QueryResult
      */
@@ -245,7 +139,7 @@ class HybridQueryUseCase @Inject constructor(
         return QueryResult(
             answer = answer,
             references = localResults,
-            confidence = confidence
+            confidence = confidence,
         )
     }
 
@@ -288,7 +182,7 @@ class HybridQueryUseCase @Inject constructor(
                 content = it.content,
                 category = it.category,
                 source = it.source,
-                status = "local"
+                status = "local",
             )
         }.toMutableList()
 
@@ -305,7 +199,7 @@ class HybridQueryUseCase @Inject constructor(
                 content = aiAnswer,
                 category = "ai",
                 source = "DeepSeePK",
-                status = "ai"
+                status = "ai",
             )
             mapped.add(aiEntry)
         }

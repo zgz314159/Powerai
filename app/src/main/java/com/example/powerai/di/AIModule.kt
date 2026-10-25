@@ -11,7 +11,9 @@ import com.example.powerai.domain.ai.LlmFactualityScorer
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.engine.ai.GemmaLocalInference
 import com.example.powerai.engine.ai.SparseSearcher
+import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
+import com.example.powerai.domain.usecase.LocalHybridQueryOrchestrator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -95,5 +97,14 @@ object AIModule {
         sparseSearcher: SparseSearcher
     ): RetrievalFusionUseCase {
         return RetrievalFusionUseCase(svc, sparseSearcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalHybridQueryOrchestrator(
+        fusion: RetrievalFusionUseCase,
+        knowledgeRepository: KnowledgeRepository,
+    ): LocalHybridQueryOrchestrator {
+        return LocalHybridQueryOrchestrator(fusion, knowledgeRepository)
     }
 }
