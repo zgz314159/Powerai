@@ -12,12 +12,13 @@
 - **模块**：9 个（见 §3；含 `:core:domain`、`:feature:hybrid`）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B/C1/D1 完成；Phase D2（EmbeddingIo 死链清理）已完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1/D1/D2 完成；C2 前置（BlocksParser 同位）已完成；完整 `:feature:knowledge-detail` 待抽
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C2-prep（BlocksParser → model-contract） | 已完成 | JVM 侧 `BlocksParser`/`BlocksUtils`/`BlocksIdGenerator`/`BlocksElementExtractors` + `BlocksParserTest` 迁入 `:core:model-contract`（包名不变）；Compose `BlocksRenderer`/`BlockItemComponents` 仍留 `:app`；解除 Pdf usecase → app ui 解析倒置；`BlocksParserTest` 绿；`compileDebugKotlin` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase D2（EmbeddingIo 死链清理） | 已完成 | 删除已无生产调用的 `EmbeddingIoHelper` + 单测；现行 `EmbeddingRepositoryImpl.enqueueForEmbedding` 写 Room `embedding_metadata`（`:core:data`），不再写 `filesDir/embeddings/pending`；`EmbeddingWorker` 文件批处理路径保留但无自动调度（见 KI-58）；`compileDebugKotlin` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase D1（WebSearch/History → data 同位） | 已完成 | `WebSearchRepository`/`SearchHistoryRepository`/`SearchEntry`/`HistoryScope` → `:core:model-contract`；Serper 客户端+仓储实现+历史 store → `:core:data`；`WebSearchApiKeyProvider` 解耦 `BuildConfig`；DI 绑在 `core/data`；`:app`/`hybrid`/`data` compile 绿；hybrid **93/93** + data 单测绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C1（垂直抽 `:feature:hybrid`） | 已完成 | 新建 `:feature:hybrid`：Hybrid 屏/VM/编排、`HybridQueryUseCase`/`AskAi`、历史与 WebSearch 契约、SearchBar/HybridCard；`HybridKbImportPort` 解耦 app importer；`DocumentImportManager` 实现 Port；包名尽量不变；`:feature:hybrid` + `:app` `compileDebugKotlin` SUCCESS；hybrid 单测 **93/93**；`LocalModeTableEvidence`/`LocalSummaryCardFormatting` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -57,7 +58,7 @@
 | 模块 | 职责 |
 |------|------|
 | `:app` | 导航、Hilt 装配、导入编排（`DocumentImportManager` 实现 `HybridKbImportPort`）、资产扫描、SAF/URI、剩余 UI |
-| `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks、MVI、query、`WebSearch`/`SearchHistory` 契约 |
+| `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型 + `BlocksParser`（JVM）、MVI、query、`WebSearch`/`SearchHistory` 契约 |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History 实现、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
