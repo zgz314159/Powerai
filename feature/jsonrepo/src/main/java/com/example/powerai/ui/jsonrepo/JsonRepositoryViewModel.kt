@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.json.JsonEntry
 import com.example.powerai.data.json.JsonKnowledgeFile
-import com.example.powerai.data.json.JsonRepository
+import com.example.powerai.feature.jsonrepo.JsonRepoPort
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,7 @@ data class JsonRepoUiState(
 
 @HiltViewModel
 class JsonRepositoryViewModel @Inject constructor(
-    private val repo: JsonRepository
+    private val repo: JsonRepoPort
 ) : BaseMviViewModel<JsonRepoIntent, JsonRepoUiState, Nothing>(
     initialState = JsonRepoUiState()
 ) {

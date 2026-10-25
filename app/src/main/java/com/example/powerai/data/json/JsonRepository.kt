@@ -11,6 +11,7 @@ import com.example.powerai.data.export.ExportUtils
 import com.example.powerai.data.importer.DocxParser
 import com.example.powerai.data.importer.PdfParser
 import com.example.powerai.data.importer.TxtParser
+import com.example.powerai.feature.jsonrepo.JsonRepoPort
 import com.example.powerai.feature.settings.SettingsImportPort
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -26,25 +27,9 @@ import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
-data class JsonEntry(
-    val id: String,
-    val title: String,
-    val content: String,
-    val category: String = "",
-    val source: String = "",
-    val status: String = "parsed"
-)
-
-data class JsonKnowledgeFile(
-    val fileId: String,
-    val fileName: String,
-    val importTimestamp: Long,
-    val entriesCount: Int
-)
-
 @Singleton
 @Suppress("UNCHECKED_CAST", "USELESS_CAST")
-class JsonRepository @Inject constructor(private val context: Context) : SettingsImportPort {
+class JsonRepository @Inject constructor(private val context: Context) : SettingsImportPort, JsonRepoPort {
 
     private val gson = Gson()
     private val scope = CoroutineScope(Dispatchers.IO)
@@ -58,7 +43,7 @@ class JsonRepository @Inject constructor(private val context: Context) : Setting
         return dir
     }
 
-    suspend fun listFiles(): List<JsonKnowledgeFile> = withContext(Dispatchers.IO) {
+    override suspend fun listFiles(): List<JsonKnowledgeFile> = withContext(Dispatchers.IO) {
         val dir = storageDir()
         dir.listFiles()?.filter { it.isFile && it.extension == "json" }?.map { f ->
             // read metadata quickly
@@ -77,7 +62,7 @@ class JsonRepository @Inject constructor(private val context: Context) : Setting
         } ?: emptyList()
     }
 
-    suspend fun getEntries(fileId: String): List<JsonEntry> = withContext(Dispatchers.IO) {
+    override suspend fun getEntries(fileId: String): List<JsonEntry> = withContext(Dispatchers.IO) {
         val dir = storageDir()
         val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext emptyList()
         try {
@@ -101,14 +86,14 @@ class JsonRepository @Inject constructor(private val context: Context) : Setting
         }
     }
 
-    suspend fun getEntriesPaged(fileId: String, offset: Int, limit: Int): List<JsonEntry> = withContext(Dispatchers.IO) {
+    override suspend fun getEntriesPaged(fileId: String, offset: Int, limit: Int): List<JsonEntry> = withContext(Dispatchers.IO) {
         val all = getEntries(fileId)
         if (offset >= all.size) return@withContext emptyList()
         val end = kotlin.math.min(all.size, offset + limit)
         return@withContext all.subList(offset, end)
     }
 
-    suspend fun updateEntry(fileId: String, updated: JsonEntry): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun updateEntry(fileId: String, updated: JsonEntry): Boolean = withContext(Dispatchers.IO) {
         val dir = storageDir()
         val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false
         try {
@@ -139,7 +124,7 @@ class JsonRepository @Inject constructor(private val context: Context) : Setting
         }
     }
 
-    suspend fun exportCsv(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun exportCsv(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
         try {
             val entries = getEntries(fileId)
             val gsonItems = entries.map { e ->
@@ -153,7 +138,7 @@ class JsonRepository @Inject constructor(private val context: Context) : Setting
         }
     }
 
-    suspend fun exportJson(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
+    override suspend fun exportJson(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
         try {
             val dir = storageDir()
             val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false

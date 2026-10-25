@@ -10,8 +10,8 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（`HybridKbImportPort`/`KnowledgeDetailSupportPort`/`DatabaseKbPort`/`SettingsImportPort`/`UserKbDirectoryImportPort`）、剩余 UI |
-| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（含 `JsonRepoPort` 等 Ports）、剩余 UI（Main/Mine/Search/…） |
+| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
@@ -22,6 +22,7 @@
 | `:feature:database` | 数据库/KB 管理垂直切片：`DatabaseViewModel`/`DatabaseUseCase`；经 `DatabaseKbPort` 依赖 app 导入 |
 | `:feature:settings` | 设置垂直切片：`SettingsViewModel`/UI；经 `SettingsImportPort` 依赖 app `JsonRepository` |
 | `:feature:importer` | 用户 KB 目录导入垂直切片：`ImportViewModel`/`KnowledgeImportScreen`；经 `UserKbDirectoryImportPort` 依赖 app |
+| `:feature:jsonrepo` | JSON 知识文件管理垂直切片：`JsonRepositoryViewModel`/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 

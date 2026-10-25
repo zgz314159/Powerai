@@ -49,6 +49,7 @@ MODULES = {
     "feature:database": "feature/database/src/main",
     "feature:settings": "feature/settings/src/main",
     "feature:importer": "feature/importer/src/main",
+    "feature:jsonrepo": "feature/jsonrepo/src/main",
     "benchmark": "benchmark/src/main",
 }
 

@@ -16,6 +16,7 @@ import com.example.powerai.data.json.JsonRepository
 import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.feature.hybrid.HybridKbImportPort
 import com.example.powerai.feature.importer.UserKbDirectoryImportPort
+import com.example.powerai.feature.jsonrepo.JsonRepoPort
 import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
 import com.example.powerai.feature.settings.SettingsImportPort
 import dagger.Binds
@@ -56,6 +57,10 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSettingsImportPort(impl: JsonRepository): SettingsImportPort
+
+    @Binds
+    @Singleton
+    abstract fun bindJsonRepoPort(impl: JsonRepository): JsonRepoPort
 
     @Binds
     @Singleton
