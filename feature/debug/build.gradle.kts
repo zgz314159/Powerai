@@ -38,6 +38,8 @@ dependencies {
     implementation(project(":core:model-contract"))
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
+    implementation(project(":engine:native"))
+    implementation(project(":engine:ai"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -49,6 +51,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)

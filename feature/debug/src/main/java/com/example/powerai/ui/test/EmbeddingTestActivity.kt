@@ -5,7 +5,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.powerai.R
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -13,6 +12,7 @@ import javax.inject.Inject
 
 /**
  * Debugging activity to verify vector engine initialization and search functionality.
+ * Hosted in :feature:debug (Phase C12).
  */
 @AndroidEntryPoint
 class EmbeddingTestActivity : ComponentActivity() {
@@ -20,19 +20,22 @@ class EmbeddingTestActivity : ComponentActivity() {
     @Inject
     lateinit var hybridRetrievalService: HybridRetrievalService
 
+    private fun resId(name: String, type: String): Int =
+        resources.getIdentifier(name, type, packageName)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_embedding_test)
+        setContentView(resId("activity_embedding_test", "layout"))
 
-        findViewById<Button>(R.id.btn_test_jni).setOnClickListener {
+        findViewById<Button>(resId("btn_test_jni", "id")).setOnClickListener {
             testJniSearch()
         }
 
-        findViewById<Button>(R.id.btn_test_fts).setOnClickListener {
+        findViewById<Button>(resId("btn_test_fts", "id")).setOnClickListener {
             testFtsSearch()
         }
 
-        findViewById<Button>(R.id.btn_sync_existing).setOnClickListener {
+        findViewById<Button>(resId("btn_sync_existing", "id")).setOnClickListener {
             syncExistingEmbeddings()
         }
 
