@@ -6,7 +6,7 @@ import com.example.powerai.util.PdfSourceRef
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
-internal object ContextualSearchTextBuilder {
+object ContextualSearchTextBuilder {
     fun buildSearchPayload(
         title: String,
         source: String,

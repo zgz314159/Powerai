@@ -26,7 +26,7 @@ data class LocalExtractiveAnswer(
     }
 }
 
-internal object LocalExtractiveAnswerBuilder {
+object LocalExtractiveAnswerBuilder {
         val stopMarkers = listOf("停止运行", "停运", "应立即停止运行")
     private val normativeMarkers = listOf("", "必须", "不得", "不准", "严禁", "", "", "", "然后")
 

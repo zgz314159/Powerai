@@ -8,7 +8,7 @@ import com.example.powerai.domain.query.QueryUnderstandingPipeline
 import com.example.powerai.domain.util.ContextualSearchTextBuilder
 import java.util.Locale
 
-internal object LocalEvidenceRefiner {
+object LocalEvidenceRefiner {
 
     fun refine(query: String, retrievals: List<RetrievalResult>, displayLimit: Int = 3): LocalEvidenceRefinement {
         if (retrievals.isEmpty()) {

@@ -37,6 +37,7 @@ dependencies {
     implementation(project(":engine:ai"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.gson)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("javax.inject:javax.inject:1")
 

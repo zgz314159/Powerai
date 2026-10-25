@@ -12,12 +12,13 @@
 - **模块**：8 个（见 §3；含新建 `:core:domain`）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B1+B2 已完成；下一步 B3（LocalEvidence* 证据簇迁入 `:core:domain`）
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B1–B3 已完成；下一步 B4（`HybridQueryUseCase` 拆 Gemma 副作用）
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase B3（证据簇） | 已完成 | `LocalEvidence*` / `LocalAnswerPlanner` / `LocalExtractiveAnswerBuilder` + 依赖 `PdfSourceRef` / `ContextualSearchTextBuilder` 迁入 `:core:domain`（包名不变）；跨模块调用处放开 Refiner/ExtractiveBuilder/ContextualSearchTextBuilder 可见性；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测 **57/57**（Evidence 7 + AnswerPlanner 14 + Extractive 2 + HybridQuery 8 + TableEvidence 5 + PackageAware 4 + UiPayload 3 + SummaryFactory 14）；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase B2（消检索倒置） | 已完成 | `RetrievalFusionUseCase` 自 `:feature:search-chat` 迁入 `:core:domain`（包名 `domain.retrieval`）；`:app` domain 不再 import `feature.searchchat`；`:core:domain` 依赖 `:engine:ai`（SparseSearcher）；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测全绿（RetrievalFusion 2 + HybridQuery 8 + HybridRetrieval 5 + LocalModeTableEvidence 5 + DeepSeek VM/Stop）；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase B1（`:core:domain`） | 已完成 | `HybridRetrievalService` + `LocalSearchQueryVariantBuilder` 自 `:core:model-contract` 迁入 `:core:domain`（包名不变）；`:app` / `:feature:search-chat` 依赖已接；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测 **18/18**（HybridRetrieval 5 + VariantBuilder 11 + RetrievalFusion 2）；`check_architecture.py` 0 新违规（2026-10-25） |
 | PR #1 | 已合并 | merge commit `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` |
@@ -52,7 +53,7 @@
 |------|------|
 | `:app` | Compose UI、ViewModel、导航、Hilt 装配、导入编排（`DocumentImportManager`）、资产扫描、SAF/URI 入口与 importer 装配 |
 | `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
-| `:core:domain` | 检索领域：`HybridRetrievalService`、`FtsRetriever`、`LocalSearchQueryVariantBuilder`、`RetrievalFusionUseCase`（B1–B2；证据簇待 B3） |
+| `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*/Answer/Extractive、PdfSourceRef（B1–B3；HybridQuery 编排待 B4） |
 | `:core:data` | `KnowledgeEntity`、仓储实现、本地检索与 JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
