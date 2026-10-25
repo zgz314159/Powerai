@@ -52,6 +52,7 @@ MODULES = {
     "feature:jsonrepo": "feature/jsonrepo/src/main",
     "feature:search": "feature/search/src/main",
     "feature:mine": "feature/mine/src/main",
+    "feature:debug": "feature/debug/src/main",
     "benchmark": "benchmark/src/main",
 }
 

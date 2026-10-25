@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.core.data.entity.KnowledgeEntity
 
 @Composable
-fun DebugScreen(viewModel: com.example.powerai.ui.debug.DebugViewModel) {
+fun DebugScreen(viewModel: DebugViewModel) {
     val uiState by viewModel.uiState.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {

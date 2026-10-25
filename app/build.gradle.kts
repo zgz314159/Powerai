@@ -162,6 +162,7 @@ dependencies {
     implementation(project(":feature:jsonrepo"))
     implementation(project(":feature:search"))
     implementation(project(":feature:mine"))
+    implementation(project(":feature:debug"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
