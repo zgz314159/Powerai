@@ -20,10 +20,12 @@ class NativeAnnSearcher private constructor(private val dim: Int) {
     fun loadIndex(path: String): Boolean = nativeLoadIndex(path)
 
     companion object {
+        private const val DEFAULT_DIM = 384
+
         @Volatile
         private var INSTANCE: NativeAnnSearcher? = null
 
-        fun getInstance(dim: Int = com.example.powerai.AppConfig.VECTOR_DIM): NativeAnnSearcher {
+        fun getInstance(dim: Int = DEFAULT_DIM): NativeAnnSearcher {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: NativeAnnSearcher(dim).also { INSTANCE = it }
             }
