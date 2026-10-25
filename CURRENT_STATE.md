@@ -8,16 +8,17 @@
 
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
-- **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
+- **Kotlin 源文件**：44 个（`app/src/main/java/`，2026-10-25）；垂直切片后 app 以壳+DI+importer 为主
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C33/D1/D2 完成；Main 壳编排（Screen/Content/Tab stubs）仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — **B/C1–C34/D1/D2 垂直模块化收口完成**；app 故意残留见 §8
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C34（模块化收口） | 已完成 | 删无用 `PLog`；确认 Json/importer/`AssetPreloadWorker`/Main 壳留 app 为故意边界；app **44** kt；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C33（Workers → data） | 已完成 | `DataSyncWorker`/`EmbeddingWorker` → `:core:data`；`AssetPreloadWorker` 仍留 app（依赖 DocumentImportManager）；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C32（Vision → data） | 已完成 | `VisionService`/`VisionBoostRepositoryImpl`/`VisionBoostJson`+单测 → `:core:data`；`VisionApiConfig` 解耦 app BuildConfig；DI bind 迁入 data；VisionBoostJsonTest 绿；arch 0 新违规（2026-10-25） |
 | Phase C31（空占位清理 + ExportUtils） | 已完成 | 清 app data/local·remote·saf·repository 与 ui 空占位 `.gitkeep`；`ExportUtils` → `:core:data`；compile 绿；arch 0 新违规（2026-10-25） |
@@ -195,9 +196,18 @@
 | **C31** 空占位 + ExportUtils | ✅ | 清空目录；ExportUtils → `:core:data` |
 | **C32** Vision → data | ✅ | Vision* + VisionApiConfig；bind → `:core:data` |
 | **C33** Workers → data | ✅ | DataSync/Embedding → data；AssetPreload 留 app |
-| **C34**（收尾） | 进行中 | 残量核对 + 模块化收口文档 |
+| **C34** 模块化收口 | ✅ | 删 PLog；残量边界冻结；垂直切片本批结束 |
 
-最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
+### app 故意残留（收口边界，非未完成债）
+
+| 簇 | 说明 |
+|----|------|
+| NavHost / MainActivity / theme | 应用壳与导航 |
+| Hilt DI modules | 组合根；Ports 绑定 importer/Json |
+| importer + JsonRepository | 导入/解析实现；feature 经 Port 依赖 |
+| `AssetPreloadWorker` | 绑定 `DocumentImportManager` |
+| Main 壳 3 文件 | `MainScreen`/`MainFeatureContent`/Mine·Quiz stubs（跨 feature 编排） |
+| Glide/`AssetModelLoader`/`AppConfig`/`PreviewTemplates` | 应用级配置与资源加载 |
 
 ### 其他待办（非本批模块化）
 

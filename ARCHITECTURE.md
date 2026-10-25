@@ -10,7 +10,7 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（含 Ports）、剩余 UI（Main 壳为主） |
+| `:app` | 导航、Hilt 装配、importer/Json 实现（含 Ports）、Main 壳编排、AssetPreloadWorker、theme/Glide |
 | `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
