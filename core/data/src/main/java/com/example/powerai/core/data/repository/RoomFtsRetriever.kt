@@ -1,14 +1,11 @@
-package com.example.powerai.data.repository
+package com.example.powerai.core.data.repository
 
 import com.example.powerai.core.data.dao.KnowledgeDao
-import com.example.powerai.core.data.repository.KnowledgeSearchSqlPatterns
-
 import com.example.powerai.core.model.KnowledgeItem
-
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.domain.retrieval.FtsRetriever
 import com.example.powerai.domain.util.SemanticRoleSearchTextBuilder
-import com.example.powerai.core.model.util.TextSanitizer
 import javax.inject.Inject
 
 /** Adapter that converts DAO FTS results into `RetrievalResult`. */

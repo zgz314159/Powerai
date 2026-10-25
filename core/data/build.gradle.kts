@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation(project(":core:model-contract"))
+    // FtsRetriever + SemanticRoleSearchTextBuilder (RoomFtsRetriever, Phase B5).
+    implementation(project(":core:domain"))
     implementation(libs.androidx.core.ktx)
 
     // Room

@@ -12,8 +12,8 @@
 |------|------|
 | `:app` | Compose UI、ViewModel、导航、Hilt 装配、Room 与 importer 实现 |
 | `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
-| `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`；Gemma/AskAi 副作用仍在 `:app` `HybridQueryUseCase` |
-| `:core:data` | `KnowledgeEntity`、仓储实现与本地检索、JSON KB 导入核心（`core/data/importer`） |
+| `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder`；Gemma/AskAi 副作用仍在 `:app` `HybridQueryUseCase` |
+| `:core:data` | `KnowledgeEntity`、仓储实现、`RoomFtsRetriever`（绑定 `FtsRetriever`）、JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接（DeepSeek、Gemma、llama 运行时） |
 | `:feature:search-chat` | 搜索与对话功能域 |

@@ -11,7 +11,7 @@ import com.example.powerai.core.model.RetrievalResult
 import com.example.powerai.core.model.TableBlock
 import com.example.powerai.core.repository.AnnRetriever
 import com.example.powerai.core.repository.EmbeddingRepository
-import com.example.powerai.data.repository.RoomFtsRetriever
+import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.usecase.AskAiUseCase
 import com.example.powerai.domain.usecase.HybridQueryUseCase

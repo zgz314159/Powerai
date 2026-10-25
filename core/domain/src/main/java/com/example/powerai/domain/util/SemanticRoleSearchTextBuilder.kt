@@ -9,7 +9,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonArray
 
-internal object SemanticRoleSearchTextBuilder {
+object SemanticRoleSearchTextBuilder {
     data class SemanticRoleProfile(
         val totalBlocks: Int = 0,
         val headingCount: Int = 0,

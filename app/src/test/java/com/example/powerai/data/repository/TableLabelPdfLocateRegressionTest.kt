@@ -6,6 +6,7 @@ import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
+import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.core.model.KnowledgeBlock
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.TableBlock

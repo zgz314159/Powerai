@@ -2,18 +2,17 @@ package com.example.powerai.di
 
 import android.content.Context
 import com.example.powerai.AppConfig
-import com.example.powerai.core.data.dao.KnowledgeDao
-import com.example.powerai.core.repository.AnnRetriever
-import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.core.model.ObservabilityService
-import com.example.powerai.data.repository.RoomFtsRetriever
-import com.example.powerai.domain.ai.LlmFactualityScorer
-import com.example.powerai.domain.retrieval.HybridRetrievalService
-import com.example.powerai.engine.ai.GemmaLocalInference
-import com.example.powerai.engine.ai.SparseSearcher
+import com.example.powerai.core.repository.AnnRetriever
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.repository.RemoteConfigRepository
+import com.example.powerai.domain.ai.LlmFactualityScorer
+import com.example.powerai.domain.retrieval.FtsRetriever
+import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.domain.usecase.LocalHybridQueryOrchestrator
+import com.example.powerai.engine.ai.GemmaLocalInference
+import com.example.powerai.engine.ai.SparseSearcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -62,14 +61,13 @@ object AIModule {
     @Singleton
     fun provideHybridRetrievalService(
         annRetriever: AnnRetriever,
-        dao: KnowledgeDao,
+        ftsRetriever: FtsRetriever,
         @Named("retrieval_source_weights") sourceWeights: Map<String, Double>,
         @Named("fts_top_bonus") ftsTopBonus: Double
     ): HybridRetrievalService {
-        val fts = RoomFtsRetriever(dao)
         return HybridRetrievalService(
             annRetriever,
-            fts,
+            ftsRetriever,
             rrfK = 60,
             sourceWeights = sourceWeights,
             ftsTopBonus = ftsTopBonus
