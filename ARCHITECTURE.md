@@ -10,13 +10,14 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | Compose UI、ViewModel、导航、Hilt 装配、Room 与 importer 实现 |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（含 `HybridKbImportPort`）、剩余 UI |
 | `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
-| `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder`；Gemma/AskAi 副作用仍在 `:app` `HybridQueryUseCase` |
+| `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储实现、`RoomFtsRetriever`（绑定 `FtsRetriever`）、JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接（DeepSeek、Gemma、llama 运行时） |
-| `:feature:search-chat` | 搜索与对话功能域 |
+| `:feature:hybrid` | Hybrid 主屏垂直切片：`HybridViewModel`/`HybridQueryUseCase`/`AskAiUseCase`、本地/智能 UI、历史与 WebSearch 契约；经 `HybridKbImportPort` 依赖 app 导入 |
+| `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 
 ### 1.2 应用内分层

@@ -43,6 +43,7 @@ MODULES = {
     "engine:native": "engine/native/src/main",
     "engine:ai": "engine/ai/src/main",
     "feature:search-chat": "feature/search-chat/src/main",
+    "feature:hybrid": "feature/hybrid/src/main",
     "benchmark": "benchmark/src/main",
 }
 

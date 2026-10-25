@@ -15,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.powerai.domain.model.LocalSearchEntry
+import com.example.powerai.domain.model.SearchEntry
 
 @Composable
 internal fun LocalHistoryDrawerContent(
-    history: List<LocalSearchEntry>,
+    history: List<SearchEntry>,
     onSelectQuery: (String) -> Unit,
     onClearHistory: () -> Unit,
     onEdgeAction: (() -> Unit)? = null

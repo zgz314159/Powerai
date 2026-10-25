@@ -14,7 +14,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-data class WebSearchResult(
+data class SerperWebHit(
     val title: String,
     val url: String,
     val snippet: String
@@ -40,7 +40,7 @@ class GoogleCustomSearchClient @Inject constructor() {
         return keyOk
     }
 
-    suspend fun search(query: String, count: Int = 5): List<WebSearchResult> {
+    suspend fun search(query: String, count: Int = 5): List<SerperWebHit> {
         val key = BuildConfig.SERPER_API_KEY.trim()
         if (key.isBlank()) {
             // log removed: search skipped: missing SERPER_API_KEY (keyLen=${key.length})
@@ -108,14 +108,14 @@ class GoogleCustomSearchClient @Inject constructor() {
                         return@use emptyList()
                     }
 
-                val out = ArrayList<WebSearchResult>(items.size())
+                val out = ArrayList<SerperWebHit>(items.size())
                 for (el in items) {
                     val obj = try { el.asJsonObject } catch (_: Throwable) { continue }
                     val title = obj.get("title")?.asString?.trim().orEmpty()
                     val url = (obj.get("link")?.asString ?: obj.get("url")?.asString)?.trim().orEmpty()
                     val snippet = (obj.get("snippet")?.asString ?: obj.get("description")?.asString)?.trim().orEmpty()
                     if (title.isBlank() || url.isBlank()) continue
-                    out.add(WebSearchResult(title = title, url = url, snippet = snippet))
+                    out.add(SerperWebHit(title = title, url = url, snippet = snippet))
                 }
                 val trimmed = if (out.size > maxOut) out.take(maxOut) else out
                 // log removed: search parsed results=${out.size} trimmed=${trimmed.size}

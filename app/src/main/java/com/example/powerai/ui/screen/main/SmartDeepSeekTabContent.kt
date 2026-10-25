@@ -21,7 +21,7 @@ import androidx.navigation.NavHostController
 import com.example.powerai.ui.component.SearchBar
 import com.example.powerai.feature.searchchat.*
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
-import com.example.powerai.domain.model.LocalSearchEntry
+import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.util.PdfSourceRef
 import kotlinx.coroutines.launch
 

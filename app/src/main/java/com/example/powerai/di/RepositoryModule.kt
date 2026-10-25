@@ -6,8 +6,10 @@ import com.example.powerai.core.repository.EmbeddingRepository
 
 import com.example.powerai.core.repository.KnowledgeRepository
 
+import com.example.powerai.data.importer.DocumentImportManager
 import com.example.powerai.data.vision.VisionBoostRepositoryImpl
 import com.example.powerai.domain.vision.VisionBoostRepository
+import com.example.powerai.feature.hybrid.HybridKbImportPort
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -38,4 +40,8 @@ abstract class RepositoryModule {
     abstract fun bindNativeResourceProvider(
         impl: com.example.powerai.data.util.AndroidNativeResourceProvider
     ): com.example.powerai.core.model.NativeResourceProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindHybridKbImportPort(impl: DocumentImportManager): HybridKbImportPort
 }

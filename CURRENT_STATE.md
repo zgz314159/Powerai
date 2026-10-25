@@ -9,15 +9,16 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：8 个（见 §3；含新建 `:core:domain`）
+- **模块**：9 个（见 §3；含 `:core:domain`、`:feature:hybrid`）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B1–B5（检索链 Split-Brain 收敛）已完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B 完成；Phase C1（`:feature:hybrid`）已完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C1（垂直抽 `:feature:hybrid`） | 已完成 | 新建 `:feature:hybrid`：Hybrid 屏/VM/编排、`HybridQueryUseCase`/`AskAi`、历史与 WebSearch 契约、SearchBar/HybridCard；`HybridKbImportPort` 解耦 app importer；`DocumentImportManager` 实现 Port；包名尽量不变；`:feature:hybrid` + `:app` `compileDebugKotlin` SUCCESS；hybrid 单测 **93/93**；`LocalModeTableEvidence`/`LocalSummaryCardFormatting` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase B5（FTS 同位 + DI） | 已完成 | `RoomFtsRetriever` → `:core:data`；`SemanticRoleSearchTextBuilder` → `:core:domain`；`RepositoryModule` `@Binds FtsRetriever`；`AIModule` 注入 `FtsRetriever` 不再手造 Room 实现；相关单测 **42/42**（HybridRetrieval 5 + TableEvidence 5 + PackageAware 4 + TableLabel 5 + SemanticRole 15 + HybridQuery 8）；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase B4（拆 Gemma 副作用） | 已完成 | 新增 `LocalHybridQueryOrchestrator`（`:core:domain`）承载 localMode 检索+证据+题注改指；`:app` `HybridQueryUseCase` 仅保留 Gemma/AskAi 与对外 API；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测 **23/23**（HybridQuery 8 + TableEvidence 5 + EvidenceRefiner 7 + UiPayload 3）；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase B3（证据簇） | 已完成 | `LocalEvidence*` / `LocalAnswerPlanner` / `LocalExtractiveAnswerBuilder` + 依赖 `PdfSourceRef` / `ContextualSearchTextBuilder` 迁入 `:core:domain`（包名不变）；跨模块调用处放开 Refiner/ExtractiveBuilder/ContextualSearchTextBuilder 可见性；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测 **57/57**（Evidence 7 + AnswerPlanner 14 + Extractive 2 + HybridQuery 8 + TableEvidence 5 + PackageAware 4 + UiPayload 3 + SummaryFactory 14）；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -49,17 +50,18 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 8 个模块（目录均存在）：
+`settings.gradle.kts` 当前 9 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | Compose UI、ViewModel、导航、Hilt 装配、导入编排（`DocumentImportManager`）、资产扫描、SAF/URI 入口与 importer 装配 |
+| `:app` | 导航、Hilt 装配、导入编排（`DocumentImportManager` 实现 `HybridKbImportPort`）、资产扫描、SAF/URI、剩余 UI |
 | `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`（绑定 `FtsRetriever`）、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
-| `:feature:search-chat` | 搜索与对话功能域 |
+| `:feature:hybrid` | Hybrid 主屏垂直切片：VM/编排、`HybridQueryUseCase`、本地/智能 UI、历史与 WebSearch 契约 |
+| `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark |
 
 应用内分层仍为 `ui` → `domain` ← `data`；DI 为 `app/src/main/java/com/example/powerai/di/` 下 7 个 `@Module`。KB 目录规范见 [KB_TAXONOMY_GUIDE.md](KB_TAXONOMY_GUIDE.md)。
@@ -77,8 +79,8 @@
 
 ## 5. UI/MVI 迁移状态
 
-- 全仓 **12 个具体 ViewModel**（`:app` 11 + `:feature:search-chat` 1），**12 个**均继承 `BaseMviViewModel`
-- `DeepSeekViewModel` **已完成迁移**（位于 `:feature:search-chat`），`DeepSeekIntent.kt` 存在并被 UI 调用
+- 全仓 **12 个具体 ViewModel**（`:app` 10 + `:feature:hybrid` 1 + `:feature:search-chat` 1），**12 个**均继承 `BaseMviViewModel`
+- `HybridViewModel` **已完成迁移**（位于 `:feature:hybrid`）；`DeepSeekViewModel` 位于 `:feature:search-chat`
 - PDF：`PdfFigureListViewModel`、`PdfKnowledgeViewModel` **已完成 MVI 迁移**（State/Intent/Effect + use case；契约测试 `PdfFigureListMviContractTest`、`PdfKnowledgeMviContractTest`）
 - 用户目录导入：`KnowledgeImportScreen` + `ImportViewModel`（继承 `BaseMviViewModel`，`KnowledgeImportUiState` 区分 idle/running/success/skipped/failed/cancelled），已注册导航路由 `Screen.KbImport`，入口位于「数据库」抽屉「用户知识库」区块
 - 用户包管理（本阶段）：抽屉「用户知识库」区块（`UserKbPackagesUiState.kt` / `UserKbPackagesBlock`）列出每个 `user:` 包的名称/条目数/版本时间/PDF 关联，提供「更新（选同一目录）」与确认后「移除」；「内置知识库」区块（`KbRebuildUiState.kt`）提供隔离的「重建内置知识库」与两步确认的「清空全部知识…」。状态经 `DatabaseUserPackageCoordinator` / `DatabaseImportCoordinator` 落到 `DatabaseUiState`（`pendingRemovePackageId`、`userPackageMessage`、`clearAllStep`）
