@@ -12,7 +12,7 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — **B/C1–C34/D1/D2 垂直模块化收口完成**；app 故意残留见 §8
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — **B/C1–C34/D1/D2 垂直模块化收口完成**；已 sync `origin/main`（含 #28 用户包生命周期）；仓库级收口 = PR 合入 + §8 KI/回归排期
 
 ## 2. 已验证基线
 
@@ -209,13 +209,17 @@
 | Main 壳 3 文件 | `MainScreen`/`MainFeatureContent`/Mine·Quiz stubs（跨 feature 编排） |
 | Glide/`AssetModelLoader`/`AppConfig`/`PreviewTemplates` | 应用级配置与资源加载 |
 
-### 其他待办（非本批模块化）
+### 仓库级收口后待办（KI / 回归，独立排期）
 
-- 维持 lint error 为 0 —— **待验证**
-- 端侧推理停止行为与中文输出的真机回归 —— **待验证**
-- 用户包「更新」一键化（KI-57）—— **未开始**
-- 原生向量索引 per-package 失效（KI-56）—— **未开始**
-- 补齐 Android 16 / API 36 仪器测试 —— **未开始**
+| 优先级 | 项 | 状态 |
+|--------|----|------|
+| P0 | 本 PR 合入 `main` 后确认 CI 绿 | 进行中 |
+| P1 | lint error = 0 | 待验证 |
+| P1 | 端侧推理停止 + 中文输出真机回归 | 待验证 |
+| P2 | KI-56 原生向量索引 per-package 失效 | 未开始 |
+| P2 | KI-57 用户包「更新」一键化（持久化 treeUri） | 未开始 |
+| P2 | 补齐 Android 16 / API 36 仪器测试 | 未开始 |
+| P3 | KI-03/04/58 等已知债按 KNOWN_ISSUES 消化 | 开放 |
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
 
