@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C23/D1/D2 完成；Main 壳编排（7 文件）仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C24/D1/D2 完成；Main 壳编排（7 文件）仍在 app；app 主源约 69 kt
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C24（死 HTTP/向量客户端清理） | 已完成 | 删无用 VectorSearch*/HttpAnnRetriever/AnnApiService/KnowledgeImportUriFlow/AndroidGemmaModelLoader/ImportMemoryBenchmark；NetworkModule 去掉对应 provides；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C23（nav 契约单源） | 已完成 | `Screen.Detail/PdfViewer` 委托 `KnowledgeDetailNavArgs`/`PdfViewerRoute`；AppNavigation Detail args 用 feature 契约；删无用 BingWebSearchClient；ScreenDetailRouteTest 绿（2026-10-25） |
 | Phase C22（app 死域清理） | 已完成 | 删无用 DomainLogger/HybridLogic/ResultFormatter/CategoryFilter/ElectricPowerPrompt/RemoteAiRepository/AndroidDomainLogger；清空 screen/chat·document·hybrid；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C21（Tab 宿主 → feature） | 已完成 | `DatabaseTabContent` → `:feature:database`（`onNavigateToKbImport` 回调）；`SearchTabContent` → `:feature:search-chat`；compile 绿；arch 0 新违规（2026-10-25） |
@@ -175,7 +176,8 @@
 | **C21** Tab 宿主 | ✅ | DatabaseTabContent → database；SearchTabContent → search-chat |
 | **C22** app 死域清理 | ✅ | 删无用 domain util/usecase/repository 与空 screen 目录 |
 | **C23** nav 契约单源 | ✅ | Screen.Detail/Pdf 委托 feature nav；删 BingWebSearchClient |
-| **C24**（下批） | 待做 | Main Screen/Chrome 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C24** 死 HTTP/向量客户端 | ✅ | 删 VectorSearch*/HttpAnn/AnnApi 与无用 loader/benchmark |
+| **C25**（下批） | 待做 | Main Screen/Chrome 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
