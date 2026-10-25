@@ -2,7 +2,7 @@ package com.example.powerai.data.vision
 
 import android.content.Context
 import android.util.Base64
-import com.example.powerai.BuildConfig
+import com.example.powerai.domain.vision.VisionApiConfig
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,13 +18,14 @@ import javax.inject.Singleton
 
 @Singleton
 class VisionService @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val visionApiConfig: VisionApiConfig,
 ) {
 
     private val httpClient = OkHttpClient()
 
     suspend fun analyzeTableToMarkdownWithGemini(imageUri: String, prompt: String): String = withContext(Dispatchers.IO) {
-        val apiKey = BuildConfig.GEMINI_API_KEY.trim()
+        val apiKey = visionApiConfig.geminiApiKey.trim()
         if (apiKey.isBlank()) {
             throw IllegalStateException("GEMINI_API_KEY 未配")
         }
@@ -32,7 +33,7 @@ class VisionService @Inject constructor(
         val bytes = readBytesFromUriOrNull(imageUri)
             ?: throw IllegalArgumentException("无法读取图片: $imageUri")
 
-        val modelName = BuildConfig.GEMINI_MODEL.trim().ifBlank { "gemini-1.5-flash" }
+        val modelName = visionApiConfig.geminiModel.trim().ifBlank { "gemini-1.5-flash" }
         val mimeType = sniffImageMimeType(bytes)
         val base64Data = Base64.encodeToString(bytes, Base64.NO_WRAP)
 

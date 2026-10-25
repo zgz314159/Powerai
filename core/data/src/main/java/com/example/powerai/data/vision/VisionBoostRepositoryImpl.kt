@@ -2,8 +2,8 @@ package com.example.powerai.data.vision
 
 import android.content.Context
 import android.util.Base64
-import com.example.powerai.BuildConfig
 import com.example.powerai.core.repository.RemoteConfigRepository
+import com.example.powerai.domain.vision.VisionApiConfig
 import com.example.powerai.domain.vision.VisionBoostRepository
 import com.example.powerai.engine.ai.AiApiService
 import com.example.powerai.engine.ai.ApiChatCompletionsRequest
@@ -30,6 +30,7 @@ class VisionBoostRepositoryImpl @Inject constructor(
     @Named("visionValidation") private val aiApiService: AiApiService,
     private val visionService: VisionService,
     private val remoteConfigRepository: RemoteConfigRepository,
+    private val visionApiConfig: VisionApiConfig,
 ) : VisionBoostRepository {
 
     private val client: OkHttpClient = OkHttpClient.Builder()
@@ -43,7 +44,7 @@ class VisionBoostRepositoryImpl @Inject constructor(
 
         val markdown = runCatching {
             // Prefer Gemini when configured (blocksJson already maps the correct snapshot).
-            if (BuildConfig.GEMINI_API_KEY.isNotBlank()) {
+            if (visionApiConfig.geminiApiKey.isNotBlank()) {
                 visionService.analyzeTableToMarkdownWithGemini(imageUri = imageUri, prompt = prompt)
             } else {
                 throw IllegalStateException("GEMINI_API_KEY not set")
@@ -80,7 +81,7 @@ class VisionBoostRepositoryImpl @Inject constructor(
             .url(url)
             .addHeader("Content-Type", "application/json")
             .apply {
-                val apiKey = BuildConfig.AI_VISION_API_KEY
+                val apiKey = visionApiConfig.visionApiKey
                 if (apiKey.isNotBlank()) {
                     addHeader("Authorization", "Bearer $apiKey")
                 }
@@ -88,7 +89,7 @@ class VisionBoostRepositoryImpl @Inject constructor(
             .post(reqJson.toRequestBody(mediaType))
             .build()
 
-        // log removed: VisionBoost(gateway) request START url=$url model=${BuildConfig.AI_VISION_MODEL} imageBytes=${bytes.size} uri=$imageUri
+        // log removed: VisionBoost(gateway) request START url=$url model=${visionApiConfig.visionModel} imageBytes=${bytes.size} uri=$imageUri
 
         return client.newCall(request).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
@@ -155,7 +156,7 @@ $input
     private fun buildRequestJson(prompt: String, imageDataUrl: String): String {
         // OpenAI-style multimodal chat format; many providers (incl. GLM-4V compatible gateways) accept this.
         val root = JsonObject()
-        root.addProperty("model", BuildConfig.AI_VISION_MODEL)
+        root.addProperty("model", visionApiConfig.visionModel)
         root.addProperty("stream", false)
 
         val messages = com.google.gson.JsonArray()
@@ -183,8 +184,8 @@ $input
     }
 
     private fun buildVisionUrl(): String {
-        val base = BuildConfig.AI_VISION_BASE_URL.trimEnd('/')
-        val pathRaw = BuildConfig.AI_VISION_PATH.trim()
+        val base = visionApiConfig.visionBaseUrl.trimEnd('/')
+        val pathRaw = visionApiConfig.visionPath.trim()
         val path = if (pathRaw.startsWith("/")) pathRaw else "/$pathRaw"
         return base + path
     }

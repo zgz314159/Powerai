@@ -88,4 +88,16 @@ object NetworkModule {
     @Singleton
     fun provideWebSearchApiKeyProvider(): WebSearchApiKeyProvider =
         WebSearchApiKeyProvider { BuildConfig.SERPER_API_KEY }
+
+    @Provides
+    @Singleton
+    fun provideVisionApiConfig(): com.example.powerai.domain.vision.VisionApiConfig =
+        com.example.powerai.domain.vision.VisionApiConfig(
+            geminiApiKey = BuildConfig.GEMINI_API_KEY,
+            geminiModel = BuildConfig.GEMINI_MODEL,
+            visionApiKey = BuildConfig.AI_VISION_API_KEY,
+            visionModel = BuildConfig.AI_VISION_MODEL,
+            visionBaseUrl = BuildConfig.AI_VISION_BASE_URL,
+            visionPath = BuildConfig.AI_VISION_PATH,
+        )
 }

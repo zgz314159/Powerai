@@ -43,6 +43,8 @@ dependencies {
     implementation(project(":core:model-contract"))
     // FtsRetriever + SemanticRoleSearchTextBuilder (RoomFtsRetriever, Phase B5).
     implementation(project(":core:domain"))
+    // VisionBoost validation path uses AiApiService (Phase C32).
+    implementation(project(":engine:ai"))
     implementation(libs.androidx.core.ktx)
     // FontSettings exposes LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")

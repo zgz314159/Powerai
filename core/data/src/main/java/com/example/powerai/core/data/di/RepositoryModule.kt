@@ -10,10 +10,12 @@ import com.example.powerai.data.repository.ChatHistoryRepositoryImpl
 import com.example.powerai.data.repository.SearchHistoryRepositoryImpl
 import com.example.powerai.data.repository.WebSearchRepositoryImpl
 import com.example.powerai.data.util.AndroidNativeResourceProvider
+import com.example.powerai.data.vision.VisionBoostRepositoryImpl
 import com.example.powerai.domain.repository.ChatHistoryRepository
 import com.example.powerai.domain.repository.SearchHistoryRepository
 import com.example.powerai.domain.repository.WebSearchRepository
 import com.example.powerai.domain.retrieval.FtsRetriever
+import com.example.powerai.domain.vision.VisionBoostRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -65,4 +67,10 @@ abstract class RepositoryModule {
     abstract fun bindNativeResourceProvider(
         impl: AndroidNativeResourceProvider
     ): NativeResourceProvider
+
+    @Binds
+    @Singleton
+    abstract fun bindVisionBoostRepository(
+        impl: VisionBoostRepositoryImpl
+    ): VisionBoostRepository
 }
