@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.ui.component.LazyListScrollAnchor
 import com.example.powerai.ui.component.LazyListScrollIndicator
 
-internal fun buildSmartAnchors(
+fun buildSmartAnchors(
     aiText: String,
     hasThinkingSection: Boolean,
     evidenceSegments: List<SmartEvidenceSegment>,
@@ -54,7 +54,7 @@ internal fun buildSmartAnchors(
 }
 
 @Suppress("ReturnCount")
-internal fun buildSmartBubbleLabel(
+fun buildSmartBubbleLabel(
     currentIndex: Int,
     currentAnchor: LazyListScrollAnchor?,
     anchors: List<LazyListScrollAnchor>,
@@ -76,7 +76,7 @@ internal fun buildSmartBubbleLabel(
     }
 }
 
-internal fun smartShortLabel(fileName: String): String {
+fun smartShortLabel(fileName: String): String {
     val safeName = fileName.ifBlank { "参考资" }
     return if (safeName.length <= ANCHOR_LABEL_MAX_LENGTH) {
         safeName
@@ -94,7 +94,7 @@ private const val ANCHOR_LABEL_MAX_LENGTH = 14
  */
 @Suppress("ktlint:standard:function-naming")
 @Composable
-internal fun SmartScrollIndicator(
+fun SmartScrollIndicator(
     listState: androidx.compose.foundation.lazy.LazyListState,
     anchors: List<LazyListScrollAnchor>,
     modifier: Modifier = Modifier,

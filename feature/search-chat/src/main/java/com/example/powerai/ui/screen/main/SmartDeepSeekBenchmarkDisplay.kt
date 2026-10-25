@@ -13,7 +13,7 @@ import com.example.powerai.feature.searchchat.SmartPrefillBenchmarkUiState
 import com.example.powerai.feature.searchchat.SmartThreadBenchmarkUiState
 
 @Composable
-internal fun SmartPrefillBenchmarkSummary(
+fun SmartPrefillBenchmarkSummary(
     state: SmartPrefillBenchmarkUiState,
     modifier: Modifier = Modifier
 ) {
@@ -68,7 +68,7 @@ internal fun SmartPrefillBenchmarkSummary(
 }
 
 @Composable
-internal fun SmartThreadBenchmarkSummary(
+fun SmartThreadBenchmarkSummary(
     state: SmartThreadBenchmarkUiState,
     modifier: Modifier = Modifier
 ) {

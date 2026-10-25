@@ -23,7 +23,7 @@ import com.example.powerai.feature.searchchat.SmartProgressUiState
 import kotlinx.coroutines.delay
 
 @Composable
-internal fun SmartDeepSeekProgressCard(
+fun SmartDeepSeekProgressCard(
     progressState: SmartProgressUiState,
     askedAtMillis: Long?,
     thinkingPreview: String,

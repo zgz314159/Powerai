@@ -15,12 +15,12 @@ import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.KnowledgeItemCard
 import com.example.powerai.util.PdfSourceRef
 
-internal data class SmartEvidenceEntry(
+data class SmartEvidenceEntry(
     val number: Int,
     val item: KnowledgeItem,
 )
 
-internal data class SmartEvidenceSegment(
+data class SmartEvidenceSegment(
     val key: String,
     val fileName: String,
     val entries: List<SmartEvidenceEntry>,
@@ -32,7 +32,7 @@ private object SmartEvidenceLimits {
     const val COLLAPSE_THRESHOLD = 4
 }
 
-internal fun buildNumberedEvidence(localResults: List<KnowledgeItem>): List<SmartEvidenceEntry> =
+fun buildNumberedEvidence(localResults: List<KnowledgeItem>): List<SmartEvidenceEntry> =
     localResults.take(SmartEvidenceLimits.PREVIEW_LIMIT).mapIndexed { idx, item ->
         SmartEvidenceEntry(
             number = idx + 1,
@@ -47,7 +47,7 @@ internal fun buildNumberedEvidence(localResults: List<KnowledgeItem>): List<Smar
  * to the original inline block.
  */
 @Suppress("LongParameterList")
-internal fun LazyListScope.smartEvidenceSection(
+fun LazyListScope.smartEvidenceSection(
     visibleSegments: List<SmartEvidenceSegment>,
     totalEntryCount: Int,
     showAllEvidence: Boolean,
@@ -140,7 +140,7 @@ private fun CompactEvidenceButton(
     }
 }
 
-internal fun buildSmartEvidenceSegments(entries: List<SmartEvidenceEntry>): List<SmartEvidenceSegment> {
+fun buildSmartEvidenceSegments(entries: List<SmartEvidenceEntry>): List<SmartEvidenceSegment> {
     if (entries.isEmpty()) return emptyList()
 
     val segments = mutableListOf<SmartEvidenceSegment>()
@@ -176,7 +176,7 @@ internal fun buildSmartEvidenceSegments(entries: List<SmartEvidenceEntry>): List
     return segments
 }
 
-internal fun limitSmartEvidenceSegments(
+fun limitSmartEvidenceSegments(
     segments: List<SmartEvidenceSegment>,
     maxEntries: Int,
 ): List<SmartEvidenceSegment> {
@@ -195,7 +195,7 @@ internal fun limitSmartEvidenceSegments(
     }
 }
 
-internal fun smartEvidenceFileName(item: KnowledgeItem): String {
+fun smartEvidenceFileName(item: KnowledgeItem): String {
     return PdfSourceRef.parse(item.source)?.fileName
         ?: PdfSourceRef.userVisibleSource(item.source).ifBlank { "参考资" }
 }

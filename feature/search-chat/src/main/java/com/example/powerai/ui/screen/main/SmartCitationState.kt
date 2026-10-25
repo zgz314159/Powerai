@@ -13,13 +13,13 @@ import kotlinx.coroutines.delay
  * its automatic highlight timeout and the segment index map used to scroll
  * the list to the cited evidence card.
  */
-internal class SmartCitationState {
+class SmartCitationState {
     var selectedNumber by mutableStateOf<Int?>(null)
         internal set
 }
 
 @Composable
-internal fun rememberSmartCitationState(): SmartCitationState {
+fun rememberSmartCitationState(): SmartCitationState {
     val state = remember { SmartCitationState() }
     LaunchedEffect(state.selectedNumber) {
         if (state.selectedNumber != null) {
@@ -33,7 +33,7 @@ internal fun rememberSmartCitationState(): SmartCitationState {
 @Suppress("MagicNumber")
 private const val CITATION_HIGHLIGHT_MS = 1600L
 
-internal fun buildCitationTargetIndices(evidenceSegments: List<SmartEvidenceSegment>): Map<Int, Int> {
+fun buildCitationTargetIndices(evidenceSegments: List<SmartEvidenceSegment>): Map<Int, Int> {
     if (evidenceSegments.isEmpty()) return emptyMap()
 
     var itemIndex = 2

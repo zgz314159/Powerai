@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun SourcesList(sources: List<String>) {
+fun SourcesList(sources: List<String>) {
     if (sources.isEmpty()) return
     Spacer(Modifier.height(12.dp))
     Text(text = "来源", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)

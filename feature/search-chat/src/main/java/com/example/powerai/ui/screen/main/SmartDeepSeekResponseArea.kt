@@ -12,7 +12,7 @@ import com.example.powerai.core.model.GenerationMetrics
 import com.example.powerai.core.model.SmartStageMetrics
 
 @Composable
-internal fun SmartDeepSeekAnswerFooter(
+fun SmartDeepSeekAnswerFooter(
     isLoading: Boolean,
     modelLoaded: Boolean,
     thinking: List<String>,

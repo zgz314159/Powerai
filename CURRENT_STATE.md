@@ -12,13 +12,14 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C14/D1/D2 完成；Main 壳/Smart/AiStream 仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C15/D1/D2 完成；Main 壳/AiStream/Chat 仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| Phase C14（Local/Response 簇 → hybrid） | 已完成 | `Local*` + `ResponseBody*`/`MarkdownTextView`/`AnnotatedTextHelper` + `KnowledgeItemCard`/`TextHighlightUtils`/`EmptyState` → `:feature:hybrid`；hybrid 依赖 knowledge-detail（Markwon）；compile 绿；LocalSummary/LocalSearchFailure 单测绿；arch 0 新违规（2026-10-25） |
+| Phase C15（Smart* → search-chat） | 已完成 | Smart* 迁入 `:feature:search-chat`；`LazyListScrollIndicator`/`ResponseCard`/`SourcesList`→hybrid；`BuildConfig` 改用 `engine.ai`；Detail 导航改 `KnowledgeDetailNavArgs`；compile 绿；arch 0 新违规（2026-10-25） |
+| Phase C14（Local/Response 簇 → hybrid） | 已完成 | `Local*` + `ResponseBody*`/`MarkdownTextView`/`AnnotatedTextHelper` + `KnowledgeItemCard`/`TextHighlightUtils`/`EmptyState` → `:feature:hybrid`；compile 绿（2026-10-25） |
 | Phase C13（Main 前置：Drawer 壳 + 死代码） | 已完成 | `DrawerWrapper`/`DrawerCardComponents`→`:feature:hybrid`；删除无引用 DocumentPicker 等；compile 绿（2026-10-25） |
 | Phase C12（EmbeddingTest → debug） | 已完成 | Activity+layout 迁入 `:feature:debug`；app Manifest 去重；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C11（垂直抽 `:feature:quickask`） | 已完成 | QuickAskScreen 迁入；依赖 hybrid SearchBar + database KnowledgeItemCard；compile 绿（2026-10-25） |
@@ -151,7 +152,8 @@
 | **C12** EmbeddingTest | ✅ | 迁入 `:feature:debug` |
 | **C13** Main 前置 | ✅ | Drawer 壳→hybrid；删死组件 |
 | **C14** Local/Response | ✅ | Local* + Response/Markdown/Card/EmptyState → hybrid |
-| **C15**（下批） | 待做 | Smart*/AiStream*/Chat* 分簇迁 search-chat 或 hybrid；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C15** Smart* | ✅ | Smart* → search-chat；Scroll/ResponseCard/SourcesList → hybrid |
+| **C16**（下批） | 待做 | AiStream*/Chat* → search-chat 或 hybrid；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

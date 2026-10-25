@@ -4,7 +4,6 @@ import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.model.KnowledgeItem
 
 import android.net.Uri
-import com.example.powerai.BuildConfig
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,13 +21,14 @@ import com.example.powerai.ui.component.SearchBar
 import com.example.powerai.feature.searchchat.*
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.domain.model.SearchEntry
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 import com.example.powerai.util.PdfSourceRef
 import kotlinx.coroutines.launch
 
 private const val SMART_DEEPSEEK_DEVICE_PATH = "/storage/emulated/0/Android/data/com.example.powerai/files"
 
 @Composable
-internal fun SmartDeepSeekTabContent(
+fun SmartDeepSeekTabContent(
     navController: NavHostController,
     hybridViewModel: HybridViewModel,
     drawerState: DrawerState,
@@ -124,7 +124,7 @@ internal fun SmartDeepSeekTabContent(
                 metaProvider = metaProvider,
                 onOpenDetail = { id, blockIndex, blockId, detailHighlight ->
                     val encoded = Uri.encode(detailHighlight?.takeIf { it.isNotBlank() } ?: searchQuery)
-                    navController.navigate(com.example.powerai.navigation.Screen.Detail.createRoute(id, encoded, blockIndex, blockId))
+                    navController.navigate(KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId))
                 },
                 onRetry = { submitSmartQuery(searchQuery) },
                 onCopy = onCopyToClipboard,

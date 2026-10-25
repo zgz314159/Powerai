@@ -30,7 +30,7 @@
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 
-> Main 壳仍在 `:app`；Drawer/Local/Response/Markdown/KnowledgeItemCard 已迁入 `:feature:hybrid`（C13–C14）。
+> Main 壳仍在 `:app`；Drawer/Local/Response/Markdown/KnowledgeItemCard/Scroll/ResponseCard 在 `:feature:hybrid`（C13–C15）；Smart* 在 `:feature:search-chat`（C15）。
 
 ### 1.2 应用内分层
 

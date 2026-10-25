@@ -12,11 +12,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.powerai.BuildConfig
+import com.example.powerai.engine.ai.BuildConfig
 import com.example.powerai.feature.searchchat.*
 
 @Composable
-internal fun SmartDeepSeekAdvancedControls(
+fun SmartDeepSeekAdvancedControls(
     uiState: DeepSeekUiState,
     searchQuery: String,
     onIntent: (DeepSeekIntent) -> Unit,
@@ -143,7 +143,7 @@ internal fun SmartDeepSeekAdvancedControls(
 }
 
 @Composable
-internal fun SmartDeepSeekControlRow(
+fun SmartDeepSeekControlRow(
     title: String,
     selectedLabel: String,
     options: List<Pair<String, () -> Unit>>,
