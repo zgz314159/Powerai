@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C30/D1/D2 完成；Main 壳编排（Screen/Content/Tab stubs）仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C31/D1/D2 完成；Main 壳编排（Screen/Content/Tab stubs）仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C31（空占位清理 + ExportUtils） | 已完成 | 清 app data/local·remote·saf·repository 与 ui 空占位 `.gitkeep`；`ExportUtils` → `:core:data`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C30（Main Chrome → hybrid） | 已完成 | `MainBottomTab`/`MainBottomBar`/`MainTopBar`/`MainScreenState`/`MainScreenBackHandlers` → `:feature:hybrid`（包名不变）；跨模块 API 公开；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C29（NativeResourceProvider 实现 → data） | 已完成 | `AndroidNativeResourceProvider` → `:core:data`；DI bind 迁入 data `RepositoryModule`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C28（NativeAnn 调试工具 + 空目录） | 已完成 | `NativeAnnSearcher`/`VectorRepositoryDebugTools`+单测 → `:engine:native`；eval README 随迁；清 app `domain/*` 空占位；compile 绿（2026-10-25） |
@@ -189,6 +190,8 @@
 | **C28** NativeAnn 调试 + 空目录 | ✅ | NativeAnnSearcher/DebugTools → native；清 domain 占位 |
 | **C29** NativeResourceProvider 实现 | ✅ | AndroidNativeResourceProvider → `:core:data` |
 | **C30** Main Chrome | ✅ | Tab/BottomBar/TopBar/State/BackHandlers → `:feature:hybrid` |
+| **C31** 空占位 + ExportUtils | ✅ | 清空目录；ExportUtils → `:core:data` |
+| **C32+**（收尾批） | 进行中 | Vision/Workers → data；模块化收口文档 |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
