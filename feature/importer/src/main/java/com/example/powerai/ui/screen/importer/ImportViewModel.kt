@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.example.powerai.data.importer.PdfPromptInfo
 import com.example.powerai.data.importer.UserKbImportResult
-import com.example.powerai.data.importer.UserKbPackageImporter
+import com.example.powerai.feature.importer.UserKbDirectoryImportPort
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -45,7 +45,7 @@ sealed interface KnowledgeImportUiState {
 class ImportViewModel
     @Inject
     constructor(
-        private val importer: UserKbPackageImporter,
+        private val importer: UserKbDirectoryImportPort,
     ) : BaseMviViewModel<ImportIntent, KnowledgeImportUiState, Nothing>(
             initialState = KnowledgeImportUiState.Idle,
         ) {

@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.powerai.data.importer.PdfPromptInfo
-import com.example.powerai.navigation.Screen
+import com.example.powerai.feature.knowledgedetail.PdfViewerRoute
 
 /**
  * 正式的用户知识库目录导入界面：用系统目录选择器选择 PaddleModels 输出目录，显示导入进度与
@@ -143,7 +143,7 @@ private fun PdfAssociationPrompt(
     OutlinedButton(
         onClick = {
             navController.navigate(
-                Screen.PdfViewer.createRoute(
+                PdfViewerRoute.create(
                     fileId = pdf.fileId,
                     name = Uri.encode(pdf.fileName),
                     page = null,

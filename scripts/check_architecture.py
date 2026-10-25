@@ -43,6 +43,7 @@ MODULES = {
     "feature:pdf": "feature/pdf/src/main",
     "feature:database": "feature/database/src/main",
     "feature:settings": "feature/settings/src/main",
+    "feature:importer": "feature/importer/src/main",
     "benchmark": "benchmark/src/main",
 }
 
