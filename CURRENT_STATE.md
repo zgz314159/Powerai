@@ -9,15 +9,16 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：15 个（见 §3；含 hybrid / knowledge-detail / pdf / database / settings / importer / jsonrepo）
+- **模块**：16 个（见 §3；含 hybrid…search / search-chat）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C7/D1/D2 完成
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C8/D1/D2 完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C8（垂直抽 `:feature:search`） | 已完成 | 新建模块：Search 屏/VM；依赖 `:feature:hybrid`（SearchBar/`HybridUtils`）+ `RetrievalFusionUseCase`；无 app Port；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C7（垂直抽 `:feature:jsonrepo`） | 已完成 | 新建模块：JsonRepo 屏/VM/组件；`JsonEntry`/`JsonKnowledgeFile`→model-contract；`JsonRepoPort`（`JsonRepository` 实现）；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C6（垂直抽 `:feature:importer`） | 已完成 | 新建模块：KnowledgeImport 屏/VM；`UserKbDirectoryImportPort`（`UserKbPackageImporter` 实现）；PDF 关联导航用 `PdfViewerRoute`；compile 绿；`check_architecture.py` 0 新违规（2026-10-25） |
 | Phase C5（垂直抽 `:feature:settings`） | 已完成 | 新建模块：Settings 屏/VM/组件；`SettingsImportPort`（`JsonRepository` 实现）解耦 JSON 导入；dev backdoor 经 `onDevBackdoor` 回调由 app 打开 `EmbeddingTestActivity`；compile 绿；`SettingsViewModelTest` 绿；`check_architecture.py` 0 新违规（2026-10-25） |
@@ -59,11 +60,11 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 15 个模块（目录均存在）：
+`settings.gradle.kts` 当前 16 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、导入编排（含 `JsonRepoPort` 等 Ports）、资产扫描、SAF/URI、剩余 UI（Main/Mine/Search/…） |
+| `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main/Mine/…） |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
@@ -76,6 +77,7 @@
 | `:feature:settings` | 设置垂直切片：Settings VM/UI；经 `SettingsImportPort` 依赖 app `JsonRepository` |
 | `:feature:importer` | 用户 KB 目录导入垂直切片：Import VM/UI；经 `UserKbDirectoryImportPort` 依赖 app importer |
 | `:feature:jsonrepo` | JSON 知识文件管理垂直切片：JsonRepo VM/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
+| `:feature:search` | 简单词法搜索垂直切片：Search VM/UI；`RetrievalFusionUseCase` + hybrid SearchBar |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark |
 

@@ -10,7 +10,7 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（含 `JsonRepoPort` 等 Ports）、剩余 UI（Main/Mine/Search/…） |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（含 Ports）、剩余 UI（Main/Mine/…） |
 | `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
@@ -23,6 +23,7 @@
 | `:feature:settings` | 设置垂直切片：`SettingsViewModel`/UI；经 `SettingsImportPort` 依赖 app `JsonRepository` |
 | `:feature:importer` | 用户 KB 目录导入垂直切片：`ImportViewModel`/`KnowledgeImportScreen`；经 `UserKbDirectoryImportPort` 依赖 app |
 | `:feature:jsonrepo` | JSON 知识文件管理垂直切片：`JsonRepositoryViewModel`/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
+| `:feature:search` | 简单词法搜索垂直切片：`SearchViewModel`/UI；依赖 hybrid SearchBar + `RetrievalFusionUseCase` |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 
