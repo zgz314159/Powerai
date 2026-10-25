@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C28/D1/D2 完成；Main 壳编排仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C29/D1/D2 完成；Main 壳编排仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C29（NativeResourceProvider 实现 → data） | 已完成 | `AndroidNativeResourceProvider` → `:core:data`；DI bind 迁入 data `RepositoryModule`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C28（NativeAnn 调试工具 + 空目录） | 已完成 | `NativeAnnSearcher`/`VectorRepositoryDebugTools`+单测 → `:engine:native`；eval README 随迁；清 app `domain/*` 空占位；compile 绿（2026-10-25） |
 | Phase C27（Faiss 原型 → native） | 已完成 | `FaissNative`/`FaissClient`/`LocalFaissAnnRetriever`/`FaissModule` → `:engine:native`；单测随迁；生产 ANN 仍为 NativeAnnRetriever；compile + LocalFaiss 单测绿（2026-10-25） |
 | Phase C26（eval → domain） | 已完成 | `domain/eval` 生产源 + 单测迁入 `:core:domain`；Evaluator/LocalRetrievalEvaluation 单测绿；arch 0 新违规（2026-10-25） |
@@ -185,7 +186,8 @@
 | **C26** eval → domain | ✅ | domain/eval 生产+单测 → `:core:domain` |
 | **C27** Faiss 原型 → native | ✅ | FaissNative/Client/LocalFaiss/FaissModule → `:engine:native` |
 | **C28** NativeAnn 调试 + 空目录 | ✅ | NativeAnnSearcher/DebugTools → native；清 domain 占位 |
-| **C29**（下批） | 待做 | app 继续瘦身 / Main Chrome |
+| **C29** NativeResourceProvider 实现 | ✅ | AndroidNativeResourceProvider → `:core:data` |
+| **C30**（下批） | 待做 | Main Chrome → hybrid |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

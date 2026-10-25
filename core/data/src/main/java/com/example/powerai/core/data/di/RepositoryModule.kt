@@ -5,9 +5,11 @@ import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
 import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.core.repository.EmbeddingRepository
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.core.model.NativeResourceProvider
 import com.example.powerai.data.repository.ChatHistoryRepositoryImpl
 import com.example.powerai.data.repository.SearchHistoryRepositoryImpl
 import com.example.powerai.data.repository.WebSearchRepositoryImpl
+import com.example.powerai.data.util.AndroidNativeResourceProvider
 import com.example.powerai.domain.repository.ChatHistoryRepository
 import com.example.powerai.domain.repository.SearchHistoryRepository
 import com.example.powerai.domain.repository.WebSearchRepository
@@ -57,4 +59,10 @@ abstract class RepositoryModule {
     abstract fun bindChatHistoryRepository(
         impl: ChatHistoryRepositoryImpl
     ): ChatHistoryRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindNativeResourceProvider(
+        impl: AndroidNativeResourceProvider
+    ): NativeResourceProvider
 }

@@ -34,12 +34,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindNativeResourceProvider(
-        impl: com.example.powerai.data.util.AndroidNativeResourceProvider
-    ): com.example.powerai.core.model.NativeResourceProvider
-
-    @Binds
-    @Singleton
     abstract fun bindHybridKbImportPort(impl: DocumentImportManager): HybridKbImportPort
 
     @Binds
