@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
  */
 @Suppress("ktlint:standard:function-naming")
 @Composable
-internal fun MainScreenBackHandlers(
+fun MainScreenBackHandlers(
     state: MainScreenState,
     dbCurrentQuery: String,
     onExitDatabaseSearch: () -> Unit,

@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
  */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-internal fun MainTopBar(
+fun MainTopBar(
     selectedTab: MainBottomTab,
     onMenuClick: suspend () -> Unit,
     coroutineScope: CoroutineScope

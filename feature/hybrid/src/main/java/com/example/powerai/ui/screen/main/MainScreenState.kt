@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
  * owns the floating search bar, AI input focus and the shared search query.
  * All fields keep the original rememberSaveable semantics.
  */
-internal class MainScreenState(
+class MainScreenState(
     selectedTabState: MutableState<MainBottomTab>,
     searchBarTabState: MutableState<MainBottomTab?>,
     aiInputFocusedState: MutableState<Boolean>,
@@ -27,7 +27,7 @@ internal class MainScreenState(
 }
 
 @Composable
-internal fun rememberMainScreenState(): MainScreenState {
+fun rememberMainScreenState(): MainScreenState {
     val selectedTab = rememberSaveable { mutableStateOf(MainBottomTab.SMART) }
     val searchBarTab = rememberSaveable { mutableStateOf<MainBottomTab?>(null) }
     val aiInputFocused = rememberSaveable { mutableStateOf(false) }
@@ -44,7 +44,7 @@ internal fun rememberMainScreenState(): MainScreenState {
     return state
 }
 
-internal fun supportsLongPressSearch(tab: MainBottomTab): Boolean =
+fun supportsLongPressSearch(tab: MainBottomTab): Boolean =
     tab == MainBottomTab.AI ||
         tab == MainBottomTab.LOCAL ||
         tab == MainBottomTab.DATABASE ||
