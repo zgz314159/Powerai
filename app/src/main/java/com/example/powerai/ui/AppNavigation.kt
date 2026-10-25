@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 import com.example.powerai.navigation.Screen
 import com.example.powerai.ui.jsonrepo.JsonRepositoryScreen
 import com.example.powerai.ui.jsonrepo.JsonRepositoryViewModel
@@ -63,11 +64,11 @@ fun AppNavHost(navController: NavHostController) {
         composable(
             route = Screen.Detail.route,
             arguments = listOf(
-                navArgument(Screen.Detail.ARG_ID) { type = NavType.LongType },
-                navArgument(Screen.Detail.ARG_Q) { type = NavType.StringType; defaultValue = "" },
-                navArgument(Screen.Detail.ARG_BLOCK_INDEX) { type = NavType.IntType; defaultValue = -1 },
-                navArgument(Screen.Detail.ARG_BLOCK_ID) { type = NavType.StringType; defaultValue = "" }
-            )
+                navArgument(KnowledgeDetailNavArgs.ARG_ID) { type = NavType.LongType },
+                navArgument(KnowledgeDetailNavArgs.ARG_Q) { type = NavType.StringType; defaultValue = "" },
+                navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_INDEX) { type = NavType.IntType; defaultValue = -1 },
+                navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_ID) { type = NavType.StringType; defaultValue = "" },
+            ),
         ) {
             KnowledgeDetailScreen(navController)
         }
