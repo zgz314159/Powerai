@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C25/D1/D2 完成；Main 壳编排仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C26/D1/D2 完成；Main 壳编排仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C26（eval → domain） | 已完成 | `domain/eval` 生产源 + 单测迁入 `:core:domain`；Evaluator/LocalRetrievalEvaluation 单测绿；arch 0 新违规（2026-10-25） |
 | Phase C25（QueryEncoder + 死域/壳整理） | 已完成 | `QueryEncoder`/`ZeroQueryEncoder` → `:core:domain`；删重复 `KnowledgeMappers` 与无注入 `LlmFactualityScorer`；`MainBottomTab` 独立文件；`AiStreamConfigHelper` 改 public 供跨模块单测；Faiss/AiRuntimeConfig 单测绿（2026-10-25） |
 | Phase C24（死 HTTP/向量客户端清理） | 已完成 | 删无用 VectorSearch*/HttpAnnRetriever/AnnApiService/KnowledgeImportUriFlow/AndroidGemmaModelLoader/ImportMemoryBenchmark；NetworkModule 去掉对应 provides；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C23（nav 契约单源） | 已完成 | `Screen.Detail/PdfViewer` 委托 `KnowledgeDetailNavArgs`/`PdfViewerRoute`；AppNavigation Detail args 用 feature 契约；删无用 BingWebSearchClient；ScreenDetailRouteTest 绿（2026-10-25） |
@@ -86,7 +87,7 @@
 |------|------|
 | `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main 壳为主） |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory`、`ChatModels`/`AiStreamState`/`ChatHistoryRepository` |
-| `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole、`QueryEncoder`（B1–B5/C25） |
+| `:core:domain` | 检索/证据/评测：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole、`QueryEncoder`、`domain.eval`（B1–B5/C25–C26） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、ChatHistory、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
@@ -179,7 +180,8 @@
 | **C23** nav 契约单源 | ✅ | Screen.Detail/Pdf 委托 feature nav；删 BingWebSearchClient |
 | **C24** 死 HTTP/向量客户端 | ✅ | 删 VectorSearch*/HttpAnn/AnnApi 与无用 loader/benchmark |
 | **C25** QueryEncoder + 死域 | ✅ | QueryEncoder → core:domain；删 KnowledgeMappers/LlmFactualityScorer；MainBottomTab 拆分 |
-| **C26**（下批） | 待做 | Main Screen/Chrome 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C26** eval → domain | ✅ | domain/eval 生产+单测 → `:core:domain` |
+| **C27**（下批） | 待做 | Main Screen/Chrome 或 Faiss 原型簇迁出；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
