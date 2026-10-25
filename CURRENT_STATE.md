@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C16/D1/D2 完成；Main 壳/ChatHistory 实现仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C16/C17a/D1/D2 完成；Main/Chat UI 壳仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C17a（ChatHistory 实现 → data） | 已完成 | `ChatHistoryStore`/`ChatHistoryRepositoryImpl` → `:core:data`；DI bind 迁入 data `RepositoryModule`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C16（AiStream* → search-chat） | 已完成 | AiStream* usecase/UI/VM + ChatSessionManager → `:feature:search-chat`；`AiStreamState`/`ChatModels`/`ChatHistoryRepository` → model-contract；删 UI typealias 去重；VM 去未用 `ChatHistoryStore`；compile + AiStream 相关单测绿；arch 0 新违规（2026-10-25） |
 | Phase C15（Smart* → search-chat） | 已完成 | Smart* 迁入 `:feature:search-chat`；`LazyListScrollIndicator`/`ResponseCard`/`SourcesList`→hybrid；`BuildConfig` 改用 `engine.ai`；Detail 导航改 `KnowledgeDetailNavArgs`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C14（Local/Response 簇 → hybrid） | 已完成 | `Local*` + `ResponseBody*`/`MarkdownTextView`/`AnnotatedTextHelper` + `KnowledgeItemCard`/`TextHighlightUtils`/`EmptyState` → `:feature:hybrid`；compile 绿（2026-10-25） |
@@ -75,7 +76,7 @@
 | `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main 壳为主） |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory`、`ChatModels`/`AiStreamState`/`ChatHistoryRepository` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
-| `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
+| `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、ChatHistory、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
 | `:feature:hybrid` | Hybrid 主屏垂直切片：VM/编排、`HybridQueryUseCase`、本地/智能 UI |
@@ -155,7 +156,8 @@
 | **C14** Local/Response | ✅ | Local* + Response/Markdown/Card/EmptyState → hybrid |
 | **C15** Smart* | ✅ | Smart* → search-chat；Scroll/ResponseCard/SourcesList → hybrid |
 | **C16** AiStream* | ✅ | AiStream* + ChatSessionManager → search-chat；chat 模型/Repository 契约 → model-contract |
-| **C17**（下批） | 待做 | ChatHistory 实现/Main 壳 → search-chat 或 data；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C17a** ChatHistory 实现 | ✅ | Store/Impl → `:core:data`（同位 WebSearch/History） |
+| **C17b**（下批） | 待做 | Chat*/Main 壳 UI → search-chat；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

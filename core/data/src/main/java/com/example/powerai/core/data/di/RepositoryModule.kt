@@ -5,8 +5,10 @@ import com.example.powerai.core.data.repository.KnowledgeRepositoryImpl
 import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.core.repository.EmbeddingRepository
 import com.example.powerai.core.repository.KnowledgeRepository
+import com.example.powerai.data.repository.ChatHistoryRepositoryImpl
 import com.example.powerai.data.repository.SearchHistoryRepositoryImpl
 import com.example.powerai.data.repository.WebSearchRepositoryImpl
+import com.example.powerai.domain.repository.ChatHistoryRepository
 import com.example.powerai.domain.repository.SearchHistoryRepository
 import com.example.powerai.domain.repository.WebSearchRepository
 import com.example.powerai.domain.retrieval.FtsRetriever
@@ -49,4 +51,10 @@ abstract class RepositoryModule {
     abstract fun bindWebSearchRepository(
         impl: WebSearchRepositoryImpl
     ): WebSearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindChatHistoryRepository(
+        impl: ChatHistoryRepositoryImpl
+    ): ChatHistoryRepository
 }

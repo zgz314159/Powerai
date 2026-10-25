@@ -34,10 +34,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindChatHistoryRepository(impl: com.example.powerai.data.repository.ChatHistoryRepositoryImpl): com.example.powerai.domain.repository.ChatHistoryRepository
-
-    @Binds
-    @Singleton
     abstract fun bindNativeResourceProvider(
         impl: com.example.powerai.data.util.AndroidNativeResourceProvider
     ): com.example.powerai.core.model.NativeResourceProvider
