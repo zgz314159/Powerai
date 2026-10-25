@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun DatabaseImportDiagnosticsPanel(
+fun DatabaseImportDiagnosticsPanel(
     diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics,
     progress: com.example.powerai.core.data.importer.ImportProgress?,
     onRefresh: () -> Unit,

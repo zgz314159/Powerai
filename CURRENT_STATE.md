@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C17/D1/D2 完成；Main 壳编排仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C18a/D1/D2 完成；Main 壳编排仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C18a（Database 抽屉 UI → database） | 已完成 | DatabaseHistory/ImportDiagnostics/KbRebuild/UserKbPackages → `:feature:database`；跨模块入口改 public；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C17b（Chat* UI → search-chat） | 已完成 | Chat*/AiChat*/AiSearch/AiResponse/WebSearchToggle → `:feature:search-chat`；删死代码 AnswerSections/ResponseHeader/ChatDrawer stub；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C17a（ChatHistory 实现 → data） | 已完成 | `ChatHistoryStore`/`ChatHistoryRepositoryImpl` → `:core:data`；DI bind 迁入 data `RepositoryModule`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C16（AiStream* → search-chat） | 已完成 | AiStream* usecase/UI/VM + ChatSessionManager → `:feature:search-chat`；`AiStreamState`/`ChatModels`/`ChatHistoryRepository` → model-contract；删 UI typealias 去重；VM 去未用 `ChatHistoryStore`；compile + AiStream 相关单测绿；arch 0 新违规（2026-10-25） |
@@ -159,7 +160,8 @@
 | **C16** AiStream* | ✅ | AiStream* + ChatSessionManager → search-chat；chat 模型/Repository 契约 → model-contract |
 | **C17a** ChatHistory 实现 | ✅ | Store/Impl → `:core:data`（同位 WebSearch/History） |
 | **C17b** Chat* UI | ✅ | Chat*/AiChat*/AiSearch/AiResponse → search-chat；清 AnswerSections 等死代码 |
-| **C18**（下批） | 待做 | Main 壳编排瘦身；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C18a** Database 抽屉 | ✅ | DatabaseHistory/KbRebuild/UserKb → `:feature:database` |
+| **C18b**（下批） | 待做 | Main 壳编排继续瘦身；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

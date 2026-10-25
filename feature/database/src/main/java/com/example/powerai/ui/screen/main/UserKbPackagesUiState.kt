@@ -23,7 +23,7 @@ import java.util.Date
 import java.util.Locale
 
 /** State + callbacks for the "用户知识库" management block. */
-internal data class UserKbPackagesUiState(
+data class UserKbPackagesUiState(
     val packages: List<UserKbPackageSummary>,
     val pendingRemovePackageId: String?,
     val message: String?,
@@ -41,7 +41,7 @@ internal data class UserKbPackagesUiState(
  */
 @Suppress("MagicNumber")
 @Composable
-internal fun UserKbPackagesBlock(
+fun UserKbPackagesBlock(
     ui: UserKbPackagesUiState,
     modifier: Modifier = Modifier,
 ) {

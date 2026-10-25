@@ -21,7 +21,7 @@ import com.example.powerai.data.importer.KbRebuildState
 import com.example.powerai.ui.screen.database.ClearAllConfirmStep
 
 /** State + callbacks for the rebuild / clear-all block, bundled to keep drawer call sites short. */
-internal data class KbRebuildUiState(
+data class KbRebuildUiState(
     val state: KbRebuildState,
     val confirmVisible: Boolean,
     val clearAllStep: ClearAllConfirmStep,
@@ -35,7 +35,7 @@ internal data class KbRebuildUiState(
 )
 
 @Composable
-internal fun KbRebuildBlock(
+fun KbRebuildBlock(
     ui: KbRebuildUiState,
     modifier: Modifier = Modifier,
 ) {

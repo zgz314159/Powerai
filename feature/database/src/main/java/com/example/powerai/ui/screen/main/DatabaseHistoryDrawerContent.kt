@@ -32,7 +32,7 @@ import com.example.powerai.domain.model.DatabaseFileGroup
 
 @Suppress("LongParameterList")
 @Composable
-internal fun DatabaseHistoryDrawerContent(
+fun DatabaseHistoryDrawerContent(
     groups: List<DatabaseFileGroup>,
     currentQuery: String,
     isLoading: Boolean,
