@@ -8,7 +8,7 @@ import com.example.powerai.domain.repository.WebSearchRepository
  *
  * Extracted from [AiStreamUseCase.askAiStream] to reduce method complexity.
  */
-internal object AiStreamConfigHelper {
+object AiStreamConfigHelper {
 
     /**
      * Validates AI API configuration and returns the endpoint URL and model name.

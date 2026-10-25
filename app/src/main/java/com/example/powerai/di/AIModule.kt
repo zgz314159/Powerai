@@ -2,11 +2,8 @@ package com.example.powerai.di
 
 import android.content.Context
 import com.example.powerai.AppConfig
-import com.example.powerai.core.model.ObservabilityService
 import com.example.powerai.core.repository.AnnRetriever
 import com.example.powerai.core.repository.KnowledgeRepository
-import com.example.powerai.core.repository.RemoteConfigRepository
-import com.example.powerai.domain.ai.LlmFactualityScorer
 import com.example.powerai.domain.retrieval.FtsRetriever
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
@@ -45,16 +42,6 @@ object AIModule {
     @Singleton
     fun provideGemmaLocalInference(@ApplicationContext context: Context): GemmaLocalInference {
         return GemmaLocalInference(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideLlmFactualityScorer(
-        ai: com.example.powerai.core.repository.AiServiceRepository,
-        config: RemoteConfigRepository,
-        observability: ObservabilityService
-    ): LlmFactualityScorer {
-        return LlmFactualityScorer(ai, config, observability)
     }
 
     @Provides

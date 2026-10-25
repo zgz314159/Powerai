@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C24/D1/D2 完成；Main 壳编排（7 文件）仍在 app；app 主源约 69 kt
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C25/D1/D2 完成；Main 壳编排仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C25（QueryEncoder + 死域/壳整理） | 已完成 | `QueryEncoder`/`ZeroQueryEncoder` → `:core:domain`；删重复 `KnowledgeMappers` 与无注入 `LlmFactualityScorer`；`MainBottomTab` 独立文件；`AiStreamConfigHelper` 改 public 供跨模块单测；Faiss/AiRuntimeConfig 单测绿（2026-10-25） |
 | Phase C24（死 HTTP/向量客户端清理） | 已完成 | 删无用 VectorSearch*/HttpAnnRetriever/AnnApiService/KnowledgeImportUriFlow/AndroidGemmaModelLoader/ImportMemoryBenchmark；NetworkModule 去掉对应 provides；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C23（nav 契约单源） | 已完成 | `Screen.Detail/PdfViewer` 委托 `KnowledgeDetailNavArgs`/`PdfViewerRoute`；AppNavigation Detail args 用 feature 契约；删无用 BingWebSearchClient；ScreenDetailRouteTest 绿（2026-10-25） |
 | Phase C22（app 死域清理） | 已完成 | 删无用 DomainLogger/HybridLogic/ResultFormatter/CategoryFilter/ElectricPowerPrompt/RemoteAiRepository/AndroidDomainLogger；清空 screen/chat·document·hybrid；compile 绿；arch 0 新违规（2026-10-25） |
@@ -85,7 +86,7 @@
 |------|------|
 | `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main 壳为主） |
 | `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory`、`ChatModels`/`AiStreamState`/`ChatHistoryRepository` |
-| `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
+| `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole、`QueryEncoder`（B1–B5/C25） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、ChatHistory、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |
@@ -177,7 +178,8 @@
 | **C22** app 死域清理 | ✅ | 删无用 domain util/usecase/repository 与空 screen 目录 |
 | **C23** nav 契约单源 | ✅ | Screen.Detail/Pdf 委托 feature nav；删 BingWebSearchClient |
 | **C24** 死 HTTP/向量客户端 | ✅ | 删 VectorSearch*/HttpAnn/AnnApi 与无用 loader/benchmark |
-| **C25**（下批） | 待做 | Main Screen/Chrome 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C25** QueryEncoder + 死域 | ✅ | QueryEncoder → core:domain；删 KnowledgeMappers/LlmFactualityScorer；MainBottomTab 拆分 |
+| **C26**（下批） | 待做 | Main Screen/Chrome 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
