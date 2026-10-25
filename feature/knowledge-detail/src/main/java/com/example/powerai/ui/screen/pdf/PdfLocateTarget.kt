@@ -9,7 +9,7 @@ import com.example.powerai.core.model.KnowledgeBlock
  * [PdfViewerScreen] highlight contract, reusing [parsePdfBoundingBoxOrNull] so
  * there is exactly one bbox interpretation in the app.
  */
-internal data class PdfLocateTarget(
+data class PdfLocateTarget(
     val pageNumber: Int?,
     val bboxJson: String,
     val boundingBox: PdfBoundingBox,
@@ -20,7 +20,7 @@ internal data class PdfLocateTarget(
  * when the block has no page of its own. Returns null when the block carries no
  * parseable bbox (nothing to locate).
  */
-internal fun pdfLocateTargetForBlock(
+fun pdfLocateTargetForBlock(
     block: KnowledgeBlock,
     fallbackPageNumber: Int? = null,
 ): PdfLocateTarget? {

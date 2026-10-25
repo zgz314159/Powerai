@@ -45,6 +45,7 @@ MODULES = {
     "feature:search-chat": "feature/search-chat/src/main",
     "feature:hybrid": "feature/hybrid/src/main",
     "feature:knowledge-detail": "feature/knowledge-detail/src/main",
+    "feature:pdf": "feature/pdf/src/main",
     "benchmark": "benchmark/src/main",
 }
 
