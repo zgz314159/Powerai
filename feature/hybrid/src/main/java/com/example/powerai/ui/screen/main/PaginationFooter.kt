@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun PaginationFooter(
+fun PaginationFooter(
     currentPage: Int,
     totalPages: Int? = null,
     hasPrev: Boolean,

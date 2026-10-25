@@ -29,10 +29,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.dp
 import com.example.powerai.ui.component.KnowledgeItemCard
 import com.example.powerai.ui.screen.hybrid.AiUiState
-import com.example.powerai.ui.theme.HighlightYellow
 import com.example.powerai.util.PdfSourceRef
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+private val HighlightYellow = Color(0xFFFFF59D)
 
 /**
  * 原来位于 `MainPages.kt`

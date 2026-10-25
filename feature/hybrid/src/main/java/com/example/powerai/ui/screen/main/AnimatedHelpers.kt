@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AnimatedFadeInItem(
+fun AnimatedFadeInItem(
     index: Int,
     enabled: Boolean = true,
     content: @Composable () -> Unit
