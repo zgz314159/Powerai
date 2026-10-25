@@ -34,7 +34,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.gson)
-    // BaseMviViewModel / HybridRetrievalService moved here for feature modules.
+    // BaseMviViewModel and shared contracts for feature / domain modules.
+    // HybridRetrievalService lives in :core:domain (Phase B1).
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

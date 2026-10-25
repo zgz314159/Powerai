@@ -11,7 +11,8 @@
 | 模块 | 职责 |
 |------|------|
 | `:app` | Compose UI、ViewModel、导航、Hilt 装配、Room 与 importer 实现 |
-| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类 |
+| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
+| `:core:domain` | 检索领域实现：`HybridRetrievalService`、`FtsRetriever`、`LocalSearchQueryVariantBuilder`（Phase B 收敛中） |
 | `:core:data` | `KnowledgeEntity`、仓储实现与本地检索、JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接（DeepSeek、Gemma、llama 运行时） |
@@ -37,7 +38,7 @@
 
 **禁止**：`domain` 依赖 `ui` 或 Android UI API；`data` 依赖 `ui`。
 
-`domain` 下不含 `llm` 子包：LLM 与引擎抽象位于 `:engine:ai`（`engine/ai`），`domain/query` 的实现位于 `:core:model-contract`。
+`domain` 下不含 `llm` 子包：LLM 与引擎抽象位于 `:engine:ai`（`engine/ai`），`domain/query` 的实现位于 `:core:model-contract`；混合检索服务位于 `:core:domain`。
 
 **DI**（`app/src/main/java/com/example/powerai/di/`）：`CoreModule`、`AppModule`、`NetworkModule`、`DataModule`、`AIModule`、`RepositoryModule`、`FaissModule`。
 

@@ -38,6 +38,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODULES = {
     "app": "app/src/main",
     "core:model-contract": "core/model-contract/src/main",
+    "core:domain": "core/domain/src/main",
     "core:data": "core/data/src/main",
     "engine:native": "engine/native/src/main",
     "engine:ai": "engine/ai/src/main",

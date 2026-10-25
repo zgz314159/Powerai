@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "PowerAi"
 include(":app")
 include(":core:model-contract")
+include(":core:domain")
 include(":core:data")
 include(":engine:native")
 include(":engine:ai")

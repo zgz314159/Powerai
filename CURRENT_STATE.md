@@ -9,14 +9,16 @@
 - **类型**：Android（Kotlin + Compose + Hilt）本地 RAG / 知识库问答应用
 - **包名**：`com.example.powerai`
 - **Kotlin 源文件**：355 个（`app/src/main/java/`）；全模块合计 489 个（2026-10-04 实测）
-- **模块**：7 个（见 §3）
+- **模块**：8 个（见 §3；含新建 `:core:domain`）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — Phase B1 已完成并编译/单测通过；下一步 B2（`RetrievalFusionUseCase` 出 feature）
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase B1（`:core:domain`） | 已完成 | `HybridRetrievalService` + `LocalSearchQueryVariantBuilder` 自 `:core:model-contract` 迁入 `:core:domain`（包名不变）；`:app` / `:feature:search-chat` 依赖已接；`compileDebugKotlin` BUILD SUCCESSFUL；相关单测 **18/18**（HybridRetrieval 5 + VariantBuilder 11 + RetrievalFusion 2）；`check_architecture.py` 0 新违规（2026-10-25） |
 | PR #1 | 已合并 | merge commit `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` |
 | 已合并 PR head | `7683e9a3c5cb0d0a8bf4c23fa7df0bff14a90240` | `refs/remotes/origin/codex/powerai-stabilization-clean-publication` |
 | `origin/main` | `2c4803f51fdd769b7bb5dd2f14dcff9cd4cbafe2` | `git rev-parse origin/main` |
@@ -43,12 +45,13 @@
 
 ## 3. 模块与架构
 
-`settings.gradle.kts` 当前 7 个模块（目录均存在）：
+`settings.gradle.kts` 当前 8 个模块（目录均存在）：
 
 | 模块 | 职责 |
 |------|------|
 | `:app` | Compose UI、ViewModel、导航、Hilt 装配、导入编排（`DocumentImportManager`）、资产扫描、SAF/URI 入口与 importer 装配 |
-| `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类 |
+| `:core:model-contract` | `KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类、query 理解 |
+| `:core:domain` | 检索领域：`HybridRetrievalService`、`FtsRetriever`、`LocalSearchQueryVariantBuilder`（B1；后续 Fusion/证据簇继续迁入） |
 | `:core:data` | `KnowledgeEntity`、仓储实现、本地检索与 JSON KB 导入核心（`core/data/importer`） |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接 |

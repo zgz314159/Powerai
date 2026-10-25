@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":core:model-contract"))
+    implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":engine:ai"))
 
