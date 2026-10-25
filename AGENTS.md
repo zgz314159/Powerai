@@ -113,14 +113,15 @@ Ask → Plan → Review → Execute → Verify → Memory Update
 
 ## Git 建议
 
-每完成一个小阶段，按**精确路径白名单**逐个暂存本次实际改动的文件：
+每完成一个小阶段，按**精确路径白名单**逐个暂存本次实际改动的文件，**commit 后立即 push**（含首次 `-u`）：
 
 ```bash
 git add <本次改动的精确路径>
 git commit -m "简短说明：解决了什么根因"
+git push -u origin HEAD   # 已跟踪则 git push
 ```
 
-禁止 `git add .`、`git add -A` 等整目录或全仓库暂存；禁止大量连续修改后才 commit。
+禁止 `git add .`、`git add -A` 等整目录或全仓库暂存；禁止大量连续修改后才 commit；**禁止阶段完成只 commit 不 push**。
 
 ---
 
