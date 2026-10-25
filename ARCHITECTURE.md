@@ -30,7 +30,7 @@
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 
-> Main 壳仍在 `:app`；Drawer/Local/Response/Markdown/KnowledgeItemCard/Scroll/ResponseCard 在 `:feature:hybrid`（C13–C15）；Smart* 在 `:feature:search-chat`（C15）。
+> Main 壳仍在 `:app`；Drawer/Local/Response/Markdown/KnowledgeItemCard/Scroll/ResponseCard 在 `:feature:hybrid`（C13–C15）；Smart*/AiStream* 在 `:feature:search-chat`（C15–C16）；chat 模型与 `ChatHistoryRepository` 在 model-contract。
 
 ### 1.2 应用内分层
 

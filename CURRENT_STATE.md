@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C15/D1/D2 完成；Main 壳/AiStream/Chat 仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C16/D1/D2 完成；Main 壳/ChatHistory 实现仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C16（AiStream* → search-chat） | 已完成 | AiStream* usecase/UI/VM + ChatSessionManager → `:feature:search-chat`；`AiStreamState`/`ChatModels`/`ChatHistoryRepository` → model-contract；删 UI typealias 去重；VM 去未用 `ChatHistoryStore`；compile + AiStream 相关单测绿；arch 0 新违规（2026-10-25） |
 | Phase C15（Smart* → search-chat） | 已完成 | Smart* 迁入 `:feature:search-chat`；`LazyListScrollIndicator`/`ResponseCard`/`SourcesList`→hybrid；`BuildConfig` 改用 `engine.ai`；Detail 导航改 `KnowledgeDetailNavArgs`；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C14（Local/Response 簇 → hybrid） | 已完成 | `Local*` + `ResponseBody*`/`MarkdownTextView`/`AnnotatedTextHelper` + `KnowledgeItemCard`/`TextHighlightUtils`/`EmptyState` → `:feature:hybrid`；compile 绿（2026-10-25） |
 | Phase C13（Main 前置：Drawer 壳 + 死代码） | 已完成 | `DrawerWrapper`/`DrawerCardComponents`→`:feature:hybrid`；删除无引用 DocumentPicker 等；compile 绿（2026-10-25） |
@@ -72,7 +73,7 @@
 | 模块 | 职责 |
 |------|------|
 | `:app` | 导航、Hilt 装配、导入编排（含 Ports）、资产扫描、SAF/URI、剩余 UI（Main 壳为主） |
-| `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory` |
+| `:core:model-contract` | 契约/模型：`KnowledgeRepository`、`BlocksParser`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`WebSearch`/`SearchHistory`、`ChatModels`/`AiStreamState`/`ChatHistoryRepository` |
 | `:core:domain` | 检索/证据领域：HybridRetrieval、RetrievalFusion、LocalEvidence*、`LocalHybridQueryOrchestrator`、SemanticRole（B1–B5 完成） |
 | `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
@@ -88,7 +89,7 @@
 | `:feature:mine` | 「我的」页垂直切片：MineScreen；依赖 settings；dev backdoor 由 app 回调 |
 | `:feature:debug` | 调试：Debug VM/UI + `EmbeddingTestActivity` |
 | `:feature:quickask` | 快速问答原型屏；hybrid SearchBar + database KnowledgeItemCard |
-| `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
+| `:feature:search-chat` | 搜索与对话：DeepSeek + Smart* + AiStream*（VM/编排/usecase） |
 | `:benchmark` | Macrobenchmark |
 
 应用内分层仍为 `ui` → `domain` ← `data`；DI 为 `app/src/main/java/com/example/powerai/di/` 下 7 个 `@Module`。KB 目录规范见 [KB_TAXONOMY_GUIDE.md](KB_TAXONOMY_GUIDE.md)。
@@ -106,8 +107,8 @@
 
 ## 5. UI/MVI 迁移状态
 
-- 全仓 **12 个具体 ViewModel**（`:app` 6 + hybrid 1 + knowledge-detail 1 + pdf 2 + database 1 + search-chat 1），**12 个**均继承 `BaseMviViewModel`
-- Feature VM：Hybrid / KnowledgeDetail / Pdf* / Database / DeepSeek
+- 全仓 **13 个具体 ViewModel**（`:app` 5 + hybrid 1 + knowledge-detail 1 + pdf 2 + database 1 + search-chat 2），**13 个**均继承 `BaseMviViewModel`
+- Feature VM：Hybrid / KnowledgeDetail / Pdf* / Database / DeepSeek / AiStream
 - PDF：`PdfFigureListViewModel`、`PdfKnowledgeViewModel` **已完成 MVI 迁移**（State/Intent/Effect + use case；契约测试 `PdfFigureListMviContractTest`、`PdfKnowledgeMviContractTest`）
 - 用户目录导入：`KnowledgeImportScreen` + `ImportViewModel`（继承 `BaseMviViewModel`，`KnowledgeImportUiState` 区分 idle/running/success/skipped/failed/cancelled），已注册导航路由 `Screen.KbImport`，入口位于「数据库」抽屉「用户知识库」区块
 - 用户包管理（本阶段）：抽屉「用户知识库」区块（`UserKbPackagesUiState.kt` / `UserKbPackagesBlock`）列出每个 `user:` 包的名称/条目数/版本时间/PDF 关联，提供「更新（选同一目录）」与确认后「移除」；「内置知识库」区块（`KbRebuildUiState.kt`）提供隔离的「重建内置知识库」与两步确认的「清空全部知识…」。状态经 `DatabaseUserPackageCoordinator` / `DatabaseImportCoordinator` 落到 `DatabaseUiState`（`pendingRemovePackageId`、`userPackageMessage`、`clearAllStep`）
@@ -153,7 +154,8 @@
 | **C13** Main 前置 | ✅ | Drawer 壳→hybrid；删死组件 |
 | **C14** Local/Response | ✅ | Local* + Response/Markdown/Card/EmptyState → hybrid |
 | **C15** Smart* | ✅ | Smart* → search-chat；Scroll/ResponseCard/SourcesList → hybrid |
-| **C16**（下批） | 待做 | AiStream*/Chat* → search-chat 或 hybrid；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C16** AiStream* | ✅ | AiStream* + ChatSessionManager → search-chat；chat 模型/Repository 契约 → model-contract |
+| **C17**（下批） | 待做 | ChatHistory 实现/Main 壳 → search-chat 或 data；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 

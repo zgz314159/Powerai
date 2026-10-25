@@ -24,7 +24,6 @@ data class AiStreamUiState(
 
 @HiltViewModel
 class AiStreamViewModel @Inject constructor(
-    private val chatHistoryStore: com.example.powerai.data.chat.ChatHistoryStore,
     private val streamUseCase: com.example.powerai.domain.usecase.AiStreamUseCase
 ) : com.example.powerai.ui.mvi.BaseMviViewModel<AiStreamIntent, AiStreamUiState, Nothing>(
     initialState = AiStreamUiState()

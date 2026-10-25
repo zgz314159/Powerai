@@ -1,5 +1,6 @@
 package com.example.powerai.ui.screen.main
 
+import com.example.powerai.domain.model.chat.AiStreamState
 import com.example.powerai.domain.model.chat.ChatSession
 import com.example.powerai.domain.model.chat.ChatTurn
 import com.example.powerai.domain.usecase.AiStreamUseCase

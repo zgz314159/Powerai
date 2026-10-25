@@ -1,6 +1,5 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.data.chat.ChatHistoryStore
 import com.example.powerai.domain.model.chat.ChatSession
 import com.example.powerai.domain.model.chat.ChatTurn
 import com.example.powerai.domain.usecase.AiStreamUseCase
@@ -33,7 +32,6 @@ class AiStreamViewModelTest {
     @Test
     fun `initialization loads history and sets retry flags`() = runTest {
         Dispatchers.setMain(StandardTestDispatcher(testScheduler))
-        val fakeHistory = Mockito.mock(ChatHistoryStore::class.java)
         val fakeUseCase = Mockito.mock(AiStreamUseCase::class.java)
         val fakeSessionManager = Mockito.mock(ChatSessionManager::class.java)
         whenever(fakeUseCase.sessionManager).thenReturn(fakeSessionManager)
@@ -46,7 +44,7 @@ class AiStreamViewModelTest {
         val snap = com.example.powerai.domain.model.chat.ChatHistorySnapshot(sessions = listOf(session), selectedSessionId = 1L, currentSessionId = 1L)
         whenever(fakeSessionManager.loadHistory()).thenReturn(snap)
 
-        val vm = AiStreamViewModel(fakeHistory, fakeUseCase)
+        val vm = AiStreamViewModel(fakeUseCase)
         testScheduler.advanceUntilIdle()
         assertEquals(listOf(session), vm.uiState.value.sessions)
         assertEquals(1L, vm.uiState.value.selectedSessionId)
@@ -59,8 +57,6 @@ class AiStreamViewModelTest {
     @Test
     fun `askAiStream should delegate to orchestrator with correct parameters`() = runTest {
         Dispatchers.setMain(StandardTestDispatcher(testScheduler))
-
-        val fakeHistory = Mockito.mock(ChatHistoryStore::class.java)
         val fakeUseCase = Mockito.mock(AiStreamUseCase::class.java)
         val fakeSessionManager = Mockito.mock(ChatSessionManager::class.java)
         whenever(fakeUseCase.sessionManager).thenReturn(fakeSessionManager)
@@ -100,10 +96,7 @@ class AiStreamViewModelTest {
             Job()
         }
 
-        val vm = AiStreamViewModel(
-            chatHistoryStore = fakeHistory,
-            streamUseCase = fakeUseCase
-        )
+        val vm = AiStreamViewModel(streamUseCase = fakeUseCase)
         vm.orchestrator = fakeOrch
 
         vm.onIntent(AiStreamIntent.AskAiStream("question", webSearchEnabled = true))
@@ -126,12 +119,8 @@ class AiStreamViewModelTest {
         val fakeUseCase = Mockito.mock(AiStreamUseCase::class.java)
         whenever(fakeUseCase.sessionManager).thenReturn(Mockito.mock(ChatSessionManager::class.java))
         whenever(fakeUseCase.webSources).thenReturn(MutableStateFlow(emptyList()))
-        val fakeHistory = Mockito.mock(ChatHistoryStore::class.java)
         val fakeOrch = Mockito.mock(AiStreamOrchestrator::class.java)
-        val vm = AiStreamViewModel(
-            chatHistoryStore = fakeHistory,
-            streamUseCase = fakeUseCase
-        )
+        val vm = AiStreamViewModel(streamUseCase = fakeUseCase)
         vm.orchestrator = fakeOrch
 
         vm.onIntent(AiStreamIntent.StopStream)
@@ -147,11 +136,7 @@ class AiStreamViewModelTest {
         val fakeSessionManager = Mockito.mock(ChatSessionManager::class.java)
         whenever(fakeUseCase.sessionManager).thenReturn(fakeSessionManager)
         whenever(fakeUseCase.webSources).thenReturn(MutableStateFlow(emptyList()))
-        val fakeHistory = Mockito.mock(ChatHistoryStore::class.java)
-        val vm = AiStreamViewModel(
-            chatHistoryStore = fakeHistory,
-            streamUseCase = fakeUseCase
-        )
+        val vm = AiStreamViewModel(streamUseCase = fakeUseCase)
 
         vm.onIntent(AiStreamIntent.SelectSession(42L))
         testScheduler.advanceUntilIdle()
@@ -168,12 +153,8 @@ class AiStreamViewModelTest {
         val fakeSessionManager = Mockito.mock(ChatSessionManager::class.java)
         whenever(fakeUseCase.sessionManager).thenReturn(fakeSessionManager)
         whenever(fakeUseCase.webSources).thenReturn(MutableStateFlow(emptyList()))
-        val fakeHistory = Mockito.mock(ChatHistoryStore::class.java)
         whenever(fakeSessionManager.createNewSessionAndPersist(any())).thenReturn(Pair(emptyList(), 99L))
-        val vm = AiStreamViewModel(
-            chatHistoryStore = fakeHistory,
-            streamUseCase = fakeUseCase
-        )
+        val vm = AiStreamViewModel(streamUseCase = fakeUseCase)
 
         vm.onIntent(AiStreamIntent.NewSession)
         testScheduler.advanceUntilIdle()
