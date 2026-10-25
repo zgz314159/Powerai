@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.ui.screen.hybrid.HybridUiState
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +92,7 @@ fun MainSearchAndResultsArea(
                     onOpenDetail = { id, block, bid, hl ->
                         val finalHl = hl?.takeIf { it.isNotBlank() } ?: searchQuery
                         val encoded = URLEncoder.encode(finalHl, "UTF-8")
-                        navController.navigate(com.example.powerai.navigation.Screen.Detail.createRoute(id, encoded, block, bid))
+                        navController.navigate(KnowledgeDetailNavArgs.createRoute(id, encoded, block, bid))
                     },
                     onRetry = onRetry,
                     onCopy = onCopyToClipboard,
@@ -144,7 +145,7 @@ fun MainSearchAndResultsArea(
                     onOpenDetail = { id, block, bid, hl ->
                         val finalHl = hl?.takeIf { it.isNotBlank() } ?: searchQuery
                         val encoded = URLEncoder.encode(finalHl, "UTF-8")
-                        navController.navigate(com.example.powerai.navigation.Screen.Detail.createRoute(id, encoded, block, bid))
+                        navController.navigate(KnowledgeDetailNavArgs.createRoute(id, encoded, block, bid))
                     },
                     onOpenAiDetail = onOpenAiDetail,
                     onRetry = onRetry,

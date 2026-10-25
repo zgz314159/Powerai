@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C20a/D1/D2 完成；Main 壳编排（9 文件）仍在 app
+- **进行中**：分支 `refactor/core-domain-retrieval-b1` — B/C1–C20b/D1/D2 完成；Main 壳编排（7 文件）仍在 app
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Phase C20b（MainSearchArea → search-chat） | 已完成 | `MainSearchAndResultsArea` → `:feature:search-chat`（改 `KnowledgeDetailNavArgs`）；删死代码 `MainPager`/`ZoomableImageView`；Main `ui/screen/main` 余 7 文件；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C20a（Main 未用搜索壳清理） | 已完成 | 删未用 `SearchBarStateManager`/`MainSearchBar`/`MainDiagnostics`；Main `ui/screen/main` 余 9 文件；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C19（Main 死代码清理 + DetailTarget） | 已完成 | `KnowledgeDetailTargetResolver`(+单测)→`:feature:knowledge-detail`；删未用 MainHighlightQuery/MainComponents/ImeInsetsBridge；compile + 相关回归绿；arch 0 新违规（2026-10-25） |
 | Phase C18b（KnowledgeResultList → hybrid） | 已完成 | KnowledgeResultList/PaginationFooter/AnimatedHelpers → `:feature:hybrid`；去 app theme 依赖；compile 绿；arch 0 新违规（2026-10-25） |
@@ -167,7 +168,8 @@
 | **C18b** KnowledgeResultList | ✅ | KnowledgeResultList/Pagination/AnimatedHelpers → hybrid |
 | **C19** DetailTarget + 死代码 | ✅ | KnowledgeDetailTargetResolver → knowledge-detail；删 MainHighlight/MainComponents/Ime |
 | **C20a** Main 未用搜索壳 | ✅ | 删 SearchBarStateManager/MainSearchBar/MainDiagnostics；main 余 9 文件 |
-| **C20b**（下批） | 待做 | Main Screen/Pager/Tab 编排收敛（需 nav/host 契约）；最终 app 仅 NavHost+Hilt+theme+importer |
+| **C20b** MainSearchArea | ✅ | MainSearchAndResultsArea → search-chat；删 MainPager/ZoomableImageView；main 余 7 |
+| **C21**（下批） | 待做 | Main TabHost/Screen 编排收敛；最终 app 仅 NavHost+Hilt+theme+importer |
 
 最终目标：app 仅留 NavHost + Hilt + theme + importer 实现。
 
