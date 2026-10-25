@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun DrawerSummaryCard(
+fun DrawerSummaryCard(
     title: String,
     subtitle: String
 ) {
@@ -56,7 +56,7 @@ internal fun DrawerSummaryCard(
 }
 
 @Composable
-internal fun DrawerSectionLabel(label: String) {
+fun DrawerSectionLabel(label: String) {
     Text(
         text = label,
         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
@@ -66,7 +66,7 @@ internal fun DrawerSectionLabel(label: String) {
 }
 
 @Composable
-internal fun DrawerDirectoryCard(
+fun DrawerDirectoryCard(
     icon: ImageVector,
     title: String,
     subtitle: String,

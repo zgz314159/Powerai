@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
  * Actual list items are provided by [content].
  */
 @Composable
-internal fun DrawerWrapper(
+fun DrawerWrapper(
     title: String,
     actionLabel: String?,
     onAction: (() -> Unit)?,
