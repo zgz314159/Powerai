@@ -1,5 +1,6 @@
 package com.example.powerai.ui.screen.main
 
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.powerai.core.model.KnowledgeItem
@@ -28,6 +30,7 @@ import com.example.powerai.ui.screen.database.DatabaseViewModel
 import com.example.powerai.ui.screen.hybrid.HybridUiState
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.ui.screen.mine.MineScreen
+import com.example.powerai.ui.test.EmbeddingTestActivity
 import com.example.powerai.util.PLog
 import kotlinx.coroutines.launch
 
@@ -282,5 +285,18 @@ internal fun MineTabContent(
     navController: NavHostController,
     innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
 ) {
-    MineScreen(navController = navController, showTopBar = false, innerPadding = innerPadding)
+    val context = LocalContext.current
+    MineScreen(
+        navController = navController,
+        showTopBar = false,
+        innerPadding = innerPadding,
+        onDevBackdoor = {
+            try {
+                context.startActivity(
+                    Intent(context, EmbeddingTestActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                )
+            } catch (_: Throwable) {}
+        },
+    )
 }

@@ -161,6 +161,7 @@ dependencies {
     implementation(project(":feature:importer"))
     implementation(project(":feature:jsonrepo"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:mine"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
