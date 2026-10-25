@@ -25,14 +25,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindSearchHistoryRepository(impl: com.example.powerai.data.repository.SearchHistoryRepositoryImpl): com.example.powerai.domain.repository.SearchHistoryRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindWebSearchRepository(impl: com.example.powerai.data.repository.WebSearchRepositoryImpl): com.example.powerai.domain.repository.WebSearchRepository
-
-    @Binds
-    @Singleton
     abstract fun bindChatHistoryRepository(impl: com.example.powerai.data.repository.ChatHistoryRepositoryImpl): com.example.powerai.domain.repository.ChatHistoryRepository
 
     @Binds

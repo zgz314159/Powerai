@@ -1,6 +1,6 @@
 package com.example.powerai.data.repository
 
-import com.example.powerai.data.local.DatabaseSearchHistoryStore
+import com.example.powerai.data.local.DatabaseSearchHistoryJsonStore
 import com.example.powerai.data.local.LocalSearchHistoryStore
 import com.example.powerai.data.local.SmartSearchHistoryStore
 import com.example.powerai.domain.model.SearchEntry
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SearchHistoryRepositoryImpl @Inject constructor(
-    private val dbStore: DatabaseSearchHistoryStore,
+    private val dbStore: DatabaseSearchHistoryJsonStore,
     private val localStore: LocalSearchHistoryStore,
     private val smartStore: SmartSearchHistoryStore
 ) : SearchHistoryRepository {

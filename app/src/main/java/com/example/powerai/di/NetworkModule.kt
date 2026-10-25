@@ -1,6 +1,7 @@
 package com.example.powerai.di
 
 import android.content.Context
+import com.example.powerai.BuildConfig
 import com.example.powerai.core.repository.RemoteConfigRepository
 import com.example.powerai.data.remote.api.VectorSearchApiService
 import com.example.powerai.data.remote.dto.VectorSearchRequest
@@ -8,6 +9,7 @@ import com.example.powerai.data.remote.dto.VectorSearchResponse
 import com.example.powerai.data.retriever.AnnApiService
 import com.example.powerai.data.retriever.AnnSearchRequest
 import com.example.powerai.data.retriever.AnnSearchResponse
+import com.example.powerai.domain.repository.WebSearchApiKeyProvider
 import com.example.powerai.engine.ai.AiApiService
 import com.example.powerai.engine.ai.ApiChatChoice
 import com.example.powerai.engine.ai.ApiChatCompletionsRequest
@@ -154,4 +156,9 @@ object NetworkModule {
             .build()
             .create(AnnApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideWebSearchApiKeyProvider(): WebSearchApiKeyProvider =
+        WebSearchApiKeyProvider { BuildConfig.SERPER_API_KEY }
 }

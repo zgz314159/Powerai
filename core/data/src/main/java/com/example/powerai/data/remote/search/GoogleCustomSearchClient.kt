@@ -1,7 +1,7 @@
 package com.example.powerai.data.remote.search
 
 // android.util.Log removed; diagnostic logs suppressed
-import com.example.powerai.BuildConfig
+import com.example.powerai.domain.repository.WebSearchApiKeyProvider
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,9 @@ data class SerperWebHit(
     val snippet: String
 )
 
-class GoogleCustomSearchClient @Inject constructor() {
+class GoogleCustomSearchClient @Inject constructor(
+    private val apiKeyProvider: WebSearchApiKeyProvider
+) {
     private val tag = "WebSearch"
 
     private val client: OkHttpClient by lazy {
@@ -34,14 +36,14 @@ class GoogleCustomSearchClient @Inject constructor() {
     }
 
     fun isConfigured(): Boolean {
-        val key = BuildConfig.SERPER_API_KEY.trim()
+        val key = apiKeyProvider.serperApiKey().trim()
         val keyOk = key.isNotBlank()
         // log removed: isConfigured provider=serper keyOk=$keyOk keyLen=${key.length}
         return keyOk
     }
 
     suspend fun search(query: String, count: Int = 5): List<SerperWebHit> {
-        val key = BuildConfig.SERPER_API_KEY.trim()
+        val key = apiKeyProvider.serperApiKey().trim()
         if (key.isBlank()) {
             // log removed: search skipped: missing SERPER_API_KEY (keyLen=${key.length})
             return emptyList()

@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DatabaseSearchHistoryStore @Inject constructor(
+class DatabaseSearchHistoryJsonStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private val gson = Gson()

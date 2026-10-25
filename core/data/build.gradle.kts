@@ -53,6 +53,9 @@ dependencies {
     // Gson
     implementation(libs.gson)
 
+    // Web search (Serper) — Phase D1
+    implementation(libs.okhttp)
+
     // Hilt
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
