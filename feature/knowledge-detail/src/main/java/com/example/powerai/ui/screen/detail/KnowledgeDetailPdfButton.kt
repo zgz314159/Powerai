@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.powerai.navigation.Screen
+import com.example.powerai.feature.knowledgedetail.PdfViewerRoute
 import com.example.powerai.util.PdfSourceRef
 
 @Composable
@@ -24,7 +24,7 @@ internal fun KnowledgeDetailPdfButton(
         onClick = {
             val bboxEncoded = bboxJson?.takeIf { it.isNotBlank() }?.let { Uri.encode(it) }
             navController.navigate(
-                Screen.PdfViewer.createRoute(
+                PdfViewerRoute.create(
                     fileId = pdfRef.fileId,
                     name = Uri.encode(pdfRef.fileName),
                     page = pageNumber,

@@ -154,6 +154,7 @@ dependencies {
     implementation(project(":engine:ai"))
     implementation(project(":feature:search-chat"))
     implementation(project(":feature:hybrid"))
+    implementation(project(":feature:knowledge-detail"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

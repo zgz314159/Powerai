@@ -5,7 +5,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import com.example.powerai.ui.theme.HighlightYellow
+private val HighlightYellow = Color(0xFFFFF59D)
 
 internal fun highlightAll(text: String, keyword: String): AnnotatedString {
     val k = keyword.trim()

@@ -44,6 +44,8 @@ dependencies {
     // FtsRetriever + SemanticRoleSearchTextBuilder (RoomFtsRetriever, Phase B5).
     implementation(project(":core:domain"))
     implementation(libs.androidx.core.ktx)
+    // FontSettings exposes LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
 
     // Room
     implementation(libs.androidx.room.runtime)

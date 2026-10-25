@@ -10,13 +10,14 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | 导航、Hilt 装配、Room/importer 实现（含 `HybridKbImportPort`）、剩余 UI |
-| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、`BlocksParser`（JVM）、MVI 基类、query 理解、`WebSearchRepository`/`SearchHistoryRepository`、`WebSearchApiKeyProvider` |
+| `:app` | 导航、Hilt 装配、Room/importer 实现（`HybridKbImportPort`/`KnowledgeDetailSupportPort`）、剩余 UI |
+| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`VisionBoost*`、`SearchTextNormalization`、MVI、query、`WebSearch`/`SearchHistory` |
 | `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
-| `:core:data` | `KnowledgeEntity`、仓储实现、`RoomFtsRetriever`、`WebSearchRepositoryImpl`/`SearchHistoryRepositoryImpl`、Serper 客户端、搜索历史 store、JSON KB 导入核心 |
+| `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History 实现、`FontSettings`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接（DeepSeek、Gemma、llama 运行时） |
-| `:feature:hybrid` | Hybrid 主屏垂直切片：`HybridViewModel`/`HybridQueryUseCase`/`AskAiUseCase`、本地/智能 UI、历史与 WebSearch 契约；经 `HybridKbImportPort` 依赖 app 导入 |
+| `:feature:hybrid` | Hybrid 主屏垂直切片：`HybridViewModel`/`HybridQueryUseCase`；经 `HybridKbImportPort` 依赖 app 导入 |
+| `:feature:knowledge-detail` | 知识详情垂直切片：`KnowledgeDetailViewModel`/Markwon/Compose blocks/PDF locate；经 `KnowledgeDetailSupportPort` 依赖 app |
 | `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
 

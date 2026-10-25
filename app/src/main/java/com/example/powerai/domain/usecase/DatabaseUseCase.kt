@@ -8,6 +8,7 @@ import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.domain.repository.SearchHistoryRepository
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
 import com.example.powerai.util.PdfSourceRef
 import javax.inject.Inject
 
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class DatabaseUseCase @Inject constructor(
     private val repository: KnowledgeRepository,
     private val historyRepository: SearchHistoryRepository
-) {
+) : KnowledgeDetailSupportPort {
 
     private val hex64Regex = Regex("^[0-9a-f]{64}$", RegexOption.IGNORE_CASE)
 
@@ -56,12 +57,15 @@ class DatabaseUseCase @Inject constructor(
         return historyRepository.loadHistory(HistoryScope.DATABASE)
     }
 
-    suspend fun resolveFileNameForItemId(entityId: Long): String? {
+    override suspend fun resolveFileNameForItemId(entityId: Long): String? {
         val item = repository.getLocalItemById(entityId) ?: return null
         return PdfSourceRef.parse(item.source)?.fileName
     }
 
-    suspend fun resolveDetailEntryNavigation(entityId: Long, query: String): com.example.powerai.domain.model.DetailEntryNavigation? {
+    override suspend fun resolveDetailEntryNavigation(
+        entityId: Long,
+        query: String
+    ): com.example.powerai.domain.model.DetailEntryNavigation? {
         // Basic implementation for now to fix compilation
         return null
     }

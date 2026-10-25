@@ -44,6 +44,7 @@ MODULES = {
     "engine:ai": "engine/ai/src/main",
     "feature:search-chat": "feature/search-chat/src/main",
     "feature:hybrid": "feature/hybrid/src/main",
+    "feature:knowledge-detail": "feature/knowledge-detail/src/main",
     "benchmark": "benchmark/src/main",
 }
 

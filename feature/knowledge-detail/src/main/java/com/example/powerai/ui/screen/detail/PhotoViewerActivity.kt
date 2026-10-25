@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.example.powerai.R
+import com.example.powerai.feature.knowledgedetail.R
 import com.example.powerai.ui.image.AssetImageUriNormalizer
 
 class PhotoViewerActivity : ComponentActivity() {

@@ -2,14 +2,14 @@ package com.example.powerai.ui.screen.pdf
 
 import com.google.gson.JsonParser
 
-internal data class PdfBoundingBox(
+data class PdfBoundingBox(
     val xMin: Float,
     val yMin: Float,
     val xMax: Float,
     val yMax: Float
 )
 
-internal fun parsePdfBoundingBoxOrNull(bboxJson: String?): PdfBoundingBox? {
+fun parsePdfBoundingBoxOrNull(bboxJson: String?): PdfBoundingBox? {
     if (bboxJson.isNullOrBlank()) return null
     return try {
         val el = JsonParser().parse(bboxJson)

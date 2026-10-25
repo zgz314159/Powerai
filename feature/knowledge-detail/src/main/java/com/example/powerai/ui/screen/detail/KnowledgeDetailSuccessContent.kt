@@ -109,7 +109,7 @@ internal fun KnowledgeDetailSuccessContent(
                             if (pdfRef != null) {
                                 val bboxEncoded = bboxJson?.let { android.net.Uri.encode(it) }
                                 navController.navigate(
-                                    com.example.powerai.navigation.Screen.PdfViewer.createRoute(
+                                    com.example.powerai.feature.knowledgedetail.PdfViewerRoute.create(
                                         fileId = pdfRef.fileId,
                                         name = android.net.Uri.encode(pdfRef.fileName),
                                         page = page,

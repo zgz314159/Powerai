@@ -13,9 +13,9 @@ import com.example.powerai.core.data.dao.VisionCacheDao
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.entity.VisionCacheEntity
 import com.example.powerai.data.settings.FontSettings
-import com.example.powerai.domain.usecase.DatabaseUseCase
 import com.example.powerai.domain.vision.VisionBoostUseCase
-import com.example.powerai.navigation.Screen
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
 import com.example.powerai.ui.mvi.BaseMviViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,7 @@ sealed class KnowledgeDetailUiEffect {
 class KnowledgeDetailViewModel @Inject constructor(
     private val dao: KnowledgeDao,
     private val visionCacheDao: VisionCacheDao,
-    private val databaseUseCase: DatabaseUseCase,
+    private val detailSupport: KnowledgeDetailSupportPort,
     private val visionBoostUseCase: VisionBoostUseCase,
     private val fontSettings: FontSettings,
     savedStateHandle: SavedStateHandle
@@ -61,10 +61,10 @@ class KnowledgeDetailViewModel @Inject constructor(
     initialState = KnowledgeDetailUiState.Loading
 ) {
 
-    private val id: Long = savedStateHandle.get<Long>(Screen.Detail.ARG_ID) ?: -1L
-    private val q: String = savedStateHandle.get<String>(Screen.Detail.ARG_Q).orEmpty()
-    private val blockIndexArg: Int = savedStateHandle.get<Int>(Screen.Detail.ARG_BLOCK_INDEX) ?: -1
-    private val blockIdArg: String = savedStateHandle.get<String>(Screen.Detail.ARG_BLOCK_ID)
+    private val id: Long = savedStateHandle.get<Long>(KnowledgeDetailNavArgs.ARG_ID) ?: -1L
+    private val q: String = savedStateHandle.get<String>(KnowledgeDetailNavArgs.ARG_Q).orEmpty()
+    private val blockIndexArg: Int = savedStateHandle.get<Int>(KnowledgeDetailNavArgs.ARG_BLOCK_INDEX) ?: -1
+    private val blockIdArg: String = savedStateHandle.get<String>(KnowledgeDetailNavArgs.ARG_BLOCK_ID)
         ?.let { URLDecoder.decode(it, StandardCharsets.UTF_8.toString()) }
         .orEmpty()
 
@@ -253,11 +253,11 @@ class KnowledgeDetailViewModel @Inject constructor(
     }
 
     private suspend fun resolveSourceFileName(entityId: Long): String? {
-        return runCatching { databaseUseCase.resolveFileNameForItemId(entityId) }.getOrNull()
+        return runCatching { detailSupport.resolveFileNameForItemId(entityId) }.getOrNull()
     }
 
     private suspend fun resolveEntryNavigation(entityId: Long, query: String): com.example.powerai.domain.model.DetailEntryNavigation? {
-        return runCatching { databaseUseCase.resolveDetailEntryNavigation(entityId, query) }.getOrNull()
+        return runCatching { detailSupport.resolveDetailEntryNavigation(entityId, query) }.getOrNull()
     }
 
     private suspend fun refreshSuccessState(entity: KnowledgeEntity) {
