@@ -11,8 +11,8 @@ import java.io.File
 import javax.inject.Inject
 
 /**
- * Debugging activity to verify vector engine initialization and search functionality.
- * Hosted in :feature:debug (Phase C12).
+ * Debug-only activity for JNI/FTS/vector smoke checks.
+ * Hosted in :feature:debug (Phase C12). Legacy EmbeddingWorker UI was removed (KI-58).
  */
 @AndroidEntryPoint
 class EmbeddingTestActivity : ComponentActivity() {

@@ -21,7 +21,6 @@
     <ID>CyclomaticComplexMethod:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$suspend fun runGeneration( delegate: GenerationDelegate, engine: PowerAIEngine?, runToken: String, prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, startedAtEpochMs: Long, benchmarkKind: String? = null, benchmarkGroupId: String? = null, benchmarkOrder: Int? = null, prefixReuseHit: Boolean = false, stateSnapshotReuseHit: Boolean = false, stateSnapshotBytes: Int = 0 ): SmartGenerationRunResult</ID>
     <ID>CyclomaticComplexMethod:DeepSeekScreen.kt$@Composable fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevicePath: String? = null)</ID>
     <ID>CyclomaticComplexMethod:DeepSeekViewModel.kt$DeepSeekViewModel$override fun onIntent(intent: DeepSeekIntent)</ID>
-    <ID>CyclomaticComplexMethod:EmbeddingWorker.kt$EmbeddingWorker$override suspend fun doWork(): Result</ID>
     <ID>CyclomaticComplexMethod:GemmaFallbackProvider.kt$GemmaFallbackProvider$fun infer( prompt: PromptBuilder.Prompt, searcherFactory: () -&gt; SparseSearcher = { SparseSearcher(context) } ): InferenceResult</ID>
     <ID>CyclomaticComplexMethod:GemmaInferenceEngine.kt$GemmaInferenceEngine$suspend fun infer( context: Context?, engine: Any?, prompt: PromptBuilder.Prompt, maxTokens: Int ): InferenceResult</ID>
     <ID>CyclomaticComplexMethod:GemmaReflectionHelper.kt$GemmaReflectionHelper$fun invokeGenerate(engineObj: Any, prompt: String, genOpts: Map&lt;String, Any&gt;): InvocationResult</ID>
@@ -71,7 +70,6 @@
     <ID>LongMethod:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>LongMethod:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$suspend fun runGeneration( delegate: GenerationDelegate, engine: PowerAIEngine?, runToken: String, prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, startedAtEpochMs: Long, benchmarkKind: String? = null, benchmarkGroupId: String? = null, benchmarkOrder: Int? = null, prefixReuseHit: Boolean = false, stateSnapshotReuseHit: Boolean = false, stateSnapshotBytes: Int = 0 ): SmartGenerationRunResult</ID>
     <ID>LongMethod:DeepSeekScreen.kt$@Composable fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevicePath: String? = null)</ID>
-    <ID>LongMethod:EmbeddingWorker.kt$EmbeddingWorker$override suspend fun doWork(): Result</ID>
     <ID>LongMethod:GemmaInferenceEngine.kt$GemmaInferenceEngine$suspend fun infer( context: Context?, engine: Any?, prompt: PromptBuilder.Prompt, maxTokens: Int ): InferenceResult</ID>
     <ID>LongMethod:JsonRepository.kt$JsonRepository$suspend fun importUri( uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int, )</ID>
     <ID>LongMethod:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
@@ -188,11 +186,6 @@
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$160</ID>
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$50</ID>
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$64</ID>
-    <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$15000</ID>
-    <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$200</ID>
-    <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$299</ID>
-    <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$4</ID>
-    <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$60000</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0.3</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0.7f</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0x20</ID>
@@ -337,8 +330,6 @@
     <ID>MaxLineLength:DeepSeekSessionManager.kt$DeepSeekSessionManager$message = "end reason=${drainReason ?: "timeout"} elapsedMs=${endedAtMs - startedAtMs} snapshot=${drainSnapshot(isLoading, endedAtMs)}"</ID>
     <ID>MaxLineLength:DeepSeekSessionManager.kt$DeepSeekSessionManager$return "isLoading=$isLoading stopRequested=$stopRequested isGenerating=${metrics?.isGenerating} streamed=${metrics?.streamedTokenCount}"</ID>
     <ID>MaxLineLength:DeepSeekStateSnapshotHelper.kt$DeepSeekStateSnapshotHelper$message = "restore key=$snapshotKey restored=$restored bytes=${cachedState.stateData.size} ageMs=${System.currentTimeMillis() - cachedState.capturedAtEpochMs}"</ID>
-    <ID>MaxLineLength:EmbeddingWorker.kt$EmbeddingWorker$val endpoint = prefs.getString("embedding_service_url", "http://127.0.0.1:8000/embed_batch") ?: "http://127.0.0.1:8000/embed_batch"</ID>
-    <ID>MaxLineLength:EmbeddingWorker.kt$EmbeddingWorker$val scriptPath = prefs.getString("embedding_cli_path", "tools/embedding_prototype/embed_batch_cli.py") ?: "tools/embedding_prototype/embed_batch_cli.py"</ID>
     <ID>MaxLineLength:ExportUtils.kt$ExportUtils$val line = listOf(e.id.toString(), escape(e.title), escape(e.content), escape(e.source), escape(e.category), escape(e.keywordsSerialized)).joinToString(",")</ID>
     <ID>MaxLineLength:GemmaInferenceEngine.kt$GemmaInferenceEngine$try { intentQuery = context.intent.getStringExtra("search_query") } catch (_: Throwable) { intentQuery = null }</ID>
     <ID>MaxLineLength:GemmaInferenceEngine.kt$GemmaInferenceEngine$val contextEntries = try { sparseSearcher.search(searchQuery, 2) } catch (_: Throwable) { emptyList&lt;SparseSearcher.SafetyEntry&gt;() }</ID>
@@ -476,7 +467,6 @@
     <ID>SwallowedException:DatabaseMigrationUtils.kt$DatabaseMigrationUtils$t: Throwable</ID>
     <ID>SwallowedException:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$t: CancellationException</ID>
     <ID>SwallowedException:DeepSeekEngine.kt$DeepSeekEngine$t: Throwable</ID>
-    <ID>SwallowedException:EmbeddingWorker.kt$EmbeddingWorker$t: Throwable</ID>
     <ID>SwallowedException:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$t: Throwable</ID>
     <ID>SwallowedException:JsonRepository.kt$JsonRepository$t: Throwable</ID>
     <ID>SwallowedException:LlamaJni.kt$LlamaJni$t: Throwable</ID>
@@ -494,7 +484,6 @@
     <ID>TooGenericExceptionCaught:DeepSeekEngine.kt$DeepSeekEngine$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DocumentImportManager.kt$DocumentImportManager$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:EmbeddingWorker.kt$EmbeddingWorker$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceEngine.kt$GemmaInferenceEngine$inner: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceEngine.kt$GemmaInferenceEngine$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$t: Throwable</ID>
@@ -583,7 +572,6 @@
     <ID>UnusedPrivateProperty:DeepSeekViewModel.kt$DeepSeekViewModel$private val retrievalFusionUseCase: RetrievalFusionUseCase</ID>
     <ID>UnusedPrivateProperty:DeepSeekViewModel.kt$DeepSeekViewModel$private val vectorRepository: VectorRepository</ID>
     <ID>UnusedPrivateProperty:EmbeddingRepositoryImpl.kt$EmbeddingRepositoryImpl$@ApplicationContext private val context: Context</ID>
-    <ID>UnusedPrivateProperty:EmbeddingWorker.kt$EmbeddingWorker$val duration = System.currentTimeMillis() - startTs</ID>
     <ID>UnusedPrivateProperty:GemmaLocalInference.kt$GemmaLocalInference.Companion$private const val TAG = "GemmaLocalInference"</ID>
     <ID>UnusedPrivateProperty:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$private val tag = "WebSearch"</ID>
     <ID>UnusedPrivateProperty:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$val bodyPreview = bodyRaw.take(2000)</ID>

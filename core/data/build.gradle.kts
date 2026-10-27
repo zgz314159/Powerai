@@ -60,7 +60,7 @@ dependencies {
     // Web search (Serper) — Phase D1
     implementation(libs.okhttp)
 
-    // Hilt + WorkManager (@HiltWorker: DataSync/Embedding, Phase C33)
+    // Hilt + WorkManager (@HiltWorker: DataSync; EmbeddingWorker retired KI-58)
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.work.runtime.ktx)

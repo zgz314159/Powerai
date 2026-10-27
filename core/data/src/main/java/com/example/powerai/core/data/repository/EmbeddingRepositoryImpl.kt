@@ -17,6 +17,11 @@ class EmbeddingRepositoryImpl @Inject constructor(
     private val vectorRepository: VectorRepository
 ) : EmbeddingRepository {
 
+    /**
+     * Records embedding metadata as pending. There is no WorkManager batch path:
+     * the legacy filesDir/embeddings/pending + EmbeddingWorker pipeline was retired (KI-58).
+     * Lexical FTS remains the production retrieval path; vector upsert is via [storeEmbedding].
+     */
     override suspend fun enqueueForEmbedding(items: List<KnowledgeItem>) {
         for (item in items) {
             db.embeddingDao().upsert(
@@ -24,8 +29,8 @@ class EmbeddingRepositoryImpl @Inject constructor(
                     id = item.id,
                     fileName = item.source,
                     status = "pending",
-                    createdAt = System.currentTimeMillis()
-                )
+                    createdAt = System.currentTimeMillis(),
+                ),
             )
         }
     }

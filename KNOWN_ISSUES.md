@@ -34,7 +34,7 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
-| KI-58 | `EmbeddingWorker` + `EmbeddingTestActivity` | enqueue 只写 Room pending，不调度 Worker | 本轮 D1：退役 Worker 死路径；保留 debug Activity |
+| KI-58 | `EmbeddingWorker` + `EmbeddingTestActivity` | enqueue 只写 Room pending，不调度 Worker | ✅ 已关闭（2026-10-27）：删除 EmbeddingWorker + instrumented 测；保留 debug Activity；enqueue 仅写 metadata |
 | KI-10 | `data/mapper` vs `data/mappers` | 双路径并存 | ✅ 已关闭（2026-10-27）：仅存 `core/data/.../mapper` |
 | KI-11 | `GemmaLocalInference.kt` | 曾 ~708 行，已部分拆分 | 低优先级；保持测试覆盖 |
 | KI-12 | `DatabaseViewModel.kt` | 业务可下沉 | ✅ 已完成 MVI 重构 |
@@ -65,6 +65,7 @@
 - KI-05 `MainPages.kt` 占位：文件已不存在（2026-10-27）
 - KI-10 `mapper`/`mappers` 双路径：仅余 `core/data/mapper`（2026-10-27）
 - KI-22 行数 CI：`scripts/source_size_report.py --check` 已在 Quality Guardrails（2026-10-27）
+- KI-58 EmbeddingWorker 死链：删除 Worker 与 instrumented 测；debug Activity 保留 JNI/FTS 手工入口（2026-10-27）
 - 「本地」页检索/导入异常被伪装成「未找到相关结果」…（既有关闭记录略）
 - 「本地」页搜索命中表格题注块时未改指所属表格…（既有）
 - 本地检索双支线退役（2026-10-03）
