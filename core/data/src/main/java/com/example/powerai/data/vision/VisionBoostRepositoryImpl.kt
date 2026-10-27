@@ -136,7 +136,7 @@ class VisionBoostRepositoryImpl
                 """
                 请对下面内容做深度逻辑验证（尤其是表格内数据一致性）
 
-                $inputinput
+                $input
                 """.trimIndent()
 
             val resp =
