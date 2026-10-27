@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-04
+**最后同步**：2026-10-25
 
 ---
 
@@ -23,6 +23,7 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
+| KI-58 | `data/worker/EmbeddingWorker` + `EmbeddingTestActivity` | 旧「pending JSON + WorkManager」嵌入路径：生产 `EmbeddingRepositoryImpl` 已改为 Room metadata，不再经已删的 `EmbeddingIoHelper` 写 pending/调度 Worker；Worker 仅 instrumented/手工测试可触发 | 要么接线 `enqueueForEmbedding`→Worker，要么退役 Worker/测试 Activity；勿再恢复死 helper |
 | KI-10 | `data/mapper` vs `data/mappers` | 双路径并存 | 统一命名与入口，避免重复映射逻辑 |
 | KI-11 | `GemmaLocalInference.kt` | 曾 ~708 行，已部分拆分 | 剩余 TODO 低优先级；保持测试覆盖 |
 | KI-12 | `DatabaseViewModel.kt` | 业务可下沉 | ✅ 已完成 MVI 重构；扩展 `DatabaseUseCase` 覆盖 |

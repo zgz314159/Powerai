@@ -8,6 +8,7 @@ import com.example.powerai.core.model.SmartAnswerMode
 import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.VectorRepository
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

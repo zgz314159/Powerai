@@ -6,8 +6,17 @@ import com.example.powerai.core.repository.EmbeddingRepository
 
 import com.example.powerai.core.repository.KnowledgeRepository
 
-import com.example.powerai.data.vision.VisionBoostRepositoryImpl
-import com.example.powerai.domain.vision.VisionBoostRepository
+import com.example.powerai.data.importer.AppDatabaseKbPort
+import com.example.powerai.data.importer.DocumentImportManager
+import com.example.powerai.data.importer.UserKbPackageImporter
+import com.example.powerai.domain.usecase.DatabaseUseCase
+import com.example.powerai.data.json.JsonRepository
+import com.example.powerai.feature.database.DatabaseKbPort
+import com.example.powerai.feature.hybrid.HybridKbImportPort
+import com.example.powerai.feature.importer.UserKbDirectoryImportPort
+import com.example.powerai.feature.jsonrepo.JsonRepoPort
+import com.example.powerai.feature.knowledgedetail.KnowledgeDetailSupportPort
+import com.example.powerai.feature.settings.SettingsImportPort
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,23 +28,25 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindVisionBoostRepository(impl: VisionBoostRepositoryImpl): VisionBoostRepository
+    abstract fun bindHybridKbImportPort(impl: DocumentImportManager): HybridKbImportPort
 
     @Binds
     @Singleton
-    abstract fun bindSearchHistoryRepository(impl: com.example.powerai.data.repository.SearchHistoryRepositoryImpl): com.example.powerai.domain.repository.SearchHistoryRepository
+    abstract fun bindKnowledgeDetailSupportPort(impl: DatabaseUseCase): KnowledgeDetailSupportPort
 
     @Binds
     @Singleton
-    abstract fun bindWebSearchRepository(impl: com.example.powerai.data.repository.WebSearchRepositoryImpl): com.example.powerai.domain.repository.WebSearchRepository
+    abstract fun bindDatabaseKbPort(impl: AppDatabaseKbPort): DatabaseKbPort
 
     @Binds
     @Singleton
-    abstract fun bindChatHistoryRepository(impl: com.example.powerai.data.repository.ChatHistoryRepositoryImpl): com.example.powerai.domain.repository.ChatHistoryRepository
+    abstract fun bindSettingsImportPort(impl: JsonRepository): SettingsImportPort
 
     @Binds
     @Singleton
-    abstract fun bindNativeResourceProvider(
-        impl: com.example.powerai.data.util.AndroidNativeResourceProvider
-    ): com.example.powerai.core.model.NativeResourceProvider
+    abstract fun bindJsonRepoPort(impl: JsonRepository): JsonRepoPort
+
+    @Binds
+    @Singleton
+    abstract fun bindUserKbDirectoryImportPort(impl: UserKbPackageImporter): UserKbDirectoryImportPort
 }

@@ -148,10 +148,22 @@ android {
 
 dependencies {
     implementation(project(":core:model-contract"))
+    implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":engine:native"))
     implementation(project(":engine:ai"))
     implementation(project(":feature:search-chat"))
+    implementation(project(":feature:hybrid"))
+    implementation(project(":feature:knowledge-detail"))
+    implementation(project(":feature:pdf"))
+    implementation(project(":feature:database"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:importer"))
+    implementation(project(":feature:jsonrepo"))
+    implementation(project(":feature:search"))
+    implementation(project(":feature:mine"))
+    implementation(project(":feature:debug"))
+    implementation(project(":feature:quickask"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

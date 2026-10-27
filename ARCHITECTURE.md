@@ -10,13 +10,27 @@
 
 | 模块 | 职责 |
 |------|------|
-| `:app` | Compose UI、ViewModel、导航、Hilt 装配、Room 与 importer 实现 |
-| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、blocks 模型、MVI 基类 |
-| `:core:data` | `KnowledgeEntity`、仓储实现与本地检索、JSON KB 导入核心（`core/data/importer`） |
+| `:app` | 导航、Hilt 装配、importer/Json 实现（含 Ports）、Main 壳编排、AssetPreloadWorker、theme/Glide |
+| `:core:model-contract` | 共享契约与模型：`KnowledgeRepository`、`PowerAIEngine`、`BlocksParser`/`BlocksJsonPatcher`、`ImportModels`、`JsonEntry`/`JsonKnowledgeFile`、`VisionBoost*`、MVI、query、`WebSearch`/`SearchHistory` |
+| `:core:domain` | 检索/证据领域：`HybridRetrievalService`、`RetrievalFusionUseCase`、`LocalEvidence*`、`LocalHybridQueryOrchestrator`、`PdfSourceRef`、`SemanticRoleSearchTextBuilder` |
+| `:core:data` | `KnowledgeEntity`、仓储、`RoomFtsRetriever`、WebSearch/History、`FontSettings`、`PdfAssociation`/`PdfStorage`、JSON KB 导入核心 |
 | `:engine:native` | native 源码与 CMake（FAISS、llama JNI、NEON 搜索） |
 | `:engine:ai` | 推理引擎封装与 JNI 桥接（DeepSeek、Gemma、llama 运行时） |
-| `:feature:search-chat` | 搜索与对话功能域 |
+| `:feature:hybrid` | Hybrid 主屏垂直切片：`HybridViewModel`/`HybridQueryUseCase`；经 `HybridKbImportPort` 依赖 app 导入 |
+| `:feature:knowledge-detail` | 知识详情垂直切片：`KnowledgeDetailViewModel`/Markwon/Compose blocks/PDF locate；经 `KnowledgeDetailSupportPort` 依赖 app |
+| `:feature:pdf` | PDF 查看垂直切片：Viewer/`PdfKnowledgeViewModel`/`PdfFigureListViewModel`；依赖 knowledge-detail 的 bbox/locate |
+| `:feature:database` | 数据库/KB 管理垂直切片：`DatabaseViewModel`/`DatabaseUseCase`；经 `DatabaseKbPort` 依赖 app 导入 |
+| `:feature:settings` | 设置垂直切片：`SettingsViewModel`/UI；经 `SettingsImportPort` 依赖 app `JsonRepository` |
+| `:feature:importer` | 用户 KB 目录导入垂直切片：`ImportViewModel`/`KnowledgeImportScreen`；经 `UserKbDirectoryImportPort` 依赖 app |
+| `:feature:jsonrepo` | JSON 知识文件管理垂直切片：`JsonRepositoryViewModel`/UI；经 `JsonRepoPort` 依赖 app `JsonRepository` |
+| `:feature:search` | 简单词法搜索垂直切片：`SearchViewModel`/UI；依赖 hybrid SearchBar + `RetrievalFusionUseCase` |
+| `:feature:mine` | 「我的」页垂直切片：`MineScreen`；依赖 settings；dev backdoor 由 app 回调 |
+| `:feature:debug` | 调试：`DebugViewModel`/UI + `EmbeddingTestActivity` |
+| `:feature:quickask` | 快速问答原型屏 |
+| `:feature:search-chat` | 搜索与对话功能域（DeepSeek） |
 | `:benchmark` | Macrobenchmark 基准 |
+
+> Main 壳编排（`MainScreen`/`MainFeatureContent`/Mine·Quiz stubs）仍在 `:app`；Chrome（`MainBottomTab`/`MainBottomBar`/`MainTopBar`/`MainScreenState`/`MainScreenBackHandlers`）在 `:feature:hybrid`（C30）；NavHost `Screen.Detail/Pdf` 委托 `:feature:knowledge-detail` 的 `KnowledgeDetailNavArgs`/`PdfViewerRoute`（C23）；Drawer/Local/Response/Markdown/KnowledgeItemCard/Scroll/ResponseCard/KnowledgeResultList 在 `:feature:hybrid`（C13–C15/C18b）；Smart*/AiStream*/Chat*/MainSearchAndResultsArea/`SearchTabContent` 在 `:feature:search-chat`（C15–C17/C20b/C21）；Database 抽屉/`DatabaseTabContent` 在 `:feature:database`（C18a/C21）；`KnowledgeDetailTargetResolver` 在 `:feature:knowledge-detail`（C19）；`QueryEncoder`/`domain.eval` 在 `:core:domain`（C25–C26）；FAISS 原型与 NativeAnn 调试工具在 `:engine:native`（C27–C28，生产 ANN 仍为 NativeAnnRetriever）；chat 模型与 `ChatHistoryRepository` 在 model-contract；`ChatHistoryStore`/Impl、`AndroidNativeResourceProvider`、`ExportUtils`、Vision（`VisionApiConfig` 由 app 提供）、`DataSyncWorker`/`EmbeddingWorker` 在 `:core:data`（C17a/C29/C31–C33）；`AssetPreloadWorker` 因 importer 依赖留 app。
 
 ### 1.2 应用内分层
 
@@ -37,7 +51,7 @@
 
 **禁止**：`domain` 依赖 `ui` 或 Android UI API；`data` 依赖 `ui`。
 
-`domain` 下不含 `llm` 子包：LLM 与引擎抽象位于 `:engine:ai`（`engine/ai`），`domain/query` 的实现位于 `:core:model-contract`。
+`domain` 下不含 `llm` 子包：LLM 与引擎抽象位于 `:engine:ai`（`engine/ai`），`domain/query` 的实现位于 `:core:model-contract`；混合检索服务位于 `:core:domain`。
 
 **DI**（`app/src/main/java/com/example/powerai/di/`）：`CoreModule`、`AppModule`、`NetworkModule`、`DataModule`、`AIModule`、`RepositoryModule`、`FaissModule`。
 

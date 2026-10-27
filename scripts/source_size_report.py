@@ -38,10 +38,22 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODULES = {
     "app": "app/src/main",
     "core:model-contract": "core/model-contract/src/main",
+    "core:domain": "core/domain/src/main",
     "core:data": "core/data/src/main",
     "engine:native": "engine/native/src/main",
     "engine:ai": "engine/ai/src/main",
     "feature:search-chat": "feature/search-chat/src/main",
+    "feature:hybrid": "feature/hybrid/src/main",
+    "feature:knowledge-detail": "feature/knowledge-detail/src/main",
+    "feature:pdf": "feature/pdf/src/main",
+    "feature:database": "feature/database/src/main",
+    "feature:settings": "feature/settings/src/main",
+    "feature:importer": "feature/importer/src/main",
+    "feature:jsonrepo": "feature/jsonrepo/src/main",
+    "feature:search": "feature/search/src/main",
+    "feature:mine": "feature/mine/src/main",
+    "feature:debug": "feature/debug/src/main",
+    "feature:quickask": "feature/quickask/src/main",
     "benchmark": "benchmark/src/main",
 }
 

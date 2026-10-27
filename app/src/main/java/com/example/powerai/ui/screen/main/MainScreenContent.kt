@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.navigation.NavHostController
+import com.example.powerai.navigation.Screen
 import com.example.powerai.ui.screen.hybrid.HybridUiState
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import kotlinx.coroutines.launch
@@ -102,6 +103,7 @@ private fun DatabaseTabDispatch(
                 state.searchBarTab = null
             }
         },
+        onNavigateToKbImport = { navController.navigate(Screen.KbImport.route) },
         innerPadding = innerPadding,
     )
 }

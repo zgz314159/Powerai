@@ -13,6 +13,7 @@ import com.example.powerai.core.data.importer.NonClosingInputStream
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.VectorRepository
+import com.example.powerai.feature.hybrid.HybridKbImportPort
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,11 +44,11 @@ class DocumentImportManager
         internal val embeddingDao: EmbeddingDao? = null,
         internal val vectorRepository: VectorRepository? = null,
         @Named("vector_index_path") internal val vectorIndexPath: String = "vector_index.bin",
-    ) {
+    ) : HybridKbImportPort {
         internal val assetImportMutex = Mutex()
 
         private val _progress = MutableStateFlow<ImportProgress?>(null)
-        val progress: StateFlow<ImportProgress?> = _progress
+        override val progress: StateFlow<ImportProgress?> = _progress
 
         internal val rebuildStateFlow = MutableStateFlow<KbRebuildState>(KbRebuildState.Idle)
         val rebuildState: StateFlow<KbRebuildState> = rebuildStateFlow
@@ -80,6 +81,10 @@ class DocumentImportManager
                     }
                 scanner.publishDiagnostics(assetRoot, entries)
             }
+        }
+
+        override suspend fun ensureAssetsImported(assetRoot: String) {
+            importAssetsIfNeed(assetRoot)
         }
 
         suspend fun importAssetsIfNeed(assetRoot: String = "kb"): AssetImportOutcome =
@@ -316,9 +321,9 @@ class DocumentImportManager
             observability.importFailed(fileId, displayName, error.message)
         }
 
-        fun importUri(
+        override fun importUri(
             uri: Uri,
-            batchSize: Int = 100,
+            batchSize: Int,
         ) {
             uriImporter.import(uri, batchSize)
         }

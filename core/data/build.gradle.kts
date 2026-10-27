@@ -41,7 +41,13 @@ android {
 
 dependencies {
     implementation(project(":core:model-contract"))
+    // FtsRetriever + SemanticRoleSearchTextBuilder (RoomFtsRetriever, Phase B5).
+    implementation(project(":core:domain"))
+    // VisionBoost validation path uses AiApiService (Phase C32).
+    implementation(project(":engine:ai"))
     implementation(libs.androidx.core.ktx)
+    // FontSettings exposes LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
 
     // Room
     implementation(libs.androidx.room.runtime)
@@ -51,9 +57,15 @@ dependencies {
     // Gson
     implementation(libs.gson)
 
-    // Hilt
+    // Web search (Serper) — Phase D1
+    implementation(libs.okhttp)
+
+    // Hilt + WorkManager (@HiltWorker: DataSync/Embedding, Phase C33)
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 
     // The JSON KB import core lives here; its direct unit tests are JVM-only.
     testImplementation(libs.junit)

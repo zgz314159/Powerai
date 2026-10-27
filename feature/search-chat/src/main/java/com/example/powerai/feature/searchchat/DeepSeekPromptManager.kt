@@ -15,7 +15,7 @@ import com.example.powerai.core.model.KnowledgeItem
 import android.os.SystemClock
 import com.example.powerai.engine.ai.SmartDeepSeekDebugLogger
 import com.example.powerai.core.model.NativeResourceProvider
-import com.example.powerai.feature.searchchat.RetrievalFusionUseCase
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

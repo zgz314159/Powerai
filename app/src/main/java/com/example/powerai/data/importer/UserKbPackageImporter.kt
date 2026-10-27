@@ -13,6 +13,7 @@ import com.example.powerai.core.data.importer.ImportUtils
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
 import com.example.powerai.core.model.KnowledgePackages
 import com.example.powerai.core.repository.VectorRepository
+import com.example.powerai.feature.importer.UserKbDirectoryImportPort
 import com.example.powerai.util.PdfSourceRef
 import com.example.powerai.util.PdfStorage
 import com.google.gson.JsonParser
@@ -55,7 +56,7 @@ class UserKbPackageImporter
         private val embeddingDao: EmbeddingDao? = null,
         private val vectorRepository: VectorRepository? = null,
         @Named("vector_index_path") private val vectorIndexPath: String = "vector_index.bin",
-    ) {
+    ) : UserKbDirectoryImportPort {
         private val _packages = MutableStateFlow<List<UserKbPackageSummary>>(emptyList())
 
         /** Observable list of the user-imported packages, refreshed after every import/removal. */
@@ -130,9 +131,9 @@ class UserKbPackageImporter
         }
 
         /** Import the directory behind a SAF tree uri obtained from [android.provider.DocumentsContract]. */
-        suspend fun importDirectory(
+        override suspend fun importDirectory(
             treeUri: Uri,
-            onProgress: (UserKbImportProgress) -> Unit = {},
+            onProgress: (UserKbImportProgress) -> Unit,
         ): UserKbImportResult {
             runCatching {
                 context.contentResolver.takePersistableUriPermission(

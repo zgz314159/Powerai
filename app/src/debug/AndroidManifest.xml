@@ -4,10 +4,9 @@
     package="com.example.powerai">
 
     <application>
-        <!-- In debug builds we keep EmbeddingTestActivity available for manual launch,
-             but do NOT override the app launcher intent so MainActivity remains the entrypoint. -->
+        <!-- EmbeddingTestActivity lives in :feature:debug; keep merge override for debug builds. -->
         <activity
-            android:name=".ui.test.EmbeddingTestActivity"
+            android:name="com.example.powerai.ui.test.EmbeddingTestActivity"
             android:exported="false"
             tools:replace="android:exported" />
     </application>

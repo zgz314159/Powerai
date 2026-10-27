@@ -26,7 +26,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -38,6 +38,12 @@ android {
         jvmTarget = "17"
     }
 
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
+
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
@@ -47,7 +53,15 @@ android {
 
 dependencies {
     implementation(project(":core:model-contract"))
+    // QueryEncoder for LocalFaissAnnRetriever (Phase C27).
+    implementation(project(":core:domain"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.core)
 }
