@@ -12,12 +12,13 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **进行中**：分支 `refactor/core-domain-retrieval-b1` — **B/C1–C34/D1/D2 垂直模块化收口完成**；已 sync `origin/main`（含 #28 用户包生命周期）；仓库级收口 = PR 合入 + §8 KI/回归排期
+- **当前**：`origin/main` 已合入 **PR #29**（B/C1–C34/D1/D2 垂直模块化收口）；下一阶段独立排期 §8 KI/回归（非阻塞合入）
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| 仓库级收口 PR #29 | 已合并 | merge `8af386bc59db5c45832e7155268f7469bbe868c0`；CI JVM + Guardrails + connectedAndroidTest 绿（2026-10-27） |
 | Phase C34（模块化收口） | 已完成 | 删无用 `PLog`；确认 Json/importer/`AssetPreloadWorker`/Main 壳留 app 为故意边界；app **44** kt；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C33（Workers → data） | 已完成 | `DataSyncWorker`/`EmbeddingWorker` → `:core:data`；`AssetPreloadWorker` 仍留 app（依赖 DocumentImportManager）；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C32（Vision → data） | 已完成 | `VisionService`/`VisionBoostRepositoryImpl`/`VisionBoostJson`+单测 → `:core:data`；`VisionApiConfig` 解耦 app BuildConfig；DI bind 迁入 data；VisionBoostJsonTest 绿；arch 0 新违规（2026-10-25） |
@@ -211,14 +212,17 @@
 
 ### 仓库级收口后待办（KI / 回归，独立排期）
 
+> PR #29 已合入；下列项**不阻塞**模块化收口，单独开任务消化。
+
 | 优先级 | 项 | 状态 |
 |--------|----|------|
-| P0 | 本 PR 合入 `main` 后确认 CI 绿 | 进行中 |
-| P1 | lint error = 0 | 待验证 |
-| P1 | 端侧推理停止 + 中文输出真机回归 | 待验证 |
+| P0 | PR #29 合入 `main` + CI 绿 | ✅ 完成（2026-10-27） |
+| P1 | lint error = 0（全量 ktlint 历史债） | 待排期 |
+| P1 | 端侧推理停止 + 中文输出真机回归 | 待排期 |
 | P2 | KI-56 原生向量索引 per-package 失效 | 未开始 |
 | P2 | KI-57 用户包「更新」一键化（持久化 treeUri） | 未开始 |
 | P2 | 补齐 Android 16 / API 36 仪器测试 | 未开始 |
+| P2 | KI-54 用户目录导入真机验收 | 未开始 |
 | P3 | KI-03/04/58 等已知债按 KNOWN_ISSUES 消化 | 开放 |
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
