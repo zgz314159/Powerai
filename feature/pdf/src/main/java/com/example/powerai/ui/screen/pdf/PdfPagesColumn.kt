@@ -33,7 +33,7 @@ import java.io.File
 import android.os.ParcelFileDescriptor
 
 @Composable
-internal fun PdfPagesColumn(
+fun PdfPagesColumn(
     modifier: Modifier,
     pdfFile: File,
     highlightPageIndex: Int?,

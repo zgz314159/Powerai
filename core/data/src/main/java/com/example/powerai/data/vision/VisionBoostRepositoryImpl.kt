@@ -89,8 +89,6 @@ class VisionBoostRepositoryImpl @Inject constructor(
             .post(reqJson.toRequestBody(mediaType))
             .build()
 
-        // log removed: VisionBoost(gateway) request START url=$url model=${visionApiConfig.visionModel} imageBytes=${bytes.size} uri=$imageUri
-
         return client.newCall(request).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {

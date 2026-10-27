@@ -2,17 +2,11 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>ComplexCondition:KnowledgeResultList.kt$showPagination &amp;&amp; items.isNotEmpty() &amp;&amp; !isPageLoading &amp;&amp; (hasPrev || hasNext || (totalPages != null &amp;&amp; totalPages &gt; 1))</ID>
-    <ID>ComplexCondition:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$understanding.signals.contains("definition_style") &amp;&amp; !qaStyle &amp;&amp; !questionStyle &amp;&amp; !hasAnchor</ID>
-    <ID>ComplexCondition:MarkdownTextView.kt$!alreadyMath &amp;&amp; texCmd.containsMatchIn(trimmed) &amp;&amp; trimmed.length &lt;= 160 &amp;&amp; isSafeLatexBody(trimmed)</ID>
-    <ID>ComplexCondition:ResponseBodyComponents.kt$remainderStart &lt; rawLine.length &amp;&amp; (rawLine[remainderStart] == ':' || rawLine[remainderStart] == '：' || rawLine[remainderStart].isWhitespace())</ID>
-    <ID>ComplexCondition:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$fallback.isNotBlank() &amp;&amp; (weighted.isEmpty() || (lowValueOnly &amp;&amp; looksLikeBodyFallback(fallback)))</ID>
     <ID>ComplexCondition:SmartDeepSeekResponseArea.kt$!modelLoaded &amp;&amp; !isLoading &amp;&amp; generationMetrics.streamedTokenCount == 0 &amp;&amp; thinking.isEmpty()</ID>
     <ID>ComplexCondition:VisionService.kt$VisionService$bytes.size &gt;= 3 &amp;&amp; bytes[0] == 0xFF.toByte() &amp;&amp; bytes[1] == 0xD8.toByte() &amp;&amp; bytes[2] == 0xFF.toByte()</ID>
     <ID>ComplexCondition:VisionService.kt$VisionService$bytes.size &gt;= 8 &amp;&amp; bytes[0] == 0x89.toByte() &amp;&amp; bytes[1] == 0x50.toByte() &amp;&amp; bytes[2] == 0x4E.toByte() &amp;&amp; bytes[3] == 0x47.toByte()</ID>
     <ID>ConstructorParameterNaming:AiApiService.kt$ApiChatChoice$val finish_reason: String? = null</ID>
     <ID>CyclomaticComplexMethod:AiStreamingService.kt$AiStreamingService$fun extractTextChunk(jsonLike: String): String?</ID>
-    <ID>CyclomaticComplexMethod:BingWebSearchClient.kt$BingWebSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;BingWebSearchResult&gt;</ID>
     <ID>CyclomaticComplexMethod:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractTableCells(obj: JsonObject): List&lt;TableCell&gt;?</ID>
     <ID>CyclomaticComplexMethod:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractTableRows(obj: JsonObject): List&lt;List&lt;String&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractText(obj: JsonObject): String</ID>
@@ -22,146 +16,70 @@
     <ID>CyclomaticComplexMethod:BlocksTextExtractor.kt$BlocksTextExtractor$fun extractPlainText(blocksJson: String): String</ID>
     <ID>CyclomaticComplexMethod:BlocksTextExtractor.kt$BlocksTextExtractor$private fun extractPlainTextFromElement(el: JsonElement?): String</ID>
     <ID>CyclomaticComplexMethod:ChatListAutoScroll.kt$@Composable internal fun AutoScrollOnStreaming( listState: LazyListState, turns: List&lt;ChatTurn&gt;, currentTurnId: Long?, isStreaming: Boolean )</ID>
-    <ID>CyclomaticComplexMethod:DatabaseImportDiagnosticsPanel.kt$@Composable internal fun DatabaseImportDiagnosticsPanel( diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics, progress: com.example.powerai.core.data.importer.ImportProgress?, onRefresh: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>CyclomaticComplexMethod:DatabaseViewModel.kt$DatabaseViewModel$override fun onIntent(intent: DatabaseIntent)</ID>
     <ID>CyclomaticComplexMethod:DeepSeekEngine.kt$DeepSeekEngine$override suspend fun infer(prompt: String, maxTokens: Int, stream: Boolean): String</ID>
     <ID>CyclomaticComplexMethod:DeepSeekEngine.kt$DeepSeekEngine$override suspend fun loadModel(modelPath: String, useGpu: Boolean): Boolean</ID>
     <ID>CyclomaticComplexMethod:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$suspend fun runGeneration( delegate: GenerationDelegate, engine: PowerAIEngine?, runToken: String, prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, startedAtEpochMs: Long, benchmarkKind: String? = null, benchmarkGroupId: String? = null, benchmarkOrder: Int? = null, prefixReuseHit: Boolean = false, stateSnapshotReuseHit: Boolean = false, stateSnapshotBytes: Int = 0 ): SmartGenerationRunResult</ID>
     <ID>CyclomaticComplexMethod:DeepSeekScreen.kt$@Composable fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevicePath: String? = null)</ID>
     <ID>CyclomaticComplexMethod:DeepSeekViewModel.kt$DeepSeekViewModel$override fun onIntent(intent: DeepSeekIntent)</ID>
-    <ID>CyclomaticComplexMethod:DetailTableBlocks.kt$@Composable internal fun DetailTableBlockItem( block: TableBlock, highlight: String, fontScale: Float, subfolder: String? = null )</ID>
     <ID>CyclomaticComplexMethod:EmbeddingWorker.kt$EmbeddingWorker$override suspend fun doWork(): Result</ID>
     <ID>CyclomaticComplexMethod:GemmaFallbackProvider.kt$GemmaFallbackProvider$fun infer( prompt: PromptBuilder.Prompt, searcherFactory: () -&gt; SparseSearcher = { SparseSearcher(context) } ): InferenceResult</ID>
     <ID>CyclomaticComplexMethod:GemmaInferenceEngine.kt$GemmaInferenceEngine$suspend fun infer( context: Context?, engine: Any?, prompt: PromptBuilder.Prompt, maxTokens: Int ): InferenceResult</ID>
     <ID>CyclomaticComplexMethod:GemmaReflectionHelper.kt$GemmaReflectionHelper$fun invokeGenerate(engineObj: Any, prompt: String, genOpts: Map&lt;String, Any&gt;): InvocationResult</ID>
     <ID>CyclomaticComplexMethod:GemmaResponseLogger.kt$GemmaResponseLogger$fun writeResponse( context: Context?, contextEntries: List&lt;SparseSearcher.SafetyEntry&gt;?, rawText: String, lastResponseObj: Any?, tokenIdsCaptured: Any?, finishReasonVal: String? ): Int</ID>
-    <ID>CyclomaticComplexMethod:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;WebSearchResult&gt;</ID>
-    <ID>CyclomaticComplexMethod:HybridAiStreamingClient.kt$HybridAiStreamingClient$private fun appendPayloadText(payload: String, sb: StringBuilder)</ID>
-    <ID>CyclomaticComplexMethod:HybridAiStreamingClient.kt$HybridAiStreamingClient$suspend fun streamAnswer( question: String, referenceText: String, apiKey: String, baseUrl: String, model: String, onPartial: (String) -&gt; Unit ): String</ID>
-    <ID>CyclomaticComplexMethod:HybridQueryUseCase.kt$HybridQueryUseCase$suspend fun localMode( question: String, rawQuestion: String, scope: kotlinx.coroutines.CoroutineScope, onGemmaResult: (String) -&gt; Unit ): LocalModeResult</ID>
-    <ID>CyclomaticComplexMethod:HybridRetrievalService.kt$HybridRetrievalService$fun combineResults(vectorResults: List&lt;RetrievalResult&gt;, ftsResults: List&lt;RetrievalResult&gt;, topK: Int = 10, query: String = ""): List&lt;RetrievalResult&gt;</ID>
-    <ID>CyclomaticComplexMethod:HybridViewModel.kt$HybridViewModel$override fun onIntent(intent: HybridIntent)</ID>
+    <ID>CyclomaticComplexMethod:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;SerperWebHit&gt;</ID>
     <ID>CyclomaticComplexMethod:JsonEntryMapper.kt$JsonEntryMapper$fun toEntity( e: JsonResourceParser.JsonEntry, metadata: JsonResourceParser.FileMetadata, gson: com.google.gson.Gson ): KnowledgeEntity</ID>
-    <ID>CyclomaticComplexMethod:JsonRepositoryScreen.kt$@Composable @Suppress("UNUSED_PARAMETER") fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonRepositoryViewModel)</ID>
     <ID>CyclomaticComplexMethod:KbAssetPathNormalizer.kt$KbAssetPathNormalizer$private fun normalizeImageUri(raw: String, context: AssetContext): String</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailBasicBlocks.kt$@Composable internal fun DetailTextBlockItem( block: TextBlock, highlight: String, fontScale: Float, onAnchorClick: ((String) -&gt; Unit)? = null )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailBlocksContent.kt$@Composable internal fun KnowledgeDetailBlocksContent( displayParams: BlocksContentDisplayParams, resourceParams: BlocksDocumentResourceParams, visionParams: BlocksVisionBoostingParams = BlocksVisionBoostingParams(), validationParams: BlocksValidationParams = BlocksValidationParams(), interactionParams: BlocksInteractionParams = BlocksInteractionParams() )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailFallbackTableCompose.kt$@Composable internal fun MarkdownTableCompose( markdown: String, modifier: Modifier = Modifier )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailMarkdownChunking.kt$internal fun chunkContent(content: String, maxChunkSize: Int = 1800): List&lt;String&gt;</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailMarkdownTableExpanders.kt$TableEmbeddedSeparatorRowSplitter$fun splitEmbeddedSeparatorOnce(line: String): List&lt;String&gt;</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$fun normalizeSeparatorWidthsAndPadBlankLines( lines: MutableList&lt;String&gt;, separatorLineRegex: Regex )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailStructuredTable.kt$@Composable internal fun StructuredTableCompose( cells: List&lt;TableCell&gt;, fontScale: Float = 1f, modifier: Modifier = Modifier )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeDetailStructuredTable.kt$@Composable private fun TableLayout( cells: List&lt;TableCell&gt;, rowCount: Int, colCount: Int, borderColor: Color, content: @Composable () -&gt; Unit )</ID>
-    <ID>CyclomaticComplexMethod:KnowledgeResultList.kt$@Composable fun KnowledgeResultList( items: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String = "", metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onItemClick: ((KnowledgeItem) -&gt; Unit)? = null, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean = true, showPagination: Boolean = true, currentPage: Int = 1, totalPages: Int? = null, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean = true, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>CyclomaticComplexMethod:LazyListScrollIndicator.kt$@Composable fun LazyListScrollIndicator( listState: LazyListState, modifier: Modifier = Modifier, thickness: Dp = 4.dp, touchWidth: Dp = 18.dp, minThumbHeight: Dp = 36.dp, topPadding: Dp = 96.dp, bottomPadding: Dp = 16.dp, anchors: List&lt;LazyListScrollAnchor&gt; = emptyList(), bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -&gt; String)? = null )</ID>
     <ID>CyclomaticComplexMethod:LlamaJniMetrics.kt$LlamaJniMetrics$fun logStreamBottleneckAssessment( now: Long, phase: String, lastStreamRequestedAtMs: Long, lastStreamExecutorStartedAtMs: Long, lastStreamInvokeStartedAtMs: Long, lastStreamInvokeReturnedAtMs: Long )</ID>
     <ID>CyclomaticComplexMethod:LlamaJniReflection.kt$LlamaJniReflection$fun createNamedCallbackProxy(interfaceType: Class&lt;*&gt;, callbackKind: String): Any</ID>
     <ID>CyclomaticComplexMethod:LlamaJniReflection.kt$LlamaJniReflection$fun ensureNativeInstance(appContext: android.content.Context?, currentInstance: Any?): Any?</ID>
     <ID>CyclomaticComplexMethod:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
-    <ID>CyclomaticComplexMethod:LocalAnswerPlanner.kt$LocalAnswerPlanner$fun assess(query: String, retrievals: List&lt;RetrievalResult&gt;): LocalEvidenceAssessment</ID>
-    <ID>CyclomaticComplexMethod:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$fun build( query: String, assessment: LocalEvidenceAssessment, retrievals: List&lt;RetrievalResult&gt;, totalCandidateCount: Int, refinedCandidateCount: Int, discardedCandidates: List&lt;LocalDiscardedCandidate&gt; = emptyList() ): String</ID>
-    <ID>CyclomaticComplexMethod:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$fun buildThresholdSnapshot( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, tokenCoverage: Float, contextualSignal: Float, anchorHits: Int, hasAnchor: Boolean, noisy: Boolean, questionStyle: Boolean, qaStyle: Boolean ): LocalDiscardThresholdSnapshot</ID>
-    <ID>CyclomaticComplexMethod:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$fun expandCompactChineseToken(token: String): List&lt;String&gt;</ID>
-    <ID>CyclomaticComplexMethod:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$private fun evaluateCandidate( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, result: RetrievalResult ): CandidateEvaluation?</ID>
-    <ID>CyclomaticComplexMethod:LocalSummaryCard.kt$private fun buildLocalDiagnosticSummaryLines(snapshot: LocalDiagnosticSnapshot): List&lt;String&gt;</ID>
-    <ID>CyclomaticComplexMethod:LocalSummaryStateFactory.kt$LocalSummaryStateFactory$private fun supportNote( assessment: LocalEvidenceAssessment, hasExtractiveAnswer: Boolean = false ): String</ID>
-    <ID>CyclomaticComplexMethod:MainScreen.kt$@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class) @Composable fun MainScreen(navController: NavHostController, viewModel: HybridViewModel)</ID>
-    <ID>CyclomaticComplexMethod:MarkdownTextView.kt$private fun recoverAccidentalMarkdownCodeBlocks(input: String): String</ID>
     <ID>CyclomaticComplexMethod:NativeAnnRetriever.kt$NativeAnnRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
-    <ID>CyclomaticComplexMethod:PdfBoundingBox.kt$internal fun parsePdfBoundingBoxOrNull(bboxJson: String?): PdfBoundingBox?</ID>
-    <ID>CyclomaticComplexMethod:PdfFigureListViewModel.kt$PdfFigureListViewModel$private suspend fun loadPdfFigures(dao: KnowledgeDao, fileId: String): List&lt;PdfFigureItem&gt;</ID>
     <ID>CyclomaticComplexMethod:PromptBuilder.kt$PromptBuilder$fun buildPrompt(question: String, results: List&lt;RetrievalResult&gt;): Prompt</ID>
-    <ID>CyclomaticComplexMethod:ResponseBody.kt$@Composable internal fun ResponseBody( text: String, isLoading: Boolean, onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onThumbUp: (() -&gt; Unit)? = null, onThumbDown: (() -&gt; Unit)? = null, isThumbUpSelected: Boolean = false, isThumbDownSelected: Boolean = false, onShowSources: (() -&gt; Unit)? = null, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true, supplementalContent: (@Composable () -&gt; Unit)? = null )</ID>
     <ID>CyclomaticComplexMethod:RoomFtsRetriever.kt$RoomFtsRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
-    <ID>CyclomaticComplexMethod:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$fun analyze(blocksJson: String?, fallbackPlainText: String = "", query: String = ""): SemanticRoleProfile</ID>
-    <ID>CyclomaticComplexMethod:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun collectFigureNodeSignals(root: JsonElement?, query: String): FigureNodeSignals</ID>
-    <ID>CyclomaticComplexMethod:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun extractText(element: JsonElement?): String</ID>
-    <ID>CyclomaticComplexMethod:SmartDeepSeekAdvancedControls.kt$@Composable internal fun SmartDeepSeekAdvancedControls( uiState: DeepSeekUiState, searchQuery: String, onIntent: (DeepSeekIntent) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>CyclomaticComplexMethod:SmartDeepSeekProgressCard.kt$@Composable internal fun SmartDeepSeekProgressCard( progressState: SmartProgressUiState, askedAtMillis: Long?, thinkingPreview: String, showAbort: Boolean, onAbort: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>CyclomaticComplexMethod:SmartDeepSeekResponseArea.kt$@Composable internal fun SmartDeepSeekAnswerFooter( isLoading: Boolean, modelLoaded: Boolean, thinking: List&lt;String&gt;, generationMetrics: GenerationMetrics, stageMetrics: SmartStageMetrics )</ID>
-    <ID>CyclomaticComplexMethod:SmartDeepSeekTabContent.kt$@Composable internal fun SmartDeepSeekTabContent( navController: NavHostController, hybridViewModel: HybridViewModel, drawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: PaddingValues = PaddingValues(), deepSeekViewModel: DeepSeekViewModel = hiltViewModel() )</ID>
-    <ID>CyclomaticComplexMethod:SmartPage.kt$@Composable fun SmartPage( aiText: String, localResults: List&lt;KnowledgeItem&gt;, highlight: String, askedAtMillis: Long? = null, thinkingContent: (@Composable () -&gt; Unit)? = null, answerFooter: (@Composable () -&gt; Unit)? = null, answerRenderMarkdown: Boolean = true, topContentPadding: Dp = 64.dp, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, showEmptyState: Boolean, isPageLoading: Boolean = false, initialFirstVisibleItemIndex: Int = 0, initialFirstVisibleItemScrollOffset: Int = 0, onListPositionChange: (index: Int, offset: Int) -&gt; Unit = { _, _ -&gt; }, innerPadding: PaddingValues = PaddingValues(0.dp) )</ID>
+    <ID>CyclomaticComplexMethod:SmartDeepSeekAdvancedControls.kt$@Composable fun SmartDeepSeekAdvancedControls( uiState: DeepSeekUiState, searchQuery: String, onIntent: (DeepSeekIntent) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>CyclomaticComplexMethod:SmartDeepSeekProgressCard.kt$@Composable fun SmartDeepSeekProgressCard( progressState: SmartProgressUiState, askedAtMillis: Long?, thinkingPreview: String, showAbort: Boolean, onAbort: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>CyclomaticComplexMethod:SmartDeepSeekResponseArea.kt$@Composable fun SmartDeepSeekAnswerFooter( isLoading: Boolean, modelLoaded: Boolean, thinking: List&lt;String&gt;, generationMetrics: GenerationMetrics, stageMetrics: SmartStageMetrics )</ID>
+    <ID>CyclomaticComplexMethod:SmartDeepSeekTabContent.kt$@Composable fun SmartDeepSeekTabContent( navController: NavHostController, hybridViewModel: HybridViewModel, drawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: PaddingValues = PaddingValues(), deepSeekViewModel: DeepSeekViewModel = hiltViewModel() )</ID>
     <ID>CyclomaticComplexMethod:SparseSearcherLoader.kt$DefaultSparseSearcherLoader$override fun loadEntries(context: Context?): List&lt;SparseSearcher.SafetyEntry&gt;</ID>
-    <ID>CyclomaticComplexMethod:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$fun importFromJson( inputStream: InputStream, batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE, trace: ((String) -&gt; Unit)? = null, fallbackFileName: String? = null, fallbackFileId: String? = null ): Flow&lt;ImportProgress&gt;</ID>
     <ID>CyclomaticComplexMethod:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$override fun writeString(text: String, textPositions: MutableList&lt;TextPosition&gt;)</ID>
     <ID>CyclomaticComplexMethod:VisionBoostJson.kt$VisionBoostJson$private fun extractFromChoices(choices: JsonArray?): String?</ID>
     <ID>CyclomaticComplexMethod:VisionService.kt$VisionService$private fun extractGeminiTextOrNull(responseJson: String): String?</ID>
     <ID>EmptyFunctionBlock:AssetModelLoader.kt$AssetModelLoader.AssetDataFetcher${}</ID>
     <ID>EmptyFunctionBlock:AssetModelLoader.kt$AssetModelLoader.Factory${}</ID>
     <ID>EmptyFunctionBlock:DeepSeekResourceProvider.kt$DeepSeekResourceProvider${}</ID>
-    <ID>EmptyFunctionBlock:EmbeddingTestActivity.kt$EmbeddingTestActivity.&lt;no name provided&gt;${}</ID>
     <ID>EmptyFunctionBlock:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime${ }</ID>
     <ID>EmptyFunctionBlock:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;${}</ID>
     <ID>EmptyFunctionBlock:PowerAIEngineFactory.kt$PowerAIEngineFactory.&lt;no name provided&gt;${}</ID>
     <ID>ExplicitItLambdaParameter:AiResponsePage.kt${ _, it -&gt; it.id }</ID>
-    <ID>ExplicitItLambdaParameter:AnswerSections.kt${ it -&gt; Text(text = "- ${it.title}: ${it.content}", modifier = Modifier.padding(bottom = 4.dp)) }</ID>
-    <ID>ExplicitItLambdaParameter:KnowledgeDetailStructuredTable.kt${ it: TableCell -&gt; (it.col + it.colSpan - 1).toInt() }</ID>
-    <ID>ExplicitItLambdaParameter:KnowledgeDetailStructuredTable.kt${ it: TableCell -&gt; (it.row + it.rowSpan - 1).toInt() }</ID>
-    <ID>ForbiddenComment:HybridViewModel.kt$// TODO: 大部分业务逻辑已迁移至 UseCase（HybridQueryUseCase、HybridHistoryUseCase 等）</ID>
-    <ID>ForbiddenComment:JsonResourceImporter.kt$// TODO: 导入器逻辑已划分为解析 ([JsonResourceParser]) 和批次提交，</ID>
     <ID>ForbiddenComment:StreamingJsonResourceImporter.kt$// TODO: 本组件负责流JSON 导入。解析逻辑已抽取到</ID>
     <ID>FunctionOnlyReturningConstant:AIModule.kt$AIModule$@Provides @Singleton @Named("fts_top_bonus") fun provideFtsTopBonus(): Double</ID>
     <ID>FunctionOnlyReturningConstant:AIModule.kt$AIModule$@Provides @Singleton @Named("vector_index_path") fun provideVectorIndexPath(): String</ID>
-    <ID>FunctionOnlyReturningConstant:DatabaseUseCase.kt$DatabaseUseCase$suspend fun resolveDetailEntryNavigation(entityId: Long, query: String): com.example.powerai.domain.model.DetailEntryNavigation?</ID>
     <ID>FunctionOnlyReturningConstant:LlamaJni.kt$LlamaJni$fun safeNativeGetStateData(): ByteArray?</ID>
     <ID>FunctionOnlyReturningConstant:LlamaJni.kt$LlamaJni$fun safeNativeLoadStateData(stateData: ByteArray?): Boolean</ID>
-    <ID>FunctionParameterNaming:QuickAskScreen.kt$_onCategorySelected: (String) -&gt; Unit</ID>
-    <ID>FunctionParameterNaming:QuickAskScreen.kt$_selectedCategory: String</ID>
     <ID>ImplicitDefaultLocale:BlocksJsonUtils.kt$BlocksJsonUtils$String.format("%02x", b)</ID>
     <ID>ImplicitDefaultLocale:DeepSeekScreen.kt$String.format("%.2f", it)</ID>
     <ID>ImplicitDefaultLocale:ImportUtils.kt$ImportUtils$String.format("%08x", h)</ID>
-    <ID>ImplicitDefaultLocale:SettingsScreen.kt$String.format("%.2f", detailContentFontScale)</ID>
     <ID>ImplicitDefaultLocale:SmartDeepSeekProgressCard.kt$String.format("%.1f", elapsedMs / 1000.0)</ID>
     <ID>ImplicitDefaultLocale:SmartDeepSeekProgressCard.kt$String.format("%.1fs", elapsedMs / 1000.0)</ID>
     <ID>ImplicitDefaultLocale:SmartDeepSeekResponseArea.kt$String.format("%.2f", it)</ID>
-    <ID>InvalidPackageDeclaration:NativeAnnRetriever.kt$package com.example.powerai.engine.nativecore</ID>
-    <ID>InvalidPackageDeclaration:NativeModule.kt$package com.example.powerai.engine.nativecore.di</ID>
-    <ID>InvalidPackageDeclaration:NativeVectorRepository.kt$package com.example.powerai.engine.nativecore</ID>
     <ID>LongMethod:AiResponsePage.kt$@Composable fun AiResponsePage( aiUiState: AiUiState, aiText: String, onRetry: () -&gt; Unit, onCopy: (String) -&gt; Unit, highlight: String = "", askedAtMillis: Long? = null, sources: List&lt;String&gt; = emptyList(), references: List&lt;KnowledgeItem&gt; = emptyList(), onOpenEvidenceDetail: ((id: Long, blockIndex: Int?, blockId: String?) -&gt; Unit)? = null, showEmptyState: Boolean )</ID>
     <ID>LongMethod:AiStreamViewModel.kt$AiStreamViewModel$private fun askAiStream(userInput: String, webSearchEnabled: Boolean)</ID>
     <ID>LongMethod:BlocksParser.kt$BlocksParser$private fun parseBlockObject(obj: JsonObject): KnowledgeBlock</ID>
-    <ID>LongMethod:DatabaseHistoryDrawerContent.kt$@Composable internal fun DatabaseHistoryDrawerContent( groups: List&lt;DatabaseFileGroup&gt;, currentQuery: String, isLoading: Boolean, diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics, progress: com.example.powerai.core.data.importer.ImportProgress?, onSelectGroup: (String) -&gt; Unit, onRefreshDiagnostics: () -&gt; Unit, onEdgeAction: (() -&gt; Unit)? = null )</ID>
-    <ID>LongMethod:DatabaseImportDiagnosticsPanel.kt$@Composable internal fun DatabaseImportDiagnosticsPanel( diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics, progress: com.example.powerai.core.data.importer.ImportProgress?, onRefresh: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchSizeLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>LongMethod:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>LongMethod:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>LongMethod:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$suspend fun runGeneration( delegate: GenerationDelegate, engine: PowerAIEngine?, runToken: String, prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, startedAtEpochMs: Long, benchmarkKind: String? = null, benchmarkGroupId: String? = null, benchmarkOrder: Int? = null, prefixReuseHit: Boolean = false, stateSnapshotReuseHit: Boolean = false, stateSnapshotBytes: Int = 0 ): SmartGenerationRunResult</ID>
     <ID>LongMethod:DeepSeekScreen.kt$@Composable fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevicePath: String? = null)</ID>
-    <ID>LongMethod:DetailTableBlocks.kt$@Composable internal fun DetailTableBlockItem( block: TableBlock, highlight: String, fontScale: Float, subfolder: String? = null )</ID>
-    <ID>LongMethod:DocumentImportManager.kt$DocumentImportManager$suspend fun importAssetsIfNeed(assetRoot: String = "kb")</ID>
     <ID>LongMethod:EmbeddingWorker.kt$EmbeddingWorker$override suspend fun doWork(): Result</ID>
     <ID>LongMethod:GemmaInferenceEngine.kt$GemmaInferenceEngine$suspend fun infer( context: Context?, engine: Any?, prompt: PromptBuilder.Prompt, maxTokens: Int ): InferenceResult</ID>
-    <ID>LongMethod:HybridQueryUseCase.kt$HybridQueryUseCase$suspend fun localMode( question: String, rawQuestion: String, scope: kotlinx.coroutines.CoroutineScope, onGemmaResult: (String) -&gt; Unit ): LocalModeResult</ID>
-    <ID>LongMethod:JsonRepositoryScreen.kt$@Composable @Suppress("UNUSED_PARAMETER") fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonRepositoryViewModel)</ID>
-    <ID>LongMethod:KnowledgeDetailBasicBlocks.kt$@Composable internal fun DetailTextBlockItem( block: TextBlock, highlight: String, fontScale: Float, onAnchorClick: ((String) -&gt; Unit)? = null )</ID>
-    <ID>LongMethod:KnowledgeDetailBlocksContent.kt$@Composable internal fun KnowledgeDetailBlocksContent( displayParams: BlocksContentDisplayParams, resourceParams: BlocksDocumentResourceParams, visionParams: BlocksVisionBoostingParams = BlocksVisionBoostingParams(), validationParams: BlocksValidationParams = BlocksValidationParams(), interactionParams: BlocksInteractionParams = BlocksInteractionParams() )</ID>
-    <ID>LongMethod:KnowledgeDetailFallbackTableCompose.kt$@Composable internal fun MarkdownTableCompose( markdown: String, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:KnowledgeDetailScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun KnowledgeDetailScreen( navController: NavHostController, viewModel: KnowledgeDetailViewModel = hiltViewModel() )</ID>
-    <ID>LongMethod:KnowledgeDetailStructuredTable.kt$@Composable internal fun StructuredTableCompose( cells: List&lt;TableCell&gt;, fontScale: Float = 1f, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:KnowledgeDetailSuccessContent.kt$@Composable internal fun KnowledgeDetailSuccessContent( navController: NavHostController, entity: KnowledgeEntity, sourceFileName: String?, rawHighlight: String, entryNavigation: com.example.powerai.domain.model.DetailEntryNavigation?, initialBlockIndex: Int?, initialBlockId: String?, fontScale: Float, enableSwipeNavigation: Boolean, deepLogicValidationEnabled: Boolean, onToggleDeepLogicValidation: (Boolean) -&gt; Unit, visionMarkdownByBlockId: Map&lt;String, String&gt;, visionBoostingBlockId: String?, visionBoostErrorBlockId: String?, visionBoostErrorMessage: String?, onRequestVisionBoost: (entityId: Long, blockId: String, imageUri: String) -&gt; Unit, onApplyVisionBoostToOriginal: (entityId: Long, rawBlockId: String, cacheKey: String, clearCacheAfter: Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:KnowledgeItemCard.kt$@Composable fun KnowledgeItemCard( item: KnowledgeItem, highlight: String = "", highlightStyleOverride: SpanStyle? = null, metaLine: String? = null, isSelected: Boolean = false, expanded: Boolean = false, onClick: (() -&gt; Unit)? = null, onExpand: (() -&gt; Unit)? = null, previewMaxLines: Int = 4, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:KnowledgeResultList.kt$@Composable fun KnowledgeResultList( items: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String = "", metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onItemClick: ((KnowledgeItem) -&gt; Unit)? = null, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean = true, showPagination: Boolean = true, currentPage: Int = 1, totalPages: Int? = null, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean = true, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>LongMethod:LazyListScrollIndicator.kt$@Composable fun LazyListScrollIndicator( listState: LazyListState, modifier: Modifier = Modifier, thickness: Dp = 4.dp, touchWidth: Dp = 18.dp, minThumbHeight: Dp = 36.dp, topPadding: Dp = 96.dp, bottomPadding: Dp = 16.dp, anchors: List&lt;LazyListScrollAnchor&gt; = emptyList(), bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -&gt; String)? = null )</ID>
     <ID>LongMethod:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
-    <ID>LongMethod:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$fun build( query: String, assessment: LocalEvidenceAssessment, retrievals: List&lt;RetrievalResult&gt;, totalCandidateCount: Int, refinedCandidateCount: Int, discardedCandidates: List&lt;LocalDiscardedCandidate&gt; = emptyList() ): String</ID>
-    <ID>LongMethod:LocalResultsPage.kt$@Composable fun LocalResultsPage( localResults: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>LongMethod:LocalSearchArea.kt$@Composable fun LocalSearchArea( uiState: HybridUiState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, metaProvider: ((com.example.powerai.core.model.KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4, drawerState: androidx.compose.material3.DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
-    <ID>LongMethod:LocalSummaryCard.kt$@Composable internal fun LocalSummaryCard( state: LocalSummaryState, onCopy: (String) -&gt; Unit, onRetry: () -&gt; Unit, feedback: LocalAnswerFeedback = LocalAnswerFeedback.NONE, onThumbUp: () -&gt; Unit = {}, onThumbDown: () -&gt; Unit = {}, onCitationClick: ((Int) -&gt; Unit)? = null, citationCount: Int = 0, onShowSources: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:MainScreen.kt$@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class) @Composable fun MainScreen(navController: NavHostController, viewModel: HybridViewModel)</ID>
-    <ID>LongMethod:MainScreenTabContent.kt$@Composable internal fun DatabaseTabContent( navController: NavHostController, dbViewModel: DatabaseViewModel, dbDrawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
     <ID>LongMethod:MainSearchAndResultsArea.kt$@Composable @OptIn(ExperimentalMaterial3Api::class) fun MainSearchAndResultsArea( navController: NavHostController, uiState: HybridUiState, searchQuery: String, expandedItemId: Long? = null, selectedMode: DisplayMode, aiStreamViewModel: AiStreamViewModel, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onToggleExpand: (Long) -&gt; Unit = {}, onCopyToClipboard: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, onQueryChange: (String) -&gt; Unit, highlight: String, askedAtMillis: Long?, onOpenAiDetail: (String, String) -&gt; Unit = { _, _ -&gt; }, onRetry: () -&gt; Unit, currentPage: Int = 1, totalPages: Int = 1, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean, animateItems: Boolean = true, isPageLoading: Boolean = false, onRetryAi: () -&gt; Unit, drawerState: DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, onOpenDatabaseSource: (KnowledgeItem) -&gt; Unit = {}, sourceFileNameProvider: (KnowledgeItem) -&gt; String = { it.source }, onPrefetchSourceFileNames: (List&lt;KnowledgeItem&gt;) -&gt; Unit = {}, hybridViewModel: HybridViewModel, innerPadding: PaddingValues = PaddingValues() )</ID>
     <ID>LongMethod:NativeAnnRetriever.kt$NativeAnnRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
-    <ID>LongMethod:PdfPageItem.kt$@Composable internal fun PdfPageItem( pageIndex: Int, rendererProvider: () -&gt; PdfRenderer?, highlightBox: PdfBoundingBox? )</ID>
-    <ID>LongMethod:PdfViewerScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun PdfViewerScreen( navController: NavHostController, fileId: String, fileName: String, initialHighlightPage: Int? = null, initialHighlightBboxJson: String? = null )</ID>
-    <ID>LongMethod:ResponseBody.kt$@Composable internal fun ResponseBody( text: String, isLoading: Boolean, onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onThumbUp: (() -&gt; Unit)? = null, onThumbDown: (() -&gt; Unit)? = null, isThumbUpSelected: Boolean = false, isThumbDownSelected: Boolean = false, onShowSources: (() -&gt; Unit)? = null, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true, supplementalContent: (@Composable () -&gt; Unit)? = null )</ID>
-    <ID>LongMethod:ResponseCard.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun TypingAiResponseCard( userMessage: String? = null, text: String, isLoading: Boolean, askedAtMillis: Long? = null, sources: List&lt;String&gt; = emptyList(), onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true )</ID>
     <ID>LongMethod:RoomFtsRetriever.kt$RoomFtsRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
-    <ID>LongMethod:SmartDeepSeekAdvancedControls.kt$@Composable internal fun SmartDeepSeekAdvancedControls( uiState: DeepSeekUiState, searchQuery: String, onIntent: (DeepSeekIntent) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:SmartDeepSeekProgressCard.kt$@Composable internal fun SmartDeepSeekProgressCard( progressState: SmartProgressUiState, askedAtMillis: Long?, thinkingPreview: String, showAbort: Boolean, onAbort: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:SmartDeepSeekTabContent.kt$@Composable internal fun SmartDeepSeekTabContent( navController: NavHostController, hybridViewModel: HybridViewModel, drawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: PaddingValues = PaddingValues(), deepSeekViewModel: DeepSeekViewModel = hiltViewModel() )</ID>
-    <ID>LongMethod:SmartPage.kt$@Composable fun SmartPage( aiText: String, localResults: List&lt;KnowledgeItem&gt;, highlight: String, askedAtMillis: Long? = null, thinkingContent: (@Composable () -&gt; Unit)? = null, answerFooter: (@Composable () -&gt; Unit)? = null, answerRenderMarkdown: Boolean = true, topContentPadding: Dp = 64.dp, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, showEmptyState: Boolean, isPageLoading: Boolean = false, initialFirstVisibleItemIndex: Int = 0, initialFirstVisibleItemScrollOffset: Int = 0, onListPositionChange: (index: Int, offset: Int) -&gt; Unit = { _, _ -&gt; }, innerPadding: PaddingValues = PaddingValues(0.dp) )</ID>
+    <ID>LongMethod:SmartDeepSeekAdvancedControls.kt$@Composable fun SmartDeepSeekAdvancedControls( uiState: DeepSeekUiState, searchQuery: String, onIntent: (DeepSeekIntent) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:SmartDeepSeekProgressCard.kt$@Composable fun SmartDeepSeekProgressCard( progressState: SmartProgressUiState, askedAtMillis: Long?, thinkingPreview: String, showAbort: Boolean, onAbort: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:SmartDeepSeekTabContent.kt$@Composable fun SmartDeepSeekTabContent( navController: NavHostController, hybridViewModel: HybridViewModel, drawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: PaddingValues = PaddingValues(), deepSeekViewModel: DeepSeekViewModel = hiltViewModel() )</ID>
     <ID>LongMethod:SmartSearchArea.kt$@Composable fun SmartSearchArea( uiState: HybridUiState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, askedAtMillis: Long? = null, metaProvider: ((com.example.powerai.core.model.KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, onOpenAiDetail: (title: String, content: String) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4, drawerState: androidx.compose.material3.DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
-    <ID>LongMethod:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$fun importFromJson( inputStream: InputStream, batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE, trace: ((String) -&gt; Unit)? = null, fallbackFileName: String? = null, fallbackFileId: String? = null ): Flow&lt;ImportProgress&gt;</ID>
     <ID>LongParameterList:AiChatScaffold.kt$( sessions: List&lt;ChatSession&gt;, selectedSessionId: Long?, currentTurnId: Long?, isStreaming: Boolean, webSearchEnabled: Boolean, onWebSearchEnabledChange: (Boolean) -&gt; Unit, input: String, onInputChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onSearch: (String) -&gt; Unit, onRetry: () -&gt; Unit, onCopy: (String) -&gt; Unit, onSelectSession: (Long) -&gt; Unit, onNewSession: () -&gt; Unit, onInputFocusChanged: (Boolean) -&gt; Unit, drawerState: DrawerState, turnRetryAllowed: Map&lt;Long, Boolean&gt; = emptyMap(), showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
     <ID>LongParameterList:AiResponsePage.kt$( aiUiState: AiUiState, aiText: String, onRetry: () -&gt; Unit, onCopy: (String) -&gt; Unit, highlight: String = "", askedAtMillis: Long? = null, sources: List&lt;String&gt; = emptyList(), references: List&lt;KnowledgeItem&gt; = emptyList(), onOpenEvidenceDetail: ((id: Long, blockIndex: Int?, blockId: String?) -&gt; Unit)? = null, showEmptyState: Boolean )</ID>
     <ID>LongParameterList:AiSearchArea.kt$( aiStreamViewModel: AiStreamViewModel, webSearchEnabled: Boolean, searchQuery: String, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onSearch: () -&gt; Unit, onRetryAi: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, drawerState: DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
@@ -173,88 +91,34 @@
     <ID>LongParameterList:ChatContent.kt$( sessions: List&lt;ChatSession&gt;, selectedSessionId: Long?, currentTurnId: Long?, isStreaming: Boolean, webSearchEnabled: Boolean, onWebSearchEnabledChange: (Boolean) -&gt; Unit, input: String, onInputChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onSearch: (String) -&gt; Unit, onRetry: () -&gt; Unit, onCopy: (String) -&gt; Unit, turnRetryAllowed: Map&lt;Long, Boolean&gt;, onInputFocusChanged: (Boolean) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, )</ID>
     <ID>LongParameterList:ChatInputBar.kt$( modifier: Modifier = Modifier, input: String, isActive: Boolean, webSearchEnabled: Boolean, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onInputChange: (String) -&gt; Unit, onSearch: (String) -&gt; Unit, onClear: () -&gt; Unit, onNewSession: () -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, onInputFocusChanged: (Boolean) -&gt; Unit )</ID>
     <ID>LongParameterList:ChatList.kt$( turns: List&lt;ChatTurn&gt;, currentTurnId: Long?, isStreaming: Boolean, turnRetryAllowed: Map&lt;Long, Boolean&gt;, inputActive: Boolean, onInputChange: (String) -&gt; Unit, onCopy: (String) -&gt; Unit, onRetry: () -&gt; Unit )</ID>
-    <ID>LongParameterList:ContextualSearchTextBuilder.kt$ContextualSearchTextBuilder$( title: String, source: String, category: String, pageNumber: Int?, keywords: List&lt;String&gt;, plainText: String )</ID>
-    <ID>LongParameterList:DatabaseContent.kt$( group: DatabaseFileGroup, isCollapsed: Boolean, isSearching: Boolean, trimmedSearchQuery: String, searchQuery: String, selectedItemId: Long?, onToggleGroup: (String) -&gt; Unit, onItemClick: (KnowledgeItem) -&gt; Unit, )</ID>
-    <ID>LongParameterList:DatabaseContent.kt$( inner: PaddingValues, uiState: DatabaseUiState, listState: LazyListState, groupAnchors: List&lt;LazyListScrollAnchor&gt;, searchQuery: String, showTopSearchBar: Boolean, bottomInset: Dp, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, onToggleGroup: (String) -&gt; Unit, onItemClick: (KnowledgeItem) -&gt; Unit, )</ID>
-    <ID>LongParameterList:DatabaseContent.kt$( uiState: DatabaseUiState, listState: LazyListState, groupAnchors: List&lt;LazyListScrollAnchor&gt;, searchQuery: String, trimmedSearchQuery: String, isSearching: Boolean, bottomInset: Dp, onToggleGroup: (String) -&gt; Unit, onItemClick: (KnowledgeItem) -&gt; Unit, )</ID>
-    <ID>LongParameterList:DatabaseFocusEffects.kt$( uiState: DatabaseUiState, collapsedGroupKeys: Set&lt;String&gt;, isSearching: Boolean, searchQuery: String, focusTarget: DatabaseFocusTarget?, selectedItemId: Long?, viewModel: DatabaseViewModel, )</ID>
-    <ID>LongParameterList:DatabaseFocusEffects.kt$( uiState: DatabaseUiState, listState: LazyListState, collapsedGroupKeys: Set&lt;String&gt;, isSearching: Boolean, searchQuery: String, viewModel: DatabaseViewModel, )</ID>
-    <ID>LongParameterList:DatabaseHistoryDrawerContent.kt$( groups: List&lt;DatabaseFileGroup&gt;, currentQuery: String, isLoading: Boolean, diagnostics: com.example.powerai.data.importer.AssetImportDiagnostics, progress: com.example.powerai.core.data.importer.ImportProgress?, onSelectGroup: (String) -&gt; Unit, onRefreshDiagnostics: () -&gt; Unit, onEdgeAction: (() -&gt; Unit)? = null )</ID>
-    <ID>LongParameterList:DatabaseScreen.kt$( navController: NavHostController, viewModel: DatabaseViewModel = hiltViewModel(), searchQuery: String = "", onQueryChange: (String) -&gt; Unit = {}, onSearch: () -&gt; Unit = {}, onClear: () -&gt; Unit = {}, showTopSearchBar: Boolean = true, showTopBar: Boolean = false, isActive: Boolean = true, innerPadding: PaddingValues = PaddingValues(), )</ID>
     <ID>LongParameterList:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator.BenchmarkDelegate$( prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, benchmarkKind: String, benchmarkGroupId: String, benchmarkOrder: Int, prefixReuseHit: Boolean, stateSnapshotHit: Boolean, stateSnapshotBytes: Int )</ID>
     <ID>LongParameterList:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$( delegate: GenerationDelegate, engine: PowerAIEngine?, runToken: String, prompt: String, maxTokens: Int, answerMode: SmartAnswerMode, sessionId: String, query: String, startedAtEpochMs: Long, benchmarkKind: String? = null, benchmarkGroupId: String? = null, benchmarkOrder: Int? = null, prefixReuseHit: Boolean = false, stateSnapshotReuseHit: Boolean = false, stateSnapshotBytes: Int = 0 )</ID>
     <ID>LongParameterList:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$( delegate: GenerationDelegate, sessionId: String, query: String, answerMode: SmartAnswerMode, startedAtEpochMs: Long, status: String, errorMessage: String?, benchmarkKind: String?, benchmarkGroupId: String?, benchmarkOrder: Int?, prefixReuseHit: Boolean, stateSnapshotReuseHit: Boolean, stateSnapshotBytes: Int, firstTokenLatencyMs: Long? = null, answerStartLatencyMs: Long? = null, decodeCharsPerSecond: Double? = null, streamedChunkCount: Int = 0, rawOutputLength: Int = 0, finalAnswerLength: Int = 0 )</ID>
     <ID>LongParameterList:DeepSeekPromptManager.kt$DeepSeekPromptManager$( normalizedQuestion: String, answerMode: SmartAnswerMode, prefixReuseEnabled: Boolean, backendLabel: String, provider: NativeResourceProvider, onProgress: (SmartProgressPhase, String, String) -&gt; Unit )</ID>
     <ID>LongParameterList:DeepSeekStateSnapshotHelper.kt$DeepSeekStateSnapshotHelper$( promptPrefixKey: String, backendMode: SmartBackendMode, threadPreset: SmartThreadPreset, batchSizePreset: SmartBatchSizePreset, batchThreadPreset: SmartBatchThreadPreset, prefixReuseEnabled: Boolean )</ID>
     <ID>LongParameterList:DeepSeekViewModel.kt$DeepSeekViewModel$( @ApplicationContext private val context: Context, private val vectorRepository: VectorRepository, private val knowledgeRepository: KnowledgeRepository, private val retrievalFusionUseCase: RetrievalFusionUseCase, private val promptManager: DeepSeekPromptManager, private val sessionManager: DeepSeekSessionManager, private val snapshotHelper: DeepSeekStateSnapshotHelper, private val generationOrchestrator: DeepSeekGenerationOrchestrator, private val benchmarkOrchestrator: DeepSeekBenchmarkOrchestrator )</ID>
-    <ID>LongParameterList:DetailCompositeBlocks.kt$( text: String, images: List&lt;ImageBlock&gt;, highlight: String, fontScale: Float, subfolder: String? = null, bottom: androidx.compose.ui.unit.Dp = 12.dp )</ID>
-    <ID>LongParameterList:DocumentImportManager.kt$DocumentImportManager$( private val context: Context, private val repo: KnowledgeRepository, private val dao: KnowledgeDao, private val scanner: AssetImportScanner, private val observability: com.example.powerai.core.model.ObservabilityService, private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO + Job()), private val parserFactory: FileParserFactoryType = FileParserFactory )</ID>
-    <ID>LongParameterList:DrawerCardComponents.kt$( icon: ImageVector, title: String, subtitle: String, footer: String? = null, isSelected: Boolean = false, accentColor: Color = MaterialTheme.colorScheme.onSurfaceVariant, onClick: () -&gt; Unit )</ID>
     <ID>LongParameterList:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$( scope: CoroutineScope, question: String? = null, retrievals: List&lt;RetrievalResult&gt;? = null, prompt: PromptBuilder.Prompt? = null, gemma: GemmaLocalInference, maxTokens: Int = 180, onResult: (String) -&gt; Unit )</ID>
     <ID>LongParameterList:GemmaResponseLogger.kt$GemmaResponseLogger$( context: Context?, contextEntries: List&lt;SparseSearcher.SafetyEntry&gt;?, rawText: String, lastResponseObj: Any?, tokenIdsCaptured: Any?, finishReasonVal: String? )</ID>
-    <ID>LongParameterList:HybridAiStreamingClient.kt$HybridAiStreamingClient$( question: String, referenceText: String, apiKey: String, baseUrl: String, model: String, onPartial: (String) -&gt; Unit )</ID>
-    <ID>LongParameterList:HybridLogic.kt$HybridLogic$( scope: CoroutineScope, prompt: PromptBuilder.Prompt, gemma: GemmaLocalInference, maxTokens: Int = 180, timeoutMs: Long = 45_000L, onResult: (String) -&gt; Unit )</ID>
-    <ID>LongParameterList:HybridUtils.kt$HybridUtils$( scope: kotlinx.coroutines.CoroutineScope, question: String? = null, retrievals: List&lt;com.example.powerai.core.model.RetrievalResult&gt;? = null, prompt: PromptBuilder.Prompt? = null, gemma: com.example.powerai.engine.ai.GemmaLocalInference, maxTokens: Int = 180, onResult: (String) -&gt; Unit )</ID>
-    <ID>LongParameterList:HybridViewModel.kt$HybridViewModel$( private val useCase: HybridQueryUseCase, private val historyUseCase: com.example.powerai.domain.usecase.HybridHistoryUseCase, private val localAnswerFeedbackStore: LocalAnswerFeedbackStore, @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context, private val importer: com.example.powerai.data.importer.DocumentImportManager, private val savedStateHandle: SavedStateHandle, @javax.inject.Named("io") private val ioDispatcher: kotlinx.coroutines.CoroutineDispatcher = Dispatchers.IO )</ID>
     <ID>LongParameterList:ImportFormatHandler.kt$ImportFormatHandler$( uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int, onBatch: suspend (List&lt;KnowledgeEntity&gt;) -&gt; Unit, onProgress: (ImportProgress) -&gt; Unit )</ID>
-    <ID>LongParameterList:JsonResourceImporter.kt$JsonResourceImporter$( fileId: String, fileName: String, totalItems: Long?, importedItems: Long, total: Long, status: String, forcePercent: Int? = null )</ID>
-    <ID>LongParameterList:KnowledgeDetailBlocksContent.kt$( entityId: Long, block: KnowledgeBlock, pageNumber: Int?, imageUri: String, pdfRef: PdfSourceRef.Ref?, deepLogicValidationEnabled: Boolean, onToggleDeepLogicValidation: (Boolean) -&gt; Unit, visionMarkdown: String?, isVisionBoosting: Boolean, visionBoostErrorMessage: String?, onRequestVisionBoost: (blockId: String, imageUri: String) -&gt; Unit, onApplyToOriginal: (clearCacheAfter: Boolean) -&gt; Unit, onOpenPdfAtBox: (pageNumber: Int?, bboxJson: String?) -&gt; Unit, onDismiss: () -&gt; Unit )</ID>
-    <ID>LongParameterList:KnowledgeDetailSuccessContent.kt$( navController: NavHostController, entity: KnowledgeEntity, sourceFileName: String?, rawHighlight: String, entryNavigation: com.example.powerai.domain.model.DetailEntryNavigation?, initialBlockIndex: Int?, initialBlockId: String?, fontScale: Float, enableSwipeNavigation: Boolean, deepLogicValidationEnabled: Boolean, onToggleDeepLogicValidation: (Boolean) -&gt; Unit, visionMarkdownByBlockId: Map&lt;String, String&gt;, visionBoostingBlockId: String?, visionBoostErrorBlockId: String?, visionBoostErrorMessage: String?, onRequestVisionBoost: (entityId: Long, blockId: String, imageUri: String) -&gt; Unit, onApplyVisionBoostToOriginal: (entityId: Long, rawBlockId: String, cacheKey: String, clearCacheAfter: Boolean) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$( context: Context, dao: KnowledgeDao, gson: Gson, storageDir: () -&gt; File, uri: Uri, contentResolver: ContentResolver, displayName: String, batchSize: Int )</ID>
-    <ID>LongParameterList:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$( dao: KnowledgeDao, batch: List&lt;KnowledgeEntity&gt;, fileName: String, tempEntries: MutableList&lt;KnowledgeEntry&gt;, counters: ImportCounters, emit: suspend (ImportProgress) -&gt; Unit )</ID>
-    <ID>LongParameterList:KnowledgeItemCard.kt$( item: KnowledgeItem, highlight: String = "", highlightStyleOverride: SpanStyle? = null, metaLine: String? = null, isSelected: Boolean = false, expanded: Boolean = false, onClick: (() -&gt; Unit)? = null, onExpand: (() -&gt; Unit)? = null, previewMaxLines: Int = 4, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:KnowledgeResultList.kt$( items: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String = "", metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onItemClick: ((KnowledgeItem) -&gt; Unit)? = null, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean = true, showPagination: Boolean = true, currentPage: Int = 1, totalPages: Int? = null, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean = true, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>LongParameterList:LazyListScrollIndicator.kt$( listState: LazyListState, modifier: Modifier = Modifier, thickness: Dp = 4.dp, touchWidth: Dp = 18.dp, minThumbHeight: Dp = 36.dp, topPadding: Dp = 96.dp, bottomPadding: Dp = 16.dp, anchors: List&lt;LazyListScrollAnchor&gt; = emptyList(), bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -&gt; String)? = null )</ID>
     <ID>LongParameterList:LlamaJniMetrics.kt$LlamaJniMetrics$( now: Long, metrics: GenerationMetrics, lastChunkAtMs: Long, lastStopRequestedAtMs: Long, finishSequence: Long, postStopChunkCount: Int )</ID>
     <ID>LongParameterList:LlamaJniMetrics.kt$LlamaJniMetrics$( now: Long, phase: String, lastStreamRequestedAtMs: Long, lastStreamExecutorStartedAtMs: Long, lastStreamInvokeStartedAtMs: Long, lastStreamInvokeReturnedAtMs: Long )</ID>
-    <ID>LongParameterList:LocalAnswerPlanner.kt$LocalAnswerPlanner$( intent: LocalAnswerIntent, decision: LocalAnswerDecision, exactMatchCount: Int, strongEvidenceCount: Int, aggregateScore: Float, distinctSourceCount: Int )</ID>
-    <ID>LongParameterList:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$( query: String, assessment: LocalEvidenceAssessment, retrievals: List&lt;RetrievalResult&gt;, totalCandidateCount: Int, refinedCandidateCount: Int, discardedCandidates: List&lt;LocalDiscardedCandidate&gt; = emptyList() )</ID>
-    <ID>LongParameterList:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, normalized: String, anchors: List&lt;String&gt;, hasAnchor: Boolean, questionStyle: Boolean, qaStyle: Boolean, noisy: Boolean, tokenCoverage: Float, contextualSignal: Float )</ID>
-    <ID>LongParameterList:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, tokenCoverage: Float, contextualSignal: Float, anchorHits: Int, hasAnchor: Boolean, noisy: Boolean, questionStyle: Boolean, qaStyle: Boolean )</ID>
-    <ID>LongParameterList:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$( intent: QueryIntent, retrievalQueries: List&lt;String&gt;, title: String, source: String, article: String, sentence: String, contextualWindow: String, baseScore: Float )</ID>
-    <ID>LongParameterList:LocalResultsPage.kt$( localResults: List&lt;KnowledgeItem&gt;, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, topContent: (@Composable () -&gt; Unit)? = null, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4 )</ID>
-    <ID>LongParameterList:LocalSearchArea.kt$( uiState: HybridUiState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, metaProvider: ((com.example.powerai.core.model.KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4, drawerState: androidx.compose.material3.DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
-    <ID>LongParameterList:LocalSummaryCard.kt$( state: LocalSummaryState, onCopy: (String) -&gt; Unit, onRetry: () -&gt; Unit, feedback: LocalAnswerFeedback = LocalAnswerFeedback.NONE, onThumbUp: () -&gt; Unit = {}, onThumbDown: () -&gt; Unit = {}, onCitationClick: ((Int) -&gt; Unit)? = null, citationCount: Int = 0, onShowSources: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:LocalSummaryStateFactory.kt$LocalSummaryStateFactory$( query: String, assessment: LocalEvidenceAssessment, retrievalCount: Int, totalEvidenceCount: Int, gemmaRunning: Boolean, diagnosticSnapshot: LocalDiagnosticSnapshot = LocalDiagnosticSnapshot(), diagnostics: String = "", extractiveAnswer: LocalExtractiveAnswer? = null )</ID>
-    <ID>LongParameterList:MagicWindowComponents.kt$( block: KnowledgeBlock, pageNumber: Int?, pdfRef: com.example.powerai.util.PdfSourceRef.Ref?, deepLogicValidationEnabled: Boolean, onToggleDeepLogicValidation: (Boolean) -&gt; Unit, visionMarkdown: String?, isVisionBoosting: Boolean, onRequestVisionBoost: (blockId: String, imageUri: String) -&gt; Unit, onApplyToOriginal: (clearCacheAfter: Boolean) -&gt; Unit, onOpenPdfAtBox: (pageNumber: Int?, bboxJson: String?) -&gt; Unit, imageUri: String, clearCacheAfterApply: Boolean, onClearCacheAfterApplyChanged: (Boolean) -&gt; Unit, onDismiss: () -&gt; Unit )</ID>
-    <ID>LongParameterList:MagicWindowComponents.kt$( block: TableBlock, deepLogicValidationEnabled: Boolean, onToggleDeepLogicValidation: (Boolean) -&gt; Unit, visionMarkdown: String?, isVisionBoosting: Boolean, onRequestVisionBoost: (blockId: String, imageUri: String) -&gt; Unit, imageUri: String, clearCacheAfterApply: Boolean, onClearCacheAfterApplyChanged: (Boolean) -&gt; Unit, onApplyToOriginal: (clearCacheAfter: Boolean) -&gt; Unit )</ID>
-    <ID>LongParameterList:MainPager.kt$( pagerState: PagerState, coroutineScope: CoroutineScope, isPagerScrolling: Boolean, isPageChanging: Boolean, effectiveHighlight: String, uiState: HybridUiState, localResults: List&lt;KnowledgeItem&gt;, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, aiUiState: AiUiState, aiResult: String, onRetryAi: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, onOpenDetailRoute: (route: String) -&gt; Unit, onOpenAiDetail: (title: String, content: String, query: String) -&gt; Unit, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:MainScreenTabContent.kt$( navController: NavHostController, dbViewModel: DatabaseViewModel, dbDrawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
-    <ID>LongParameterList:MainScreenTabContent.kt$( navController: NavHostController, uiState: HybridUiState, searchQuery: String, selectedMode: DisplayMode, aiStreamViewModel: AiStreamViewModel, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, onQueryChange: (String) -&gt; Unit, onRetry: () -&gt; Unit, drawerState: DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, onOpenDatabaseSource: (KnowledgeItem) -&gt; Unit, sourceFileNameProvider: (KnowledgeItem) -&gt; String, onPrefetchSourceFileNames: (List&lt;KnowledgeItem&gt;) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
     <ID>LongParameterList:MainSearchAndResultsArea.kt$( navController: NavHostController, uiState: HybridUiState, searchQuery: String, expandedItemId: Long? = null, selectedMode: DisplayMode, aiStreamViewModel: AiStreamViewModel, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onToggleExpand: (Long) -&gt; Unit = {}, onCopyToClipboard: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, onQueryChange: (String) -&gt; Unit, highlight: String, askedAtMillis: Long?, onOpenAiDetail: (String, String) -&gt; Unit = { _, _ -&gt; }, onRetry: () -&gt; Unit, currentPage: Int = 1, totalPages: Int = 1, hasPrev: Boolean = false, hasNext: Boolean = false, onPrev: () -&gt; Unit = {}, onNext: () -&gt; Unit = {}, showEmptyState: Boolean, animateItems: Boolean = true, isPageLoading: Boolean = false, onRetryAi: () -&gt; Unit, drawerState: DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, onOpenDatabaseSource: (KnowledgeItem) -&gt; Unit = {}, sourceFileNameProvider: (KnowledgeItem) -&gt; String = { it.source }, onPrefetchSourceFileNames: (List&lt;KnowledgeItem&gt;) -&gt; Unit = {}, hybridViewModel: HybridViewModel, innerPadding: PaddingValues = PaddingValues() )</ID>
-    <ID>LongParameterList:PaginationFooter.kt$( currentPage: Int, totalPages: Int? = null, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit )</ID>
     <ID>LongParameterList:PowerAIEngineManager.kt$PowerAIEngineManager$( type: PowerAIEngineFactory.EngineType, provider: NativeResourceProvider, vectorRepo: com.example.powerai.core.repository.VectorRepository, knowledgeRepo: com.example.powerai.core.repository.KnowledgeRepository, modelPath: String, useGpu: Boolean = false )</ID>
-    <ID>LongParameterList:QuickAskScreen.kt$( categories: List&lt;String&gt; = listOf("安规", "架空线路", "电缆", "带电作业"), items: List&lt;KnowledgeItem&gt;, _onCategorySelected: (String) -&gt; Unit, _selectedCategory: String, searchQuery: String, onSearchQueryChange: (String) -&gt; Unit )</ID>
-    <ID>LongParameterList:ResponseBody.kt$( text: String, isLoading: Boolean, onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onThumbUp: (() -&gt; Unit)? = null, onThumbDown: (() -&gt; Unit)? = null, isThumbUpSelected: Boolean = false, isThumbDownSelected: Boolean = false, onShowSources: (() -&gt; Unit)? = null, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true, supplementalContent: (@Composable () -&gt; Unit)? = null )</ID>
-    <ID>LongParameterList:ResponseBodyComponents.kt$( text: String, onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onThumbUp: (() -&gt; Unit)? = null, onThumbDown: (() -&gt; Unit)? = null, isThumbUpSelected: Boolean = false, isThumbDownSelected: Boolean = false, onShowSources: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:ResponseCard.kt$( userMessage: String? = null, text: String, isLoading: Boolean, askedAtMillis: Long? = null, sources: List&lt;String&gt; = emptyList(), onCopy: () -&gt; Unit, onRetry: () -&gt; Unit, allowRetry: Boolean = false, onCitationClick: ((Int) -&gt; Unit)? = null, renderMarkdownWhenPossible: Boolean = true )</ID>
-    <ID>LongParameterList:SearchBar.kt$( value: String, onValueChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, label: String = "搜索知识", placeholder: String? = null, leading: (@Composable () -&gt; Unit)? = null, suffix: (@Composable () -&gt; Unit)? = null, trailing: (@Composable () -&gt; Unit)? = null, modifier: Modifier = Modifier, onFocusChanged: ((Boolean) -&gt; Unit)? = null, autoFocus: Boolean = false )</ID>
-    <ID>LongParameterList:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$( title: String, source: String, category: String, pageNumber: Int?, keywords: List&lt;String&gt;, plainText: String, blocksJson: String? )</ID>
+    <ID>LongParameterList:SearchTabContent.kt$( navController: NavHostController, uiState: HybridUiState, searchQuery: String, selectedMode: DisplayMode, aiStreamViewModel: AiStreamViewModel, onWebSearchEnabledChange: (Boolean) -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, onQueryChange: (String) -&gt; Unit, onRetry: () -&gt; Unit, drawerState: DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, onOpenDatabaseSource: (KnowledgeItem) -&gt; Unit, sourceFileNameProvider: (KnowledgeItem) -&gt; String, onPrefetchSourceFileNames: (List&lt;KnowledgeItem&gt;) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues(), )</ID>
     <ID>LongParameterList:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$( provider: NativeResourceProvider?, index: Int, rawChunk: String, visibleChunk: String, inThinkBlock: Boolean, pendingTagFragment: String, currentResultLength: Int )</ID>
     <ID>LongParameterList:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$( provider: NativeResourceProvider?, rawOutputLength: Int, finalAnswerLength: Int, streamedChunkCount: Int, firstTokenLatencyMs: Long?, decodeCharsPerSecond: Double? )</ID>
     <ID>LongParameterList:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$( provider: NativeResourceProvider?, sessionId: String, query: String, answerMode: String, backendMode: String, threadMode: String )</ID>
     <ID>LongParameterList:SmartDeepSeekProgressCard.kt$( progressState: SmartProgressUiState, askedAtMillis: Long?, thinkingPreview: String, showAbort: Boolean, onAbort: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:SmartDeepSeekTabContent.kt$( navController: NavHostController, hybridViewModel: HybridViewModel, drawerState: DrawerState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onClear: () -&gt; Unit, onCopyToClipboard: (String) -&gt; Unit, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, innerPadding: PaddingValues = PaddingValues(), deepSeekViewModel: DeepSeekViewModel = hiltViewModel() )</ID>
-    <ID>LongParameterList:SmartPage.kt$( aiText: String, localResults: List&lt;KnowledgeItem&gt;, highlight: String, askedAtMillis: Long? = null, thinkingContent: (@Composable () -&gt; Unit)? = null, answerFooter: (@Composable () -&gt; Unit)? = null, answerRenderMarkdown: Boolean = true, topContentPadding: Dp = 64.dp, metaProvider: ((KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, showEmptyState: Boolean, isPageLoading: Boolean = false, initialFirstVisibleItemIndex: Int = 0, initialFirstVisibleItemScrollOffset: Int = 0, onListPositionChange: (index: Int, offset: Int) -&gt; Unit = { _, _ -&gt; }, innerPadding: PaddingValues = PaddingValues(0.dp) )</ID>
     <ID>LongParameterList:SmartSearchArea.kt$( uiState: HybridUiState, searchQuery: String, onQueryChange: (String) -&gt; Unit, onSearch: () -&gt; Unit, onClear: () -&gt; Unit, expandedItemId: Long?, onToggleExpand: (Long) -&gt; Unit, highlight: String, askedAtMillis: Long? = null, metaProvider: ((com.example.powerai.core.model.KnowledgeItem) -&gt; String?)? = null, onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, highlight: String?) -&gt; Unit, onOpenAiDetail: (title: String, content: String) -&gt; Unit, onRetry: () -&gt; Unit = {}, onCopy: (String) -&gt; Unit = {}, currentPage: Int, totalPages: Int, hasPrev: Boolean, hasNext: Boolean, onPrev: () -&gt; Unit, onNext: () -&gt; Unit, showEmptyState: Boolean, animateItems: Boolean, isPageLoading: Boolean = false, pageSize: Int = 4, drawerState: androidx.compose.material3.DrawerState, showSearchBar: Boolean, onShowSearchBarChange: (Boolean) -&gt; Unit, hybridViewModel: HybridViewModel, innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues() )</ID>
-    <ID>LoopWithTooManyJumpStatements:BingWebSearchClient.kt$BingWebSearchClient$for</ID>
     <ID>LoopWithTooManyJumpStatements:BlocksElementExtractors.kt$BlocksElementExtractors$for</ID>
     <ID>LoopWithTooManyJumpStatements:BlocksJsonPatcher.kt$BlocksJsonPatcher$for</ID>
     <ID>LoopWithTooManyJumpStatements:GemmaReflectionHelper.kt$GemmaReflectionHelper$for</ID>
     <ID>LoopWithTooManyJumpStatements:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$for</ID>
-    <ID>LoopWithTooManyJumpStatements:HybridAiStreamingClient.kt$HybridAiStreamingClient$while</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeDetailFallbackTableCompose.kt$for</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownChunking.kt$while</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownTableNormalize.kt$while</ID>
-    <ID>LoopWithTooManyJumpStatements:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$while</ID>
     <ID>LoopWithTooManyJumpStatements:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$for</ID>
     <ID>LoopWithTooManyJumpStatements:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$while</ID>
-    <ID>LoopWithTooManyJumpStatements:MarkdownTextView.kt$while</ID>
-    <ID>LoopWithTooManyJumpStatements:PdfFigureListViewModel.kt$PdfFigureListViewModel$for</ID>
     <ID>LoopWithTooManyJumpStatements:PdfTextLineHeuristics.kt$PdfTextLineHeuristics$for</ID>
     <ID>LoopWithTooManyJumpStatements:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$for</ID>
-    <ID>LoopWithTooManyJumpStatements:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$while</ID>
-    <ID>LoopWithTooManyJumpStatements:TextHighlightUtils.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$for</ID>
     <ID>MagicNumber:AiHistoryDrawerContent.kt$0xFF6C5B7B</ID>
     <ID>MagicNumber:AiHistoryDrawerContent.kt$40</ID>
@@ -266,18 +130,8 @@
     <ID>MagicNumber:AiStreamUseCase.kt$AiStreamUseCase$8</ID>
     <ID>MagicNumber:AiStreamViewModel.kt$AiStreamViewModel$320L</ID>
     <ID>MagicNumber:AiStreamingService.kt$AiStreamingService$30</ID>
-    <ID>MagicNumber:AndroidGemmaModelLoader.kt$AndroidGemmaModelLoader$512</ID>
-    <ID>MagicNumber:AnimatedHelpers.kt$200</ID>
-    <ID>MagicNumber:AnimatedHelpers.kt$300</ID>
-    <ID>MagicNumber:AnswerEval.kt$1e-9</ID>
-    <ID>MagicNumber:AskAiUseCase.kt$AskAiUseCase$200</ID>
-    <ID>MagicNumber:AskAiUseCase.kt$AskAiUseCase$5</ID>
     <ID>MagicNumber:AssetImportScanner.kt$AssetImportScanner$256</ID>
     <ID>MagicNumber:AssetPreloadWorker.kt$AssetPreloadWorker$2000</ID>
-    <ID>MagicNumber:BingWebSearchClient.kt$BingWebSearchClient$10</ID>
-    <ID>MagicNumber:BingWebSearchClient.kt$BingWebSearchClient$15</ID>
-    <ID>MagicNumber:BingWebSearchClient.kt$BingWebSearchClient$20</ID>
-    <ID>MagicNumber:BingWebSearchClient.kt$BingWebSearchClient$30</ID>
     <ID>MagicNumber:BlocksIdGenerator.kt$BlocksIdGenerator$12</ID>
     <ID>MagicNumber:BlocksParser.kt$BlocksParser$12</ID>
     <ID>MagicNumber:BlocksTextExtractor.kt$BlocksTextExtractor$12</ID>
@@ -298,19 +152,8 @@
     <ID>MagicNumber:Color.kt$0xFFD0BCFF</ID>
     <ID>MagicNumber:Color.kt$0xFFEFB8C8</ID>
     <ID>MagicNumber:Color.kt$0xFFFFF59D</ID>
-    <ID>MagicNumber:DatabaseHistoryDrawerContent.kt$0xFF7A5C00</ID>
-    <ID>MagicNumber:DatabaseImportDiagnosticsPanel.kt$0xFF1B5E20</ID>
-    <ID>MagicNumber:DatabaseImportDiagnosticsPanel.kt$0xFF7A5C00</ID>
-    <ID>MagicNumber:DatabaseImportDiagnosticsPanel.kt$0xFF8A5A00</ID>
-    <ID>MagicNumber:DatabaseImportDiagnosticsPanel.kt$0xFFB3261E</ID>
-    <ID>MagicNumber:DatabaseImportDiagnosticsPanel.kt$0xFFF5F1E8</ID>
     <ID>MagicNumber:DatabaseModule.kt$DatabaseModule.&lt;no name provided&gt;$4</ID>
     <ID>MagicNumber:DatabaseModule.kt$DatabaseModule.&lt;no name provided&gt;$5</ID>
-    <ID>MagicNumber:DatabaseNavigation.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:DatabaseScreen.kt$3</ID>
-    <ID>MagicNumber:DatabaseUseCase.kt$DatabaseUseCase$50</ID>
-    <ID>MagicNumber:DatabaseUseCase.kt$DatabaseUseCase$8</ID>
-    <ID>MagicNumber:DatabaseViewModel.kt$DatabaseViewModel$50</ID>
     <ID>MagicNumber:DeepSeekEngine.kt$DeepSeekEngine$1200</ID>
     <ID>MagicNumber:DeepSeekEngine.kt$DeepSeekEngine$128</ID>
     <ID>MagicNumber:DeepSeekEngine.kt$DeepSeekEngine$1800</ID>
@@ -343,21 +186,11 @@
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$160</ID>
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$50</ID>
     <ID>MagicNumber:DeepSeekViewModel.kt$DeepSeekViewModel$64</ID>
-    <ID>MagicNumber:DetailCompositeBlocks.kt$14f</ID>
-    <ID>MagicNumber:DetailCompositeBlocks.kt$20f</ID>
-    <ID>MagicNumber:DetailTableBlocks.kt$18f</ID>
-    <ID>MagicNumber:DetailTableBlocks.kt$28f</ID>
-    <ID>MagicNumber:DocumentImportManager.kt$DocumentImportManager$100</ID>
-    <ID>MagicNumber:EmbeddingIoHelper.kt$EmbeddingIoHelper$30</ID>
-    <ID>MagicNumber:EmbeddingIoHelper.kt$EmbeddingIoHelper$4</ID>
     <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$15000</ID>
     <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$200</ID>
     <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$299</ID>
     <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$4</ID>
     <ID>MagicNumber:EmbeddingWorker.kt$EmbeddingWorker$60000</ID>
-    <ID>MagicNumber:Evaluator.kt$Evaluator$10</ID>
-    <ID>MagicNumber:Evaluator.kt$Evaluator$3</ID>
-    <ID>MagicNumber:Evaluator.kt$Evaluator$5</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0.3</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0.7f</ID>
     <ID>MagicNumber:GemmaInferenceEngine.kt$GemmaInferenceEngine$0x20</ID>
@@ -380,69 +213,11 @@
     <ID>MagicNumber:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$20</ID>
     <ID>MagicNumber:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$2000</ID>
     <ID>MagicNumber:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$30</ID>
-    <ID>MagicNumber:HybridAiStreamingClient.kt$HybridAiStreamingClient$30</ID>
-    <ID>MagicNumber:HybridAiStreamingClient.kt$HybridAiStreamingClient$8000</ID>
-    <ID>MagicNumber:HybridCard.kt$100</ID>
-    <ID>MagicNumber:HybridLogic.kt$HybridLogic$1000</ID>
-    <ID>MagicNumber:HybridQueryStrategy.kt$HybridQueryStrategy$3</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$0.08f</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$0.3f</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$0.5f</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$0.9f</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$10</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$3</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$380</ID>
-    <ID>MagicNumber:HybridQueryUseCase.kt$HybridQueryUseCase$5</ID>
-    <ID>MagicNumber:HybridScreen.kt$100</ID>
-    <ID>MagicNumber:HybridScreen.kt$160</ID>
-    <ID>MagicNumber:HybridScreen.kt$99</ID>
-    <ID>MagicNumber:ImportProgressIndicator.kt$100</ID>
-    <ID>MagicNumber:ImportProgressIndicator.kt$100f</ID>
     <ID>MagicNumber:JsonImportHelpers.kt$EntityBuilderPool$128</ID>
     <ID>MagicNumber:JsonImportHelpers.kt$StreamingJsonBenchmark$1_000_000</ID>
     <ID>MagicNumber:JsonRepository.kt$JsonRepository$20</ID>
-    <ID>MagicNumber:JsonRepositoryScreen.kt$0.6f</ID>
-    <ID>MagicNumber:JsonRepositoryScreen.kt$100f</ID>
-    <ID>MagicNumber:JsonRepositoryViewModel.kt$JsonRepositoryViewModel$100</ID>
-    <ID>MagicNumber:JsonResourceImporter.kt$JsonResourceImporter$100</ID>
-    <ID>MagicNumber:JsonResourceImporter.kt$JsonResourceImporter$1000</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$10f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$11f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$16f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$17f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$20f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$22f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$26f</ID>
-    <ID>MagicNumber:KnowledgeDetailBasicBlocks.kt$27f</ID>
-    <ID>MagicNumber:KnowledgeDetailBlockDispatcher.kt$30</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackMarkwonTextView.kt$20000</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$12</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$120</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$1200</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$3</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$32</ID>
-    <ID>MagicNumber:KnowledgeDetailFallbackTableCompose.kt$60</ID>
-    <ID>MagicNumber:KnowledgeDetailMarkdownChunking.kt$10</ID>
-    <ID>MagicNumber:KnowledgeDetailMarkdownChunkingTableSplit.kt$KnowledgeDetailMarkdownChunkingTableSplit$10</ID>
-    <ID>MagicNumber:KnowledgeDetailMarkdownImageBlankLines.kt$4</ID>
-    <ID>MagicNumber:KnowledgeDetailMarkdownTableNormalize.kt$8</ID>
-    <ID>MagicNumber:KnowledgeDetailReadingUtils.kt$0.75f</ID>
-    <ID>MagicNumber:KnowledgeDetailReadingUtils.kt$2000</ID>
-    <ID>MagicNumber:KnowledgeDetailReadingUtils.kt$3.0f</ID>
-    <ID>MagicNumber:KnowledgeDetailStructuredTable.kt$0.8f</ID>
-    <ID>MagicNumber:KnowledgeDetailStructuredTable.kt$14f</ID>
-    <ID>MagicNumber:KnowledgeDetailStructuredTable.kt$20f</ID>
-    <ID>MagicNumber:KnowledgeEntryCard.kt$0xFF2E7D32</ID>
-    <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFB00020</ID>
-    <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFD32F2F</ID>
-    <ID>MagicNumber:KnowledgeEntryCard.kt$0xFFFFA000</ID>
-    <ID>MagicNumber:KnowledgeResultList.kt$10</ID>
-    <ID>MagicNumber:KnowledgeResultList.kt$5</ID>
     <ID>MagicNumber:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$12</ID>
     <ID>MagicNumber:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$3</ID>
-    <ID>MagicNumber:LazyListScrollIndicator.kt$0.035f</ID>
-    <ID>MagicNumber:LazyListScrollIndicator.kt$0.08f</ID>
-    <ID>MagicNumber:LazyListScrollIndicator.kt$900</ID>
     <ID>MagicNumber:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$256</ID>
     <ID>MagicNumber:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$512</ID>
     <ID>MagicNumber:LlamaJni.kt$LlamaJni$1000.0</ID>
@@ -453,106 +228,8 @@
     <ID>MagicNumber:LlamaJniStreaming.kt$LlamaJniStreaming$120</ID>
     <ID>MagicNumber:LlamaJniStreaming.kt$LlamaJniStreaming$16</ID>
     <ID>MagicNumber:LlamaJniStreaming.kt$LlamaJniStreaming$8</ID>
-    <ID>MagicNumber:LlmFactualityScorer.kt$LlmFactualityScorer$0.5</ID>
-    <ID>MagicNumber:LlmFactualityScorer.kt$LlmFactualityScorer$10</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.03f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.06f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.10f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.16f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.18f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.22f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.24f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.28f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.30f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.34f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.38f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.45f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$0.52f</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$120</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$3</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$30</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$4</ID>
-    <ID>MagicNumber:LocalAnswerPlanner.kt$LocalAnswerPlanner$60</ID>
-    <ID>MagicNumber:LocalAnswerSourcesSheet.kt$10</ID>
-    <ID>MagicNumber:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$3</ID>
-    <ID>MagicNumber:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$6</ID>
-    <ID>MagicNumber:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$0.34f</ID>
-    <ID>MagicNumber:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$0.45f</ID>
-    <ID>MagicNumber:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$0.50f</ID>
-    <ID>MagicNumber:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$3</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$10</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$100</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$1000</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$3</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$4</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$5</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$6</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$7</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$8</ID>
-    <ID>MagicNumber:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$9</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.12f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.18f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.24f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.28f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.34f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.45f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$0.5f</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$3</ID>
-    <ID>MagicNumber:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$48</ID>
-    <ID>MagicNumber:LocalEvidenceScorer.kt$LocalEvidenceScorer$0.10f</ID>
-    <ID>MagicNumber:LocalEvidenceScorer.kt$LocalEvidenceScorer$0.12f</ID>
-    <ID>MagicNumber:LocalEvidenceScorer.kt$LocalEvidenceScorer$0.18f</ID>
-    <ID>MagicNumber:LocalEvidenceScorer.kt$LocalEvidenceScorer$0.32f</ID>
-    <ID>MagicNumber:LocalEvidenceScorer.kt$LocalEvidenceScorer$3</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.04f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.06f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.08f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.10f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.14f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.32f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.34f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$0.42f</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$10</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$160</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$3</ID>
-    <ID>MagicNumber:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$70</ID>
-    <ID>MagicNumber:LocalHistoryDrawerContent.kt$0xFFC06C84</ID>
-    <ID>MagicNumber:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$3</ID>
-    <ID>MagicNumber:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$4</ID>
-    <ID>MagicNumber:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$48</ID>
-    <ID>MagicNumber:LocalResultsPage.kt$10</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$24</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$25</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$26</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$27</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$30</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$31</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$32</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$40</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$41</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$42</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$43</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$50</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$51</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$52</ID>
-    <ID>MagicNumber:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$53</ID>
-    <ID>MagicNumber:LocalSummaryCard.kt$6</ID>
-    <ID>MagicNumber:MagicWindowComponents.kt$160</ID>
-    <ID>MagicNumber:MagicWindowComponents.kt$220</ID>
-    <ID>MagicNumber:MagicWindowComponents.kt$800</ID>
-    <ID>MagicNumber:MainDiagnostics.kt$180</ID>
-    <ID>MagicNumber:MainScreenTabContent.kt$3</ID>
-    <ID>MagicNumber:MainTopBar.kt$0.5f</ID>
-    <ID>MagicNumber:MainTopBar.kt$0.75f</ID>
-    <ID>MagicNumber:MarkdownTableHtmlEscaper.kt$MarkdownTableHtmlEscaper$16</ID>
     <ID>MagicNumber:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$60</ID>
     <ID>MagicNumber:MarkdownTableUtils.kt$MarkdownTableUtils$3</ID>
-    <ID>MagicNumber:MarkdownTextView.kt$160</ID>
-    <ID>MagicNumber:MarkdownTextView.kt$16f</ID>
-    <ID>MagicNumber:MarkdownTextView.kt$8</ID>
-    <ID>MagicNumber:MarkwonHelper.kt$MarkwonHelper$18f</ID>
-    <ID>MagicNumber:MarkwonHelper.kt$MarkwonHelper$8</ID>
-    <ID>MagicNumber:MarkwonHelper.kt$MarkwonHelper.&lt;no name provided&gt;.&lt;no name provided&gt;$0.5f</ID>
     <ID>MagicNumber:MemoryKnowledgeDao.kt$MemoryKnowledgeDao$15</ID>
     <ID>MagicNumber:MemoryKnowledgeDao.kt$MemoryKnowledgeDao$4000</ID>
     <ID>MagicNumber:NativeAnnRetriever.kt$NativeAnnRetriever$0xffff</ID>
@@ -563,38 +240,13 @@
     <ID>MagicNumber:NativeAnnRetriever.kt$NativeAnnRetriever$60000</ID>
     <ID>MagicNumber:NativeAnnRetriever.kt$NativeAnnRetriever$65536.0f</ID>
     <ID>MagicNumber:NetworkModule.kt$NetworkModule$120</ID>
-    <ID>MagicNumber:NetworkModule.kt$NetworkModule$20</ID>
     <ID>MagicNumber:NetworkModule.kt$NetworkModule$30</ID>
-    <ID>MagicNumber:NetworkModule.kt$NetworkModule$60</ID>
     <ID>MagicNumber:NetworkModule.kt$NetworkModule$90</ID>
     <ID>MagicNumber:ObservabilityServiceImpl.kt$ObservabilityServiceImpl$200</ID>
-    <ID>MagicNumber:PdfBoundingBox.kt$3</ID>
-    <ID>MagicNumber:PdfBoundingBox.kt$4</ID>
-    <ID>MagicNumber:PdfFigureListViewModel.kt$PdfFigureListViewModel$5000</ID>
-    <ID>MagicNumber:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$1024</ID>
-    <ID>MagicNumber:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$64</ID>
-    <ID>MagicNumber:PdfPageItem.kt$0.88f</ID>
-    <ID>MagicNumber:PdfPageItem.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:PdfPageItem.kt$0xFFFFEB3B</ID>
-    <ID>MagicNumber:PdfPageItem.kt$2400</ID>
-    <ID>MagicNumber:PdfPageItem.kt$3600</ID>
-    <ID>MagicNumber:PdfPageItem.kt$4f</ID>
-    <ID>MagicNumber:PdfSourceRef.kt$PdfSourceRef$24</ID>
-    <ID>MagicNumber:PdfSourceRef.kt$PdfSourceRef$64</ID>
     <ID>MagicNumber:PdfTextLineHeuristics.kt$PdfTextLineHeuristics$3</ID>
     <ID>MagicNumber:PdfTextLineHeuristics.kt$PdfTextLineHeuristics$60</ID>
     <ID>MagicNumber:QueryRewritePlanner.kt$QueryRewritePlanner$4</ID>
     <ID>MagicNumber:QueryRewritePlanner.kt$QueryRewritePlanner$8</ID>
-    <ID>MagicNumber:ResponseBody.kt$320</ID>
-    <ID>MagicNumber:ResponseBody.kt$800</ID>
-    <ID>MagicNumber:ResponseBodyComponents.kt$0.8f</ID>
-    <ID>MagicNumber:ResponseCard.kt$24</ID>
-    <ID>MagicNumber:ResponseCard.kt$60</ID>
-    <ID>MagicNumber:ResponseCard.kt$60_000L</ID>
-    <ID>MagicNumber:ResponseCard.kt$7</ID>
-    <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase$1000000L</ID>
-    <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase$120</ID>
-    <ID>MagicNumber:RetrievalFusionUseCase.kt$RetrievalFusionUseCase.RetrievalAggregate$0.03f</ID>
     <ID>MagicNumber:RoomFtsRetriever.kt$RoomFtsRetriever$0.03f</ID>
     <ID>MagicNumber:RoomFtsRetriever.kt$RoomFtsRetriever$0.04f</ID>
     <ID>MagicNumber:RoomFtsRetriever.kt$RoomFtsRetriever$0.05f</ID>
@@ -603,34 +255,22 @@
     <ID>MagicNumber:RoomFtsRetriever.kt$RoomFtsRetriever$0.16f</ID>
     <ID>MagicNumber:SearchTextNormalization.kt$SearchTextNormalization$0x4E00</ID>
     <ID>MagicNumber:SearchTextNormalization.kt$SearchTextNormalization$0x9FFF</ID>
-    <ID>MagicNumber:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$20</ID>
-    <ID>MagicNumber:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$3</ID>
-    <ID>MagicNumber:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$40</ID>
-    <ID>MagicNumber:SettingsViewModel.kt$SettingsViewModel$120</ID>
-    <ID>MagicNumber:SettingsViewModel.kt$SettingsViewModel$5</ID>
     <ID>MagicNumber:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$120</ID>
     <ID>MagicNumber:SmartDeepSeekProgressCard.kt$1000.0</ID>
     <ID>MagicNumber:SmartDeepSeekProgressCard.kt$250</ID>
     <ID>MagicNumber:SmartDeepSeekTabContent.kt$0.78f</ID>
     <ID>MagicNumber:SmartHistoryDrawerContent.kt$0xFF355C7D</ID>
-    <ID>MagicNumber:SmartPage.kt$10</ID>
-    <ID>MagicNumber:SmartPage.kt$14</ID>
-    <ID>MagicNumber:SmartPage.kt$1600</ID>
-    <ID>MagicNumber:SmartPage.kt$4</ID>
     <ID>MagicNumber:SparseScorer.kt$SparseScorer$1.2</ID>
     <ID>MagicNumber:SparseScorer.kt$SparseScorer$1.5</ID>
     <ID>MagicNumber:SparseScorer.kt$SparseScorer$5</ID>
     <ID>MagicNumber:SparseTokenizer.kt$SparseTokenizer$3</ID>
     <ID>MagicNumber:StreamingJsonBatchWriter.kt$StreamingJsonBatchWriter$16</ID>
-    <ID>MagicNumber:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$1000</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$0.35f</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$0.3f</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$0x4E00</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$0x9FFF</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$10f</ID>
     <ID>MagicNumber:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$2.5f</ID>
-    <ID>MagicNumber:TextHighlightUtils.kt$24</ID>
-    <ID>MagicNumber:TextHighlightUtils.kt$3</ID>
     <ID>MagicNumber:TxtParser.kt$TxtParser$4096</ID>
     <ID>MagicNumber:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$0.0001f</ID>
     <ID>MagicNumber:VectorRepositoryDebugTools.kt$VectorRepositoryDebugTools$0.001f</ID>
@@ -653,25 +293,13 @@
     <ID>MagicNumber:VisionService.kt$VisionService$3</ID>
     <ID>MagicNumber:VisionService.kt$VisionService$500</ID>
     <ID>MagicNumber:VisionService.kt$VisionService$8</ID>
-    <ID>MagicNumber:VisualPeekPopup.kt$0.92f</ID>
-    <ID>MagicNumber:ZoomableImageView.kt$ZoomableImageView$6f</ID>
-    <ID>MagicNumber:ZoomableImageView.kt$ZoomableImageView$9</ID>
-    <ID>MagicNumber:ZoomableImageView.kt$ZoomableImageView.GestureListener$2.5f</ID>
-    <ID>MatchingDeclarationName:AnswerEval.kt$AnswerEvalResult</ID>
     <ID>MatchingDeclarationName:DeepSeekModels.kt$CachedPromptState</ID>
-    <ID>MatchingDeclarationName:KnowledgeDetailTargetResolver.kt$KnowledgeDetailTarget</ID>
-    <ID>MatchingDeclarationName:LazyListScrollIndicator.kt$LazyListScrollAnchor</ID>
-    <ID>MatchingDeclarationName:SearchBarStateManager.kt$SearchBarState</ID>
     <ID>MatchingDeclarationName:SearchHistoryModels.kt$SearchEntry</ID>
     <ID>MaxLineLength:AiStreamSection.kt$Column { LinearProgressIndicator(modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp)); Text("AI 正在生成答案...", style = MaterialTheme.typography.bodySmall) }</ID>
     <ID>MaxLineLength:AiStreamSection.kt$val androidCm = ctx.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager</ID>
     <ID>MaxLineLength:AiStreamingService.kt$AiStreamingService$fun</ID>
-    <ID>MaxLineLength:BlockItemComponents.kt$&lt;no name provided&gt;$override fun onResourceReady(resource: Drawable, model: Any, target: Target&lt;Drawable&gt;, dataSource: com.bumptech.glide.load.DataSource, isFirstResource: Boolean)</ID>
     <ID>MaxLineLength:DatabaseModule.kt$DatabaseModule.&lt;no name provided&gt;$"CREATE TABLE IF NOT EXISTS `embedding_metadata` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `fileId` TEXT NOT NULL, `totalBlocks` INTEGER NOT NULL, `embeddedBlocks` INTEGER NOT NULL, `status` TEXT NOT NULL, `lastUpdated` INTEGER NOT NULL)"</ID>
     <ID>MaxLineLength:DatabaseModule.kt$DatabaseModule.&lt;no name provided&gt;$"CREATE TABLE IF NOT EXISTS `vision_cache` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, `timestamp` INTEGER NOT NULL)"</ID>
-    <ID>MaxLineLength:DatabaseViewModel.kt$DatabaseViewModel$"importDiagnostics completed scanned=${diagnostics.scannedCount} imported=${diagnostics.importedCount} failed=${diagnostics.failedCount}; auto reload currentQuery=${currentState.currentQuery}"</ID>
-    <ID>MaxLineLength:DatabaseViewModel.kt$DatabaseViewModel$PLog.d(TAG, "focusGroupFromDrawer groupKey=$normalized directoryGroups=${_directoryGroups.value.size} uiGroups=${currentState.groups.size}")</ID>
-    <ID>MaxLineLength:DatabaseViewModel.kt$DatabaseViewModel$PLog.d(TAG, "focusGroupFromDrawer restored directoryGroups=${directoryGroups.size} containsTarget=${groupKeys.contains(normalized)}")</ID>
     <ID>MaxLineLength:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$SmartDeepSeekDebugLogger.logEvent(provider = delegate.provider, tag = "THREAD_BENCH", message = "completed groupId=$benchmarkId summary=$summary")</ID>
     <ID>MaxLineLength:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$copy(prefillBenchmarkState = SmartPrefillBenchmarkUiState(isRunning = true, benchmarkTitle = "n_batch 基准", statusText = "正在准备 n_batch 基准", results = emptyList()))</ID>
     <ID>MaxLineLength:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$copy(prefillBenchmarkState = SmartPrefillBenchmarkUiState(isRunning = true, benchmarkTitle = "n_batch 基准", statusText = "正在跑 ${preset.label}（${index + 1}/${BATCH_SIZE_BENCHMARK_PRESETS.size}）", results = results.toList()))</ID>
@@ -693,7 +321,6 @@
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$copy(thinking = (thinking + parsed.completedThinkingSegments.map(DeepSeekTextCodec::normalizeFinalAnswer)).distinct())</ID>
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$delegate.updateProgress(phase = SmartProgressPhase.COMPLETED, statusText = "回答完成", detailText = "共接收 $streamedChunks 个片段。", showAsActive = false)</ID>
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$delegate.updateProgress(phase = SmartProgressPhase.ERROR, statusText = "推理失败", detailText = t.message.orEmpty(), showAsActive = false)</ID>
-    <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$if</ID>
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$logBenchmarkRecord(delegate, sessionId, query, answerMode, startedAtEpochMs, "cancelled", t.message, benchmarkKind, benchmarkGroupId, benchmarkOrder, prefixReuseHit, stateSnapshotReuseHit, stateSnapshotBytes)</ID>
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$logBenchmarkRecord(delegate, sessionId, query, answerMode, startedAtEpochMs, "completed", null, benchmarkKind, benchmarkGroupId, benchmarkOrder, prefixReuseHit, stateSnapshotReuseHit, stateSnapshotBytes, firstTokenLatencyMs, answerStartLatencyMs.get(), decodeCharsPerSecond, streamedChunks, out.length, resolvedFinalAnswer.length)</ID>
     <ID>MaxLineLength:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$logBenchmarkRecord(delegate, sessionId, query, answerMode, startedAtEpochMs, "error", "模型未加载。", benchmarkKind, benchmarkGroupId, benchmarkOrder, prefixReuseHit, stateSnapshotReuseHit, stateSnapshotBytes)</ID>
@@ -708,16 +335,8 @@
     <ID>MaxLineLength:DeepSeekSessionManager.kt$DeepSeekSessionManager$message = "end reason=${drainReason ?: "timeout"} elapsedMs=${endedAtMs - startedAtMs} snapshot=${drainSnapshot(isLoading, endedAtMs)}"</ID>
     <ID>MaxLineLength:DeepSeekSessionManager.kt$DeepSeekSessionManager$return "isLoading=$isLoading stopRequested=$stopRequested isGenerating=${metrics?.isGenerating} streamed=${metrics?.streamedTokenCount}"</ID>
     <ID>MaxLineLength:DeepSeekStateSnapshotHelper.kt$DeepSeekStateSnapshotHelper$message = "restore key=$snapshotKey restored=$restored bytes=${cachedState.stateData.size} ageMs=${System.currentTimeMillis() - cachedState.capturedAtEpochMs}"</ID>
-    <ID>MaxLineLength:DetailIntent.kt$DetailIntent.ApplyVisionBoost$data</ID>
-    <ID>MaxLineLength:DocumentImportManager.kt$DocumentImportManager$_progress.value = ImportProgress(fileId = "", fileName = fileName, totalItems = null, importedItems = 0, percent = 0, status = "failed", message = e.message)</ID>
-    <ID>MaxLineLength:DocumentImportManager.kt$DocumentImportManager$_progress.value = ImportProgress(fileId = "", fileName = fileName, totalItems = null, importedItems = imported, percent = 0, status = "in_progress")</ID>
-    <ID>MaxLineLength:DocumentImportManager.kt$DocumentImportManager$_progress.value = ImportProgress(fileId = fileId, fileName = fileName, totalItems = null, importedItems = 0, percent = 100, status = "imported")</ID>
-    <ID>MaxLineLength:DocumentImportManager.kt$DocumentImportManager$_progress.value = ImportProgress(fileId = fileId, fileName = fileName, totalItems = null, importedItems = 0, percent = 100, status = "skipped", message = "already imported")</ID>
-    <ID>MaxLineLength:EmbeddingTestActivity.kt$EmbeddingTestActivity$private</ID>
-    <ID>MaxLineLength:EmbeddingTestActivity.kt$EmbeddingTestActivity$val db = androidx.room.Room.databaseBuilder(this, com.example.powerai.core.data.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()</ID>
     <ID>MaxLineLength:EmbeddingWorker.kt$EmbeddingWorker$val endpoint = prefs.getString("embedding_service_url", "http://127.0.0.1:8000/embed_batch") ?: "http://127.0.0.1:8000/embed_batch"</ID>
     <ID>MaxLineLength:EmbeddingWorker.kt$EmbeddingWorker$val scriptPath = prefs.getString("embedding_cli_path", "tools/embedding_prototype/embed_batch_cli.py") ?: "tools/embedding_prototype/embed_batch_cli.py"</ID>
-    <ID>MaxLineLength:EmptyState.kt$androidx.compose.material3.Text(text = text, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)</ID>
     <ID>MaxLineLength:ExportUtils.kt$ExportUtils$val line = listOf(e.id.toString(), escape(e.title), escape(e.content), escape(e.source), escape(e.category), escape(e.keywordsSerialized)).joinToString(",")</ID>
     <ID>MaxLineLength:GemmaInferenceEngine.kt$GemmaInferenceEngine$try { intentQuery = context.intent.getStringExtra("search_query") } catch (_: Throwable) { intentQuery = null }</ID>
     <ID>MaxLineLength:GemmaInferenceEngine.kt$GemmaInferenceEngine$val contextEntries = try { sparseSearcher.search(searchQuery, 2) } catch (_: Throwable) { emptyList&lt;SparseSearcher.SafetyEntry&gt;() }</ID>
@@ -725,30 +344,14 @@
     <ID>MaxLineLength:GemmaResponseLogger.kt$GemmaResponseLogger$is java.util.List&lt;*&gt; -&gt; f.appendText("[METRICS] TokenIDs: ${(tokenIdsCaptured as java.util.List&lt;*&gt;).joinToString(",")}\n", Charsets.UTF_8)</ID>
     <ID>MaxLineLength:GemmaResponseLogger.kt$GemmaResponseLogger$try { f.appendText("[METRICS] TokenIDs (toString): ${tokenIdsCaptured.toString()}\n", Charsets.UTF_8) } catch (_: Throwable) {}</ID>
     <ID>MaxLineLength:GemmaResponseLogger.kt$GemmaResponseLogger$try { f.appendText("\n[METRICS] Generated Tokens: $tokenCountForResult / Max: 512\n", Charsets.UTF_8) } catch (_: Throwable) {}</ID>
-    <ID>MaxLineLength:HybridRetrievalService.kt$HybridRetrievalService$fun</ID>
-    <ID>MaxLineLength:ImportIntent.kt$ImportIntent.ImportUri$data</ID>
-    <ID>MaxLineLength:ImportProgressIndicator.kt$text = "Importing ${progress.fileName} ${progress.importedItems}/${progress.totalItems?.toString().orEmpty().ifBlank { "?" }} (${percentFloat?.toInt() ?: 0}%)"</ID>
-    <ID>MaxLineLength:JsonComponents.kt$.</ID>
     <ID>MaxLineLength:JsonRepository.kt$JsonRepository$_importProgress.value = ImportProgress(fileId = "", fileName = displayName, totalItems = null, importedItems = 0, percent = 0, status = "failed", message = e.message)</ID>
     <ID>MaxLineLength:JsonRepository.kt$JsonRepository$_importProgress.value = ImportProgress(fileId = "", fileName = displayName, totalItems = null, importedItems = totalImported, percent = 0, status = "in_progress")</ID>
     <ID>MaxLineLength:JsonRepository.kt$JsonRepository$_importProgress.value = ImportProgress(fileId = fileId, fileName = displayName, totalItems = totalImported, importedItems = totalImported, percent = 100, status = "imported")</ID>
-    <ID>MaxLineLength:JsonRepository.kt$JsonRepository$suspend</ID>
     <ID>MaxLineLength:JsonRepository.kt$JsonRepository$val entry = JsonEntry(id = idCounter.toString(), title = e.title, content = clean, category = e.category, source = e.source, status = "parsed")</ID>
-    <ID>MaxLineLength:JsonRepositoryScreen.kt$OutlinedTextField(value = filter, onValueChange = { filter = it }, label = { Text("Search entries") }, singleLine = true, modifier = Modifier.fillMaxWidth(0.6f))</ID>
-    <ID>MaxLineLength:JsonRepositoryScreen.kt$val displayed = if (filter.isBlank()) entries else entries.filter { it.title.contains(filter, true) || it.content.contains(filter, true) }</ID>
-    <ID>MaxLineLength:JsonRepositoryViewModel.kt$JsonRepositoryViewModel$val entries = if (offset &gt;= filtered.size) emptyList() else filtered.subList(offset, kotlin.math.min(filtered.size, offset + pageSize))</ID>
-    <ID>MaxLineLength:JsonRepositoryViewModel.kt$JsonRepositoryViewModel$val filtered = if (keyword.isBlank()) all else all.filter { it.title.contains(keyword, true) || it.content.contains(keyword, true) }</ID>
     <ID>MaxLineLength:KnowledgeDao.kt$KnowledgeDao$"AND REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'"</ID>
     <ID>MaxLineLength:KnowledgeDao.kt$KnowledgeDao$"WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%' "</ID>
     <ID>MaxLineLength:KnowledgeDao.kt$KnowledgeDao$"WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%' "</ID>
     <ID>MaxLineLength:KnowledgeDao.kt$KnowledgeDao$"WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'"</ID>
-    <ID>MaxLineLength:KnowledgeDetailBlocksContent.kt$visionBoostErrorMessage = if (cacheKey(magicWindowBlock?.id) == visionParams.visionBoostErrorBlockId) visionParams.visionBoostErrorMessage else null</ID>
-    <ID>MaxLineLength:KnowledgeDetailMarkdownAssetImagesRewriter.kt$KnowledgeDetailMarkdownAssetImagesRewriter$"(?:file:///android_asset/images/|file:///android_asset/src/main/assets/images/|/android_asset/images/|assets/images/|images/)([\\w\\-./%]+?\\.(?:png|jpg|jpeg|webp|gif|png|x-emf))"</ID>
-    <ID>MaxLineLength:KnowledgeDetailReadingHeader.kt$Text("为了提升手机端检索与复制效率，我们为您提供了“流式阅读模式”（即当前看到的文字样式）。\n\n如果您需要查看 100% 还原的官方排版、印章或复杂的图文关系，请点击顶栏切换至“原文”模式。系统将自动为您定位至当前内容所在的原始位置。")</ID>
-    <ID>MaxLineLength:KnowledgeDetailStructuredTable.kt$val isNumeric = cell.text.isNotEmpty() &amp;&amp; cell.text.all { it.isDigit() || it == '.' || it == '-' || it == '%' || it == ' ' || it == '/' }</ID>
-    <ID>MaxLineLength:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$is DetailIntent.ApplyVisionBoost -&gt; applyVisionBoostToOriginal(intent.entityId, intent.rawBlockId, intent.cacheKey, intent.clearCacheAfter)</ID>
-    <ID>MaxLineLength:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$updateState { current.copy(visionBoostErrorBlockId = cacheKey, visionBoostErrorMessage = t.message ?: "VisionBoost 失败") }</ID>
-    <ID>MaxLineLength:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$updateState { current.copy(visionBoostingBlockId = cacheKey, visionBoostErrorBlockId = null, visionBoostErrorMessage = null) }</ID>
     <ID>MaxLineLength:LegacyAarDeepSeekRuntime.kt$LegacyAarDeepSeekRuntime$override fun provideResources(provider: NativeResourceProvider, context: android.content.Context?)</ID>
     <ID>MaxLineLength:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$lastInitParamsJson = "{\"runtime\":\"llamaCpp\",\"n_threads\":$configuredThreadCount,\"n_ctx\":$configuredContextLength,\"n_batch\":$configuredBatchSize}"</ID>
     <ID>MaxLineLength:LlamaJniMetrics.kt$LlamaJniMetrics$return "isGenerating=${metrics.isGenerating} streamed=${metrics.streamedTokenCount} firstTokenLatencyMs=${metrics.firstTokenLatencyMs ?: -1} finishSeq=$finishSequence lastChunkAgeMs=$lastChunkAgeMs stopAgeMs=$stopAgeMs postStopChunks=$postStopChunkCount"</ID>
@@ -756,38 +359,10 @@
     <ID>MaxLineLength:LlamaJniReflection.kt$LlamaJniReflection$Log.d(TAG, "typed stream callback ${method.name} -&gt; ${LlamaJniStreaming.buildCallbackTokenPreview(text)}")</ID>
     <ID>MaxLineLength:LlamaJniReflection.kt$LlamaJniReflection$return</ID>
     <ID>MaxLineLength:LlamaJniReflection.kt$LlamaJniReflection$try { Log.d(AAR_TAG, "declared field: ${f.name} static=${java.lang.reflect.Modifier.isStatic(f.modifiers)} type=${f.type}") } catch (_: Throwable) {}</ID>
-    <ID>MaxLineLength:LocalDiagnosticsFormatter.kt$LocalDiagnosticsFormatter$lines += "query_plan=${LocalSearchQueryVariantBuilder.buildPlan(query).take(6).joinToString(" || ") { "${it.strategy}:${it.text}" }.ifBlank { "(none)" }}"</ID>
-    <ID>MaxLineLength:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$QueryIntent.FACT_QUESTION -&gt; understanding.signals.contains("condition_style") || understanding.signals.contains("action_rule_style")</ID>
-    <ID>MaxLineLength:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$add(LocalDiscardRuleGateSnapshot("anchor_gate", !anchorRequired || anchorHits &gt; 0, anchorHits.toString(), if (anchorRequired) "&gt;=1" else "not_required"))</ID>
-    <ID>MaxLineLength:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$add(LocalDiscardRuleGateSnapshot("combined_signal", combinedSignal &gt;= combinedThreshold, String.format(Locale.US, "%.2f", combinedSignal), String.format(Locale.US, "%.2f", combinedThreshold)))</ID>
-    <ID>MaxLineLength:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$add(LocalDiscardRuleGateSnapshot("definition_evidence", !definitionEvidenceRequired || definitionEvidencePassed, if (definitionEvidencePassed) "passed" else "none", if (definitionEvidenceRequired) "anchor|style" else "not_required"))</ID>
-    <ID>MaxLineLength:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$val titleLooksLikeQuestion = title.contains("什么") || title.contains("用途") || title.contains("作用") || title.contains("定义") || title.contains("原理")</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$private</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$return CandidateEvaluation(null, LocalDiscardedCandidate(title.ifBlank { "(无标" }, result.item?.source ?: result.source, explanation.reason, explanation.detailCode, explanation.detail, LocalEvidenceExplanationBuilder.buildThresholdSnapshot(understanding, tokenCoverage, contextualSignal, if (hasAnchor) 1 else 0, hasAnchor, noisy, questionStyle, qaStyle), String.format(Locale.US, "%.2f", tokenCoverage), String.format(Locale.US, "%.2f", contextualSignal)))</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$val explanation = LocalEvidenceExplanationBuilder.buildDiscardExplanation(understanding, normalized, anchors, hasAnchor, questionStyle, qaStyle, noisy, tokenCoverage, contextualSignal)</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$val matchedFigureCaption = (result.debug?.get("semantic_matched_figure_caption") as? String) ?: result.metadata["semantic_matched_figure_caption"].orEmpty()</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$val matchedFigureLabel = (result.debug?.get("semantic_matched_figure_label") as? String) ?: result.metadata["semantic_matched_figure_label"].orEmpty()</ID>
-    <ID>MaxLineLength:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$val tokenCoverage = tokenGroups.map { tokens -&gt; tokens.count(normalized::contains).toFloat() / tokens.size.toFloat() }.maxOrNull() ?: 0f</ID>
-    <ID>MaxLineLength:LocalEvidenceScorer.kt$LocalEvidenceScorer$QueryRewritePlanner.isDefinitionStyleQuery(query) -&gt; informativeTokens(query).filter(LocalEvidenceHeuristics::isDefinitionSuffixToken)</ID>
-    <ID>MaxLineLength:LocalSummaryState.kt$LocalDiagnosticSnapshot$get() = queryPlanPreview.isNotBlank() || queryPlanStrategy.isNotBlank() || queryVariant.isNotBlank() || topEvidenceTitle.isNotBlank() || topHits.isNotEmpty() || discardedHits.isNotEmpty()</ID>
-    <ID>MaxLineLength:MainScreen.kt$aiStreamViewModel.onIntent(AiStreamIntent.AskAiStream(searchQuery, webSearchEnabled = uiState.webSearchEnabled))</ID>
-    <ID>MaxLineLength:MainScreenTabContent.kt$"DatabaseTabContent drawer loading=$drawerLoading uiGroups=${dbUiState.groups.size} directoryGroups=${directoryGroups.size} drawerGroups=${drawerGroups.size} query=${currentDbQuery.trim()} diagnostics=${importDiagnostics.importedCount}/${importDiagnostics.scannedCount} sample=${drawerGroups.take(3).joinToString { it.fileName }}"</ID>
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;$override</ID>
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;.&lt;no name provided&gt;$override</ID>
     <ID>MaxLineLength:MyAppGlideModule.kt$MyAppGlideModule.&lt;no name provided&gt;.&lt;no name provided&gt;$return com.bumptech.glide.load.model.ModelLoader.LoadData(com.bumptech.glide.signature.ObjectKey(model), com.example.powerai.util.AssetModelLoader.AssetDataFetcher(context.assets, assetPath))</ID>
-    <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity$Log.d(TAG, "Glide PhotoViewer START uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")</ID>
-    <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity.&lt;no name provided&gt;$Log.d(TAG, "Glide PhotoViewer DONE uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")</ID>
-    <ID>MaxLineLength:PhotoViewerActivity.kt$PhotoViewerActivity.&lt;no name provided&gt;$override</ID>
     <ID>MaxLineLength:PowerAIEngineManager.kt$PowerAIEngineManager$val msg = if (detail.isNullOrBlank()) "failed to load model: $modelPath" else "failed to load model: $modelPath; cause: $detail"</ID>
-    <ID>MaxLineLength:RepositoryModule.kt$RepositoryModule$abstract</ID>
-    <ID>MaxLineLength:ResponseBodyComponents.kt$while</ID>
-    <ID>MaxLineLength:ResponseCard.kt$Box</ID>
-    <ID>MaxLineLength:ResponseCard.kt$style = MaterialTheme.typography.bodyLarge.merge(TextStyle(fontSize = 16.sp, lineHeight = 24.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Normal))</ID>
-    <ID>MaxLineLength:ResponseHeader.kt$Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "AI", tint = MaterialTheme.colorScheme.primary, modifier = Modifier.width(18.dp))</ID>
-    <ID>MaxLineLength:ResponseHeader.kt$val timeText = askedAtMillis?.let { try { SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(it)) } catch (_: Throwable) { "" } }.orEmpty()</ID>
-    <ID>MaxLineLength:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$val lowValueOnly = ((collected.roleCounts["heading"] ?: 0) + (collected.roleCounts["body"] ?: 0) + (collected.roleCounts["table"] ?: 0)) == 0</ID>
-    <ID>MaxLineLength:SettingsScreen.kt$ExtendedFloatingActionButton</ID>
-    <ID>MaxLineLength:SettingsViewModel.kt$SettingsViewModel$context.contentResolver.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)</ID>
     <ID>MaxLineLength:SmartDeepSeekAdvancedControls.kt$Text(if (uiState.prefillBenchmarkState.isRunning &amp;&amp; uiState.prefillBenchmarkState.benchmarkTitle == "n_batch 基准") "n_batch 基准运行.." else "n_batch 基准")</ID>
     <ID>MaxLineLength:SmartDeepSeekAdvancedControls.kt$Text(if (uiState.prefillBenchmarkState.isRunning &amp;&amp; uiState.prefillBenchmarkState.benchmarkTitle == "n_threads_batch 基准") "n_threads_batch 基准运行.." else "n_threads_batch 基准")</ID>
     <ID>MaxLineLength:SmartDeepSeekAdvancedControls.kt$enabled = uiState.modelLoaded &amp;&amp; !uiState.isLoading &amp;&amp; !uiState.prefillBenchmarkState.isRunning &amp;&amp; uiState.backendMode == SmartBackendMode.CPU &amp;&amp; searchQuery.isNotBlank()</ID>
@@ -795,16 +370,9 @@
     <ID>MaxLineLength:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$message = "#${index} raw='${rawCompact}' visible='${visibleCompact}' inThink=$inThinkBlock pendingTag='${compact(pendingTagFragment)}' resultLen=$currentResultLength"</ID>
     <ID>MaxLineLength:SmartDeepSeekDebugLogger.kt$SmartDeepSeekDebugLogger$message = "rawOutputLength=$rawOutputLength finalAnswerLength=$finalAnswerLength streamedChunks=$streamedChunkCount firstTokenLatencyMs=${firstTokenLatencyMs ?: -1} decodeCharsPerSecond=${decodeCharsPerSecond ?: -1.0}"</ID>
     <ID>MaxLineLength:SmartDeepSeekTabContent.kt$deepSeekViewModel.onIntent(DeepSeekIntent.LoadModel(SMART_DEEPSEEK_DEVICE_PATH, useGpu = deepState.backendMode.useGpu))</ID>
-    <ID>MaxLineLength:SmartPage.kt$"seg:${segment.key}|idx:$index|src:${item.source}|title:${item.title.hashCode()}|content:${item.content.hashCode()}"</ID>
     <ID>MaxLineLength:SparseSearchAuditLogger.kt$SparseSearchAuditLogger$sbh.append("[${rank}] ${ent.title} | ${ent.source} | Raw: ${raw} | Weight: ${"%.2f".format(weight)} | Final: ${"%.2f".format(sc)}\n")</ID>
     <ID>MaxLineLength:SparseSearcherLoader.kt$DefaultSparseSearcherLoader$val fallback = try { context?.assets?.open("power_safety_rules.json")?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } } catch (_: Throwable) { null }</ID>
-    <ID>MaxLineLength:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$emit(ImportProgress(fileId = fallbackFileId.orEmpty(), fileName = fallbackFileName.orEmpty(), totalItems = null, importedItems = importedSoFar, percent = 0, status = "failed", message = msg))</ID>
-    <ID>MaxLineLength:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$emit(ImportProgress(fileId = fallbackFileId.orEmpty(), fileName = fallbackFileName.orEmpty(), totalItems = null, importedItems = importedSoFar, percent = 0, status = "in_progress"))</ID>
-    <ID>MaxLineLength:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$emit(ImportProgress(fileId = fallbackFileId.orEmpty(), fileName = fallbackFileName.orEmpty(), totalItems = null, importedItems = importedSoFar, percent = 100, status = "imported"))</ID>
-    <ID>MaxLineLength:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$try { trace?.invoke("StreamingJsonResourceImporter: element failed: ${'$'}{elemEx.message}") } catch (_: Throwable) {}</ID>
-    <ID>MaxLineLength:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$try { trace?.invoke("StreamingJsonResourceImporter: element failed: ${elemEx.message}") } catch (_: Throwable) {}</ID>
     <ID>MaxLineLength:TableAwarePdfTextStripper.kt$TableAwarePdfTextStripper$buckets.add(LineBucket(y = avgY, sb = StringBuilder(cleaned), lastXEnd = xEnd, minX = xStart, maxX = xEnd, minY = yMin, maxY = yMax))</ID>
-    <ID>MaxLineLength:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$// log removed: VisionBoost(gateway) request START url=$url model=${BuildConfig.AI_VISION_MODEL} imageBytes=${bytes.size} uri=$imageUri</ID>
     <ID>MaxLineLength:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$override suspend</ID>
     <ID>NestedBlockDepth:AiStreamingService.kt$AiStreamingService$fun extractTextChunk(jsonLike: String): String?</ID>
     <ID>NestedBlockDepth:AndroidNativeResourceProvider.kt$AndroidNativeResourceProvider$override fun exportDiagnosticFile(sourceName: String, targetName: String)</ID>
@@ -815,17 +383,10 @@
     <ID>NestedBlockDepth:GemmaReflectionHelper.kt$GemmaReflectionHelper$fun invokeGenerate(engineObj: Any, prompt: String, genOpts: Map&lt;String, Any&gt;): InvocationResult</ID>
     <ID>NestedBlockDepth:GemmaResponseLogger.kt$GemmaResponseLogger$fun writeResponse( context: Context?, contextEntries: List&lt;SparseSearcher.SafetyEntry&gt;?, rawText: String, lastResponseObj: Any?, tokenIdsCaptured: Any?, finishReasonVal: String? ): Int</ID>
     <ID>NestedBlockDepth:GemmaResponseSanitizer.kt$GemmaResponseSanitizer$fun writeEmergencyStop(context: Context?)</ID>
-    <ID>NestedBlockDepth:HybridAiStreamingClient.kt$HybridAiStreamingClient$private fun appendPayloadText(payload: String, sb: StringBuilder)</ID>
     <ID>NestedBlockDepth:JsonEntryMapper.kt$JsonEntryMapper$fun toEntity( e: JsonResourceParser.JsonEntry, metadata: JsonResourceParser.FileMetadata, gson: com.google.gson.Gson ): KnowledgeEntity</ID>
-    <ID>NestedBlockDepth:KnowledgeDetailMarkdownChunkingTableSplit.kt$KnowledgeDetailMarkdownChunkingTableSplit$fun splitOversizedTableOrNull( tableLines: List&lt;String&gt;, maxChunkSize: Int ): List&lt;String&gt;?</ID>
-    <ID>NestedBlockDepth:KnowledgeDetailMarkdownTableExpanders.kt$TableEmbeddedSeparatorRowExpander$fun expandLinesWithEmbeddedSeparatorRows( normalized: String, separatorLineRegex: Regex ): List&lt;String&gt;</ID>
-    <ID>NestedBlockDepth:KnowledgeDetailMarkdownTableProcessor.kt$TableSeparatorWidthNormalizer$fun normalizeSeparatorWidthsAndPadBlankLines( lines: MutableList&lt;String&gt;, separatorLineRegex: Regex )</ID>
     <ID>NestedBlockDepth:LlamaJniReflection.kt$LlamaJniReflection$fun ensureNativeInstance(appContext: android.content.Context?, currentInstance: Any?): Any?</ID>
     <ID>NestedBlockDepth:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
-    <ID>NestedBlockDepth:MarkdownTextView.kt$private fun hasBalancedBraces(input: String): Boolean</ID>
-    <ID>NestedBlockDepth:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$fun restorePdfFromAssetsIfPossible(context: Context, fileId: String): Boolean</ID>
     <ID>NestedBlockDepth:RoomFtsRetriever.kt$RoomFtsRetriever$override suspend fun search(query: String, k: Int): List&lt;RetrievalResult&gt;</ID>
-    <ID>NestedBlockDepth:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun extractText(element: JsonElement?): String</ID>
     <ID>NestedBlockDepth:SparseScorer.kt$SparseScorer$fun scoreWithBreakdown( entries: List&lt;SparseSearcher.SafetyEntry&gt;, tokens: List&lt;String&gt; ): List&lt;Score&gt;</ID>
     <ID>NestedBlockDepth:SparseSearchAuditLogger.kt$SparseSearchAuditLogger$fun writeHitDetails( context: Context?, scores: List&lt;Triple&lt;SparseSearcher.SafetyEntry, Int, Double&gt;&gt; )</ID>
     <ID>NestedBlockDepth:SparseSearchUtils.kt$SparseSearchUtils$fun permissiveFallback( entries: List&lt;SparseSearcher.SafetyEntry&gt;, tokens: List&lt;String&gt;, query: String ): List&lt;SparseSearcher.SafetyEntry&gt;</ID>
@@ -840,11 +401,7 @@
     <ID>NewLineAtEndOfFile:GemmaFallbackProvider.kt$com.example.powerai.engine.ai.GemmaFallbackProvider.kt</ID>
     <ID>NewLineAtEndOfFile:GemmaInferenceEngine.kt$com.example.powerai.engine.ai.GemmaInferenceEngine.kt</ID>
     <ID>NewLineAtEndOfFile:GemmaResponseLogger.kt$com.example.powerai.engine.ai.GemmaResponseLogger.kt</ID>
-    <ID>NewLineAtEndOfFile:LocalSearchQueryVariantBuilder.kt$com.example.powerai.domain.usecase.LocalSearchQueryVariantBuilder.kt</ID>
-    <ID>NewLineAtEndOfFile:LocalSummaryCard.kt$com.example.powerai.ui.screen.main.LocalSummaryCard.kt</ID>
-    <ID>NewLineAtEndOfFile:LocalSummaryStateFactory.kt$com.example.powerai.ui.screen.hybrid.LocalSummaryStateFactory.kt</ID>
     <ID>NewLineAtEndOfFile:QueryRewritePlanner.kt$com.example.powerai.domain.query.QueryRewritePlanner.kt</ID>
-    <ID>NewLineAtEndOfFile:QuickAskScreen.kt$com.example.powerai.ui.screen.quickask.QuickAskScreen.kt</ID>
     <ID>NewLineAtEndOfFile:SmartModels.kt$com.example.powerai.core.model.SmartModels.kt</ID>
     <ID>NewLineAtEndOfFile:SparseScorer.kt$com.example.powerai.engine.ai.SparseScorer.kt</ID>
     <ID>NewLineAtEndOfFile:SparseSearcher.kt$com.example.powerai.engine.ai.SparseSearcher.kt</ID>
@@ -854,12 +411,7 @@
     <ID>RethrowCaughtException:RoomFtsRetriever.kt$RoomFtsRetriever$throw t</ID>
     <ID>ReturnCount:AiStreamingService.kt$AiStreamingService$fun extractTextChunk(jsonLike: String): String?</ID>
     <ID>ReturnCount:AiStreamingService.kt$AiStreamingService$fun isSseDoneMarker(data: String): Boolean</ID>
-    <ID>ReturnCount:AndroidGemmaModelLoader.kt$AndroidGemmaModelLoader$override fun tryLoad(context: Context?): Any?</ID>
-    <ID>ReturnCount:AskAiUseCase.kt$AskAiUseCase$private fun enrichContentWithSources(content: String, results: List&lt;WebSearchResult&gt;): String</ID>
-    <ID>ReturnCount:AskAiUseCase.kt$AskAiUseCase$suspend fun invokeAiSearch(question: String, webSearchEnabled: Boolean): String</ID>
-    <ID>ReturnCount:AssetImageUriNormalizer.kt$AssetImageUriNormalizer$fun normalize(raw: String): String</ID>
     <ID>ReturnCount:AssetImportScanner.kt$AssetImportScanner$fun shouldImportAssetJson(path: String): Boolean</ID>
-    <ID>ReturnCount:BingWebSearchClient.kt$BingWebSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;BingWebSearchResult&gt;</ID>
     <ID>ReturnCount:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractTableCells(obj: JsonObject): List&lt;TableCell&gt;?</ID>
     <ID>ReturnCount:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractTableRows(obj: JsonObject): List&lt;List&lt;String&gt;&gt;</ID>
     <ID>ReturnCount:BlocksElementExtractors.kt$BlocksElementExtractors$fun extractText(obj: JsonObject): String</ID>
@@ -879,10 +431,6 @@
     <ID>ReturnCount:BlocksTextExtractor.kt$BlocksTextExtractor$private fun extractTypeFromElement(el: JsonElement?): String</ID>
     <ID>ReturnCount:BlocksTextExtractor.kt$BlocksTextExtractor$private fun tryExtractCodeField(obj: JsonObject): String?</ID>
     <ID>ReturnCount:BlocksUtils.kt$BlocksUtils$fun matchIndicesNormalized(normalizedBlockTexts: List&lt;String&gt;, keyword: String): List&lt;Int&gt;</ID>
-    <ID>ReturnCount:ContextualSearchTextBuilder.kt$ContextualSearchTextBuilder$fun contextualizeBlocksJson( blocksJson: String, title: String, source: String, category: String, pageNumber: Int? ): String</ID>
-    <ID>ReturnCount:DatabaseNavigation.kt$internal fun findDatabaseItemLocation( groups: List&lt;DatabaseFileGroup&gt;, itemId: Long, collapsedGroupKeys: Set&lt;String&gt;, ): DatabaseItemLocation?</ID>
-    <ID>ReturnCount:DatabaseNavigation.kt$internal fun resolveCollapsedGroupKeys( existing: Set&lt;String&gt;, currentKeys: Set&lt;String&gt;, isSearching: Boolean, newestKey: String?, keepExpandedKey: String?, ): Set&lt;String&gt;</ID>
-    <ID>ReturnCount:DatabaseUseCase.kt$private fun normalizeImportedDisplayName(fileName: String): String</ID>
     <ID>ReturnCount:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchSizeLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>ReturnCount:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runBatchThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
     <ID>ReturnCount:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$suspend fun runThreadLatencyBenchmark(question: String, delegate: BenchmarkDelegate)</ID>
@@ -891,37 +439,18 @@
     <ID>ReturnCount:DeepSeekStateSnapshotHelper.kt$DeepSeekStateSnapshotHelper$suspend fun prepareExplicitStateSnapshot(snapshotKey: String): Pair&lt;Boolean, Int&gt;</ID>
     <ID>ReturnCount:DeepSeekTextCodec.kt$DeepSeekTextCodec$private fun maybeRepairMojibake(input: String): String</ID>
     <ID>ReturnCount:DeepSeekTextCodec.kt$DeepSeekTextCodec$private fun sanitizeChunkPreservingWhitespace(input: String): String</ID>
-    <ID>ReturnCount:EvalMetrics.kt$fun precisionAtK(relevant: Set&lt;String&gt;, retrieved: List&lt;String&gt;, k: Int): Double</ID>
     <ID>ReturnCount:GemmaLocalInference.kt$GemmaLocalInference$fun loadModel(): Boolean</ID>
     <ID>ReturnCount:GemmaModelLoader.kt$GemmaModelLoader$override fun tryLoad(context: Context?): Any?</ID>
     <ID>ReturnCount:GemmaResponseLogger.kt$GemmaResponseLogger$fun writeResponse( context: Context?, contextEntries: List&lt;SparseSearcher.SafetyEntry&gt;?, rawText: String, lastResponseObj: Any?, tokenIdsCaptured: Any?, finishReasonVal: String? ): Int</ID>
     <ID>ReturnCount:GemmaResponseSanitizer.kt$GemmaResponseSanitizer$fun cleanFinalText(input: String?): Pair&lt;String, Boolean&gt;</ID>
     <ID>ReturnCount:GemmaResponseSanitizer.kt$GemmaResponseSanitizer$fun isRepetitive(text: String): Boolean</ID>
     <ID>ReturnCount:GemmaResponseSanitizer.kt$GemmaResponseSanitizer$fun tokenCollapseDetected(accumulated: String, part: String?): Boolean</ID>
-    <ID>ReturnCount:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;WebSearchResult&gt;</ID>
-    <ID>ReturnCount:HighlightUtils.kt$internal fun highlightAll(text: String, keyword: String): AnnotatedString</ID>
-    <ID>ReturnCount:HybridLocalPagingQuery.kt$HybridLocalPagingQuery$fun normalize(raw: String): HybridLocalPagingQueryNormalization</ID>
-    <ID>ReturnCount:HybridLogic.kt$HybridLogic$private fun isUsableGemmaText(text: String): Boolean</ID>
-    <ID>ReturnCount:HybridQueryUseCase.kt$HybridQueryUseCase$private suspend fun attachExtractiveHighlightTargets( retrievals: List&lt;com.example.powerai.core.model.RetrievalResult&gt;, extractiveAnswer: LocalExtractiveAnswer? ): List&lt;com.example.powerai.core.model.RetrievalResult&gt;</ID>
-    <ID>ReturnCount:HybridRetrievalService.kt$HybridRetrievalService$private fun calculateFtsBonus(query: String, ftsResult: RetrievalResult): Double</ID>
-    <ID>ReturnCount:JsonResourceImporter.kt$JsonResourceImporter$private fun checkAndSkipNonImportableFiles( fallbackFileId: String?, fallbackFileName: String? ): ImportProgress?</ID>
+    <ID>ReturnCount:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$suspend fun search(query: String, count: Int = 5): List&lt;SerperWebHit&gt;</ID>
     <ID>ReturnCount:KbAssetPathNormalizer.kt$KbAssetPathNormalizer$private fun normalizeAssetRelativePath(rawPath: String, context: AssetContext): String?</ID>
     <ID>ReturnCount:KbAssetPathNormalizer.kt$KbAssetPathNormalizer$private fun normalizeImageUri(raw: String, context: AssetContext): String</ID>
     <ID>ReturnCount:KbAssetPathNormalizer.kt$KbAssetPathNormalizer.AssetContext.Companion$fun fromAssetJsonPath(assetJsonPath: String?): AssetContext?</ID>
-    <ID>ReturnCount:KnowledgeDetailFallbackTableCompose.kt$fun isSeparatorRow(line: String): Boolean</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkdownChunkingTableSplit.kt$KnowledgeDetailMarkdownChunkingTableSplit$fun splitOversizedTableOrNull( tableLines: List&lt;String&gt;, maxChunkSize: Int ): List&lt;String&gt;?</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkdownTableExpanders.kt$TableEmbeddedSeparatorRowSplitter$fun splitEmbeddedSeparatorOnce(line: String): List&lt;String&gt;</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkdownTableHtml.kt$internal fun looksLikeMarkdownTableChunk(markdown: String): Boolean</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkdownTableProcessor.kt$TableBlockNormalizer$fun normalizeOrKeep(block: List&lt;String&gt;): List&lt;String&gt;</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkdownTableProcessor.kt$private fun splitCellsPreserveTrailingEmpty(line: String): List&lt;String&gt;</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkwonInteractions.kt$KnowledgeDetailMarkwonInteractions$fun handleTapOrNull(tv: TextView, context: Context, ev: MotionEvent): Boolean?</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkwonInteractions.kt$KnowledgeDetailMarkwonInteractions$private fun findTappedUrlUri(text: Spannable, offset: Int): String?</ID>
-    <ID>ReturnCount:KnowledgeDetailMarkwonInteractions.kt$KnowledgeDetailMarkwonInteractions$private fun normalizeAssetImageUri(raw: String): String?</ID>
-    <ID>ReturnCount:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$private suspend fun updateEntityWithMarkdown(entityId: Long, targetId: String, markdown: String): KnowledgeEntity?</ID>
     <ID>ReturnCount:KnowledgeRepositoryImpl.kt$KnowledgeRepositoryImpl$override suspend fun resolveHighlightTarget(itemId: Long, highlight: String): LocalHighlightTarget?</ID>
     <ID>ReturnCount:KnowledgeSearchSqlPatterns.kt$KnowledgeSearchSqlPatterns$fun buildFtsMatchQuery(normalizedQuery: String): String</ID>
-    <ID>ReturnCount:LazyListScrollIndicator.kt$fun anchorSnapIndex(rawFraction: Float): Int?</ID>
-    <ID>ReturnCount:LazyListScrollIndicator.kt$fun scrollToFraction(rawFraction: Float, preferAnchorSnap: Boolean): Int</ID>
     <ID>ReturnCount:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$override fun safeInitModel(path: String?, useGpu: Boolean): Boolean</ID>
     <ID>ReturnCount:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$override fun safeNativeGenerateStream(prompt: String?, maxTokens: Int): Boolean</ID>
     <ID>ReturnCount:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$override fun safeSetOption(key: String?, value: String?): Boolean</ID>
@@ -929,60 +458,19 @@
     <ID>ReturnCount:LlamaJniReflection.kt$LlamaJniReflection$fun ensureNativeInstance(appContext: android.content.Context?, currentInstance: Any?): Any?</ID>
     <ID>ReturnCount:LlamaJniReflection.kt$LlamaJniReflection$fun getNativeLibInstance(appContext: android.content.Context?): Any?</ID>
     <ID>ReturnCount:LlamaJniReflection.kt$LlamaJniReflection$fun unwrapMapForInstance(mapObj: Any): Any?</ID>
-    <ID>ReturnCount:LocalAnswerPlanner.kt$LocalAnswerPlanner$private fun isSemanticFactMatch(query: String, result: RetrievalResult): Boolean</ID>
-    <ID>ReturnCount:LocalAnswerSourcesSheet.kt$internal fun resolveLocalSourceFileName( item: KnowledgeItem, databaseFileName: String? ): String</ID>
-    <ID>ReturnCount:LocalAnswerSourcesSheet.kt$private fun looksLikeUserVisibleFileName(value: String): Boolean</ID>
-    <ID>ReturnCount:LocalEvidenceExplanationBuilder.kt$LocalEvidenceExplanationBuilder$fun buildDiscardExplanation( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, normalized: String, anchors: List&lt;String&gt;, hasAnchor: Boolean, questionStyle: Boolean, qaStyle: Boolean, noisy: Boolean, tokenCoverage: Float, contextualSignal: Float ): LocalDiscardExplanation</ID>
-    <ID>ReturnCount:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$fun chineseNumberToInt(text: String): Int?</ID>
-    <ID>ReturnCount:LocalEvidenceHeuristics.kt$LocalEvidenceHeuristics$fun expandCompactChineseToken(token: String): List&lt;String&gt;</ID>
-    <ID>ReturnCount:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$private fun evaluateCandidate( understanding: com.example.powerai.domain.query.QueryUnderstandingResult, result: RetrievalResult ): CandidateEvaluation?</ID>
-    <ID>ReturnCount:LocalEvidenceScorer.kt$LocalEvidenceScorer$fun matchesDefinitionSubject(understanding: QueryUnderstandingResult, normalized: String): Boolean</ID>
-    <ID>ReturnCount:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$fun extract( query: String, retrievals: List&lt;RetrievalResult&gt;, assessment: LocalEvidenceAssessment ): LocalExtractiveAnswer?</ID>
-    <ID>ReturnCount:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$private fun buildCandidates( intent: QueryIntent, retrievalQueries: List&lt;String&gt;, result: RetrievalResult ): List&lt;Candidate&gt;</ID>
-    <ID>ReturnCount:LocalExtractiveAnswerBuilder.kt$LocalExtractiveAnswerBuilder$private fun neighboringWindow(sentences: List&lt;String&gt;, index: Int): String</ID>
-    <ID>ReturnCount:LocalModeUiPayloadFactory.kt$LocalModeUiPayloadFactory$private fun isAnswerAlignedEvidence( retrieval: RetrievalResult, extractiveAnswer: LocalExtractiveAnswer? ): Boolean</ID>
-    <ID>ReturnCount:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder$private fun extractComparisonPair(normalized: String): Pair&lt;String, String&gt;?</ID>
-    <ID>ReturnCount:LocalSummaryCard.kt$private fun buildLocalSummaryDisplayText( summary: String, pageState: LocalPageState, citationCount: Int ): String</ID>
     <ID>ReturnCount:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$private fun normalizeTableBlockOrNull( blockLines: List&lt;String&gt;, degradeUnsafeTablesToCodeBlock: Boolean ): List&lt;String&gt;?</ID>
     <ID>ReturnCount:MarkdownTableUtils.kt$MarkdownTableUtils$fun isSeparatorRow(cells: List&lt;String&gt;): Boolean</ID>
     <ID>ReturnCount:MarkdownTableUtils.kt$MarkdownTableUtils$fun splitRow(line: String): List&lt;String&gt;</ID>
-    <ID>ReturnCount:MarkdownTextView.kt$private fun isSafeLatexBody(body: String): Boolean</ID>
-    <ID>ReturnCount:MarkwonHelper.kt$MarkwonHelper$fun create(context: Context): Markwon</ID>
-    <ID>ReturnCount:MarkwonHelper.kt$MarkwonHelper$fun createNoTables(context: Context): Markwon</ID>
-    <ID>ReturnCount:PdfBoundingBox.kt$fun f(key: String): Float?</ID>
-    <ID>ReturnCount:PdfBoundingBox.kt$internal fun parsePdfBoundingBoxOrNull(bboxJson: String?): PdfBoundingBox?</ID>
-    <ID>ReturnCount:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$fun breadcrumbFor(context: Context, fileId: String, pageNumber: Int): List&lt;String&gt;?</ID>
-    <ID>ReturnCount:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$fun labelForPath(path: List&lt;String&gt;?): String?</ID>
-    <ID>ReturnCount:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$fun restorePdfFromAssetsIfPossible(context: Context, fileId: String): Boolean</ID>
-    <ID>ReturnCount:PdfOutlineIndexStore.kt$PdfOutlineIndexStore$private fun loadOnce(context: Context): IndexFile?</ID>
-    <ID>ReturnCount:PdfPageItem.kt$private fun calculateFocusTransform( highlightBox: PdfBoundingBox?, originalPageSize: Size?, pageWidthPx: Float, pageHeightPx: Float ): FocusTransform?</ID>
-    <ID>ReturnCount:PdfSourceRef.kt$PdfSourceRef$fun display(source: String?): String</ID>
-    <ID>ReturnCount:PdfSourceRef.kt$PdfSourceRef$fun parse(source: String?): Ref?</ID>
-    <ID>ReturnCount:PdfSourceRef.kt$PdfSourceRef$private fun sanitizeDisplayPart(value: String?): String?</ID>
     <ID>ReturnCount:QueryRewritePlanner.kt$QueryRewritePlanner$fun extractDefinitionCue(query: String): String?</ID>
     <ID>ReturnCount:QueryRewritePlanner.kt$QueryRewritePlanner$fun extractDefinitionSubject(query: String): String?</ID>
     <ID>ReturnCount:QueryRewritePlanner.kt$QueryRewritePlanner$private fun extractActionRewriteParts(query: String): ActionRewriteParts?</ID>
     <ID>ReturnCount:QueryRewritePlanner.kt$QueryRewritePlanner$private fun extractTrailingActionPhrase(query: String): ActionRewriteParts?</ID>
-    <ID>ReturnCount:ResponseBody.kt$private fun splitStreamingMarkdown(text: String): StreamingMarkdownSplit</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun collectFigureNodeSignals(root: JsonElement?, query: String): FigureNodeSignals</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun collectRoleTexts(root: JsonElement?): CollectedRoleTexts</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun extractText(element: JsonElement?): String</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun inferRole(element: JsonElement?): String</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun looksLikeBodyFallback(text: String): Boolean</ID>
-    <ID>ReturnCount:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder$private fun matchesQuery(text: String, normalizedQuery: String, noSpaceQuery: String): Boolean</ID>
     <ID>ReturnCount:SmartAnswerGuard.kt$SmartAnswerGuard$fun isMetaReasoningLead(text: String): Boolean</ID>
     <ID>ReturnCount:SmartAnswerGuard.kt$SmartAnswerGuard$fun stripMetaReasoningLead(text: String): String</ID>
-    <ID>ReturnCount:SmartPage.kt$internal fun buildSmartBubbleLabel( currentIndex: Int, currentAnchor: LazyListScrollAnchor?, anchors: List&lt;LazyListScrollAnchor&gt; ): String</ID>
-    <ID>ReturnCount:SnapshotUriSelector.kt$SnapshotUriSelector$fun select( imageUrisJson: String?, pageNumber: Int?, blockId: String?, isTable: Boolean ): String?</ID>
-    <ID>ReturnCount:SnapshotUriSelector.kt$SnapshotUriSelector$private fun parseImageUrisJson(json: String?): List&lt;String&gt;</ID>
     <ID>ReturnCount:SparseSearcher.kt$SparseSearcher$fun search(query: String, topN: Int = 2): List&lt;SafetyEntry&gt;</ID>
     <ID>ReturnCount:SparseSearcher.kt$SparseSearcher$private fun mapFilenameToTitle(filename: String): String</ID>
     <ID>ReturnCount:SparseSearcherLoader.kt$DefaultSparseSearcherLoader$fun mapFilenameToTitle(filename: String): String</ID>
     <ID>ReturnCount:SparseTokenizer.kt$SparseTokenizer$fun tokenize(query: String): List&lt;String&gt;</ID>
-    <ID>ReturnCount:TextHighlightUtils.kt$internal fun buildHighlightedPreview( fullText: String, keyword: String, highlightStyle: SpanStyle, maxChars: Int, beforeChars: Int = -1 ): AnnotatedString</ID>
-    <ID>ReturnCount:TextHighlightUtils.kt$internal fun findMatchIndexIgnoringWhitespace(fullText: String, keyword: String): Int</ID>
-    <ID>ReturnCount:TextHighlightUtils.kt$internal fun highlightAllWithWhitespaceFallback( text: String, keyword: String, highlightStyle: SpanStyle ): AnnotatedString</ID>
-    <ID>ReturnCount:TextHighlightUtils.kt$private fun findFirstFuzzyMatchStart(text: String, keyCompact: String): Int</ID>
     <ID>ReturnCount:ThinkingInterceptor.kt$ThinkingInterceptor$fun stripThinkingSegments(text: String): String</ID>
     <ID>ReturnCount:VisionBoostJson.kt$VisionBoostJson$private fun JsonObject.getAsStringOrNull(key: String): String?</ID>
     <ID>ReturnCount:VisionBoostJson.kt$VisionBoostJson$private fun extractFromRoot(root: JsonElement): String</ID>
@@ -990,7 +478,6 @@
     <ID>ReturnCount:VisionService.kt$VisionService$private fun extractGeminiTextOrNull(responseJson: String): String?</ID>
     <ID>ReturnCount:VisionService.kt$VisionService$private fun sniffImageMimeType(bytes: ByteArray): String</ID>
     <ID>ReturnCount:VisionService.kt$VisionService$private fun stripCodeFences(s: String): String</ID>
-    <ID>ReturnCount:ZoomableImageView.kt$ZoomableImageView$private fun fitImageToView()</ID>
     <ID>SpreadOperator:GemmaReflectionHelper.kt$GemmaReflectionHelper$(engineObj, *args.toTypedArray())</ID>
     <ID>SpreadOperator:LlamaJniReflection.kt$LlamaJniReflection$(*args)</ID>
     <ID>SwallowedException:DataSyncWorker.kt$DataSyncWorker$t: Throwable</ID>
@@ -1000,44 +487,28 @@
     <ID>SwallowedException:EmbeddingWorker.kt$EmbeddingWorker$t: Throwable</ID>
     <ID>SwallowedException:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$t: Throwable</ID>
     <ID>SwallowedException:JsonRepository.kt$JsonRepository$t: Throwable</ID>
-    <ID>SwallowedException:KnowledgeDetailMarkdownAssetImagesRewriteHelpers.kt$KnowledgeDetailMarkdownAssetImagesRewriteHelpers$t: Throwable</ID>
     <ID>SwallowedException:LlamaJni.kt$LlamaJni$t: Throwable</ID>
     <ID>SwallowedException:LlamaJniReflection.kt$LlamaJniReflection$e: Throwable</ID>
     <ID>SwallowedException:LocalFaissAnnRetriever.kt$LocalFaissAnnRetriever$t: Throwable</ID>
-    <ID>SwallowedException:MarkwonHelper.kt$MarkwonHelper$t: Throwable</ID>
-    <ID>SwallowedException:MarkwonHelper.kt$MarkwonHelper.&lt;no name provided&gt;.&lt;no name provided&gt;$t: Throwable</ID>
     <ID>SwallowedException:NativeAnnRetriever.kt$NativeAnnRetriever$t: Throwable</ID>
     <ID>SwallowedException:PowerAiApplication.kt$PowerAiApplication$e: Throwable</ID>
-    <ID>SwallowedException:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$elemEx: Throwable</ID>
     <ID>SwallowedException:TxtParser.kt$TxtParser$e: Exception</ID>
-    <ID>SwallowedException:VectorSearchClient.kt$VectorSearchClient$t: Throwable</ID>
     <ID>ThrowsCount:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$private fun analyzeWithGateway(imageUri: String, prompt: String): String</ID>
     <ID>TooGenericExceptionCaught:AiStreamUseCase.kt$AiStreamUseCase$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:AskAiUseCase.kt$AskAiUseCase$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:AssetPreloadWorker.kt$AssetPreloadWorker$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DataSyncWorker.kt$DataSyncWorker$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DatabaseMigrationUtils.kt$DatabaseMigrationUtils$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:DatabaseViewModel.kt$DatabaseViewModel$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DeepSeekEngine.kt$DeepSeekEngine$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:DocumentImportManager.kt$DocumentImportManager$e: Exception</ID>
     <ID>TooGenericExceptionCaught:DocumentImportManager.kt$DocumentImportManager$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:EmbeddingWorker.kt$EmbeddingWorker$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceEngine.kt$GemmaInferenceEngine$inner: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceEngine.kt$GemmaInferenceEngine$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaInferenceLauncher.kt$GemmaInferenceLauncher$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:GemmaLocalInference.kt$GemmaLocalInference$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:HybridQueryUseCase.kt$HybridQueryUseCase$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:HybridViewModel.kt$HybridViewModel$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:ImportMemoryBenchmark.kt$ImportMemoryBenchmark$e: Exception</ID>
     <ID>TooGenericExceptionCaught:JsonRepository.kt$JsonRepository$e: Exception</ID>
     <ID>TooGenericExceptionCaught:JsonRepository.kt$JsonRepository$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:JsonResourceImporter.kt$JsonResourceImporter$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeDetailMarkdownAssetImagesRewriteHelpers.kt$KnowledgeDetailMarkdownAssetImagesRewriteHelpers$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeDetailViewModel.kt$KnowledgeDetailViewModel$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$e: Throwable</ID>
     <ID>TooGenericExceptionCaught:KnowledgeRepositoryImpl.kt$KnowledgeRepositoryImpl$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LlamaEngineController.kt$LlamaEngineController$t: Throwable</ID>
@@ -1047,29 +518,19 @@
     <ID>TooGenericExceptionCaught:LlamaNativeBridge.kt$LlamaNativeBridge$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LlamaReflectionBridge.kt$LlamaReflectionBridge$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:LocalFaissAnnRetriever.kt$LocalFaissAnnRetriever$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:MarkwonHelper.kt$MarkwonHelper$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:MarkwonHelper.kt$MarkwonHelper.&lt;no name provided&gt;.&lt;no name provided&gt;$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:NativeAnnRetriever.kt$NativeAnnRetriever$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:PdfViewerScreen.kt$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:PhotoViewerActivity.kt$PhotoViewerActivity$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PowerAiApplication.kt$PowerAiApplication$e: Throwable</ID>
     <ID>TooGenericExceptionCaught:RoomFtsRetriever.kt$RoomFtsRetriever$t: Throwable</ID>
-    <ID>TooGenericExceptionCaught:SearchViewModel.kt$SearchViewModel$t: Throwable</ID>
     <ID>TooGenericExceptionCaught:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:StreamingJsonResourceImporter.kt$StreamingJsonResourceImporter$elemEx: Throwable</ID>
     <ID>TooGenericExceptionCaught:TxtParser.kt$TxtParser$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:VectorSearchClient.kt$VectorSearchClient$t: Throwable</ID>
-    <ID>TooManyFunctions:BlockItemComponents.kt$com.example.powerai.ui.blocks.BlockItemComponents.kt</ID>
     <ID>TooManyFunctions:BlocksTextExtractor.kt$BlocksTextExtractor</ID>
     <ID>TooManyFunctions:ChatSessionManager.kt$ChatSessionManager</ID>
-    <ID>TooManyFunctions:DatabaseNavigation.kt$com.example.powerai.ui.screen.database.DatabaseNavigation.kt</ID>
-    <ID>TooManyFunctions:DatabaseViewModel.kt$DatabaseViewModel : BaseMviViewModel</ID>
     <ID>TooManyFunctions:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator$BenchmarkDelegate</ID>
     <ID>TooManyFunctions:DeepSeekEngine.kt$DeepSeekEngine : PowerAIEngine</ID>
     <ID>TooManyFunctions:DeepSeekNativeRuntime.kt$DeepSeekNativeRuntime</ID>
     <ID>TooManyFunctions:DeepSeekNativeRuntimeBridge.kt$DeepSeekNativeRuntimeBridge</ID>
     <ID>TooManyFunctions:DeepSeekViewModel.kt$DeepSeekViewModel : BaseMviViewModelBenchmarkDelegateGenerationDelegate</ID>
-    <ID>TooManyFunctions:HybridViewModel.kt$HybridViewModel : BaseMviViewModel</ID>
+    <ID>TooManyFunctions:DocumentImportManager.kt$DocumentImportManager : HybridKbImportPort</ID>
     <ID>TooManyFunctions:KbAssetPathNormalizer.kt$KbAssetPathNormalizer</ID>
     <ID>TooManyFunctions:KnowledgeDao.kt$KnowledgeDao</ID>
     <ID>TooManyFunctions:KnowledgeRepository.kt$KnowledgeRepository</ID>
@@ -1077,35 +538,17 @@
     <ID>TooManyFunctions:LegacyAarDeepSeekRuntime.kt$LegacyAarDeepSeekRuntime : DeepSeekNativeRuntime</ID>
     <ID>TooManyFunctions:LlamaCppDeepSeekRuntime.kt$LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime</ID>
     <ID>TooManyFunctions:LlamaJni.kt$LlamaJni</ID>
-    <ID>TooManyFunctions:LocalAnswerPlanner.kt$LocalAnswerPlanner</ID>
-    <ID>TooManyFunctions:LocalSearchQueryVariantBuilder.kt$LocalSearchQueryVariantBuilder</ID>
-    <ID>TooManyFunctions:LocalSummaryCard.kt$com.example.powerai.ui.screen.main.LocalSummaryCard.kt</ID>
     <ID>TooManyFunctions:MarkdownTableNormalizer.kt$MarkdownTableNormalizer</ID>
     <ID>TooManyFunctions:MemoryKnowledgeDao.kt$MemoryKnowledgeDao : KnowledgeDao</ID>
     <ID>TooManyFunctions:NativeVectorRepository.kt$NativeVectorRepository : VectorRepository</ID>
     <ID>TooManyFunctions:PowerAIEngine.kt$PowerAIEngine</ID>
     <ID>TooManyFunctions:QueryRewritePlanner.kt$QueryRewritePlanner</ID>
-    <ID>TooManyFunctions:SemanticRoleSearchTextBuilder.kt$SemanticRoleSearchTextBuilder</ID>
-    <ID>UnusedParameter:AiPromptProvider.kt$AiPromptProvider$question: String</ID>
     <ID>UnusedParameter:AiSearchArea.kt$onSearch: () -&gt; Unit</ID>
-    <ID>UnusedParameter:BlockItemComponents.kt$highlight: String</ID>
-    <ID>UnusedParameter:BlocksRenderer.kt$fontScale: Float = 1f</ID>
     <ID>UnusedParameter:BlocksTextExtractor.kt$BlocksTextExtractor$fallbackContext: String? = null</ID>
-    <ID>UnusedParameter:DatabaseUseCase.kt$DatabaseUseCase$entityId: Long</ID>
-    <ID>UnusedParameter:DatabaseUseCase.kt$DatabaseUseCase$query: String</ID>
     <ID>UnusedParameter:DeepSeekPromptManager.kt$DeepSeekPromptManager$mode: SmartAnswerMode</ID>
     <ID>UnusedParameter:DeepSeekSessionManager.kt$DeepSeekSessionManager$now: Long = System.currentTimeMillis()</ID>
-    <ID>UnusedParameter:DrawerWrapper.kt$onEdgeAction: (() -&gt; Unit)? = null</ID>
-    <ID>UnusedParameter:EmbeddingTestActivity.kt$EmbeddingTestActivity$dim: Int</ID>
     <ID>UnusedParameter:GemmaFallbackProvider.kt$GemmaFallbackProvider$prompt: PromptBuilder.Prompt</ID>
     <ID>UnusedParameter:GemmaInferenceEngine.kt$GemmaInferenceEngine$maxTokens: Int</ID>
-    <ID>UnusedParameter:JsonResourceImporter.kt$JsonResourceImporter$metadata: JsonResourceParser.FileMetadata</ID>
-    <ID>UnusedParameter:KnowledgeDetailFallbackChunkItem.kt$index: Int</ID>
-    <ID>UnusedParameter:KnowledgeDetailFallbackMarkwonTextView.kt$fontScale: Float = 1f</ID>
-    <ID>UnusedParameter:KnowledgeDetailFallbackMarkwonTextView.kt$onAnchorClick: ((String) -&gt; Unit)? = null</ID>
-    <ID>UnusedParameter:KnowledgeDetailFallbackMarkwonTextView.kt$textAlign: androidx.compose.ui.text.style.TextAlign = androidx.compose.ui.text.style.TextAlign.Start</ID>
-    <ID>UnusedParameter:KnowledgeDetailStructuredTable.kt$borderColor: Color</ID>
-    <ID>UnusedParameter:KnowledgeDetailSuccessContent.kt$entryNavigation: com.example.powerai.domain.model.DetailEntryNavigation?</ID>
     <ID>UnusedParameter:LlamaContext.kt$LlamaContext$callback: (String) -&gt; Unit</ID>
     <ID>UnusedParameter:LlamaContext.kt$LlamaContext$params: Map&lt;String, Any&gt;</ID>
     <ID>UnusedParameter:LlamaEngineController.kt$LlamaEngineController$context: Context?</ID>
@@ -1113,26 +556,12 @@
     <ID>UnusedParameter:LlamaJni.kt$LlamaJni$stateData: ByteArray?</ID>
     <ID>UnusedParameter:LlamaJni.kt$LlamaJni$useGpu: Boolean</ID>
     <ID>UnusedParameter:LlamaJniDiagnostics.kt$LlamaJniDiagnostics$instance: Any</ID>
-    <ID>UnusedParameter:LocalEvidenceRefiner.kt$LocalEvidenceRefiner$understanding: com.example.powerai.domain.query.QueryUnderstandingResult</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$animateItems: Boolean</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$currentPage: Int</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$expandedItemId: Long?</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$hasNext: Boolean</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$hasPrev: Boolean</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$onNext: () -&gt; Unit</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$onPrev: () -&gt; Unit</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$onToggleExpand: (Long) -&gt; Unit</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$pageSize: Int = 4</ID>
-    <ID>UnusedParameter:LocalResultsPage.kt$totalPages: Int</ID>
-    <ID>UnusedParameter:LocalSearchArea.kt$innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()</ID>
-    <ID>UnusedParameter:MainPager.kt$onOpenAiDetail: (title: String, content: String, query: String) -&gt; Unit</ID>
     <ID>UnusedParameter:MainSearchAndResultsArea.kt$onOpenDatabaseSource: (KnowledgeItem) -&gt; Unit = {}</ID>
     <ID>UnusedParameter:MainSearchAndResultsArea.kt$onPrefetchSourceFileNames: (List&lt;KnowledgeItem&gt;) -&gt; Unit = {}</ID>
     <ID>UnusedParameter:MarkdownTableNormalizer.kt$MarkdownTableNormalizer$blockLines: List&lt;String&gt;</ID>
     <ID>UnusedParameter:PromptBuilder.kt$PromptBuilder$mode: LocalPromptMode</ID>
     <ID>UnusedParameter:RAGDataCoordinator.kt$RAGDataCoordinator$query: String</ID>
     <ID>UnusedParameter:RAGDataCoordinator.kt$RAGDataCoordinator$topK: Int = 5</ID>
-    <ID>UnusedParameter:RetrievalFusionUseCase.kt$RetrievalFusionUseCase$forceAnn: Boolean = false</ID>
     <ID>UnusedParameter:SmartSearchArea.kt$animateItems: Boolean</ID>
     <ID>UnusedParameter:SmartSearchArea.kt$currentPage: Int</ID>
     <ID>UnusedParameter:SmartSearchArea.kt$expandedItemId: Long?</ID>
@@ -1146,14 +575,9 @@
     <ID>UnusedParameter:SmartSearchArea.kt$pageSize: Int = 4</ID>
     <ID>UnusedParameter:SmartSearchArea.kt$totalPages: Int</ID>
     <ID>UnusedParameter:SparseSearchAuditLogger.kt$SparseSearchAuditLogger$query: String</ID>
-    <ID>UnusedParameter:VisualPeekPopup.kt$caption: String</ID>
-    <ID>UnusedPrivateMember:LocalSummaryCard.kt$@Composable private fun LocalDiscardedDiagnosticItem( index: Int, hit: LocalDiscardedDiagnosticHit, modifier: Modifier = Modifier )</ID>
-    <ID>UnusedPrivateMember:LocalSummaryCard.kt$private fun buildLocalDiagnosticSummaryLines(snapshot: LocalDiagnosticSnapshot): List&lt;String&gt;</ID>
     <ID>UnusedPrivateMember:SparseSearcher.kt$SparseSearcher$private fun mapFilenameToTitle(filename: String): String</ID>
     <ID>UnusedPrivateMember:StreamingJsonEntryParser.kt$StreamingJsonEntryParser$private fun JsonObject.getAsNullableInt(name: String): Int?</ID>
     <ID>UnusedPrivateMember:StreamingJsonEntryParser.kt$StreamingJsonEntryParser$private fun JsonObject.getAsNullableString(name: String): String?</ID>
-    <ID>UnusedPrivateProperty:AiStreamViewModel.kt$AiStreamViewModel$private val chatHistoryStore: com.example.powerai.data.chat.ChatHistoryStore</ID>
-    <ID>UnusedPrivateProperty:AskAiUseCase.kt$AskAiUseCase$private val tag = "AskAiUseCase"</ID>
     <ID>UnusedPrivateProperty:BlocksParser.kt$BlocksParser$private const val TAG = "PowerAi.Trace"</ID>
     <ID>UnusedPrivateProperty:ChatHistoryStore.kt$ChatHistoryStore$private val tag = "ChatHistoryStore"</ID>
     <ID>UnusedPrivateProperty:DatabaseMigrationUtils.kt$DatabaseMigrationUtils$private const val TAG = "DbSelfHeal"</ID>
@@ -1171,18 +595,8 @@
     <ID>UnusedPrivateProperty:GemmaLocalInference.kt$GemmaLocalInference.Companion$private const val TAG = "GemmaLocalInference"</ID>
     <ID>UnusedPrivateProperty:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$private val tag = "WebSearch"</ID>
     <ID>UnusedPrivateProperty:GoogleCustomSearchClient.kt$GoogleCustomSearchClient$val bodyPreview = bodyRaw.take(2000)</ID>
-    <ID>UnusedPrivateProperty:HybridViewModel.kt$HybridViewModel$private val tag = "HybridVM"</ID>
     <ID>UnusedPrivateProperty:JsonImportHelpers.kt$StreamingJsonBenchmark$el</ID>
     <ID>UnusedPrivateProperty:JsonRepository.kt$JsonRepository$private val scope = CoroutineScope(Dispatchers.IO)</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailFallbackChunksState.kt$val start = System.currentTimeMillis()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailFallbackContent.kt$val start = System.currentTimeMillis()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailFallbackMarkwonTextView.kt$val start = System.currentTimeMillis()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailFallbackTableCompose.kt$val start = System.currentTimeMillis()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailFallbackTableWebView.kt$val start = System.currentTimeMillis()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailMarkdownAssetImages.kt$val hasBang = markdown.contains("!")</ID>
-    <ID>UnusedPrivateProperty:KnowledgeDetailMarkdownAssetImages.kt$val hasSquare = markdown.contains("[") &amp;&amp; markdown.contains("]")</ID>
-    <ID>UnusedPrivateProperty:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$val lower = displayName.lowercase()</ID>
-    <ID>UnusedPrivateProperty:KnowledgeImportUriFlow.kt$KnowledgeImportUriFlow$val mimeType = try { context.contentResolver.getType(uri) } catch (_: Exception) { null }</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_MIN_P = 0.0f</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_TEMPERATURE = 0.7f</ID>
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$private const val DEFAULT_INIT_TOP_K = 20</ID>
@@ -1192,7 +606,6 @@
     <ID>UnusedPrivateProperty:LlamaJni.kt$LlamaJni$val requestId = ++stopRequestSerial</ID>
     <ID>UnusedPrivateProperty:LlamaJniDiagnostics.kt$LlamaJniDiagnostics$private const val TAG = "llama_jni_diag"</ID>
     <ID>UnusedPrivateProperty:LlamaJniReflection.kt$LlamaJniReflection$val p = params[idx]</ID>
-    <ID>UnusedPrivateProperty:MarkwonHelper.kt$MarkwonHelper$private const val TAG = "MarkwonHelper"</ID>
     <ID>UnusedPrivateProperty:MyAppGlideModule.kt$MyAppGlideModule$val TAG = "MyAppGlideModule"</ID>
     <ID>UnusedPrivateProperty:NativeAnnRetriever.kt$NativeAnnRetriever$private val embeddingRepository: EmbeddingRepository</ID>
     <ID>UnusedPrivateProperty:NativeAnnRetriever.kt$NativeAnnRetriever$val endEmbed = System.nanoTime()</ID>
@@ -1207,7 +620,6 @@
     <ID>UseCheckOrError:AiStreamConfigHelper.kt$AiStreamConfigHelper$throw IllegalStateException( "AI 未配置：请在本地通过 Gradle 配置 AI_BASE_URL（或在 local.properties 中设置）" )</ID>
     <ID>UseCheckOrError:DeepSeekEngine.kt$DeepSeekEngine$throw IllegalStateException("DeepSeek model not loaded")</ID>
     <ID>UseCheckOrError:DeepSeekSessionManager.kt$DeepSeekSessionManager$throw IllegalStateException("加载超时")</ID>
-    <ID>UseCheckOrError:HybridAiStreamingClient.kt$HybridAiStreamingClient$throw IllegalStateException("Empty response body")</ID>
     <ID>UseCheckOrError:StreamingJsonBatchWriter.kt$StreamingJsonBatchWriter$throw IllegalStateException("reusableEntitiesArray too small")</ID>
     <ID>UseCheckOrError:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$throw IllegalStateException("GEMINI_API_KEY not set")</ID>
     <ID>UseCheckOrError:VisionBoostRepositoryImpl.kt$VisionBoostRepositoryImpl$throw IllegalStateException("VisionBoost HTTP ${resp.code}: ${body.take(300)}")</ID>
@@ -1217,30 +629,8 @@
     <ID>VariableNaming:DeepSeekBenchmarkOrchestrator.kt$DeepSeekBenchmarkOrchestrator.BenchmarkDelegate$val CACHE_REUSE_MIN_TOKENS: Int</ID>
     <ID>VariableNaming:DeepSeekGenerationOrchestrator.kt$DeepSeekGenerationOrchestrator.GenerationDelegate$val CACHE_REUSE_MIN_TOKENS: Int</ID>
     <ID>VariableNaming:MyAppGlideModule.kt$MyAppGlideModule$val TAG = "MyAppGlideModule"</ID>
-    <ID>VariableNaming:PhotoViewerActivity.kt$PhotoViewerActivity$val TAG = "PhotoViewerActivity"</ID>
     <ID>WildcardImport:AiStreamOrchestrator.kt$import kotlinx.coroutines.*</ID>
     <ID>WildcardImport:DeepSeekEngine.kt$import kotlinx.coroutines.*</ID>
-    <ID>WildcardImport:DetailCompositeBlocks.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:DetailCompositeBlocks.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:DetailCompositeBlocks.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:DetailCompositeBlocks.kt$import com.example.powerai.ui.blocks.*</ID>
-    <ID>WildcardImport:DetailTableBlocks.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:DetailTableBlocks.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:DetailTableBlocks.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:DetailTableBlocks.kt$import com.example.powerai.ui.blocks.*</ID>
-    <ID>WildcardImport:FigureNodeBlocks.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:FigureNodeBlocks.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:HybridLogic.kt$import kotlinx.coroutines.*</ID>
-    <ID>WildcardImport:KnowledgeDetailBasicBlocks.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:KnowledgeDetailBasicBlocks.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:KnowledgeDetailBasicBlocks.kt$import com.example.powerai.ui.blocks.*</ID>
-    <ID>WildcardImport:KnowledgeDetailBlockDispatcher.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:KnowledgeDetailBlockDispatcher.kt$import com.example.powerai.ui.blocks.*</ID>
-    <ID>WildcardImport:KnowledgeDetailReadingHeader.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:KnowledgeDetailReadingHeader.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:KnowledgeDetailReadingHeader.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:KnowledgeDetailReadingUtils.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:KnowledgeDetailReadingUtils.kt$import androidx.compose.runtime.*</ID>
     <ID>WildcardImport:SmartDeepSeekAdvancedControls.kt$import androidx.compose.foundation.layout.*</ID>
     <ID>WildcardImport:SmartDeepSeekAdvancedControls.kt$import androidx.compose.material3.*</ID>
     <ID>WildcardImport:SmartDeepSeekAdvancedControls.kt$import com.example.powerai.feature.searchchat.*</ID>
@@ -1248,7 +638,5 @@
     <ID>WildcardImport:SmartDeepSeekTabContent.kt$import androidx.compose.material3.*</ID>
     <ID>WildcardImport:SmartDeepSeekTabContent.kt$import androidx.compose.runtime.*</ID>
     <ID>WildcardImport:SmartDeepSeekTabContent.kt$import com.example.powerai.feature.searchchat.*</ID>
-    <ID>WildcardImport:VisualPeekPopup.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:VisualPeekPopup.kt$import androidx.compose.material3.*</ID>
   </CurrentIssues>
 </SmellBaseline>
