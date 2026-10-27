@@ -7,13 +7,13 @@ internal object HybridUiStateFactory {
         current: HybridUiState,
         question: String,
         sanitizedQuestion: String,
-        askedAtMillis: Long
+        askedAtMillis: Long,
     ): HybridUiState {
         return current.copy(
             isLoading = true,
             question = question,
             sanitizedQuestion = sanitizedQuestion,
-            askedAtMillis = askedAtMillis
+            askedAtMillis = askedAtMillis,
         )
     }
 
@@ -27,41 +27,41 @@ internal object HybridUiStateFactory {
             askedAtMillis = null,
             aiAnswer = null,
             evidenceList = emptyList(),
-            localSummaryState = LocalSummaryState()
+            localSummaryState = LocalSummaryState(),
         )
     }
 
     fun localCompleted(
         current: HybridUiState,
-        references: List<KnowledgeItem>
+        references: List<KnowledgeItem>,
     ): HybridUiState {
         return current.copy(
             answer = "",
             references = references,
-            isLoading = false
+            isLoading = false,
         )
     }
 
     fun aiCompleted(
         current: HybridUiState,
-        answer: String
+        answer: String,
     ): HybridUiState {
         return current.copy(
             answer = answer,
             references = emptyList(),
-            isLoading = false
+            isLoading = false,
         )
     }
 
     fun smartCompleted(
         current: HybridUiState,
         answer: String,
-        references: List<KnowledgeItem>
+        references: List<KnowledgeItem>,
     ): HybridUiState {
         return current.copy(
             answer = answer,
             references = references,
-            isLoading = false
+            isLoading = false,
         )
     }
 }

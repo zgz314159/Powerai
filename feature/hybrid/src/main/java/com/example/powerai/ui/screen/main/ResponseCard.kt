@@ -50,16 +50,17 @@ fun TypingAiResponseCard(
     onRetry: () -> Unit,
     allowRetry: Boolean = false,
     onCitationClick: ((Int) -> Unit)? = null,
-    renderMarkdownWhenPossible: Boolean = true
+    renderMarkdownWhenPossible: Boolean = true,
 ) {
     var now by remember { mutableStateOf(System.currentTimeMillis()) }
     val lifecycleOwner = LocalLifecycleOwner.current
     var isVisible by remember { mutableStateOf(lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) }
 
     DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, _ ->
-            isVisible = lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
-        }
+        val observer =
+            LifecycleEventObserver { _, _ ->
+                isVisible = lifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+            }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
@@ -89,9 +90,10 @@ fun TypingAiResponseCard(
 
     // Stream-like conversation layout (no outer card, flat style)
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .animateContentSize(),
     ) {
         if (!userMessage.isNullOrBlank()) {
             Spacer(Modifier.height(8.dp))
@@ -100,15 +102,26 @@ fun TypingAiResponseCard(
                 Surface(
                     shape = RoundedCornerShape(20.dp),
                     color = Color.Black.copy(alpha = 0.05f),
-                    modifier = Modifier
-                        .widthIn(max = 280.dp)
-                        .padding(end = 16.dp)
+                    modifier =
+                        Modifier
+                            .widthIn(max = 280.dp)
+                            .padding(end = 16.dp),
                 ) {
-                    Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp), contentAlignment = androidx.compose.ui.Alignment.CenterStart) {
+                    Box(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                        contentAlignment = androidx.compose.ui.Alignment.CenterStart,
+                    ) {
                         Text(
                             text = userMessage,
-                            style = MaterialTheme.typography.bodyLarge.merge(TextStyle(fontSize = 16.sp, lineHeight = 24.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Normal)),
-                            color = MaterialTheme.colorScheme.onSurface
+                            style =
+                                MaterialTheme.typography.bodyLarge.merge(
+                                    TextStyle(
+                                        fontSize = 16.sp,
+                                        lineHeight = 24.sp,
+                                        fontWeight = androidx.compose.ui.text.font.FontWeight.Normal,
+                                    ),
+                                ),
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -121,7 +134,7 @@ fun TypingAiResponseCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                         maxLines = 1,
-                        modifier = Modifier.padding(top = 4.dp, end = 12.dp)
+                        modifier = Modifier.padding(top = 4.dp, end = 12.dp),
                     )
                 }
             }
@@ -137,8 +150,9 @@ fun TypingAiResponseCard(
                 shape = RoundedCornerShape(0.dp),
                 color = Color.White,
                 tonalElevation = 0.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)) {
                     // 移除 header（保ChatGPT 风格），只渲染正
@@ -149,7 +163,7 @@ fun TypingAiResponseCard(
                         onRetry = onRetry,
                         allowRetry = allowRetry,
                         onCitationClick = onCitationClick,
-                        renderMarkdownWhenPossible = renderMarkdownWhenPossible
+                        renderMarkdownWhenPossible = renderMarkdownWhenPossible,
                     )
                 }
             }

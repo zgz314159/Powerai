@@ -8,13 +8,13 @@ import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.LocalHighlightTarget
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.data.importer.AssetImportDiagnostics
-import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.data.importer.KbRebuildState
 import com.example.powerai.data.importer.UserKbPackageSummary
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
 import com.example.powerai.domain.repository.SearchHistoryRepository
 import com.example.powerai.domain.usecase.DatabaseUseCase
+import com.example.powerai.feature.database.DatabaseKbPort
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow

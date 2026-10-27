@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
  */
 class SessionBufferCollator(
     private val scope: CoroutineScope,
-    private val persistThresholdMs: Long = 500L
+    private val persistThresholdMs: Long = 500L,
 ) {
     /**
      * Mutable flow that callers should push new text values into. Each time the
@@ -38,20 +38,21 @@ class SessionBufferCollator(
         // guard against duplicate starts
         if (collectorJob != null) return buffer
 
-        collectorJob = scope.launch {
-            var lastPersistAt = 0L
-            var firstPersisted = false
+        collectorJob =
+            scope.launch {
+                var lastPersistAt = 0L
+                var firstPersisted = false
 
-            buffer.collect { sampled ->
-                if (sampled.isBlank()) return@collect
-                val now = System.currentTimeMillis()
-                if (!firstPersisted || now - lastPersistAt > persistThresholdMs) {
-                    onPersist(sampled)
-                    lastPersistAt = now
-                    firstPersisted = true
+                buffer.collect { sampled ->
+                    if (sampled.isBlank()) return@collect
+                    val now = System.currentTimeMillis()
+                    if (!firstPersisted || now - lastPersistAt > persistThresholdMs) {
+                        onPersist(sampled)
+                        lastPersistAt = now
+                        firstPersisted = true
+                    }
                 }
             }
-        }
         return buffer
     }
 

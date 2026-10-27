@@ -4,7 +4,7 @@ enum class LocalQueryIntent {
     FACT_QUESTION,
     TOPIC_OVERVIEW,
     PROCEDURE,
-    COMPARISON
+    COMPARISON,
 }
 
 enum class LocalPageState {
@@ -14,7 +14,7 @@ enum class LocalPageState {
     ANSWER_READY,
     TOPIC_OVERVIEW,
     INSUFFICIENT_EVIDENCE,
-    ERROR
+    ERROR,
 }
 
 data class LocalDiagnosticSnapshot(
@@ -26,10 +26,16 @@ data class LocalDiagnosticSnapshot(
     val topEvidenceSource: String = "",
     val topEvidencePreview: String = "",
     val topHits: List<LocalDiagnosticHit> = emptyList(),
-    val discardedHits: List<LocalDiscardedDiagnosticHit> = emptyList()
+    val discardedHits: List<LocalDiscardedDiagnosticHit> = emptyList(),
 ) {
     val hasVisibleContent: Boolean
-        get() = queryPlanPreview.isNotBlank() || queryPlanStrategy.isNotBlank() || queryVariant.isNotBlank() || topEvidenceTitle.isNotBlank() || topHits.isNotEmpty() || discardedHits.isNotEmpty()
+        get() =
+            queryPlanPreview.isNotBlank() ||
+                queryPlanStrategy.isNotBlank() ||
+                queryVariant.isNotBlank() ||
+                topEvidenceTitle.isNotBlank() ||
+                topHits.isNotEmpty() ||
+                discardedHits.isNotEmpty()
 }
 
 data class LocalDiagnosticHit(
@@ -40,7 +46,7 @@ data class LocalDiagnosticHit(
     val rerankScore: String = "",
     val contextualSignal: String = "",
     val anchorHits: String = "",
-    val qaStyle: String = ""
+    val qaStyle: String = "",
 )
 
 data class LocalDiscardedDiagnosticHit(
@@ -58,14 +64,14 @@ data class LocalDiscardedDiagnosticHit(
     val failedGateCount: String = "",
     val gateSummaries: List<LocalDiagnosticGateSummary> = emptyList(),
     val tokenCoverage: String = "",
-    val contextualSignal: String = ""
+    val contextualSignal: String = "",
 )
 
 data class LocalDiagnosticGateSummary(
     val code: String,
     val passed: String,
     val actual: String = "",
-    val expected: String = ""
+    val expected: String = "",
 )
 
 data class LocalSummaryState(
@@ -81,7 +87,7 @@ data class LocalSummaryState(
     val totalEvidenceCount: Int = 0,
     val isStreaming: Boolean = false,
     val canRunGemma: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 ) {
     val hasVisibleContent: Boolean
         get() = pageState != LocalPageState.IDLE

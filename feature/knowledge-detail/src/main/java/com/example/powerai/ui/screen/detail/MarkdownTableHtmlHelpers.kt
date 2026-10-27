@@ -13,7 +13,11 @@ internal object MarkdownTableHtmlHelpers {
         return MarkdownTableHtmlImageRenderer.markdownImagesToHtml(cellHtmlEscaped)
     }
 
-    fun renderRow(cells: List<String>, cellTag: String, maxCols: Int): String {
+    fun renderRow(
+        cells: List<String>,
+        cellTag: String,
+        maxCols: Int,
+    ): String {
         return MarkdownTableRowRenderer.renderRow(cells, cellTag, maxCols)
     }
 }

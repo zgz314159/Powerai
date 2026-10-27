@@ -6,8 +6,12 @@ package com.example.powerai.core.repository
  */
 interface RemoteConfigRepository {
     fun getAiApiKey(): String
+
     fun getAiBaseUrl(): String
+
     fun getDeepSeekModel(): String
+
     fun isDebug(): Boolean
+
     fun getDebugStreamUrl(): String?
 }

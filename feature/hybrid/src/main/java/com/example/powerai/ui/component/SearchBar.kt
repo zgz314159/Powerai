@@ -40,7 +40,7 @@ fun SearchBar(
     trailing: (@Composable () -> Unit)? = null,
     modifier: Modifier = Modifier,
     onFocusChanged: ((Boolean) -> Unit)? = null,
-    autoFocus: Boolean = false
+    autoFocus: Boolean = false,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -55,32 +55,35 @@ fun SearchBar(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .onFocusChanged { st -> onFocusChanged?.invoke(st.isFocused) },
+        modifier =
+            modifier
+                .focusRequester(focusRequester)
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+                .onFocusChanged { st -> onFocusChanged?.invoke(st.isFocused) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(
-            onSearch = { onSearch() },
-            onDone = { onSearch() }
-        ),
+        keyboardActions =
+            KeyboardActions(
+                onSearch = { onSearch() },
+                onDone = { onSearch() },
+            ),
         label = { if (label.isNotBlank()) Text(label) },
         placeholder = { if (!placeholder.isNullOrBlank()) Text(placeholder) },
         leadingIcon = leading,
         suffix = suffix,
-        trailingIcon = trailing ?: {
-            Row {
-                if (value.isNotEmpty()) {
-                    IconButton(onClick = onClear) {
-                        Icon(imageVector = Icons.Default.Clear, contentDescription = "清空")
+        trailingIcon =
+            trailing ?: {
+                Row {
+                    if (value.isNotEmpty()) {
+                        IconButton(onClick = onClear) {
+                            Icon(imageVector = Icons.Default.Clear, contentDescription = "清空")
+                        }
+                    }
+                    IconButton(onClick = onSearch) {
+                        Icon(imageVector = Icons.Default.Search, contentDescription = "搜索")
                     }
                 }
-                IconButton(onClick = onSearch) {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "搜索")
-                }
-            }
-        }
+            },
     )
 }

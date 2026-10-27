@@ -12,11 +12,21 @@ import java.io.File
  * the directory is unavailable.
  */
 object SparseSearchAuditLogger {
-    private fun safeFile(context: Context?, name: String): File? {
-        return try { context?.filesDir?.resolve(name) } catch (_: Throwable) { null }
+    private fun safeFile(
+        context: Context?,
+        name: String,
+    ): File? {
+        return try {
+            context?.filesDir?.resolve(name)
+        } catch (_: Throwable) {
+            null
+        }
     }
 
-    fun writeSearchTriggered(context: Context?, query: String) {
+    fun writeSearchTriggered(
+        context: Context?,
+        query: String,
+    ) {
         try {
             val f = safeFile(context, "sparse_hit_sentinel.txt") ?: return
             f.writeText("SEARCH_TRIGGERED_AT_${System.currentTimeMillis()}")
@@ -24,7 +34,11 @@ object SparseSearchAuditLogger {
         }
     }
 
-    fun writeLastSearch(context: Context?, query: String, tokens: List<String>) {
+    fun writeLastSearch(
+        context: Context?,
+        query: String,
+        tokens: List<String>,
+    ) {
         try {
             val dbg = safeFile(context, "sparse_last_search.txt") ?: return
             val sb = StringBuilder()
@@ -46,7 +60,7 @@ object SparseSearchAuditLogger {
 
     fun writeHitDetails(
         context: Context?,
-        scores: List<Triple<SparseSearcher.SafetyEntry, Int, Double>>
+        scores: List<Triple<SparseSearcher.SafetyEntry, Int, Double>>,
     ) {
         try {
             val hitsFile = safeFile(context, "sparse_last_hits.txt") ?: return
@@ -56,7 +70,11 @@ object SparseSearchAuditLogger {
                 var rank = 1
                 for ((ent, raw, sc) in scores.sortedByDescending { it.third }) {
                     val weight = if (raw != 0) sc / raw.toDouble() else 0.0
-                    sbh.append("[${rank}] ${ent.title} | ${ent.source} | Raw: ${raw} | Weight: ${"%.2f".format(weight)} | Final: ${"%.2f".format(sc)}\n")
+                    sbh.append(
+                        "[$rank] ${ent.title} | ${ent.source} | Raw: $raw | Weight: ${"%.2f".format(
+                            weight,
+                        )} | Final: ${"%.2f".format(sc)}\n",
+                    )
                     rank += 1
                 }
             }

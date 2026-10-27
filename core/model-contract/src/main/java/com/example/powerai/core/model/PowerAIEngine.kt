@@ -8,14 +8,24 @@ import kotlinx.coroutines.flow.StateFlow
  */
 interface PowerAIEngine {
     suspend fun init(provider: NativeResourceProvider)
-    suspend fun loadModel(modelPath: String, useGpu: Boolean = false): Boolean
+
+    suspend fun loadModel(
+        modelPath: String,
+        useGpu: Boolean = false,
+    ): Boolean
+
     suspend fun unload()
+
     suspend fun isLoaded(): Boolean
 
     /**
      * 同步/异步推理接口：返回文本结果；实现可选择通过流回调推送中间输出。
      */
-    suspend fun infer(prompt: String, maxTokens: Int = 512, stream: Boolean = false): String
+    suspend fun infer(
+        prompt: String,
+        maxTokens: Int = 512,
+        stream: Boolean = false,
+    ): String
 
     /**
      * 可选的思维链输出流（如果实现支持流式拆分）。
@@ -50,12 +60,18 @@ interface PowerAIEngine {
     /**
      * 配置引擎运行参数（线程数、上下文长度等）。
      */
-    suspend fun configureRuntime(threadCount: Int, contextLength: Int = 1024)
+    suspend fun configureRuntime(
+        threadCount: Int,
+        contextLength: Int = 1024,
+    )
 
     /**
      * 设置通用选项。
      */
-    suspend fun setOption(key: String, value: String): Boolean
+    suspend fun setOption(
+        key: String,
+        value: String,
+    ): Boolean
 
     /**
      * 获取当前引擎状态快照。

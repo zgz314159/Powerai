@@ -13,7 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsSection(title: String, content: @Composable () -> Unit) {
+fun SettingsSection(
+    title: String,
+    content: @Composable () -> Unit,
+) {
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Text(title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
         content()
@@ -22,7 +25,11 @@ fun SettingsSection(title: String, content: @Composable () -> Unit) {
 
 @Composable
 @Suppress("UNUSED_PARAMETER")
-fun SettingsActionRow(label: String, actionLabel: String = "执行", onAction: () -> Unit) {
+fun SettingsActionRow(
+    label: String,
+    actionLabel: String = "执行",
+    onAction: () -> Unit,
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(onClick = onAction, modifier = Modifier.padding(top = 4.dp)) {
             Text(actionLabel)

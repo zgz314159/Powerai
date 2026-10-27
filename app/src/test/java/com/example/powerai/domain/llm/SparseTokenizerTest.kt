@@ -1,8 +1,8 @@
 package com.example.powerai.domain.llm
 
+import com.example.powerai.engine.ai.SparseTokenizer
 import org.junit.Assert.*
 import org.junit.Test
-import com.example.powerai.engine.ai.SparseTokenizer
 
 class SparseTokenizerTest {
     @Test

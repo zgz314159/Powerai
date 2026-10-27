@@ -5,19 +5,23 @@ import android.content.Context
 
 internal object KnowledgeDetailMarkdownAssetImagesRewriter {
     // Find image-like asset paths and normalize them to file:///android_asset/images/[filename]
-    private val assetImagePattern = Regex(
-        "(?:file:///android_asset/images/|file:///android_asset/src/main/assets/images/|/android_asset/images/|assets/images/|images/)([\\w\\-./%]+?\\.(?:png|jpg|jpeg|webp|gif|png|x-emf))",
-        RegexOption.IGNORE_CASE
-    )
+    private val assetImagePattern =
+        Regex(
+            "(?:file:///android_asset/images/|file:///android_asset/src/main/assets/images/|/android_asset/images/|assets/images/|images/)([\\w\\-./%]+?\\.(?:png|jpg|jpeg|webp|gif|png|x-emf))",
+            RegexOption.IGNORE_CASE,
+        )
 
-    fun rewrite(markdown: String, context: Context): AssetImageRewriteResult {
+    fun rewrite(
+        markdown: String,
+        context: Context,
+    ): AssetImageRewriteResult {
         val matches = assetImagePattern.findAll(markdown).toList()
         if (matches.isEmpty()) {
             return AssetImageRewriteResult(
                 text = markdown,
                 candidateCount = 0,
                 replacedCount = 0,
-                firstConverted = null
+                firstConverted = null,
             )
         }
 
@@ -43,27 +47,28 @@ internal object KnowledgeDetailMarkdownAssetImagesRewriter {
 
             val exists = assetFilesLower.contains(filename.lowercase())
 
-            val replacedText = if (exists) {
-                replaced++
-                val candidate = "file:///android_asset/images/$filename"
-                KnowledgeDetailMarkdownAssetImagesRewriteHelpers.buildReplacementText(sb, markdown, end, "![img]($candidate)")
-            } else {
-                val alt1 = "images/$filename"
-                val alt2 = "android.resource://${context.packageName}/assets/images/$filename"
+            val replacedText =
+                if (exists) {
+                    replaced++
+                    val candidate = "file:///android_asset/images/$filename"
+                    KnowledgeDetailMarkdownAssetImagesRewriteHelpers.buildReplacementText(sb, markdown, end, "![img]($candidate)")
+                } else {
+                    val alt1 = "images/$filename"
+                    val alt2 = "android.resource://${context.packageName}/assets/images/$filename"
 
-                // If asset listing failed earlier, still try to be helpful and produce canonical path
-                replaced++
-                val candidate = "file:///android_asset/images/$filename"
+                    // If asset listing failed earlier, still try to be helpful and produce canonical path
+                    replaced++
+                    val candidate = "file:///android_asset/images/$filename"
 
-                // log removed: asset not found in list, emitting canonical + alt hints
+                    // log removed: asset not found in list, emitting canonical + alt hints
 
-                KnowledgeDetailMarkdownAssetImagesRewriteHelpers.buildReplacementText(
-                    sb,
-                    markdown,
-                    end,
-                    "![img]($candidate)<!-- alt:$alt1|$alt2 -->"
-                )
-            }
+                    KnowledgeDetailMarkdownAssetImagesRewriteHelpers.buildReplacementText(
+                        sb,
+                        markdown,
+                        end,
+                        "![img]($candidate)<!-- alt:$alt1|$alt2 -->",
+                    )
+                }
 
             if (firstConverted == null) firstConverted = replacedText
             sb.append(replacedText)
@@ -76,7 +81,7 @@ internal object KnowledgeDetailMarkdownAssetImagesRewriter {
             text = sb.toString(),
             candidateCount = matches.size,
             replacedCount = replaced,
-            firstConverted = firstConverted
+            firstConverted = firstConverted,
         )
     }
 }

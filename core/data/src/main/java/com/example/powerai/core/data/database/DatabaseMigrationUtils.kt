@@ -15,11 +15,12 @@ object DatabaseMigrationUtils {
      */
     suspend fun fillMissingNormalizedData(dao: KnowledgeDao) {
         withContext(Dispatchers.IO) {
-            val missingCount = try {
-                dao.countEntriesMissingNormalized()
-            } catch (_: Throwable) {
-                0
-            }
+            val missingCount =
+                try {
+                    dao.countEntriesMissingNormalized()
+                } catch (_: Throwable) {
+                    0
+                }
             if (missingCount <= 0) {
                 if (BuildConfig.DEBUG) {
                     // log removed: skip: no missing normalized rows
@@ -31,11 +32,12 @@ object DatabaseMigrationUtils {
                 // log removed: start: missingRows=$missingCount
             }
 
-            val legacyEntries = try {
-                dao.getEntriesMissingNormalized()
-            } catch (t: Throwable) {
-                emptyList()
-            }
+            val legacyEntries =
+                try {
+                    dao.getEntriesMissingNormalized()
+                } catch (t: Throwable) {
+                    emptyList()
+                }
 
             var fixedCount = 0
 

@@ -7,23 +7,23 @@ import com.example.powerai.core.model.RetrievalResult
  */
 class PromptBuilder(
     private val tokenBudget: Int = 2000,
-    private val safetyMargin: Int = 200
+    private val safetyMargin: Int = 200,
 ) {
-
     data class Prompt(val system: String, val user: String)
 
     enum class LocalPromptMode {
         FACT_ANSWER,
         TOPIC_OVERVIEW,
         PROCEDURE_GUIDE,
-        COMPARISON_SUMMARY
+        COMPARISON_SUMMARY,
     }
 
-    private val systemPrompt = """
+    private val systemPrompt =
+        """
         你是一个基于本地文档的专业助手。基于下面提供的证据回答用户问题，回答要精炼、引用来源并在不确定时明确指出不确定性
         每条引用格式[来源: {source} | id:{id} | conf:{confidence}]
         如果证据带有 [精准匹配] 标记，请在回答时优先引用其具体条ID
-    """.trimIndent()
+        """.trimIndent()
 
     class CharacterCountTokenEstimator(private val factor: Double = 0.85) {
         fun estimate(text: String): Int {
@@ -34,13 +34,17 @@ class PromptBuilder(
         }
     }
 
-    fun buildPrompt(question: String, results: List<RetrievalResult>): Prompt {
+    fun buildPrompt(
+        question: String,
+        results: List<RetrievalResult>,
+    ): Prompt {
         val (priority, rest) = results.partition { it.debug?.get("fts_bonus_applied") == true }
         val sortedRest = rest.sortedByDescending { it.confidence ?: it.score }
-        val ordered = ArrayList<RetrievalResult>().apply {
-            addAll(priority)
-            addAll(sortedRest)
-        }
+        val ordered =
+            ArrayList<RetrievalResult>().apply {
+                addAll(priority)
+                addAll(sortedRest)
+            }
 
         val builder = StringBuilder()
         var usedTokens = 0
@@ -76,7 +80,7 @@ class PromptBuilder(
     fun buildLocalGroundedPrompt(
         question: String,
         results: List<RetrievalResult>,
-        mode: LocalPromptMode
+        mode: LocalPromptMode,
     ): Prompt {
         // reuse buildPrompt logic but could specialize system prompt based on mode
         return buildPrompt(question, results)

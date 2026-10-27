@@ -2,10 +2,9 @@ package com.example.powerai.ui.screen.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import com.example.powerai.domain.model.chat.ChatSession
-import com.example.powerai.domain.model.chat.ChatTurn
 
 /**
  * Core chat area (list + input). Separated from the scaffold so the latter stays
@@ -32,16 +31,17 @@ internal fun ChatContent(
 ) {
     Box(modifier = androidx.compose.ui.Modifier.fillMaxSize()) {
         ChatList(
-            turns = sessions.firstOrNull { it.id == selectedSessionId }?.turns
-                ?: sessions.firstOrNull()?.turns
-                ?: emptyList(),
+            turns =
+                sessions.firstOrNull { it.id == selectedSessionId }?.turns
+                    ?: sessions.firstOrNull()?.turns
+                    ?: emptyList(),
             currentTurnId = currentTurnId,
             isStreaming = isStreaming,
             turnRetryAllowed = turnRetryAllowed,
             inputActive = (input.isNotBlank()),
             onInputChange = onInputChange,
             onCopy = onCopy,
-            onRetry = onRetry
+            onRetry = onRetry,
         )
 
         ChatInputBar(
@@ -53,10 +53,11 @@ internal fun ChatContent(
             onInputChange = onInputChange,
             onSearch = onSearch,
             onClear = onClear,
-            onNewSession = {}, // retained by scaffold
+            // retained by scaffold
+            onNewSession = {},
             showSearchBar = showSearchBar,
             onShowSearchBarChange = onShowSearchBarChange,
-            onInputFocusChanged = onInputFocusChanged
+            onInputFocusChanged = onInputFocusChanged,
         )
     }
 }

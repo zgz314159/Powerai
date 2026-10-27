@@ -21,7 +21,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AIModule {
-
     @Provides
     @Singleton
     @Named("vector_dim")
@@ -34,13 +33,17 @@ object AIModule {
 
     @Provides
     @Singleton
-    fun provideSparseSearcher(@ApplicationContext context: Context): SparseSearcher {
+    fun provideSparseSearcher(
+        @ApplicationContext context: Context,
+    ): SparseSearcher {
         return SparseSearcher(context)
     }
 
     @Provides
     @Singleton
-    fun provideGemmaLocalInference(@ApplicationContext context: Context): GemmaLocalInference {
+    fun provideGemmaLocalInference(
+        @ApplicationContext context: Context,
+    ): GemmaLocalInference {
         return GemmaLocalInference(context)
     }
 
@@ -50,14 +53,14 @@ object AIModule {
         annRetriever: AnnRetriever,
         ftsRetriever: FtsRetriever,
         @Named("retrieval_source_weights") sourceWeights: Map<String, Double>,
-        @Named("fts_top_bonus") ftsTopBonus: Double
+        @Named("fts_top_bonus") ftsTopBonus: Double,
     ): HybridRetrievalService {
         return HybridRetrievalService(
             annRetriever,
             ftsRetriever,
             rrfK = 60,
             sourceWeights = sourceWeights,
-            ftsTopBonus = ftsTopBonus
+            ftsTopBonus = ftsTopBonus,
         )
     }
 
@@ -79,7 +82,7 @@ object AIModule {
     @Singleton
     fun provideRetrievalFusionUseCase(
         svc: HybridRetrievalService,
-        sparseSearcher: SparseSearcher
+        sparseSearcher: SparseSearcher,
     ): RetrievalFusionUseCase {
         return RetrievalFusionUseCase(svc, sparseSearcher)
     }

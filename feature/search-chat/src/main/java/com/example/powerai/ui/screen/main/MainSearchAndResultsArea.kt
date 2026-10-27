@@ -1,29 +1,20 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-import com.example.powerai.core.model.KnowledgePackages
-
-import java.net.URLEncoder
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.powerai.ui.screen.hybrid.HybridViewModel
-import com.example.powerai.ui.screen.hybrid.HybridUiState
+import com.example.powerai.core.model.KnowledgeItem
+import com.example.powerai.core.model.KnowledgePackages
 import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
+import com.example.powerai.ui.screen.hybrid.HybridUiState
+import com.example.powerai.ui.screen.hybrid.HybridViewModel
+import java.net.URLEncoder
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,20 +52,21 @@ fun MainSearchAndResultsArea(
     sourceFileNameProvider: (KnowledgeItem) -> String = { it.source },
     onPrefetchSourceFileNames: (List<KnowledgeItem>) -> Unit = {},
     hybridViewModel: HybridViewModel,
-    innerPadding: PaddingValues = PaddingValues()
+    innerPadding: PaddingValues = PaddingValues(),
 ) {
-    val metaProvider = remember {
-        { item: KnowledgeItem ->
-            buildString {
-                append(sourceFileNameProvider(item))
-                item.pageNumber?.let { append(" · ${it}") }
-                item.hitBlockIndex?.let { append(" · 命中it") }
-                // Mark the package the user imported so it stays identifiable when a bundled
-                // asset carries the same title/content.
-                if (KnowledgePackages.isUserPackage(item.packageId)) append(" · 用户导入")
+    val metaProvider =
+        remember {
+            { item: KnowledgeItem ->
+                buildString {
+                    append(sourceFileNameProvider(item))
+                    item.pageNumber?.let { append(" · $it") }
+                    item.hitBlockIndex?.let { append(" · 命中it") }
+                    // Mark the package the user imported so it stays identifiable when a bundled
+                    // asset carries the same title/content.
+                    if (KnowledgePackages.isUserPackage(item.packageId)) append(" · 用户导入")
+                }
             }
         }
-    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         when (selectedMode) {
@@ -110,7 +102,7 @@ fun MainSearchAndResultsArea(
                     showSearchBar = showSearchBar,
                     onShowSearchBarChange = onShowSearchBarChange,
                     hybridViewModel = hybridViewModel,
-                    innerPadding = innerPadding
+                    innerPadding = innerPadding,
                 )
             }
             DisplayMode.AI -> {
@@ -127,7 +119,7 @@ fun MainSearchAndResultsArea(
                     drawerState = drawerState,
                     showSearchBar = showSearchBar,
                     onShowSearchBarChange = onShowSearchBarChange,
-                    innerPadding = innerPadding
+                    innerPadding = innerPadding,
                 )
             }
             DisplayMode.SMART -> {
@@ -164,7 +156,7 @@ fun MainSearchAndResultsArea(
                     showSearchBar = showSearchBar,
                     onShowSearchBarChange = onShowSearchBarChange,
                     hybridViewModel = hybridViewModel,
-                    innerPadding = innerPadding
+                    innerPadding = innerPadding,
                 )
             }
         }

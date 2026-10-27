@@ -15,7 +15,10 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.data.json.JsonKnowledgeFile
 
 @Composable
-fun FileRow(file: JsonKnowledgeFile, onSelect: () -> Unit) {
+fun FileRow(
+    file: JsonKnowledgeFile,
+    onSelect: () -> Unit,
+) {
     Row(Modifier.fillMaxWidth().clickable { onSelect() }.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(file.fileName, maxLines = 1, overflow = TextOverflow.Ellipsis)

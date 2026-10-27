@@ -1,7 +1,7 @@
 package com.example.powerai.domain.util
 
-import com.example.powerai.core.model.util.BlocksTextExtractor
 import com.example.powerai.core.model.util.BlocksJsonUtils
+import com.example.powerai.core.model.util.BlocksTextExtractor
 import com.example.powerai.util.PdfSourceRef
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -13,7 +13,7 @@ object ContextualSearchTextBuilder {
         category: String,
         pageNumber: Int?,
         keywords: List<String>,
-        plainText: String
+        plainText: String,
     ): String {
         val article = extractArticleSignature(title, plainText)
         return buildString {
@@ -51,7 +51,7 @@ object ContextualSearchTextBuilder {
         title: String,
         source: String,
         category: String,
-        pageNumber: Int?
+        pageNumber: Int?,
     ): String {
         val root = BlocksJsonUtils.parseRoot(blocksJson) ?: return blocksJson
         val blocks = BlocksJsonUtils.extractBlocksArray(root) ?: return blocksJson
@@ -62,12 +62,14 @@ object ContextualSearchTextBuilder {
         val existingIds = BlocksTextExtractor.computeStableBlockIds(blocksJson)
         for (index in 0 until blocks.size()) {
             val element = blocks[index]
-            val obj = element.takeIf { it.isJsonObject }?.asJsonObject ?: JsonObject().apply {
-                add("text", element.deepCopy())
-            }
+            val obj =
+                element.takeIf { it.isJsonObject }?.asJsonObject ?: JsonObject().apply {
+                    add("text", element.deepCopy())
+                }
             val copy = obj.deepCopy()
-            val existingId = copy.get("id")?.takeIf { it.isJsonPrimitive }?.asString
-                ?: copy.get("blockId")?.takeIf { it.isJsonPrimitive }?.asString
+            val existingId =
+                copy.get("id")?.takeIf { it.isJsonPrimitive }?.asString
+                    ?: copy.get("blockId")?.takeIf { it.isJsonPrimitive }?.asString
             if (existingId.isNullOrBlank()) {
                 copy.addProperty("id", existingIds.getOrNull(index).orEmpty().ifBlank { "b_ctx_$index" })
             }
@@ -83,17 +85,20 @@ object ContextualSearchTextBuilder {
         title: String,
         source: String,
         category: String,
-        pageNumber: Int?
+        pageNumber: Int?,
     ): String {
         return PdfSourceRef.buildUserVisibleLabel(
             title.trim().takeIf { it.isNotBlank() },
             PdfSourceRef.userVisibleSource(source),
             category.trim().takeIf { it.isNotBlank() },
-            pageNumber?.let { " · p${it}" }
+            pageNumber?.let { " · p$it" },
         )
     }
 
-    private fun extractArticleSignature(title: String, plainText: String): String {
+    private fun extractArticleSignature(
+        title: String,
+        plainText: String,
+    ): String {
         val match = Regex("([一二三四五六七八九十百0-9]+)").find("$title $plainText") ?: return ""
         return match.value
     }

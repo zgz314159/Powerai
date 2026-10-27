@@ -6,12 +6,12 @@ data class KnowledgeEntry(
     val content: String = "",
     val category: String = "",
     val source: String = "",
-    val status: String = "parsed"
+    val status: String = "parsed",
 )
 
 data class KnowledgeFile(
     val fileId: String,
     val fileName: String,
     val importTimestamp: Long,
-    val entries: List<KnowledgeEntry>
+    val entries: List<KnowledgeEntry>,
 )

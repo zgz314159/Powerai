@@ -4,9 +4,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.example.powerai.core.data.database.AppDatabase
 import com.example.powerai.core.data.importer.StreamingJsonResourceImporter
+import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.KnowledgePackages
-import com.example.powerai.core.data.repository.RoomFtsRetriever
 import com.example.powerai.domain.usecase.LocalEvidenceRefiner
 import kotlinx.coroutines.runBlocking
 import org.junit.After

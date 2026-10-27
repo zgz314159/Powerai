@@ -7,7 +7,10 @@ package com.example.powerai.ui.screen.hybrid
  */
 sealed interface AiUiState {
     data object Idle : AiUiState
+
     data object Loading : AiUiState
+
     data class Success(val text: String) : AiUiState
+
     data class Error(val message: String) : AiUiState
 }

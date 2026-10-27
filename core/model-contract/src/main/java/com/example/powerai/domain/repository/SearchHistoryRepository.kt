@@ -6,6 +6,11 @@ enum class HistoryScope { DATABASE, LOCAL, SMART }
 
 interface SearchHistoryRepository {
     suspend fun loadHistory(scope: HistoryScope): List<SearchEntry>
-    suspend fun saveHistory(scope: HistoryScope, history: List<SearchEntry>)
+
+    suspend fun saveHistory(
+        scope: HistoryScope,
+        history: List<SearchEntry>,
+    )
+
     suspend fun clearHistory(scope: HistoryScope)
 }

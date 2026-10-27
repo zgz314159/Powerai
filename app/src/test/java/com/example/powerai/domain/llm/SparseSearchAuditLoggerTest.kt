@@ -1,7 +1,7 @@
 package com.example.powerai.domain.llm
 
-import org.junit.Test
 import com.example.powerai.engine.ai.SparseSearchAuditLogger
+import org.junit.Test
 
 class SparseSearchAuditLoggerTest {
     @Test

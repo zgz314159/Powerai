@@ -7,10 +7,11 @@ import org.junit.Test
 class AiStreamRequestBuilderTest {
     @Test
     fun `buildMessageFragments includes history and user input`() {
-        val turns = listOf(
-            ChatTurn(id = 1L, question = "Q1", answer = "A1", askedAtMillis = 0),
-            ChatTurn(id = 2L, question = "Q2", answer = "", askedAtMillis = 0)
-        )
+        val turns =
+            listOf(
+                ChatTurn(id = 1L, question = "Q1", answer = "A1", askedAtMillis = 0),
+                ChatTurn(id = 2L, question = "Q2", answer = "", askedAtMillis = 0),
+            )
         val fragments = AiStreamRequestBuilder.buildMessageFragments(turns, "Hello")
         // should contain user question from first turn, assistant answer from first, and final user input
         assertTrue(fragments.any { it.contains("Q1") })
@@ -22,9 +23,10 @@ class AiStreamRequestBuilderTest {
 
     @Test
     fun `buildMessageFragments escapes json special chars`() {
-        val turns = listOf(
-            ChatTurn(id = 1L, question = "Hi \"there\"", answer = "", askedAtMillis = 0)
-        )
+        val turns =
+            listOf(
+                ChatTurn(id = 1L, question = "Hi \"there\"", answer = "", askedAtMillis = 0),
+            )
         val fragments = AiStreamRequestBuilder.buildMessageFragments(turns, "Bye\n")
         // json should escape quotes and newlines
         assertTrue(fragments.first().contains("\\\"there\\\""))

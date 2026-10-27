@@ -14,7 +14,10 @@ object PdfSourceRef {
 
     data class Ref(val fileId: String, val fileName: String)
 
-    fun encode(fileId: String, fileName: String): String {
+    fun encode(
+        fileId: String,
+        fileName: String,
+    ): String {
         val safeName = fileName.replace("\n", " ").replace("\r", " ")
         return "pdf:$fileId::$safeName"
     }
@@ -77,10 +80,11 @@ object PdfSourceRef {
         if (displayed.isBlank()) return null
         if (displayed.startsWith("pdf:", ignoreCase = true)) return null
 
-        val leafName = displayed
-            .replace('\\', '/')
-            .substringAfterLast('/')
-            .trim()
+        val leafName =
+            displayed
+                .replace('\\', '/')
+                .substringAfterLast('/')
+                .trim()
 
         return when {
             looksOpaqueId(displayed) -> null

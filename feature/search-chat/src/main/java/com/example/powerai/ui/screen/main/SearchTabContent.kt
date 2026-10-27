@@ -60,4 +60,3 @@ fun SearchTabContent(
         innerPadding = innerPadding,
     )
 }
-

@@ -21,7 +21,7 @@ interface FileParser {
         uri: Uri,
         fileName: String,
         batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE,
-        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
+        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
     ): String
 }
 
@@ -30,7 +30,10 @@ interface FileParser {
  * injection; the concrete object below implements it.
  */
 interface FileParserFactoryType {
-    fun create(fileName: String, contentResolver: ContentResolver): FileParser
+    fun create(
+        fileName: String,
+        contentResolver: ContentResolver,
+    ): FileParser
 }
 
 /**
@@ -38,7 +41,10 @@ interface FileParserFactoryType {
  * Centralizing the logic reduces duplication across various import entrypoints.
  */
 internal object FileParserFactory : FileParserFactoryType {
-    override fun create(fileName: String, contentResolver: ContentResolver): FileParser {
+    override fun create(
+        fileName: String,
+        contentResolver: ContentResolver,
+    ): FileParser {
         val lower = fileName.lowercase()
         return when {
             lower.endsWith(".txt") -> TxtParser(contentResolver)

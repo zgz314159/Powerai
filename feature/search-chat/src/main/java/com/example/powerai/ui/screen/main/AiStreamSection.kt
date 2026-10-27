@@ -35,27 +35,33 @@ fun AiResponseSheet(
     aiUiState: com.example.powerai.ui.screen.hybrid.AiUiState,
     aiText: String,
     onRetry: () -> Unit,
-    onCopy: (String) -> Unit
+    onCopy: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
     ) {
         // Drag handle
         Box(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(40.dp)
-                .height(4.dp)
-                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f), shape = MaterialTheme.shapes.small)
+            modifier =
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(40.dp)
+                    .height(4.dp)
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f), shape = MaterialTheme.shapes.small),
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         when (aiUiState) {
             is com.example.powerai.ui.screen.hybrid.AiUiState.Loading -> {
-                Column { LinearProgressIndicator(modifier = Modifier.fillMaxWidth()); Spacer(modifier = Modifier.height(8.dp)); Text("AI 正在生成答案...", style = MaterialTheme.typography.bodySmall) }
+                Column {
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("AI 正在生成答案...", style = MaterialTheme.typography.bodySmall)
+                }
             }
             is com.example.powerai.ui.screen.hybrid.AiUiState.Error -> {
                 Text(text = aiUiState.message, color = MaterialTheme.colorScheme.error)
@@ -81,7 +87,7 @@ fun AiResponseSheet(
 @Composable
 fun AiStreamCard(
     viewModel: com.example.powerai.ui.screen.main.AiStreamViewModel? = null,
-    onRetry: () -> Unit = {}
+    onRetry: () -> Unit = {},
 ) {
     val actualVm = viewModel ?: hiltViewModel<com.example.powerai.ui.screen.main.AiStreamViewModel>()
     val uiState by actualVm.uiState.collectAsState()
@@ -112,7 +118,10 @@ fun AiStreamCard(
                             Spacer(modifier = Modifier.width(8.dp))
                             val ctx = LocalContext.current
                             Button(onClick = {
-                                val androidCm = ctx.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                val androidCm =
+                                    ctx.getSystemService(
+                                        android.content.Context.CLIPBOARD_SERVICE,
+                                    ) as android.content.ClipboardManager
                                 androidCm.setPrimaryClip(android.content.ClipData.newPlainText("PowerAi", msg))
                             }) { Text("复制错误") }
                         }

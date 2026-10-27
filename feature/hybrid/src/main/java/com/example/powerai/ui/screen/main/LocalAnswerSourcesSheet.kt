@@ -2,8 +2,6 @@
 
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.util.PdfSourceRef
 
 @Composable
@@ -29,36 +28,36 @@ fun LocalAnswerSourcesSheet(
     evidenceItems: List<KnowledgeItem>,
     onDismiss: () -> Unit,
     sourceFileNameProvider: (KnowledgeItem) -> String,
-    onOpenSource: (KnowledgeItem) -> Unit
+    onOpenSource: (KnowledgeItem) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        sheetState = sheetState
+        sheetState = sheetState,
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = "回答来源",
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
             )
             Text(
                 text = "[1] [2] [3] 对应的是回答引用到的来源文件名。点击后会跳转到数据库页并定位到该文件里的对应词条",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 20.dp)
+                modifier = Modifier.padding(horizontal = 20.dp),
             )
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 24.dp)
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 24.dp),
             ) {
                 itemsIndexed(evidenceItems.take(10), key = { index, item -> "source::$index::${item.id}" }) { index, item ->
                     LocalAnswerSourceRow(
                         number = index + 1,
                         item = item,
                         sourceFileNameProvider = sourceFileNameProvider,
-                        onOpenSource = onOpenSource
+                        onOpenSource = onOpenSource,
                     )
                 }
             }
@@ -71,37 +70,39 @@ private fun LocalAnswerSourceRow(
     number: Int,
     item: KnowledgeItem,
     sourceFileNameProvider: (KnowledgeItem) -> String,
-    onOpenSource: (KnowledgeItem) -> Unit
+    onOpenSource: (KnowledgeItem) -> Unit,
 ) {
     val fileName = sourceFileNameProvider(item)
-    val metaLine = buildString {
-        item.pageNumber?.let { append("${it}") }
-        item.hitBlockIndex?.let {
-            if (isNotBlank()) append(" · ")
-            append(formatHitBlockLabel(it))
+    val metaLine =
+        buildString {
+            item.pageNumber?.let { append("$it") }
+            item.hitBlockIndex?.let {
+                if (isNotBlank()) append(" · ")
+                append(formatHitBlockLabel(it))
+            }
         }
-    }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onOpenSource(item) }
-            .padding(horizontal = 20.dp, vertical = 10.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable { onOpenSource(item) }
+                .padding(horizontal = 20.dp, vertical = 10.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = "[$number]",
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
             )
             Text(
                 text = fileName,
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
         }
         if (metaLine.isNotBlank()) {
@@ -109,7 +110,7 @@ private fun LocalAnswerSourceRow(
             Text(
                 text = metaLine,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -117,12 +118,12 @@ private fun LocalAnswerSourceRow(
 
 fun formatHitBlockLabel(hitBlockIndex: Int): String {
     val displayIndex = (hitBlockIndex + 1).coerceAtLeast(1)
-    return "命中${displayIndex}"
+    return "命中$displayIndex"
 }
 
 fun resolveLocalSourceFileName(
     item: KnowledgeItem,
-    databaseFileName: String?
+    databaseFileName: String?,
 ): String {
     databaseFileName?.trim()?.takeIf { it.isNotBlank() }?.let { return it }
 
@@ -131,10 +132,11 @@ fun resolveLocalSourceFileName(
         ?.takeIf { it.isNotBlank() }
         ?.let { return it }
 
-    val sourceParts = listOfNotNull(item.contextLabel, item.source)
-        .flatMap { value -> value.split(Regex("\\s*[·•|｜]\\s*")) }
-        .map { it.trim() }
-        .filter { it.isNotBlank() }
+    val sourceParts =
+        listOfNotNull(item.contextLabel, item.source)
+            .flatMap { value -> value.split(Regex("\\s*[·•|｜]\\s*")) }
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
 
     sourceParts.firstOrNull(::looksLikeUserVisibleFileName)?.let { return it }
 

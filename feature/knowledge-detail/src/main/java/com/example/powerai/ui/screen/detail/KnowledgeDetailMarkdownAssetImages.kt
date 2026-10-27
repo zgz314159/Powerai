@@ -4,7 +4,10 @@ import android.content.Context
 // android.util.Log removed per TODO order; conversion diagnostics removed
 
 // Replace various asset path patterns with markdown image syntax if they look like image files
-internal fun convertAssetPathsToImages(markdown: String, context: Context): String {
+internal fun convertAssetPathsToImages(
+    markdown: String,
+    context: Context,
+): String {
     val result = KnowledgeDetailMarkdownAssetImagesRewriter.rewrite(markdown, context)
 
     if (result.candidateCount == 0) return markdown

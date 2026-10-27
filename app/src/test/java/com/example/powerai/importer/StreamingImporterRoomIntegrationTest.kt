@@ -21,10 +21,11 @@ class StreamingImporterRoomIntegrationTest {
 
     @Before
     fun setup() {
-        db = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            AppDatabase::class.java
-        ).allowMainThreadQueries().build()
+        db =
+            Room.inMemoryDatabaseBuilder(
+                ApplicationProvider.getApplicationContext(),
+                AppDatabase::class.java,
+            ).allowMainThreadQueries().build()
     }
 
     @After
@@ -34,19 +35,23 @@ class StreamingImporterRoomIntegrationTest {
 
     @Test
     fun importSmallJson_writesToRoomAndRebuildsFts() {
-        val json = """[
-            {"entryId":"e1","unitName":"u1","jobTitle":"t1","contentMarkdown":"hello world","position":1},
-            {"entryId":"e2","unitName":"u2","jobTitle":"t2","contentMarkdown":"another entry","position":2},
-            {"entryId":"e3","unitName":"u3","jobTitle":"t3","contentMarkdown":"foo","blocks":{"src":"file:///android_asset/img.png"},"tags":["foo","bar"]}
-        ]
-        """.trimIndent()
+        val json =
+            """
+            [
+                {"entryId":"e1","unitName":"u1","jobTitle":"t1","contentMarkdown":"hello world","position":1},
+                {"entryId":"e2","unitName":"u2","jobTitle":"t2","contentMarkdown":"another entry","position":2},
+                {"entryId":"e3","unitName":"u3","jobTitle":"t3","contentMarkdown":"foo","blocks":{"src":"file:///android_asset/img.png"},"tags":["foo","bar"]}
+            ]
+            """.trimIndent()
 
         val input = ByteArrayInputStream(json.toByteArray(Charsets.UTF_8))
         val dao = db.knowledgeDao()
 
         runBlocking {
             val importer = StreamingJsonResourceImporter(dao)
-            importer.importFromJson(input, batchSize = 1, trace = null, fallbackFileName = "test.json", fallbackFileId = "test1").collect { /* progress ignored */ }
+            importer.importFromJson(input, batchSize = 1, trace = null, fallbackFileName = "test.json", fallbackFileId = "test1").collect {
+                // progress ignored
+            }
 
             val all = dao.getAll()
             assertEquals(3, all.size)
@@ -69,9 +74,12 @@ class StreamingImporterRoomIntegrationTest {
 
     @Test
     fun importObjectRootJson_handlesEntries() {
-        val json = """{ "entries": [
-            {"entryId":"e1","unitName":"u1","jobTitle":"t1","contentMarkdown":"hello"}
-        ] }""".trimIndent()
+        val json =
+            """
+            { "entries": [
+                {"entryId":"e1","unitName":"u1","jobTitle":"t1","contentMarkdown":"hello"}
+            ] }
+            """.trimIndent()
 
         val input = ByteArrayInputStream(json.toByteArray(Charsets.UTF_8))
         val dao = db.knowledgeDao()

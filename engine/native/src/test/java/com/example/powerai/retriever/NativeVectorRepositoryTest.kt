@@ -1,10 +1,8 @@
 package com.example.powerai.retriever
 
 import android.content.Context
-import com.example.powerai.engine.nativecore.NativeVectorRepository
 import com.example.powerai.data.retriever.VectorRepositoryDebugTools
-import com.example.powerai.core.repository.VectorRepository
-import kotlinx.coroutines.runBlocking
+import com.example.powerai.engine.nativecore.NativeVectorRepository
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.kotlin.mock
@@ -12,20 +10,21 @@ import org.mockito.kotlin.whenever
 import java.io.File
 
 class NativeVectorRepositoryTest {
-
     private val fakeCtx = mock<Context>()
     private val tempDir = File(System.getProperty("java.io.tmpdir") ?: "")
+
     init {
         whenever(fakeCtx.filesDir).thenReturn(tempDir)
     }
 
     @Test
     fun ingestEmbeddingsFromDir_skipsMalformedAndReturnsTrue() {
-        val repo = try {
-            NativeVectorRepository(fakeCtx, 128, "test_index.bin")
-        } catch (_: Throwable) {
-            null
-        }
+        val repo =
+            try {
+                NativeVectorRepository(fakeCtx, 128, "test_index.bin")
+            } catch (_: Throwable) {
+                null
+            }
         // create a directory with two valid embedding files and one bad file
         val dir = File(tempDir, "emb_dir").apply { mkdirs() }
         // dimension 128 -> expected bytes = 512
@@ -38,9 +37,13 @@ class NativeVectorRepositoryTest {
         wrongSize.writeBytes(ByteArray(10))
 
         if (repo != null) {
-            val result = VectorRepositoryDebugTools.ingestEmbeddingsFromDir(
-                repo, dir, dim = 128, batchSize = 1
-            )
+            val result =
+                VectorRepositoryDebugTools.ingestEmbeddingsFromDir(
+                    repo,
+                    dir,
+                    dim = 128,
+                    batchSize = 1,
+                )
             assertTrue(result)
             // directory had one valid file; avoid JNI calls in unit test environment
             try {
@@ -60,11 +63,12 @@ class NativeVectorRepositoryTest {
 
     @Test
     fun runNeonBenchmark_returnsExpectedSizes() {
-        val repo = try {
-            NativeVectorRepository(fakeCtx, 128, "test_index.bin")
-        } catch (_: Throwable) {
-            null
-        }
+        val repo =
+            try {
+                NativeVectorRepository(fakeCtx, 128, "test_index.bin")
+            } catch (_: Throwable) {
+                null
+            }
         if (repo != null) {
             try {
                 val results = VectorRepositoryDebugTools.runNeonBenchmark(dim = 128)

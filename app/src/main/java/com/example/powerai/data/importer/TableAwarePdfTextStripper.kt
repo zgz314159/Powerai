@@ -12,7 +12,7 @@ internal class TableAwarePdfTextStripper : PDFTextStripper() {
         var minX: Float,
         var maxX: Float,
         var minY: Float,
-        var maxY: Float
+        var maxY: Float,
     )
 
     private val buckets = ArrayList<LineBucket>()
@@ -25,7 +25,10 @@ internal class TableAwarePdfTextStripper : PDFTextStripper() {
         setSpacingTolerance(0.35f)
     }
 
-    override fun writeString(text: String, textPositions: MutableList<TextPosition>) {
+    override fun writeString(
+        text: String,
+        textPositions: MutableList<TextPosition>,
+    ) {
         val cleaned = text.replace(Regex("\\s+"), " ").trim()
         if (cleaned.isBlank()) return
 
@@ -40,16 +43,19 @@ internal class TableAwarePdfTextStripper : PDFTextStripper() {
 
         val targetIndex = findTargetLineIndex(avgY)
         if (targetIndex == -1) {
-            buckets.add(LineBucket(y = avgY, sb = StringBuilder(cleaned), lastXEnd = xEnd, minX = xStart, maxX = xEnd, minY = yMin, maxY = yMax))
+            buckets.add(
+                LineBucket(y = avgY, sb = StringBuilder(cleaned), lastXEnd = xEnd, minX = xStart, maxX = xEnd, minY = yMin, maxY = yMax),
+            )
         } else {
             val bucket = buckets[targetIndex]
             val gap = xStart - bucket.lastXEnd
             if (bucket.sb.isNotEmpty()) {
                 val lastChar = bucket.sb.lastOrNull()
                 val firstChar = cleaned.firstOrNull()
-                val shouldJoinNoSpace = gap <= columnGapThreshold &&
-                    lastChar != null && firstChar != null &&
-                    ((isCjk(lastChar) && isCjk(firstChar)) || (isAlphaNum(lastChar) && isAlphaNum(firstChar)))
+                val shouldJoinNoSpace =
+                    gap <= columnGapThreshold &&
+                        lastChar != null && firstChar != null &&
+                        ((isCjk(lastChar) && isCjk(firstChar)) || (isAlphaNum(lastChar) && isAlphaNum(firstChar)))
                 if (!shouldJoinNoSpace) {
                     bucket.sb.append(if (gap > columnGapThreshold) "  " else " ")
                 }
@@ -65,6 +71,7 @@ internal class TableAwarePdfTextStripper : PDFTextStripper() {
     }
 
     private fun isCjk(c: Char): Boolean = c.code in 0x4E00..0x9FFF
+
     private fun isAlphaNum(c: Char): Boolean = c.isLetterOrDigit()
 
     override fun writeLineSeparator() {

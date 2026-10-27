@@ -13,19 +13,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-internal fun MarkdownTableWebView(markdown: String, modifier: Modifier = Modifier) {
+internal fun MarkdownTableWebView(
+    markdown: String,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val htmlState by produceState<String?>(initialValue = null, key1 = markdown) {
         // log removed: tableHtml START len=${markdown.length}
         val start = System.currentTimeMillis()
-        value = withContext(Dispatchers.Default) {
-            runCatching {
-                buildHtmlForMarkdownTable(markdown)
-            }.getOrElse { t ->
-                // log removed: tableHtml FAILED len=${markdown.length}
-                null
+        value =
+            withContext(Dispatchers.Default) {
+                runCatching {
+                    buildHtmlForMarkdownTable(markdown)
+                }.getOrElse { t ->
+                    // log removed: tableHtml FAILED len=${markdown.length}
+                    null
+                }
             }
-        }
         // log removed: tableHtml DONE len=${value?.length ?: -1} took=${System.currentTimeMillis() - start}ms
     }
     val html = htmlState
@@ -58,6 +62,6 @@ internal fun MarkdownTableWebView(markdown: String, modifier: Modifier = Modifie
                     webView.text = markdown
                 }
             }
-        }
+        },
     )
 }

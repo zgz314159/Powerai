@@ -1,7 +1,6 @@
 package com.example.powerai.engine.ai
 
 import android.util.Log
-import com.example.powerai.engine.ai.BuildConfig
 import com.example.powerai.core.model.GenerationMetrics
 import com.example.powerai.core.model.NativeResourceProvider
 import kotlinx.coroutines.flow.SharedFlow
@@ -27,7 +26,10 @@ object DeepSeekNativeRuntimeBridge {
     val chunkFlow: SharedFlow<String>
         get() = activeRuntime.chunkFlow
 
-    fun provideResources(provider: NativeResourceProvider, context: android.content.Context? = null) {
+    fun provideResources(
+        provider: NativeResourceProvider,
+        context: android.content.Context? = null,
+    ) {
         val effectiveContext = context ?: provider.getContext() as? android.content.Context
         legacyRuntime.provideResources(provider, effectiveContext)
         llamaCppRuntime.provideResources(provider, effectiveContext)
@@ -35,7 +37,10 @@ object DeepSeekNativeRuntimeBridge {
         activeRuntime = selectedRuntime()
     }
 
-    fun configureRuntime(threadCount: Int, contextLength: Int = LlamaJni.DEFAULT_CONTEXT_LENGTH) {
+    fun configureRuntime(
+        threadCount: Int,
+        contextLength: Int = LlamaJni.DEFAULT_CONTEXT_LENGTH,
+    ) {
         legacyRuntime.configureRuntime(threadCount, contextLength)
         llamaCppRuntime.configureRuntime(threadCount, contextLength)
         activeRuntime.configureRuntime(threadCount, contextLength)
@@ -45,20 +50,36 @@ object DeepSeekNativeRuntimeBridge {
         activeRuntime.configureStreamingThinking(enabled)
     }
 
-    fun safeSetOption(key: String?, value: String?): Boolean {
+    fun safeSetOption(
+        key: String?,
+        value: String?,
+    ): Boolean {
         return activeRuntime.safeSetOption(key, value)
     }
 
     fun safeInitBackend(backend: String?): Boolean {
         activeRuntime = selectedRuntime()
-        Log.i(TAG, "safeInitBackend using runtime=${runtimeName(activeRuntime)} buildSelfJni=${BuildConfig.DEEPSEEK_SELF_BUILT_JNI_ENABLED} backend=$backend")
+        Log.i(
+            TAG,
+            "safeInitBackend using runtime=${runtimeName(
+                activeRuntime,
+            )} buildSelfJni=${BuildConfig.DEEPSEEK_SELF_BUILT_JNI_ENABLED} backend=$backend",
+        )
         if (activeRuntime.safeInitBackend(backend)) return true
         Log.w(TAG, "safeInitBackend failed on ${runtimeName(activeRuntime)}, fallback to legacy")
         return fallbackToLegacy { it.safeInitBackend(backend) }
     }
 
-    fun safeInitModel(path: String?, useGpu: Boolean): Boolean {
-        Log.i(TAG, "safeInitModel using runtime=${runtimeName(activeRuntime)} buildSelfJni=${BuildConfig.DEEPSEEK_SELF_BUILT_JNI_ENABLED} path=${path ?: ""}")
+    fun safeInitModel(
+        path: String?,
+        useGpu: Boolean,
+    ): Boolean {
+        Log.i(
+            TAG,
+            "safeInitModel using runtime=${runtimeName(
+                activeRuntime,
+            )} buildSelfJni=${BuildConfig.DEEPSEEK_SELF_BUILT_JNI_ENABLED} path=${path ?: ""}",
+        )
         if (activeRuntime.safeInitModel(path, useGpu)) return true
         Log.w(TAG, "safeInitModel failed on ${runtimeName(activeRuntime)}, fallback to legacy")
         return fallbackToLegacy { it.safeInitModel(path, useGpu) }
@@ -74,11 +95,17 @@ object DeepSeekNativeRuntimeBridge {
 
     fun safeStopGeneration(): Boolean = activeRuntime.safeStopGeneration()
 
-    fun safeGenerate(prompt: String?, maxTokens: Int): String {
+    fun safeGenerate(
+        prompt: String?,
+        maxTokens: Int,
+    ): String {
         return activeRuntime.safeGenerate(prompt, maxTokens)
     }
 
-    fun safeNativeGenerateStream(prompt: String?, maxTokens: Int = 0): Boolean {
+    fun safeNativeGenerateStream(
+        prompt: String?,
+        maxTokens: Int = 0,
+    ): Boolean {
         return activeRuntime.safeNativeGenerateStream(prompt, maxTokens)
     }
 

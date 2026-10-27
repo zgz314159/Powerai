@@ -10,13 +10,13 @@ import kotlinx.coroutines.withContext
 internal fun produceBlocksComputedState(
     entityId: Long,
     contentBlocksJson: String?,
-    highlight: String
+    highlight: String,
 ): State<BlocksComputed?> {
     return produceState<BlocksComputed?>(
         initialValue = null,
         key1 = entityId,
         key2 = contentBlocksJson,
-        key3 = highlight
+        key3 = highlight,
     ) {
         val json = contentBlocksJson
         if (json.isNullOrBlank()) {
@@ -25,8 +25,9 @@ internal fun produceBlocksComputedState(
         }
 
         value = null
-        value = withContext(Dispatchers.Default) {
-            buildBlocksComputed(json, highlight)
-        }
+        value =
+            withContext(Dispatchers.Default) {
+                buildBlocksComputed(json, highlight)
+            }
     }
 }

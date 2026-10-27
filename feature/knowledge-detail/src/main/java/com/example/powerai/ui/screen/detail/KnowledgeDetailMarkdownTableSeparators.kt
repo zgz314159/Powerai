@@ -11,20 +11,21 @@ internal fun ensureTableSeparators(markdown: String): String {
     val separatorLineRegex = Regex("^\\s*\\|\\s*:?-{3,}:?\\s*(\\|\\s*:?-{3,}:?\\s*)+\\|\\s*$")
 
     // Expand lines that contain an embedded separator row into multiple lines.
-    val lines = TableEmbeddedSeparatorExpander
-        .expandLinesWithEmbeddedSeparatorRows(normalized, separatorLineRegex)
-        .toMutableList()
+    val lines =
+        TableEmbeddedSeparatorExpander
+            .expandLinesWithEmbeddedSeparatorRows(normalized, separatorLineRegex)
+            .toMutableList()
 
     // Insert missing separator rows and normalize separator width.
     TableSeparatorPipeline.normalizeRowPipesAndInsertMissingSeparators(
         lines = lines,
-        separatorLineRegex = separatorLineRegex
+        separatorLineRegex = separatorLineRegex,
     )
 
     // Ensure separator rows have enough columns and add blank lines around them.
     TableSeparatorPipeline.normalizeSeparatorWidthsAndPadBlankLines(
         lines = lines,
-        separatorLineRegex = separatorLineRegex
+        separatorLineRegex = separatorLineRegex,
     )
 
     return lines.joinToString("\n")

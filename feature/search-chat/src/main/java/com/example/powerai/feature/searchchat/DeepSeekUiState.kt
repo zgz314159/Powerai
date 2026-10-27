@@ -1,17 +1,13 @@
 package com.example.powerai.feature.searchchat
 
+import com.example.powerai.core.model.GenerationMetrics
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.SmartAnswerMode
 import com.example.powerai.core.model.SmartBackendMode
 import com.example.powerai.core.model.SmartBatchSizePreset
 import com.example.powerai.core.model.SmartBatchThreadPreset
-import com.example.powerai.core.model.SmartGenerationRunResult
-import com.example.powerai.core.model.SmartPrefillBenchmarkResult
-import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.model.SmartStageMetrics
-import com.example.powerai.core.model.SmartThreadBenchmarkResult
 import com.example.powerai.core.model.SmartThreadPreset
-import com.example.powerai.core.model.KnowledgeItem
-import com.example.powerai.core.model.GenerationMetrics
 
 data class DeepSeekUiState(
     val isLoading: Boolean = false,
@@ -35,7 +31,7 @@ data class DeepSeekUiState(
     val stageMetrics: SmartStageMetrics = SmartStageMetrics(),
     val progressState: SmartProgressUiState = SmartProgressUiState(),
     val threadBenchmarkState: SmartThreadBenchmarkUiState = SmartThreadBenchmarkUiState(),
-    val prefillBenchmarkState: SmartPrefillBenchmarkUiState = SmartPrefillBenchmarkUiState()
+    val prefillBenchmarkState: SmartPrefillBenchmarkUiState = SmartPrefillBenchmarkUiState(),
 ) {
     /**
      * 是否有可被用户主动中止的进行中生成：驱动「停止生成」按钮的显隐。

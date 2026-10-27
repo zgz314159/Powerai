@@ -8,7 +8,7 @@ data class KnowledgeListItemEntity(
     val category: String,
     val pageNumber: Int?,
     val sortOrder: Int?,
-    val imageUris: String?
+    val imageUris: String?,
 )
 
 data class KnowledgeRowPayloadStat(
@@ -17,5 +17,5 @@ data class KnowledgeRowPayloadStat(
     val contentLength: Int,
     val contentBlocksLength: Int,
     val bboxLength: Int,
-    val imageUrisLength: Int
+    val imageUrisLength: Int,
 )

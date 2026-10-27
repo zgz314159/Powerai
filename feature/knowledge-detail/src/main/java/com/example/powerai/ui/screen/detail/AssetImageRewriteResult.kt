@@ -4,5 +4,5 @@ internal data class AssetImageRewriteResult(
     val text: String,
     val candidateCount: Int,
     val replacedCount: Int,
-    val firstConverted: String?
+    val firstConverted: String?,
 )

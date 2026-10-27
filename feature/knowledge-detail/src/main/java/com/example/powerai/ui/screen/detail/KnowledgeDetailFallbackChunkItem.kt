@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 internal fun KnowledgeDetailFallbackChunkItem(
     index: Int,
     chunk: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val isTable = runCatching { looksLikeMarkdownTableChunk(chunk) }.getOrDefault(false)
 
@@ -22,16 +22,18 @@ internal fun KnowledgeDetailFallbackChunkItem(
         // Avoid WebView and Markwon table rendering here: both can be extremely heavy and trigger ANR/GC churn.
         MarkdownTableCompose(
             markdown = chunk,
-            modifier = modifier
-                .fillMaxWidth()
-                .heightIn(min = 120.dp)
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 120.dp),
         )
     } else {
         MarkdownChunkTextView(
             markdown = chunk,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp)
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp),
         )
     }
 }

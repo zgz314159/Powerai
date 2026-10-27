@@ -25,9 +25,7 @@ import androidx.compose.ui.unit.dp
  * the loading indicator and the streaming text with an animated cursor.
  * Structured text lives in ResponseStructuredText.kt, the action row in
  * ResponseActionRow.kt and citation content in ResponseCitationContent.kt.
- */
-
-/**
+ *
  * 加载状态指示器
  */
 @Suppress("ktlint:standard:function-naming")

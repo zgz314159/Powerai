@@ -8,10 +8,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class BlocksParserTest {
-
     @Test
     fun `parseBlocks handles V2 schema with pages`() {
-        val json = """
+        val json =
+            """
             {
               "document_id": "test_v2",
               "schema_version": "2.0",
@@ -33,7 +33,7 @@ class BlocksParserTest {
                 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val blocks = BlocksParser.parseBlocks(json).orEmpty()
         assertEquals(1, blocks.size)
@@ -49,7 +49,8 @@ class BlocksParserTest {
 
     @Test
     fun `parseBlocks maps figure type to FigureNodeBlock`() {
-        val json = """
+        val json =
+            """
             {
               "blocks": [
                 {
@@ -65,7 +66,7 @@ class BlocksParserTest {
                 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val blocks = BlocksParser.parseBlocks(json).orEmpty()
         assertEquals(1, blocks.size)
@@ -75,11 +76,11 @@ class BlocksParserTest {
         assertEquals("图1-1-1 电调监控网络运行图", figure.caption)
         assertEquals(
             listOf("file:///android_asset/kb/铁路/专业知识/铁路电力/截图/visual_p5_1.png"),
-            figure.images
+            figure.images,
         )
         assertEquals(
             "file:///android_asset/kb/铁路/专业知识/铁路电力/截图/visual_p5_1.png",
-            figure.imageUri
+            figure.imageUri,
         )
         assertEquals(3, figure.pageNumber)
         assertNotNull(figure.boundingBox)
@@ -88,14 +89,15 @@ class BlocksParserTest {
 
     @Test
     fun `parseBlocks keeps code blocks regardless of semanticRole`() {
-        val json = """
+        val json =
+            """
             {
               "blocks": [
                 {"type": "code", "code": "正文段落。", "semanticRole": "body"},
                 {"type": "code", "code": "箱变", "semanticRole": "figure_callout"}
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
 
         val blocks = BlocksParser.parseBlocks(json).orEmpty()
         assertEquals(2, blocks.size)

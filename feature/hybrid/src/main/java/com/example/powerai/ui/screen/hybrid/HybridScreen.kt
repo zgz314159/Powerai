@@ -2,25 +2,20 @@
 
 package com.example.powerai.ui.screen.hybrid
 
-import com.example.powerai.core.model.KnowledgeItem
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -36,6 +31,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.HybridCard
 import com.example.powerai.ui.component.SearchBar
 
@@ -53,11 +50,11 @@ fun HybridScreen(viewModel: HybridViewModel) {
                 value = input,
                 onValueChange = { input = it },
                 onSearch = { viewModel.submitQuery(input) },
-                onClear = { input = "" }
+                onClear = { input = "" },
             )
             Button(
                 onClick = { viewModel.submitQuery(input) },
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
             ) {
                 Text("提交问题")
             }
@@ -65,17 +62,18 @@ fun HybridScreen(viewModel: HybridViewModel) {
             Text(
                 text = "当前检索词${uiState.sanitizedQuestion}",
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp)
+                modifier = Modifier.padding(top = 4.dp),
             )
             // Show import progress when available and between 0% and 100%
             uiState.importProgress?.let { progress ->
                 val pct = progress.percent.coerceIn(0, 100)
                 if (pct in 1..99 && progress.status == "in_progress") {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp),
-                        horizontalAlignment = Alignment.Start
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp),
+                        horizontalAlignment = Alignment.Start,
                     ) {
                         LinearProgressIndicator(progress = { pct / 100f }, modifier = Modifier.fillMaxWidth())
                         Spacer(modifier = Modifier.height(6.dp))
@@ -97,7 +95,7 @@ fun HybridScreen(viewModel: HybridViewModel) {
                     LazyRow(contentPadding = PaddingValues(top = 12.dp)) {
                         items(
                             items = evidence,
-                            key = { rr -> rr.id ?: rr.item?.id ?: rr.hashCode().toLong() }
+                            key = { rr -> rr.id ?: rr.item?.id ?: rr.hashCode().toLong() },
                         ) { rr ->
                             EvidenceCard(rr)
                         }
@@ -107,7 +105,7 @@ fun HybridScreen(viewModel: HybridViewModel) {
                     LazyColumn(contentPadding = PaddingValues(top = 12.dp)) {
                         itemsIndexed(
                             items = uiState.references,
-                            key = { index, item -> "${item.id}_$index" }
+                            key = { index, item -> "${item.id}_$index" },
                         ) { index: Int, item: com.example.powerai.core.model.KnowledgeItem ->
                             HybridCard(item)
                         }
@@ -118,7 +116,6 @@ fun HybridScreen(viewModel: HybridViewModel) {
     }
 }
 
-
 @Composable
 private fun EvidenceCard(rr: com.example.powerai.core.model.RetrievalResult) {
     val title = rr.item?.title ?: rr.metadata["title"] ?: "(无标"
@@ -126,10 +123,11 @@ private fun EvidenceCard(rr: com.example.powerai.core.model.RetrievalResult) {
     val snippet = rr.item?.content?.take(160) ?: rr.metadata["snippet"] ?: "(无摘"
 
     androidx.compose.material3.Card(
-        modifier = Modifier
-            .width(260.dp)
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp)
+        modifier =
+            Modifier
+                .width(260.dp)
+                .padding(8.dp),
+        shape = RoundedCornerShape(8.dp),
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(text = title, style = MaterialTheme.typography.titleMedium)

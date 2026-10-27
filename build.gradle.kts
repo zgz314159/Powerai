@@ -78,12 +78,11 @@ tasks.withType<DetektCreateBaselineTask>().configureEach {
     baseline.set(detektBaselineFile)
 }
 
-// ktlint stays report-only (historical style debt is large); incremental
-// blocking comes from scripts/check_ktlint_changed_lines.py, which fails only
-// for violations on lines touched by the current change.
+// Phase D2: full-tree ktlintCheck must be clean (ignoreFailures=false).
+// Changed-lines gate remains as a fast PR signal; CI also runs ktlintCheck.
 fun Project.configureKtlintGuardrail() {
     extensions.configure<KtlintExtension> {
-        ignoreFailures.set(true)
+        ignoreFailures.set(false)
         reporters {
             reporter(ReporterType.PLAIN)
             reporter(ReporterType.CHECKSTYLE)

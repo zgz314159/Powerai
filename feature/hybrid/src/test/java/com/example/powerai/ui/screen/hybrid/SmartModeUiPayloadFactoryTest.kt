@@ -7,25 +7,26 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SmartModeUiPayloadFactoryTest {
-
     @Test
     fun `fromResult maps query result into answer references and evidence`() {
-        val item = KnowledgeItem(
-            id = 2L,
-            title = "变压器检修",
-            content = "检修时应核查绝缘状态。",
-            source = "manual.pdf",
-            pageNumber = null,
-            category = "",
-            keywords = emptyList(),
-            hitBlockIndex = null,
-            hitBlockId = null
-        )
-        val result = QueryResult(
-            answer = "需要核查绝缘状态。",
-            references = listOf(item),
-            confidence = 0.8f
-        )
+        val item =
+            KnowledgeItem(
+                id = 2L,
+                title = "变压器检修",
+                content = "检修时应核查绝缘状态。",
+                source = "manual.pdf",
+                pageNumber = null,
+                category = "",
+                keywords = emptyList(),
+                hitBlockIndex = null,
+                hitBlockId = null,
+            )
+        val result =
+            QueryResult(
+                answer = "需要核查绝缘状态。",
+                references = listOf(item),
+                confidence = 0.8f,
+            )
 
         val payload = SmartModeUiPayloadFactory.fromResult(result)
 

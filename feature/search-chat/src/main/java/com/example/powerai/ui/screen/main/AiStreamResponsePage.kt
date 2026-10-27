@@ -1,20 +1,13 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-
-import com.example.powerai.domain.model.chat.AiStreamState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.powerai.ui.component.KnowledgeItemCard
+import com.example.powerai.domain.model.chat.AiStreamState
 
 /**
  * 专门用于展示流式 AI 响应的页面。原先在 `MainPages.kt` 中。拆分以让各页面职责单一
@@ -28,18 +21,19 @@ fun AiStreamResponsePage(
     showEmptyState: Boolean,
     userMessage: String = "",
     askedAtMillis: Long? = null,
-    sources: List<String> = emptyList()
+    sources: List<String> = emptyList(),
 ) {
-    val displayText = remember(streamState) {
-        when (streamState) {
-            is AiStreamState.Success -> streamState.text
-            else -> ""
+    val displayText =
+        remember(streamState) {
+            when (streamState) {
+                is AiStreamState.Success -> streamState.text
+                else -> ""
+            }
         }
-    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
     ) {
         item {
             when (streamState) {
@@ -58,7 +52,7 @@ fun AiStreamResponsePage(
                         sources = sources,
                         onCopy = { onCopy(displayText) },
                         onRetry = onRetry,
-                        allowRetry = false
+                        allowRetry = false,
                     )
                 }
 
@@ -71,7 +65,7 @@ fun AiStreamResponsePage(
                         sources = sources,
                         onCopy = { onCopy(streamState.message) },
                         onRetry = onRetry,
-                        allowRetry = false
+                        allowRetry = false,
                     )
                 }
 
@@ -84,7 +78,7 @@ fun AiStreamResponsePage(
                         sources = sources,
                         onCopy = { onCopy(displayText) },
                         onRetry = onRetry,
-                        allowRetry = false
+                        allowRetry = false,
                     )
                 }
             }

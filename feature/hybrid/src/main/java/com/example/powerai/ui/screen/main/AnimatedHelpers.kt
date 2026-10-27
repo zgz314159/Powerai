@@ -18,7 +18,7 @@ import androidx.compose.runtime.setValue
 fun AnimatedFadeInItem(
     index: Int,
     enabled: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     if (!enabled) {
         content()
@@ -30,7 +30,7 @@ fun AnimatedFadeInItem(
 
     AnimatedVisibility(
         visible = visible,
-        enter = fadeIn(animationSpec = tween(durationMillis = 400, delayMillis = index * 40))
+        enter = fadeIn(animationSpec = tween(durationMillis = 400, delayMillis = index * 40)),
     ) {
         content()
     }

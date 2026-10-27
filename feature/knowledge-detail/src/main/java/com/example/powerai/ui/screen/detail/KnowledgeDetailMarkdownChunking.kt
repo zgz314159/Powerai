@@ -1,6 +1,9 @@
 package com.example.powerai.ui.screen.detail
 
-internal fun chunkContent(content: String, maxChunkSize: Int = 1800): List<String> {
+internal fun chunkContent(
+    content: String,
+    maxChunkSize: Int = 1800,
+): List<String> {
     if (content.isBlank()) return listOf("")
 
     // Prefer keeping line breaks stable; group lines into chunks, but never split inside a table.
@@ -52,10 +55,11 @@ internal fun chunkContent(content: String, maxChunkSize: Int = 1800): List<Strin
             continue
         }
 
-        val split = KnowledgeDetailMarkdownChunkingTableSplit.splitOversizedTableOrNull(
-            tableLines = blockLines,
-            maxChunkSize = maxChunkSize
-        )
+        val split =
+            KnowledgeDetailMarkdownChunkingTableSplit.splitOversizedTableOrNull(
+                tableLines = blockLines,
+                maxChunkSize = maxChunkSize,
+            )
         if (split != null) {
             for (part in split) addAsOwnChunk(part)
         } else {

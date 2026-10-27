@@ -1,7 +1,7 @@
 package com.example.powerai.engine.ai
 
-import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.model.KnowledgeItem
+import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.VectorRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,13 +14,16 @@ import kotlinx.coroutines.flow.SharedFlow
  */
 class RAGDataCoordinator(
     private val vectorRepo: VectorRepository,
-    private val knowledgeRepo: KnowledgeRepository
+    private val knowledgeRepo: KnowledgeRepository,
 ) {
     // 用于流式推送思维链或实时检索片
     private val _stream = MutableSharedFlow<String>(replay = 0)
     val stream: SharedFlow<String> = _stream
 
-    suspend fun retrieveByQuery(query: String, topK: Int = 5): List<KnowledgeItem> {
+    suspend fun retrieveByQuery(
+        query: String,
+        topK: Int = 5,
+    ): List<KnowledgeItem> {
         // 使用已有的查询编码器/向量化链路由 domain 层负责产生向量并查询
         // 这里复用 VectorRepository search + KnowledgeRepository.getLocalItemById
         // 假设调用方先query 转换为向量（QueryEncoder）并调用 vectorRepo.search
@@ -34,7 +37,8 @@ class RAGDataCoordinator(
             try {
                 val item = knowledgeRepo.getLocalItemById(id)
                 if (item != null) res.add(item)
-            } catch (_: Throwable) {}
+            } catch (_: Throwable) {
+            }
         }
         return res
     }
@@ -42,6 +46,7 @@ class RAGDataCoordinator(
     suspend fun publishStreamFragment(fragment: String) {
         try {
             _stream.emit(fragment)
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
 }

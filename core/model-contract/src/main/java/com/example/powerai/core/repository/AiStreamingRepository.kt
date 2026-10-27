@@ -9,7 +9,7 @@ data class AiStreamRequest(
     val url: String,
     val apiKey: String,
     val bodyJson: String,
-    val acceptStream: Boolean = true
+    val acceptStream: Boolean = true,
 )
 
 /**
@@ -24,11 +24,15 @@ interface AiStreamingRepository {
         onOpen: () -> Unit = {},
         onData: (String) -> Unit,
         onClosed: () -> Unit = {},
-        onFailure: (String) -> Unit = {}
+        onFailure: (String) -> Unit = {},
     ): Cancellable
 
     /** Build the request body for streaming. */
-    fun buildBody(model: String, messagesJsonFragments: List<String>, stream: Boolean = true): String
+    fun buildBody(
+        model: String,
+        messagesJsonFragments: List<String>,
+        stream: Boolean = true,
+    ): String
 
     /** Check if the data chunk is a done marker. */
     fun isDoneMarker(data: String): Boolean

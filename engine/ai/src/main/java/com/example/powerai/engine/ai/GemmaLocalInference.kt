@@ -1,18 +1,12 @@
 package com.example.powerai.engine.ai
 
 import android.content.Context
+import com.example.powerai.domain.generator.PromptBuilder
+
 // 该服务主要负责模型加生命周期管理以及本地推理不可用时的回退
 // 绝大部分推理和结果清理逻辑已迁移至 GemmaInferenceEngine
 // GemmaResponseSanitizer，当前文件保持轻量
-
-import com.example.powerai.domain.generator.PromptBuilder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.File
-
 // Direct MediaPipe import for deterministic runtime binding (avoid reflection)
-import com.google.mediapipe.tasks.genai.llminference.LlmInference
-import com.google.mediapipe.tasks.genai.llminference.LlmInference.LlmInferenceOptions
 
 /**
  * GemmaLocalInference - MediaPipe Tasks GenAI adapter (best-effort via reflection).
@@ -25,11 +19,11 @@ import com.google.mediapipe.tasks.genai.llminference.LlmInference.LlmInferenceOp
  *   handles model lifecycle (load/close) and delegates to a fallback provider
  *   when the engine is unavailable.
  */
+
 open class GemmaLocalInference(
     private val context: Context?,
-    private val loader: GemmaModelLoaderType = GemmaModelLoader
+    private val loader: GemmaModelLoaderType = GemmaModelLoader,
 ) : LlmInferenceService {
-
     companion object {
         private const val TAG = "GemmaLocalInference"
     }
@@ -41,6 +35,7 @@ open class GemmaLocalInference(
     // necessary to avoid compile-time coupling to exact API shapes.
     @Volatile
     private var engine: Any? = null
+
     @Volatile
     private var loaded: Boolean = false
     // simple token-collapse detector streak counter
@@ -51,7 +46,10 @@ open class GemmaLocalInference(
      */
     fun loadModel(): Boolean {
         // simple diagnostic marker
-        try { context?.filesDir?.resolve("entry_load.txt")?.writeText("LOAD_START\n", Charsets.UTF_8) } catch (_: Throwable) {}
+        try {
+            context?.filesDir?.resolve("entry_load.txt")?.writeText("LOAD_START\n", Charsets.UTF_8)
+        } catch (_: Throwable) {
+        }
         if (loaded) return true
         val created = loader.tryLoad(context)
         if (created != null) {
@@ -62,16 +60,23 @@ open class GemmaLocalInference(
         return false
     }
 
-
-    override suspend fun infer(prompt: PromptBuilder.Prompt, maxTokens: Int): InferenceResult {
+    override suspend fun infer(
+        prompt: PromptBuilder.Prompt,
+        maxTokens: Int,
+    ): InferenceResult {
         // Diagnostic marker at entry
         try {
             context?.filesDir?.resolve("entry_infer.txt")?.writeText("INFER_START\n", Charsets.UTF_8)
-        } catch (_: Throwable) { }
+        } catch (_: Throwable) {
+        }
 
         // ensure engine loaded lazily
         if (!loaded) {
-            try { loadModel() } catch (_: Throwable) { /* ignore */ }
+            try {
+                loadModel()
+            } catch (_: Throwable) {
+                // ignore
+            }
         }
 
         if (!loaded || engine == null) {
@@ -99,6 +104,4 @@ open class GemmaLocalInference(
         engine = null
         loaded = false
     }
-
 }
-

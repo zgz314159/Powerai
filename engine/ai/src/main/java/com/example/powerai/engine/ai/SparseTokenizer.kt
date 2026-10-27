@@ -23,7 +23,8 @@ object SparseTokenizer {
                 val t = m.value.trim()
                 if (t.isNotEmpty()) rawTokens.add(t)
             }
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         if (rawTokens.isEmpty()) return emptyList()
 
         val augmented = mutableSetOf<String>()

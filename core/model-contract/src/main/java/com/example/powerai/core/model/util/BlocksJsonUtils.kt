@@ -10,7 +10,6 @@ import java.security.MessageDigest
  * Shared JSON parsing utilities for structural content blocks.
  */
 object BlocksJsonUtils {
-
     fun sha1Hex(s: String): String {
         val md = MessageDigest.getInstance("SHA-1")
         val bytes = md.digest(s.toByteArray(Charsets.UTF_8))
@@ -56,8 +55,7 @@ object BlocksJsonUtils {
         return null
     }
 
-    fun JsonElement.asJsonObjectOrNull(): JsonObject? =
-        if (this.isJsonObject) this.asJsonObject else null
+    fun JsonElement.asJsonObjectOrNull(): JsonObject? = if (this.isJsonObject) this.asJsonObject else null
 
     fun JsonObject.stringOrNull(key: String): String? {
         val el = get(key) ?: return null

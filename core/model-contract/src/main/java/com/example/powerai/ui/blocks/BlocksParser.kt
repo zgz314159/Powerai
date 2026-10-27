@@ -1,13 +1,13 @@
 package com.example.powerai.ui.blocks
 
 // android.util.Log removed per TODO order; tracing suppressed
-import com.example.powerai.core.model.KnowledgeBlock
-import com.example.powerai.core.model.TextBlock
-import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.ListBlock
-import com.example.powerai.core.model.TableBlock
 import com.example.powerai.core.model.CodeBlock
 import com.example.powerai.core.model.FigureNodeBlock
+import com.example.powerai.core.model.ImageBlock
+import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.TableBlock
+import com.example.powerai.core.model.TextBlock
 import com.example.powerai.core.model.UnknownBlock
 import com.example.powerai.core.model.util.BlocksJsonUtils
 import com.example.powerai.core.model.util.BlocksJsonUtils.asJsonObjectOrNull
@@ -82,7 +82,10 @@ object BlocksParser {
         }
     }
 
-    private fun generateUniqueId(block: KnowledgeBlock, seen: MutableMap<String, Int>): String {
+    private fun generateUniqueId(
+        block: KnowledgeBlock,
+        seen: MutableMap<String, Int>,
+    ): String {
         val type = getBlockTypeString(block)
         val text = getBlockContentText(block)
         val norm = ("$type|$text").lowercase().replace(Regex("\\s+"), " ").trim()
@@ -92,7 +95,10 @@ object BlocksParser {
         return "b_${base}_$n"
     }
 
-    private fun assignIdToBlock(block: KnowledgeBlock, id: String): KnowledgeBlock {
+    private fun assignIdToBlock(
+        block: KnowledgeBlock,
+        id: String,
+    ): KnowledgeBlock {
         return when (block) {
             is TextBlock -> block.copy(id = id)
             is ImageBlock -> block.copy(id = id)
@@ -111,14 +117,16 @@ object BlocksParser {
 
         val bbox = obj.boundingBoxAsStringOrNull()
 
-        val pageNumber = obj.intOrNull("pageNumber")
-            ?: obj.intOrNull("page")
-            ?: obj.intOrNull("p")
+        val pageNumber =
+            obj.intOrNull("pageNumber")
+                ?: obj.intOrNull("page")
+                ?: obj.intOrNull("p")
 
-        val imageUri = obj.stringOrNull("imageUri")
-            ?: obj.stringOrNull("image_uri")
-            ?: obj.stringOrNull("snapshotUri")
-            ?: obj.stringOrNull("snapshot_uri")
+        val imageUri =
+            obj.stringOrNull("imageUri")
+                ?: obj.stringOrNull("image_uri")
+                ?: obj.stringOrNull("snapshotUri")
+                ?: obj.stringOrNull("snapshot_uri")
 
         val pdfWidth = obj.floatOrNull("pdfWidth") ?: obj.floatOrNull("pdf_width")
         val pdfHeight = obj.floatOrNull("pdfHeight") ?: obj.floatOrNull("pdf_height")
@@ -132,7 +140,7 @@ object BlocksParser {
                     isBold = obj.booleanOrNull("isBold"),
                     alignment = obj.stringOrNull("alignment"),
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "h1", "heading1", "heading_1", "title" -> {
@@ -142,7 +150,7 @@ object BlocksParser {
                     isBold = obj.booleanOrNull("isBold") ?: true,
                     alignment = obj.stringOrNull("alignment"),
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "h2", "heading2", "heading_2" -> {
@@ -152,7 +160,7 @@ object BlocksParser {
                     isBold = obj.booleanOrNull("isBold") ?: true,
                     alignment = obj.stringOrNull("alignment"),
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "h3", "heading3", "heading_3" -> {
@@ -162,7 +170,7 @@ object BlocksParser {
                     isBold = obj.booleanOrNull("isBold") ?: true,
                     alignment = obj.stringOrNull("alignment"),
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "quote", "blockquote" -> {
@@ -172,7 +180,7 @@ object BlocksParser {
                     isBold = obj.booleanOrNull("isBold"),
                     alignment = obj.stringOrNull("alignment"),
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "image", "img" -> {
@@ -182,38 +190,54 @@ object BlocksParser {
                 ImageBlock(
                     id = id, src = src, alt = alt, caption = caption,
                     boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    pdfWidth = pdfWidth, pdfHeight = pdfHeight,
                 )
             }
             "list", "bullet_list", "ordered_list" -> {
-                val ordered = when {
-                    obj.booleanOrNull("ordered") != null -> obj.booleanOrNull("ordered") == true
-                    t == "ordered_list" -> true
-                    else -> false
-                }
+                val ordered =
+                    when {
+                        obj.booleanOrNull("ordered") != null -> obj.booleanOrNull("ordered") == true
+                        t == "ordered_list" -> true
+                        else -> false
+                    }
                 val items = BlocksElementExtractors.extractListItems(obj)
                 ListBlock(
-                    id = id, ordered = ordered, items = items,
-                    boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    id = id,
+                    ordered = ordered,
+                    items = items,
+                    boundingBox = bbox,
+                    pageNumber = pageNumber,
+                    imageUri = imageUri,
+                    pdfWidth = pdfWidth,
+                    pdfHeight = pdfHeight,
                 )
             }
             "table" -> {
                 val rows = BlocksElementExtractors.extractTableRows(obj)
                 val cells = BlocksElementExtractors.extractTableCells(obj)
                 TableBlock(
-                    id = id, rows = rows, cells = cells,
-                    boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    id = id,
+                    rows = rows,
+                    cells = cells,
+                    boundingBox = bbox,
+                    pageNumber = pageNumber,
+                    imageUri = imageUri,
+                    pdfWidth = pdfWidth,
+                    pdfHeight = pdfHeight,
                 )
             }
             "code", "code_block" -> {
                 val code = obj.stringOrNull("code").orEmpty().ifBlank { obj.stringOrNull("text").orEmpty() }
                 val language = obj.stringOrNull("language")
                 CodeBlock(
-                    id = id, code = code, language = language,
-                    boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    id = id,
+                    code = code,
+                    language = language,
+                    boundingBox = bbox,
+                    pageNumber = pageNumber,
+                    imageUri = imageUri,
+                    pdfWidth = pdfWidth,
+                    pdfHeight = pdfHeight,
                 )
             }
             "figure" -> {
@@ -221,17 +245,27 @@ object BlocksParser {
                 val images = mutableListOf<String>()
                 obj.get("images")?.asJsonArray?.forEach { it.asString?.let { images.add(it) } }
                 FigureNodeBlock(
-                    id = id, caption = caption, images = images,
-                    boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    id = id,
+                    caption = caption,
+                    images = images,
+                    boundingBox = bbox,
+                    pageNumber = pageNumber,
+                    imageUri = imageUri,
+                    pdfWidth = pdfWidth,
+                    pdfHeight = pdfHeight,
                 )
             }
             else -> {
                 val text = BlocksElementExtractors.extractText(obj)
                 UnknownBlock(
-                    id = id, type = type, rawText = text,
-                    boundingBox = bbox, pageNumber = pageNumber, imageUri = imageUri,
-                    pdfWidth = pdfWidth, pdfHeight = pdfHeight
+                    id = id,
+                    type = type,
+                    rawText = text,
+                    boundingBox = bbox,
+                    pageNumber = pageNumber,
+                    imageUri = imageUri,
+                    pdfWidth = pdfWidth,
+                    pdfHeight = pdfHeight,
                 )
             }
         }

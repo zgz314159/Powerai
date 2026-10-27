@@ -6,7 +6,6 @@ package com.example.powerai.core.data.importer
  * Used by [MarkdownTableNormalizer] to process DOCX-converted markdown tables.
  */
 internal object MarkdownTableUtils {
-
     /**
      * Checks if a line looks like a markdown table row.
      *

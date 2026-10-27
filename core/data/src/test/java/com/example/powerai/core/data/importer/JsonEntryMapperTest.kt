@@ -6,22 +6,24 @@ import org.junit.Test
 
 class JsonEntryMapperTest {
     private val gson = Gson()
-    private val metadata = JsonResourceParser.FileMetadata(
-        fileName = "file.json",
-        fileId = "fid",
-        entriesCount = 0
-    )
+    private val metadata =
+        JsonResourceParser.FileMetadata(
+            fileName = "file.json",
+            fileId = "fid",
+            entriesCount = 0,
+        )
 
     @Test
     fun `basic entry maps correctly`() {
-        val entry = JsonResourceParser.JsonEntry(
-            entryId = "e1",
-            unitName = "U",
-            jobTitle = "T",
-            contentMarkdown = "hello",
-            position = 5,
-            tags = listOf("alpha","beta")
-        )
+        val entry =
+            JsonResourceParser.JsonEntry(
+                entryId = "e1",
+                unitName = "U",
+                jobTitle = "T",
+                contentMarkdown = "hello",
+                position = 5,
+                tags = listOf("alpha", "beta"),
+            )
         val entity = JsonEntryMapper.toEntity(entry, metadata, gson)
         assertEquals("T", entity.title)
         assertEquals("hello", entity.content)
@@ -33,12 +35,13 @@ class JsonEntryMapperTest {
     @Test
     fun `image and bbox are extracted from blocksJson`() {
         val blocks = "{\"src\":\"file:///android_asset/img.png\",\"boundingBox\":{\"x\":1}}"
-        val entry = JsonResourceParser.JsonEntry(
-            entryId = "e2",
-            jobTitle = "J",
-            contentMarkdown = "m",
-            blocks = gson.fromJson(blocks, com.google.gson.JsonElement::class.java)
-        )
+        val entry =
+            JsonResourceParser.JsonEntry(
+                entryId = "e2",
+                jobTitle = "J",
+                contentMarkdown = "m",
+                blocks = gson.fromJson(blocks, com.google.gson.JsonElement::class.java),
+            )
         val entity = JsonEntryMapper.toEntity(entry, metadata, gson)
         println("debug imageUris=${entity.imageUris} bbox=${entity.bboxJson}")
         assertNotNull(entity.imageUris)
@@ -49,11 +52,12 @@ class JsonEntryMapperTest {
 
     @Test
     fun `markdown fallback image extraction works`() {
-        val entry = JsonResourceParser.JsonEntry(
-            entryId = "e3",
-            jobTitle = "J",
-            contentMarkdown = "![](file:///android_asset/foo.png)"
-        )
+        val entry =
+            JsonResourceParser.JsonEntry(
+                entryId = "e3",
+                jobTitle = "J",
+                contentMarkdown = "![](file:///android_asset/foo.png)",
+            )
         val entity = JsonEntryMapper.toEntity(entry, metadata, gson)
         assertNotNull(entity.imageUris)
         assertTrue(entity.imageUris!!.contains("foo.png"))

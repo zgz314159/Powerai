@@ -20,7 +20,7 @@ object SparseSearchUtils {
         return if (diff < 1.0) {
             breakdown.sortedWith(
                 compareByDescending<SparseScorer.Score> { if (it.raw != 0) it.final / it.raw else 0.0 }
-                    .thenByDescending { it.final }
+                    .thenByDescending { it.final },
             ).map { it.entry }
         } else {
             breakdown.map { it.entry }
@@ -36,7 +36,7 @@ object SparseSearchUtils {
     fun permissiveFallback(
         entries: List<SparseSearcher.SafetyEntry>,
         tokens: List<String>,
-        query: String
+        query: String,
     ): List<SparseSearcher.SafetyEntry> {
         if (entries.isEmpty() || tokens.isEmpty()) return emptyList()
         val fallbackHits = mutableListOf<SparseSearcher.SafetyEntry>()

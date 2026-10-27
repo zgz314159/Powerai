@@ -1,7 +1,6 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,16 +21,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.dp
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.KnowledgeItemCard
 import com.example.powerai.util.PdfSourceRef
 
@@ -39,7 +38,7 @@ private val HighlightYellow = Color(0xFFFFF59D)
 private data class FileGroup(
     val key: String,
     val fileName: String,
-    val items: List<KnowledgeItem>
+    val items: List<KnowledgeItem>,
 )
 
 /**
@@ -64,29 +63,33 @@ fun LocalResultsPage(
     topContent: (@Composable () -> Unit)? = null,
     animateItems: Boolean,
     isPageLoading: Boolean = false,
-    pageSize: Int = 4
+    pageSize: Int = 4,
 ) {
-    val localHighlightStyle = remember {
-        SpanStyle(
-            background = HighlightYellow,
-            color = Color.Unspecified
-        )
-    }
+    val localHighlightStyle =
+        remember {
+            SpanStyle(
+                background = HighlightYellow,
+                color = Color.Unspecified,
+            )
+        }
 
-    val safeResults = remember(localResults) {
-        applySafeFiltering(localResults)
-    }
+    val safeResults =
+        remember(localResults) {
+            applySafeFiltering(localResults)
+        }
 
-    val groups: List<FileGroup> = remember(safeResults) {
-        buildFileGroups(localResults)
-    }
+    val groups: List<FileGroup> =
+        remember(safeResults) {
+            buildFileGroups(localResults)
+        }
 
-    val collapsedKeysSaver: Saver<Set<String>, List<String>> = remember {
-        Saver(
-            save = { it.toList() },
-            restore = { it.toSet() }
-        )
-    }
+    val collapsedKeysSaver: Saver<Set<String>, List<String>> =
+        remember {
+            Saver(
+                save = { it.toList() },
+                restore = { it.toSet() },
+            )
+        }
     var collapsedGroupKeys by rememberSaveable(stateSaver = collapsedKeysSaver) { mutableStateOf(emptySet()) }
 
     // Keep collapsed keys in sync with current groups.
@@ -99,12 +102,13 @@ fun LocalResultsPage(
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            start = 8.dp,
-            end = 8.dp,
-            top = 88.dp,
-            bottom = 4.dp
-        )
+        contentPadding =
+            PaddingValues(
+                start = 8.dp,
+                end = 8.dp,
+                top = 88.dp,
+                bottom = 4.dp,
+            ),
     ) {
         topContent?.let { tc ->
             item {
@@ -115,10 +119,11 @@ fun LocalResultsPage(
         if (groups.isEmpty()) {
             item {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 48.dp),
-                    contentAlignment = Alignment.Center
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 48.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
                     when {
                         isPageLoading -> CircularProgressIndicator()
@@ -135,12 +140,13 @@ fun LocalResultsPage(
                     group = group,
                     isCollapsed = collapsedGroupKeys.contains(group.key),
                     onToggle = { key ->
-                        collapsedGroupKeys = if (collapsedGroupKeys.contains(key)) {
-                            collapsedGroupKeys - key
-                        } else {
-                            collapsedGroupKeys + key
-                        }
-                    }
+                        collapsedGroupKeys =
+                            if (collapsedGroupKeys.contains(key)) {
+                                collapsedGroupKeys - key
+                            } else {
+                                collapsedGroupKeys + key
+                            }
+                    },
                 )
             }
 
@@ -148,7 +154,7 @@ fun LocalResultsPage(
                 items(
                     count = group.items.size,
                     // include index to guarantee uniqueness even if IDs repeat
-                    key = { idx -> "row::${group.key}::${group.items[idx].id}::$idx" }
+                    key = { idx -> "row::${group.key}::${group.items[idx].id}::$idx" },
                 ) { idx ->
                     val item = group.items[idx]
                     KnowledgeItemCard(
@@ -157,16 +163,18 @@ fun LocalResultsPage(
                         highlightStyleOverride = localHighlightStyle,
                         metaLine = metaProvider?.invoke(item),
                         onClick = {
-                            if (item.id > 0) onOpenDetail(
-                                item.id,
-                                item.hitBlockIndex,
-                                item.hitBlockId,
-                                item.highlightHint?.takeIf { it.isNotBlank() } ?: highlight
-                            )
+                            if (item.id > 0) {
+                                onOpenDetail(
+                                    item.id,
+                                    item.hitBlockIndex,
+                                    item.hitBlockId,
+                                    item.highlightHint?.takeIf { it.isNotBlank() } ?: highlight,
+                                )
+                            }
                         },
                         expanded = false,
                         onExpand = null,
-                        previewMaxLines = 5
+                        previewMaxLines = 5,
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                 }
@@ -183,65 +191,65 @@ fun LocalResultsPage(
 
 private fun buildFileGroups(results: List<KnowledgeItem>): List<FileGroup> {
     if (results.isEmpty()) return emptyList()
-    
+
     val ordered = LinkedHashMap<String, MutableList<KnowledgeItem>>()
     val names = LinkedHashMap<String, String>()
-    
+
     for (item in results) {
         val ref = PdfSourceRef.parse(item.source)
-        val key = ref?.fileId ?: PdfSourceRef.display(item.source).ifBlank { 
-            item.source.ifBlank { "__unknown__" } 
-        }
+        val key =
+            ref?.fileId ?: PdfSourceRef.display(item.source).ifBlank {
+                item.source.ifBlank { "__unknown__" }
+            }
         val name = ref?.fileName ?: PdfSourceRef.display(item.source).ifBlank { "未命名文" }
         names.putIfAbsent(key, name)
         val list = ordered.getOrPut(key) { ArrayList() }
         list.add(item)
     }
-    
+
     return ordered.entries.map { (key, list) ->
         FileGroup(key = key, fileName = names[key].orEmpty(), items = list)
     }
 }
 
-private fun groupToggleLabel(isCollapsed: Boolean): String =
-    if (isCollapsed) "展开" else "收起"
+private fun groupToggleLabel(isCollapsed: Boolean): String = if (isCollapsed) "展开" else "收起"
 
-private fun groupItemCountText(count: Int): String =
-    "${count}"
+private fun groupItemCountText(count: Int): String = "$count"
 
 @Composable
 private fun FileGroupHeader(
     group: FileGroup,
     isCollapsed: Boolean,
-    onToggle: (String) -> Unit
+    onToggle: (String) -> Unit,
 ) {
     val toggleLabel = groupToggleLabel(isCollapsed)
     val headerMeta = groupItemCountText(group.items.size)
 
     Column(
-        modifier = Modifier
-            .padding(top = 12.dp, bottom = 6.dp)
-            .clickable { onToggle(group.key) }
+        modifier =
+            Modifier
+                .padding(top = 12.dp, bottom = 6.dp)
+                .clickable { onToggle(group.key) },
     ) {
         Text(
             text = group.fileName.ifBlank { "未命名文" },
             style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = headerMeta,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
                 text = toggleLabel,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

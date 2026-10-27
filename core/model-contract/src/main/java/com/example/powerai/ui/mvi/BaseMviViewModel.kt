@@ -14,9 +14,8 @@ import kotlinx.coroutines.launch
  * 提供统一的状态管理和副作用处理
  */
 abstract class BaseMviViewModel<Intent, State, Effect>(
-    initialState: State
+    initialState: State,
 ) : ViewModel(), MviContract<Intent, State, Effect> {
-
     private val _uiState = MutableStateFlow(initialState)
     val uiState: StateFlow<State> = _uiState.asStateFlow()
 

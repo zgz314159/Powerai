@@ -1,18 +1,18 @@
 package com.example.powerai.ui.screen.main
 
+import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.material3.DrawerState
 
 /**
  * AI搜索区域组件
- * 
+ *
  * 职责
  * - 展示AI聊天界面（ChatScaffold
  * - 将来自父级的输入和搜索事件转发到ChatScaffold
  * - 简化MainSearchAndResultsArea的代
- * 
+ *
  * 遵循SRP：只负责AI模式的UI呈现，不处理搜索逻辑
  */
 @Composable
@@ -29,7 +29,7 @@ fun AiSearchArea(
     drawerState: DrawerState,
     showSearchBar: Boolean,
     onShowSearchBarChange: (Boolean) -> Unit,
-    innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
+    innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues(),
 ) {
     val uiState by aiStreamViewModel.uiState.collectAsState()
     val isStreaming = uiState.isLoading
@@ -70,6 +70,6 @@ fun AiSearchArea(
         turnRetryAllowed = uiState.turnRetryAllowed,
         showSearchBar = showSearchBar,
         onShowSearchBarChange = onShowSearchBarChange,
-        innerPadding = innerPadding
+        innerPadding = innerPadding,
     )
 }

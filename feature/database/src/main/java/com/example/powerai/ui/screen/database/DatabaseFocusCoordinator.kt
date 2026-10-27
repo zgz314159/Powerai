@@ -1,8 +1,8 @@
 package com.example.powerai.ui.screen.database
 
+import android.util.Log
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.domain.model.DatabaseFocusTarget
-import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 
 /**

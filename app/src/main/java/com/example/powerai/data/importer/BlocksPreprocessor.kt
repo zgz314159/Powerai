@@ -1,8 +1,7 @@
 package com.example.powerai.data.importer
 
-import com.example.powerai.core.model.util.TextSanitizer
-
 import com.example.powerai.core.model.util.BlocksTextExtractor
+import com.example.powerai.core.model.util.TextSanitizer
 import com.google.gson.Gson
 
 /**
@@ -19,16 +18,18 @@ object BlocksPreprocessor {
         if (clean.isBlank()) return null
 
         // Split into paragraphs to improve hit navigation granularity.
-        val parts = clean
-            .split(Regex("\\n{2,}"))
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
+        val parts =
+            clean
+                .split(Regex("\\n{2,}"))
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
 
-        val blocks: List<Map<String, Any>> = if (parts.isEmpty()) {
-            listOf(mapOf("type" to "text", "text" to clean))
-        } else {
-            parts.map { p -> mapOf("type" to "text", "text" to p) }
-        }
+        val blocks: List<Map<String, Any>> =
+            if (parts.isEmpty()) {
+                listOf(mapOf("type" to "text", "text" to clean))
+            } else {
+                parts.map { p -> mapOf("type" to "text", "text" to p) }
+            }
 
         return gson.toJson(blocks)
     }

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 internal data class AiTextDetailNavArgs(
     val title: String,
     val content: String,
-    val highlightEncoded: String
+    val highlightEncoded: String,
 )
 
 internal object AiTextDetailNavArgsReader {
@@ -21,7 +21,7 @@ internal object AiTextDetailNavArgsReader {
         return AiTextDetailNavArgs(
             title = title,
             content = content,
-            highlightEncoded = highlightEncoded
+            highlightEncoded = highlightEncoded,
         )
     }
 }

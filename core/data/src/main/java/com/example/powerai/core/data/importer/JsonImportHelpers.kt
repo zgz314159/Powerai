@@ -1,11 +1,6 @@
 package com.example.powerai.core.data.importer
 
-import com.example.powerai.core.data.dao.KnowledgeDao
-
-import com.example.powerai.core.model.ImportedFile
-
 import com.example.powerai.core.data.entity.KnowledgeEntity
-import com.example.powerai.core.data.entity.ImportedFileEntity
 import java.util.ArrayDeque
 
 /**
@@ -88,7 +83,10 @@ internal object StreamingJsonBenchmark {
      * Returns basic stats (items parsed, peak memory, duration).
      */
     @JvmStatic
-    fun parseDry(inputStream: java.io.InputStream, sampleInterval: Int = 1000): BenchmarkResult {
+    fun parseDry(
+        inputStream: java.io.InputStream,
+        sampleInterval: Int = 1000,
+    ): BenchmarkResult {
         val reader = java.io.InputStreamReader(inputStream, Charsets.UTF_8)
         val jsonReader = com.google.gson.stream.JsonReader(reader)
         var parsed = 0L
@@ -99,19 +97,24 @@ internal object StreamingJsonBenchmark {
             val peek = jsonReader.peek()
             when (peek) {
                 com.google.gson.stream.JsonToken.BEGIN_ARRAY -> {
-                    parsed = parseArrayStream(jsonReader, sampleInterval) { used -> 
-                        if (used > maxUsed) maxUsed = used
-                    }
+                    parsed =
+                        parseArrayStream(jsonReader, sampleInterval) { used ->
+                            if (used > maxUsed) maxUsed = used
+                        }
                 }
                 com.google.gson.stream.JsonToken.BEGIN_OBJECT -> {
-                    parsed = parseObjectWithEntries(jsonReader, sampleInterval) { used ->
-                        if (used > maxUsed) maxUsed = used
-                    }
+                    parsed =
+                        parseObjectWithEntries(jsonReader, sampleInterval) { used ->
+                            if (used > maxUsed) maxUsed = used
+                        }
                 }
                 else -> throw IllegalArgumentException("Unsupported JSON top-level token: $peek")
             }
         } finally {
-            try { jsonReader.close() } catch (_: Throwable) {}
+            try {
+                jsonReader.close()
+            } catch (_: Throwable) {
+            }
         }
         val dur = (System.nanoTime() - start) / 1_000_000
         return BenchmarkResult(parsed, maxUsed, dur)
@@ -120,7 +123,7 @@ internal object StreamingJsonBenchmark {
     private inline fun parseArrayStream(
         jsonReader: com.google.gson.stream.JsonReader,
         sampleInterval: Int,
-        onMemorySample: (Long) -> Unit
+        onMemorySample: (Long) -> Unit,
     ): Long {
         val runtime = Runtime.getRuntime()
         var parsed = 0L
@@ -140,7 +143,7 @@ internal object StreamingJsonBenchmark {
     private inline fun parseObjectWithEntries(
         jsonReader: com.google.gson.stream.JsonReader,
         sampleInterval: Int,
-        onMemorySample: (Long) -> Unit
+        onMemorySample: (Long) -> Unit,
     ): Long {
         val runtime = Runtime.getRuntime()
         var parsed = 0L

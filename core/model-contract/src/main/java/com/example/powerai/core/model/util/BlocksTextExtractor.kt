@@ -12,17 +12,17 @@ import com.google.gson.JsonObject
  * - Be schema-tolerant: unknown block shapes should still contribute useful text.
  */
 object BlocksTextExtractor {
-
-    private val META_KEYS_TO_SKIP = setOf(
-        "id",
-        "blockid",
-        "type",
-        "blocktype",
-        "language",
-        "pagenumber",
-        "position",
-        "kind"
-    )
+    private val META_KEYS_TO_SKIP =
+        setOf(
+            "id",
+            "blockid",
+            "type",
+            "blocktype",
+            "language",
+            "pagenumber",
+            "position",
+            "kind",
+        )
 
     private val COMMON_TEXT_KEYS = listOf("text", "title", "content", "caption", "alt")
     private val ARRAY_LIKE_KEYS = listOf("cells", "rows", "spans")
@@ -83,10 +83,10 @@ object BlocksTextExtractor {
 
                     // Prefer common text keys.
                     extractCommonTextFields(obj).forEach { appendToken(it) }
-                    
+
                     // Table-like and rich-text arrays.
                     ARRAY_LIKE_KEYS.forEach { key -> obj.get(key)?.let { visit(it) } }
-                    
+
                     // Generic recursion.
                     for ((k, v) in obj.entrySet()) {
                         if (shouldSkipKey(k)) continue
@@ -124,13 +124,14 @@ object BlocksTextExtractor {
         val seen = HashMap<String, Int>(blocks.size())
 
         for (el in blocks) {
-            val existing = if (el.isJsonObject) {
-                val obj = el.asJsonObject
-                val idEl = obj.get("id") ?: obj.get("blockId")
-                if (idEl != null && idEl.isJsonPrimitive && idEl.asJsonPrimitive.isString) idEl.asString.trim() else null
-            } else {
-                null
-            }
+            val existing =
+                if (el.isJsonObject) {
+                    val obj = el.asJsonObject
+                    val idEl = obj.get("id") ?: obj.get("blockId")
+                    if (idEl != null && idEl.isJsonPrimitive && idEl.asJsonPrimitive.isString) idEl.asString.trim() else null
+                } else {
+                    null
+                }
 
             if (!existing.isNullOrBlank()) {
                 ids.add(existing)
@@ -169,7 +170,10 @@ object BlocksTextExtractor {
      * Find the first block index (0-based) whose text matches the query.
      * Matching is consistent with DB search: we normalize both sides with `TextSanitizer.normalizeForSearch`.
      */
-    fun findFirstMatchingBlockIndex(blocksJson: String, query: String): Int? {
+    fun findFirstMatchingBlockIndex(
+        blocksJson: String,
+        query: String,
+    ): Int? {
         val q = query.trim()
         if (q.isBlank()) return null
 
@@ -191,7 +195,10 @@ object BlocksTextExtractor {
         return null
     }
 
-    fun findFirstMatchingBlockId(blocksJson: String, query: String): String? {
+    fun findFirstMatchingBlockId(
+        blocksJson: String,
+        query: String,
+    ): String? {
         val idx = findFirstMatchingBlockIndex(blocksJson, query) ?: return null
         val ids = computeStableBlockIds(blocksJson)
         return ids.getOrNull(idx)
@@ -202,7 +209,7 @@ object BlocksTextExtractor {
     fun findBestMatchingBlockTarget(
         blocksJson: String,
         highlight: String,
-        fallbackContext: String? = null
+        fallbackContext: String? = null,
     ): BlockTarget {
         val matched = findFirstMatchingBlockIndex(blocksJson, highlight)
         // When the match lands on a table's caption/label, target the table it labels

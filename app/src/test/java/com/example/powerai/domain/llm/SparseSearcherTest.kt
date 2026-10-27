@@ -1,10 +1,10 @@
 package com.example.powerai.domain.llm
 
 import android.content.Context
-import org.junit.Assert.*
-import org.junit.Test
 import com.example.powerai.engine.ai.SparseSearcher
 import com.example.powerai.engine.ai.SparseSearcherLoader
+import org.junit.Assert.*
+import org.junit.Test
 
 class SparseSearcherTest {
     @Test
@@ -24,13 +24,15 @@ class SparseSearcherTest {
 
     @Test
     fun `inject custom loader yields expected entries`() {
-        val fakeEntries = listOf(
-            SparseSearcher.SafetyEntry("A","abc","src"),
-            SparseSearcher.SafetyEntry("B","bcd","src2")
-        )
-        val loader = object : SparseSearcherLoader {
-            override fun loadEntries(context: Context?) = fakeEntries
-        }
+        val fakeEntries =
+            listOf(
+                SparseSearcher.SafetyEntry("A", "abc", "src"),
+                SparseSearcher.SafetyEntry("B", "bcd", "src2"),
+            )
+        val loader =
+            object : SparseSearcherLoader {
+                override fun loadEntries(context: Context?) = fakeEntries
+            }
         val searcher = SparseSearcher(context = null, loader = loader)
         val res = searcher.search("abc", topN = 2)
         assertEquals(1, res.size)

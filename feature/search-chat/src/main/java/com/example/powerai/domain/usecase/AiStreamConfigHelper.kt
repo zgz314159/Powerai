@@ -9,7 +9,6 @@ import com.example.powerai.domain.repository.WebSearchRepository
  * Extracted from [AiStreamUseCase.askAiStream] to reduce method complexity.
  */
 object AiStreamConfigHelper {
-
     /**
      * Validates AI API configuration and returns the endpoint URL and model name.
      *
@@ -20,7 +19,7 @@ object AiStreamConfigHelper {
         val baseUrl = config.getAiBaseUrl().trim().trimEnd('/')
         if (baseUrl.isBlank()) {
             throw IllegalStateException(
-                "AI 未配置：请在本地通过 Gradle 配置 AI_BASE_URL（或在 local.properties 中设置）"
+                "AI 未配置：请在本地通过 Gradle 配置 AI_BASE_URL（或在 local.properties 中设置）",
             )
         }
         val url = "$baseUrl/chat/completions"
@@ -39,23 +38,25 @@ object AiStreamConfigHelper {
     suspend fun performWebSearch(
         webSearchRepository: WebSearchRepository,
         webSearchEnabled: Boolean,
-        query: String
+        query: String,
     ): List<String> {
-        val cseConfigured = try {
-            webSearchRepository.isConfigured()
-        } catch (_: Throwable) {
-            false
-        }
-
-        val results = if (webSearchEnabled && cseConfigured) {
+        val cseConfigured =
             try {
-                webSearchRepository.search(query, count = 5)
+                webSearchRepository.isConfigured()
             } catch (_: Throwable) {
+                false
+            }
+
+        val results =
+            if (webSearchEnabled && cseConfigured) {
+                try {
+                    webSearchRepository.search(query, count = 5)
+                } catch (_: Throwable) {
+                    emptyList()
+                }
+            } else {
                 emptyList()
             }
-        } else {
-            emptyList()
-        }
 
         return results.map { it.url }.filter { it.isNotBlank() }.distinct().take(5)
     }

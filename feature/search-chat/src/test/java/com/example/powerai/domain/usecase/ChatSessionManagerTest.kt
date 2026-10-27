@@ -18,12 +18,15 @@ class ChatSessionManagerTest {
     private class FakeChatHistoryRepository : ChatHistoryRepository {
         var lastSaved: ChatHistorySnapshot? = null
         private var stored: ChatHistorySnapshot? = null
+
         override suspend fun loadHistory(): ChatHistorySnapshot =
             stored ?: ChatHistorySnapshot(sessions = emptyList(), selectedSessionId = null, currentSessionId = null)
+
         override suspend fun saveHistory(snapshot: ChatHistorySnapshot) {
             stored = snapshot
             lastSaved = snapshot
         }
+
         override suspend fun clearHistory() {
             stored = null
         }
@@ -37,9 +40,10 @@ class ChatSessionManagerTest {
 
     @Test
     fun `create new session prepends and returns id`() {
-        val existing = listOf(
-            ChatSession(id = 1, title = "t1", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0)
-        )
+        val existing =
+            listOf(
+                ChatSession(id = 1, title = "t1", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0),
+            )
         val (newList, newId) = manager.createNewSession(existing)
         assertEquals(2, newList.size)
         assertEquals(newList.first().id, newId)
@@ -73,11 +77,12 @@ class ChatSessionManagerTest {
     }
 
     @Test
-    fun `persist and load history delegate to store`() = runTest {
-        val snap = ChatHistorySnapshot(sessions = emptyList(), selectedSessionId = null, currentSessionId = null)
-        manager.persistHistory(snap.sessions, snap.selectedSessionId, snap.currentSessionId)
-        assertEquals(snap, repo.lastSaved)
-        val loaded = manager.loadHistory()
-        assertEquals(snap, loaded)
-    }
+    fun `persist and load history delegate to store`() =
+        runTest {
+            val snap = ChatHistorySnapshot(sessions = emptyList(), selectedSessionId = null, currentSessionId = null)
+            manager.persistHistory(snap.sessions, snap.selectedSessionId, snap.currentSessionId)
+            assertEquals(snap, repo.lastSaved)
+            val loaded = manager.loadHistory()
+            assertEquals(snap, loaded)
+        }
 }

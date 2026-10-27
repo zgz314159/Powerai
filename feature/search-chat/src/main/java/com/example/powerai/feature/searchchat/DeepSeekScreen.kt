@@ -1,6 +1,5 @@
 package com.example.powerai.feature.searchchat
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevicePath: String? = null) {
+fun DeepSeekScreen(
+    viewModel: DeepSeekViewModel = hiltViewModel(),
+    defaultDevicePath: String? = null,
+) {
     val uiState by viewModel.uiState.collectAsState()
     val isLoading = uiState.isLoading
     val modelLoaded = uiState.modelLoaded
@@ -55,7 +57,7 @@ fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevice
             value = devicePath,
             onValueChange = { devicePath = it },
             label = { Text("模型设备路径") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Row(modifier = Modifier.padding(vertical = 8.dp)) {
@@ -77,20 +79,20 @@ fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevice
             value = prompt,
             onValueChange = { prompt = it },
             label = { Text("用户提示 (Prompt)") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Text(
             text = "当前本地模型上下文较小，建议问题尽量控制在一句话内。",
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
+            modifier = Modifier.padding(top = 4.dp, bottom = 8.dp),
         )
 
         OutlinedTextField(
             value = maxTokensInput,
             onValueChange = { maxTokensInput = it.filter(Char::isDigit).take(4) },
             label = { Text("最大输出 tokens") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Row(modifier = Modifier.padding(vertical = 8.dp)) {
@@ -103,16 +105,17 @@ fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevice
         }
 
         Text(
-            text = buildString {
-                append("首 token 延迟: ")
-                append(generationMetrics.firstTokenLatencyMs?.let { "${it}ms" } ?: "-")
-                append("  |  已收片段: ")
-                append(generationMetrics.streamedTokenCount)
-                append("  |  片段/s: ")
-                append(generationMetrics.tokensPerSecond?.let { String.format("%.2f", it) } ?: "-")
-            },
+            text =
+                buildString {
+                    append("首 token 延迟: ")
+                    append(generationMetrics.firstTokenLatencyMs?.let { "${it}ms" } ?: "-")
+                    append("  |  已收片段: ")
+                    append(generationMetrics.streamedTokenCount)
+                    append("  |  片段/s: ")
+                    append(generationMetrics.tokensPerSecond?.let { String.format("%.2f", it) } ?: "-")
+                },
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(vertical = 6.dp)
+            modifier = Modifier.padding(vertical = 6.dp),
         )
 
         Text(text = "结果:", style = MaterialTheme.typography.titleMedium)
@@ -132,9 +135,13 @@ fun DeepSeekScreen(viewModel: DeepSeekViewModel = hiltViewModel(), defaultDevice
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(thinking) { seg ->
-                        Text(text = seg, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(6.dp))
+                        Text(
+                            text = seg,
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp),
+                        )
                     }
                 }
             }

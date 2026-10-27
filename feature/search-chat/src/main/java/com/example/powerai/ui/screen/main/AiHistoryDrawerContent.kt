@@ -22,13 +22,13 @@ internal fun AiHistoryDrawerContent(
     selectedSessionId: Long?,
     onNewSession: () -> Unit,
     onSelectSession: (Long) -> Unit,
-    onEdgeAction: (() -> Unit)? = null
+    onEdgeAction: (() -> Unit)? = null,
 ) {
     DrawerWrapper(
         title = "AI 聊天历史",
         actionLabel = "开启新会话",
         onAction = onNewSession,
-        onEdgeAction = onEdgeAction
+        onEdgeAction = onEdgeAction,
     ) {
         if (sessions.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -39,7 +39,7 @@ internal fun AiHistoryDrawerContent(
 
         DrawerSummaryCard(
             title = "AI 会话目录",
-            subtitle = "${sessions.size} 个会话；点击可切换上下文并继续对话"
+            subtitle = "${sessions.size} 个会话；点击可切换上下文并继续对话",
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -59,7 +59,7 @@ internal fun AiHistoryDrawerContent(
                     footer = if (isSelected) "当前正在此会话中" else "点击切换到此会话",
                     accentColor = Color(0xFF6C5B7B),
                     isSelected = isSelected,
-                    onClick = { onSelectSession(session.id) }
+                    onClick = { onSelectSession(session.id) },
                 )
             }
 

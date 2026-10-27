@@ -14,7 +14,6 @@ import java.nio.charset.Charset
 import java.security.MessageDigest
 
 class TxtParser(private val contentResolver: ContentResolver) : FileParser {
-
     /**
      * Original parse implementation with optional byte progress.
      */
@@ -23,7 +22,7 @@ class TxtParser(private val contentResolver: ContentResolver) : FileParser {
         fileName: String,
         batchSize: Int = com.example.powerai.core.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgressBytes: (readBytes: Long, totalBytes: Long?) -> Unit = { _, _ -> }
+        onProgressBytes: (readBytes: Long, totalBytes: Long?) -> Unit = { _, _ -> },
     ) = withContext(Dispatchers.IO) {
         val input = contentResolver.openInputStream(uri) ?: throw IllegalArgumentException("Cannot open uri")
         val buffered = BufferedInputStream(input)
@@ -53,9 +52,12 @@ class TxtParser(private val contentResolver: ContentResolver) : FileParser {
         var line: String?
         var imported = 0
         var bytesSoFar = 0L
-        val totalBytes: Long? = try {
-            contentResolver.openAssetFileDescriptor(uri, "r")?.length
-        } catch (e: Exception) { null }
+        val totalBytes: Long? =
+            try {
+                contentResolver.openAssetFileDescriptor(uri, "r")?.length
+            } catch (e: Exception) {
+                null
+            }
 
         while (true) {
             line = reader.readLine() ?: break
@@ -87,7 +89,7 @@ class TxtParser(private val contentResolver: ContentResolver) : FileParser {
         uri: Uri,
         fileName: String,
         batchSize: Int,
-        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
+        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
     ): String {
         // delegate to full implementation, ignore byte-progress
         return parse(uri, fileName, batchSize, onBatchReady)

@@ -1,6 +1,5 @@
 package com.example.powerai.ui.screen.detail
 
-
 import com.example.powerai.core.model.KnowledgeBlock
 import io.noties.markwon.Markwon
 
@@ -15,11 +14,11 @@ internal data class MarkwonRenderState(
     // If we temporarily downgraded to no-tables due to a draw crash, try one re-enable attempt
     // after layout stabilizes.
     var scheduledReenableTables: Boolean = false,
-    var reenableTablesAttempts: Int = 0
+    var reenableTablesAttempts: Int = 0,
 )
 
 internal data class BlocksComputed(
     val blocks: List<KnowledgeBlock>,
     val normalizedBlockTexts: List<String>,
-    val matchIndices: List<Int>
+    val matchIndices: List<Int>,
 )

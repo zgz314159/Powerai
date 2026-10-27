@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 internal fun ChatInputActions(
     input: String,
     onClear: () -> Unit,
-    onSend: () -> Unit
+    onSend: () -> Unit,
 ) {
     Row {
         if (input.isNotBlank()) {
@@ -27,7 +27,7 @@ internal fun ChatInputActions(
         IconButton(
             onClick = {
                 if (input.isNotBlank()) onSend()
-            }
+            },
         ) {
             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "发")
         }

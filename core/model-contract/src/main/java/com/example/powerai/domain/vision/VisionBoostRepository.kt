@@ -7,5 +7,8 @@ package com.example.powerai.domain.vision
  * - Implementation is in data layer and may use Android APIs for I/O.
  */
 interface VisionBoostRepository {
-    suspend fun analyzeTableToMarkdown(imageUri: String, enableDeepLogicValidation: Boolean = false): String
+    suspend fun analyzeTableToMarkdown(
+        imageUri: String,
+        enableDeepLogicValidation: Boolean = false,
+    ): String
 }

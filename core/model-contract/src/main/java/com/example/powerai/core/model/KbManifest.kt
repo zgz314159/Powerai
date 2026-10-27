@@ -13,12 +13,13 @@ data class KbManifest(
     val displayName: String,
     val description: String? = null,
     val minAppVersion: Int = 1,
-    val files: List<KbFileInfo> = emptyList()
+    val files: List<KbFileInfo> = emptyList(),
 )
 
 data class KbFileInfo(
     val path: String,
     val size: Long,
     val sha256: String,
-    val type: String // "json", "pdf", "index"
+    // "json", "pdf", "index"
+    val type: String,
 )

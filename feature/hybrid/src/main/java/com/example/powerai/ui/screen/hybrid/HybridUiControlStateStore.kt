@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 internal class HybridUiControlStateStore(
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) {
     private companion object {
         const val KEY_LOCAL_CURRENT_PAGE = "local_current_page"
@@ -19,9 +19,10 @@ internal class HybridUiControlStateStore(
     private val _localCurrentPage = MutableStateFlow(savedStateHandle[KEY_LOCAL_CURRENT_PAGE] ?: 1)
     val localCurrentPage: StateFlow<Int> = _localCurrentPage
 
-    private val _localCollapsedGroupKeys = MutableStateFlow(
-        savedStateHandle.get<ArrayList<String>>(KEY_LOCAL_COLLAPSED_GROUP_KEYS)?.toSet().orEmpty()
-    )
+    private val _localCollapsedGroupKeys =
+        MutableStateFlow(
+            savedStateHandle.get<ArrayList<String>>(KEY_LOCAL_COLLAPSED_GROUP_KEYS)?.toSet().orEmpty(),
+        )
     val localCollapsedGroupKeys: StateFlow<Set<String>> = _localCollapsedGroupKeys
 
     private val _localScrollIndex = MutableStateFlow(savedStateHandle[KEY_LOCAL_SCROLL_INDEX] ?: 0)
@@ -50,15 +51,19 @@ internal class HybridUiControlStateStore(
     }
 
     fun toggleLocalCollapsedGroupKey(key: String) {
-        val updated = if (_localCollapsedGroupKeys.value.contains(key)) {
-            _localCollapsedGroupKeys.value - key
-        } else {
-            _localCollapsedGroupKeys.value + key
-        }
+        val updated =
+            if (_localCollapsedGroupKeys.value.contains(key)) {
+                _localCollapsedGroupKeys.value - key
+            } else {
+                _localCollapsedGroupKeys.value + key
+            }
         setLocalCollapsedGroupKeys(updated)
     }
 
-    fun setLocalScrollPosition(index: Int, offset: Int) {
+    fun setLocalScrollPosition(
+        index: Int,
+        offset: Int,
+    ) {
         val resolvedIndex = index.coerceAtLeast(0)
         val resolvedOffset = offset.coerceAtLeast(0)
         if (_localScrollIndex.value == resolvedIndex && _localScrollOffset.value == resolvedOffset) return
@@ -68,7 +73,10 @@ internal class HybridUiControlStateStore(
         savedStateHandle[KEY_LOCAL_SCROLL_OFFSET] = resolvedOffset
     }
 
-    fun setSmartScrollPosition(index: Int, offset: Int) {
+    fun setSmartScrollPosition(
+        index: Int,
+        offset: Int,
+    ) {
         val resolvedIndex = index.coerceAtLeast(0)
         val resolvedOffset = offset.coerceAtLeast(0)
         if (_smartScrollIndex.value == resolvedIndex && _smartScrollOffset.value == resolvedOffset) return

@@ -7,7 +7,6 @@ import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.DocxParser
 import com.example.powerai.data.importer.PdfParser
 import com.example.powerai.data.importer.TxtParser
-import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * 处理特定文件格式的导入逻辑。从 [JsonRepository.importUri] 提取以符合单一职责原则
@@ -30,7 +29,7 @@ internal interface ImportFormatHandler {
         displayName: String,
         batchSize: Int,
         onBatch: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgress: (ImportProgress) -> Unit
+        onProgress: (ImportProgress) -> Unit,
     ): String
 }
 
@@ -40,7 +39,7 @@ internal interface ImportFormatHandler {
 internal object ImportFormatHandlerFactory {
     fun create(
         fileName: String,
-        parser: FormatParserProvider
+        parser: FormatParserProvider,
     ): ImportFormatHandler? {
         val lower = fileName.lowercase()
         return when {
@@ -57,7 +56,9 @@ internal object ImportFormatHandlerFactory {
  */
 internal interface FormatParserProvider {
     fun txtParser(contentResolver: ContentResolver): TxtParser
+
     fun pdfParser(contentResolver: ContentResolver): PdfParser
+
     fun docxParser(contentResolver: ContentResolver): DocxParser
 }
 
@@ -65,7 +66,7 @@ internal interface FormatParserProvider {
  * TXT 格式导入处理
  */
 private class TxtImportHandler(
-    private val parserProvider: FormatParserProvider
+    private val parserProvider: FormatParserProvider,
 ) : ImportFormatHandler {
     override suspend fun import(
         uri: Uri,
@@ -73,7 +74,7 @@ private class TxtImportHandler(
         displayName: String,
         batchSize: Int,
         onBatch: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgress: (ImportProgress) -> Unit
+        onProgress: (ImportProgress) -> Unit,
     ): String {
         val parser = parserProvider.txtParser(contentResolver)
         return parser.parse(uri, displayName, batchSize, onBatch)
@@ -84,7 +85,7 @@ private class TxtImportHandler(
  * PDF 格式导入处理器（支持页面进度回调
  */
 private class PdfImportHandler(
-    private val parserProvider: FormatParserProvider
+    private val parserProvider: FormatParserProvider,
 ) : ImportFormatHandler {
     override suspend fun import(
         uri: Uri,
@@ -92,7 +93,7 @@ private class PdfImportHandler(
         displayName: String,
         batchSize: Int,
         onBatch: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgress: (ImportProgress) -> Unit
+        onProgress: (ImportProgress) -> Unit,
     ): String {
         val parser = parserProvider.pdfParser(contentResolver)
         return parser.parse(
@@ -109,10 +110,10 @@ private class PdfImportHandler(
                         totalItems = totalPages.toLong(),
                         importedItems = currentPage.toLong(),
                         percent = percent,
-                        status = "in_progress"
-                    )
+                        status = "in_progress",
+                    ),
                 )
-            }
+            },
         )
     }
 }
@@ -121,7 +122,7 @@ private class PdfImportHandler(
  * DOCX 格式导入处理
  */
 private class DocxImportHandler(
-    private val parserProvider: FormatParserProvider
+    private val parserProvider: FormatParserProvider,
 ) : ImportFormatHandler {
     override suspend fun import(
         uri: Uri,
@@ -129,7 +130,7 @@ private class DocxImportHandler(
         displayName: String,
         batchSize: Int,
         onBatch: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgress: (ImportProgress) -> Unit
+        onProgress: (ImportProgress) -> Unit,
     ): String {
         val parser = parserProvider.docxParser(contentResolver)
         return parser.parse(uri, displayName, batchSize, onBatch)

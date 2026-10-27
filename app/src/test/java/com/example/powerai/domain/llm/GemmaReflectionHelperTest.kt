@@ -1,24 +1,29 @@
 package com.example.powerai.domain.llm
 
+import com.example.powerai.engine.ai.GemmaReflectionHelper
 import org.junit.Assert.*
 import org.junit.Test
-import com.example.powerai.engine.ai.GemmaReflectionHelper
 
 // Public top-level so reflective invoke from GemmaReflectionHelper can access methods.
 class GemmaReflectionDummyEngine {
-    fun generate(prompt: String, opts: Map<String, Any>): String {
+    fun generate(
+        prompt: String,
+        opts: Map<String, Any>,
+    ): String {
         return "generated-$prompt"
     }
 }
 
 class GemmaReflectionAsyncEngine {
-    fun generateResponseAsync(prompt: String, listener: java.util.function.BiConsumer<String, Boolean>) {
+    fun generateResponseAsync(
+        prompt: String,
+        listener: java.util.function.BiConsumer<String, Boolean>,
+    ) {
         listener.accept("async-$prompt", true)
     }
 }
 
 class GemmaReflectionHelperTest {
-
     @Test
     fun invokeGenerate_prefersSimpleGenerate() {
         val engine = GemmaReflectionDummyEngine()
@@ -39,9 +44,18 @@ class GemmaReflectionHelperTest {
             var temperature: Float? = null
             var topK: Int? = null
             var rep: Float? = null
-            fun setTemperature(t: Float) { temperature = t }
-            fun setTopK(k: Int) { topK = k }
-            fun setRepetitionPenalty(r: Float) { rep = r }
+
+            fun setTemperature(t: Float) {
+                temperature = t
+            }
+
+            fun setTopK(k: Int) {
+                topK = k
+            }
+
+            fun setRepetitionPenalty(r: Float) {
+                rep = r
+            }
         }
         val b = Builder()
         GemmaReflectionHelper.applySampling(b)

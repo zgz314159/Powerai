@@ -1,26 +1,16 @@
 package com.example.powerai.ui.blocks
 
-
-
-
-
-
-
-
-
-import com.example.powerai.core.model.UnknownBlock
-import com.example.powerai.core.model.FigureNodeBlock
 import com.example.powerai.core.model.CodeBlock
-import com.example.powerai.core.model.TableBlock
-import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.FigureNodeBlock
 import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.TextBlock
 import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.TableBlock
+import com.example.powerai.core.model.TextBlock
+import com.example.powerai.core.model.UnknownBlock
 import com.example.powerai.core.model.util.BlocksJsonUtils.sha1Hex
-import com.example.powerai.core.model.util.BlocksJsonUtils
 
 internal object BlocksIdGenerator {
-
     fun ensureStableIds(blocks: List<KnowledgeBlock>): List<KnowledgeBlock> {
         if (blocks.isEmpty()) return blocks
 
@@ -61,7 +51,10 @@ internal object BlocksIdGenerator {
         }
     }
 
-    fun generateUniqueId(block: KnowledgeBlock, seen: MutableMap<String, Int>): String {
+    fun generateUniqueId(
+        block: KnowledgeBlock,
+        seen: MutableMap<String, Int>,
+    ): String {
         val type = getBlockTypeString(block)
         val text = getBlockContentText(block)
         val norm = ("$type|$text").lowercase().replace(Regex("\\s+"), " ").trim()
@@ -71,7 +64,10 @@ internal object BlocksIdGenerator {
         return "b_${base}_$n"
     }
 
-    fun assignIdToBlock(block: KnowledgeBlock, id: String): KnowledgeBlock {
+    fun assignIdToBlock(
+        block: KnowledgeBlock,
+        id: String,
+    ): KnowledgeBlock {
         return when (block) {
             is TextBlock -> block.copy(id = id)
             is ImageBlock -> block.copy(id = id)

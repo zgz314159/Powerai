@@ -6,7 +6,7 @@ object ThinkingInterceptor {
 
     data class VisibleChunkResult(
         val text: String,
-        val inThinkBlock: Boolean
+        val inThinkBlock: Boolean,
     )
 
     data class StreamParseResult(
@@ -14,7 +14,7 @@ object ThinkingInterceptor {
         val completedThinkingSegments: List<String>,
         val inThinkBlock: Boolean,
         val pendingThinkingText: String,
-        val pendingTagFragment: String
+        val pendingTagFragment: String,
     )
 
     /** 从模型输出中提取所<think>...</think> 段落（不包含标签）*/
@@ -40,15 +40,16 @@ object ThinkingInterceptor {
         text: String,
         inThinkBlock: Boolean,
         pendingThinkingText: String,
-        pendingTagFragment: String = ""
+        pendingTagFragment: String = "",
     ): StreamParseResult {
         val mergedText = pendingTagFragment + text
         val preservedSuffix = findTrailingPartialTagFragment(mergedText)
-        val parseableText = if (preservedSuffix.isEmpty()) {
-            mergedText
-        } else {
-            mergedText.dropLast(preservedSuffix.length)
-        }
+        val parseableText =
+            if (preservedSuffix.isEmpty()) {
+                mergedText
+            } else {
+                mergedText.dropLast(preservedSuffix.length)
+            }
 
         val visible = StringBuilder()
         val currentThinking = StringBuilder(pendingThinkingText)
@@ -90,24 +91,28 @@ object ThinkingInterceptor {
             completedThinkingSegments = completedSegments,
             inThinkBlock = insideThink,
             pendingThinkingText = currentThinking.toString(),
-            pendingTagFragment = preservedSuffix
+            pendingTagFragment = preservedSuffix,
         )
     }
 
     /**
      * 流式场景下剥离思维块内容，避免结果区把思维链也显示成正文
      */
-    fun extractVisibleAnswerChunk(text: String, inThinkBlock: Boolean): VisibleChunkResult {
-        val parsed = parseStreamingChunk(
-            text = text,
-            inThinkBlock = inThinkBlock,
-            pendingThinkingText = "",
-            pendingTagFragment = ""
-        )
+    fun extractVisibleAnswerChunk(
+        text: String,
+        inThinkBlock: Boolean,
+    ): VisibleChunkResult {
+        val parsed =
+            parseStreamingChunk(
+                text = text,
+                inThinkBlock = inThinkBlock,
+                pendingThinkingText = "",
+                pendingTagFragment = "",
+            )
 
         return VisibleChunkResult(
             text = parsed.visibleText,
-            inThinkBlock = parsed.inThinkBlock
+            inThinkBlock = parsed.inThinkBlock,
         )
     }
 
@@ -129,5 +134,4 @@ object ThinkingInterceptor {
         val hasClose = text.contains("</think>", ignoreCase = true)
         return hasOpen && !hasClose
     }
-
 }

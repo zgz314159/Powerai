@@ -3,7 +3,6 @@ package com.example.powerai.core.data.importer
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
-import com.google.gson.JsonParser
 
 /**
  * Shared parsing logic used by [StreamingJsonResourceImporter]. Extracted from
@@ -18,7 +17,7 @@ object JsonResourceParser {
         val source: String? = null,
         val entriesCount: Int = 0,
         val docSha256: String? = null,
-        val imagesCount: Int = 0
+        val imagesCount: Int = 0,
     )
 
     data class JsonEntry(
@@ -31,18 +30,18 @@ object JsonResourceParser {
         val pageNumber: Int? = null,
         val position: Int = 0,
         val tags: List<String>? = null,
-        val source: String? = null
+        val source: String? = null,
     )
 
     private data class JsonSchema(
         val fileMetadata: FileMetadata,
-        val entries: List<JsonEntry>
+        val entries: List<JsonEntry>,
     )
 
     private data class LegacySchema(
         val fileName: String? = null,
         val fileId: String? = null,
-        val entries: List<JsonEntry> = emptyList()
+        val entries: List<JsonEntry> = emptyList(),
     )
 
     /**
@@ -53,7 +52,7 @@ object JsonResourceParser {
         root: JsonElement,
         gson: Gson,
         fallbackFileName: String?,
-        fallbackFileId: String?
+        fallbackFileId: String?,
     ): Pair<FileMetadata, List<JsonEntry>> {
         // if some pipeline accidentally ships a manifest-like object, caller
         // should handle skipping earlier; parser assumes data shape rather than
@@ -66,10 +65,12 @@ object JsonResourceParser {
             }
             root.isJsonObject && root.asJsonObject.has("entries") -> {
                 val legacy = gson.fromJson(root, LegacySchema::class.java)
-                val fileName = legacy.fileName?.takeIf { it.isNotBlank() }
-                    ?: fallbackFileName.orEmpty().ifBlank { "assets" }
-                val fileId = legacy.fileId?.takeIf { it.isNotBlank() }
-                    ?: fallbackFileId.orEmpty().ifBlank { fileName }
+                val fileName =
+                    legacy.fileName?.takeIf { it.isNotBlank() }
+                        ?: fallbackFileName.orEmpty().ifBlank { "assets" }
+                val fileId =
+                    legacy.fileId?.takeIf { it.isNotBlank() }
+                        ?: fallbackFileId.orEmpty().ifBlank { fileName }
                 FileMetadata(fileName = fileName, fileId = fileId, entriesCount = legacy.entries.size) to legacy.entries
             }
             root.isJsonArray -> {

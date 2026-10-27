@@ -6,7 +6,7 @@ package com.example.powerai.domain.repository
 data class WebSearchResult(
     val title: String,
     val url: String,
-    val snippet: String
+    val snippet: String,
 )
 
 /**
@@ -17,5 +17,8 @@ interface WebSearchRepository {
     fun isConfigured(): Boolean
 
     /** Performs a web search. */
-    suspend fun search(query: String, count: Int = 5): List<WebSearchResult>
+    suspend fun search(
+        query: String,
+        count: Int = 5,
+    ): List<WebSearchResult>
 }

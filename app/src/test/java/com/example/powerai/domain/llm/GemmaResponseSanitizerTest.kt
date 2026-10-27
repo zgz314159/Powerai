@@ -1,11 +1,11 @@
 package com.example.powerai.domain.llm
 
 import android.content.Context
+import com.example.powerai.engine.ai.GemmaResponseSanitizer
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import com.example.powerai.engine.ai.GemmaResponseSanitizer
 
 class GemmaResponseSanitizerTest {
     @Test

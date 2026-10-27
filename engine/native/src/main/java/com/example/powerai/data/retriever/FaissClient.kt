@@ -8,7 +8,13 @@ import com.example.powerai.faiss.FaissNative
  */
 interface FaissClient {
     fun openIndex(path: String): Int
-    fun search(handle: Int, query: FloatArray, k: Int): IntArray
+
+    fun search(
+        handle: Int,
+        query: FloatArray,
+        k: Int,
+    ): IntArray
+
     fun closeIndex(handle: Int)
 }
 
@@ -17,7 +23,12 @@ interface FaissClient {
  */
 object DefaultFaissClient : FaissClient {
     override fun openIndex(path: String): Int = FaissNative.openIndex(path)
-    override fun search(handle: Int, query: FloatArray, k: Int): IntArray =
-        FaissNative.search(handle, query, k)
+
+    override fun search(
+        handle: Int,
+        query: FloatArray,
+        k: Int,
+    ): IntArray = FaissNative.search(handle, query, k)
+
     override fun closeIndex(handle: Int) = FaissNative.closeIndex(handle)
 }

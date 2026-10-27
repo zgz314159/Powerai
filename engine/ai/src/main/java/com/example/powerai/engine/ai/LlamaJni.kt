@@ -1,20 +1,13 @@
 package com.example.powerai.engine.ai
 
+import android.util.Log
 import com.example.powerai.core.model.GenerationMetrics
 import com.example.powerai.core.model.NativeResourceProvider
-import android.util.Log
-import java.util.concurrent.Future
-import java.util.concurrent.Executors
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 /**
  * LlamaJni - Refactored facade for native model interaction.
@@ -47,31 +40,56 @@ object LlamaJni {
 
     @Volatile
     private var configuredThreadCount: Int = 2
+
     @Volatile
     private var configuredContextLength: Int = DEFAULT_CONTEXT_LENGTH
 
     @Volatile
     private var stopRequestSerial: Long = 0L
+
     @Volatile
     private var lastAppliedSystemPrompt: String? = null
+
     @Volatile
     private var modelLoaded: Boolean = false
 
     fun initBackend(backend: String?): Boolean = LlamaNativeBridge.initBackend(backend)
+
     fun loadModel(path: String?): Boolean = LlamaNativeBridge.loadModel(path)
+
     fun unloadModel(): Boolean = LlamaNativeBridge.unloadModel()
-    fun generate(prompt: String?, maxTokens: Int): String? = LlamaNativeBridge.generate(prompt, maxTokens)
-    fun setOption(key: String?, value: String?): Boolean = LlamaNativeBridge.setOption(key, value)
+
+    fun generate(
+        prompt: String?,
+        maxTokens: Int,
+    ): String? = LlamaNativeBridge.generate(prompt, maxTokens)
+
+    fun setOption(
+        key: String?,
+        value: String?,
+    ): Boolean = LlamaNativeBridge.setOption(key, value)
+
     fun nativeStopGeneration(): Unit = LlamaNativeBridge.nativeStopGeneration()
-    fun generateAsync(prompt: String?, maxTokens: Int): Boolean = LlamaNativeBridge.generateAsync(prompt, maxTokens)
+
+    fun generateAsync(
+        prompt: String?,
+        maxTokens: Int,
+    ): Boolean = LlamaNativeBridge.generateAsync(prompt, maxTokens)
+
     fun nativeGenerateStream(prompt: String?): Boolean = LlamaNativeBridge.nativeGenerateStream(prompt)
 
-    fun provideResources(provider: NativeResourceProvider, context: android.content.Context? = null) {
+    fun provideResources(
+        provider: NativeResourceProvider,
+        context: android.content.Context? = null,
+    ) {
         resourceProvider = provider
         appContext = context ?: provider.getContext() as? android.content.Context
     }
 
-    fun configureRuntime(threadCount: Int, contextLength: Int = DEFAULT_CONTEXT_LENGTH) {
+    fun configureRuntime(
+        threadCount: Int,
+        contextLength: Int = DEFAULT_CONTEXT_LENGTH,
+    ) {
         configuredThreadCount = threadCount.coerceAtLeast(1)
         configuredContextLength = contextLength.coerceAtLeast(256)
     }
@@ -99,26 +117,41 @@ object LlamaJni {
     fun safeStopGeneration(): Boolean {
         return try {
             val requestId = ++stopRequestSerial
-            val future = stopExecutor.submit<Boolean> {
-                LlamaNativeBridge.nativeStopGeneration()
-                true
-            }
+            val future =
+                stopExecutor.submit<Boolean> {
+                    LlamaNativeBridge.nativeStopGeneration()
+                    true
+                }
             future.get(READY_CALL_TIMEOUT_MS, TimeUnit.MILLISECONDS)
-        } catch (t: Throwable) { false }
+        } catch (t: Throwable) {
+            false
+        }
     }
 
-    fun safeGenerate(prompt: String?, maxTokens: Int): String {
+    fun safeGenerate(
+        prompt: String?,
+        maxTokens: Int,
+    ): String {
         LlamaJniStreaming.resetStreamingFilters()
         return try {
             LlamaJniStreaming.sanitizeGeneratedText(LlamaNativeBridge.generate(prompt, maxTokens) ?: "")
-        } catch (t: Throwable) { "" }
+        } catch (t: Throwable) {
+            ""
+        }
     }
 
-    fun safeGenerateAsync(prompt: String?, maxTokens: Int): Boolean {
+    fun safeGenerateAsync(
+        prompt: String?,
+        maxTokens: Int,
+    ): Boolean {
         LlamaMetricsManager.reset()
         LlamaMetricsManager.generationStartMs = System.currentTimeMillis()
         LlamaMetricsManager.updateMetrics { it.copy(isGenerating = true) }
-        return try { LlamaNativeBridge.generateAsync(prompt, maxTokens) } catch (t: Throwable) { false }
+        return try {
+            LlamaNativeBridge.generateAsync(prompt, maxTokens)
+        } catch (t: Throwable) {
+            false
+        }
     }
 
     fun safeSetSystemPrompt(prompt: String): Boolean {
@@ -128,7 +161,10 @@ object LlamaJni {
         return res
     }
 
-    fun safeSetOption(key: String?, value: String?): Boolean {
+    fun safeSetOption(
+        key: String?,
+        value: String?,
+    ): Boolean {
         if (key.isNullOrBlank()) return false
         return try {
             LlamaNativeBridge.setOption(key, value)
@@ -138,15 +174,19 @@ object LlamaJni {
         }
     }
 
-    fun safeInitModel(path: String?, useGpu: Boolean): Boolean {
+    fun safeInitModel(
+        path: String?,
+        useGpu: Boolean,
+    ): Boolean {
         if (path.isNullOrBlank()) return false
         return try {
             val provider = resourceProvider
-            val ok = if (provider != null) {
-                LlamaEngineController.loadModel(path, provider, appContext)
-            } else {
-                LlamaNativeBridge.loadModel(path)
-            }
+            val ok =
+                if (provider != null) {
+                    LlamaEngineController.loadModel(path, provider, appContext)
+                } else {
+                    LlamaNativeBridge.loadModel(path)
+                }
             modelLoaded = ok
             ok
         } catch (t: Throwable) {
@@ -163,7 +203,10 @@ object LlamaJni {
         }
     }
 
-    fun safeNativeGenerateStream(prompt: String?, maxTokens: Int): Boolean {
+    fun safeNativeGenerateStream(
+        prompt: String?,
+        maxTokens: Int,
+    ): Boolean {
         return try {
             if (maxTokens > 0) {
                 generateAsync(prompt, maxTokens)
@@ -180,7 +223,7 @@ object LlamaJni {
         return LlamaJniDiagnostics.getNativeRuntimeDiagnostics(
             configuredThreadCount = configuredThreadCount,
             configuredContextLength = configuredContextLength,
-            modelInfo = null
+            modelInfo = null,
         )
     }
 
@@ -212,7 +255,7 @@ object LlamaJni {
                     it.copy(
                         isGenerating = true,
                         streamedTokenCount = LlamaMetricsManager.streamedTokenCount,
-                        tokensPerSecond = tokensPerSecond
+                        tokensPerSecond = tokensPerSecond,
                     )
                 }
 
@@ -220,7 +263,8 @@ object LlamaJni {
                     chunkFlow.tryEmit(normalizedChunk)
                 }
             }
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
 
     @JvmStatic
@@ -229,6 +273,7 @@ object LlamaJni {
             LlamaJniStreaming.resetStreamingFilters()
             LlamaMetricsManager.updateMetrics { it.copy(isGenerating = false) }
             LlamaMetricsManager.incrementFinishSequence()
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
 }

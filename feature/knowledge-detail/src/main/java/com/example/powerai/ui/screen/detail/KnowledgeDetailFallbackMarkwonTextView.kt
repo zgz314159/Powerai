@@ -1,7 +1,6 @@
 package com.example.powerai.ui.screen.detail
 
 import android.text.Spanned
-// android.util.Log removed per TODO; heavy debug traces removed
 import android.widget.TextView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,13 +11,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+// android.util.Log removed per TODO; heavy debug traces removed
+
 @Composable
 internal fun MarkdownChunkTextView(
     markdown: String,
     fontScale: Float = 1f,
     textAlign: androidx.compose.ui.text.style.TextAlign = androidx.compose.ui.text.style.TextAlign.Start,
     onAnchorClick: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val markwon = rememberKnowledgeDetailMarkwon(context)
@@ -27,15 +28,16 @@ internal fun MarkdownChunkTextView(
     val processedMarkdownState by produceState(initialValue = markdown, key1 = markdown) {
         // log removed: convertAssetPathsToImages START len=${markdown.length}
         val start = System.currentTimeMillis()
-        value = withContext(Dispatchers.Default) {
-            runCatching {
-                convertAssetPathsToImages(markdown, context)
-            }.getOrElse { t ->
-                // log removed: convertAssetPathsToImages FAILED
-                markdown
-                markdown
+        value =
+            withContext(Dispatchers.Default) {
+                runCatching {
+                    convertAssetPathsToImages(markdown, context)
+                }.getOrElse { t ->
+                    // log removed: convertAssetPathsToImages FAILED
+                    markdown
+                    markdown
+                }
             }
-        }
         // log removed: convertAssetPathsToImages DONE took=${System.currentTimeMillis() - start}ms
     }
     val processedMarkdown = processedMarkdownState
@@ -46,16 +48,17 @@ internal fun MarkdownChunkTextView(
         if (processedMarkdown.length > 20000) return@produceState
         // log removed: markwon parse/render START len=${processedMarkdown.length}
         val start = System.currentTimeMillis()
-        value = withContext(Dispatchers.Default) {
-            runCatching {
-                val node = markwon.parse(processedMarkdown)
-                markwon.render(node) as? Spanned
-            }.getOrElse { t ->
-                // log removed: markwon parse/render FAILED
-                null
-                null
+        value =
+            withContext(Dispatchers.Default) {
+                runCatching {
+                    val node = markwon.parse(processedMarkdown)
+                    markwon.render(node) as? Spanned
+                }.getOrElse { t ->
+                    // log removed: markwon parse/render FAILED
+                    null
+                    null
+                }
             }
-        }
         // log removed: markwon parse/render DONE took=${System.currentTimeMillis() - start}ms
     }
     val rendered = renderedState
@@ -90,6 +93,6 @@ internal fun MarkdownChunkTextView(
                 }
                 return@setOnTouchListener false
             }
-        }
+        },
     )
 }

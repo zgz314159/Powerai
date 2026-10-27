@@ -8,10 +8,10 @@ data class DetailEntryNavigation(
     val currentIndex: Int,
     val totalCount: Int,
     val previousItemId: Long?,
-    val nextItemId: Long?
+    val nextItemId: Long?,
 )
 
 enum class DetailEntryNavigationMode {
     HIT,
-    ENTRY
+    ENTRY,
 }

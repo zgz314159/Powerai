@@ -1,8 +1,8 @@
 package com.example.powerai.core.repository
 
+import com.example.powerai.core.model.ImportedFile
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.LocalHighlightTarget
-import com.example.powerai.core.model.ImportedFile
 
 /**
  * 定义电力知识相关的数据访问能力
@@ -20,10 +20,18 @@ interface KnowledgeRepository {
     /** 文件去重：检查并标记已导入文*/
     suspend fun isFileImported(fileId: String): Boolean
 
-    suspend fun markFileImported(fileId: String, fileName: String, timestamp: Long, status: String)
+    suspend fun markFileImported(
+        fileId: String,
+        fileName: String,
+        timestamp: Long,
+        status: String,
+    )
 
     /** Resolve a more precise block-level highlight target */
-    suspend fun resolveHighlightTarget(itemId: Long, highlight: String): LocalHighlightTarget?
+    suspend fun resolveHighlightTarget(
+        itemId: Long,
+        highlight: String,
+    ): LocalHighlightTarget?
 
     /**
      * Re-point search hits that land on a table's caption/label block to the table block
@@ -38,10 +46,16 @@ interface KnowledgeRepository {
     ): List<KnowledgeItem>
 
     /** Count knowledge items associated with a specific PDF page */
-    suspend fun countKnowledgeByPage(fileId: String, page: Int): Int
+    suspend fun countKnowledgeByPage(
+        fileId: String,
+        page: Int,
+    ): Int
 
     /** Get knowledge items associated with a specific PDF page */
-    suspend fun getItemsByPage(fileId: String, page: Int): List<KnowledgeItem>
+    suspend fun getItemsByPage(
+        fileId: String,
+        page: Int,
+    ): List<KnowledgeItem>
 
     /** Get all imported files */
     suspend fun getImportedFiles(): List<ImportedFile>

@@ -13,7 +13,7 @@ data class NativeRuntimeDiagnostics(
     val configuredContextLength: Int,
     val lastInitParamsJson: String?,
     val lastRequestedGpuLayers: Int?,
-    val modelInfo: String?
+    val modelInfo: String?,
 )
 
 internal object LlamaJniDiagnostics {
@@ -22,14 +22,19 @@ internal object LlamaJniDiagnostics {
 
     @Volatile
     var backendInitOpencl: Boolean = false
+
     @Volatile
     var backendInitVulkan: Boolean = false
+
     @Volatile
     var requestedBackend: String? = null
+
     @Volatile
     var lastInitParamsJson: String? = null
+
     @Volatile
     var lastRequestedGpuLayers: Int? = null
+
     @Volatile
     var diagnosticLoadDone: Boolean = false
 
@@ -64,18 +69,22 @@ internal object LlamaJniDiagnostics {
         return modelInfo.substring(from, end)
     }
 
-    fun inferEffectiveBackend(requested: String?, modelInfo: String?): Pair<String, Boolean> {
+    fun inferEffectiveBackend(
+        requested: String?,
+        modelInfo: String?,
+    ): Pair<String, Boolean> {
         val normalizedRequested = requested?.lowercase()
         val systemDescriptor = extractSystemDescriptor(modelInfo)?.uppercase()
         val gpuHints = listOf("VULKAN", "OPENCL", "GPU", "CUDA", "METAL", "CLBLAST")
         val gpuActive = gpuHints.any { hint -> systemDescriptor?.contains(hint) == true }
-        val effectiveBackend = when {
-            gpuActive && normalizedRequested == "vulkan" -> "vulkan"
-            gpuActive && normalizedRequested == "opencl" -> "opencl"
-            systemDescriptor?.contains("CPU") == true -> "cpu"
-            !normalizedRequested.isNullOrBlank() -> normalizedRequested
-            else -> "unknown"
-        }
+        val effectiveBackend =
+            when {
+                gpuActive && normalizedRequested == "vulkan" -> "vulkan"
+                gpuActive && normalizedRequested == "opencl" -> "opencl"
+                systemDescriptor?.contains("CPU") == true -> "cpu"
+                !normalizedRequested.isNullOrBlank() -> normalizedRequested
+                else -> "unknown"
+            }
         return effectiveBackend to gpuActive
     }
 
@@ -89,12 +98,13 @@ internal object LlamaJniDiagnostics {
     fun getNativeRuntimeDiagnostics(
         configuredThreadCount: Int,
         configuredContextLength: Int,
-        modelInfo: String?
+        modelInfo: String?,
     ): NativeRuntimeDiagnostics {
-        val (effectiveBackend, gpuOffloadActive) = inferEffectiveBackend(
-            requested = requestedBackend,
-            modelInfo = modelInfo
-        )
+        val (effectiveBackend, gpuOffloadActive) =
+            inferEffectiveBackend(
+                requested = requestedBackend,
+                modelInfo = modelInfo,
+            )
         return NativeRuntimeDiagnostics(
             requestedBackend = requestedBackend,
             effectiveBackend = effectiveBackend,
@@ -105,7 +115,7 @@ internal object LlamaJniDiagnostics {
             configuredContextLength = configuredContextLength,
             lastInitParamsJson = lastInitParamsJson,
             lastRequestedGpuLayers = lastRequestedGpuLayers,
-            modelInfo = modelInfo
+            modelInfo = modelInfo,
         )
     }
 }

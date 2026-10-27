@@ -15,7 +15,10 @@ object AiStreamRequestBuilder {
      * are suitable for inclusion inside the `"messages"` array of the
      * OpenAI/DeepSeek request body.
      */
-    fun buildMessageFragments(historyTurns: List<ChatTurn>, userInput: String): List<String> {
+    fun buildMessageFragments(
+        historyTurns: List<ChatTurn>,
+        userInput: String,
+    ): List<String> {
         return buildList {
             historyTurns.forEach { turn ->
                 if (turn.question.isNotBlank()) {

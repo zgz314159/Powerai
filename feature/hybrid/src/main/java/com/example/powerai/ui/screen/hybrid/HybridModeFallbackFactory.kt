@@ -25,7 +25,7 @@ internal object HybridModeFallbackFactory {
         return QueryResult(
             answer = aiFailure(t),
             references = emptyList(),
-            confidence = 0f
+            confidence = 0f,
         )
     }
 }

@@ -10,12 +10,11 @@ import javax.inject.Singleton
 
 @Singleton
 class LocalAnswerFeedbackStore internal constructor(
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
 ) {
-
     @Inject
     constructor(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ) : this(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE))
 
     fun getFeedback(query: String): LocalAnswerFeedback {
@@ -26,7 +25,10 @@ class LocalAnswerFeedbackStore internal constructor(
             ?: LocalAnswerFeedback.NONE
     }
 
-    fun setFeedback(query: String, feedback: LocalAnswerFeedback) {
+    fun setFeedback(
+        query: String,
+        feedback: LocalAnswerFeedback,
+    ) {
         val normalized = normalizeQuery(query) ?: return
         val key = prefKey(normalized)
         val editor = prefs.edit()
@@ -38,8 +40,7 @@ class LocalAnswerFeedbackStore internal constructor(
         editor.apply()
     }
 
-    private fun normalizeQuery(query: String): String? =
-        query.trim().lowercase().takeIf { it.isNotEmpty() }
+    private fun normalizeQuery(query: String): String? = query.trim().lowercase().takeIf { it.isNotEmpty() }
 
     private fun prefKey(normalizedQuery: String): String = KEY_PREFIX + sha256(normalizedQuery)
 

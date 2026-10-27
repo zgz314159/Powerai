@@ -14,5 +14,8 @@ interface EmbeddingRepository {
     /**
      * Store computed embedding for an item.
      */
-    suspend fun storeEmbedding(itemId: Long, embedding: FloatArray)
+    suspend fun storeEmbedding(
+        itemId: Long,
+        embedding: FloatArray,
+    )
 }

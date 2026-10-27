@@ -18,26 +18,31 @@ object SmartDeepSeekDebugLogger {
         query: String,
         answerMode: String,
         backendMode: String,
-        threadMode: String
+        threadMode: String,
     ) {
         if (provider == null) return
         synchronized(lock) {
-            val logMsg = buildString {
-                appendLine()
-                appendLine("=== SMART DEBUG SESSION START ===")
-                appendLine("time=${timestamp()}")
-                appendLine("sessionId=$sessionId")
-                appendLine("query=$query")
-                appendLine("answerMode=$answerMode")
-                appendLine("backendMode=$backendMode")
-                appendLine("threadMode=$threadMode")
-            }
+            val logMsg =
+                buildString {
+                    appendLine()
+                    appendLine("=== SMART DEBUG SESSION START ===")
+                    appendLine("time=${timestamp()}")
+                    appendLine("sessionId=$sessionId")
+                    appendLine("query=$query")
+                    appendLine("answerMode=$answerMode")
+                    appendLine("backendMode=$backendMode")
+                    appendLine("threadMode=$threadMode")
+                }
             provider.appendDiagnosticFile(LOG_FILE_NAME, logMsg)
             provider.writeDiagnosticFile(CRASH_FILE_NAME, "")
         }
     }
 
-    fun logEvent(provider: NativeResourceProvider?, tag: String, message: String) {
+    fun logEvent(
+        provider: NativeResourceProvider?,
+        tag: String,
+        message: String,
+    ) {
         if (provider == null) return
         synchronized(lock) {
             provider.appendDiagnosticFile(LOG_FILE_NAME, "[${timestamp()}] [$tag] $message\n")
@@ -51,14 +56,16 @@ object SmartDeepSeekDebugLogger {
         visibleChunk: String,
         inThinkBlock: Boolean,
         pendingTagFragment: String,
-        currentResultLength: Int
+        currentResultLength: Int,
     ) {
         val rawCompact = compact(rawChunk)
         val visibleCompact = compact(visibleChunk)
         logEvent(
             provider = provider,
             tag = "CHUNK",
-            message = "#${index} raw='${rawCompact}' visible='${visibleCompact}' inThink=$inThinkBlock pendingTag='${compact(pendingTagFragment)}' resultLen=$currentResultLength"
+            message = "#$index raw='$rawCompact' visible='$visibleCompact' inThink=$inThinkBlock pendingTag='${compact(
+                pendingTagFragment,
+            )}' resultLen=$currentResultLength",
         )
     }
 
@@ -68,16 +75,19 @@ object SmartDeepSeekDebugLogger {
         finalAnswerLength: Int,
         streamedChunkCount: Int,
         firstTokenLatencyMs: Long?,
-        decodeCharsPerSecond: Double?
+        decodeCharsPerSecond: Double?,
     ) {
         logEvent(
             provider = provider,
             tag = "SUMMARY",
-            message = "rawOutputLength=$rawOutputLength finalAnswerLength=$finalAnswerLength streamedChunks=$streamedChunkCount firstTokenLatencyMs=${firstTokenLatencyMs ?: -1} decodeCharsPerSecond=${decodeCharsPerSecond ?: -1.0}"
+            message = "rawOutputLength=$rawOutputLength finalAnswerLength=$finalAnswerLength streamedChunks=$streamedChunkCount firstTokenLatencyMs=${firstTokenLatencyMs ?: -1} decodeCharsPerSecond=${decodeCharsPerSecond ?: -1.0}",
         )
     }
 
-    fun appendBenchmarkRecord(provider: NativeResourceProvider?, record: SmartAbRunRecord) {
+    fun appendBenchmarkRecord(
+        provider: NativeResourceProvider?,
+        record: SmartAbRunRecord,
+    ) {
         if (provider == null) return
         synchronized(lock) {
             provider.appendDiagnosticFile(AB_RUNS_FILE_NAME, benchmarkJson(record).toString() + "\n")
@@ -120,7 +130,10 @@ object SmartDeepSeekDebugLogger {
         }
     }
 
-    private fun JSONObject.putNullable(key: String, value: Any?) {
+    private fun JSONObject.putNullable(
+        key: String,
+        value: Any?,
+    ) {
         put(key, value ?: JSONObject.NULL)
     }
 

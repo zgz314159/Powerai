@@ -16,9 +16,13 @@ object AiPromptProvider {
             - 你不具备浏览。联网检索工具，除非用户在对话中提供了检索结。网页内容/新闻原文等外部材料。
             - 若用户要求实时信息但未提供外部材料，请明确说明无法确认，并建议用户提供来源或开启检索能力后再总结。
             - 不要声称你的知识截至某一年（例如‘截。024’）。
-        """.trimIndent()
+            """.trimIndent()
     }
-    fun getPromptWithContext(contextText: String, question: String): String {
+
+    fun getPromptWithContext(
+        contextText: String,
+        question: String,
+    ): String {
         return "$basePrompt\n\n技规内容：$contextText\n\n问题。question"
     }
 
@@ -26,7 +30,10 @@ object AiPromptProvider {
         return buildReferenceWithCitationRules(numberedEvidence = numberedEvidence, deviceToday = null)
     }
 
-    fun buildReferenceWithCitationRules(numberedEvidence: String, deviceToday: String?): String {
+    fun buildReferenceWithCitationRules(
+        numberedEvidence: String,
+        deviceToday: String?,
+    ): String {
         val dateRules = buildDeviceDateRules(deviceToday)
         return """
             $basePrompt
@@ -41,7 +48,7 @@ object AiPromptProvider {
 
             证据列表。
             $numberedEvidence
-        """.trimIndent()
+            """.trimIndent()
     }
 
     fun buildAiOnlyPrompt(): String {
@@ -54,9 +61,9 @@ object AiPromptProvider {
             aiOnlyBasePrompt
         } else {
             """
-                $aiOnlyBasePrompt
+            $aiOnlyBasePrompt
 
-                $dateRules
+            $dateRules
             """.trimIndent()
         }
     }
@@ -71,18 +78,28 @@ object AiPromptProvider {
 
             本地知识库证据：
             $local
-        """.trimIndent()
+            """.trimIndent()
     }
 
-    fun buildAiOnlyPrompt(deviceToday: String?, localEvidence: String?): String {
+    fun buildAiOnlyPrompt(
+        deviceToday: String?,
+        localEvidence: String?,
+    ): String {
         return buildAiOnlyPrompt(deviceToday) + buildLocalEvidenceSection(localEvidence)
     }
 
-    fun buildAiWebSearchPrompt(deviceToday: String?, searchResults: String): String {
+    fun buildAiWebSearchPrompt(
+        deviceToday: String?,
+        searchResults: String,
+    ): String {
         return buildAiWebSearchPrompt(deviceToday = deviceToday, searchResults = searchResults, localEvidence = null)
     }
 
-    fun buildAiWebSearchPrompt(deviceToday: String?, searchResults: String, localEvidence: String?): String {
+    fun buildAiWebSearchPrompt(
+        deviceToday: String?,
+        searchResults: String,
+        localEvidence: String?,
+    ): String {
         val dateRules = buildDeviceDateRules(deviceToday)
         val results = searchResults.trim()
         val localSection = buildLocalEvidenceSection(localEvidence)
@@ -100,6 +117,6 @@ object AiPromptProvider {
 
             联网检索结果：
             ${if (results.isBlank()) "（空）" else results}
-        """.trimIndent()
+            """.trimIndent()
     }
 }

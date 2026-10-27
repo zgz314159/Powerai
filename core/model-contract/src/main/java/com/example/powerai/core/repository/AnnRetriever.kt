@@ -9,5 +9,8 @@ interface AnnRetriever {
     /**
      * Search for top-k nearest neighbor results for a given query string.
      */
-    suspend fun search(query: String, k: Int = 10): List<RetrievalResult>
+    suspend fun search(
+        query: String,
+        k: Int = 10,
+    ): List<RetrievalResult>
 }

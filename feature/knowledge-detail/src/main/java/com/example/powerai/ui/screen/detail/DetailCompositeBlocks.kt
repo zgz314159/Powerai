@@ -25,12 +25,12 @@ internal fun DetailTableTextComposite(
     highlight: String,
     fontScale: Float,
     subfolder: String? = null,
-    bottom: androidx.compose.ui.unit.Dp = 12.dp
+    bottom: androidx.compose.ui.unit.Dp = 12.dp,
 ) {
     if (images.isNotEmpty()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(bottom = bottom)
+            modifier = Modifier.padding(bottom = bottom),
         ) {
             images.forEach { image ->
                 ImageBlockItem(block = image, subfolder = subfolder)
@@ -43,25 +43,26 @@ internal fun DetailTableTextComposite(
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.12f),
             shape = RoundedCornerShape(12.dp),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.18f))
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.18f)),
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Text(
                     text = "表格摘要 (AI 提取)",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.5.sp
-                    ),
-                    color = MaterialTheme.colorScheme.primary
+                    style =
+                        MaterialTheme.typography.labelSmall.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.5.sp,
+                        ),
+                    color = MaterialTheme.colorScheme.primary,
                 )
                 SelectionContainer {
                     Text(
                         text = highlightAll(text, highlight),
                         style = detailParagraphStyle(fontScale, applyIndent = false),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f)
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f),
                     )
                 }
             }
@@ -75,7 +76,7 @@ internal fun DetailStructuredTableComposite(
     images: List<ImageBlock>,
     highlight: String,
     fontScale: Float,
-    subfolder: String? = null
+    subfolder: String? = null,
 ) {
     DetailTableBlockItem(block = table, highlight = highlight, fontScale = fontScale, subfolder = subfolder)
     if (images.isNotEmpty()) {
@@ -93,33 +94,35 @@ internal fun DetailFigureComposite(
     caption: TextBlock,
     highlight: String,
     fontScale: Float,
-    subfolder: String? = null
+    subfolder: String? = null,
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.08f),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f))
+        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.2f)),
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             ImageBlockItem(block = image, subfolder = subfolder)
 
             val captionText = highlightAll(caption.text, highlight)
             Text(
                 text = captionText,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    fontSize = scaledSp(14f, fontScale),
-                    lineHeight = scaledSp(20f, fontScale),
-                    textAlign = TextAlign.Center
-                ),
+                style =
+                    MaterialTheme.typography.bodySmall.copy(
+                        fontSize = scaledSp(14f, fontScale),
+                        lineHeight = scaledSp(20f, fontScale),
+                        textAlign = TextAlign.Center,
+                    ),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 12.dp, end = 12.dp, bottom = 4.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp, bottom = 4.dp),
             )
         }
     }

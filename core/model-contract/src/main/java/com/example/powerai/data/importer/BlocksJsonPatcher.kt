@@ -6,35 +6,36 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 
 object BlocksJsonPatcher {
-
     fun applyMarkdownTableToBlock(
         blocksJson: String,
         blockId: String,
-        markdown: String
+        markdown: String,
     ): String? {
         val targetId = blockId.trim()
         if (blocksJson.isBlank() || targetId.isBlank() || markdown.isBlank()) return null
 
-        val root = try {
-            JsonParser().parse(blocksJson)
-        } catch (_: Throwable) {
-            return null
-        }
-
-        val blocksArray: JsonArray? = when {
-            root.isJsonArray -> root.asJsonArray
-            root.isJsonObject -> {
-                val obj = root.asJsonObject
-                when {
-                    obj.get("blocks")?.isJsonArray == true -> obj.getAsJsonArray("blocks")
-                    obj.get("contentBlocks")?.isJsonArray == true -> obj.getAsJsonArray("contentBlocks")
-                    obj.get("content_blocks")?.isJsonArray == true -> obj.getAsJsonArray("content_blocks")
-                    else -> null
-                }
+        val root =
+            try {
+                JsonParser().parse(blocksJson)
+            } catch (_: Throwable) {
+                return null
             }
 
-            else -> null
-        }
+        val blocksArray: JsonArray? =
+            when {
+                root.isJsonArray -> root.asJsonArray
+                root.isJsonObject -> {
+                    val obj = root.asJsonObject
+                    when {
+                        obj.get("blocks")?.isJsonArray == true -> obj.getAsJsonArray("blocks")
+                        obj.get("contentBlocks")?.isJsonArray == true -> obj.getAsJsonArray("contentBlocks")
+                        obj.get("content_blocks")?.isJsonArray == true -> obj.getAsJsonArray("content_blocks")
+                        else -> null
+                    }
+                }
+
+                else -> null
+            }
 
         if (blocksArray == null || blocksArray.size() == 0) return null
 
@@ -57,12 +58,13 @@ object BlocksJsonPatcher {
     }
 
     private fun parseMarkdownTableRows(markdown: String): List<List<String>>? {
-        val lines = markdown
-            .replace("\r\n", "\n")
-            .replace("\r", "\n")
-            .lines()
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
+        val lines =
+            markdown
+                .replace("\r\n", "\n")
+                .replace("\r", "\n")
+                .lines()
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
 
         if (lines.size < 2) return null
 
@@ -98,8 +100,7 @@ object BlocksJsonPatcher {
         return arr
     }
 
-    private fun JsonElement.asJsonObjectOrNull(): JsonObject? =
-        if (this.isJsonObject) this.asJsonObject else null
+    private fun JsonElement.asJsonObjectOrNull(): JsonObject? = if (this.isJsonObject) this.asJsonObject else null
 
     private fun JsonObject.stringOrNull(key: String): String? {
         val el = get(key) ?: return null

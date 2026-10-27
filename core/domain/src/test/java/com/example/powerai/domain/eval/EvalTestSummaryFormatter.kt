@@ -3,17 +3,27 @@ package com.example.powerai.domain.eval
 import java.util.Locale
 
 internal object EvalTestSummaryFormatter {
-    fun containsAllLabel(report: String, label: String): Boolean {
+    fun containsAllLabel(
+        report: String,
+        label: String,
+    ): Boolean {
         return report.contains("all:\nlabel=$label")
     }
 
-    fun containsCase(reportOrSummary: String, query: String): Boolean {
+    fun containsCase(
+        reportOrSummary: String,
+        query: String,
+    ): Boolean {
         return reportOrSummary.contains("$query -> hitAt3=") ||
             reportOrSummary.contains("[OK] $query -> hitAt3=") ||
             reportOrSummary.contains("[MISS] $query -> hitAt3=")
     }
 
-    fun containsCaseStatus(reportOrSummary: String, query: String, hitAt3: Boolean): Boolean {
+    fun containsCaseStatus(
+        reportOrSummary: String,
+        query: String,
+        hitAt3: Boolean,
+    ): Boolean {
         val statusPrefix = if (hitAt3) "[OK] " else "[MISS] "
         return reportOrSummary.contains("$statusPrefix$query -> hitAt3=$hitAt3") ||
             reportOrSummary.contains("$query -> hitAt3=$hitAt3")
@@ -46,43 +56,46 @@ internal object EvalTestSummaryFormatter {
     fun formatEdgeCaseReport(
         detailed: DetailedEvalResult,
         groupByLabel: Boolean = false,
-        highlightMisses: Boolean = false
-    ): String = buildString {
-        append("all:\n")
-        append(
-            formatEdgeCaseSummary(
-                detailed = detailed,
-                groupByLabel = groupByLabel,
-                highlightMisses = highlightMisses
+        highlightMisses: Boolean = false,
+    ): String =
+        buildString {
+            append("all:\n")
+            append(
+                formatEdgeCaseSummary(
+                    detailed = detailed,
+                    groupByLabel = groupByLabel,
+                    highlightMisses = highlightMisses,
+                ),
             )
-        )
-        append("\n\nmisses:\n")
-        append(
-            formatEdgeCaseSummary(
-                detailed = detailed,
-                groupByLabel = groupByLabel,
-                highlightMisses = highlightMisses,
-                missesOnly = true
+            append("\n\nmisses:\n")
+            append(
+                formatEdgeCaseSummary(
+                    detailed = detailed,
+                    groupByLabel = groupByLabel,
+                    highlightMisses = highlightMisses,
+                    missesOnly = true,
+                ),
             )
-        )
-    }
+        }
 
     fun formatEdgeCaseSummary(
         detailed: DetailedEvalResult,
         groupByLabel: Boolean = false,
         highlightMisses: Boolean = false,
-        missesOnly: Boolean = false
+        missesOnly: Boolean = false,
     ): String {
-        val filteredCases = if (missesOnly) {
-            detailed.cases.filterNot { it.hitAt3 }
-        } else {
-            detailed.cases
-        }
-        val cases = if (groupByLabel) {
-            filteredCases.sortedWith(compareBy({ it.label.orEmpty() }, { it.query }))
-        } else {
-            filteredCases
-        }
+        val filteredCases =
+            if (missesOnly) {
+                detailed.cases.filterNot { it.hitAt3 }
+            } else {
+                detailed.cases
+            }
+        val cases =
+            if (groupByLabel) {
+                filteredCases.sortedWith(compareBy({ it.label.orEmpty() }, { it.query }))
+            } else {
+                filteredCases
+            }
         if (cases.isEmpty()) {
             return if (missesOnly) "(no misses)" else "(no cases)"
         }
@@ -102,12 +115,16 @@ internal object EvalTestSummaryFormatter {
         }
     }
 
-    private fun formatCase(case: EvalCaseResult, highlightMisses: Boolean): String {
-        val statusPrefix = when {
-            !highlightMisses -> ""
-            case.hitAt3 -> "[OK] "
-            else -> "[MISS] "
-        }
+    private fun formatCase(
+        case: EvalCaseResult,
+        highlightMisses: Boolean,
+    ): String {
+        val statusPrefix =
+            when {
+                !highlightMisses -> ""
+                case.hitAt3 -> "[OK] "
+                else -> "[MISS] "
+            }
         return buildString {
             append(statusPrefix)
             append(case.query)

@@ -1,18 +1,20 @@
 package com.example.powerai.ui.screen.main
 
-import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.example.powerai.domain.model.chat.ChatTurn
 import kotlinx.coroutines.delay
 
-private suspend fun settleToBottom(listState: LazyListState, lastIndex: Int) {
+private suspend fun settleToBottom(
+    listState: LazyListState,
+    lastIndex: Int,
+) {
     runCatching { listState.scrollToItem(lastIndex) }
     delay(24)
     runCatching {
@@ -43,7 +45,7 @@ internal fun AutoScrollOnStreaming(
     listState: LazyListState,
     turns: List<ChatTurn>,
     currentTurnId: Long?,
-    isStreaming: Boolean
+    isStreaming: Boolean,
 ) {
     var wasStreaming by remember { mutableStateOf(isStreaming) }
 
@@ -94,7 +96,8 @@ internal fun AutoScrollOnStreaming(
                     }
                 }
                 lastScrollAt = System.currentTimeMillis()
-            } catch (_: Throwable) {}
+            } catch (_: Throwable) {
+            }
         }
     }
 }

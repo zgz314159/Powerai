@@ -1,7 +1,6 @@
 package com.example.powerai.core.data.repository
 
 object KnowledgeSearchSqlPatterns {
-
     fun buildFtsMatchQuery(normalizedQuery: String): String {
         val q = normalizedQuery.trim().replace(Regex("\\s+"), " ")
         if (q.isBlank()) return ""
@@ -24,18 +23,19 @@ object KnowledgeSearchSqlPatterns {
     fun buildFuzzyLikePattern(qNoSpace: String): String? {
         val s = qNoSpace.trim()
         if (s.length !in 3..12) return null
-        val escaped = buildString(s.length) {
-            for (c in s) {
-                when (c) {
-                    '%', '_', '/' -> {
-                        append('/')
-                        append(c)
-                    }
+        val escaped =
+            buildString(s.length) {
+                for (c in s) {
+                    when (c) {
+                        '%', '_', '/' -> {
+                            append('/')
+                            append(c)
+                        }
 
-                    else -> append(c)
+                        else -> append(c)
+                    }
                 }
             }
-        }
         return "%" + escaped.map { it }.joinToString("%") + "%"
     }
 }

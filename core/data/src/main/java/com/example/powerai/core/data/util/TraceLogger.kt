@@ -10,7 +10,11 @@ import java.util.Locale
 object TraceLogger {
     private val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US)
 
-    fun append(context: Context, tag: String, message: String) {
+    fun append(
+        context: Context,
+        tag: String,
+        message: String,
+    ) {
         try {
             val dir = context.filesDir
             val file = File(dir, "import-trace.txt")

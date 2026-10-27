@@ -6,19 +6,19 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HybridUiControlStateStoreTest {
-
     @Test
     fun `restores persisted values from saved state handle`() {
-        val handle = SavedStateHandle(
-            mapOf(
-                "local_current_page" to 3,
-                "local_collapsed_group_keys" to arrayListOf("g1", "g2"),
-                "local_scroll_index" to 7,
-                "local_scroll_offset" to 11,
-                "smart_scroll_index" to 5,
-                "smart_scroll_offset" to 9
+        val handle =
+            SavedStateHandle(
+                mapOf(
+                    "local_current_page" to 3,
+                    "local_collapsed_group_keys" to arrayListOf("g1", "g2"),
+                    "local_scroll_index" to 7,
+                    "local_scroll_offset" to 11,
+                    "smart_scroll_index" to 5,
+                    "smart_scroll_offset" to 9,
+                ),
             )
-        )
 
         val store = HybridUiControlStateStore(handle)
 
@@ -57,7 +57,7 @@ class HybridUiControlStateStoreTest {
         assertEquals(4, handle.get<Int>("smart_scroll_offset"))
         assertEquals(
             setOf("group-a"),
-            handle.get<ArrayList<String>>("local_collapsed_group_keys")?.toSet()
+            handle.get<ArrayList<String>>("local_collapsed_group_keys")?.toSet(),
         )
     }
 

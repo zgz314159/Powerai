@@ -3,6 +3,7 @@ package com.example.powerai.engine.ai
 internal object LlamaJniStreaming {
     @Volatile
     var streamingThinkingEnabled: Boolean = true
+
     @Volatile
     var callbackPreviewCount: Int = 0
     private var streamingFilterInThinkBlock: Boolean = false
@@ -29,12 +30,13 @@ internal object LlamaJniStreaming {
 
     fun sanitizeChunkForStreaming(chunk: String): String {
         if (streamingThinkingEnabled) return DeepSeekTextCodec.normalizeChunk(chunk)
-        val parsed = ThinkingInterceptor.parseStreamingChunk(
-            text = chunk,
-            inThinkBlock = streamingFilterInThinkBlock,
-            pendingThinkingText = streamingFilterPendingThinkingText,
-            pendingTagFragment = streamingFilterPendingTagFragment
-        )
+        val parsed =
+            ThinkingInterceptor.parseStreamingChunk(
+                text = chunk,
+                inThinkBlock = streamingFilterInThinkBlock,
+                pendingThinkingText = streamingFilterPendingThinkingText,
+                pendingTagFragment = streamingFilterPendingTagFragment,
+            )
         streamingFilterInThinkBlock = parsed.inThinkBlock
         streamingFilterPendingThinkingText = parsed.pendingThinkingText
         streamingFilterPendingTagFragment = parsed.pendingTagFragment
@@ -50,12 +52,13 @@ internal object LlamaJniStreaming {
     fun buildCallbackTokenPreview(rawText: String): String {
         val normalizedRaw = DeepSeekTextCodec.normalizeChunk(rawText)
         if (streamingThinkingEnabled) return normalizedRaw.take(120)
-        val parsed = ThinkingInterceptor.parseStreamingChunk(
-            text = normalizedRaw,
-            inThinkBlock = callbackLogInThinkBlock,
-            pendingThinkingText = callbackLogPendingThinkingText,
-            pendingTagFragment = callbackLogPendingTagFragment
-        )
+        val parsed =
+            ThinkingInterceptor.parseStreamingChunk(
+                text = normalizedRaw,
+                inThinkBlock = callbackLogInThinkBlock,
+                pendingThinkingText = callbackLogPendingThinkingText,
+                pendingTagFragment = callbackLogPendingTagFragment,
+            )
         callbackLogInThinkBlock = parsed.inThinkBlock
         callbackLogPendingThinkingText = parsed.pendingThinkingText
         callbackLogPendingTagFragment = parsed.pendingTagFragment

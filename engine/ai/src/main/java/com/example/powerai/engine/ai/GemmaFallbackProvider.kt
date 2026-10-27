@@ -25,7 +25,7 @@ class GemmaFallbackProvider(private val context: Context?) {
      */
     fun infer(
         prompt: PromptBuilder.Prompt,
-        searcherFactory: () -> SparseSearcher = { SparseSearcher(context) }
+        searcherFactory: () -> SparseSearcher = { SparseSearcher(context) },
     ): InferenceResult {
         val msg = "[GemmaFallbackProvider] No engine available, using deterministic fallback"
         try {
@@ -44,25 +44,28 @@ class GemmaFallbackProvider(private val context: Context?) {
 
             val iq = intentQuery
             val q = if (!iq.isNullOrBlank()) iq.trim() else "(no-query)"
-            val sparseSearcher = try {
-                searcherFactory()
-            } catch (_: Throwable) {
-                SparseSearcher(context)
-            }
-            val entries = try {
-                sparseSearcher.search(q, 2)
-            } catch (_: Throwable) {
-                emptyList<SparseSearcher.SafetyEntry>()
-            }
+            val sparseSearcher =
+                try {
+                    searcherFactory()
+                } catch (_: Throwable) {
+                    SparseSearcher(context)
+                }
+            val entries =
+                try {
+                    sparseSearcher.search(q, 2)
+                } catch (_: Throwable) {
+                    emptyList<SparseSearcher.SafetyEntry>()
+                }
 
-            val finalText = if (entries.isNotEmpty()) {
-                val top = entries[0]
-                val title = if (top.title.isNullOrBlank()) "(未命名条目)" else top.title
-                "AI 正在思考（本地模型加载中）... 规程建议：${title} （来源：电力安全工作规程）"
-            } else {
-                val displayQuery = if (q.isBlank() || q == "(no-query)") "相关规程" else q
-                "AI 正在思考（本地模型加载中）... 规程建议：${displayQuery} （来源：电力安全工作规程）"
-            }
+            val finalText =
+                if (entries.isNotEmpty()) {
+                    val top = entries[0]
+                    val title = if (top.title.isNullOrBlank()) "(未命名条目)" else top.title
+                    "AI 正在思考（本地模型加载中）... 规程建议：$title （来源：电力安全工作规程）"
+                } else {
+                    val displayQuery = if (q.isBlank() || q == "(no-query)") "相关规程" else q
+                    "AI 正在思考（本地模型加载中）... 规程建议：$displayQuery （来源：电力安全工作规程）"
+                }
 
             // attempt to persist fallback trace for diagnostics; skipped when
             // app storage is unavailable (a null filesDir would otherwise turn
@@ -75,7 +78,10 @@ class GemmaFallbackProvider(private val context: Context?) {
                         f.appendText("--- FINAL_DECODE ---\n")
                         f.appendText(finalText, Charsets.UTF_8)
                         f.appendText("\n--- END OF SESSION ---\n")
-                        try { FileOutputStream(f, true).fd.sync() } catch (_: Throwable) {}
+                        try {
+                            FileOutputStream(f, true).fd.sync()
+                        } catch (_: Throwable) {
+                        }
                     } catch (_: Throwable) {
                         // ignore write failures
                     }
@@ -87,7 +93,7 @@ class GemmaFallbackProvider(private val context: Context?) {
             return InferenceResult(
                 text = finalText,
                 tokensUsed = finalText.split(Regex("\\s+")).filter { it.isNotBlank() }.size,
-                raw = null
+                raw = null,
             )
         } catch (_: Throwable) {
             return InferenceResult(text = msg, tokensUsed = 0, raw = null)

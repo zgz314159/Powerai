@@ -22,13 +22,13 @@ fun LocalHistoryDrawerContent(
     history: List<SearchEntry>,
     onSelectQuery: (String) -> Unit,
     onClearHistory: () -> Unit,
-    onEdgeAction: (() -> Unit)? = null
+    onEdgeAction: (() -> Unit)? = null,
 ) {
     DrawerWrapper(
         title = "本地搜索历史",
         actionLabel = "清除历史",
         onAction = onClearHistory,
-        onEdgeAction = onEdgeAction
+        onEdgeAction = onEdgeAction,
     ) {
         if (history.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -37,43 +37,46 @@ fun LocalHistoryDrawerContent(
             return@DrawerWrapper
         }
 
-        val groups = remember(history) {
-            history.groupBy { entry ->
-                java.time.Instant.ofEpochMilli(entry.timestamp)
-                    .atZone(java.time.ZoneId.systemDefault())
-                    .toLocalDate()
-            }.toSortedMap(compareByDescending { it })
-        }
+        val groups =
+            remember(history) {
+                history.groupBy { entry ->
+                    java.time.Instant.ofEpochMilli(entry.timestamp)
+                        .atZone(java.time.ZoneId.systemDefault())
+                        .toLocalDate()
+                }.toSortedMap(compareByDescending { it })
+            }
 
         DrawerSummaryCard(
             title = "本地检索历史",
-            subtitle = "${history.size} 条本地检索历史"
+            subtitle = "${history.size} 条本地检索历史",
         )
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             groups.forEach { (date, entries) ->
                 item {
-                    val label = runCatching {
-                        val today = java.time.LocalDate.now()
-                        val yesterday = today.minusDays(1)
-                        when (date) {
-                            today -> "今天"
-                            yesterday -> "昨天"
-                            else -> date.toString()
-                        }
-                    }.getOrDefault(date.toString())
+                    val label =
+                        runCatching {
+                            val today = java.time.LocalDate.now()
+                            val yesterday = today.minusDays(1)
+                            when (date) {
+                                today -> "今天"
+                                yesterday -> "昨天"
+                                else -> date.toString()
+                            }
+                        }.getOrDefault(date.toString())
                     DrawerSectionLabel(label = label)
                 }
 
                 items(entries, key = { entry -> "${entry.timestamp}-${entry.query}" }) { entry ->
-                    val timeLabel = runCatching {
-                        java.time.Instant.ofEpochMilli(entry.timestamp)
-                            .atZone(java.time.ZoneId.systemDefault())
-                            .toLocalTime()
-                            .withSecond(0)
-                            .withNano(0)
-                            .toString()
-                    }.getOrDefault("未知时间")
+                    val timeLabel =
+                        runCatching {
+                            java.time.Instant.ofEpochMilli(entry.timestamp)
+                                .atZone(java.time.ZoneId.systemDefault())
+                                .toLocalTime()
+                                .withSecond(0)
+                                .withNano(0)
+                                .toString()
+                        }.getOrDefault("未知时间")
 
                     DrawerDirectoryCard(
                         icon = Icons.Outlined.History,
@@ -82,7 +85,7 @@ fun LocalHistoryDrawerContent(
                         footer = "点击重新执行这次本地检",
                         isSelected = false,
                         accentColor = Color(0xFFC06C84),
-                        onClick = { onSelectQuery(entry.query) }
+                        onClick = { onSelectQuery(entry.query) },
                     )
                 }
             }

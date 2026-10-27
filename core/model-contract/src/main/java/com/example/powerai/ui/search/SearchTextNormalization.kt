@@ -27,7 +27,10 @@ object SearchTextNormalization {
         return text.any { it.code in 0x4E00..0x9FFF }
     }
 
-    fun dropLatinTailIfHasCjk(normalized: String, hasCjk: Boolean): String {
+    fun dropLatinTailIfHasCjk(
+        normalized: String,
+        hasCjk: Boolean,
+    ): String {
         if (!hasCjk) return normalized
         return normalized
             .replace(Regex("[A-Za-z]+"), " ")

@@ -1,9 +1,6 @@
 package com.example.powerai.core.data.importer
 
 import com.example.powerai.core.data.dao.KnowledgeDao
-
-import com.example.powerai.core.model.ImportedFile
-
 import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.entity.KnowledgeListItemEntity
@@ -39,18 +36,19 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getAll(): List<KnowledgeEntity> = list.toList()
 
-    override suspend fun getAllForDatabaseList(): List<KnowledgeListItemEntity> = list.map {
-        KnowledgeListItemEntity(
-            id = it.id,
-            title = it.title,
-            content = it.content.take(4000),
-            source = it.source,
-            category = it.category,
-            pageNumber = it.pageNumber,
-            sortOrder = it.sortOrder,
-            imageUris = it.imageUris
-        )
-    }
+    override suspend fun getAllForDatabaseList(): List<KnowledgeListItemEntity> =
+        list.map {
+            KnowledgeListItemEntity(
+                id = it.id,
+                title = it.title,
+                content = it.content.take(4000),
+                source = it.source,
+                category = it.category,
+                pageNumber = it.pageNumber,
+                sortOrder = it.sortOrder,
+                imageUris = it.imageUris,
+            )
+        }
 
     override suspend fun getById(id: Long): KnowledgeEntity? = list.find { it.id == id }
 
@@ -58,28 +56,29 @@ class MemoryKnowledgeDao : KnowledgeDao {
         id: Long,
         contentBlocksJson: String,
         contentNormalized: String,
-        searchContent: String
+        searchContent: String,
     ) {
         updateEntityById(id) { e ->
             e.copy(
                 contentBlocksJson = contentBlocksJson,
                 contentNormalized = contentNormalized,
-                searchContent = searchContent
+                searchContent = searchContent,
             )
         }
     }
 
-    override suspend fun getEntriesMissingNormalized(): List<KnowledgeEntity> =
-        list.filter { it.contentNormalized.isEmpty() }
+    override suspend fun getEntriesMissingNormalized(): List<KnowledgeEntity> = list.filter { it.contentNormalized.isEmpty() }
 
-    override suspend fun countEntriesMissingNormalized(): Int =
-        getEntriesMissingNormalized().size
+    override suspend fun countEntriesMissingNormalized(): Int = getEntriesMissingNormalized().size
 
-    override suspend fun updateNormalizedContent(id: Long, normalized: String) {
+    override suspend fun updateNormalizedContent(
+        id: Long,
+        normalized: String,
+    ) {
         updateEntityById(id) { e ->
             e.copy(
                 contentNormalized = normalized,
-                searchContent = normalized
+                searchContent = normalized,
             )
         }
     }
@@ -100,7 +99,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
                 category = it.category,
                 pageNumber = it.pageNumber,
                 sortOrder = it.sortOrder,
-                imageUris = it.imageUris
+                imageUris = it.imageUris,
             )
         }
 
@@ -112,8 +111,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
         if (idx >= 0) list[idx] = entity else list.add(entity)
     }
 
-    override suspend fun searchByFts(query: String): List<KnowledgeEntity> =
-        list.filter { it.contentNormalized.contains(query) }
+    override suspend fun searchByFts(query: String): List<KnowledgeEntity> = list.filter { it.contentNormalized.contains(query) }
 
     override suspend fun rebuildFts() {
         // no-op
@@ -123,8 +121,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getSample(n: Int): List<KnowledgeEntity> = list.take(n)
 
-    override suspend fun countBySourcePrefix(sourcePrefix: String): Int =
-        list.count { it.source.startsWith(sourcePrefix) }
+    override suspend fun countBySourcePrefix(sourcePrefix: String): Int = list.count { it.source.startsWith(sourcePrefix) }
 
     override suspend fun countByPackageId(packageId: String): Int = list.count { it.packageId == packageId }
 
@@ -133,14 +130,19 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getIdsByPackageId(packageId: String): List<Long> = list.filter { it.packageId == packageId }.map { it.id }
 
-    override suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int =
+    override suspend fun countMatchesBySourcePrefix(
+        sourcePrefix: String,
+        keywordNoSpace: String,
+    ): Int =
         list.count {
             it.source.startsWith(sourcePrefix) &&
                 it.searchContent.replace(" ", "").contains(keywordNoSpace)
         }
 
-    override suspend fun sampleBySourcePrefix(sourcePrefix: String, limit: Int): List<KnowledgeEntity> =
-        list.filter { it.source.startsWith(sourcePrefix) }.take(limit)
+    override suspend fun sampleBySourcePrefix(
+        sourcePrefix: String,
+        limit: Int,
+    ): List<KnowledgeEntity> = list.filter { it.source.startsWith(sourcePrefix) }.take(limit)
 
     override suspend fun searchByKeywordNoSpace(keywordNoSpace: String): List<KnowledgeEntity> =
         list.filter {
@@ -162,7 +164,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
                 category = it.category,
                 pageNumber = it.pageNumber,
                 sortOrder = it.sortOrder,
-                imageUris = it.imageUris
+                imageUris = it.imageUris,
             )
         }
 
@@ -174,12 +176,11 @@ class MemoryKnowledgeDao : KnowledgeDao {
                 contentLength = it.content.length,
                 contentBlocksLength = it.contentBlocksJson?.length ?: 0,
                 bboxLength = it.bboxJson?.length ?: 0,
-                imageUrisLength = it.imageUris?.length ?: 0
+                imageUrisLength = it.imageUris?.length ?: 0,
             )
         }.sortedByDescending { it.contentBlocksLength }.take(limit)
 
-    override suspend fun searchByKeywordFuzzy(pattern: String): List<KnowledgeEntity> =
-        list.filter { it.searchContent.contains(pattern) }
+    override suspend fun searchByKeywordFuzzy(pattern: String): List<KnowledgeEntity> = list.filter { it.searchContent.contains(pattern) }
 
     override suspend fun insertImportedFile(file: ImportedFileEntity) {
         // no-op in memory
@@ -209,13 +210,20 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getImportedFiles(): List<ImportedFileEntity> = emptyList()
 
-    override suspend fun countByPage(fileId: String, page: Int): Int =
-        list.count { it.source.contains(fileId) && it.pageNumber == page }
+    override suspend fun countByPage(
+        fileId: String,
+        page: Int,
+    ): Int = list.count { it.source.contains(fileId) && it.pageNumber == page }
 
-    override suspend fun getByPage(fileId: String, page: Int): List<KnowledgeEntity> =
-        list.filter { it.source.contains(fileId) && it.pageNumber == page }.sortedBy { it.id }
+    override suspend fun getByPage(
+        fileId: String,
+        page: Int,
+    ): List<KnowledgeEntity> = list.filter { it.source.contains(fileId) && it.pageNumber == page }.sortedBy { it.id }
 
-    private inline fun updateEntityById(id: Long, transform: (KnowledgeEntity) -> KnowledgeEntity) {
+    private inline fun updateEntityById(
+        id: Long,
+        transform: (KnowledgeEntity) -> KnowledgeEntity,
+    ) {
         val idx = list.indexOfFirst { it.id == id }
         if (idx >= 0) {
             list[idx] = transform(list[idx])
@@ -229,7 +237,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
             batchSize: Int = ImportDefaults.DEFAULT_BATCH_SIZE,
             trace: ((String) -> Unit)? = null,
             fallbackFileName: String? = null,
-            fallbackFileId: String? = null
+            fallbackFileId: String? = null,
         ): Pair<Long, Int> {
             val memory = MemoryKnowledgeDao()
             var importedSoFar = 0L
@@ -240,7 +248,7 @@ class MemoryKnowledgeDao : KnowledgeDao {
                     batchSize,
                     trace,
                     fallbackFileName,
-                    fallbackFileId
+                    fallbackFileId,
                 ).collect { p ->
                     importedSoFar = p.importedItems
                 }

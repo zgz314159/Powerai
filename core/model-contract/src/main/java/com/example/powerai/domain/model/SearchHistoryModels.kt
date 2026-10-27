@@ -5,5 +5,5 @@ package com.example.powerai.domain.model
  */
 data class SearchEntry(
     val query: String,
-    val timestamp: Long
+    val timestamp: Long,
 )

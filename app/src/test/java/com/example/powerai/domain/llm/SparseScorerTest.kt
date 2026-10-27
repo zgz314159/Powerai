@@ -1,14 +1,14 @@
 package com.example.powerai.domain.llm
 
+import com.example.powerai.engine.ai.SparseScorer
+import com.example.powerai.engine.ai.SparseSearcher
 import org.junit.Assert.*
 import org.junit.Test
-import com.example.powerai.engine.ai.SparseSearcher
-import com.example.powerai.engine.ai.SparseScorer
 
 class SparseScorerTest {
-    private val entryA = SparseSearcher.SafetyEntry("A","foo bar","r1")
-    private val entryB = SparseSearcher.SafetyEntry("B","baz foo","r2")
-    private val entryC = SparseSearcher.SafetyEntry("C","nothing","r3")
+    private val entryA = SparseSearcher.SafetyEntry("A", "foo bar", "r1")
+    private val entryB = SparseSearcher.SafetyEntry("B", "baz foo", "r2")
+    private val entryC = SparseSearcher.SafetyEntry("C", "nothing", "r3")
 
     @Test
     fun `score orders by raw matches and weight`() {

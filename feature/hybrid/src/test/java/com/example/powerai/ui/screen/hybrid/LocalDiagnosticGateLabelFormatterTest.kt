@@ -4,7 +4,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class LocalDiagnosticGateLabelFormatterTest {
-
     @Test
     fun `known gate codes map to localized labels`() {
         assertEquals("综合信号", LocalDiagnosticGateLabelFormatter.label("combined_signal"))

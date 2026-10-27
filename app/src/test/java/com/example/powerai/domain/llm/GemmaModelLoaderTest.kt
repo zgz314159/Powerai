@@ -1,12 +1,12 @@
 package com.example.powerai.domain.llm
 
 import android.content.Context
+import com.example.powerai.engine.ai.GemmaModelLoader
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import java.io.File
-import com.example.powerai.engine.ai.GemmaModelLoader
 
 class GemmaModelLoaderTest {
     @Test
@@ -31,7 +31,8 @@ class GemmaModelLoaderTest {
             val dummy = File("/data/user/0/com.example.powerai/files/gemma3.task")
             dummy.parentFile?.mkdirs()
             dummy.writeText("")
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         val loaded = GemmaModelLoader.tryLoad(ctx)
         // may be null but should not throw
         assertTrue(loaded == null || loaded != null)
@@ -40,7 +41,9 @@ class GemmaModelLoaderTest {
     @Test
     fun `closeEngine invokes close on supplied object`() {
         data class Dummy(var closed: Boolean = false) {
-            fun close() { closed = true }
+            fun close() {
+                closed = true
+            }
         }
         val dummy = Dummy()
         GemmaModelLoader.closeEngine(dummy, null)

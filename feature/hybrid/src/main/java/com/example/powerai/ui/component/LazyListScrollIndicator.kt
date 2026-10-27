@@ -2,15 +2,17 @@ package com.example.powerai.ui.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -30,29 +33,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.draw.clip
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.shape.RoundedCornerShape
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.max
 import kotlin.math.roundToInt
 
 data class LazyListScrollAnchor(
     val itemIndex: Int,
     val label: String,
-    val fullLabel: String = label
+    val fullLabel: String = label,
 )
 
 private data class ScrollIndicatorMetrics(
     val canScroll: Boolean,
     val progress: Float,
-    val visibleFraction: Float
+    val visibleFraction: Float,
 )
 
 private data class ScrollIndicatorBubble(
     val text: String,
-    val centerYPx: Float
+    val centerYPx: Float,
 )
 
 @Composable
@@ -65,7 +65,7 @@ fun LazyListScrollIndicator(
     topPadding: Dp = 96.dp,
     bottomPadding: Dp = 16.dp,
     anchors: List<LazyListScrollAnchor> = emptyList(),
-    bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -> String)? = null
+    bubbleLabel: ((currentItemIndex: Int, totalItems: Int, currentAnchor: LazyListScrollAnchor?) -> String)? = null,
 ) {
     val density = LocalDensity.current
     val minThumbHeightPx = with(density) { minThumbHeight.toPx() }
@@ -82,26 +82,29 @@ fun LazyListScrollIndicator(
                 return@derivedStateOf ScrollIndicatorMetrics(false, 0f, 1f)
             }
 
-            val viewportSize = (layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset)
-                .coerceAtLeast(1)
-                .toFloat()
-            val averageItemSize = visibleItems
-                .map { it.size }
-                .average()
-                .takeIf { it > 0.0 }
-                ?.toFloat()
-                ?: viewportSize
+            val viewportSize =
+                (layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset)
+                    .coerceAtLeast(1)
+                    .toFloat()
+            val averageItemSize =
+                visibleItems
+                    .map { it.size }
+                    .average()
+                    .takeIf { it > 0.0 }
+                    ?.toFloat()
+                    ?: viewportSize
             val estimatedVisibleItems = max(viewportSize / averageItemSize, 1f)
             val visibleFraction = (estimatedVisibleItems / totalItems.toFloat()).coerceIn(0.08f, 1f)
-            val scrolledItems = listState.firstVisibleItemIndex.toFloat() +
-                (listState.firstVisibleItemScrollOffset / averageItemSize)
+            val scrolledItems =
+                listState.firstVisibleItemIndex.toFloat() +
+                    (listState.firstVisibleItemScrollOffset / averageItemSize)
             val maxScrollableItems = (totalItems.toFloat() - estimatedVisibleItems).coerceAtLeast(1f)
             val progress = (scrolledItems / maxScrollableItems).coerceIn(0f, 1f)
 
             ScrollIndicatorMetrics(
                 canScroll = totalItems > estimatedVisibleItems + 0.5f,
                 progress = progress,
-                visibleFraction = visibleFraction
+                visibleFraction = visibleFraction,
             )
         }
     }
@@ -119,15 +122,19 @@ fun LazyListScrollIndicator(
         val trackHeightPx = (fullHeightPx - topPaddingPx - bottomPaddingPx).coerceAtLeast(1f)
         val bubbleVerticalPaddingPx = with(density) { 16.dp.toPx() }
         val bubbleXOffsetPx = with(density) { (touchWidth + 12.dp).roundToPx() }
-        val anchorFractions = remember(orderedAnchors, listState.layoutInfo.totalItemsCount) {
-            val totalItems = listState.layoutInfo.totalItemsCount.coerceAtLeast(1)
-            orderedAnchors.map { anchor ->
-                val fraction = if (totalItems <= 1) 0f else {
-                    anchor.itemIndex.toFloat() / (totalItems - 1).toFloat()
+        val anchorFractions =
+            remember(orderedAnchors, listState.layoutInfo.totalItemsCount) {
+                val totalItems = listState.layoutInfo.totalItemsCount.coerceAtLeast(1)
+                orderedAnchors.map { anchor ->
+                    val fraction =
+                        if (totalItems <= 1) {
+                            0f
+                        } else {
+                            anchor.itemIndex.toFloat() / (totalItems - 1).toFloat()
+                        }
+                    anchor to fraction.coerceIn(0f, 1f)
                 }
-                anchor to fraction.coerceIn(0f, 1f)
             }
-        }
 
         fun anchorForIndex(index: Int): LazyListScrollAnchor? {
             return orderedAnchors.lastOrNull { it.itemIndex <= index }
@@ -137,7 +144,7 @@ fun LazyListScrollIndicator(
         fun buildBubbleLabel(
             currentIndex: Int,
             totalItems: Int,
-            currentAnchor: LazyListScrollAnchor?
+            currentAnchor: LazyListScrollAnchor?,
         ): String {
             return bubbleLabel?.invoke(currentIndex, totalItems, currentAnchor)
                 ?: buildString {
@@ -153,7 +160,10 @@ fun LazyListScrollIndicator(
                 }
         }
 
-        fun showBubble(currentIndex: Int, fraction: Float) {
+        fun showBubble(
+            currentIndex: Int,
+            fraction: Float,
+        ) {
             val totalItems = listState.layoutInfo.totalItemsCount.coerceAtLeast(1)
             val currentAnchor = anchorForIndex(currentIndex)
             val text = buildBubbleLabel(currentIndex, totalItems, currentAnchor)
@@ -170,9 +180,10 @@ fun LazyListScrollIndicator(
 
         fun anchorSnapIndex(rawFraction: Float): Int? {
             if (anchorFractions.isEmpty()) return null
-            val nearest = anchorFractions.minByOrNull { (_, fraction) ->
-                kotlin.math.abs(fraction - rawFraction)
-            } ?: return null
+            val nearest =
+                anchorFractions.minByOrNull { (_, fraction) ->
+                    kotlin.math.abs(fraction - rawFraction)
+                } ?: return null
             val snapThreshold = 0.035f
             return if (kotlin.math.abs(nearest.second - rawFraction) <= snapThreshold) {
                 nearest.first.itemIndex
@@ -181,7 +192,10 @@ fun LazyListScrollIndicator(
             }
         }
 
-        fun scrollToFraction(rawFraction: Float, preferAnchorSnap: Boolean): Int {
+        fun scrollToFraction(
+            rawFraction: Float,
+            preferAnchorSnap: Boolean,
+        ): Int {
             val layoutInfo = listState.layoutInfo
             val totalItems = layoutInfo.totalItemsCount
             val visibleItems = layoutInfo.visibleItemsInfo
@@ -196,22 +210,25 @@ fun LazyListScrollIndicator(
                 return snappedIndex
             }
 
-            val viewportSize = (layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset)
-                .coerceAtLeast(1)
-                .toFloat()
-            val averageItemSize = visibleItems
-                .map { it.size }
-                .average()
-                .takeIf { it > 0.0 }
-                ?.toFloat()
-                ?: viewportSize
+            val viewportSize =
+                (layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset)
+                    .coerceAtLeast(1)
+                    .toFloat()
+            val averageItemSize =
+                visibleItems
+                    .map { it.size }
+                    .average()
+                    .takeIf { it > 0.0 }
+                    ?.toFloat()
+                    ?: viewportSize
             val estimatedVisibleItems = max(viewportSize / averageItemSize, 1f)
             val maxScrollableItems = (totalItems.toFloat() - estimatedVisibleItems).coerceAtLeast(0f)
             val targetScrolledItems = fraction * maxScrollableItems
             val targetIndex = targetScrolledItems.toInt().coerceIn(0, (totalItems - 1).coerceAtLeast(0))
-            val targetOffset = ((targetScrolledItems - targetIndex) * averageItemSize)
-                .roundToInt()
-                .coerceAtLeast(0)
+            val targetOffset =
+                ((targetScrolledItems - targetIndex) * averageItemSize)
+                    .roundToInt()
+                    .coerceAtLeast(0)
 
             coroutineScope.launch {
                 listState.scrollToItem(targetIndex, targetOffset)
@@ -222,61 +239,64 @@ fun LazyListScrollIndicator(
 
         bubble?.let { bubbleState ->
             val bubbleHeightPx = with(density) { 34.dp.toPx() }
-            val targetYPx = (bubbleState.centerYPx - bubbleHeightPx / 2f)
-                .coerceIn(bubbleVerticalPaddingPx, (fullHeightPx - bubbleHeightPx - bubbleVerticalPaddingPx).coerceAtLeast(0f))
+            val targetYPx =
+                (bubbleState.centerYPx - bubbleHeightPx / 2f)
+                    .coerceIn(bubbleVerticalPaddingPx, (fullHeightPx - bubbleHeightPx - bubbleVerticalPaddingPx).coerceAtLeast(0f))
             Text(
                 text = bubbleState.text,
-                modifier = Modifier
-                    .align(androidx.compose.ui.Alignment.TopEnd)
-                    .offset {
-                        IntOffset(
-                            x = -bubbleXOffsetPx,
-                            y = targetYPx.roundToInt()
-                        )
-                    }
-                    .clip(bubbleShape)
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                modifier =
+                    Modifier
+                        .align(androidx.compose.ui.Alignment.TopEnd)
+                        .offset {
+                            IntOffset(
+                                x = -bubbleXOffsetPx,
+                                y = targetYPx.roundToInt(),
+                            )
+                        }
+                        .clip(bubbleShape)
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(horizontal = 10.dp, vertical = 6.dp),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
 
         Box(
-            modifier = Modifier
-                .width(touchWidth)
-                .fillMaxHeight()
-                .pointerInput(listState, trackHeightPx, topPaddingPx, bottomPaddingPx, orderedAnchors) {
-                    detectTapGestures { offset ->
-                        val trackY = ((offset.y - topPaddingPx) / trackHeightPx).coerceIn(0f, 1f)
-                        val targetIndex = scrollToFraction(trackY, preferAnchorSnap = true)
-                        showBubble(targetIndex, trackY)
-                        hideBubbleSoon()
-                    }
-                }
-                .pointerInput(listState, trackHeightPx, topPaddingPx, bottomPaddingPx) {
-                    detectVerticalDragGestures(
-                        onDragStart = { offset ->
+            modifier =
+                Modifier
+                    .width(touchWidth)
+                    .fillMaxHeight()
+                    .pointerInput(listState, trackHeightPx, topPaddingPx, bottomPaddingPx, orderedAnchors) {
+                        detectTapGestures { offset ->
                             val trackY = ((offset.y - topPaddingPx) / trackHeightPx).coerceIn(0f, 1f)
                             val targetIndex = scrollToFraction(trackY, preferAnchorSnap = true)
                             showBubble(targetIndex, trackY)
-                        },
-                        onVerticalDrag = { change, _ ->
-                            val trackY = ((change.position.y - topPaddingPx) / trackHeightPx).coerceIn(0f, 1f)
-                            val targetIndex = scrollToFraction(trackY, preferAnchorSnap = true)
-                            showBubble(targetIndex, trackY)
-                            change.consume()
-                        },
-                        onDragEnd = {
                             hideBubbleSoon()
-                        },
-                        onDragCancel = {
-                            bubble = null
                         }
-                    )
-                }
+                    }
+                    .pointerInput(listState, trackHeightPx, topPaddingPx, bottomPaddingPx) {
+                        detectVerticalDragGestures(
+                            onDragStart = { offset ->
+                                val trackY = ((offset.y - topPaddingPx) / trackHeightPx).coerceIn(0f, 1f)
+                                val targetIndex = scrollToFraction(trackY, preferAnchorSnap = true)
+                                showBubble(targetIndex, trackY)
+                            },
+                            onVerticalDrag = { change, _ ->
+                                val trackY = ((change.position.y - topPaddingPx) / trackHeightPx).coerceIn(0f, 1f)
+                                val targetIndex = scrollToFraction(trackY, preferAnchorSnap = true)
+                                showBubble(targetIndex, trackY)
+                                change.consume()
+                            },
+                            onDragEnd = {
+                                hideBubbleSoon()
+                            },
+                            onDragCancel = {
+                                bubble = null
+                            },
+                        )
+                    },
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val trackWidth = with(density) { thickness.toPx() }
@@ -284,9 +304,10 @@ fun LazyListScrollIndicator(
                 val top = topPaddingPx.coerceAtMost(size.height)
                 val bottom = (size.height - bottomPaddingPx).coerceAtLeast(top)
                 val trackHeight = (bottom - top).coerceAtLeast(1f)
-                val thumbHeight = (trackHeight * metrics.visibleFraction)
-                    .coerceAtLeast(minThumbHeightPx)
-                    .coerceAtMost(trackHeight)
+                val thumbHeight =
+                    (trackHeight * metrics.visibleFraction)
+                        .coerceAtLeast(minThumbHeightPx)
+                        .coerceAtMost(trackHeight)
                 val thumbTop = top + (trackHeight - thumbHeight) * metrics.progress
                 val radius = CornerRadius(trackWidth / 2f, trackWidth / 2f)
 
@@ -294,21 +315,21 @@ fun LazyListScrollIndicator(
                     color = trackColor,
                     topLeft = Offset(left, top),
                     size = Size(trackWidth, trackHeight),
-                    cornerRadius = radius
+                    cornerRadius = radius,
                 )
                 anchorFractions.forEach { (_, fraction) ->
                     val anchorCenterY = top + trackHeight * fraction
                     drawCircle(
                         color = anchorColor,
                         radius = trackWidth,
-                        center = Offset(left + trackWidth / 2f, anchorCenterY)
+                        center = Offset(left + trackWidth / 2f, anchorCenterY),
                     )
                 }
                 drawRoundRect(
                     color = thumbColor,
                     topLeft = Offset(left, thumbTop),
                     size = Size(trackWidth, thumbHeight),
-                    cornerRadius = radius
+                    cornerRadius = radius,
                 )
             }
         }

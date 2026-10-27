@@ -8,7 +8,10 @@ import com.google.gson.JsonParser
 internal object KbAssetPathNormalizer {
     private const val ANDROID_ASSET_PREFIX = "file:///android_asset/"
 
-    fun resolveEntitySource(rawSource: String?, assetJsonPath: String?): String? {
+    fun resolveEntitySource(
+        rawSource: String?,
+        assetJsonPath: String?,
+    ): String? {
         val context = AssetContext.fromAssetJsonPath(assetJsonPath)
         return if (context != null) {
             val path = context.assetDirPath
@@ -22,7 +25,10 @@ internal object KbAssetPathNormalizer {
         return resolveEntitySource(rawSource = null, assetJsonPath = assetJsonPath)
     }
 
-    fun normalizeBlocksJson(rawBlocksJson: String?, assetJsonPath: String?): String? {
+    fun normalizeBlocksJson(
+        rawBlocksJson: String?,
+        assetJsonPath: String?,
+    ): String? {
         val blocks = rawBlocksJson?.takeIf { it.isNotBlank() } ?: return rawBlocksJson
         val context = AssetContext.fromAssetJsonPath(assetJsonPath)
         return try {
@@ -75,7 +81,10 @@ internal object KbAssetPathNormalizer {
         }
     }
 
-    fun normalizeMarkdownImageUris(markdown: String, assetJsonPath: String?): String {
+    fun normalizeMarkdownImageUris(
+        markdown: String,
+        assetJsonPath: String?,
+    ): String {
         val context = AssetContext.fromAssetJsonPath(assetJsonPath) ?: return markdown
         val imageRegex = Regex("!\\[[^]]*\\]\\(([^)]+)\\)")
         return imageRegex.replace(markdown) { match ->
@@ -85,7 +94,10 @@ internal object KbAssetPathNormalizer {
         }
     }
 
-    private fun normalizeElement(element: JsonElement, context: AssetContext): Boolean {
+    private fun normalizeElement(
+        element: JsonElement,
+        context: AssetContext,
+    ): Boolean {
         return when {
             element.isJsonArray -> normalizeArray(element.asJsonArray, context)
             element.isJsonObject -> normalizeObject(element.asJsonObject, context)
@@ -93,7 +105,10 @@ internal object KbAssetPathNormalizer {
         }
     }
 
-    private fun normalizeArray(array: JsonArray, context: AssetContext): Boolean {
+    private fun normalizeArray(
+        array: JsonArray,
+        context: AssetContext,
+    ): Boolean {
         var changed = false
         for (index in 0 until array.size()) {
             val child = array[index]
@@ -102,7 +117,10 @@ internal object KbAssetPathNormalizer {
         return changed
     }
 
-    private fun normalizeObject(obj: JsonObject, context: AssetContext): Boolean {
+    private fun normalizeObject(
+        obj: JsonObject,
+        context: AssetContext,
+    ): Boolean {
         var changed = false
         val imageKeys = setOf("src", "url", "imageSrc", "imageUri", "image_uri", "snapshotUri", "snapshot_uri")
         val entries = obj.entrySet().toList()
@@ -121,7 +139,10 @@ internal object KbAssetPathNormalizer {
         return changed
     }
 
-    private fun normalizeImageUri(raw: String, context: AssetContext): String {
+    private fun normalizeImageUri(
+        raw: String,
+        context: AssetContext,
+    ): String {
         var candidate = raw.trim().replace('\\', '/')
         if (candidate.isBlank()) return raw
         if (candidate.startsWith("http://", ignoreCase = true) ||
@@ -149,28 +170,32 @@ internal object KbAssetPathNormalizer {
             candidate = "file:///" + pathPart.replace(Regex("/{2,}"), "/")
         }
 
-        val relativePath = when {
-            candidate.startsWith(ANDROID_ASSET_PREFIX, ignoreCase = true) ->
-                normalizeAssetRelativePath(candidate.removePrefix(ANDROID_ASSET_PREFIX), context)
-            candidate.startsWith("/android_asset/", ignoreCase = true) ->
-                normalizeAssetRelativePath(candidate.removePrefix("/android_asset/"), context)
-            candidate.startsWith("assets/", ignoreCase = true) ->
-                normalizeAssetRelativePath(candidate.removePrefix("assets/"), context)
-            candidate.startsWith("/assets/", ignoreCase = true) ->
-                normalizeAssetRelativePath(candidate.removePrefix("/assets/"), context)
-            candidate.startsWith("kb/", ignoreCase = true) -> normalizeAssetRelativePath(candidate, context)
-            candidate.startsWith("/kb/", ignoreCase = true) ->
-                normalizeAssetRelativePath(candidate.removePrefix("/"), context)
-            candidate.startsWith("${context.assetDirName}/") -> normalizeAssetRelativePath(candidate, context)
-            candidate.startsWith("截图/") -> normalizeAssetRelativePath(candidate, context)
-            looksLikeImageFile(candidate) -> "${context.assetDirPath}/$candidate"
-            else -> null
-        }
+        val relativePath =
+            when {
+                candidate.startsWith(ANDROID_ASSET_PREFIX, ignoreCase = true) ->
+                    normalizeAssetRelativePath(candidate.removePrefix(ANDROID_ASSET_PREFIX), context)
+                candidate.startsWith("/android_asset/", ignoreCase = true) ->
+                    normalizeAssetRelativePath(candidate.removePrefix("/android_asset/"), context)
+                candidate.startsWith("assets/", ignoreCase = true) ->
+                    normalizeAssetRelativePath(candidate.removePrefix("assets/"), context)
+                candidate.startsWith("/assets/", ignoreCase = true) ->
+                    normalizeAssetRelativePath(candidate.removePrefix("/assets/"), context)
+                candidate.startsWith("kb/", ignoreCase = true) -> normalizeAssetRelativePath(candidate, context)
+                candidate.startsWith("/kb/", ignoreCase = true) ->
+                    normalizeAssetRelativePath(candidate.removePrefix("/"), context)
+                candidate.startsWith("${context.assetDirName}/") -> normalizeAssetRelativePath(candidate, context)
+                candidate.startsWith("截图/") -> normalizeAssetRelativePath(candidate, context)
+                looksLikeImageFile(candidate) -> "${context.assetDirPath}/$candidate"
+                else -> null
+            }
 
         return relativePath?.let { "$ANDROID_ASSET_PREFIX$it" } ?: raw
     }
 
-    private fun normalizeAssetRelativePath(rawPath: String, context: AssetContext): String? {
+    private fun normalizeAssetRelativePath(
+        rawPath: String,
+        context: AssetContext,
+    ): String? {
         val normalized = rawPath.trim().replace('\\', '/').trim('/').removePrefix("./")
         if (normalized.isBlank()) return null
         if (normalized == context.assetDirPath || normalized.startsWith("${context.assetDirPath}/")) {
@@ -203,18 +228,20 @@ internal object KbAssetPathNormalizer {
 
     private data class AssetContext(
         val assetDirPath: String,
-        val assetDirName: String
+        val assetDirName: String,
     ) {
         companion object {
             fun fromAssetJsonPath(assetJsonPath: String?): AssetContext? {
-                val normalized = assetJsonPath
-                    ?.trim()
-                    ?.replace('\\', '/')
-                    ?.trim('/')
-                    ?.takeIf { it.isNotBlank() }
-                    ?: return null
-                val assetDir = normalized.substringBeforeLast('/', normalized).trim('/').takeIf { it.isNotBlank() }
-                    ?: return null
+                val normalized =
+                    assetJsonPath
+                        ?.trim()
+                        ?.replace('\\', '/')
+                        ?.trim('/')
+                        ?.takeIf { it.isNotBlank() }
+                        ?: return null
+                val assetDir =
+                    normalized.substringBeforeLast('/', normalized).trim('/').takeIf { it.isNotBlank() }
+                        ?: return null
                 val assetDirName = assetDir.substringAfterLast('/').takeIf { it.isNotBlank() } ?: return null
                 return AssetContext(assetDirPath = assetDir, assetDirName = assetDirName)
             }

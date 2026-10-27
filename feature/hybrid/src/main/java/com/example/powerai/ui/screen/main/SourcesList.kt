@@ -28,14 +28,16 @@ fun SourcesList(sources: List<String>) {
             text = url,
             style = MaterialTheme.typography.bodySmall.copy(textDecoration = TextDecoration.Underline),
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp)
-                .clickable {
-                    try {
-                        uriHandler.openUri(url)
-                    } catch (_: Throwable) {}
-                }
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp)
+                    .clickable {
+                        try {
+                            uriHandler.openUri(url)
+                        } catch (_: Throwable) {
+                        }
+                    },
         )
     }
 }

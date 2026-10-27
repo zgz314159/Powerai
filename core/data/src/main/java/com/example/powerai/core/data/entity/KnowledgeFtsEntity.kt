@@ -8,5 +8,5 @@ import androidx.room.Fts4
 data class KnowledgeFtsEntity(
     val title: String,
     val source: String,
-    val searchContent: String
+    val searchContent: String,
 )

@@ -19,13 +19,13 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import org.mockito.ArgumentMatchers.anyFloat
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28], application = android.app.Application::class)
@@ -71,26 +71,28 @@ class SettingsViewModelTest {
     private fun createVm() = SettingsViewModel(importPort, dao, fontSettings, context)
 
     @Test
-    fun `versionName initialized from context`() = runTest {
-        Dispatchers.setMain(StandardTestDispatcher(this.testScheduler))
-        val vm = createVm()
-        advanceUntilIdle()
-        assertEquals("1.2.3", vm.uiState.value.versionName)
-    }
+    fun `versionName initialized from context`() =
+        runTest {
+            Dispatchers.setMain(StandardTestDispatcher(this.testScheduler))
+            val vm = createVm()
+            advanceUntilIdle()
+            assertEquals("1.2.3", vm.uiState.value.versionName)
+        }
 
     @Test
-    fun `onVersionTapped emits after five taps`() = runTest {
-        Dispatchers.setMain(StandardTestDispatcher(this.testScheduler))
-        val vm = createVm()
-        val events = mutableListOf<Unit>()
-        val job = this.launch { vm.devBackdoor.collect { events.add(Unit) } }
-        repeat(5) {
-            vm.onIntent(SettingsIntent.OnVersionTapped)
-            advanceUntilIdle()
+    fun `onVersionTapped emits after five taps`() =
+        runTest {
+            Dispatchers.setMain(StandardTestDispatcher(this.testScheduler))
+            val vm = createVm()
+            val events = mutableListOf<Unit>()
+            val job = this.launch { vm.devBackdoor.collect { events.add(Unit) } }
+            repeat(5) {
+                vm.onIntent(SettingsIntent.OnVersionTapped)
+                advanceUntilIdle()
+            }
+            assertEquals(1, events.size)
+            job.cancel()
         }
-        assertEquals(1, events.size)
-        job.cancel()
-    }
 
     @Test
     fun `setDetailContentFontScale clamps values`() {

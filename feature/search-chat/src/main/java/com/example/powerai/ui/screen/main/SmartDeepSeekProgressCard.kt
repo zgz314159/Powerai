@@ -29,18 +29,19 @@ fun SmartDeepSeekProgressCard(
     thinkingPreview: String,
     showAbort: Boolean,
     onAbort: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val elapsedMs by produceState(initialValue = 0L, key1 = askedAtMillis, key2 = progressState.phase) {
         while (askedAtMillis != null && progressState.phase != SmartProgressPhase.IDLE && progressState.showAsActive) {
             value = System.currentTimeMillis() - askedAtMillis
             delay(250)
         }
-        value = if (askedAtMillis != null) {
-            (System.currentTimeMillis() - askedAtMillis).coerceAtLeast(0L)
-        } else {
-            0L
-        }
+        value =
+            if (askedAtMillis != null) {
+                (System.currentTimeMillis() - askedAtMillis).coerceAtLeast(0L)
+            } else {
+                0L
+            }
     }
 
     fun headlineText(): String {
@@ -53,13 +54,14 @@ fun SmartDeepSeekProgressCard(
                 }
             }
             SmartProgressPhase.STOPPING -> "已发送停止请求，正在等待底层模型停稳"
-            else -> buildString {
-                append(progressState.statusText.ifBlank { "正在处理你的问题" })
-                if (elapsedMs > 0L) {
-                    append(" · 已耗时 ")
-                    append(String.format("%.1fs", elapsedMs / 1000.0))
+            else ->
+                buildString {
+                    append(progressState.statusText.ifBlank { "正在处理你的问题" })
+                    if (elapsedMs > 0L) {
+                        append(" · 已耗时 ")
+                        append(String.format("%.1fs", elapsedMs / 1000.0))
+                    }
                 }
-            }
         }
     }
 
@@ -78,22 +80,24 @@ fun SmartDeepSeekProgressCard(
     if (progressState.phase == SmartProgressPhase.IDLE && thinkingPreview.isBlank()) return
 
     Surface(
-        modifier = modifier
-            .padding(horizontal = 8.dp, vertical = 6.dp)
-            .heightIn(max = 240.dp),
+        modifier =
+            modifier
+                .padding(horizontal = 8.dp, vertical = 6.dp)
+                .heightIn(max = 240.dp),
         shape = MaterialTheme.shapes.large,
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f),
-        tonalElevation = 0.dp
+        tonalElevation = 0.dp,
     ) {
         Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+            modifier =
+                Modifier
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
         ) {
             Text(
                 text = progressState.phase.label,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.92f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.92f),
             )
             Spacer(modifier = Modifier.height(6.dp))
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
@@ -101,7 +105,7 @@ fun SmartDeepSeekProgressCard(
             Text(
                 text = headlineText(),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.88f)
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.88f),
             )
             if (showAbort) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -114,7 +118,7 @@ fun SmartDeepSeekProgressCard(
                 Text(
                     text = detailText(),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.78f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.78f),
                 )
             }
             if (progressState.steps.isNotEmpty()) {
@@ -122,7 +126,7 @@ fun SmartDeepSeekProgressCard(
                 Text(
                     text = "流程轨迹",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f),
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 progressState.steps.forEach { step ->
@@ -130,7 +134,7 @@ fun SmartDeepSeekProgressCard(
                         text = step,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.84f),
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier = Modifier.padding(bottom = 4.dp),
                     )
                 }
             }
@@ -139,13 +143,13 @@ fun SmartDeepSeekProgressCard(
                 Text(
                     text = "思考过",
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f),
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = thinkingPreview,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.88f)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.88f),
                 )
             }
         }

@@ -12,7 +12,6 @@ import org.mockito.kotlin.whenever
 import java.io.File
 
 class HybridViewModelRuntimeSupportTest {
-
     @Test
     fun `importDocument delegates import and replays current query when present`() {
         val importer = Mockito.mock(HybridKbImportPort::class.java)

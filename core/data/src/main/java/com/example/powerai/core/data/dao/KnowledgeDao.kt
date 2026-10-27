@@ -43,7 +43,7 @@ interface KnowledgeDao {
 
     @Query(
         "SELECT id, title, substr(content, 1, 4000) AS content, source, category, pageNumber, sortOrder, imageUris " +
-            "FROM knowledge ORDER BY id ASC"
+            "FROM knowledge ORDER BY id ASC",
     )
     suspend fun getAllForDatabaseList(): List<KnowledgeListItemEntity>
 
@@ -55,13 +55,13 @@ interface KnowledgeDao {
             "contentBlocksJson = :contentBlocksJson, " +
             "contentNormalized = :contentNormalized, " +
             "searchContent = :searchContent " +
-            "WHERE id = :id"
+            "WHERE id = :id",
     )
     suspend fun updateBlocksJsonAndSearchFields(
         id: Long,
         contentBlocksJson: String,
         contentNormalized: String,
-        searchContent: String
+        searchContent: String,
     )
 
     @Query("SELECT * FROM knowledge WHERE contentNormalized = ''")
@@ -71,25 +71,28 @@ interface KnowledgeDao {
     suspend fun countEntriesMissingNormalized(): Int
 
     @Query("UPDATE knowledge SET contentNormalized = :normalized, searchContent = :normalized WHERE id = :id")
-    suspend fun updateNormalizedContent(id: Long, normalized: String)
+    suspend fun updateNormalizedContent(
+        id: Long,
+        normalized: String,
+    )
 
     @Query(
         "SELECT * FROM knowledge " +
             "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%' " +
             "OR title LIKE '%' || :keyword || '%' " +
-            "OR source LIKE '%' || :keyword || '%'"
+            "OR source LIKE '%' || :keyword || '%'",
     )
     suspend fun searchByKeyword(keyword: String): List<KnowledgeEntity>
 
     @Query(
         "SELECT * FROM knowledge " +
-            "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%'"
+            "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%'",
     )
     suspend fun searchByKeywordInContent(keyword: String): List<KnowledgeEntity>
 
     @Query(
         "SELECT id, title, substr(content, 1, 4000) AS content, source, category, pageNumber, sortOrder, imageUris FROM knowledge " +
-            "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%'"
+            "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE '%' || :keyword || '%'",
     )
     suspend fun searchByKeywordInContentForDatabase(keyword: String): List<KnowledgeListItemEntity>
 
@@ -138,30 +141,36 @@ interface KnowledgeDao {
     @Query(
         "SELECT COUNT(1) FROM knowledge " +
             "WHERE source LIKE :sourcePrefix || '%' " +
-            "AND REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'"
+            "AND REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'",
     )
-    suspend fun countMatchesBySourcePrefix(sourcePrefix: String, keywordNoSpace: String): Int
+    suspend fun countMatchesBySourcePrefix(
+        sourcePrefix: String,
+        keywordNoSpace: String,
+    ): Int
 
     @Query("SELECT * FROM knowledge WHERE source LIKE :sourcePrefix || '%' LIMIT :limit")
-    suspend fun sampleBySourcePrefix(sourcePrefix: String, limit: Int): List<KnowledgeEntity>
+    suspend fun sampleBySourcePrefix(
+        sourcePrefix: String,
+        limit: Int,
+    ): List<KnowledgeEntity>
 
     @Query(
         "SELECT * FROM knowledge " +
             "WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%' " +
             "OR REPLACE(title, ' ', '') LIKE '%' || :keywordNoSpace || '%' " +
-            "OR REPLACE(source, ' ', '') LIKE '%' || :keywordNoSpace || '%'"
+            "OR REPLACE(source, ' ', '') LIKE '%' || :keywordNoSpace || '%'",
     )
     suspend fun searchByKeywordNoSpace(keywordNoSpace: String): List<KnowledgeEntity>
 
     @Query(
         "SELECT * FROM knowledge " +
-            "WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'"
+            "WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'",
     )
     suspend fun searchByKeywordNoSpaceInContent(keywordNoSpace: String): List<KnowledgeEntity>
 
     @Query(
         "SELECT id, title, substr(content, 1, 4000) AS content, source, category, pageNumber, sortOrder, imageUris FROM knowledge " +
-            "WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'"
+            "WHERE REPLACE((CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END), ' ', '') LIKE '%' || :keywordNoSpace || '%'",
     )
     suspend fun searchByKeywordNoSpaceInContentForDatabase(keywordNoSpace: String): List<KnowledgeListItemEntity>
 
@@ -174,7 +183,7 @@ interface KnowledgeDao {
             "FROM knowledge " +
             "ORDER BY COALESCE(LENGTH(contentBlocksJson), 0) DESC, " +
             "COALESCE(LENGTH(content), 0) DESC, " +
-            "COALESCE(LENGTH(imageUris), 0) DESC, id ASC LIMIT :limit"
+            "COALESCE(LENGTH(imageUris), 0) DESC, id ASC LIMIT :limit",
     )
     suspend fun getLargestKnowledgeRows(limit: Int): List<KnowledgeRowPayloadStat>
 
@@ -182,7 +191,7 @@ interface KnowledgeDao {
         "SELECT * FROM knowledge " +
             "WHERE (CASE WHEN searchContent IS NULL OR searchContent = '' THEN content ELSE searchContent END) LIKE :pattern ESCAPE '/' " +
             "OR title LIKE :pattern ESCAPE '/' " +
-            "OR source LIKE :pattern ESCAPE '/'"
+            "OR source LIKE :pattern ESCAPE '/'",
     )
     suspend fun searchByKeywordFuzzy(pattern: String): List<KnowledgeEntity>
 
@@ -222,8 +231,14 @@ interface KnowledgeDao {
     suspend fun getImportedFiles(): List<ImportedFileEntity>
 
     @Query("SELECT COUNT(1) FROM knowledge WHERE source LIKE '%' || :fileId || '%' AND pageNumber = :page")
-    suspend fun countByPage(fileId: String, page: Int): Int
+    suspend fun countByPage(
+        fileId: String,
+        page: Int,
+    ): Int
 
     @Query("SELECT * FROM knowledge WHERE source LIKE '%' || :fileId || '%' AND pageNumber = :page ORDER BY id ASC")
-    suspend fun getByPage(fileId: String, page: Int): List<KnowledgeEntity>
+    suspend fun getByPage(
+        fileId: String,
+        page: Int,
+    ): List<KnowledgeEntity>
 }

@@ -1,13 +1,9 @@
 package com.example.powerai.domain.util
 
-import com.example.powerai.core.model.util.TextSanitizer
-
 import com.example.powerai.core.model.util.BlocksJsonUtils
-import com.example.powerai.core.model.util.BlocksJsonUtils.asJsonObjectOrNull
-import com.example.powerai.core.model.util.BlocksJsonUtils.stringOrNull
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
+import com.example.powerai.core.model.util.TextSanitizer
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 
 object SemanticRoleSearchTextBuilder {
     data class SemanticRoleProfile(
@@ -26,52 +22,54 @@ object SemanticRoleSearchTextBuilder {
         val figureCaptionMatchCount: Int = 0,
         val matchedFigureLabel: String = "",
         val matchedFigureCaption: String = "",
-        val matchedCanonicalFigureNodeId: String = ""
+        val matchedCanonicalFigureNodeId: String = "",
     )
 
-    private val roleWeights = linkedMapOf(
-        "heading" to 3,
-        "body" to 2,
-        "table" to 2,
-        "figure_node" to 1,
-        "table_note" to 1,
-        "caption" to 1,
-        "artifact" to 0,
-        "figure" to 0
-    )
+    private val roleWeights =
+        linkedMapOf(
+            "heading" to 3,
+            "body" to 2,
+            "table" to 2,
+            "figure_node" to 1,
+            "table_note" to 1,
+            "caption" to 1,
+            "artifact" to 0,
+            "figure" to 0,
+        )
 
     private val contentKeys = listOf("code", "markdown", "text", "title", "content", "caption", "alt", "label")
     private val arrayKeys = listOf("cells", "rows", "spans")
-    private val metaKeys = setOf(
-        "id",
-        "blockid",
-        "type",
-        "blocktype",
-        "language",
-        "pagenumber",
-        "position",
-        "kind",
-        "contextlabel",
-        "semanticrole",
-        "bbox",
-        "boundbox",
-        "boundingbox",
-        "readorder",
-        "readingoOrder",
-        "structuresource",
-        "src",
-        "imageuri",
-        "image_uri",
-        "imageuris",
-        "snapshoturi",
-        "snapshot_uri",
-        "labelnormalized",
-        "captiontexts",
-        "captionblockids",
-        "imageblockids",
-        "pagenumbers",
-        "continued"
-    )
+    private val metaKeys =
+        setOf(
+            "id",
+            "blockid",
+            "type",
+            "blocktype",
+            "language",
+            "pagenumber",
+            "position",
+            "kind",
+            "contextlabel",
+            "semanticrole",
+            "bbox",
+            "boundbox",
+            "boundingbox",
+            "readorder",
+            "readingoOrder",
+            "structuresource",
+            "src",
+            "imageuri",
+            "image_uri",
+            "imageuris",
+            "snapshoturi",
+            "snapshot_uri",
+            "labelnormalized",
+            "captiontexts",
+            "captionblockids",
+            "imageblockids",
+            "pagenumbers",
+            "continued",
+        )
 
     fun buildSearchPayload(
         title: String,
@@ -80,7 +78,7 @@ object SemanticRoleSearchTextBuilder {
         pageNumber: Int?,
         keywords: List<String>,
         plainText: String,
-        blocksJson: String?
+        blocksJson: String?,
     ): String {
         val weightedPlainText = buildWeightedPlainText(blocksJson, plainText)
         return ContextualSearchTextBuilder.buildSearchPayload(
@@ -89,7 +87,7 @@ object SemanticRoleSearchTextBuilder {
             category = category,
             pageNumber = pageNumber,
             keywords = keywords,
-            plainText = weightedPlainText
+            plainText = weightedPlainText,
         )
     }
 
@@ -100,7 +98,7 @@ object SemanticRoleSearchTextBuilder {
         pageNumber: Int?,
         keywords: List<String>,
         plainText: String,
-        blocksJson: String?
+        blocksJson: String?,
     ): String {
         return TextSanitizer.normalizeForSearch(
             buildSearchPayload(
@@ -110,12 +108,16 @@ object SemanticRoleSearchTextBuilder {
                 pageNumber = pageNumber,
                 keywords = keywords,
                 plainText = plainText,
-                blocksJson = blocksJson
-            )
+                blocksJson = blocksJson,
+            ),
         )
     }
 
-    fun analyze(blocksJson: String?, fallbackPlainText: String = "", query: String = ""): SemanticRoleProfile {
+    fun analyze(
+        blocksJson: String?,
+        fallbackPlainText: String = "",
+        query: String = "",
+    ): SemanticRoleProfile {
         val root = blocksJson?.takeIf { it.isNotBlank() }?.let { BlocksJsonUtils.parseRoot(it) }
         val collected = collectRoleTexts(root)
         val figureSignals = collectFigureNodeSignals(root, query)
@@ -124,7 +126,7 @@ object SemanticRoleSearchTextBuilder {
                 totalBlocks = if (fallbackPlainText.isBlank()) 0 else 1,
                 bodyCount = if (fallbackPlainText.isBlank()) 0 else 1,
                 dominantRole = if (fallbackPlainText.isBlank()) "" else "body",
-                lowValueOnly = false
+                lowValueOnly = false,
             )
         }
 
@@ -147,14 +149,14 @@ object SemanticRoleSearchTextBuilder {
             figureCaptionMatchCount = figureSignals.captionMatchCount,
             matchedFigureLabel = figureSignals.matchedLabel,
             matchedFigureCaption = figureSignals.matchedCaption,
-            matchedCanonicalFigureNodeId = figureSignals.matchedCanonicalId
+            matchedCanonicalFigureNodeId = figureSignals.matchedCanonicalId,
         )
     }
 
     private data class CollectedRoleTexts(
         val roleTexts: LinkedHashMap<String, MutableList<String>>,
         val roleCounts: MutableMap<String, Int>,
-        val totalBlocks: Int
+        val totalBlocks: Int,
     )
 
     private data class FigureNodeSignals(
@@ -162,10 +164,13 @@ object SemanticRoleSearchTextBuilder {
         val captionMatchCount: Int = 0,
         val matchedLabel: String = "",
         val matchedCaption: String = "",
-        val matchedCanonicalId: String = ""
+        val matchedCanonicalId: String = "",
     )
 
-    private fun buildWeightedPlainText(blocksJson: String?, fallbackPlainText: String): String {
+    private fun buildWeightedPlainText(
+        blocksJson: String?,
+        fallbackPlainText: String,
+    ): String {
         val root = blocksJson?.takeIf { it.isNotBlank() }?.let { BlocksJsonUtils.parseRoot(it) }
         val collected = collectRoleTexts(root)
         val weighted = mutableListOf<String>()
@@ -177,7 +182,6 @@ object SemanticRoleSearchTextBuilder {
             val joined = texts.joinToString("\n")
             repeat(weight) { weighted += joined }
         }
-
         val lowValueOnly = ((collected.roleCounts["heading"] ?: 0) + (collected.roleCounts["body"] ?: 0) + (collected.roleCounts["table"] ?: 0)) == 0
         if (fallback.isNotBlank() && (weighted.isEmpty() || (lowValueOnly && looksLikeBodyFallback(fallback)))) {
             weighted += fallback
@@ -192,19 +196,22 @@ object SemanticRoleSearchTextBuilder {
         root ?: return CollectedRoleTexts(roleTexts, roleCounts, 0)
         val blocks = BlocksJsonUtils.extractBlocksArray(root)
 
-        val figureNodes = if (root.isJsonObject) {
-            val obj = root.asJsonObject
-            val keys = listOf("figureNodes", "figure_nodes")
-            var found: JsonArray? = null
-            for (k in keys) {
-                val v = obj.get(k)
-                if (v != null && v.isJsonArray) {
-                    found = v.asJsonArray
-                    break
+        val figureNodes =
+            if (root.isJsonObject) {
+                val obj = root.asJsonObject
+                val keys = listOf("figureNodes", "figure_nodes")
+                var found: JsonArray? = null
+                for (k in keys) {
+                    val v = obj.get(k)
+                    if (v != null && v.isJsonArray) {
+                        found = v.asJsonArray
+                        break
+                    }
                 }
+                found
+            } else {
+                null
             }
-            found
-        } else null
 
         var totalBlocks = 0
         if (blocks != null) {
@@ -236,20 +243,26 @@ object SemanticRoleSearchTextBuilder {
         return CollectedRoleTexts(roleTexts, roleCounts, 1)
     }
 
-    private fun collectFigureNodeSignals(root: JsonElement?, query: String): FigureNodeSignals {
-        val figureNodes = if (root != null && root.isJsonObject) {
-            val obj = root.asJsonObject
-            val keys = listOf("figureNodes", "figure_nodes")
-            var found: JsonArray? = null
-            for (k in keys) {
-                val v = obj.get(k)
-                if (v != null && v.isJsonArray) {
-                    found = v.asJsonArray
-                    break
+    private fun collectFigureNodeSignals(
+        root: JsonElement?,
+        query: String,
+    ): FigureNodeSignals {
+        val figureNodes =
+            if (root != null && root.isJsonObject) {
+                val obj = root.asJsonObject
+                val keys = listOf("figureNodes", "figure_nodes")
+                var found: JsonArray? = null
+                for (k in keys) {
+                    val v = obj.get(k)
+                    if (v != null && v.isJsonArray) {
+                        found = v.asJsonArray
+                        break
+                    }
                 }
+                found
+            } else {
+                null
             }
-            found
-        } else null
 
         if (figureNodes == null) return FigureNodeSignals()
 
@@ -268,17 +281,19 @@ object SemanticRoleSearchTextBuilder {
             val node = figureNodes.get(i)
             val obj = node.takeIf { it.isJsonObject }?.asJsonObject ?: continue
             val canonical = obj.get("canonicalFigureNode")?.takeIf { it.isJsonObject }?.asJsonObject
-            val label = normalizeWs(
-                firstNonBlank(
-                    obj.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
-                    canonical?.get("label")?.takeIf { it.isJsonPrimitive }?.asString
-                ).orEmpty()
-            )
+            val label =
+                normalizeWs(
+                    firstNonBlank(
+                        obj.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
+                        canonical?.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
+                    ).orEmpty(),
+                )
             val caption = normalizeWs(extractFigureNodeText(node))
-            val canonicalId = firstNonBlank(
-                obj.get("canonicalFigureNodeId")?.takeIf { it.isJsonPrimitive }?.asString,
-                canonical?.get("id")?.takeIf { it.isJsonPrimitive }?.asString
-            ).orEmpty()
+            val canonicalId =
+                firstNonBlank(
+                    obj.get("canonicalFigureNodeId")?.takeIf { it.isJsonPrimitive }?.asString,
+                    canonical?.get("id")?.takeIf { it.isJsonPrimitive }?.asString,
+                ).orEmpty()
 
             if (matchesQuery(label, normalizedQuery, noSpaceQuery)) {
                 labelMatches++
@@ -297,7 +312,7 @@ object SemanticRoleSearchTextBuilder {
             captionMatchCount = captionMatches,
             matchedLabel = matchedLabel,
             matchedCaption = matchedCaption,
-            matchedCanonicalId = matchedCanonicalId
+            matchedCanonicalId = matchedCanonicalId,
         )
     }
 
@@ -318,18 +333,22 @@ object SemanticRoleSearchTextBuilder {
         val obj = element?.takeIf { it.isJsonObject }?.asJsonObject ?: return extractText(element)
         val canonical = obj.get("canonicalFigureNode")?.takeIf { it.isJsonObject }?.asJsonObject
         val parts = linkedSetOf<String>()
-        normalizeWs(firstNonBlank(
-            obj.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
-            canonical?.get("label")?.takeIf { it.isJsonPrimitive }?.asString
-        ).orEmpty())
+        normalizeWs(
+            firstNonBlank(
+                obj.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
+                canonical?.get("label")?.takeIf { it.isJsonPrimitive }?.asString,
+            ).orEmpty(),
+        )
             .takeIf { it.isNotBlank() }
             ?.let(parts::add)
-        normalizeWs(firstNonBlank(
-            obj.get("resolvedCaption")?.takeIf { it.isJsonPrimitive }?.asString,
-            obj.get("caption")?.takeIf { it.isJsonPrimitive }?.asString,
-            canonical?.get("resolvedCaption")?.takeIf { it.isJsonPrimitive }?.asString,
-            canonical?.get("caption")?.takeIf { it.isJsonPrimitive }?.asString
-        ).orEmpty())
+        normalizeWs(
+            firstNonBlank(
+                obj.get("resolvedCaption")?.takeIf { it.isJsonPrimitive }?.asString,
+                obj.get("caption")?.takeIf { it.isJsonPrimitive }?.asString,
+                canonical?.get("resolvedCaption")?.takeIf { it.isJsonPrimitive }?.asString,
+                canonical?.get("caption")?.takeIf { it.isJsonPrimitive }?.asString,
+            ).orEmpty(),
+        )
             .takeIf { it.isNotBlank() }
             ?.let(parts::add)
         val captionTexts = obj.get("captionTexts")
@@ -355,7 +374,11 @@ object SemanticRoleSearchTextBuilder {
         return values.firstOrNull { !it.isNullOrBlank() }?.trim()
     }
 
-    private fun matchesQuery(text: String, normalizedQuery: String, noSpaceQuery: String): Boolean {
+    private fun matchesQuery(
+        text: String,
+        normalizedQuery: String,
+        noSpaceQuery: String,
+    ): Boolean {
         if (text.isBlank() || normalizedQuery.isBlank()) return false
         val normalizedText = TextSanitizer.normalizeForSearch(text).lowercase()
         if (normalizedText.contains(normalizedQuery)) return true
@@ -364,7 +387,11 @@ object SemanticRoleSearchTextBuilder {
         return noSpaceText.contains(noSpaceQuery)
     }
 
-    private fun addRoleText(target: LinkedHashMap<String, MutableList<String>>, role: String, text: String) {
+    private fun addRoleText(
+        target: LinkedHashMap<String, MutableList<String>>,
+        role: String,
+        text: String,
+    ) {
         val clean = normalizeWs(text)
         if (clean.isBlank()) return
         val bucket = target.getOrPut(role) { mutableListOf() }

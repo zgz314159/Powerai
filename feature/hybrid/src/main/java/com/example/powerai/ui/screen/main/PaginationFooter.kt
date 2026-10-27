@@ -27,14 +27,15 @@ fun PaginationFooter(
     hasPrev: Boolean,
     hasNext: Boolean,
     onPrev: () -> Unit,
-    onNext: () -> Unit
+    onNext: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
     ) {
         OutlinedIconButton(onClick = onPrev, enabled = hasPrev) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "上一")
@@ -42,12 +43,12 @@ fun PaginationFooter(
 
         Surface(
             color = androidx.compose.material3.MaterialTheme.colorScheme.secondaryContainer,
-            shape = CircleShape
+            shape = CircleShape,
         ) {
             Text(
                 text = if (totalPages != null && totalPages > 0) "第 $currentPage / $totalPages 页" else "第 $currentPage 页",
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                style = androidx.compose.material3.MaterialTheme.typography.labelLarge
+                style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
             )
         }
 

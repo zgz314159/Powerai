@@ -12,10 +12,16 @@ interface VisionCacheDao {
     suspend fun getAllForEntity(entityId: Long): List<VisionCacheEntity>
 
     @Query("SELECT * FROM vision_cache WHERE entityId = :entityId AND blockId = :blockId LIMIT 1")
-    suspend fun getOne(entityId: Long, blockId: String): VisionCacheEntity?
+    suspend fun getOne(
+        entityId: Long,
+        blockId: String,
+    ): VisionCacheEntity?
 
     @Query("DELETE FROM vision_cache WHERE entityId = :entityId AND blockId = :blockId")
-    suspend fun deleteOne(entityId: Long, blockId: String)
+    suspend fun deleteOne(
+        entityId: Long,
+        blockId: String,
+    )
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(entity: VisionCacheEntity)

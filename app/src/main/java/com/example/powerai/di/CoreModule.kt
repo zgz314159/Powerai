@@ -20,10 +20,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CoreModule {
-
     @Provides
     @Singleton
-    fun provideFilesDir(@ApplicationContext context: Context): File = context.filesDir
+    fun provideFilesDir(
+        @ApplicationContext context: Context,
+    ): File = context.filesDir
 
     @Provides
     @Singleton
@@ -36,19 +37,25 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+    fun provideWorkManager(
+        @ApplicationContext context: Context,
+    ): WorkManager {
         return WorkManager.getInstance(context)
     }
 
     @Provides
     @Singleton
-    fun provideObservability(@ApplicationContext context: Context): com.example.powerai.core.model.ObservabilityService {
+    fun provideObservability(
+        @ApplicationContext context: Context,
+    ): com.example.powerai.core.model.ObservabilityService {
         return com.example.powerai.core.data.util.ObservabilityServiceImpl(context)
     }
 
     @Provides
     @Singleton
-    fun provideFontSettings(@ApplicationContext context: Context): com.example.powerai.data.settings.FontSettings {
+    fun provideFontSettings(
+        @ApplicationContext context: Context,
+    ): com.example.powerai.data.settings.FontSettings {
         return com.example.powerai.data.settings.FontSettings(context)
     }
 }

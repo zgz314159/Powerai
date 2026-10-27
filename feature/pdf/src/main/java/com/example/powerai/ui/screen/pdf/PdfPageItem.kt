@@ -1,9 +1,5 @@
 package com.example.powerai.ui.screen.pdf
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import androidx.compose.foundation.Canvas
@@ -17,8 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -94,7 +93,7 @@ private suspend fun renderPage(
 internal fun PdfPageItem(
     pageIndex: Int,
     rendererProvider: () -> PdfRenderer?,
-    highlightBox: PdfBoundingBox?
+    highlightBox: PdfBoundingBox?,
 ) {
     val density = LocalDensity.current
     val renderer = rendererProvider()
@@ -105,31 +104,34 @@ internal fun PdfPageItem(
     }
 
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
     ) {
         val targetWidthPx = constraints.maxWidth.coerceAtLeast(1)
-        val bitmapState = produceState<Bitmap?>(
-            initialValue = null,
-            key1 = pageIndex,
-            key2 = renderer,
-            key3 = targetWidthPx
-        ) {
-            value = null
-            if (renderer == null) return@produceState
-            val rendered = renderPage(renderer, pageIndex, targetWidthPx)
-            originalPageSize = rendered.pageSize
-            value = rendered.bitmap
-        }
+        val bitmapState =
+            produceState<Bitmap?>(
+                initialValue = null,
+                key1 = pageIndex,
+                key2 = renderer,
+                key3 = targetWidthPx,
+            ) {
+                value = null
+                if (renderer == null) return@produceState
+                val rendered = renderPage(renderer, pageIndex, targetWidthPx)
+                originalPageSize = rendered.pageSize
+                value = rendered.bitmap
+            }
 
         val bmp = bitmapState.value
         if (bmp == null) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(220.dp),
+                contentAlignment = Alignment.Center,
             ) {
                 Text("第 ${pageIndex + 1} 页渲染失败", color = Color.Gray)
             }
@@ -149,35 +151,38 @@ internal fun PdfPageItem(
         val pageHeightPx = (pageWidthPx * bmp.height.toFloat() / bmp.width.toFloat()).coerceAtLeast(1f)
         val pageHeightDp = with(density) { pageHeightPx.toDp() }
 
-        val focusTransform = remember(highlightBox, originalPageSize, pageWidthPx, pageHeightPx) {
-            calculateFocusTransform(highlightBox, originalPageSize, pageWidthPx, pageHeightPx)
-        }
+        val focusTransform =
+            remember(highlightBox, originalPageSize, pageWidthPx, pageHeightPx) {
+                calculateFocusTransform(highlightBox, originalPageSize, pageWidthPx, pageHeightPx)
+            }
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(pageHeightDp)
-                .clipToBounds()
-        ) {
-            val contentModifier = if (focusTransform != null) {
+            modifier =
                 Modifier
-                    .fillMaxSize()
-                    .graphicsLayer {
-                        scaleX = focusTransform.scale
-                        scaleY = focusTransform.scale
-                        translationX = focusTransform.tx
-                        translationY = focusTransform.ty
-                    }
-            } else {
-                Modifier.fillMaxSize()
-            }
+                    .fillMaxWidth()
+                    .height(pageHeightDp)
+                    .clipToBounds(),
+        ) {
+            val contentModifier =
+                if (focusTransform != null) {
+                    Modifier
+                        .fillMaxSize()
+                        .graphicsLayer {
+                            scaleX = focusTransform.scale
+                            scaleY = focusTransform.scale
+                            translationX = focusTransform.tx
+                            translationY = focusTransform.ty
+                        }
+                } else {
+                    Modifier.fillMaxSize()
+                }
 
             Box(modifier = contentModifier) {
                 Image(
                     bitmap = bmp.asImageBitmap(),
                     contentDescription = "page_${pageIndex + 1}",
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.FillBounds
+                    contentScale = ContentScale.FillBounds,
                 )
                 HighlightOverlay(highlightBox, originalPageSize)
             }
@@ -189,7 +194,7 @@ private fun calculateFocusTransform(
     highlightBox: PdfBoundingBox?,
     originalPageSize: Size?,
     pageWidthPx: Float,
-    pageHeightPx: Float
+    pageHeightPx: Float,
 ): FocusTransform? {
     if (highlightBox == null || originalPageSize == null) return null
 
@@ -223,7 +228,10 @@ private fun calculateFocusTransform(
 }
 
 @Composable
-private fun HighlightOverlay(highlightBox: PdfBoundingBox?, originalPageSize: Size?) {
+private fun HighlightOverlay(
+    highlightBox: PdfBoundingBox?,
+    originalPageSize: Size?,
+) {
     if (highlightBox == null || originalPageSize == null) return
 
     Canvas(modifier = Modifier.fillMaxSize()) {
@@ -239,13 +247,13 @@ private fun HighlightOverlay(highlightBox: PdfBoundingBox?, originalPageSize: Si
             drawRect(
                 color = Color(0xFFFFEB3B).copy(alpha = 0.35f),
                 topLeft = Offset(left, top),
-                size = Size(w, h)
+                size = Size(w, h),
             )
             drawRect(
                 color = Color(0xFFFFC107).copy(alpha = 0.85f),
                 topLeft = Offset(left, top),
                 size = Size(w, h),
-                style = Stroke(width = 2.dp.toPx())
+                style = Stroke(width = 2.dp.toPx()),
             )
         }
     }
@@ -254,5 +262,5 @@ private fun HighlightOverlay(highlightBox: PdfBoundingBox?, originalPageSize: Si
 private data class FocusTransform(
     val scale: Float,
     val tx: Float,
-    val ty: Float
+    val ty: Float,
 )

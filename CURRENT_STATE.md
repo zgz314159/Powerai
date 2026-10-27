@@ -219,7 +219,7 @@
 | — | PR #29 合入 + CI 绿 | ✅ 完成 |
 | D0 | 台账校准（关 KI-05/10/22；KI-21 外置；KI-56/50–52 接受限制） | ✅ 完成 |
 | D1 | KI-58 退役 EmbeddingWorker 死链 | ✅ 完成（删 Worker + instrumented；enqueue 仅 metadata） |
-| D2 | 全量 ktlint → 0 + CI 强制 | 待开始 |
+| D2 | 全量 ktlint → 0 + CI 强制 | ✅ 完成（ignoreFailures=false；editorconfig 收口特例） |
 | D3 | KI-53 乱码；KI-20；KI-03/04 接受冻结 | 待开始 |
 | D4 | KI-57 一键更新或书面接受关闭 | 待开始 |
 | D5 | 真机清单（停止/中文/KI-54/API36）— 不伪完成 | 待开始 |

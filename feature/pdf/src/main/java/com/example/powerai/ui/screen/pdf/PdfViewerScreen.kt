@@ -47,7 +47,7 @@ fun PdfViewerScreen(
     fileId: String,
     fileName: String,
     initialHighlightPage: Int? = null,
-    initialHighlightBboxJson: String? = null
+    initialHighlightBboxJson: String? = null,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()

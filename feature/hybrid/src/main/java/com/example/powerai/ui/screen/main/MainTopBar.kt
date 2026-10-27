@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 /**
  * 主屏幕顶部应用栏：包括菜单按钮、标题和渐变遮罩背景
- * 
+ *
  * @param selectedTab 当前选中的标签页
  * @param onMenuClick 菜单按钮点击回调
  * @param coroutineScope 协程作用域（用于打开/关闭抽屉
@@ -35,33 +35,37 @@ import kotlinx.coroutines.launch
 fun MainTopBar(
     selectedTab: MainBottomTab,
     onMenuClick: suspend () -> Unit,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) {
     // 获取顶部标题文本
-    val topBarTitle = when (selectedTab) {
-        MainBottomTab.LOCAL -> "本地"
-        MainBottomTab.AI -> "AI"
-        MainBottomTab.SMART -> "智能"
-        else -> ""  // DATABASE / QUIZ / MINE 不显示共同的顶部
-    }
+    val topBarTitle =
+        when (selectedTab) {
+            MainBottomTab.LOCAL -> "本地"
+            MainBottomTab.AI -> "AI"
+            MainBottomTab.SMART -> "智能"
+            else -> "" // DATABASE / QUIZ / MINE 不显示共同的顶部
+        }
 
     Box {
         // 渐变遮罩背景
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(88.dp)
-                .align(Alignment.TopCenter)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colorStops = arrayOf(
-                            0.0f to Color.White,
-                            0.5f to Color.White,
-                            0.75f to Color.White.copy(alpha = 0.9f),
-                            1.0f to Color.Transparent
-                        )
-                    )
-                )
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(88.dp)
+                    .align(Alignment.TopCenter)
+                    .background(
+                        brush =
+                            Brush.verticalGradient(
+                                colorStops =
+                                    arrayOf(
+                                        0.0f to Color.White,
+                                        0.5f to Color.White,
+                                        0.75f to Color.White.copy(alpha = 0.9f),
+                                        1.0f to Color.Transparent,
+                                    ),
+                            ),
+                    ),
         )
 
         // 顶部应用
@@ -69,7 +73,7 @@ fun MainTopBar(
             navigationIcon = {
                 IconButton(
                     onClick = { coroutineScope.launch { onMenuClick() } },
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(48.dp),
                 ) {
                     Icon(imageVector = Icons.Default.Menu, contentDescription = "对话历史")
                 }
@@ -77,13 +81,15 @@ fun MainTopBar(
             title = {
                 Text(text = topBarTitle)
             },
-            modifier = Modifier
-                .statusBarsPadding()
-                .align(Alignment.TopCenter),
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = Color.Transparent,
-                scrolledContainerColor = Color.Transparent
-            )
+            modifier =
+                Modifier
+                    .statusBarsPadding()
+                    .align(Alignment.TopCenter),
+            colors =
+                TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                ),
         )
     }
 }

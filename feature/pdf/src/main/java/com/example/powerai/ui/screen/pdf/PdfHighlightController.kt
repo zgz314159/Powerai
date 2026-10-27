@@ -18,7 +18,10 @@ class PdfHighlightController {
     private val _highlightBboxJson = MutableStateFlow<String?>(null)
     val highlightBboxJson: StateFlow<String?> = _highlightBboxJson.asStateFlow()
 
-    fun highlightBox(pageNumber: Int?, bboxJson: String?) {
+    fun highlightBox(
+        pageNumber: Int?,
+        bboxJson: String?,
+    ) {
         _highlightPage.value = pageNumber
         _highlightBboxJson.value = bboxJson
     }

@@ -4,81 +4,91 @@ object QueryRewritePlanner {
     private data class ActionRewriteParts(
         val subject: String,
         val verb: String,
-        val obj: String
+        val obj: String,
     )
 
-    private val conditionActionPhrases = listOf(
-        "停止运行",
-        "停运"
-    )
+    private val conditionActionPhrases =
+        listOf(
+            "停止运行",
+            "停运",
+        )
 
-    private val actionVerbs = listOf(
-        "停止运行",
-        "更换",
-        "切断",
-        "拉开",
-        "合上",
-        "倒闸",
-        "投运",
-        "停运",
-        "停电",
-        "送电",
-        "检修",
-        "巡视",
-        "检查",
-        "测量",
-        "试验",
-        "接地",
-        "拆除",
-        "安装"
-    )
+    private val actionVerbs =
+        listOf(
+            "停止运行",
+            "更换",
+            "切断",
+            "拉开",
+            "合上",
+            "倒闸",
+            "投运",
+            "停运",
+            "停电",
+            "送电",
+            "检修",
+            "巡视",
+            "检查",
+            "测量",
+            "试验",
+            "接地",
+            "拆除",
+            "安装",
+        )
 
-    private val conditionPhrases = listOf(
-        "在什么情况下",
-        "什么情况下",
-        "啥情况下",
-        "哪些情况下",
-        "何种情况下",
-        "在何种情况下",
-        "啥情况",
-        "什么情形下",
-        "在什么情形下"
-    )
+    private val conditionPhrases =
+        listOf(
+            "在什么情况下",
+            "什么情况下",
+            "啥情况下",
+            "哪些情况下",
+            "何种情况下",
+            "在何种情况下",
+            "啥情况",
+            "什么情形下",
+            "在什么情形下",
+        )
 
-    private val leadingPhrases = listOf(
-        "请问",
-        "我想问一下",
-        "想问一下",
-        "我想问",
-        "问一下"
-    )
+    private val leadingPhrases =
+        listOf(
+            "请问",
+            "我想问一下",
+            "想问一下",
+            "我想问",
+            "问一下",
+        )
 
-    private val definitionSuffixes = listOf(
-        "主要用途",
-        "用途",
-        "作用",
-        "功能",
-        "定义",
-        "含义",
-        "概念",
-        "原理",
-        "目的",
-        "特点"
-    )
+    private val definitionSuffixes =
+        listOf(
+            "主要用途",
+            "用途",
+            "作用",
+            "功能",
+            "定义",
+            "含义",
+            "概念",
+            "原理",
+            "目的",
+            "特点",
+        )
 
-    private val definitionPrefixes = listOf(
-        "什么是",
-        "何谓",
-        "啥是",
-        "什么叫",
-        "什么叫做"
-    )
+    private val definitionPrefixes =
+        listOf(
+            "什么是",
+            "何谓",
+            "啥是",
+            "什么叫",
+            "什么叫做",
+        )
 
-    fun normalizeQuery(query: String, intentHint: QueryIntent? = null): String {
-        val normalized = query
-            .replace(Regex("[？?！!。，“”,,；;：:]"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
+    fun normalizeQuery(
+        query: String,
+        intentHint: QueryIntent? = null,
+    ): String {
+        val normalized =
+            query
+                .replace(Regex("[？?！!。，“”,,；;：:]"), " ")
+                .replace(Regex("\\s+"), " ")
+                .trim()
 
         return applyQueryAliases(normalized, intentHint)
     }
@@ -147,9 +157,10 @@ object QueryRewritePlanner {
             return subject.takeIf { it.length >= 2 }
         }
 
-        val suffix = definitionSuffixes.firstOrNull { token ->
-            compact.contains("${token}是什么") || compact.contains("${token}是啥")
-        }
+        val suffix =
+            definitionSuffixes.firstOrNull { token ->
+                compact.contains("${token}是什么") || compact.contains("${token}是啥")
+            }
         if (suffix != null) {
             val subject = compact.substringBefore(suffix).removeSuffix("的").trim()
             return subject.takeIf { it.length >= 2 }
@@ -205,7 +216,7 @@ object QueryRewritePlanner {
                 text.contains("停运") -> "$text 条件"
                 text.contains("停止运行") -> text.replace("停止运行", "停止运行 条件")
                 else -> "$text 条件"
-            }
+            },
         )
     }
 
@@ -213,7 +224,10 @@ object QueryRewritePlanner {
         return conditionPhrases.any(text::contains)
     }
 
-    private fun addConditionActionVariants(target: MutableSet<String>, text: String) {
+    private fun addConditionActionVariants(
+        target: MutableSet<String>,
+        text: String,
+    ) {
         val normalized = normalizeQuery(text)
         conditionActionPhrases.forEach { phrase ->
             if (!normalized.contains(phrase)) return@forEach
@@ -229,7 +243,10 @@ object QueryRewritePlanner {
         }
     }
 
-    private fun addActionRuleVariants(target: MutableSet<String>, text: String) {
+    private fun addActionRuleVariants(
+        target: MutableSet<String>,
+        text: String,
+    ) {
         val parts = extractActionRewriteParts(text) ?: return
         addVariant(target, "${parts.subject} ${parts.verb} ${parts.obj}")
         addVariant(target, "${parts.verb} ${parts.subject} ${parts.obj}")
@@ -239,13 +256,19 @@ object QueryRewritePlanner {
         addVariant(target, "${parts.subject} ${parts.verb}")
     }
 
-    private fun addTrailingActionPhraseVariants(target: MutableSet<String>, text: String) {
+    private fun addTrailingActionPhraseVariants(
+        target: MutableSet<String>,
+        text: String,
+    ) {
         val trailing = extractTrailingActionPhrase(text) ?: return
         addVariant(target, "${trailing.verb} ${trailing.subject}")
         addVariant(target, "${trailing.verb}${trailing.subject}")
     }
 
-    private fun addDefinitionPurposeVariants(target: MutableSet<String>, text: String) {
+    private fun addDefinitionPurposeVariants(
+        target: MutableSet<String>,
+        text: String,
+    ) {
         val normalized = normalizeQuery(text)
         val compact = normalized.replace(" ", "")
         if (compact.isBlank()) return
@@ -285,10 +308,11 @@ object QueryRewritePlanner {
 
     private fun extractSuffixSubject(compact: String): String? {
         val suffix = definitionSuffixes.firstOrNull { compact.endsWith(it) } ?: return null
-        val subject = compact
-            .removeSuffix(suffix)
-            .removeSuffix("的")
-            .trim()
+        val subject =
+            compact
+                .removeSuffix(suffix)
+                .removeSuffix("的")
+                .trim()
         return subject.takeIf { it.length >= 2 }
     }
 
@@ -314,10 +338,11 @@ object QueryRewritePlanner {
         val compact = normalizeQuery(query).replace(" ", "")
         if (compact.length < 4) return null
 
-        val trailingVerb = actionVerbs
-            .sortedByDescending { it.length }
-            .firstOrNull { verb -> compact.endsWith(verb) && compact.length > verb.length + 1 }
-            ?: return null
+        val trailingVerb =
+            actionVerbs
+                .sortedByDescending { it.length }
+                .firstOrNull { verb -> compact.endsWith(verb) && compact.length > verb.length + 1 }
+                ?: return null
 
         val subject = trimSubject(compact.removeSuffix(trailingVerb))
         if (subject.length < 2) return null
@@ -325,7 +350,10 @@ object QueryRewritePlanner {
         return ActionRewriteParts(subject = subject, verb = trailingVerb, obj = "")
     }
 
-    private fun applyQueryAliases(query: String, intentHint: QueryIntent?): String {
+    private fun applyQueryAliases(
+        query: String,
+        intentHint: QueryIntent?,
+    ): String {
         var current = query
         QueryAliasCatalog.queryAliases
             .filter { alias ->
@@ -336,14 +364,17 @@ object QueryRewritePlanner {
             }
             .filter { alias -> alias.trigger.matches(current) }
             .forEach { alias ->
-            current = replaceAliasSafely(current, alias)
-        }
+                current = replaceAliasSafely(current, alias)
+            }
         return current
             .replace(Regex("\\s+"), " ")
             .trim()
     }
 
-    private fun replaceAliasSafely(text: String, alias: QueryAlias): String {
+    private fun replaceAliasSafely(
+        text: String,
+        alias: QueryAlias,
+    ): String {
         if (!alias.canonical.contains(alias.pattern)) {
             return text.replace(alias.pattern, alias.canonical)
         }
@@ -354,12 +385,13 @@ object QueryRewritePlanner {
         val escapedPattern = Regex.escape(alias.pattern)
         val escapedPrefix = Regex.escape(prefix)
         val escapedSuffix = Regex.escape(suffix)
-        val regex = when {
-            prefix.isNotBlank() && suffix.isNotBlank() -> Regex("(?<!$escapedPrefix)$escapedPattern(?!$escapedSuffix)")
-            prefix.isNotBlank() -> Regex("(?<!$escapedPrefix)$escapedPattern")
-            suffix.isNotBlank() -> Regex("$escapedPattern(?!$escapedSuffix)")
-            else -> Regex(escapedPattern)
-        }
+        val regex =
+            when {
+                prefix.isNotBlank() && suffix.isNotBlank() -> Regex("(?<!$escapedPrefix)$escapedPattern(?!$escapedSuffix)")
+                prefix.isNotBlank() -> Regex("(?<!$escapedPrefix)$escapedPattern")
+                suffix.isNotBlank() -> Regex("$escapedPattern(?!$escapedSuffix)")
+                else -> Regex(escapedPattern)
+            }
         return text.replace(regex, alias.canonical)
     }
 
@@ -382,7 +414,10 @@ object QueryRewritePlanner {
         return match.value
     }
 
-    private fun addVariant(target: MutableSet<String>, candidate: String) {
+    private fun addVariant(
+        target: MutableSet<String>,
+        candidate: String,
+    ) {
         val normalized = normalizeQuery(candidate)
         if (normalized.length >= 2) {
             target += normalized

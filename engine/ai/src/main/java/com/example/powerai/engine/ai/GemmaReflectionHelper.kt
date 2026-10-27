@@ -13,7 +13,7 @@ object GemmaReflectionHelper {
         val text: String?,
         val finishReason: String?,
         val tokenIds: Any?,
-        val raw: Any?
+        val raw: Any?,
     )
 
     private val methodNames =
@@ -24,7 +24,11 @@ object GemmaReflectionHelper {
      * an [InvocationResult] capturing the first successful response or nulls if
      * nothing could be called.
      */
-    fun invokeGenerate(engineObj: Any, prompt: String, genOpts: Map<String, Any>): InvocationResult {
+    fun invokeGenerate(
+        engineObj: Any,
+        prompt: String,
+        genOpts: Map<String, Any>,
+    ): InvocationResult {
         val cls = engineObj.javaClass
         var respText: String? = null
         var finishReasonVal: String? = null
@@ -52,7 +56,9 @@ object GemmaReflectionHelper {
                                     } else {
                                         args.add(null)
                                     }
-                                } else continue
+                                } else {
+                                    continue
+                                }
                             }
                             else -> continue
                         }
@@ -60,21 +66,23 @@ object GemmaReflectionHelper {
                         // handle potential async listener parameter by injecting a simple proxy
                         if (mn == "generateResponseAsync" && args.size <= 2 && pts.size >= 2) {
                             val listenerType = pts[1]
-                            val proxy = java.lang.reflect.Proxy.newProxyInstance(
-                                listenerType.classLoader,
-                                arrayOf(listenerType)
-                            ) { _, method, pArgs ->
-                                // When callback invoked, attempt to pull text/finish reason
-                                try {
-                                    if (pArgs != null && pArgs.isNotEmpty()) {
-                                        // first argument often contains a response object
-                                        lastResponseObj = pArgs[0]
-                                        // try to call toString() for text
-                                        respText = pArgs[0]?.toString()
+                            val proxy =
+                                java.lang.reflect.Proxy.newProxyInstance(
+                                    listenerType.classLoader,
+                                    arrayOf(listenerType),
+                                ) { _, method, pArgs ->
+                                    // When callback invoked, attempt to pull text/finish reason
+                                    try {
+                                        if (pArgs != null && pArgs.isNotEmpty()) {
+                                            // first argument often contains a response object
+                                            lastResponseObj = pArgs[0]
+                                            // try to call toString() for text
+                                            respText = pArgs[0]?.toString()
+                                        }
+                                    } catch (_: Throwable) {
                                     }
-                                } catch (_: Throwable) {}
-                                null
-                            }
+                                    null
+                                }
                             if (args.size == 1) args.add(proxy) else args[1] = proxy
                         }
 
@@ -89,7 +97,8 @@ object GemmaReflectionHelper {
                                 fr.isAccessible = true
                                 finishReasonVal = fr.get(ret) as? String
                             }
-                        } catch (_: Throwable) {}
+                        } catch (_: Throwable) {
+                        }
                         // try token ids
                         try {
                             val ti = ret?.javaClass?.getDeclaredField("tokenIds")
@@ -97,7 +106,8 @@ object GemmaReflectionHelper {
                                 ti.isAccessible = true
                                 tokenIdsCaptured = ti.get(ret)
                             }
-                        } catch (_: Throwable) {}
+                        } catch (_: Throwable) {
+                        }
 
                         if (respText != null) return InvocationResult(respText, finishReasonVal, tokenIdsCaptured, lastResponseObj)
                     } catch (_: Throwable) {

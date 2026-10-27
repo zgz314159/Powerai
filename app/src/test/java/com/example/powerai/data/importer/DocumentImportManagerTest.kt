@@ -46,49 +46,56 @@ class DocumentImportManagerTest {
     }
 
     @Test
-    fun `importUri delegates to parser factory and updates progress`() = runTest {
-        val fakeParser = object : FileParser {
-            override suspend fun parse(
-                uri: Uri,
-                fileName: String,
-                batchSize: Int,
-                onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
-            ): String {
-                onBatchReady(listOf(KnowledgeEntity(title = "t", content = "c", source = "s", category = "cat")))
-                return "file123"
-            }
+    fun `importUri delegates to parser factory and updates progress`() =
+        runTest {
+            val fakeParser =
+                object : FileParser {
+                    override suspend fun parse(
+                        uri: Uri,
+                        fileName: String,
+                        batchSize: Int,
+                        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
+                    ): String {
+                        onBatchReady(listOf(KnowledgeEntity(title = "t", content = "c", source = "s", category = "cat")))
+                        return "file123"
+                    }
+                }
+
+            val factory =
+                object : FileParserFactoryType {
+                    override fun create(
+                        fileName: String,
+                        contentResolver: ContentResolver,
+                    ): FileParser = fakeParser
+                }
+
+            manager =
+                DocumentImportManager(
+                    context = context,
+                    repo = repo,
+                    dao = dao,
+                    scanner = scanner,
+                    observability = observability,
+                    scope = this,
+                    parserFactory = factory,
+                )
+
+            val uri: Uri = mock()
+            whenever(uri.lastPathSegment).thenReturn("hello.txt")
+            whenever(repo.isFileImported("file123")).thenReturn(false)
+
+            manager.importUri(uri, batchSize = 1)
+            advanceUntilIdle()
+
+            verify(repo).insertBatch(any())
+            verify(repo).markFileImported(eq("file123"), eq("hello.txt"), any(), eq("imported"))
+            verify(observability).importStarted(eq("file123"), eq("hello.txt"))
+            verify(observability).importCompleted(eq("file123"), eq("hello.txt"), eq(0))
+
+            val last = manager.progress.value
+            assertEquals("imported", last?.status)
+            assertEquals("file123", last?.fileId)
         }
-
-        val factory = object : FileParserFactoryType {
-            override fun create(fileName: String, contentResolver: ContentResolver): FileParser = fakeParser
-        }
-
-        manager = DocumentImportManager(
-            context = context,
-            repo = repo,
-            dao = dao,
-            scanner = scanner,
-            observability = observability,
-            scope = this,
-            parserFactory = factory
-        )
-
-        val uri: Uri = mock()
-        whenever(uri.lastPathSegment).thenReturn("hello.txt")
-        whenever(repo.isFileImported("file123")).thenReturn(false)
-
-        manager.importUri(uri, batchSize = 1)
-        advanceUntilIdle()
-
-        verify(repo).insertBatch(any())
-        verify(repo).markFileImported(eq("file123"), eq("hello.txt"), any(), eq("imported"))
-        verify(observability).importStarted(eq("file123"), eq("hello.txt"))
-        verify(observability).importCompleted(eq("file123"), eq("hello.txt"), eq(0))
-
-        val last = manager.progress.value
-        assertEquals("imported", last?.status)
-        assertEquals("file123", last?.fileId)
-    }
 
     @Test
     fun `importAssetsIfNeed propagates cancellation without marking the file`() =

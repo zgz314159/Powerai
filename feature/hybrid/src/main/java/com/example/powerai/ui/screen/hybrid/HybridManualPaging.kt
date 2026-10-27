@@ -8,15 +8,14 @@ internal data class HybridManualPageSlice<T>(
     val totalPages: Int,
     val items: List<T>,
     val hasPrev: Boolean,
-    val hasNext: Boolean
+    val hasNext: Boolean,
 )
 
 internal object HybridManualPaging {
-
     fun <T> slice(
         allItems: List<T>,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): HybridManualPageSlice<T> {
         require(pageSize > 0) { "pageSize must be > 0" }
 
@@ -26,7 +25,7 @@ internal object HybridManualPaging {
                 totalPages = 0,
                 items = emptyList(),
                 hasPrev = false,
-                hasNext = false
+                hasNext = false,
             )
         }
 
@@ -43,7 +42,7 @@ internal object HybridManualPaging {
             totalPages = totalPages,
             items = pageItems,
             hasPrev = coercedPage > 1,
-            hasNext = coercedPage < totalPages
+            hasNext = coercedPage < totalPages,
         )
     }
 }

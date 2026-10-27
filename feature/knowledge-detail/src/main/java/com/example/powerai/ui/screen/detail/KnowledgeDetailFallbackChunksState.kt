@@ -11,20 +11,21 @@ import kotlinx.coroutines.withContext
 internal fun produceFallbackChunksState(content: String): State<List<String>?> {
     return produceState<List<String>?>(
         initialValue = null,
-        key1 = content
+        key1 = content,
     ) {
         value = null
         // log removed: chunkContent START len=${content.length}
         val start = System.currentTimeMillis()
-        value = withContext(Dispatchers.Default) {
-            runCatching {
-                chunkContent(content)
-            }.getOrElse { t ->
-                // log removed: chunkContent FAILED len=${content.length}
-                listOf(content)
-                listOf(content)
+        value =
+            withContext(Dispatchers.Default) {
+                runCatching {
+                    chunkContent(content)
+                }.getOrElse { t ->
+                    // log removed: chunkContent FAILED len=${content.length}
+                    listOf(content)
+                    listOf(content)
+                }
             }
-        }
         // log removed: chunkContent DONE size=${value?.size ?: 0} took=${System.currentTimeMillis() - start}ms
     }
 }

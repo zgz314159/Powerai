@@ -13,28 +13,31 @@ class V2SchemaCompatibilityTest {
 
     @Test
     fun `parse V2 schema correctly extracts schemaVersion and metadata`() {
-        val json = """{
-            "fileMetadata": {
-                "schemaVersion": "2.0",
-                "fileId": "railway_v2",
-                "fileName": "railway.pdf"
-            },
-            "entries": [
-                {
-                    "entryId": "e1",
-                    "jobTitle": "Chapter 1",
-                    "blocks": [
-                        {
-                            "type": "text",
-                            "text": "Hello V2",
-                            "bbox": [10, 10, 100, 20],
-                            "pdfWidth": 595.0,
-                            "pdfHeight": 841.0
-                        }
-                    ]
-                }
-            ]
-        }""".trimIndent()
+        val json =
+            """
+            {
+                "fileMetadata": {
+                    "schemaVersion": "2.0",
+                    "fileId": "railway_v2",
+                    "fileName": "railway.pdf"
+                },
+                "entries": [
+                    {
+                        "entryId": "e1",
+                        "jobTitle": "Chapter 1",
+                        "blocks": [
+                            {
+                                "type": "text",
+                                "text": "Hello V2",
+                                "bbox": [10, 10, 100, 20],
+                                "pdfWidth": 595.0,
+                                "pdfHeight": 841.0
+                            }
+                        ]
+                    }
+                ]
+            }
+            """.trimIndent()
 
         val root = JsonParser.parseString(json)
         val (meta, entries) = JsonResourceParser.parseRoot(root, gson, null, null)

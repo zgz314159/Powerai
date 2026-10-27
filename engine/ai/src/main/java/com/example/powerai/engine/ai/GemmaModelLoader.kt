@@ -12,7 +12,11 @@ import java.io.File
  */
 interface GemmaModelLoaderType {
     fun tryLoad(context: Context?): Any?
-    fun closeEngine(engine: Any?, context: Context?)
+
+    fun closeEngine(
+        engine: Any?,
+        context: Context?,
+    )
 }
 
 object GemmaModelLoader : GemmaModelLoaderType {
@@ -35,14 +39,25 @@ object GemmaModelLoader : GemmaModelLoaderType {
 
         try {
             val builder = LlmInferenceOptions.builder()
-            try { builder.setModelPath(MODEL_PATH) } catch (_: Throwable) {}
-            try { builder.setMaxTokens(512) } catch (_: Throwable) {}
+            try {
+                builder.setModelPath(MODEL_PATH)
+            } catch (_: Throwable) {
+            }
+            try {
+                builder.setMaxTokens(512)
+            } catch (_: Throwable) {
+            }
 
             // apply sampling/reflection tweaks
             // apply optional sampling tweaks via shared reflection helper
             GemmaReflectionHelper.applySampling(builder)
 
-            val options = try { builder.build() } catch (_: Throwable) { null }
+            val options =
+                try {
+                    builder.build()
+                } catch (_: Throwable) {
+                    null
+                }
             if (options != null) {
                 return try {
                     LlmInference.createFromOptions(context, options)
@@ -62,7 +77,10 @@ object GemmaModelLoader : GemmaModelLoaderType {
      * writing a small marker file and invoking the `close()` method reflectively
      * if available.  If `engine` is null the call is a no-op.
      */
-    override fun closeEngine(engine: Any?, context: Context?) {
+    override fun closeEngine(
+        engine: Any?,
+        context: Context?,
+    ) {
         try {
             if (engine == null) return
             // attempt to flush any diagnostic traces first, similar to old impl;
@@ -77,10 +95,15 @@ object GemmaModelLoader : GemmaModelLoaderType {
                         java.io.FileOutputStream(f, true).use { fos ->
                             fos.write(marker.toByteArray(Charsets.UTF_8))
                             fos.flush()
-                            try { fos.fd.sync() } catch (_: Throwable) { }
+                            try {
+                                fos.fd.sync()
+                            } catch (_: Throwable) {
+                            }
                         }
-                    } catch (_: Throwable) {}
-                } catch (_: Throwable) {}
+                    } catch (_: Throwable) {
+                    }
+                } catch (_: Throwable) {
+                }
             }
 
             try {

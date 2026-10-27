@@ -6,7 +6,7 @@ data class ChatTurn(
     val answer: String,
     val askedAtMillis: Long,
     val sources: List<String> = emptyList(),
-    val isError: Boolean = false
+    val isError: Boolean = false,
 )
 
 data class ChatSession(
@@ -14,12 +14,12 @@ data class ChatSession(
     val title: String,
     val turns: List<ChatTurn> = emptyList(),
     val createdAtMillis: Long,
-    val updatedAtMillis: Long
+    val updatedAtMillis: Long,
 )
 
 data class ChatHistorySnapshot(
     val version: Int = 1,
     val sessions: List<ChatSession> = emptyList(),
     val selectedSessionId: Long? = null,
-    val currentSessionId: Long? = null
+    val currentSessionId: Long? = null,
 )

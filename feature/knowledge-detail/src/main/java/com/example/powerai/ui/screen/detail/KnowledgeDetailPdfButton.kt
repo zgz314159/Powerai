@@ -18,7 +18,7 @@ internal fun KnowledgeDetailPdfButton(
     pdfRef: PdfSourceRef.Ref,
     pageNumber: Int? = null,
     bboxJson: String? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     OutlinedButton(
         onClick = {
@@ -28,13 +28,14 @@ internal fun KnowledgeDetailPdfButton(
                     fileId = pdfRef.fileId,
                     name = Uri.encode(pdfRef.fileName),
                     page = pageNumber,
-                    bboxEncoded = bboxEncoded
-                )
+                    bboxEncoded = bboxEncoded,
+                ),
             )
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 10.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
     ) {
         Text("查看 PDF${pdfRef.fileName}")
     }

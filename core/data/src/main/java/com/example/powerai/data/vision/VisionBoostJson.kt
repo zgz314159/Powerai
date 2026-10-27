@@ -6,15 +6,15 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 
 internal object VisionBoostJson {
-
     fun extractChatContent(raw: String): String {
         val trimmed = raw.trim()
         if (trimmed.isBlank()) return ""
 
-        val candidate = runCatching {
-            val root = JsonParser().parse(trimmed)
-            extractFromRoot(root)
-        }.getOrNull().orEmpty()
+        val candidate =
+            runCatching {
+                val root = JsonParser().parse(trimmed)
+                extractFromRoot(root)
+            }.getOrNull().orEmpty()
 
         return stripCodeFences(candidate).trim()
     }

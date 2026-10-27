@@ -12,7 +12,6 @@ import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class LocalFaissAnnRetrieverInstrumentedTest {
-
     @Test
     fun search_doesNotCrash_whenIndexPresentOrMissing() {
         val ctx = ApplicationProvider.getApplicationContext<Context>()

@@ -11,7 +11,8 @@ object GemmaResponseSanitizer {
             if (matches > 3) return true
             val digits = lastPart.count { it.isDigit() }
             if (lastPart.isNotEmpty() && digits.toDouble() / lastPart.length > 0.5) return true
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         return false
     }
 
@@ -35,11 +36,15 @@ object GemmaResponseSanitizer {
                 return Pair(text.take(maxLen) + "\n[系统已截断：输出过长]\n", true)
             }
             return Pair(text, false)
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         return Pair(input ?: "", false)
     }
 
-    fun tokenCollapseDetected(accumulated: String, part: String?): Boolean {
+    fun tokenCollapseDetected(
+        accumulated: String,
+        part: String?,
+    ): Boolean {
         try {
             if (part == null) return false
             val combined = (accumulated + part).let { if (it.length > 50) it.takeLast(50) else it }
@@ -48,7 +53,8 @@ object GemmaResponseSanitizer {
             if (kvCount >= 3) return true
             val rep5 = Regex("(.{5})\\1\\1")
             if (rep5.containsMatchIn(combined)) return true
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         return false
     }
 
@@ -62,9 +68,15 @@ object GemmaResponseSanitizer {
                 val marker = "\n[[EMERGENCY_SHUTDOWN_TRIGGERED_AT_21KV]]\n"
                 fos.write(marker.toByteArray(Charsets.UTF_8))
                 fos.flush()
-                try { fos.fd.sync() } catch (_: Throwable) { }
+                try {
+                    fos.fd.sync()
+                } catch (_: Throwable) {
+                }
             } finally {
-                try { fos.close() } catch (_: Throwable) { }
+                try {
+                    fos.close()
+                } catch (_: Throwable) {
+                }
             }
             try {
                 val extDir = safeContext.getExternalFilesDir(null)
@@ -77,11 +89,24 @@ object GemmaResponseSanitizer {
                             try {
                                 ins.copyTo(out)
                                 out.fd.sync()
-                            } finally { try { out.close() } catch (_: Throwable) {} }
-                        } finally { try { ins.close() } catch (_: Throwable) {} }
-                    } catch (_: Throwable) {}
+                            } finally {
+                                try {
+                                    out.close()
+                                } catch (_: Throwable) {
+                                }
+                            }
+                        } finally {
+                            try {
+                                ins.close()
+                            } catch (_: Throwable) {
+                            }
+                        }
+                    } catch (_: Throwable) {
+                    }
                 }
-            } catch (_: Throwable) {}
-        } catch (_: Throwable) { }
+            } catch (_: Throwable) {
+            }
+        } catch (_: Throwable) {
+        }
     }
 }

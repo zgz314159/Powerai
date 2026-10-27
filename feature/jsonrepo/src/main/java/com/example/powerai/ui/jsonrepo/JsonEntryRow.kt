@@ -22,15 +22,19 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.data.json.JsonEntry
 
 @Composable
-fun EntryRow(entry: JsonEntry, onSave: (JsonEntry) -> Unit) {
+fun EntryRow(
+    entry: JsonEntry,
+    onSave: (JsonEntry) -> Unit,
+) {
     var title by remember { mutableStateOf(entry.title.orEmpty()) }
     var content by remember { mutableStateOf(entry.content.orEmpty()) }
 
-    val statusColor = when (entry.status) {
-        "parsed" -> MaterialTheme.colorScheme.primary
-        "error" -> MaterialTheme.colorScheme.error
-        else -> MaterialTheme.colorScheme.onBackground
-    }
+    val statusColor =
+        when (entry.status) {
+            "parsed" -> MaterialTheme.colorScheme.primary
+            "error" -> MaterialTheme.colorScheme.error
+            else -> MaterialTheme.colorScheme.onBackground
+        }
 
     ElevatedCard(Modifier.fillMaxWidth().padding(6.dp)) {
         Column(Modifier.padding(12.dp)) {

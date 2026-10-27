@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.powerai.ui.component.SearchBar
 
 // ViewModel is supplied by the caller (avoid default composable viewModel())
+
 /**
  * 简单的搜索页面，将 UI 状态从 `SearchViewModel` 中读取并Compose 展示
  * 该层不包含业务逻辑，所有动作都委托ViewModel
@@ -34,7 +35,7 @@ fun SearchScreen(viewModel: SearchViewModel) {
                 value = uiState.query,
                 onValueChange = { viewModel.onIntent(SearchIntent.QueryChanged(it)) },
                 onSearch = { viewModel.onIntent(SearchIntent.Search) },
-                onClear = { viewModel.onIntent(SearchIntent.QueryChanged("")) }
+                onClear = { viewModel.onIntent(SearchIntent.QueryChanged("")) },
             )
 
             if (uiState.isLoading) {
@@ -44,14 +45,14 @@ fun SearchScreen(viewModel: SearchViewModel) {
                     Text(
                         text = "没有找到相关内容",
                         modifier = Modifier.padding(top = 16.dp),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
                     )
                 } else {
                     LazyColumn(contentPadding = PaddingValues(top = 12.dp)) {
                         items(uiState.results) { item ->
                             Text(
                                 text = item.title,
-                                modifier = Modifier.padding(vertical = 8.dp)
+                                modifier = Modifier.padding(vertical = 8.dp),
                             )
                         }
                     }

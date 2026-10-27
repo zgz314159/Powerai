@@ -17,45 +17,47 @@ fun SmartDeepSeekAnswerFooter(
     modelLoaded: Boolean,
     thinking: List<String>,
     generationMetrics: GenerationMetrics,
-    stageMetrics: SmartStageMetrics
+    stageMetrics: SmartStageMetrics,
 ) {
     if (!modelLoaded && !isLoading && generationMetrics.streamedTokenCount == 0 && thinking.isEmpty()) {
         return
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 8.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 8.dp),
     ) {
         Text(
-            text = buildString {
-                append(stageMetrics.modeLabel)
-                append(" · ")
-                append(stageMetrics.backendLabel)
-                append(" · ")
-                append(stageMetrics.threadLabel)
-                append('\n')
-                append("检 ")
-                append(stageMetrics.retrievalMs?.let { "${it}ms" } ?: "-")
-                append("  |  Prompt: ")
-                append(stageMetrics.promptBuildMs?.let { "${it}ms" } ?: "-")
-                append("  |  证据: ")
-                append(stageMetrics.evidenceCount)
-                append("  |  Prompt字符: ")
-                append(stageMetrics.promptChars)
-                append('\n')
-                append("token 延迟: ")
-                append(generationMetrics.firstTokenLatencyMs?.let { "${it}ms" } ?: "-")
-                append("  |  已收片段: ")
-                append(generationMetrics.streamedTokenCount)
-                append("  |  片段/s: ")
-                append(generationMetrics.tokensPerSecond?.let { String.format("%.2f", it) } ?: "-")
-                append("  |  正文 字符/s: ")
-                append(stageMetrics.decodeCharsPerSecond?.let { String.format("%.2f", it) } ?: "-")
-            },
+            text =
+                buildString {
+                    append(stageMetrics.modeLabel)
+                    append(" · ")
+                    append(stageMetrics.backendLabel)
+                    append(" · ")
+                    append(stageMetrics.threadLabel)
+                    append('\n')
+                    append("检 ")
+                    append(stageMetrics.retrievalMs?.let { "${it}ms" } ?: "-")
+                    append("  |  Prompt: ")
+                    append(stageMetrics.promptBuildMs?.let { "${it}ms" } ?: "-")
+                    append("  |  证据: ")
+                    append(stageMetrics.evidenceCount)
+                    append("  |  Prompt字符: ")
+                    append(stageMetrics.promptChars)
+                    append('\n')
+                    append("token 延迟: ")
+                    append(generationMetrics.firstTokenLatencyMs?.let { "${it}ms" } ?: "-")
+                    append("  |  已收片段: ")
+                    append(generationMetrics.streamedTokenCount)
+                    append("  |  片段/s: ")
+                    append(generationMetrics.tokensPerSecond?.let { String.format("%.2f", it) } ?: "-")
+                    append("  |  正文 字符/s: ")
+                    append(stageMetrics.decodeCharsPerSecond?.let { String.format("%.2f", it) } ?: "-")
+                },
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

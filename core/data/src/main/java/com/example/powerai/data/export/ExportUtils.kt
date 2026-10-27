@@ -8,7 +8,15 @@ object ExportUtils {
         val sb = StringBuilder()
         sb.append("id,title,content,source,category,keywords\n")
         items.forEach { e ->
-            val line = listOf(e.id.toString(), escape(e.title), escape(e.content), escape(e.source), escape(e.category), escape(e.keywordsSerialized)).joinToString(",")
+            val line =
+                listOf(
+                    e.id.toString(),
+                    escape(e.title),
+                    escape(e.content),
+                    escape(e.source),
+                    escape(e.category),
+                    escape(e.keywordsSerialized),
+                ).joinToString(",")
             sb.append(line).append("\n")
         }
         return sb.toString()

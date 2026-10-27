@@ -5,14 +5,17 @@ import kotlin.math.ln
 
 data class AnswerEvalResult(
     val bleu: Double,
-    val rougeL: Double
+    val rougeL: Double,
 )
 
 private fun tokenize(text: String): List<String> {
     return text.trim().split(Regex("\\s+"))
 }
 
-private fun ngramCounts(tokens: List<String>, n: Int): Map<String, Int> {
+private fun ngramCounts(
+    tokens: List<String>,
+    n: Int,
+): Map<String, Int> {
     if (tokens.size < n) return emptyMap()
     val m = mutableMapOf<String, Int>()
     for (i in 0..tokens.size - n) {
@@ -23,7 +26,11 @@ private fun ngramCounts(tokens: List<String>, n: Int): Map<String, Int> {
 }
 
 /** BLEU (modified n-gram precision up to 4) with brevity penalty. */
-fun bleuScore(candidate: String, references: List<String>, maxN: Int = 4): Double {
+fun bleuScore(
+    candidate: String,
+    references: List<String>,
+    maxN: Int = 4,
+): Double {
     val candTokens = tokenize(candidate)
     val refTokensList = references.map { tokenize(it) }
     if (candTokens.isEmpty()) return 0.0
@@ -31,7 +38,10 @@ fun bleuScore(candidate: String, references: List<String>, maxN: Int = 4): Doubl
     val precisions = mutableListOf<Double>()
     for (n in 1..maxN) {
         val candCounts = ngramCounts(candTokens, n)
-        if (candCounts.isEmpty()) { precisions.add(0.0); continue }
+        if (candCounts.isEmpty()) {
+            precisions.add(0.0)
+            continue
+        }
         var match = 0
         var total = 0
         for ((ng, cnt) in candCounts) {
@@ -56,10 +66,17 @@ fun bleuScore(candidate: String, references: List<String>, maxN: Int = 4): Doubl
 }
 
 /** ROUGE-L (F-measure based on LCS) */
-fun rougeLScore(candidate: String, references: List<String>): Double {
+fun rougeLScore(
+    candidate: String,
+    references: List<String>,
+): Double {
     val candTokens = tokenize(candidate)
     if (candTokens.isEmpty()) return 0.0
-    fun lcs(a: List<String>, b: List<String>): Int {
+
+    fun lcs(
+        a: List<String>,
+        b: List<String>,
+    ): Int {
         val dp = Array(a.size + 1) { IntArray(b.size + 1) }
         for (i in a.indices.reversed()) for (j in b.indices.reversed()) {
             dp[i][j] = if (a[i] == b[j]) 1 + dp[i + 1][j + 1] else maxOf(dp[i + 1][j], dp[i][j + 1])
@@ -81,9 +98,12 @@ fun rougeLScore(candidate: String, references: List<String>): Double {
     return bestF.coerceIn(0.0, 1.0)
 }
 
-fun evaluateAnswer(candidate: String, references: List<String>): AnswerEvalResult {
+fun evaluateAnswer(
+    candidate: String,
+    references: List<String>,
+): AnswerEvalResult {
     return AnswerEvalResult(
         bleu = bleuScore(candidate, references),
-        rougeL = rougeLScore(candidate, references)
+        rougeL = rougeLScore(candidate, references),
     )
 }

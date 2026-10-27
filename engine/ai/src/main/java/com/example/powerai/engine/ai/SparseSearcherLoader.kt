@@ -24,11 +24,12 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
         // logic moved verbatim from original constructor
         fun mapFilenameToTitle(filename: String): String {
             val fname = filename.lowercase()
-            val known = mapOf(
-                "power_safety_rules.json" to "电力安全工作规程",
-                "railway_power_lines.json" to "电力线路工必知必会手册",
-                "铁路电力线路工.json" to "电力线路工必知必会手册"
-            )
+            val known =
+                mapOf(
+                    "power_safety_rules.json" to "电力安全工作规程",
+                    "railway_power_lines.json" to "电力线路工必知必会手册",
+                    "铁路电力线路工.json" to "电力线路工必知必会手册",
+                )
             for ((k, v) in known) {
                 if (fname.contains(k)) return v
             }
@@ -40,6 +41,7 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
         return try {
             val root = "kb/铁路/专业知识"
             val found = mutableListOf<SparseSearcher.SafetyEntry>()
+
             fun scanAssets(path: String) {
                 try {
                     val list = context?.assets?.list(path) ?: return
@@ -64,17 +66,29 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
                                             found.add(SparseSearcher.SafetyEntry(title.ifBlank { "(no-title)" }, content, srcDisplay))
                                         }
                                     }
-                                } catch (_: Throwable) {}
+                                } catch (_: Throwable) {
+                                }
                             }
                         }
                     }
-                } catch (_: Throwable) {}
+                } catch (_: Throwable) {
+                }
             }
 
-            try { scanAssets(root) } catch (_: Throwable) {}
+            try {
+                scanAssets(root)
+            } catch (_: Throwable) {
+            }
 
             if (found.isEmpty()) {
-                val fallback = try { context?.assets?.open("power_safety_rules.json")?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } } catch (_: Throwable) { null }
+                val fallback =
+                    try {
+                        context?.assets?.open("power_safety_rules.json")?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }
+                    } catch (
+                        _: Throwable,
+                    ) {
+                        null
+                    }
                 if (!fallback.isNullOrBlank()) {
                     val arr = JSONArray(fallback)
                     for (i in 0 until arr.length()) {
@@ -101,14 +115,19 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
                                 }
                             }
                         }
-                    } catch (_: Throwable) {}
+                    } catch (_: Throwable) {
+                    }
                 }
             }
 
-            if (found.isNotEmpty()) found else listOf(
-                SparseSearcher.SafetyEntry("221kV", "221kV验电应使用相应电压等级且合格的接触式验电器。", "builtin"),
-                SparseSearcher.SafetyEntry("验电", "验电必须遵守分级、戴绝缘手套并使用绝缘工具。", "builtin")
-            )
+            if (found.isNotEmpty()) {
+                found
+            } else {
+                listOf(
+                    SparseSearcher.SafetyEntry("221kV", "221kV验电应使用相应电压等级且合格的接触式验电器。", "builtin"),
+                    SparseSearcher.SafetyEntry("验电", "验电必须遵守分级、戴绝缘手套并使用绝缘工具。", "builtin"),
+                )
+            }
         } catch (_: Throwable) {
             listOf(SparseSearcher.SafetyEntry("221kV", "221kV验电应使用相应电压等级且合格的接触式验电器。", "builtin"))
         }

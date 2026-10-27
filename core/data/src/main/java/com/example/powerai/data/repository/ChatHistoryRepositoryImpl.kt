@@ -7,18 +7,20 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ChatHistoryRepositoryImpl @Inject constructor(
-    private val store: ChatHistoryStore
-) : ChatHistoryRepository {
-    override suspend fun loadHistory(): ChatHistorySnapshot {
-        return store.load() ?: ChatHistorySnapshot()
-    }
+class ChatHistoryRepositoryImpl
+    @Inject
+    constructor(
+        private val store: ChatHistoryStore,
+    ) : ChatHistoryRepository {
+        override suspend fun loadHistory(): ChatHistorySnapshot {
+            return store.load() ?: ChatHistorySnapshot()
+        }
 
-    override suspend fun saveHistory(snapshot: ChatHistorySnapshot) {
-        store.save(snapshot)
-    }
+        override suspend fun saveHistory(snapshot: ChatHistorySnapshot) {
+            store.save(snapshot)
+        }
 
-    override suspend fun clearHistory() {
-        store.save(ChatHistorySnapshot())
+        override suspend fun clearHistory() {
+            store.save(ChatHistorySnapshot())
+        }
     }
-}

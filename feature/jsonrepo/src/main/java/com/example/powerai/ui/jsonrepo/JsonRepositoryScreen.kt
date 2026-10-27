@@ -41,7 +41,10 @@ import java.io.File
 
 @Composable
 @Suppress("UNUSED_PARAMETER")
-fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonRepositoryViewModel) {
+fun JsonRepositoryScreen(
+    navController: NavHostController,
+    viewModel: JsonRepositoryViewModel,
+) {
     val uiState by viewModel.uiState.collectAsState()
     val files = uiState.files
     val entries = uiState.entries
@@ -82,7 +85,9 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text("Entries", style = MaterialTheme.typography.titleMedium)
-            OutlinedTextField(value = filter, onValueChange = { filter = it }, label = { Text("Search entries") }, singleLine = true, modifier = Modifier.fillMaxWidth(0.6f))
+            OutlinedTextField(value = filter, onValueChange = {
+                filter = it
+            }, label = { Text("Search entries") }, singleLine = true, modifier = Modifier.fillMaxWidth(0.6f))
         }
         Spacer(Modifier.height(8.dp))
 
@@ -119,27 +124,33 @@ fun JsonRepositoryScreen(navController: NavHostController, viewModel: JsonReposi
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             Button(onClick = {
-                val fid = selectedFileId ?: run {
-                    coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
-                    return@Button
-                }
+                val fid =
+                    selectedFileId ?: run {
+                        coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
+                        return@Button
+                    }
                 val target = File(context.filesDir, "export_$fid.csv")
-                viewModel.onIntent(JsonRepoIntent.ExportCsv(fid, target) { ok ->
-                    coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "CSV 导出成功: ${target.name}" else "CSV 导出失败") }
-                })
+                viewModel.onIntent(
+                    JsonRepoIntent.ExportCsv(fid, target) { ok ->
+                        coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "CSV 导出成功: ${target.name}" else "CSV 导出失败") }
+                    },
+                )
             }) { Text("Export CSV") }
 
             Spacer(Modifier.width(8.dp))
 
             Button(onClick = {
-                val fid = selectedFileId ?: run {
-                    coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
-                    return@Button
-                }
+                val fid =
+                    selectedFileId ?: run {
+                        coroutineScope.launch { snackbarHostState.showSnackbar("请选择一个文件以导出") }
+                        return@Button
+                    }
                 val target = File(context.filesDir, "export_$fid.json")
-                viewModel.onIntent(JsonRepoIntent.ExportJson(fid, target) { ok ->
-                    coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "JSON 导出成功: ${target.name}" else "JSON 导出失败") }
-                })
+                viewModel.onIntent(
+                    JsonRepoIntent.ExportJson(fid, target) { ok ->
+                        coroutineScope.launch { snackbarHostState.showSnackbar(if (ok) "JSON 导出成功: ${target.name}" else "JSON 导出失败") }
+                    },
+                )
             }) { Text("Export JSON") }
         }
     }

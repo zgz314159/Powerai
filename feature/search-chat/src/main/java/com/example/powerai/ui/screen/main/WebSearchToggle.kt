@@ -16,19 +16,19 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun WebSearchToggle(
     webSearchEnabled: Boolean,
-    onToggle: (Boolean) -> Unit
+    onToggle: (Boolean) -> Unit,
 ) {
     Row {
         FilterChip(
             selected = webSearchEnabled,
             onClick = { onToggle(true) },
-            label = { Text("搜索") }
+            label = { Text("搜索") },
         )
         Spacer(modifier = Modifier.width(6.dp))
         FilterChip(
             selected = !webSearchEnabled,
             onClick = { onToggle(false) },
-            label = { Text("思") }
+            label = { Text("思") },
         )
     }
 }

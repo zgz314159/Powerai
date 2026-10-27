@@ -7,17 +7,18 @@ object DeepSeekTextCodec {
     private val gb18030: Charset = Charset.forName("GB18030")
     private val windows1252: Charset = Charset.forName("Windows-1252")
     private val mojibakeMarkers = Regex("[鍙涓浠浣鐨勭殑锛銆闂棰樿緭鍑哄彉鍘嬪櫺鍥戒腑ÃÂâãåæçèéêëîïðñòóôõöøùúûüýþÿ¼½¾]")
-    private val commonArtifactReplacements = listOf(
-        "ã" to "。",
-        "ã" to "、",
-        "ï¼" to "，",
-        "ï¼" to "：",
-        "ï¼" to "；",
-        "â" to "“",
-        "â" to "”",
-        "â" to "‘",
-        "â" to "’"
-    )
+    private val commonArtifactReplacements =
+        listOf(
+            "ã" to "。",
+            "ã" to "、",
+            "ï¼" to "，",
+            "ï¼" to "：",
+            "ï¼" to "；",
+            "â" to "“",
+            "â" to "”",
+            "â" to "‘",
+            "â" to "’",
+        )
 
     fun normalizePrompt(prompt: String): String {
         val sanitized = TextSanitizer.sanitizeText(prompt)
@@ -59,12 +60,13 @@ object DeepSeekTextCodec {
         if (input.isBlank()) return input
         if (!mojibakeMarkers.containsMatchIn(input)) return input
 
-        val candidates = buildList {
-            add(input)
-            runCatching { String(input.toByteArray(Charsets.ISO_8859_1), Charsets.UTF_8) }.getOrNull()?.let(::add)
-            runCatching { String(input.toByteArray(windows1252), Charsets.UTF_8) }.getOrNull()?.let(::add)
-            runCatching { String(input.toByteArray(gb18030), Charsets.UTF_8) }.getOrNull()?.let(::add)
-        }
+        val candidates =
+            buildList {
+                add(input)
+                runCatching { String(input.toByteArray(Charsets.ISO_8859_1), Charsets.UTF_8) }.getOrNull()?.let(::add)
+                runCatching { String(input.toByteArray(windows1252), Charsets.UTF_8) }.getOrNull()?.let(::add)
+                runCatching { String(input.toByteArray(gb18030), Charsets.UTF_8) }.getOrNull()?.let(::add)
+            }
 
         return candidates
             .distinct()

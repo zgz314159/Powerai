@@ -11,20 +11,29 @@ interface DeepSeekNativeRuntime {
     val lastChunkAtMs: StateFlow<Long>
     val chunkFlow: SharedFlow<String>
 
-    fun provideResources(provider: NativeResourceProvider, context: android.content.Context? = null)
+    fun provideResources(
+        provider: NativeResourceProvider,
+        context: android.content.Context? = null,
+    )
 
     fun configureRuntime(
         threadCount: Int,
-        contextLength: Int = LlamaJni.DEFAULT_CONTEXT_LENGTH
+        contextLength: Int = LlamaJni.DEFAULT_CONTEXT_LENGTH,
     )
 
     fun configureStreamingThinking(enabled: Boolean)
 
-    fun safeSetOption(key: String?, value: String?): Boolean
+    fun safeSetOption(
+        key: String?,
+        value: String?,
+    ): Boolean
 
     fun safeInitBackend(backend: String?): Boolean
 
-    fun safeInitModel(path: String?, useGpu: Boolean): Boolean
+    fun safeInitModel(
+        path: String?,
+        useGpu: Boolean,
+    ): Boolean
 
     fun safeUnload(): Boolean
 
@@ -32,9 +41,15 @@ interface DeepSeekNativeRuntime {
 
     fun safeStopGeneration(): Boolean
 
-    fun safeGenerate(prompt: String?, maxTokens: Int): String
+    fun safeGenerate(
+        prompt: String?,
+        maxTokens: Int,
+    ): String
 
-    fun safeNativeGenerateStream(prompt: String?, maxTokens: Int = 0): Boolean
+    fun safeNativeGenerateStream(
+        prompt: String?,
+        maxTokens: Int = 0,
+    ): Boolean
 
     fun safeSetSystemPrompt(prompt: String): Boolean
 

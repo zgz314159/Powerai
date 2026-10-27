@@ -22,9 +22,10 @@ import androidx.navigation.NavHostController
 @Composable
 fun AiTextDetailScreen(navController: NavHostController) {
     val args = AiTextDetailNavArgsReader.read(navController)
-    val highlight = remember(args.highlightEncoded) {
-        AiTextDetailHighlight.fromEncodedHighlight(args.highlightEncoded)
-    }
+    val highlight =
+        remember(args.highlightEncoded) {
+            AiTextDetailHighlight.fromEncodedHighlight(args.highlightEncoded)
+        }
 
     Scaffold(
         topBar = {
@@ -34,16 +35,17 @@ fun AiTextDetailScreen(navController: NavHostController) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
                     }
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         if (args.content.isEmpty()) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                contentAlignment = Alignment.Center,
             ) {
                 Text("暂无可显示内")
             }
@@ -54,7 +56,7 @@ fun AiTextDetailScreen(navController: NavHostController) {
             title = args.title,
             content = args.content,
             highlight = highlight,
-            innerPadding = innerPadding
+            innerPadding = innerPadding,
         )
     }
 }

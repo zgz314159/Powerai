@@ -4,7 +4,7 @@ enum class QueryIntent {
     FACT_QUESTION,
     TOPIC_OVERVIEW,
     PROCEDURE,
-    COMPARISON
+    COMPARISON,
 }
 
 data class QueryUnderstandingResult(
@@ -12,5 +12,5 @@ data class QueryUnderstandingResult(
     val normalizedQuery: String,
     val intent: QueryIntent,
     val retrievalQueries: List<String>,
-    val signals: Set<String> = emptySet()
+    val signals: Set<String> = emptySet(),
 )

@@ -1,6 +1,7 @@
 package com.example.powerai.ui.screen.pdf
 
 import android.graphics.pdf.PdfRenderer
+import android.os.ParcelFileDescriptor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,29 +9,25 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.MaterialTheme
-import kotlinx.coroutines.launch
 import java.io.File
-import android.os.ParcelFileDescriptor
 
 @Composable
 fun PdfPagesColumn(
@@ -43,9 +40,10 @@ fun PdfPagesColumn(
     var pageCount by remember { mutableIntStateOf(0) }
 
     // Open renderer once for this file.
-    val rendererHolder = remember(pdfFile.absolutePath) {
-        mutableStateOf<PdfRenderer?>(null)
-    }
+    val rendererHolder =
+        remember(pdfFile.absolutePath) {
+            mutableStateOf<PdfRenderer?>(null)
+        }
 
     DisposableEffect(pdfFile.absolutePath) {
         val pfd = ParcelFileDescriptor.open(pdfFile, ParcelFileDescriptor.MODE_READ_ONLY)
@@ -54,8 +52,14 @@ fun PdfPagesColumn(
         pageCount = renderer.pageCount
 
         onDispose {
-            try { renderer.close() } catch (_: Throwable) {}
-            try { pfd.close() } catch (_: Throwable) {}
+            try {
+                renderer.close()
+            } catch (_: Throwable) {
+            }
+            try {
+                pfd.close()
+            } catch (_: Throwable) {
+            }
             rendererHolder.value = null
         }
     }

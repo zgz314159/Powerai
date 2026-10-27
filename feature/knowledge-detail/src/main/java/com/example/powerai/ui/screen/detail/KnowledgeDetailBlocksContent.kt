@@ -1,29 +1,16 @@
 package com.example.powerai.ui.screen.detail
 
-
-
-
-import com.example.powerai.core.model.TableBlock
-import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.KnowledgeBlock
-import android.content.Intent
-import android.widget.ImageView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -34,9 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import com.bumptech.glide.Glide
-import com.example.powerai.ui.blocks.KnowledgeBlockItem
+import com.example.powerai.core.model.ImageBlock
+import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.TableBlock
 import com.example.powerai.ui.image.AssetImageUriNormalizer
 import com.example.powerai.util.PdfSourceRef
 
@@ -46,7 +33,7 @@ internal fun KnowledgeDetailBlocksContent(
     resourceParams: BlocksDocumentResourceParams,
     visionParams: BlocksVisionBoostingParams = BlocksVisionBoostingParams(),
     validationParams: BlocksValidationParams = BlocksValidationParams(),
-    interactionParams: BlocksInteractionParams = BlocksInteractionParams()
+    interactionParams: BlocksInteractionParams = BlocksInteractionParams(),
 ) {
     val listState = rememberLazyListState()
 
@@ -60,13 +47,14 @@ internal fun KnowledgeDetailBlocksContent(
     var magicWindowBlock by remember { mutableStateOf<KnowledgeBlock?>(null) }
     var magicWindowImageUri by remember { mutableStateOf<String?>(null) }
 
-    val initialScrollIndex = remember(displayParams.blocks, displayParams.initialBlockIndex, displayParams.initialBlockId) {
-        KnowledgeDetailBlocksScrollTargets.initialScrollIndex(
-            blocks = displayParams.blocks,
-            initialBlockIndex = displayParams.initialBlockIndex,
-            initialBlockId = displayParams.initialBlockId
-        )
-    }
+    val initialScrollIndex =
+        remember(displayParams.blocks, displayParams.initialBlockIndex, displayParams.initialBlockId) {
+            KnowledgeDetailBlocksScrollTargets.initialScrollIndex(
+                blocks = displayParams.blocks,
+                initialBlockIndex = displayParams.initialBlockIndex,
+                initialBlockId = displayParams.initialBlockId,
+            )
+        }
 
     LaunchedEffect(initialScrollIndex) {
         if (initialScrollIndex != null) {
@@ -76,7 +64,7 @@ internal fun KnowledgeDetailBlocksContent(
 
     KnowledgeDetailMatchNavigationController(
         matchIndices = displayParams.matchIndices,
-        listState = listState
+        listState = listState,
     )
 
     if (magicWindowBlock != null && !magicWindowImageUri.isNullOrBlank()) {
@@ -105,7 +93,7 @@ internal fun KnowledgeDetailBlocksContent(
             onDismiss = {
                 magicWindowBlock = null
                 magicWindowImageUri = null
-            }
+            },
         )
     }
 
@@ -113,7 +101,7 @@ internal fun KnowledgeDetailBlocksContent(
         state = listState,
         modifier = displayParams.modifier.fillMaxSize(),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         itemsIndexed(displayParams.blocks) { _, block ->
             val canOpenMagicWindow = block !is ImageBlock && !block.boundingBox.isNullOrBlank()
@@ -179,14 +167,14 @@ private fun MagicWindowBottomSheet(
     onRequestVisionBoost: (blockId: String, imageUri: String) -> Unit,
     onApplyToOriginal: (clearCacheAfter: Boolean) -> Unit,
     onOpenPdfAtBox: (pageNumber: Int?, bboxJson: String?) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var clearCacheAfterApply by remember { mutableStateOf(true) }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        sheetState = sheetState
+        sheetState = sheetState,
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
             Text(text = "点击查看原件", style = androidx.compose.material3.MaterialTheme.typography.titleMedium)
@@ -194,7 +182,7 @@ private fun MagicWindowBottomSheet(
             MagicWindowImageDisplay(
                 imageUri = imageUri,
                 pageNumber = pageNumber,
-                block = block
+                block = block,
             )
 
             MagicWindowControls(
@@ -211,14 +199,14 @@ private fun MagicWindowBottomSheet(
                 imageUri = imageUri,
                 clearCacheAfterApply = clearCacheAfterApply,
                 onClearCacheAfterApplyChanged = { clearCacheAfterApply = it },
-                onDismiss = onDismiss
+                onDismiss = onDismiss,
             )
 
             MagicWindowDebugInfo(
                 block = block,
                 imageUri = imageUri,
                 visionMarkdown = visionMarkdown,
-                visionBoostErrorMessage = visionBoostErrorMessage
+                visionBoostErrorMessage = visionBoostErrorMessage,
             )
         }
     }

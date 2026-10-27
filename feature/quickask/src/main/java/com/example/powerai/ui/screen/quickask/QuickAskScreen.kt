@@ -2,8 +2,6 @@
 
 package com.example.powerai.ui.screen.quickask
 
-import com.example.powerai.core.model.KnowledgeItem
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.KnowledgeItemCard
 import com.example.powerai.ui.component.SearchBar
 
@@ -32,7 +31,7 @@ fun QuickAskScreen(
     _onCategorySelected: (String) -> Unit,
     _selectedCategory: String,
     searchQuery: String,
-    onSearchQueryChange: (String) -> Unit
+    onSearchQueryChange: (String) -> Unit,
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxSize()) {
@@ -40,7 +39,7 @@ fun QuickAskScreen(
                 categories.forEach { category ->
                     Text(
                         text = category,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(vertical = 8.dp),
                     )
                 }
             }
@@ -49,7 +48,7 @@ fun QuickAskScreen(
                     value = searchQuery,
                     onValueChange = onSearchQueryChange,
                     onSearch = {},
-                    onClear = { onSearchQueryChange("") }
+                    onClear = { onSearchQueryChange("") },
                 )
                 LazyColumn {
                     items(items) { item ->

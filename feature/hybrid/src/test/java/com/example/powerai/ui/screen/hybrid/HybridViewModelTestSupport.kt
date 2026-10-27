@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
-import com.example.powerai.feature.hybrid.HybridKbImportPort
 import com.example.powerai.data.settings.LocalAnswerFeedbackStore
 import com.example.powerai.domain.model.SearchEntry
 import com.example.powerai.domain.repository.HistoryScope
@@ -14,6 +13,7 @@ import com.example.powerai.domain.repository.SearchHistoryRepository
 import com.example.powerai.domain.usecase.HybridHistoryUseCase
 import com.example.powerai.domain.usecase.HybridQueryUseCase
 import com.example.powerai.domain.usecase.LocalAnswerPlanner
+import com.example.powerai.feature.hybrid.HybridKbImportPort
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.job

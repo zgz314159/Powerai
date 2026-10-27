@@ -1,10 +1,10 @@
 package com.example.powerai.domain.llm
 
-import org.junit.Assert.*
-import org.junit.Test
-import com.example.powerai.engine.ai.SparseSearcher
 import com.example.powerai.engine.ai.SparseScorer
 import com.example.powerai.engine.ai.SparseSearchUtils
+import com.example.powerai.engine.ai.SparseSearcher
+import org.junit.Assert.*
+import org.junit.Test
 
 class SparseSearchUtilsTest {
     private val entryA = SparseSearcher.SafetyEntry("A", "foo bar", "src1")
@@ -13,20 +13,23 @@ class SparseSearchUtilsTest {
 
     @Test
     fun `applyTieBreak leaves order unchanged when diff ge 1`() {
-        val scores = listOf(
-            SparseScorer.Score(entryA, raw = 10, final = 20.0),
-            SparseScorer.Score(entryB, raw = 10, final = 18.5)
-        )
+        val scores =
+            listOf(
+                SparseScorer.Score(entryA, raw = 10, final = 20.0),
+                SparseScorer.Score(entryB, raw = 10, final = 18.5),
+            )
         val result = SparseSearchUtils.applyTieBreak(scores)
         assertEquals(listOf(entryA, entryB), result)
     }
 
     @Test
     fun `applyTieBreak reorders when diff lt 1 and weight favors second`() {
-        val scores = listOf(
-            SparseScorer.Score(entryA, raw = 10, final = 20.0),
-            SparseScorer.Score(entryB, raw = 1, final = 20.5) // higher final/raw ratio
-        )
+        val scores =
+            listOf(
+                SparseScorer.Score(entryA, raw = 10, final = 20.0),
+                // higher final/raw ratio
+                SparseScorer.Score(entryB, raw = 1, final = 20.5),
+            )
         val result = SparseSearchUtils.applyTieBreak(scores)
         // B should come first due to weight
         assertEquals(listOf(entryB, entryA), result)

@@ -12,13 +12,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.ui.screen.main.DisplayMode
 import com.example.powerai.ui.theme.PowerAiTheme
@@ -46,9 +46,14 @@ fun AppEntry() {
             LaunchedEffect(key1 = context) {
                 val act = context as? android.app.Activity
                 val raw = act?.intent?.getStringExtra("auto_query")
-                val q = raw?.let {
-                    try { java.net.URLDecoder.decode(it, "UTF-8") } catch (_: Throwable) { it }
-                }
+                val q =
+                    raw?.let {
+                        try {
+                            java.net.URLDecoder.decode(it, "UTF-8")
+                        } catch (_: Throwable) {
+                            it
+                        }
+                    }
                 if (!q.isNullOrBlank()) {
                     hybridViewModel.submitQuery(q, DisplayMode.LOCAL)
                 }

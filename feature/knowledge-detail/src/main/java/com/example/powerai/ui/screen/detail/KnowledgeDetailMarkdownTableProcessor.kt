@@ -10,7 +10,7 @@ internal object TableBlockProtector {
 
     data class ProtectedBlocks(
         val protectedText: String,
-        val blocks: List<String>
+        val blocks: List<String>,
     )
 
     fun protect(markdown: String): ProtectedBlocks {
@@ -42,11 +42,14 @@ internal object TableBlockProtector {
 
         return ProtectedBlocks(
             protectedText = rebuilt.toString(),
-            blocks = tableBlocks
+            blocks = tableBlocks,
         )
     }
 
-    fun restore(text: String, blocks: List<String>): String {
+    fun restore(
+        text: String,
+        blocks: List<String>,
+    ): String {
         var restored = text
         for (idx in blocks.indices) {
             restored = restored.replace("$PLACEHOLDER_PREFIX${idx}$PLACEHOLDER_SUFFIX", blocks[idx])
@@ -103,9 +106,10 @@ internal object TableBlockNormalizer {
         val out = ArrayList<String>(block.size + 2)
 
         // Rebuild header (pad to max cols)
-        val headerCells = (parsed.getOrNull(0) ?: emptyList()).let { row ->
-            if (row.size >= cols) row.take(cols) else row + List(cols - row.size) { "" }
-        }
+        val headerCells =
+            (parsed.getOrNull(0) ?: emptyList()).let { row ->
+                if (row.size >= cols) row.take(cols) else row + List(cols - row.size) { "" }
+            }
         out.add(joinCells(headerCells))
 
         // Rebuild separator (always cols)
@@ -196,7 +200,7 @@ private fun joinCells(cells: List<String>): String {
 internal object TableSeparatorInserter {
     fun normalizeRowPipesAndInsertMissingSeparators(
         lines: MutableList<String>,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ) {
         var i = 0
         while (i < lines.size) {
@@ -228,7 +232,7 @@ internal object TableSeparatorInserter {
 internal object TableSeparatorWidthNormalizer {
     fun normalizeSeparatorWidthsAndPadBlankLines(
         lines: MutableList<String>,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ) {
         var i = 0
         while (i < lines.size) {
@@ -242,10 +246,11 @@ internal object TableSeparatorWidthNormalizer {
                     if (lt.isBlank()) break
                     if (!lt.startsWith("|")) break
                     if (separatorLineRegex.matches(lt)) break
-                    maxPipes = maxOf(
-                        maxPipes,
-                        pipeCount(normalizeRowPipes(lt))
-                    )
+                    maxPipes =
+                        maxOf(
+                            maxPipes,
+                            pipeCount(normalizeRowPipes(lt)),
+                        )
                     j--
                 }
 
@@ -255,10 +260,11 @@ internal object TableSeparatorWidthNormalizer {
                     if (lt.isBlank()) break
                     if (!lt.startsWith("|")) break
                     if (separatorLineRegex.matches(lt)) break
-                    maxPipes = maxOf(
-                        maxPipes,
-                        pipeCount(normalizeRowPipes(lt))
-                    )
+                    maxPipes =
+                        maxOf(
+                            maxPipes,
+                            pipeCount(normalizeRowPipes(lt)),
+                        )
                     k++
                 }
 
@@ -287,14 +293,14 @@ internal object TableSeparatorWidthNormalizer {
 internal object TableSeparatorPipeline {
     fun normalizeRowPipesAndInsertMissingSeparators(
         lines: MutableList<String>,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ) {
         TableSeparatorInserter.normalizeRowPipesAndInsertMissingSeparators(lines, separatorLineRegex)
     }
 
     fun normalizeSeparatorWidthsAndPadBlankLines(
         lines: MutableList<String>,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ) {
         TableSeparatorWidthNormalizer.normalizeSeparatorWidthsAndPadBlankLines(lines, separatorLineRegex)
     }
@@ -306,6 +312,6 @@ internal object TableSeparatorPipeline {
 
 internal object TableNormalizeHelpers {
     fun isTableLine(line: String): Boolean = com.example.powerai.ui.screen.detail.isTableLine(line)
-    
+
     fun isSeparatorLine(line: String): Boolean = com.example.powerai.ui.screen.detail.isSeparatorLine(line)
 }

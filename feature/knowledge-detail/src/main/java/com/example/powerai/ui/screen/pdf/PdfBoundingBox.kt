@@ -6,7 +6,7 @@ data class PdfBoundingBox(
     val xMin: Float,
     val yMin: Float,
     val xMax: Float,
-    val yMax: Float
+    val yMax: Float,
 )
 
 fun parsePdfBoundingBoxOrNull(bboxJson: String?): PdfBoundingBox? {

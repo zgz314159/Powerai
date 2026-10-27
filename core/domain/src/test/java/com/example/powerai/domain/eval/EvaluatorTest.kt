@@ -6,7 +6,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class EvaluatorTest {
-
     @Test
     fun testEvaluator_singleQuery_perfectMatch() {
         val dataset = mapOf("q1" to setOf("1"))
@@ -14,7 +13,15 @@ class EvaluatorTest {
         val retrievalFn: suspend (String, Int) -> List<KnowledgeItem> = { query, limit ->
             if (query == "q1") {
                 listOf(
-                    KnowledgeItem(id = 1L, title = "T1", content = "content1", source = "s", pageNumber = null, category = "cat", keywords = emptyList())
+                    KnowledgeItem(
+                        id = 1L,
+                        title = "T1",
+                        content = "content1",
+                        source = "s",
+                        pageNumber = null,
+                        category = "cat",
+                        keywords = emptyList(),
+                    ),
                 ).take(limit)
             } else {
                 emptyList()

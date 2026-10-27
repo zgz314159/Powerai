@@ -5,7 +5,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class QueryUnderstandingPipelineTest {
-
     @Test
     fun `understand classifies topic overview query`() {
         val result = QueryUnderstandingPipeline.understand("变压器")

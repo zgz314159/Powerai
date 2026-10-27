@@ -10,23 +10,24 @@ import androidx.compose.ui.text.withStyle
 internal fun buildCitedAndLinkedText(
     text: String,
     citationColor: androidx.compose.ui.graphics.Color,
-    linkColor: androidx.compose.ui.graphics.Color
+    linkColor: androidx.compose.ui.graphics.Color,
 ): AnnotatedString {
     val citationRegex = Regex("\\[(\\d{1,3})]")
     val urlRegex = Regex("https?://[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=%]+")
 
     data class Span(val start: Int, val endExclusive: Int, val type: String, val value: String)
 
-    val spans = buildList {
-        for (m in citationRegex.findAll(text)) {
-            val number = m.groupValues.getOrNull(1).orEmpty()
-            add(Span(m.range.first, m.range.last + 1, "citation", number))
-        }
-        for (m in urlRegex.findAll(text)) {
-            val url = m.value
-            add(Span(m.range.first, m.range.last + 1, "url", url))
-        }
-    }.sortedWith(compareBy<Span> { it.start }.thenByDescending { it.endExclusive })
+    val spans =
+        buildList {
+            for (m in citationRegex.findAll(text)) {
+                val number = m.groupValues.getOrNull(1).orEmpty()
+                add(Span(m.range.first, m.range.last + 1, "citation", number))
+            }
+            for (m in urlRegex.findAll(text)) {
+                val url = m.value
+                add(Span(m.range.first, m.range.last + 1, "url", url))
+            }
+        }.sortedWith(compareBy<Span> { it.start }.thenByDescending { it.endExclusive })
 
     return buildAnnotatedString {
         var cursor = 0
@@ -42,8 +43,8 @@ internal fun buildCitedAndLinkedText(
                     withStyle(
                         SpanStyle(
                             color = citationColor,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                            fontWeight = FontWeight.SemiBold,
+                        ),
                     ) {
                         append(text.substring(s.start, s.endExclusive))
                     }
@@ -54,8 +55,8 @@ internal fun buildCitedAndLinkedText(
                     withStyle(
                         SpanStyle(
                             color = linkColor,
-                            textDecoration = TextDecoration.Underline
-                        )
+                            textDecoration = TextDecoration.Underline,
+                        ),
                     ) {
                         append(text.substring(s.start, s.endExclusive))
                     }

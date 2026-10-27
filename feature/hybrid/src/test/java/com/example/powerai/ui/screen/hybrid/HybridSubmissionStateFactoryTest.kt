@@ -9,17 +9,17 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HybridSubmissionStateFactoryTest {
-
     @Test
     fun `prepare local mode clears local surfaces and builds summary state`() {
         val current = HybridUiState(question = "old")
 
-        val prepared = HybridSubmissionStateFactory.prepare(
-            current = current,
-            question = "  hello world  ",
-            mode = DisplayMode.LOCAL,
-            askedAtMillis = 123L
-        )
+        val prepared =
+            HybridSubmissionStateFactory.prepare(
+                current = current,
+                question = "  hello world  ",
+                mode = DisplayMode.LOCAL,
+                askedAtMillis = 123L,
+            )
 
         assertEquals("  hello world  ", prepared.sanitizedQuestion)
         assertEquals(HybridUtils.normalizeForFts("  hello world  "), prepared.ftsQuery)
@@ -36,12 +36,13 @@ class HybridSubmissionStateFactoryTest {
 
     @Test
     fun `prepare smart mode resets smart controls only`() {
-        val prepared = HybridSubmissionStateFactory.prepare(
-            current = HybridUiState(),
-            question = "smart q",
-            mode = DisplayMode.SMART,
-            askedAtMillis = 456L
-        )
+        val prepared =
+            HybridSubmissionStateFactory.prepare(
+                current = HybridUiState(),
+                question = "smart q",
+                mode = DisplayMode.SMART,
+                askedAtMillis = 456L,
+            )
 
         assertFalse(prepared.clearAiAnswer)
         assertFalse(prepared.clearEvidence)
@@ -53,12 +54,13 @@ class HybridSubmissionStateFactoryTest {
 
     @Test
     fun `prepare ai mode only updates shared submission state`() {
-        val prepared = HybridSubmissionStateFactory.prepare(
-            current = HybridUiState(webSearchEnabled = true),
-            question = "ai q",
-            mode = DisplayMode.AI,
-            askedAtMillis = 789L
-        )
+        val prepared =
+            HybridSubmissionStateFactory.prepare(
+                current = HybridUiState(webSearchEnabled = true),
+                question = "ai q",
+                mode = DisplayMode.AI,
+                askedAtMillis = 789L,
+            )
 
         assertFalse(prepared.clearAiAnswer)
         assertFalse(prepared.clearEvidence)

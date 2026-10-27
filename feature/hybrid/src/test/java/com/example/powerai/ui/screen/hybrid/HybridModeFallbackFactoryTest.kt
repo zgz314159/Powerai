@@ -6,7 +6,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HybridModeFallbackFactoryTest {
-
     @Test
     fun `local failure returns a retryable error payload with safe copy`() {
         val fallback = HybridModeFallbackFactory.localFailure("hello")

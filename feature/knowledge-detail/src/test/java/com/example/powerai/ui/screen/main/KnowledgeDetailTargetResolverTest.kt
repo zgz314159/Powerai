@@ -6,21 +6,21 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 
 class KnowledgeDetailTargetResolverTest {
-
     @Test
     fun `knowledge detail target prefers item highlight hint`() {
-        val item = KnowledgeItem(
-            id = 42L,
-            title = "变压器",
-            content = "内容",
-            source = "规则",
-            pageNumber = 3,
-            category = "qa",
-            keywords = emptyList(),
-            highlightHint = "命中句",
-            hitBlockIndex = 7,
-            hitBlockId = "blk-7"
-        )
+        val item =
+            KnowledgeItem(
+                id = 42L,
+                title = "变压器",
+                content = "内容",
+                source = "规则",
+                pageNumber = 3,
+                category = "qa",
+                keywords = emptyList(),
+                highlightHint = "命中句",
+                hitBlockIndex = 7,
+                hitBlockId = "blk-7",
+            )
 
         val target = knowledgeDetailTargetOrNull(item, fallbackHighlight = "查询词")
 
@@ -32,24 +32,26 @@ class KnowledgeDetailTargetResolverTest {
 
     @Test
     fun `citation target falls back to query highlight and rejects invalid citation`() {
-        val item = KnowledgeItem(
-            id = 9L,
-            title = "断路器",
-            content = "内容",
-            source = "题库",
-            pageNumber = null,
-            category = "qa",
-            keywords = emptyList(),
-            highlightHint = null,
-            hitBlockIndex = null,
-            hitBlockId = null
-        )
+        val item =
+            KnowledgeItem(
+                id = 9L,
+                title = "断路器",
+                content = "内容",
+                source = "题库",
+                pageNumber = null,
+                category = "qa",
+                keywords = emptyList(),
+                highlightHint = null,
+                hitBlockIndex = null,
+                hitBlockId = null,
+            )
 
-        val target = citationDetailTargetOrNull(
-            citationNumber = 1,
-            evidenceItems = listOf(item),
-            fallbackHighlight = "断路器区别"
-        )
+        val target =
+            citationDetailTargetOrNull(
+                citationNumber = 1,
+                evidenceItems = listOf(item),
+                fallbackHighlight = "断路器区别",
+            )
 
         assertEquals(9L, target?.id)
         assertEquals("断路器区别", target?.detailHighlight)

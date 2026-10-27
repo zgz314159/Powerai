@@ -1,7 +1,5 @@
 package com.example.powerai.ui.component
 
-import com.example.powerai.core.model.util.TextSanitizer
-
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -22,7 +20,7 @@ fun buildHighlightedPreview(
     keyword: String,
     highlightStyle: SpanStyle,
     maxChars: Int,
-    beforeChars: Int = -1
+    beforeChars: Int = -1,
 ): AnnotatedString {
     val raw = keyword.trim()
     if (maxChars <= 0) return AnnotatedString("")
@@ -30,11 +28,12 @@ fun buildHighlightedPreview(
     val (matchIndex, matchedKeyword) = findBestMatchingKeyword(fullText, raw)
     val (rawSnippet, snippetStart, snippetEnd) = extractSnippetWithContext(fullText, matchIndex, maxChars, beforeChars)
 
-    val snippet = buildString {
-        if (snippetStart > 0) append('…')
-        append(rawSnippet)
-        if (snippetEnd < fullText.length) append('…')
-    }
+    val snippet =
+        buildString {
+            if (snippetStart > 0) append('…')
+            append(rawSnippet)
+            if (snippetEnd < fullText.length) append('…')
+        }
 
     val kw = matchedKeyword.ifBlank { raw }
     if (kw.isBlank()) return AnnotatedString(snippet)
@@ -43,12 +42,16 @@ fun buildHighlightedPreview(
 
 private data class KeywordMatch(val index: Int, val keyword: String)
 
-private fun findBestMatchingKeyword(fullText: String, raw: String): KeywordMatch {
-    val candidates = listOf(
-        raw,
-        raw.filterNot { it.isWhitespace() },
-        raw.filter { Character.isLetterOrDigit(it) }
-    ).map { it.trim() }.filter { it.isNotBlank() }.distinct()
+private fun findBestMatchingKeyword(
+    fullText: String,
+    raw: String,
+): KeywordMatch {
+    val candidates =
+        listOf(
+            raw,
+            raw.filterNot { it.isWhitespace() },
+            raw.filter { Character.isLetterOrDigit(it) },
+        ).map { it.trim() }.filter { it.isNotBlank() }.distinct()
 
     for (cand in candidates) {
         val idx = findMatchIndexIgnoringWhitespace(fullText, cand)
@@ -63,7 +66,7 @@ private fun extractSnippetWithContext(
     fullText: String,
     matchIndex: Int,
     maxChars: Int,
-    beforeChars: Int
+    beforeChars: Int,
 ): SnippetRange {
     if (matchIndex < 0) {
         val s = fullText.take(maxChars)
@@ -90,7 +93,10 @@ private fun extractSnippetWithContext(
  * @param keyword The keyword to find
  * @return Index of first match, or -1 if not found
  */
-internal fun findMatchIndexIgnoringWhitespace(fullText: String, keyword: String): Int {
+internal fun findMatchIndexIgnoringWhitespace(
+    fullText: String,
+    keyword: String,
+): Int {
     val k = keyword.trim()
     if (k.isBlank()) return -1
 
@@ -113,7 +119,10 @@ internal fun findMatchIndexIgnoringWhitespace(fullText: String, keyword: String)
  * @param keyCompact The keyword with only letter/digit characters
  * @return Start index of first match, or -1 if not found
  */
-private fun findFirstFuzzyMatchStart(text: String, keyCompact: String): Int {
+private fun findFirstFuzzyMatchStart(
+    text: String,
+    keyCompact: String,
+): Int {
     if (keyCompact.isBlank()) return -1
     var i = 0
     while (i < text.length) {
@@ -151,7 +160,7 @@ private fun findFirstFuzzyMatchStart(text: String, keyCompact: String): Int {
 internal fun highlightAllWithWhitespaceFallback(
     text: String,
     keyword: String,
-    highlightStyle: SpanStyle
+    highlightStyle: SpanStyle,
 ): AnnotatedString {
     val k = keyword.trim()
     if (k.isBlank()) return AnnotatedString(text)
@@ -171,7 +180,11 @@ internal fun highlightAllWithWhitespaceFallback(
     return applyHighlightRanges(text, merged, highlightStyle)
 }
 
-private fun exactSubstringHighlight(text: String, keyword: String, highlightStyle: SpanStyle): AnnotatedString? {
+private fun exactSubstringHighlight(
+    text: String,
+    keyword: String,
+    highlightStyle: SpanStyle,
+): AnnotatedString? {
     val lowerText = text.lowercase()
     val lowerKey = keyword.lowercase()
     val firstIndex = lowerText.indexOf(lowerKey)
@@ -190,7 +203,10 @@ private fun exactSubstringHighlight(text: String, keyword: String, highlightStyl
     }
 }
 
-private fun collectFuzzyMatchRanges(text: String, keyCompact: String): List<IntRange> {
+private fun collectFuzzyMatchRanges(
+    text: String,
+    keyCompact: String,
+): List<IntRange> {
     val spans = ArrayList<IntRange>()
     var i = 0
     while (i < text.length) {
@@ -233,7 +249,11 @@ private fun mergeRanges(ranges: List<IntRange>): List<IntRange> {
     }
 }
 
-private fun applyHighlightRanges(text: String, ranges: List<IntRange>, highlightStyle: SpanStyle): AnnotatedString {
+private fun applyHighlightRanges(
+    text: String,
+    ranges: List<IntRange>,
+    highlightStyle: SpanStyle,
+): AnnotatedString {
     return buildAnnotatedString {
         var cursor = 0
         for (range in ranges) {

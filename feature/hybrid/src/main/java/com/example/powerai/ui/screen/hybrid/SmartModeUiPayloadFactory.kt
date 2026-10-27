@@ -1,14 +1,13 @@
 package com.example.powerai.ui.screen.hybrid
 
 import com.example.powerai.core.model.KnowledgeItem
-
-import com.example.powerai.domain.model.QueryResult
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.domain.model.QueryResult
 
 internal data class SmartModeUiPayload(
     val answer: String,
     val references: List<KnowledgeItem>,
-    val evidence: List<RetrievalResult>
+    val evidence: List<RetrievalResult>,
 )
 
 internal object SmartModeUiPayloadFactory {
@@ -16,9 +15,10 @@ internal object SmartModeUiPayloadFactory {
         return SmartModeUiPayload(
             answer = result.answer,
             references = result.references,
-            evidence = result.references.map { item ->
-                RetrievalResult(item = item, source = "local", score = 0f)
-            }
+            evidence =
+                result.references.map { item ->
+                    RetrievalResult(item = item, source = "local", score = 0f)
+                },
         )
     }
 }

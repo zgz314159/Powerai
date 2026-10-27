@@ -29,21 +29,40 @@ class PhotoViewerActivity : ComponentActivity() {
         Log.d(TAG, "onCreate received uri=$uri")
         uri?.let { target ->
             try {
-                Log.d(TAG, "Glide PhotoViewer START uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")
+                Log.d(
+                    TAG,
+                    "Glide PhotoViewer START uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}",
+                )
                 Glide.with(photoView)
                     .load(target)
                     .error(android.R.drawable.ic_menu_report_image)
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, targetGl: Target<Drawable>, isFirstResource: Boolean): Boolean {
-                            Log.w(TAG, "Glide PhotoViewer FAILED uri=$target", e)
-                            return false
-                        }
+                    .listener(
+                        object : RequestListener<Drawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                targetGl: Target<Drawable>,
+                                isFirstResource: Boolean,
+                            ): Boolean {
+                                Log.w(TAG, "Glide PhotoViewer FAILED uri=$target", e)
+                                return false
+                            }
 
-                        override fun onResourceReady(resource: Drawable, model: Any, targetGl: Target<Drawable>, dataSource: com.bumptech.glide.load.DataSource, isFirstResource: Boolean): Boolean {
-                            Log.d(TAG, "Glide PhotoViewer DONE uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}")
-                            return false
-                        }
-                    })
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                model: Any,
+                                targetGl: Target<Drawable>,
+                                dataSource: com.bumptech.glide.load.DataSource,
+                                isFirstResource: Boolean,
+                            ): Boolean {
+                                Log.d(
+                                    TAG,
+                                    "Glide PhotoViewer DONE uri=$target thread=${Thread.currentThread().name} nativeAlloc=${Debug.getNativeHeapAllocatedSize()} freeMem=${Runtime.getRuntime().freeMemory()}",
+                                )
+                                return false
+                            }
+                        },
+                    )
                     .into(photoView)
             } catch (e: Exception) {
                 Log.w(TAG, "Glide load failed for $target", e)

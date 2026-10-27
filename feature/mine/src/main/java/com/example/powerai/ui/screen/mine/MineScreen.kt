@@ -36,10 +36,11 @@ fun MineScreen(
 ) {
     val viewModel = hiltViewModel<SettingsViewModel>()
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } }
-    )
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+            onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } },
+        )
 
     Scaffold(
         topBar = {
@@ -57,26 +58,27 @@ fun MineScreen(
                             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                             "application/msword",
                             "application/json",
-                            "*/*"
-                        )
+                            "*/*",
+                        ),
                     )
-                }
+                },
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text("导入文件")
             }
-        }
+        },
     ) { inner ->
         SettingsBody(
             navController = navController,
             viewModel = viewModel,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(top = if (showTopBar) 16.dp else 64.dp)
-                .padding(16.dp)
-                .padding(inner),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(top = if (showTopBar) 16.dp else 64.dp)
+                    .padding(16.dp)
+                    .padding(inner),
             topContent = {
                 SettingsSection(title = "账号") {
                     Text("登录/注册：未实现")

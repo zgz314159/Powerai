@@ -1,10 +1,11 @@
 package com.example.powerai.ui.screen.detail
 
 internal fun looksLikeMarkdownTableChunk(markdown: String): Boolean {
-    val lines = markdown.replace("\r\n", "\n")
-        .split('\n')
-        .map { it.trimEnd() }
-        .filter { it.isNotBlank() }
+    val lines =
+        markdown.replace("\r\n", "\n")
+            .split('\n')
+            .map { it.trimEnd() }
+            .filter { it.isNotBlank() }
     if (lines.size < 2) return false
     val header = lines[0].trim()
     val sep = lines[1].trim()
@@ -21,7 +22,8 @@ internal fun buildHtmlForMarkdownTable(tableMarkdown: String): String {
     val headerCells = rows.getOrNull(0).orEmpty()
     val dataRows = rows.drop(2)
 
-    val css = """
+    val css =
+        """
         body { margin: 0; padding: 0; font-family: sans-serif; font-size: 14px; line-height: 1.35; color: #111; -webkit-text-size-adjust: 100%; }
         .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 4px 0; }
         table { border-collapse: collapse; width: max-content; min-width: 100%; }
@@ -29,22 +31,23 @@ internal fun buildHtmlForMarkdownTable(tableMarkdown: String): String {
         th { background: #F5F5F5; font-weight: 600; }
         td { background: #FFFFFF; }
         img { max-width: 100%; height: auto; display: block; margin: 6px auto; }
-    """.trimIndent()
+        """.trimIndent()
 
-    val tableHtml = buildString {
-        append("<div class=\"table-wrap\">")
-        append("<table>")
-        append("<thead>")
-        append(MarkdownTableHtmlHelpers.renderRow(headerCells, "th", maxCols))
-        append("</thead>")
-        append("<tbody>")
-        for (r in dataRows) {
-            append(MarkdownTableHtmlHelpers.renderRow(r, "td", maxCols))
+    val tableHtml =
+        buildString {
+            append("<div class=\"table-wrap\">")
+            append("<table>")
+            append("<thead>")
+            append(MarkdownTableHtmlHelpers.renderRow(headerCells, "th", maxCols))
+            append("</thead>")
+            append("<tbody>")
+            for (r in dataRows) {
+                append(MarkdownTableHtmlHelpers.renderRow(r, "td", maxCols))
+            }
+            append("</tbody>")
+            append("</table>")
+            append("</div>")
         }
-        append("</tbody>")
-        append("</table>")
-        append("</div>")
-    }
 
     return """
         <!doctype html>
@@ -57,5 +60,5 @@ internal fun buildHtmlForMarkdownTable(tableMarkdown: String): String {
             $tableHtml
           </body>
         </html>
-    """.trimIndent()
+        """.trimIndent()
 }

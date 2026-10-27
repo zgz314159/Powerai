@@ -16,49 +16,50 @@ import java.security.MessageDigest
  * implementation when adding the dependency back.
  */
 class PdfParser(private val contentResolver: ContentResolver) : FileParser {
-
     suspend fun parse(
         uri: Uri,
         fileName: String,
         batchSize: Int = com.example.powerai.core.data.importer.ImportDefaults.DEFAULT_BATCH_SIZE,
         onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
-        onProgressPages: (page: Int, totalPages: Int) -> Unit = { _, _ -> }
-    ): String = withContext(Dispatchers.IO) {
-        val input = contentResolver.openInputStream(uri) ?: throw IllegalArgumentException("Cannot open uri")
-        val buffered = BufferedInputStream(input)
-        val digest = MessageDigest.getInstance("SHA-256")
-        val all = buffered.readBytes()
-        digest.update(all)
-        buffered.close()
+        onProgressPages: (page: Int, totalPages: Int) -> Unit = { _, _ -> },
+    ): String =
+        withContext(Dispatchers.IO) {
+            val input = contentResolver.openInputStream(uri) ?: throw IllegalArgumentException("Cannot open uri")
+            val buffered = BufferedInputStream(input)
+            val digest = MessageDigest.getInstance("SHA-256")
+            val all = buffered.readBytes()
+            digest.update(all)
+            buffered.close()
 
-        // Naive split: treat as UTF-8 text and split on double newlines
-        val text = try {
-            String(all, Charsets.UTF_8)
-        } catch (_: Exception) {
-            String(all, Charsets.ISO_8859_1)
-        }
-        val parts = text.split(Regex("\\r?\\n\\s*\\r?\\n+"))
-        val batch = ArrayList<KnowledgeEntity>(batchSize)
-        parts.forEachIndexed { idx, p ->
-            val clean = TextSanitizer.sanitizeText(p)
-            if (clean.isNotBlank()) batch.add(KnowledgeEntity(title = "", content = clean, source = fileName))
-            if (batch.size >= batchSize) {
-                onBatchReady(batch.toList())
-                batch.clear()
+            // Naive split: treat as UTF-8 text and split on double newlines
+            val text =
+                try {
+                    String(all, Charsets.UTF_8)
+                } catch (_: Exception) {
+                    String(all, Charsets.ISO_8859_1)
+                }
+            val parts = text.split(Regex("\\r?\\n\\s*\\r?\\n+"))
+            val batch = ArrayList<KnowledgeEntity>(batchSize)
+            parts.forEachIndexed { idx, p ->
+                val clean = TextSanitizer.sanitizeText(p)
+                if (clean.isNotBlank()) batch.add(KnowledgeEntity(title = "", content = clean, source = fileName))
+                if (batch.size >= batchSize) {
+                    onBatchReady(batch.toList())
+                    batch.clear()
+                }
+                onProgressPages(idx + 1, parts.size)
             }
-            onProgressPages(idx + 1, parts.size)
+            if (batch.isNotEmpty()) onBatchReady(batch.toList())
+            val fileId = digest.digest().joinToString("") { "%02x".format(it) }
+            fileId
         }
-        if (batch.isNotEmpty()) onBatchReady(batch.toList())
-        val fileId = digest.digest().joinToString("") { "%02x".format(it) }
-        fileId
-    }
 
     // adapter for FileParser interface -------------------------------------------------------
     override suspend fun parse(
         uri: Uri,
         fileName: String,
         batchSize: Int,
-        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit
+        onBatchReady: suspend (List<KnowledgeEntity>) -> Unit,
     ): String {
         return parse(uri, fileName, batchSize, onBatchReady)
     }

@@ -16,36 +16,27 @@ data class KnowledgeEntity(
     val source: String,
     val category: String = "",
     val keywordsSerialized: String = "",
-
     /** Normalized text used for lexical search (FTS/LIKE). */
     val contentNormalized: String = "",
-
     /**
      * Search payload used by FTS.
      */
     val searchContent: String = "",
-
     /** Optional page number (1-based) for PDF/docx extracted entries. */
     val pageNumber: Int? = null,
-
     /** Optional sort order for consistent sequential display. */
     val sortOrder: Int? = null,
-
     /** Optional preprocessed structured blocks payload (JSON). */
     val contentBlocksJson: String? = null,
-
     /** Optional bounding box info (JSON). */
     val bboxJson: String? = null,
-
     /** Optional image URIs extracted from blocks (JSON array string). */
     val imageUris: String? = null,
-
     /**
      * Checksum of the stored vector.
      */
     @ColumnInfo(name = "vector_checksum")
     val vectorChecksum: String = "",
-
     /**
      * Timestamp (epoch ms) when this entity was last indexed.
      */

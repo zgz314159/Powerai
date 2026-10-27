@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class PowerAiApplication : Application(), Configuration.Provider {
-
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
@@ -21,9 +20,10 @@ class PowerAiApplication : Application(), Configuration.Provider {
     lateinit var nativeVectorRepository: com.example.powerai.engine.nativecore.NativeVectorRepository
 
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
+        get() =
+            Configuration.Builder()
+                .setWorkerFactory(workerFactory)
+                .build()
 
     override fun onCreate() {
         super.onCreate()
@@ -56,7 +56,8 @@ class PowerAiApplication : Application(), Configuration.Provider {
             try {
                 filesDir.resolve("rag_crash.log")
                     .appendText(" uncaught:${thread.name}: ${ex.stackTraceToString()}\n")
-            } catch (_: Throwable) {}
+            } catch (_: Throwable) {
+            }
             // let Android proceed with default kill after logging
             android.os.Process.killProcess(android.os.Process.myPid())
             System.exit(2)
@@ -68,7 +69,7 @@ class PowerAiApplication : Application(), Configuration.Provider {
                 .enqueueUniqueWork(
                     "asset_preload",
                     ExistingWorkPolicy.KEEP,
-                    OneTimeWorkRequestBuilder<AssetPreloadWorker>().build()
+                    OneTimeWorkRequestBuilder<AssetPreloadWorker>().build(),
                 )
 
             // Normalize/search-index maintenance.
@@ -76,7 +77,7 @@ class PowerAiApplication : Application(), Configuration.Provider {
                 .enqueueUniqueWork(
                     "data_sync",
                     ExistingWorkPolicy.KEEP,
-                    OneTimeWorkRequestBuilder<DataSyncWorker>().build()
+                    OneTimeWorkRequestBuilder<DataSyncWorker>().build(),
                 )
         } catch (_: Throwable) {
         }

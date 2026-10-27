@@ -18,7 +18,7 @@ fun JsonContentArea(
     isWide: Boolean,
     showEntries: Boolean,
     displayed: List<JsonEntry>,
-    onUpdateEntry: (JsonEntry) -> Unit
+    onUpdateEntry: (JsonEntry) -> Unit,
 ) {
     if (!showEntries) {
         EmptyState("请选择文件以查看数")
@@ -29,7 +29,7 @@ fun JsonContentArea(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 80.dp, top = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(displayed) { entry ->
                     EntryRow(entry) { updated -> onUpdateEntry(updated) }
@@ -39,7 +39,7 @@ fun JsonContentArea(
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 80.dp, top = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(displayed) { entry ->
                     EntryRow(entry) { updated -> onUpdateEntry(updated) }

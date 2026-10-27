@@ -1,13 +1,13 @@
 package com.example.powerai.data.importer
 
 internal object PdfTextLineHeuristics {
-
     fun cleanLines(lines: List<String>): List<String> {
         if (lines.isEmpty()) return emptyList()
 
-        val normalized = lines
-            .map { it.replace(Regex("\\s+"), " ").trim() }
-            .filter { it.isNotBlank() }
+        val normalized =
+            lines
+                .map { it.replace(Regex("\\s+"), " ").trim() }
+                .filter { it.isNotBlank() }
 
         val counts = normalized.groupingBy { it.lowercase() }.eachCount()
         val repeatedCandidates = counts.filter { (_, count) -> count >= 3 }.keys
@@ -40,8 +40,9 @@ internal object PdfTextLineHeuristics {
                 continue
             }
 
-            val isLikelyRowStart = line.matches(Regex("^\\d{1,4}([、\\.)]|\\s+).*")) ||
-                line.contains(Regex("\\b\\d{4}[A-Z]\\d{2}\\b"))
+            val isLikelyRowStart =
+                line.matches(Regex("^\\d{1,4}([、\\.)]|\\s+).*")) ||
+                    line.contains(Regex("\\b\\d{4}[A-Z]\\d{2}\\b"))
 
             if (current == null || isLikelyRowStart) {
                 flush()

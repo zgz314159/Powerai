@@ -5,7 +5,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class QueryRewritePlannerTest {
-
     @Test
     fun `classify purpose query as fact question`() {
         assertEquals(QueryIntent.FACT_QUESTION, QueryIntentClassifier.classify("隔离开关用途"))
@@ -42,10 +41,22 @@ class QueryRewritePlannerTest {
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.DEVICES).any { it.pattern == "断电器" && it.canonical == "断路器" })
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any { it.pattern == "换熔丝" && it.canonical == "更换熔丝" })
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any { it.trigger.subjectTokens.contains("变压器") })
-        assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any { it.trigger.requiredDomains.contains(QueryAliasSemanticDomain.DEVICE_OPERATION) })
-        assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any { it.trigger.forbiddenDomains.contains(QueryAliasSemanticDomain.PROCEDURE_ANALYSIS) })
+        assertTrue(
+            QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any {
+                it.trigger.requiredDomains.contains(QueryAliasSemanticDomain.DEVICE_OPERATION)
+            },
+        )
+        assertTrue(
+            QueryAliasCatalog.queryAliases(QueryAliasGroup.ACTION_RULES).any {
+                it.trigger.forbiddenDomains.contains(QueryAliasSemanticDomain.PROCEDURE_ANALYSIS)
+            },
+        )
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.QUESTION_STYLE).any { it.pattern == "有啥差别" && it.canonical == "有什么区别" })
-        assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.QUESTION_STYLE).any { it.trigger.forbiddenDomains.contains(QueryAliasSemanticDomain.PROCEDURE_ANALYSIS) })
+        assertTrue(
+            QueryAliasCatalog.queryAliases(QueryAliasGroup.QUESTION_STYLE).any {
+                it.trigger.forbiddenDomains.contains(QueryAliasSemanticDomain.PROCEDURE_ANALYSIS)
+            },
+        )
         assertTrue(QueryAliasCatalog.definitionAliases(DefinitionAliasGroup.PURPOSE).any { it.pattern == "干啥用" && it.cue == "用途" })
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.SAFETY_TERMS).any { it.pattern == "跨步压" && it.canonical == "跨步电压" })
         assertTrue(QueryAliasCatalog.queryAliases(QueryAliasGroup.QUESTION_STYLE).all { !it.applyWhenIntentUnknown })

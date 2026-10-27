@@ -26,16 +26,25 @@ object LlamaNativeBridge {
     external fun unloadModel(): Boolean
 
     @JvmStatic
-    external fun generate(prompt: String?, maxTokens: Int): String?
+    external fun generate(
+        prompt: String?,
+        maxTokens: Int,
+    ): String?
 
     @JvmStatic
-    external fun setOption(key: String?, value: String?): Boolean
+    external fun setOption(
+        key: String?,
+        value: String?,
+    ): Boolean
 
     @JvmStatic
     external fun nativeStopGeneration(): Unit
 
     @JvmStatic
-    external fun generateAsync(prompt: String?, maxTokens: Int): Boolean
+    external fun generateAsync(
+        prompt: String?,
+        maxTokens: Int,
+    ): Boolean
 
     @JvmStatic
     external fun nativeGenerateStream(prompt: String?): Boolean

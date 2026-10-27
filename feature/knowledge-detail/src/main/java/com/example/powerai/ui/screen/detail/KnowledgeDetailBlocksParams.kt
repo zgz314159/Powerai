@@ -1,8 +1,7 @@
 package com.example.powerai.ui.screen.detail
 
-
-import com.example.powerai.core.model.KnowledgeBlock
 import androidx.compose.ui.Modifier
+import com.example.powerai.core.model.KnowledgeBlock
 import com.example.powerai.util.PdfSourceRef
 
 /**
@@ -17,7 +16,7 @@ data class BlocksContentDisplayParams(
     val initialBlockId: String? = null,
     val fontScale: Float = 1f,
     val enableSwipeNavigation: Boolean = true,
-    val modifier: Modifier = Modifier
+    val modifier: Modifier = Modifier,
 )
 
 /**
@@ -28,7 +27,7 @@ data class BlocksDocumentResourceParams(
     val entityId: Long,
     val pageNumber: Int? = null,
     val imageUrisJson: String? = null,
-    val pdfRef: PdfSourceRef.Ref? = null
+    val pdfRef: PdfSourceRef.Ref? = null,
 )
 
 /**
@@ -45,7 +44,7 @@ data class BlocksVisionBoostingParams(
     val visionBoostErrorBlockId: String? = null,
     val visionBoostErrorMessage: String? = null,
     val onRequestVisionBoost: (blockId: String, imageUri: String) -> Unit = { _, _ -> },
-    val onApplyVisionBoostToOriginal: (rawBlockId: String, cacheKey: String, clearCacheAfter: Boolean) -> Unit = { _, _, _ -> }
+    val onApplyVisionBoostToOriginal: (rawBlockId: String, cacheKey: String, clearCacheAfter: Boolean) -> Unit = { _, _, _ -> },
 )
 
 /**
@@ -53,12 +52,12 @@ data class BlocksVisionBoostingParams(
  */
 data class BlocksValidationParams(
     val deepLogicValidationEnabled: Boolean = false,
-    val onToggleDeepLogicValidation: (Boolean) -> Unit = {}
+    val onToggleDeepLogicValidation: (Boolean) -> Unit = {},
 )
 
 /**
  * 参数对象 - 交互回调（PDF打开、导航等
  */
 data class BlocksInteractionParams(
-    val onOpenPdfAtBox: (pageNumber: Int?, bboxJson: String?) -> Unit = { _, _ -> }
+    val onOpenPdfAtBox: (pageNumber: Int?, bboxJson: String?) -> Unit = { _, _ -> },
 )

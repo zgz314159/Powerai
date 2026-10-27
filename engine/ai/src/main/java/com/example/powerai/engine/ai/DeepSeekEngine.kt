@@ -1,12 +1,16 @@
 package com.example.powerai.engine.ai
 
-import kotlinx.coroutines.*
+import com.example.powerai.core.model.GenerationMetrics
+import com.example.powerai.core.model.NativeResourceProvider
+import com.example.powerai.core.model.PowerAIEngine
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.example.powerai.core.model.GenerationMetrics
-import com.example.powerai.core.model.PowerAIEngine
-import com.example.powerai.core.model.NativeResourceProvider
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
@@ -22,7 +26,7 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
 
     private data class InferenceBudget(
         val prompt: String,
-        val maxTokens: Int
+        val maxTokens: Int,
     )
 
     private val _thinking = MutableSharedFlow<String>(replay = 0)
@@ -53,11 +57,17 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
         return nativeRuntime.safeStopGeneration()
     }
 
-    override suspend fun configureRuntime(threadCount: Int, contextLength: Int) {
+    override suspend fun configureRuntime(
+        threadCount: Int,
+        contextLength: Int,
+    ) {
         nativeRuntime.configureRuntime(threadCount, contextLength)
     }
 
-    override suspend fun setOption(key: String, value: String): Boolean {
+    override suspend fun setOption(
+        key: String,
+        value: String,
+    ): Boolean {
         return nativeRuntime.safeSetOption(key, value)
     }
 
@@ -69,7 +79,10 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
         return nativeRuntime.safeNativeLoadStateData(data)
     }
 
-    override suspend fun loadModel(modelPath: String, useGpu: Boolean): Boolean {
+    override suspend fun loadModel(
+        modelPath: String,
+        useGpu: Boolean,
+    ): Boolean {
         val provider = resourceProvider ?: return false
 
         var resolved = resolveModelPath(provider, modelPath)
@@ -110,15 +123,16 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
                 return false
             }
 
-            val loadOk = withTimeoutOrNull(25_000) {
-                try {
-                    val aarOk = nativeRuntime.safeInitModel(loadPath, wantGpu)
-                    val ready = nativeRuntime.safeIsReady()
-                    aarOk && ready
-                } catch (t: Throwable) {
-                    false
-                }
-            } ?: false
+            val loadOk =
+                withTimeoutOrNull(25_000) {
+                    try {
+                        val aarOk = nativeRuntime.safeInitModel(loadPath, wantGpu)
+                        val ready = nativeRuntime.safeIsReady()
+                        aarOk && ready
+                    } catch (t: Throwable) {
+                        false
+                    }
+                } ?: false
 
             if (!loadOk) {
                 lastError = "model init timed out or returned false: $loadPath"
@@ -129,7 +143,8 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
             try {
                 nativeRuntime.configureStreamingThinking(false)
                 nativeRuntime.safeSetSystemPrompt(DeepSeekPromptProfiles.QUICK_SYSTEM_PROMPT)
-            } catch (_: Throwable) {}
+            } catch (_: Throwable) {
+            }
 
             loaded = true
             return true
@@ -143,7 +158,10 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
     // Expose diagnostic message for manager to include in thrown error
     fun getLastError(): String? = lastError
 
-    private fun resolveModelPath(provider: NativeResourceProvider, requestedPath: String): String? {
+    private fun resolveModelPath(
+        provider: NativeResourceProvider,
+        requestedPath: String,
+    ): String? {
         try {
             val req = requestedPath.trim()
             if (req.isEmpty()) return null
@@ -169,34 +187,40 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
             val assetName = File(req).name
             val prepared = provider.prepareModelFromAssets(assetName)
             if (prepared != null) return prepared
-
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         return null
     }
 
     override suspend fun unload() {
         try {
             nativeRuntime.safeUnload()
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         loaded = false
     }
 
     override suspend fun isLoaded(): Boolean = loaded
 
-    private fun buildInferenceBudget(prompt: String, requestedMaxTokens: Int): InferenceBudget {
-        val normalized = DeepSeekTextCodec.normalizePrompt(prompt)
-            .replace(Regex("\\s+"), " ")
-            .trim()
+    private fun buildInferenceBudget(
+        prompt: String,
+        requestedMaxTokens: Int,
+    ): InferenceBudget {
+        val normalized =
+            DeepSeekTextCodec.normalizePrompt(prompt)
+                .replace(Regex("\\s+"), " ")
+                .trim()
         val safeMaxTokens = requestedMaxTokens.coerceIn(24, LlamaJni.DEFAULT_RECOMMENDED_MAX_TOKENS)
-        val promptCharBudget = when {
-            safeMaxTokens >= 512 -> 2400
-            safeMaxTokens >= 256 -> 1800
-            safeMaxTokens >= 128 -> 1200
-            else -> 800
-        }
+        val promptCharBudget =
+            when {
+                safeMaxTokens >= 512 -> 2400
+                safeMaxTokens >= 256 -> 1800
+                safeMaxTokens >= 128 -> 1200
+                else -> 800
+            }
         return InferenceBudget(
             prompt = normalized.take(promptCharBudget),
-            maxTokens = safeMaxTokens
+            maxTokens = safeMaxTokens,
         )
     }
 
@@ -205,7 +229,11 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
             text.contains("shorten your prompt", ignoreCase = true)
     }
 
-    override suspend fun infer(prompt: String, maxTokens: Int, stream: Boolean): String {
+    override suspend fun infer(
+        prompt: String,
+        maxTokens: Int,
+        stream: Boolean,
+    ): String {
         if (!loaded) throw IllegalStateException("DeepSeek model not loaded")
         return withContext(Dispatchers.IO) {
             val resultBuilder = StringBuilder()
@@ -218,17 +246,21 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
 
             fun onChunk(chunk: String) {
                 lastChunkAtMs = System.currentTimeMillis()
-                val parsed = ThinkingInterceptor.parseStreamingChunk(
-                    text = chunk,
-                    inThinkBlock = inThinkBlock,
-                    pendingThinkingText = pendingThinkingText,
-                    pendingTagFragment = pendingTagFragment
-                )
+                val parsed =
+                    ThinkingInterceptor.parseStreamingChunk(
+                        text = chunk,
+                        inThinkBlock = inThinkBlock,
+                        pendingThinkingText = pendingThinkingText,
+                        pendingTagFragment = pendingTagFragment,
+                    )
                 inThinkBlock = parsed.inThinkBlock
                 pendingThinkingText = parsed.pendingThinkingText
                 pendingTagFragment = parsed.pendingTagFragment
                 for (t in parsed.completedThinkingSegments) {
-                    try { _thinking.tryEmit(DeepSeekTextCodec.normalizeFinalAnswer(t)) } catch (_: Throwable) {}
+                    try {
+                        _thinking.tryEmit(DeepSeekTextCodec.normalizeFinalAnswer(t))
+                    } catch (_: Throwable) {
+                    }
                 }
                 val visibleChunk = DeepSeekTextCodec.normalizeChunk(parsed.visibleText)
                 if (visibleChunk.isNotEmpty()) {
@@ -238,9 +270,10 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
 
             try {
                 kotlinx.coroutines.coroutineScope {
-                    val collectJob = launch(Dispatchers.IO) {
-                        nativeRuntime.chunkFlow.collect { ch -> onChunk(ch) }
-                    }
+                    val collectJob =
+                        launch(Dispatchers.IO) {
+                            nativeRuntime.chunkFlow.collect { ch -> onChunk(ch) }
+                        }
 
                     val started = nativeRuntime.safeNativeGenerateStream(budget.prompt, budget.maxTokens)
                     if (!started) {
@@ -257,16 +290,17 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
                         }
                     }
 
-                    val completionObserved = withTimeoutOrNull(STREAM_COMPLETION_GRACE_MS) {
-                        while (true) {
-                            val finished = nativeRuntime.finishSequence.value > finishSequenceBeforeStart
-                            val idleMs = System.currentTimeMillis() - lastChunkAtMs
-                            if (finished || idleMs >= STREAM_COMPLETION_IDLE_MS) {
-                                return@withTimeoutOrNull true
+                    val completionObserved =
+                        withTimeoutOrNull(STREAM_COMPLETION_GRACE_MS) {
+                            while (true) {
+                                val finished = nativeRuntime.finishSequence.value > finishSequenceBeforeStart
+                                val idleMs = System.currentTimeMillis() - lastChunkAtMs
+                                if (finished || idleMs >= STREAM_COMPLETION_IDLE_MS) {
+                                    return@withTimeoutOrNull true
+                                }
+                                delay(50)
                             }
-                            delay(50)
-                        }
-                    } ?: false
+                        } ?: false
 
                     collectJob.cancel()
                     val finalText = resultBuilder.toString()

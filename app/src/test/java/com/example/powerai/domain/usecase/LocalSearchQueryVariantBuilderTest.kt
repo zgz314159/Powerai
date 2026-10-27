@@ -5,7 +5,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class LocalSearchQueryVariantBuilderTest {
-
     @Test
     fun `build rewrites fact question into stop-run focused variants`() {
         val variants = LocalSearchQueryVariantBuilder.build("变压器在什么情况下停止运行？")
@@ -87,7 +86,10 @@ class LocalSearchQueryVariantBuilderTest {
         val comparisonPlan = LocalSearchQueryVariantBuilder.buildPlan("变压器跟断路器有啥区别")
 
         assertTrue(procedurePlan.toString(), procedurePlan.any { it.strategy == "procedure_outline" && it.text.contains("分析试验数据 操作步骤") })
-        assertTrue(comparisonPlan.toString(), comparisonPlan.any { it.strategy == "comparison_outline" && it.text.contains("变压器 与 断路器 的区别") })
+        assertTrue(
+            comparisonPlan.toString(),
+            comparisonPlan.any { it.strategy == "comparison_outline" && it.text.contains("变压器 与 断路器 的区别") },
+        )
     }
 
     @Test
@@ -98,7 +100,12 @@ class LocalSearchQueryVariantBuilderTest {
 
         assertTrue(conditionPlan.toString(), conditionPlan.any { it.strategy == "answer_oriented" && it.text.contains("变压器 停运条件") })
         assertTrue(procedurePlan.toString(), procedurePlan.any { it.strategy == "procedure_outline" && it.text.contains("分析试验数据 操作步骤") })
-        assertTrue(comparisonPlan.toString(), comparisonPlan.any { it.strategy == "comparison_outline" && it.text.contains("变压器 与 断路器 的区别") || it.text.contains("变压器 断路器 区别") })
+        assertTrue(
+            comparisonPlan.toString(),
+            comparisonPlan.any {
+                it.strategy == "comparison_outline" && it.text.contains("变压器 与 断路器 的区别") || it.text.contains("变压器 断路器 区别")
+            },
+        )
     }
 
     @Test

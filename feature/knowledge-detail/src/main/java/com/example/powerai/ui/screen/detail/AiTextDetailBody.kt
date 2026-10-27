@@ -20,27 +20,28 @@ internal fun AiTextDetailBody(
     content: String,
     highlight: String,
     modifier: Modifier = Modifier,
-    innerPadding: PaddingValues = PaddingValues(0.dp)
+    innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     val chunks = remember(content) { chunkContent(content) }
 
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(innerPadding),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(innerPadding),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         item {
             AiTextDetailHeader(
                 title = title,
-                highlight = highlight
+                highlight = highlight,
             )
         }
         items(chunks) { part ->
             Text(
                 text = highlightAll(part, highlight),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
     }

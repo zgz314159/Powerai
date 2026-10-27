@@ -1,9 +1,6 @@
 package com.example.powerai.engine.ai
 
-
 import android.content.Context
-import org.json.JSONArray
-import org.json.JSONObject
 
 /**
  * SparseSearcher: reads a JSON knowledge base from app assets or files and
@@ -14,18 +11,19 @@ import org.json.JSONObject
  */
 class SparseSearcher(
     private val context: Context? = null,
-    private val loader: SparseSearcherLoader = DefaultSparseSearcherLoader()
+    private val loader: SparseSearcherLoader = DefaultSparseSearcherLoader(),
 ) {
     data class SafetyEntry(val title: String, val content: String, val source: String)
 
     // Simple filename -> human-friendly handbook title mapping. Add more mappings as needed.
     private fun mapFilenameToTitle(filename: String): String {
         val fname = filename.lowercase()
-        val known = mapOf(
-            "power_safety_rules.json" to "电力安全工作规程",
-            "railway_power_lines.json" to "电力线路工必知必会手册",
-            "铁路电力线路工.json" to "电力线路工必知必会手册"
-        )
+        val known =
+            mapOf(
+                "power_safety_rules.json" to "电力安全工作规程",
+                "railway_power_lines.json" to "电力线路工必知必会手册",
+                "铁路电力线路工.json" to "电力线路工必知必会手册",
+            )
         for ((k, v) in known) {
             if (fname.contains(k)) return v
         }
@@ -51,14 +49,18 @@ class SparseSearcher(
                 }
                 f.writeText(sb.toString(), Charsets.UTF_8)
             }
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
 
     /**
      * Search for top N entries by simple scoring: sum of token frequencies in title/content.
      * Title matches are weighted by 5, content matches by 1.
      */
-    fun search(query: String, topN: Int = 2): List<SafetyEntry> {
+    fun search(
+        query: String,
+        topN: Int = 2,
+    ): List<SafetyEntry> {
         try {
             // preliminary audit operations
             val q = query.ifBlank { "" }
@@ -89,7 +91,8 @@ class SparseSearcher(
             // final returned-hits audit write removed
 
             return if (sorted.isEmpty()) emptyList() else sorted.take(topN)
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         return emptyList()
     }
 }

@@ -14,8 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +34,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun KnowledgeDetailScreen(
     navController: NavHostController,
-    viewModel: KnowledgeDetailViewModel = hiltViewModel()
+    viewModel: KnowledgeDetailViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
 
@@ -69,26 +69,27 @@ fun KnowledgeDetailScreen(
             text = {
                 DetailFontScaleSection(
                     fontScale = fontScale,
-                    onFontScaleChange = { value -> viewModel.onIntent(DetailIntent.SetDetailContentFontScale(value)) }
+                    onFontScaleChange = { value -> viewModel.onIntent(DetailIntent.SetDetailContentFontScale(value)) },
                 )
             },
             confirmButton = {
                 TextButton(onClick = { showFontDialog = false }) {
                     Text("完成")
                 }
-            }
+            },
         )
     }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.Transparent,
-                    scrolledContainerColor = Color.Transparent,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-                    titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
+                colors =
+                    TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.Transparent,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -101,38 +102,38 @@ fun KnowledgeDetailScreen(
                     }
                     DropdownMenu(
                         expanded = showMenu,
-                        onDismissRequest = { showMenu = false }
+                        onDismissRequest = { showMenu = false },
                     ) {
                         DropdownMenuItem(
                             text = { Text("调节正文字号") },
                             onClick = {
                                 showMenu = false
                                 showFontDialog = true
-                            }
+                            },
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         when (val s = uiState) {
             is KnowledgeDetailUiState.Loading -> {
                 KnowledgeDetailCenteredLoading(
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
                 )
             }
 
             is KnowledgeDetailUiState.NotFound -> {
                 KnowledgeDetailCenteredMessage(
                     message = "未找到该条目",
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
                 )
             }
 
             is KnowledgeDetailUiState.Error -> {
                 KnowledgeDetailCenteredMessage(
                     message = "加载失败${s.message}",
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
                 )
             }
 
@@ -159,14 +160,16 @@ fun KnowledgeDetailScreen(
                         viewModel.onIntent(DetailIntent.RequestVisionBoost(entityId = entityId, blockId = blockId, imageUri = imageUri))
                     },
                     onApplyVisionBoostToOriginal = { entityId, rawBlockId, cacheKey, clearCacheAfter ->
-                        viewModel.onIntent(DetailIntent.ApplyVisionBoost(
-                            entityId = entityId,
-                            rawBlockId = rawBlockId,
-                            cacheKey = cacheKey,
-                            clearCacheAfter = clearCacheAfter
-                        ))
+                        viewModel.onIntent(
+                            DetailIntent.ApplyVisionBoost(
+                                entityId = entityId,
+                                rawBlockId = rawBlockId,
+                                cacheKey = cacheKey,
+                                clearCacheAfter = clearCacheAfter,
+                            ),
+                        )
                     },
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding),
                 )
             }
         }

@@ -1,45 +1,32 @@
 package com.example.powerai.ui.screen.main
 
-import com.example.powerai.core.model.KnowledgeItem
-
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.unit.dp
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.ui.component.SearchBar
-import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.ui.screen.hybrid.HybridUiState
+import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import kotlinx.coroutines.launch
 
 /**
@@ -73,19 +60,21 @@ fun LocalSearchArea(
     showSearchBar: Boolean,
     onShowSearchBarChange: (Boolean) -> Unit,
     hybridViewModel: HybridViewModel,
-    innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues()
+    innerPadding: androidx.compose.foundation.layout.PaddingValues = androidx.compose.foundation.layout.PaddingValues(),
 ) {
-    val meta = metaProvider ?: { item ->
-        buildString {
-            append(item.source)
-            item.pageNumber?.let { append(" · ${it}") }
-            item.hitBlockIndex?.let { append(" · 命中it") }
+    val meta =
+        metaProvider ?: { item ->
+            buildString {
+                append(item.source)
+                item.pageNumber?.let { append(" · $it") }
+                item.hitBlockIndex?.let { append(" · 命中it") }
+            }
         }
-    }
 
-    val displayList = remember(uiState.references, pageSize) {
-        selectLocalDisplayResults(uiState.references, pageSize)
-    }
+    val displayList =
+        remember(uiState.references, pageSize) {
+            selectLocalDisplayResults(uiState.references, pageSize)
+        }
     val localFailureMessage = localResultsFailureMessage(uiState)
     val retryLocalSearch: (() -> Unit)? =
         if (uiState.question.isNotBlank()) {
@@ -100,7 +89,7 @@ fun LocalSearchArea(
             drawerState = drawerState,
             drawerContent = {
                 val uiState by hybridViewModel.uiState.collectAsState()
-    val localHistory = uiState.localSearchHistory
+                val localHistory = uiState.localSearchHistory
                 LocalHistoryDrawerContent(
                     history = localHistory,
                     onSelectQuery = { q ->
@@ -118,9 +107,9 @@ fun LocalSearchArea(
                     onClearHistory = {
                         hybridViewModel.clearLocalSearchHistory()
                         localCoroutineScope.launch { drawerState.close() }
-                    }
+                    },
                 )
-            }
+            },
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 LocalResultsPage(
@@ -165,19 +154,20 @@ fun LocalSearchArea(
                             else -> null
                         },
                     animateItems = animateItems,
-                    isPageLoading = isPageLoading
+                    isPageLoading = isPageLoading,
                 )
 
                 if (showSearchBar) {
                     Surface(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .navigationBarsPadding()
-                            .padding(horizontal = 12.dp, vertical = 10.dp),
+                        modifier =
+                            Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                                .navigationBarsPadding()
+                                .padding(horizontal = 12.dp, vertical = 10.dp),
                         shape = MaterialTheme.shapes.large,
                         tonalElevation = 2.dp,
-                        color = Color.White
+                        color = Color.White,
                     ) {
                         SearchBar(
                             value = searchQuery,
@@ -193,7 +183,7 @@ fun LocalSearchArea(
                             onClear = onClear,
                             label = "搜索知识",
                             placeholder = "搜索知识",
-                            autoFocus = showSearchBar
+                            autoFocus = showSearchBar,
                         )
                     }
                 }

@@ -10,7 +10,8 @@
 
 | 状态 | 说明 |
 |------|------|
-| 进行中 | 全量 ktlint→0；KI-58 Embedding 死链退役；KI-53 乱码；KI-20 可选拆分；KI-03/04 接受冻结或小拆 |
+| 进行中 | KI-53 乱码；KI-20 可选拆分；KI-03/04 接受冻结 |
+| ✅ | 全量 ktlint→0 + `ignoreFailures=false`（Phase D2）；KI-58 EmbeddingWorker 退役 |
 | 产品边界（接受限制可关） | KI-50/51/52；KI-57（一键更新未做则书面接受）；KI-56（FTS 主路径，全量清索引可接受） |
 | 真机待验（不伪完成） | KI-54；端侧停止+中文回归；API 36 仪器补齐 |
 | 史诗外置（不纳入本轮清零） | KI-21 DeepSeek/llama JNI 真 runtime |

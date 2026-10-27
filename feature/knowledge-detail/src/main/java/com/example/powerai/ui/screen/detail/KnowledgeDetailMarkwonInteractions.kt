@@ -10,12 +10,17 @@ import android.widget.TextView
 import com.example.powerai.ui.image.AssetImageUriNormalizer
 
 internal object KnowledgeDetailMarkwonInteractions {
-    fun handleTapOrNull(tv: TextView, context: Context, ev: MotionEvent): Boolean? {
-        val offset = try {
-            tv.getOffsetForPosition(ev.x, ev.y)
-        } catch (_: Throwable) {
-            return null
-        }
+    fun handleTapOrNull(
+        tv: TextView,
+        context: Context,
+        ev: MotionEvent,
+    ): Boolean? {
+        val offset =
+            try {
+                tv.getOffsetForPosition(ev.x, ev.y)
+            } catch (_: Throwable) {
+                return null
+            }
 
         val text = tv.text
         if (text !is Spannable) return null
@@ -25,7 +30,7 @@ internal object KnowledgeDetailMarkwonInteractions {
             context.startActivity(
                 Intent(context, PhotoViewerActivity::class.java).apply {
                     putExtra(PhotoViewerActivity.EXTRA_IMAGE_URI, imageUri)
-                }
+                },
             )
             return true
         }
@@ -35,7 +40,7 @@ internal object KnowledgeDetailMarkwonInteractions {
             context.startActivity(
                 Intent(context, PhotoViewerActivity::class.java).apply {
                     putExtra(PhotoViewerActivity.EXTRA_IMAGE_URI, urlUri)
-                }
+                },
             )
             return true
         }
@@ -43,7 +48,10 @@ internal object KnowledgeDetailMarkwonInteractions {
         return null
     }
 
-    private fun findTappedImageUri(text: Spannable, offset: Int): String? {
+    private fun findTappedImageUri(
+        text: Spannable,
+        offset: Int,
+    ): String? {
         val images = text.getSpans(offset, offset, ImageSpan::class.java)
         if (images.isEmpty()) return null
 
@@ -51,7 +59,10 @@ internal object KnowledgeDetailMarkwonInteractions {
         return normalizeAssetImageUri(srcRaw)
     }
 
-    private fun findTappedUrlUri(text: Spannable, offset: Int): String? {
+    private fun findTappedUrlUri(
+        text: Spannable,
+        offset: Int,
+    ): String? {
         val urls = text.getSpans(offset, offset, URLSpan::class.java)
         if (urls.isEmpty()) return null
 

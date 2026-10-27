@@ -2,7 +2,6 @@ package com.example.powerai
 
 import android.content.Context
 import android.net.Uri
-// android.util.Log removed per TODO; debugging traces suppressed
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
@@ -10,9 +9,15 @@ import com.bumptech.glide.module.AppGlideModule
 import com.example.powerai.util.AssetModelLoader
 import java.io.InputStream
 
+// android.util.Log removed per TODO; debugging traces suppressed
+
 @GlideModule
 class MyAppGlideModule : AppGlideModule() {
-    override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
+    override fun registerComponents(
+        context: Context,
+        glide: Glide,
+        registry: Registry,
+    ) {
         // Register our AssetModelLoader for Uri -> InputStream so Glide can load asset URIs
         val TAG = "MyAppGlideModule"
         // log removed: registerComponents: registering AssetModelLoader for Uri and String
@@ -22,13 +27,23 @@ class MyAppGlideModule : AppGlideModule() {
             String::class.java,
             InputStream::class.java,
             object : com.bumptech.glide.load.model.ModelLoaderFactory<String, InputStream> {
-                override fun build(multiFactory: com.bumptech.glide.load.model.MultiModelLoaderFactory): com.bumptech.glide.load.model.ModelLoader<String, InputStream> {
+                override fun build(
+                    multiFactory: com.bumptech.glide.load.model.MultiModelLoaderFactory,
+                ): com.bumptech.glide.load.model.ModelLoader<String, InputStream> {
                     return object : com.bumptech.glide.load.model.ModelLoader<String, InputStream> {
-                        override fun buildLoadData(model: String, width: Int, height: Int, options: com.bumptech.glide.load.Options): com.bumptech.glide.load.model.ModelLoader.LoadData<InputStream>? {
+                        override fun buildLoadData(
+                            model: String,
+                            width: Int,
+                            height: Int,
+                            options: com.bumptech.glide.load.Options,
+                        ): com.bumptech.glide.load.model.ModelLoader.LoadData<InputStream>? {
                             if (!model.startsWith("file:///android_asset/")) return null
                             val assetPath = model.removePrefix("file:///android_asset/")
                             // log removed: String model loader buildLoadData for: $model
-                            return com.bumptech.glide.load.model.ModelLoader.LoadData(com.bumptech.glide.signature.ObjectKey(model), com.example.powerai.util.AssetModelLoader.AssetDataFetcher(context.assets, assetPath))
+                            return com.bumptech.glide.load.model.ModelLoader.LoadData(
+                                com.bumptech.glide.signature.ObjectKey(model),
+                                com.example.powerai.util.AssetModelLoader.AssetDataFetcher(context.assets, assetPath),
+                            )
                         }
 
                         override fun handles(model: String): Boolean = model.startsWith("file:///android_asset/")
@@ -36,7 +51,7 @@ class MyAppGlideModule : AppGlideModule() {
                 }
 
                 override fun teardown() {}
-            }
+            },
         )
     }
 }

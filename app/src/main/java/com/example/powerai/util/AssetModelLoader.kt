@@ -2,7 +2,6 @@ package com.example.powerai.util
 
 import android.content.res.AssetManager
 import android.net.Uri
-// android.util.Log removed per TODO order; logging replaced with comments if needed
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.data.DataFetcher
@@ -13,9 +12,16 @@ import com.bumptech.glide.signature.ObjectKey
 import java.io.IOException
 import java.io.InputStream
 
+// android.util.Log removed per TODO order; logging replaced with comments if needed
+
 class AssetModelLoader(private val assets: AssetManager) : ModelLoader<Uri, InputStream> {
     // TAG constant removed; logging suppressed
-    override fun buildLoadData(model: Uri, width: Int, height: Int, options: Options): ModelLoader.LoadData<InputStream>? {
+    override fun buildLoadData(
+        model: Uri,
+        width: Int,
+        height: Int,
+        options: Options,
+    ): ModelLoader.LoadData<InputStream>? {
         val s = model.toString()
         // log removed: buildLoadData called for: $s
         if (!s.startsWith("file:///android_asset/")) return null
@@ -37,7 +43,10 @@ class AssetModelLoader(private val assets: AssetManager) : ModelLoader<Uri, Inpu
         // TAG constant removed; logging suppressed
         private var stream: InputStream? = null
 
-        override fun loadData(priority: com.bumptech.glide.Priority, callback: DataFetcher.DataCallback<in InputStream>) {
+        override fun loadData(
+            priority: com.bumptech.glide.Priority,
+            callback: DataFetcher.DataCallback<in InputStream>,
+        ) {
             // log removed: loadData START for assetPath=$assetPath
             try {
                 stream = assets.open(assetPath)
@@ -53,7 +62,8 @@ class AssetModelLoader(private val assets: AssetManager) : ModelLoader<Uri, Inpu
             try {
                 // log removed: cleanup stream for $assetPath
                 stream?.close()
-            } catch (_: IOException) {}
+            } catch (_: IOException) {
+            }
         }
 
         override fun cancel() {}

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun KnowledgeDetailMatchNavigationController(
     matchIndices: List<Int>,
-    listState: LazyListState
+    listState: LazyListState,
 ) {
     var currentMatch by remember(matchIndices) { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
@@ -40,6 +40,6 @@ internal fun KnowledgeDetailMatchNavigationController(
             scope.launch {
                 listState.animateScrollToItemCatching(matchIndices[next])
             }
-        }
+        },
     )
 }

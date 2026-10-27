@@ -1,9 +1,5 @@
 package com.example.powerai.ui.screen.detail
 
-
-
-import com.example.powerai.core.model.TableBlock
-import com.example.powerai.core.model.KnowledgeBlock
 import android.content.Intent
 import android.widget.ImageView
 import androidx.compose.foundation.layout.Arrangement
@@ -19,48 +15,54 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bumptech.glide.Glide
+import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.TableBlock
 import com.example.powerai.ui.screen.pdf.pdfLocateTargetForBlock
 
-private fun resolvePageNumber(block: KnowledgeBlock, fallback: Int?): Int? =
-    block.pageNumber ?: fallback
+private fun resolvePageNumber(
+    block: KnowledgeBlock,
+    fallback: Int?,
+): Int? = block.pageNumber ?: fallback
 
-private fun trimAndEmpty(text: String?): String =
-    text?.trim().orEmpty()
+private fun trimAndEmpty(text: String?): String = text?.trim().orEmpty()
 
 @Composable
 internal fun MagicWindowImageDisplay(
     imageUri: String,
     pageNumber: Int?,
-    block: KnowledgeBlock
+    block: KnowledgeBlock,
 ) {
     val effectivePageNumber = resolvePageNumber(block, pageNumber)
     val pageText = effectivePageNumber?.let { "第${it}页" }.orEmpty()
-    
+
     if (pageText.isNotBlank()) {
         Text(text = pageText, style = MaterialTheme.typography.bodySmall)
         Spacer(modifier = Modifier.height(6.dp))
     }
 
     AndroidView(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 12.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp),
         factory = { ctx ->
             ImageView(ctx).apply {
                 adjustViewBounds = true
                 scaleType = ImageView.ScaleType.FIT_CENTER
                 setOnClickListener {
-                    val intent = Intent(ctx, PhotoViewerActivity::class.java).apply {
-                        putExtra(PhotoViewerActivity.EXTRA_IMAGE_URI, imageUri)
+                    val intent =
+                        Intent(ctx, PhotoViewerActivity::class.java).apply {
+                            putExtra(PhotoViewerActivity.EXTRA_IMAGE_URI, imageUri)
+                        }
+                    try {
+                        ctx.startActivity(intent)
+                    } catch (_: Throwable) {
                     }
-                    try { ctx.startActivity(intent) } catch (_: Throwable) {}
                 }
             }
         },
@@ -71,7 +73,7 @@ internal fun MagicWindowImageDisplay(
                 Glide.with(imageView).load(imageUri).apply(ro).into(imageView)
             } catch (_: Throwable) {
             }
-        }
+        },
     )
 }
 
@@ -90,13 +92,13 @@ internal fun MagicWindowControls(
     imageUri: String,
     clearCacheAfterApply: Boolean,
     onClearCacheAfterApplyChanged: (Boolean) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val locateTarget = pdfLocateTargetForBlock(block, pageNumber)
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         OutlinedButton(
             onClick = {
@@ -127,7 +129,7 @@ internal fun MagicWindowControls(
             imageUri = imageUri,
             clearCacheAfterApply = clearCacheAfterApply,
             onClearCacheAfterApplyChanged = onClearCacheAfterApplyChanged,
-            onApplyToOriginal = onApplyToOriginal
+            onApplyToOriginal = onApplyToOriginal,
         )
     }
 }
@@ -143,27 +145,27 @@ private fun TableControlsSection(
     imageUri: String,
     clearCacheAfterApply: Boolean,
     onClearCacheAfterApplyChanged: (Boolean) -> Unit,
-    onApplyToOriginal: (clearCacheAfter: Boolean) -> Unit
+    onApplyToOriginal: (clearCacheAfter: Boolean) -> Unit,
 ) {
     // Deep Logic Validation
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "深度逻辑验证（DeepSeek",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
             Text(
                 text = "对 AI 还原结果做一致性校验",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         Switch(
             checked = deepLogicValidationEnabled,
-            onCheckedChange = { onToggleDeepLogicValidation(it) }
+            onCheckedChange = { onToggleDeepLogicValidation(it) },
         )
     }
 
@@ -174,39 +176,40 @@ private fun TableControlsSection(
                 onRequestVisionBoost(blockId, imageUri)
             }
         },
-        enabled = !isVisionBoosting
+        enabled = !isVisionBoosting,
     ) {
         Text(if (isVisionBoosting) "AI 视觉解析中" else "AI 视觉深度解析")
     }
 
     val canApply = !visionMarkdown.isNullOrBlank() && trimAndEmpty(block.id).isNotBlank()
-    
+
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 6.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "回填后清除缓",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
             Text(
                 text = "避免后续继续用缓存覆盖渲",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         Switch(
             checked = clearCacheAfterApply,
-            onCheckedChange = { onClearCacheAfterApplyChanged(it) }
+            onCheckedChange = { onClearCacheAfterApplyChanged(it) },
         )
     }
 
     OutlinedButton(
         onClick = { onApplyToOriginal(clearCacheAfterApply) },
-        enabled = canApply && !isVisionBoosting
+        enabled = canApply && !isVisionBoosting,
     ) {
         Text("应用到原")
     }
@@ -217,7 +220,7 @@ internal fun MagicWindowDebugInfo(
     block: KnowledgeBlock,
     imageUri: String,
     visionMarkdown: String?,
-    visionBoostErrorMessage: String?
+    visionBoostErrorMessage: String?,
 ) {
     val err = trimAndEmpty(visionBoostErrorMessage)
     if (err.isNotBlank()) {
@@ -225,7 +228,7 @@ internal fun MagicWindowDebugInfo(
         Text(
             text = "VisionBoost 失败：${err.take(220)}",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.error
+            color = MaterialTheme.colorScheme.error,
         )
     }
 
@@ -236,13 +239,13 @@ internal fun MagicWindowDebugInfo(
         Text(
             text = "AI 增强结果（已缓存）：",
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = vm.take(800),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(12.dp))
     }
@@ -253,7 +256,7 @@ internal fun MagicWindowDebugInfo(
         Text(
             text = "bbox=${bb.take(160)}",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 
@@ -263,7 +266,7 @@ internal fun MagicWindowDebugInfo(
         Text(
             text = "imageUri=$uriText",
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 

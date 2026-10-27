@@ -31,5 +31,5 @@ data class SmartAbRunRecord(
     val cacheReuseMinTokens: Int = 0,
     val benchmarkKind: String? = null,
     val benchmarkGroupId: String? = null,
-    val benchmarkOrder: Int? = null
+    val benchmarkOrder: Int? = null,
 )

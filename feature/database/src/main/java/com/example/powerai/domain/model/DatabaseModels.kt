@@ -9,12 +9,12 @@ data class DatabaseFileGroup(
     val totalImages: Int,
     val totalRowsCount: Int,
     val totalImageCount: Int,
-    val rows: List<DatabaseRow>
+    val rows: List<DatabaseRow>,
 )
 
 data class DatabaseRow(
     val item: KnowledgeItem,
-    val imagesCount: Int
+    val imagesCount: Int,
 )
 
 data class DatabaseFocusTarget(
@@ -22,5 +22,5 @@ data class DatabaseFocusTarget(
     val title: String? = null,
     val source: String? = null,
     val pageNumber: Int? = null,
-    val content: String? = null
+    val content: String? = null,
 )

@@ -8,5 +8,5 @@ data class EmbeddingMetadataEntity(
     @PrimaryKey val id: Long,
     val fileName: String,
     val status: String,
-    val createdAt: Long
+    val createdAt: Long,
 )

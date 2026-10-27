@@ -23,7 +23,7 @@ data class TextBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock {
     enum class TextStyle { Paragraph, Heading1, Heading2, Heading3, Quote }
 }
@@ -37,7 +37,7 @@ data class ImageBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock
 
 data class ListBlock(
@@ -48,7 +48,7 @@ data class ListBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock
 
 data class TableCell(
@@ -60,7 +60,7 @@ data class TableCell(
     val isHeader: Boolean = false,
     val alignment: String? = null,
     val confidence: Float? = null,
-    val boundingBox: String? = null
+    val boundingBox: String? = null,
 )
 
 data class TableBlock(
@@ -71,7 +71,7 @@ data class TableBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock
 
 data class CodeBlock(
@@ -82,7 +82,7 @@ data class CodeBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock
 
 data class FigureNodeBlock(
@@ -94,7 +94,7 @@ data class FigureNodeBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock
 
 data class UnknownBlock(
@@ -105,5 +105,5 @@ data class UnknownBlock(
     override val pageNumber: Int? = null,
     override val imageUri: String? = null,
     override val pdfWidth: Float? = null,
-    override val pdfHeight: Float? = null
+    override val pdfHeight: Float? = null,
 ) : KnowledgeBlock

@@ -6,13 +6,12 @@ import com.example.powerai.feature.hybrid.HybridKbImportPort
 
 internal class HybridViewModelRuntimeSupport(
     private val importer: HybridKbImportPort,
-    private val context: Context
+    private val context: Context,
 ) {
-
     fun importDocument(
         uri: Uri,
         currentQuestion: String,
-        onFollowUpQuery: (String) -> Unit
+        onFollowUpQuery: (String) -> Unit,
     ) {
         importer.importUri(uri)
         if (currentQuestion.isNotBlank()) {

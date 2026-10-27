@@ -15,7 +15,6 @@ import java.io.File
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LocalFaissAnnRetrieverTest {
-
     private val fakeCtx = mock<Context>()
     private val fakeFilesDir = File(System.getProperty("java.io.tmpdir") ?: "")
 
@@ -23,12 +22,19 @@ class LocalFaissAnnRetrieverTest {
         var lastQuery: FloatArray? = null
         var lastK: Int? = null
         var openHandle = 1
+
         override fun openIndex(path: String): Int = openHandle
-        override fun search(handle: Int, query: FloatArray, k: Int): IntArray {
+
+        override fun search(
+            handle: Int,
+            query: FloatArray,
+            k: Int,
+        ): IntArray {
             lastQuery = query.copyOf()
             lastK = k
             return intArrayOf(123, 456)
         }
+
         override fun closeIndex(handle: Int) {}
     }
 
@@ -40,33 +46,35 @@ class LocalFaissAnnRetrieverTest {
     }
 
     @Test
-    fun search_forwardsEncodedVector_andReturnsResults() = runBlocking {
-        whenever(fakeCtx.filesDir).thenReturn(fakeFilesDir)
-        val client = FakeFaissClient()
-        val encoder = CountingEncoder(LocalFaissAnnRetrieverTest.DIMENSION)
-        val retriever = LocalFaissAnnRetriever(fakeCtx, encoder, client)
+    fun search_forwardsEncodedVector_andReturnsResults() =
+        runBlocking {
+            whenever(fakeCtx.filesDir).thenReturn(fakeFilesDir)
+            val client = FakeFaissClient()
+            val encoder = CountingEncoder(LocalFaissAnnRetrieverTest.DIMENSION)
+            val retriever = LocalFaissAnnRetriever(fakeCtx, encoder, client)
 
-        val results = retriever.search("xyz", 5)
+            val results = retriever.search("xyz", 5)
 
-        // verify the fake client got the encoded vector and the requested k
-        assertNotNull(client.lastQuery)
-        assertEquals(LocalFaissAnnRetrieverTest.DIMENSION, client.lastQuery!!.size)
-        assertEquals(5, client.lastK)
-        // check the mapping from ids to RetrievalResult
-        assertEquals(2, results.size)
-        assertEquals(123L, results[0].id)
-        assertEquals(456L, results[1].id)
-    }
+            // verify the fake client got the encoded vector and the requested k
+            assertNotNull(client.lastQuery)
+            assertEquals(LocalFaissAnnRetrieverTest.DIMENSION, client.lastQuery!!.size)
+            assertEquals(5, client.lastK)
+            // check the mapping from ids to RetrievalResult
+            assertEquals(2, results.size)
+            assertEquals(123L, results[0].id)
+            assertEquals(456L, results[1].id)
+        }
 
     @Test
-    fun search_emptyOnBadHandle() = runBlocking {
-        whenever(fakeCtx.filesDir).thenReturn(fakeFilesDir)
-        val client = FakeFaissClient().apply { openHandle = 0 }
-        val retriever = LocalFaissAnnRetriever(fakeCtx, ZeroQueryEncoder, client)
+    fun search_emptyOnBadHandle() =
+        runBlocking {
+            whenever(fakeCtx.filesDir).thenReturn(fakeFilesDir)
+            val client = FakeFaissClient().apply { openHandle = 0 }
+            val retriever = LocalFaissAnnRetriever(fakeCtx, ZeroQueryEncoder, client)
 
-        val results = retriever.search("abc", 2)
-        assertTrue(results.isEmpty())
-    }
+            val results = retriever.search("abc", 2)
+            assertTrue(results.isEmpty())
+        }
 
     companion object {
         private const val DIMENSION = 384

@@ -10,10 +10,13 @@ class JsonResourceParserTest {
 
     @Test
     fun `parse simple schema returns metadata and entries`() {
-        val json = """{
-            "fileMetadata": {"fileName":"f","fileId":"id"},
-            "entries": [{"entryId":"e1","contentMarkdown":"c"}]
-        }""".trimIndent()
+        val json =
+            """
+            {
+                "fileMetadata": {"fileName":"f","fileId":"id"},
+                "entries": [{"entryId":"e1","contentMarkdown":"c"}]
+            }
+            """.trimIndent()
         val root = JsonParser.parseString(json)
         val (meta, entries) = JsonResourceParser.parseRoot(root, gson, null, null)
         assertEquals("f", meta.fileName)
@@ -35,7 +38,7 @@ class JsonResourceParserTest {
     fun `array root parsed correctly`() {
         val json = """[ {"entryId":"a"}, {"entryId":"b"} ]"""
         val root = JsonParser.parseString(json)
-        val (meta, entries) = JsonResourceParser.parseRoot(root, gson, "n","i")
+        val (meta, entries) = JsonResourceParser.parseRoot(root, gson, "n", "i")
         assertEquals(2, entries.size)
         assertEquals("n", meta.fileName)
         assertEquals("i", meta.fileId)

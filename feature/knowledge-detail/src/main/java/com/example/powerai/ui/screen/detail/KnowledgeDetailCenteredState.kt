@@ -9,12 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-internal fun KnowledgeDetailCenteredLoading(
-    modifier: Modifier = Modifier
-) {
+internal fun KnowledgeDetailCenteredLoading(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }
@@ -23,11 +21,11 @@ internal fun KnowledgeDetailCenteredLoading(
 @Composable
 internal fun KnowledgeDetailCenteredMessage(
     message: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(message)
     }

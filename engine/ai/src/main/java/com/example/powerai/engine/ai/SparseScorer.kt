@@ -24,7 +24,7 @@ object SparseScorer {
      */
     fun scoreWithBreakdown(
         entries: List<SparseSearcher.SafetyEntry>,
-        tokens: List<String>
+        tokens: List<String>,
     ): List<Score> {
         if (tokens.isEmpty() || entries.isEmpty()) return emptyList()
 
@@ -40,11 +40,18 @@ object SparseScorer {
                         val contentMatches = Regex(esc, RegexOption.IGNORE_CASE).findAll(e.content).count()
                         rawScore += titleMatches * 5
                         rawScore += contentMatches * 1
-                    } catch (_: Throwable) {}
+                    } catch (_: Throwable) {
+                    }
                 }
-            } catch (_: Throwable) {}
+            } catch (_: Throwable) {
+            }
             if (rawScore <= 0) continue
-            val weight = try { manualWeightFor(e.source) } catch (_: Throwable) { 1.0 }
+            val weight =
+                try {
+                    manualWeightFor(e.source)
+                } catch (_: Throwable) {
+                    1.0
+                }
             val finalScore = rawScore.toDouble() * weight
             scores.add(Score(e, rawScore, finalScore))
         }
@@ -60,7 +67,10 @@ object SparseScorer {
      * This wrapper preserves the original public signature while delegating to
      * [scoreWithBreakdown].
      */
-    fun score(entries: List<SparseSearcher.SafetyEntry>, tokens: List<String>): List<SparseSearcher.SafetyEntry> {
+    fun score(
+        entries: List<SparseSearcher.SafetyEntry>,
+        tokens: List<String>,
+    ): List<SparseSearcher.SafetyEntry> {
         return scoreWithBreakdown(entries, tokens).map { it.entry }
     }
 }

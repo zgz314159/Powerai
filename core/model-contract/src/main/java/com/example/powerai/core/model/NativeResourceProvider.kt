@@ -24,11 +24,20 @@ interface NativeResourceProvider {
     fun openAsset(path: String): String?
 
     /** Write text to a file in internal files directory for diagnostics. */
-    fun writeDiagnosticFile(fileName: String, content: String)
+    fun writeDiagnosticFile(
+        fileName: String,
+        content: String,
+    )
 
     /** Append text to a file in internal files directory. */
-    fun appendDiagnosticFile(fileName: String, content: String)
+    fun appendDiagnosticFile(
+        fileName: String,
+        content: String,
+    )
 
     /** Copy a diagnostic file from internal storage to external storage for collection. */
-    fun exportDiagnosticFile(sourceName: String, targetName: String)
+    fun exportDiagnosticFile(
+        sourceName: String,
+        targetName: String,
+    )
 }

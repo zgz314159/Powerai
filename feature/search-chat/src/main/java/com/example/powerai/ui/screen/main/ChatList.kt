@@ -11,16 +11,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.powerai.domain.model.chat.ChatTurn
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun ChatList(
@@ -31,7 +26,7 @@ internal fun ChatList(
     inputActive: Boolean,
     onInputChange: (String) -> Unit,
     onCopy: (String) -> Unit,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
 ) {
     val listState = rememberLazyListState()
 
@@ -40,19 +35,20 @@ internal fun ChatList(
         listState = listState,
         turns = turns,
         currentTurnId = currentTurnId,
-        isStreaming = isStreaming
+        isStreaming = isStreaming,
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                start = 0.dp,
-                end = 0.dp,
-                top = 88.dp,
-                bottom = if (inputActive) 120.dp else 100.dp
-            )
+            contentPadding =
+                PaddingValues(
+                    start = 0.dp,
+                    end = 0.dp,
+                    top = 88.dp,
+                    bottom = if (inputActive) 120.dp else 100.dp,
+                ),
         ) {
             val shouldShowEmptyHint = turns.isEmpty() && !isStreaming
             if (shouldShowEmptyHint) {
@@ -61,7 +57,7 @@ internal fun ChatList(
                     Text(
                         text = "请输入问题以开始对",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -80,7 +76,7 @@ internal fun ChatList(
                         onRetry()
                     },
                     allowRetry = turnRetryAllowed[t.id] ?: false,
-                    renderMarkdownWhenPossible = true
+                    renderMarkdownWhenPossible = true,
                 )
             }
         }

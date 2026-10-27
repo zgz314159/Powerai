@@ -7,7 +7,7 @@ import com.example.powerai.domain.query.QueryUnderstandingPipeline
 data class LocalSearchQueryVariant(
     val text: String,
     val strategy: String,
-    val priority: Int
+    val priority: Int,
 )
 
 object LocalSearchQueryVariantBuilder {
@@ -21,16 +21,22 @@ object LocalSearchQueryVariantBuilder {
         if (normalized.isBlank()) return emptyList()
 
         val variants = linkedMapOf<String, LocalSearchQueryVariant>()
-        fun addVariant(text: String, strategy: String, priority: Int) {
+
+        fun addVariant(
+            text: String,
+            strategy: String,
+            priority: Int,
+        ) {
             val normalizedText = QueryRewritePlanner.normalizeQuery(text)
             if (normalizedText.length < 2) return
             val existing = variants[normalizedText]
             if (existing == null || priority < existing.priority) {
-                variants[normalizedText] = LocalSearchQueryVariant(
-                    text = normalizedText,
-                    strategy = strategy,
-                    priority = priority
-                )
+                variants[normalizedText] =
+                    LocalSearchQueryVariant(
+                        text = normalizedText,
+                        strategy = strategy,
+                        priority = priority,
+                    )
             } else if (shouldPromoteStrategy(existing.strategy, strategy)) {
                 variants[normalizedText] = existing.copy(strategy = strategy)
             }
@@ -40,8 +46,8 @@ object LocalSearchQueryVariantBuilder {
         understanding.retrievalQueries.forEachIndexed { index, variant ->
             addVariant(
                 text = variant,
-                strategy = if (index == 0) "normalized" else "rewrite_${index}",
-                priority = index + 1
+                strategy = if (index == 0) "normalized" else "rewrite_$index",
+                priority = index + 1,
             )
         }
 
@@ -74,7 +80,10 @@ object LocalSearchQueryVariantBuilder {
         return QueryRewritePlanner.isConditionStyleQuery(query)
     }
 
-    private fun shouldPromoteStrategy(existing: String, incoming: String): Boolean {
+    private fun shouldPromoteStrategy(
+        existing: String,
+        incoming: String,
+    ): Boolean {
         if (existing == incoming) return false
         return isGenericStrategy(existing) && !isGenericStrategy(incoming)
     }
@@ -86,7 +95,7 @@ object LocalSearchQueryVariantBuilder {
     private fun addAnswerOrientedDefinitionVariants(
         addVariant: (String, String, Int) -> Unit,
         subject: String,
-        cue: String
+        cue: String,
     ) {
         when (cue.ifBlank { "用途" }) {
             "主要用途", "用途", "作用", "功能", "目的", "特点" -> {
@@ -110,7 +119,7 @@ object LocalSearchQueryVariantBuilder {
 
     private fun addAnswerOrientedConditionVariants(
         normalized: String,
-        addVariant: (String, String, Int) -> Unit
+        addVariant: (String, String, Int) -> Unit,
     ) {
         val subject = extractConditionSubject(normalized)
         if (subject.isBlank()) return
@@ -138,7 +147,7 @@ object LocalSearchQueryVariantBuilder {
 
     private fun addProcedureVariants(
         normalized: String,
-        addVariant: (String, String, Int) -> Unit
+        addVariant: (String, String, Int) -> Unit,
     ) {
         val subject = extractProcedureSubject(normalized)
         if (subject.isBlank()) return
@@ -150,7 +159,7 @@ object LocalSearchQueryVariantBuilder {
 
     private fun addComparisonVariants(
         normalized: String,
-        addVariant: (String, String, Int) -> Unit
+        addVariant: (String, String, Int) -> Unit,
     ) {
         val pair = extractComparisonPair(normalized)
         if (pair == null) return
@@ -162,29 +171,31 @@ object LocalSearchQueryVariantBuilder {
     }
 
     private fun extractProcedureSubject(normalized: String): String {
-        val cleaned = normalized
-            .replace("如何", "")
-            .replace("怎么", "")
-            .replace("怎样", "")
-            .replace("咋", "")
-            .replace("怎么办", "")
-            .replace("步骤", "")
-            .replace("流程", "")
-            .replace("操作", "")
-            .replace("处置", "")
-            .replace("处理", "")
-            .trim()
-            .removeSuffix("的")
-            .trim()
+        val cleaned =
+            normalized
+                .replace("如何", "")
+                .replace("怎么", "")
+                .replace("怎样", "")
+                .replace("咋", "")
+                .replace("怎么办", "")
+                .replace("步骤", "")
+                .replace("流程", "")
+                .replace("操作", "")
+                .replace("处置", "")
+                .replace("处理", "")
+                .trim()
+                .removeSuffix("的")
+                .trim()
 
         return reorderProcedureSubject(cleaned)
     }
 
     private fun reorderProcedureSubject(subject: String): String {
         val compact = subject.replace(" ", "")
-        val reorderedVerb = listOf("分析", "检查", "测量", "试验")
-            .firstOrNull { verb -> compact.endsWith(verb) && compact.length > verb.length }
-            ?.let { verb -> "$verb${compact.removeSuffix(verb)}" }
+        val reorderedVerb =
+            listOf("分析", "检查", "测量", "试验")
+                .firstOrNull { verb -> compact.endsWith(verb) && compact.length > verb.length }
+                ?.let { verb -> "$verb${compact.removeSuffix(verb)}" }
 
         return reorderedVerb ?: compact
     }
@@ -197,13 +208,14 @@ object LocalSearchQueryVariantBuilder {
         val suffix = suffixes.firstOrNull(compact::contains) ?: return null
         val left = compact.substringBefore(separator).trim().removeSuffix("的")
         val rightRaw = compact.substringAfter(separator)
-        val right = rightRaw.substringBefore(suffix)
-            .replace("有啥", "")
-            .replace("有什么", "")
-            .replace("有何", "")
-            .replace("哪里", "")
-            .trim()
-            .removeSuffix("的")
+        val right =
+            rightRaw.substringBefore(suffix)
+                .replace("有啥", "")
+                .replace("有什么", "")
+                .replace("有何", "")
+                .replace("哪里", "")
+                .trim()
+                .removeSuffix("的")
         return if (left.length >= 1 && right.length >= 1) left to right else null
     }
 }

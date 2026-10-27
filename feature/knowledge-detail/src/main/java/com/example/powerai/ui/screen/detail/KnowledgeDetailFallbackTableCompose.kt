@@ -24,77 +24,79 @@ import kotlinx.coroutines.withTimeout
 @Composable
 internal fun MarkdownTableCompose(
     markdown: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val parsedState by produceState<ParsedTable>(
         initialValue = ParsedTable(header = emptyList(), rows = emptyList(), maxCols = -1),
-        key1 = markdown
+        key1 = markdown,
     ) {
         value = ParsedTable(header = emptyList(), rows = emptyList(), maxCols = -1)
         val start = System.currentTimeMillis()
         // log removed: tableCompose parse START len=${markdown.length}
-        value = withContext(Dispatchers.Default) {
-            // log removed: tableCompose parse BG START len=${markdown.length}
-            runCatching {
-                withTimeout(1200) {
-                    // IMPORTANT: do NOT call ensureTableSeparators() here.
-                    // That pipeline can be very expensive and, for some inputs, appear to never finish.
-                    // We only need a readable table, so we use a simple, deterministic parser.
+        value =
+            withContext(Dispatchers.Default) {
+                // log removed: tableCompose parse BG START len=${markdown.length}
+                runCatching {
+                    withTimeout(1200) {
+                        // IMPORTANT: do NOT call ensureTableSeparators() here.
+                        // That pipeline can be very expensive and, for some inputs, appear to never finish.
+                        // We only need a readable table, so we use a simple, deterministic parser.
 
-                    fun isSeparatorRow(line: String): Boolean {
-                        val cells = MarkdownTableCellsSplitter.splitCellsPreserveTrailingEmpty(line)
-                        if (cells.isEmpty()) return false
-                        for (cell in cells) {
-                            val trimmed = cell.trim()
-                            if (trimmed.isEmpty()) return false
-                            // Allow only -, :, and spaces
-                            for (ch in trimmed) {
-                                if (ch != '-' && ch != ':' && ch != ' ') return false
+                        fun isSeparatorRow(line: String): Boolean {
+                            val cells = MarkdownTableCellsSplitter.splitCellsPreserveTrailingEmpty(line)
+                            if (cells.isEmpty()) return false
+                            for (cell in cells) {
+                                val trimmed = cell.trim()
+                                if (trimmed.isEmpty()) return false
+                                // Allow only -, :, and spaces
+                                for (ch in trimmed) {
+                                    if (ch != '-' && ch != ':' && ch != ' ') return false
+                                }
+                                // Require at least 3 dashes somewhere to be a valid separator cell
+                                if (trimmed.count { it == '-' } < 3) return false
                             }
-                            // Require at least 3 dashes somewhere to be a valid separator cell
-                            if (trimmed.count { it == '-' } < 3) return false
+                            return true
                         }
-                        return true
+
+                        val normalized = markdown.replace("\r\n", "\n")
+                        val tableLines = ArrayList<String>(32)
+                        var lineCount = 0
+                        for (line in normalized.lineSequence()) {
+                            val t = line.trimEnd()
+                            if (t.isBlank()) continue
+                            if (!t.trimStart().startsWith("|")) continue
+                            if (t.count { it == '|' } < 2) continue
+                            tableLines.add(t)
+                            lineCount++
+                            if (lineCount >= 120) break
+                        }
+
+                        val rawCells =
+                            tableLines
+                                .map { MarkdownTableCellsSplitter.splitCellsPreserveTrailingEmpty(it) }
+                                .filter { it.isNotEmpty() }
+
+                        val header = rawCells.getOrNull(0).orEmpty()
+                        val hasSeparator = rawCells.getOrNull(1)?.let { _ -> isSeparatorRow(tableLines.getOrNull(1).orEmpty()) } == true
+                        val data = if (rawCells.size >= 2) rawCells.drop(if (hasSeparator) 2 else 1) else emptyList()
+
+                        val maxColsRaw = (rawCells.maxOfOrNull { it.size } ?: 0).coerceAtLeast(0)
+
+                        // Safety caps to avoid pathological tables freezing UI.
+                        val maxCols = maxColsRaw.coerceAtMost(12).coerceAtLeast(1)
+                        val maxRows = data.size.coerceAtMost(60)
+
+                        ParsedTable(
+                            header = header.take(maxCols),
+                            rows = data.take(maxRows).map { it.take(maxCols) },
+                            maxCols = maxCols,
+                        )
                     }
-
-                    val normalized = markdown.replace("\r\n", "\n")
-                    val tableLines = ArrayList<String>(32)
-                    var lineCount = 0
-                    for (line in normalized.lineSequence()) {
-                        val t = line.trimEnd()
-                        if (t.isBlank()) continue
-                        if (!t.trimStart().startsWith("|")) continue
-                        if (t.count { it == '|' } < 2) continue
-                        tableLines.add(t)
-                        lineCount++
-                        if (lineCount >= 120) break
-                    }
-
-                    val rawCells = tableLines
-                        .map { MarkdownTableCellsSplitter.splitCellsPreserveTrailingEmpty(it) }
-                        .filter { it.isNotEmpty() }
-
-                    val header = rawCells.getOrNull(0).orEmpty()
-                    val hasSeparator = rawCells.getOrNull(1)?.let { _ -> isSeparatorRow(tableLines.getOrNull(1).orEmpty()) } == true
-                    val data = if (rawCells.size >= 2) rawCells.drop(if (hasSeparator) 2 else 1) else emptyList()
-
-                    val maxColsRaw = (rawCells.maxOfOrNull { it.size } ?: 0).coerceAtLeast(0)
-
-                    // Safety caps to avoid pathological tables freezing UI.
-                    val maxCols = maxColsRaw.coerceAtMost(12).coerceAtLeast(1)
-                    val maxRows = data.size.coerceAtMost(60)
-
-                    ParsedTable(
-                        header = header.take(maxCols),
-                        rows = data.take(maxRows).map { it.take(maxCols) },
-                        maxCols = maxCols
-                    )
+                }.getOrElse { t ->
+                    // log removed: tableCompose parse FAILED/timeout
+                    ParsedTable(header = emptyList(), rows = emptyList(), maxCols = 0)
                 }
-            }.getOrElse { t ->
-                // log removed: tableCompose parse FAILED/timeout
-                ParsedTable(header = emptyList(), rows = emptyList(), maxCols = 0)
             }
-        }
         // log removed: tableCompose parse DONE rows=${value.rows.size} cols=${value.maxCols} took=${System.currentTimeMillis() - start}ms
     }
     val rows = parsedState
@@ -105,7 +107,7 @@ internal fun MarkdownTableCompose(
             text = "表格解析中",
             modifier = modifier.fillMaxWidth().padding(12.dp),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         return
     }
@@ -114,7 +116,7 @@ internal fun MarkdownTableCompose(
         Text(
             text = markdown,
             modifier = modifier.fillMaxWidth().padding(12.dp),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
         return
     }
@@ -123,10 +125,11 @@ internal fun MarkdownTableCompose(
     val borderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.35f)
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .horizontalScroll(scroll)
-            .border(1.dp, borderColor, MaterialTheme.shapes.medium)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .horizontalScroll(scroll)
+                .border(1.dp, borderColor, MaterialTheme.shapes.medium),
     ) {
         // Header
         if (rows.header.isNotEmpty()) {
@@ -134,15 +137,16 @@ internal fun MarkdownTableCompose(
                 for (c in 0 until rows.maxCols) {
                     val cell = rows.header.getOrNull(c).orEmpty()
                     Box(
-                        modifier = Modifier
-                            .border(1.dp, borderColor)
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .padding(horizontal = 10.dp, vertical = 8.dp)
+                        modifier =
+                            Modifier
+                                .border(1.dp, borderColor)
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .padding(horizontal = 10.dp, vertical = 8.dp),
                     ) {
                         Text(
                             text = cell,
                             style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -155,15 +159,16 @@ internal fun MarkdownTableCompose(
                 for (c in 0 until rows.maxCols) {
                     val cell = rowCells.getOrNull(c).orEmpty()
                     Box(
-                        modifier = Modifier
-                            .border(1.dp, borderColor)
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(horizontal = 10.dp, vertical = 8.dp)
+                        modifier =
+                            Modifier
+                                .border(1.dp, borderColor)
+                                .background(MaterialTheme.colorScheme.surface)
+                                .padding(horizontal = 10.dp, vertical = 8.dp),
                     ) {
                         Text(
                             text = cell,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                     }
                 }
@@ -175,5 +180,5 @@ internal fun MarkdownTableCompose(
 private data class ParsedTable(
     val header: List<String>,
     val rows: List<List<String>>,
-    val maxCols: Int
+    val maxCols: Int,
 )

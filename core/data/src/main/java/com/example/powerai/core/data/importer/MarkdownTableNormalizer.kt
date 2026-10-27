@@ -9,14 +9,13 @@ package com.example.powerai.core.data.importer
  * This runs during JSON import (non-UI layer) so the UI only renders cleaner markdown.
  */
 object MarkdownTableNormalizer {
-
     fun normalizeMarkdownTables(input: String): String {
         return normalizeMarkdownTablesInternal(
             input = input,
             // ڣǿưѿɱ񽵼Ϊ飬 UI ˽ TablePlugin Σ·
             degradeUnsafeTablesToCodeBlock = true,
             // ڲԽ⿪ ``` ı񣨱Ĵ飩
-            unfenceTableCodeBlocks = false
+            unfenceTableCodeBlocks = false,
         )
     }
 
@@ -29,22 +28,23 @@ object MarkdownTableNormalizer {
         return normalizeMarkdownTablesInternal(
             input = input,
             degradeUnsafeTablesToCodeBlock = false,
-            unfenceTableCodeBlocks = true
+            unfenceTableCodeBlocks = true,
         )
     }
 
     private fun normalizeMarkdownTablesInternal(
         input: String,
         degradeUnsafeTablesToCodeBlock: Boolean,
-        unfenceTableCodeBlocks: Boolean
+        unfenceTableCodeBlocks: Boolean,
     ): String {
         if (input.isBlank()) return input
 
-        val preprocessed = if (unfenceTableCodeBlocks) {
-            unfenceTableLikeCodeBlocks(input)
-        } else {
-            input
-        }
+        val preprocessed =
+            if (unfenceTableCodeBlocks) {
+                unfenceTableLikeCodeBlocks(input)
+            } else {
+                input
+            }
 
         val lines = preprocessed.split("\n")
         val out = ArrayList<String>(lines.size)
@@ -83,11 +83,15 @@ object MarkdownTableNormalizer {
         return if (result.isBlank() && preprocessed.isNotBlank()) preprocessed else result
     }
 
-    private fun shouldDegradeTable(maxCols: Int, blockLines: List<String>): Boolean =
-        maxCols <= 1
+    private fun shouldDegradeTable(
+        maxCols: Int,
+        blockLines: List<String>,
+    ): Boolean = maxCols <= 1
 
-    private fun degradeTableWith(blockLines: List<String>, asCodeBlock: Boolean): List<String> =
-        if (asCodeBlock) wrapAsCodeBlock(blockLines) else blockLines
+    private fun degradeTableWith(
+        blockLines: List<String>,
+        asCodeBlock: Boolean,
+    ): List<String> = if (asCodeBlock) wrapAsCodeBlock(blockLines) else blockLines
 
     private fun wrapAsCodeBlock(lines: List<String>): List<String> {
         // ôǿơҪڹȾ׶ε쳣㣩
@@ -102,7 +106,7 @@ object MarkdownTableNormalizer {
     private fun flattenAsPlainTextRows(
         paddedRows: List<List<String>>,
         separatorIndex: Int,
-        keepIndices: List<Int>
+        keepIndices: List<Int>,
     ): List<String> {
         // ΪͨıУ '|' ͷ TablePlugin 룬
         // ڵͼƬ﷨ ![]() Կɱء
@@ -159,7 +163,7 @@ object MarkdownTableNormalizer {
 
     private fun normalizeTableBlockOrNull(
         blockLines: List<String>,
-        degradeUnsafeTablesToCodeBlock: Boolean
+        degradeUnsafeTablesToCodeBlock: Boolean,
     ): List<String>? {
         if (blockLines.size < 2) return null
 
@@ -179,7 +183,7 @@ object MarkdownTableNormalizer {
         val paddedRows = padRowsToMaxColumns(parsedRows, maxCols)
         val emptyCol = identifyEmptyColumns(paddedRows, separatorIndex, maxCols)
         val keepIndices = (0 until maxCols).filter { c -> !emptyCol[c] }
-        
+
         // ɾֻʣ 0/1 У˵񡱼ȫջṹ쳣Ϊȡ
         if (keepIndices.size < 2) {
             return degradeTableWith(blockLines, degradeUnsafeTablesToCodeBlock)
@@ -195,7 +199,7 @@ object MarkdownTableNormalizer {
         }
 
         val rebuiltPadded = removeEmptyDataRows(paddedRows, separatorIndex, keepIndices)
-        
+
         // ɾк󣬱ֻʣ header+separator٣˵ȫգ TablePlugin
         if (rebuiltPadded.size <= 2) {
             return if (degradeUnsafeTablesToCodeBlock) {
@@ -214,7 +218,10 @@ object MarkdownTableNormalizer {
         return rebuildTableLines(rebuiltPadded, newSeparatorIndex, keepIndices)
     }
 
-    private fun padRowsToMaxColumns(parsedRows: List<List<String>>, maxCols: Int): List<List<String>> {
+    private fun padRowsToMaxColumns(
+        parsedRows: List<List<String>>,
+        maxCols: Int,
+    ): List<List<String>> {
         return parsedRows.map { row ->
             if (row.size == maxCols) row else row + List(maxCols - row.size) { "" }
         }
@@ -223,7 +230,7 @@ object MarkdownTableNormalizer {
     private fun identifyEmptyColumns(
         paddedRows: List<List<String>>,
         separatorIndex: Int,
-        maxCols: Int
+        maxCols: Int,
     ): BooleanArray {
         val emptyCol = BooleanArray(maxCols) { true }
         for (r in paddedRows.indices) {
@@ -241,7 +248,7 @@ object MarkdownTableNormalizer {
     private fun removeEmptyDataRows(
         paddedRows: List<List<String>>,
         separatorIndex: Int,
-        keepIndices: List<Int>
+        keepIndices: List<Int>,
     ): List<List<String>> {
         // ؼ޸ɾȫաУTableRowSpan.draw ܻ 0 ³㣩
         // 뱣 header( 0 )  separator С
@@ -265,17 +272,18 @@ object MarkdownTableNormalizer {
     private fun rebuildTableLines(
         rebuiltPadded: List<List<String>>,
         newSeparatorIndex: Int,
-        keepIndices: List<Int>
+        keepIndices: List<Int>,
     ): List<String> {
         val rebuilt = ArrayList<String>(rebuiltPadded.size)
         for (r in rebuiltPadded.indices) {
             val row = rebuiltPadded[r]
             if (r == newSeparatorIndex) {
                 // Rebuild separator using the original tokens when possible, else default to ---.
-                val sepCells = keepIndices.map { c ->
-                    val t = row[c].trim()
-                    if (t.isNotEmpty()) t else "---"
-                }
+                val sepCells =
+                    keepIndices.map { c ->
+                        val t = row[c].trim()
+                        if (t.isNotEmpty()) t else "---"
+                    }
                 rebuilt.add(MarkdownTableUtils.joinRow(sepCells))
             } else {
                 val cells = keepIndices.map { c -> row[c] }

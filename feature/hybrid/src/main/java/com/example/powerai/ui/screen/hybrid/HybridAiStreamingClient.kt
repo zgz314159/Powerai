@@ -5,53 +5,57 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 
 internal object HybridAiStreamingClient {
-
     suspend fun streamAnswer(
         question: String,
         referenceText: String,
         apiKey: String,
         baseUrl: String,
         model: String,
-        onPartial: (String) -> Unit
+        onPartial: (String) -> Unit,
     ): String {
-        val safeRef = referenceText
-            .replace(Regex("\\p{Cntrl}"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
-            .take(8000)
+        val safeRef =
+            referenceText
+                .replace(Regex("\\p{Cntrl}"), " ")
+                .replace(Regex("\\s+"), " ")
+                .trim()
+                .take(8000)
 
-        val userContent = buildString {
-            append(question)
-            if (safeRef.isNotBlank()) {
-                append("\n\n参考：")
-                append(safeRef)
+        val userContent =
+            buildString {
+                append(question)
+                if (safeRef.isNotBlank()) {
+                    append("\n\n参考：")
+                    append(safeRef)
+                }
             }
-        }
 
         val url = "${baseUrl.trimEnd('/')}/chat/completions"
 
-        val client = okhttp3.OkHttpClient.Builder()
-            .readTimeout(0, TimeUnit.MILLISECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .build()
+        val client =
+            okhttp3.OkHttpClient.Builder()
+                .readTimeout(0, TimeUnit.MILLISECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .build()
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
-        val escaped = userContent
-            .replace("\\", "\\\\")
-            .replace("\"", "\\\"")
-            .replace("\n", "\\n")
+        val escaped =
+            userContent
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
 
         val bodyJson =
             "{\"model\":\"$model\",\"stream\":true,\"messages\":[" +
                 "{\"role\":\"system\",\"content\":\"You are a helpful assistant.\"}," +
                 "{\"role\":\"user\",\"content\":\"" + escaped + "\"}] }"
 
-        val req = okhttp3.Request.Builder()
-            .url(url)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .addHeader("Content-Type", "application/json")
-            .post(bodyJson.toRequestBody(mediaType))
-            .build()
+        val req =
+            okhttp3.Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer $apiKey")
+                .addHeader("Content-Type", "application/json")
+                .post(bodyJson.toRequestBody(mediaType))
+                .build()
 
         client.newCall(req).execute().use { resp ->
             if (!resp.isSuccessful) {
@@ -63,11 +67,12 @@ internal object HybridAiStreamingClient {
 
             val sb = StringBuilder()
             while (!source.exhausted()) {
-                val line = try {
-                    source.readUtf8Line()
-                } catch (_: java.io.IOException) {
-                    break
-                } ?: break
+                val line =
+                    try {
+                        source.readUtf8Line()
+                    } catch (_: java.io.IOException) {
+                        break
+                    } ?: break
 
                 val trimmed = line.trim()
                 if (trimmed.isEmpty()) continue
@@ -83,13 +88,17 @@ internal object HybridAiStreamingClient {
         }
     }
 
-    private fun appendPayloadText(payload: String, sb: StringBuilder) {
+    private fun appendPayloadText(
+        payload: String,
+        sb: StringBuilder,
+    ) {
         try {
-            val parsed = try {
-                com.google.gson.Gson().fromJson(payload, com.google.gson.JsonElement::class.java)
-            } catch (_: Throwable) {
-                null
-            }
+            val parsed =
+                try {
+                    com.google.gson.Gson().fromJson(payload, com.google.gson.JsonElement::class.java)
+                } catch (_: Throwable) {
+                    null
+                }
 
             if (parsed != null && parsed.isJsonObject) {
                 val obj = parsed.asJsonObject

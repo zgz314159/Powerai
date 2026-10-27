@@ -3,7 +3,7 @@ package com.example.powerai.ui.screen.detail
 internal object KnowledgeDetailMarkdownChunkingTableSplit {
     fun splitOversizedTableOrNull(
         tableLines: List<String>,
-        maxChunkSize: Int
+        maxChunkSize: Int,
     ): List<String>? {
         if (tableLines.size < 2) return null
         if (!TableNormalizeHelpers.isSeparatorLine(tableLines[1])) return null

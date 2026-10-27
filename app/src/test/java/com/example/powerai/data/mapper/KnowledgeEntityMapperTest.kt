@@ -1,23 +1,24 @@
 package com.example.powerai.data.mapper
 
 import com.example.powerai.core.data.entity.KnowledgeEntity
+import com.example.powerai.core.data.mapper.KnowledgeEntityMapper
 import com.example.powerai.core.model.KnowledgeItem
 import org.junit.Assert.*
 import org.junit.Test
-import com.example.powerai.core.data.mapper.KnowledgeEntityMapper
 
 class KnowledgeEntityMapperTest {
     @Test
     fun `toEntity and toItem round trip preserves fields`() {
-        val item = KnowledgeItem(
-            id = 123L,
-            title = "Title",
-            content = "Some content",
-            source = "src",
-            pageNumber = 5,
-            category = "cat",
-            keywords = listOf("a", "b")
-        )
+        val item =
+            KnowledgeItem(
+                id = 123L,
+                title = "Title",
+                content = "Some content",
+                source = "src",
+                pageNumber = 5,
+                category = "cat",
+                keywords = listOf("a", "b"),
+            )
         val entity = KnowledgeEntityMapper.toEntity(item)
         // id not set by mapper; ensure default zero
         assertEquals(0L, entity.id)

@@ -39,7 +39,10 @@ fun DebugScreen(viewModel: DebugViewModel) {
 }
 
 @Composable
-fun EditableEntry(e: KnowledgeEntity, onSave: (KnowledgeEntity) -> Unit) {
+fun EditableEntry(
+    e: KnowledgeEntity,
+    onSave: (KnowledgeEntity) -> Unit,
+) {
     var text by remember { mutableStateOf(e.content) }
     Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
         OutlinedTextField(value = text, onValueChange = { text = it }, modifier = Modifier.fillMaxWidth(), label = { Text("Content") })

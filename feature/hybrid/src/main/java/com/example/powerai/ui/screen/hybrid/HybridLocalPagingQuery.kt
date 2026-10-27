@@ -6,7 +6,7 @@ internal data class HybridLocalPagingQueryNormalization(
     val normalized: String,
     val queryNoSpace: String?,
     val hasLatin: Boolean,
-    val hasCjk: Boolean
+    val hasCjk: Boolean,
 )
 
 /**
@@ -15,7 +15,6 @@ internal data class HybridLocalPagingQueryNormalization(
  * Intentionally mirrors the previous inline logic in HybridViewModel to keep behavior stable.
  */
 internal object HybridLocalPagingQuery {
-
     fun normalize(raw: String): HybridLocalPagingQueryNormalization {
         var normalized = SearchTextNormalization.normalizeForSearch(raw)
 
@@ -31,7 +30,7 @@ internal object HybridLocalPagingQuery {
                 normalized = normalized,
                 queryNoSpace = null,
                 hasLatin = hasLatin,
-                hasCjk = hasCjk
+                hasCjk = hasCjk,
             )
         }
 
@@ -41,7 +40,7 @@ internal object HybridLocalPagingQuery {
                 normalized = normalized,
                 queryNoSpace = null,
                 hasLatin = hasLatin,
-                hasCjk = hasCjk
+                hasCjk = hasCjk,
             )
         }
 
@@ -51,7 +50,7 @@ internal object HybridLocalPagingQuery {
                 normalized = normalized,
                 queryNoSpace = null,
                 hasLatin = hasLatin,
-                hasCjk = hasCjk
+                hasCjk = hasCjk,
             )
         }
 
@@ -59,7 +58,7 @@ internal object HybridLocalPagingQuery {
             normalized = normalized,
             queryNoSpace = qNoSpace,
             hasLatin = hasLatin,
-            hasCjk = hasCjk
+            hasCjk = hasCjk,
         )
     }
 

@@ -71,7 +71,7 @@ internal object TableEmbeddedSeparatorRowSplitter {
 internal object TableEmbeddedSeparatorRowExpander {
     fun expandLinesWithEmbeddedSeparatorRows(
         normalized: String,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ): List<String> {
         val expanded = ArrayList<String>()
         for (rawLine in normalized.split('\n')) {
@@ -115,11 +115,11 @@ internal object TableEmbeddedSeparatorExpander {
 
     fun expandLinesWithEmbeddedSeparatorRows(
         normalized: String,
-        separatorLineRegex: Regex
+        separatorLineRegex: Regex,
     ): List<String> {
         return TableEmbeddedSeparatorRowExpander.expandLinesWithEmbeddedSeparatorRows(
             normalized = normalized,
-            separatorLineRegex = separatorLineRegex
+            separatorLineRegex = separatorLineRegex,
         )
     }
 }

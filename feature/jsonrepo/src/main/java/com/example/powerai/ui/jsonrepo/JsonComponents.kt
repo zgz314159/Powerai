@@ -43,7 +43,7 @@ fun ExportFabGroup(
     expanded: Boolean,
     onToggle: () -> Unit,
     onExportCsv: () -> Unit,
-    onExportJson: () -> Unit
+    onExportJson: () -> Unit,
 ) {
     val rotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f)
 
@@ -55,14 +55,14 @@ fun ExportFabGroup(
                     icon = { Text("CSV") },
                     text = { Text("导出 CSV") },
                     containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
                 )
                 ExtendedFloatingActionButton(
                     onClick = onExportJson,
                     icon = { Text("JSON") },
                     text = { Text("导出 JSON") },
                     containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    modifier = Modifier.padding(bottom = 12.dp),
                 )
             }
         }
@@ -89,7 +89,7 @@ fun EmptyState(text: String) {
 fun JsonDrawerContent(
     files: List<JsonKnowledgeFile>,
     selectedFileId: String?,
-    onFileSelected: (JsonKnowledgeFile) -> Unit
+    onFileSelected: (JsonKnowledgeFile) -> Unit,
 ) {
     ModalDrawerSheet(modifier = Modifier.width(300.dp)) {
         Box(Modifier.padding(24.dp)) {
@@ -109,10 +109,20 @@ fun JsonDrawerContent(
                     label = { Text(file.fileName, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     selected = isSelected,
                     onClick = { onFileSelected(file) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                        .then(if (isSelected) Modifier.background(MaterialTheme.colorScheme.primaryContainer, shape = MaterialTheme.shapes.small) else Modifier)
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
+                            .then(
+                                if (isSelected) {
+                                    Modifier.background(
+                                        MaterialTheme.colorScheme.primaryContainer,
+                                        shape = MaterialTheme.shapes.small,
+                                    )
+                                } else {
+                                    Modifier
+                                },
+                            ),
                 )
             }
         }

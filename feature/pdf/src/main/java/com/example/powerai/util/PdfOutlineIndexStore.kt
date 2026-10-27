@@ -16,19 +16,19 @@ object PdfOutlineIndexStore {
     data class IndexFile(
         val version: Int = 1,
         val generatedAt: String? = null,
-        val pdfs: Map<String, PdfEntry> = emptyMap()
+        val pdfs: Map<String, PdfEntry> = emptyMap(),
     )
 
     data class PdfEntry(
         val assetPath: String? = null,
         val fileName: String? = null,
         val pageCount: Int? = null,
-        val sections: List<Section> = emptyList()
+        val sections: List<Section> = emptyList(),
     )
 
     data class Section(
         val startPage: Int = 1,
-        val path: List<String> = emptyList()
+        val path: List<String> = emptyList(),
     )
 
     @Volatile
@@ -38,22 +38,28 @@ object PdfOutlineIndexStore {
         cached?.let { return it }
         synchronized(this) {
             cached?.let { return it }
-            val json = try {
-                context.assets.open(ASSET_FILE).bufferedReader(Charsets.UTF_8).use { it.readText() }
-            } catch (_: Throwable) {
-                return null
-            }
-            val parsed = try {
-                Gson().fromJson(json, IndexFile::class.java)
-            } catch (_: Throwable) {
-                null
-            }
+            val json =
+                try {
+                    context.assets.open(ASSET_FILE).bufferedReader(Charsets.UTF_8).use { it.readText() }
+                } catch (_: Throwable) {
+                    return null
+                }
+            val parsed =
+                try {
+                    Gson().fromJson(json, IndexFile::class.java)
+                } catch (_: Throwable) {
+                    null
+                }
             cached = parsed
             return parsed
         }
     }
 
-    fun breadcrumbFor(context: Context, fileId: String, pageNumber: Int): List<String>? {
+    fun breadcrumbFor(
+        context: Context,
+        fileId: String,
+        pageNumber: Int,
+    ): List<String>? {
         val idx = loadOnce(context) ?: return null
         val entry = idx.pdfs[fileId.lowercase()] ?: return null
         val sections = entry.sections
@@ -76,7 +82,10 @@ object PdfOutlineIndexStore {
         return best?.path?.filter { it.isNotBlank() }?.takeIf { it.isNotEmpty() }
     }
 
-    fun assetPathFor(context: Context, fileId: String): String? {
+    fun assetPathFor(
+        context: Context,
+        fileId: String,
+    ): String? {
         val idx = loadOnce(context) ?: return null
         return idx.pdfs[fileId.lowercase()]?.assetPath
     }
@@ -98,7 +107,10 @@ object PdfOutlineIndexStore {
      * Best-effort: if internal cached PDF is missing, restore it from assets using the prebuilt index.
      * Returns true if the PDF becomes available locally.
      */
-    fun restorePdfFromAssetsIfPossible(context: Context, fileId: String): Boolean {
+    fun restorePdfFromAssetsIfPossible(
+        context: Context,
+        fileId: String,
+    ): Boolean {
         val dst = PdfStorage.getPdfFile(context, fileId)
         if (dst.exists()) return true
 

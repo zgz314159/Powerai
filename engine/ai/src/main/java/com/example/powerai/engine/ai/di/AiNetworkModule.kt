@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AiNetworkModule {
-
     @Provides
     @Singleton
     fun provideAiApiService(config: RemoteConfigRepository): AiApiService {
@@ -33,24 +32,26 @@ object AiNetworkModule {
         val normalizedBaseUrl = if (base.endsWith("/")) base else "$base/"
         val apiKey = config.getAiApiKey().trim()
 
-        val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(90, TimeUnit.SECONDS)
-            .writeTimeout(90, TimeUnit.SECONDS)
-            .callTimeout(120, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
-            .addInterceptor { chain ->
-                val req = chain.request().newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .apply {
-                        if (apiKey.isNotBlank()) {
-                            addHeader("Authorization", "Bearer $apiKey")
-                        }
-                    }
-                    .build()
-                chain.proceed(req)
-            }
-            .build()
+        val client =
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(90, TimeUnit.SECONDS)
+                .writeTimeout(90, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .addInterceptor { chain ->
+                    val req =
+                        chain.request().newBuilder()
+                            .addHeader("Content-Type", "application/json")
+                            .apply {
+                                if (apiKey.isNotBlank()) {
+                                    addHeader("Authorization", "Bearer $apiKey")
+                                }
+                            }
+                            .build()
+                    chain.proceed(req)
+                }
+                .build()
 
         return Retrofit.Builder()
             .baseUrl(normalizedBaseUrl)

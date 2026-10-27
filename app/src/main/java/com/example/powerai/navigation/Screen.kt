@@ -9,8 +9,11 @@ import com.example.powerai.feature.knowledgedetail.PdfViewerRoute
  */
 sealed class Screen(val route: String) {
     object Hybrid : Screen("hybrid")
+
     object Home : Screen("home")
+
     object Settings : Screen("settings")
+
     object JsonRepo : Screen("jsonrepo")
 
     /** 用户知识库目录导入界面。 */

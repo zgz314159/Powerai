@@ -20,7 +20,10 @@ internal object KnowledgeDetailMarkdownAssetImagesRewriteHelpers {
         return path.split('/').last()
     }
 
-    fun isAlreadyInsideMarkdownImage(markdown: String, start: Int): Boolean {
+    fun isAlreadyInsideMarkdownImage(
+        markdown: String,
+        start: Int,
+    ): Boolean {
         val before = markdown.substring(0, start)
         val lastImgStart = before.lastIndexOf("![")
         if (lastImgStart < 0) return false
@@ -32,7 +35,7 @@ internal object KnowledgeDetailMarkdownAssetImagesRewriteHelpers {
         sb: StringBuilder,
         markdown: String,
         end: Int,
-        body: String
+        body: String,
     ): String {
         // Ensure a blank line before and after image to keep AST correct
         val prefix = if (sb.endsWith("\n\n") || sb.isEmpty()) "" else "\n\n"

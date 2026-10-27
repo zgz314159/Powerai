@@ -15,10 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
-import org.mockito.kotlin.atLeastOnce
-import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 class AiStreamUseCaseTest {
@@ -31,10 +28,17 @@ class AiStreamUseCaseTest {
 
     private class FakeChatHistoryRepository : ChatHistoryRepository {
         var lastSaved: ChatHistorySnapshot? = null
+
         override suspend fun loadHistory(): ChatHistorySnapshot =
             lastSaved ?: ChatHistorySnapshot(sessions = emptyList(), selectedSessionId = null, currentSessionId = null)
-        override suspend fun saveHistory(snapshot: ChatHistorySnapshot) { lastSaved = snapshot }
-        override suspend fun clearHistory() { lastSaved = null }
+
+        override suspend fun saveHistory(snapshot: ChatHistorySnapshot) {
+            lastSaved = snapshot
+        }
+
+        override suspend fun clearHistory() {
+            lastSaved = null
+        }
     }
 
     @Before
@@ -77,9 +81,10 @@ class AiStreamUseCaseTest {
 
     @Test
     fun `appendTurn adds to existing session and updates title if first turn`() {
-        val existing = listOf(
-            ChatSession(id = 42L, title = "新对", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0)
-        )
+        val existing =
+            listOf(
+                ChatSession(id = 42L, title = "新对", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0),
+            )
         val (updated, sid) = useCase.sessionManager.appendTurn(existing, 42L, turnId = 200L, question = "question?")
         assertEquals(42L, sid)
         assertEquals(1, updated.size)
@@ -91,13 +96,16 @@ class AiStreamUseCaseTest {
 
     @Test
     fun `appendTurn keeps title when not first turn`() {
-        val existing = listOf(
-            ChatSession(
-                id = 99L, title = "foo",
-                turns = listOf(ChatTurn(id = 1L, question = "a", answer = "", askedAtMillis = 0)),
-                createdAtMillis = 0, updatedAtMillis = 0
+        val existing =
+            listOf(
+                ChatSession(
+                    id = 99L,
+                    title = "foo",
+                    turns = listOf(ChatTurn(id = 1L, question = "a", answer = "", askedAtMillis = 0)),
+                    createdAtMillis = 0,
+                    updatedAtMillis = 0,
+                ),
             )
-        )
         val (updated, sid) = useCase.sessionManager.appendTurn(existing, 99L, turnId = 201L, question = "bar")
         assertEquals(99L, sid)
         val session = updated[0]
@@ -126,170 +134,186 @@ class AiStreamUseCaseTest {
     }
 
     @Test
-    fun `selectSessionAndPersist saves snapshot with chosen id`() = runBlocking {
-        val sessions = listOf(ChatSession(id = 1L, title = "", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0))
-        val (outSessions, outSid) = useCase.sessionManager.selectSessionAndPersist(sessions, 555L)
-        assertSame(sessions, outSessions)
-        assertEquals(555L, outSid)
-        val snap = chatHistoryRepository.lastSaved
-        assertNotNull(snap)
-        assertEquals(555L, snap!!.selectedSessionId)
-        assertEquals(555L, snap.currentSessionId)
-        assertEquals(sessions, snap.sessions)
-    }
-
-    @Test
-    fun `createNewSessionAndPersist creates and saves new session`() = runBlocking {
-        val (newSessions, newSid) = useCase.sessionManager.createNewSessionAndPersist(emptyList())
-        assertEquals(1, newSessions.size)
-        assertEquals(newSid, newSessions[0].id)
-        val snap = chatHistoryRepository.lastSaved
-        assertNotNull(snap)
-        assertEquals(newSid, snap!!.selectedSessionId)
-        assertEquals(newSid, snap.currentSessionId)
-        assertEquals(newSessions, snap.sessions)
-    }
-
-    @Test
-    fun `updateTurnSourcesAndPersist saves snapshot with same ids`() = runBlocking {
-        val sessions = listOf(
-            ChatSession(
-                id = 10L, title = "",
-                turns = listOf(ChatTurn(id = 1L, question = "q", answer = "", askedAtMillis = 0)),
-                createdAtMillis = 0, updatedAtMillis = 0
-            )
-        )
-        val result = useCase.sessionManager.updateTurnSourcesAndPersist(sessions, sessionId = 10L, turnId = 1L, sources = listOf("x"))
-        assertEquals(listOf("x"), result.first().turns.first().sources)
-        val snap = chatHistoryRepository.lastSaved
-        assertNotNull(snap)
-        assertEquals(10L, snap!!.selectedSessionId)
-        assertEquals(10L, snap.currentSessionId)
-        assertEquals(result, snap.sessions)
-    }
-
-    @Test
-    fun `updateSessionsAndPersist persists supplied ids`() = runBlocking {
-        val sessions = listOf(ChatSession(id = 20L, title = "", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0))
-        val out = useCase.sessionManager.updateSessionsAndPersist(sessions, selectedSessionId = 20L, currentSessionId = 30L)
-        assertSame(sessions, out)
-        val snap = chatHistoryRepository.lastSaved
-        assertNotNull(snap)
-        assertEquals(20L, snap!!.selectedSessionId)
-        assertEquals(30L, snap.currentSessionId)
-        assertEquals(sessions, snap.sessions)
-    }
-
-    @Test
-    fun `askAiStream invokes callbacks with streaming content`() = runBlocking {
-        stubRemoteConfig()
-        whenever(aiStreamingRepository.buildBody(any(), any(), any())).thenReturn("{}")
-        whenever(aiStreamingRepository.isDoneMarker(any())).thenReturn(false)
-        whenever(aiStreamingRepository.isDoneMarker("[DONE]")).thenReturn(true)
-        whenever(aiStreamingRepository.extractTextChunk(any())).thenReturn("Hi")
-        val cancellable = object : Cancellable {
-            override fun cancel() {}
-        }
-        whenever(
-            aiStreamingRepository.startStreaming(any(), anyOrNull(), any(), anyOrNull(), anyOrNull())
-        ).thenAnswer { invocation ->
-            val onData = invocation.getArgument<(String) -> Unit>(2)
-            val onClosed = invocation.getArgument<(() -> Unit)?>(3)
-            onData("{\"choices\":[{\"delta\":{\"content\":\"Hi\"}}]}")
-            onData("[DONE]")
-            onClosed?.invoke()
-            cancellable
+    fun `selectSessionAndPersist saves snapshot with chosen id`() =
+        runBlocking {
+            val sessions = listOf(ChatSession(id = 1L, title = "", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0))
+            val (outSessions, outSid) = useCase.sessionManager.selectSessionAndPersist(sessions, 555L)
+            assertSame(sessions, outSessions)
+            assertEquals(555L, outSid)
+            val snap = chatHistoryRepository.lastSaved
+            assertNotNull(snap)
+            assertEquals(555L, snap!!.selectedSessionId)
+            assertEquals(555L, snap.currentSessionId)
+            assertEquals(sessions, snap.sessions)
         }
 
-        val loadings = mutableListOf<Boolean>()
-        val states = mutableListOf<AiStreamState>()
-        var errorMsg: String? = null
-        val webSrcs = mutableListOf<List<String>>()
-        val source = useCase.askAiStream(
-            userInput = "hello",
-            webSearchEnabled = false,
-            onState = { states.add(it) },
-            onLoading = { loadings.add(it) },
-            onError = { errorMsg = it },
-            onWebSources = { webSrcs.add(it) },
-            updateCurrentTurnSources = { _, _ -> },
-            getHistoryTurns = { emptyList() },
-            updateTurnRetryAllowed = { _, _ -> }
-        )
-        assertNotNull(source)
-        assertTrue(loadings.isNotEmpty())
-        assertEquals(true, loadings.first())
-        assertTrue(loadings.contains(false))
-        assertTrue(states.isNotEmpty())
-        assertEquals(AiStreamState.Loading, states.first())
-        assertTrue(states.any { it is AiStreamState.Success && it.text.contains("Hi") })
-        assertNull(errorMsg)
-        assertTrue(useCase.webSources.value.isEmpty())
-    }
+    @Test
+    fun `createNewSessionAndPersist creates and saves new session`() =
+        runBlocking {
+            val (newSessions, newSid) = useCase.sessionManager.createNewSessionAndPersist(emptyList())
+            assertEquals(1, newSessions.size)
+            assertEquals(newSid, newSessions[0].id)
+            val snap = chatHistoryRepository.lastSaved
+            assertNotNull(snap)
+            assertEquals(newSid, snap!!.selectedSessionId)
+            assertEquals(newSid, snap.currentSessionId)
+            assertEquals(newSessions, snap.sessions)
+        }
 
     @Test
-    fun `performStreamRequest buffers and updates sessions`() = runBlocking {
-        stubRemoteConfig()
-        whenever(aiStreamingRepository.buildBody(any(), any(), any())).thenReturn("{}")
-        whenever(aiStreamingRepository.isDoneMarker(any())).thenReturn(false)
-        whenever(aiStreamingRepository.isDoneMarker("[DONE]")).thenReturn(true)
-        whenever(aiStreamingRepository.extractTextChunk(any())).thenReturn("Hi")
-        val cancellable = object : Cancellable {
-            override fun cancel() {}
+    fun `updateTurnSourcesAndPersist saves snapshot with same ids`() =
+        runBlocking {
+            val sessions =
+                listOf(
+                    ChatSession(
+                        id = 10L,
+                        title = "",
+                        turns = listOf(ChatTurn(id = 1L, question = "q", answer = "", askedAtMillis = 0)),
+                        createdAtMillis = 0,
+                        updatedAtMillis = 0,
+                    ),
+                )
+            val result = useCase.sessionManager.updateTurnSourcesAndPersist(sessions, sessionId = 10L, turnId = 1L, sources = listOf("x"))
+            assertEquals(listOf("x"), result.first().turns.first().sources)
+            val snap = chatHistoryRepository.lastSaved
+            assertNotNull(snap)
+            assertEquals(10L, snap!!.selectedSessionId)
+            assertEquals(10L, snap.currentSessionId)
+            assertEquals(result, snap.sessions)
         }
-        whenever(
-            aiStreamingRepository.startStreaming(any(), anyOrNull(), any(), anyOrNull(), anyOrNull())
-        ).thenAnswer { invocation ->
-            val onData = invocation.getArgument<(String) -> Unit>(2)
-            val onClosed = invocation.getArgument<(() -> Unit)?>(3)
-            onData("{\"choices\":[{\"delta\":{\"content\":\"Hi\"}}]}")
-            onData("[DONE]")
-            onClosed?.invoke()
-            cancellable
+
+    @Test
+    fun `updateSessionsAndPersist persists supplied ids`() =
+        runBlocking {
+            val sessions = listOf(ChatSession(id = 20L, title = "", turns = emptyList(), createdAtMillis = 0, updatedAtMillis = 0))
+            val out = useCase.sessionManager.updateSessionsAndPersist(sessions, selectedSessionId = 20L, currentSessionId = 30L)
+            assertSame(sessions, out)
+            val snap = chatHistoryRepository.lastSaved
+            assertNotNull(snap)
+            assertEquals(20L, snap!!.selectedSessionId)
+            assertEquals(30L, snap.currentSessionId)
+            assertEquals(sessions, snap.sessions)
         }
 
-        val sessionsList = mutableListOf<List<ChatSession>>()
-        val loadings = mutableListOf<Boolean>()
-        val states = mutableListOf<AiStreamState>()
-        var errorMsg: String? = null
-        val webSrcs = mutableListOf<List<String>>()
+    @Test
+    fun `askAiStream invokes callbacks with streaming content`() =
+        runBlocking {
+            stubRemoteConfig()
+            whenever(aiStreamingRepository.buildBody(any(), any(), any())).thenReturn("{}")
+            whenever(aiStreamingRepository.isDoneMarker(any())).thenReturn(false)
+            whenever(aiStreamingRepository.isDoneMarker("[DONE]")).thenReturn(true)
+            whenever(aiStreamingRepository.extractTextChunk(any())).thenReturn("Hi")
+            val cancellable =
+                object : Cancellable {
+                    override fun cancel() {}
+                }
+            whenever(
+                aiStreamingRepository.startStreaming(any(), anyOrNull(), any(), anyOrNull(), anyOrNull()),
+            ).thenAnswer { invocation ->
+                val onData = invocation.getArgument<(String) -> Unit>(2)
+                val onClosed = invocation.getArgument<(() -> Unit)?>(3)
+                onData("{\"choices\":[{\"delta\":{\"content\":\"Hi\"}}]}")
+                onData("[DONE]")
+                onClosed?.invoke()
+                cancellable
+            }
 
-        val turnId = 123L
-        val initialSessions = listOf(
-            ChatSession(
-                id = 999L, title = "foo",
-                turns = listOf(ChatTurn(id = turnId, question = "q", answer = "", askedAtMillis = 0)),
-                createdAtMillis = 0, updatedAtMillis = 0
-            )
-        )
+            val loadings = mutableListOf<Boolean>()
+            val states = mutableListOf<AiStreamState>()
+            var errorMsg: String? = null
+            val webSrcs = mutableListOf<List<String>>()
+            val source =
+                useCase.askAiStream(
+                    userInput = "hello",
+                    webSearchEnabled = false,
+                    onState = { states.add(it) },
+                    onLoading = { loadings.add(it) },
+                    onError = { errorMsg = it },
+                    onWebSources = { webSrcs.add(it) },
+                    updateCurrentTurnSources = { _, _ -> },
+                    getHistoryTurns = { emptyList() },
+                    updateTurnRetryAllowed = { _, _ -> },
+                )
+            assertNotNull(source)
+            assertTrue(loadings.isNotEmpty())
+            assertEquals(true, loadings.first())
+            assertTrue(loadings.contains(false))
+            assertTrue(states.isNotEmpty())
+            assertEquals(AiStreamState.Loading, states.first())
+            assertTrue(states.any { it is AiStreamState.Success && it.text.contains("Hi") })
+            assertNull(errorMsg)
+            assertTrue(useCase.webSources.value.isEmpty())
+        }
 
-        val source = useCase.performStreamRequest(
-            scope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Unconfined),
-            sessions = initialSessions,
-            currentSessionId = 999L,
-            turnId = turnId,
-            userInput = "hello",
-            webSearchEnabled = false,
-            onState = { states.add(it) },
-            onLoading = { loadings.add(it) },
-            onError = { errorMsg = it },
-            onWebSources = { webSrcs.add(it) },
-            updateCurrentTurnSources = { _, _ -> },
-            getHistoryTurns = { emptyList() },
-            updateTurnRetryAllowed = { _, _ -> },
-            updateSessions = { sessionsList.add(it) }
-        )
+    @Test
+    fun `performStreamRequest buffers and updates sessions`() =
+        runBlocking {
+            stubRemoteConfig()
+            whenever(aiStreamingRepository.buildBody(any(), any(), any())).thenReturn("{}")
+            whenever(aiStreamingRepository.isDoneMarker(any())).thenReturn(false)
+            whenever(aiStreamingRepository.isDoneMarker("[DONE]")).thenReturn(true)
+            whenever(aiStreamingRepository.extractTextChunk(any())).thenReturn("Hi")
+            val cancellable =
+                object : Cancellable {
+                    override fun cancel() {}
+                }
+            whenever(
+                aiStreamingRepository.startStreaming(any(), anyOrNull(), any(), anyOrNull(), anyOrNull()),
+            ).thenAnswer { invocation ->
+                val onData = invocation.getArgument<(String) -> Unit>(2)
+                val onClosed = invocation.getArgument<(() -> Unit)?>(3)
+                onData("{\"choices\":[{\"delta\":{\"content\":\"Hi\"}}]}")
+                onData("[DONE]")
+                onClosed?.invoke()
+                cancellable
+            }
 
-        assertNotNull(source)
-        assertTrue(loadings.isNotEmpty())
-        assertEquals(true, loadings.first())
-        assertTrue(loadings.contains(false))
-        assertTrue(states.isNotEmpty())
-        assertEquals(AiStreamState.Loading, states.first())
-        assertTrue(states.any { it is AiStreamState.Success && it.text.contains("Hi") })
-        assertNull(errorMsg)
-        assertTrue(useCase.webSources.value.isEmpty())
-        kotlinx.coroutines.delay(600)
-        assertTrue(sessionsList.isNotEmpty())
-    }
+            val sessionsList = mutableListOf<List<ChatSession>>()
+            val loadings = mutableListOf<Boolean>()
+            val states = mutableListOf<AiStreamState>()
+            var errorMsg: String? = null
+            val webSrcs = mutableListOf<List<String>>()
+
+            val turnId = 123L
+            val initialSessions =
+                listOf(
+                    ChatSession(
+                        id = 999L,
+                        title = "foo",
+                        turns = listOf(ChatTurn(id = turnId, question = "q", answer = "", askedAtMillis = 0)),
+                        createdAtMillis = 0,
+                        updatedAtMillis = 0,
+                    ),
+                )
+
+            val source =
+                useCase.performStreamRequest(
+                    scope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Unconfined),
+                    sessions = initialSessions,
+                    currentSessionId = 999L,
+                    turnId = turnId,
+                    userInput = "hello",
+                    webSearchEnabled = false,
+                    onState = { states.add(it) },
+                    onLoading = { loadings.add(it) },
+                    onError = { errorMsg = it },
+                    onWebSources = { webSrcs.add(it) },
+                    updateCurrentTurnSources = { _, _ -> },
+                    getHistoryTurns = { emptyList() },
+                    updateTurnRetryAllowed = { _, _ -> },
+                    updateSessions = { sessionsList.add(it) },
+                )
+
+            assertNotNull(source)
+            assertTrue(loadings.isNotEmpty())
+            assertEquals(true, loadings.first())
+            assertTrue(loadings.contains(false))
+            assertTrue(states.isNotEmpty())
+            assertEquals(AiStreamState.Loading, states.first())
+            assertTrue(states.any { it is AiStreamState.Success && it.text.contains("Hi") })
+            assertNull(errorMsg)
+            assertTrue(useCase.webSources.value.isEmpty())
+            kotlinx.coroutines.delay(600)
+            assertTrue(sessionsList.isNotEmpty())
+        }
 }

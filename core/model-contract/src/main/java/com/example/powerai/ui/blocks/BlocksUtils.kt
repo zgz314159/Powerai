@@ -1,29 +1,19 @@
 package com.example.powerai.ui.blocks
 
-
-
-
-
-
-
-
-
-import com.example.powerai.core.model.UnknownBlock
-import com.example.powerai.core.model.FigureNodeBlock
 import com.example.powerai.core.model.CodeBlock
-import com.example.powerai.core.model.TableBlock
-import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.FigureNodeBlock
 import com.example.powerai.core.model.ImageBlock
-import com.example.powerai.core.model.TextBlock
 import com.example.powerai.core.model.KnowledgeBlock
+import com.example.powerai.core.model.ListBlock
+import com.example.powerai.core.model.TableBlock
+import com.example.powerai.core.model.TextBlock
+import com.example.powerai.core.model.UnknownBlock
 import com.example.powerai.core.model.util.TextSanitizer
-import com.example.powerai.core.model.util.BlocksJsonUtils
 
 /**
  * Helpers for matching/search-highlighting/navigation.
  */
 object BlocksUtils {
-
     fun plainText(block: KnowledgeBlock): String {
         return when (block) {
             is TextBlock -> block.text
@@ -46,7 +36,10 @@ object BlocksUtils {
     /**
      * Match against pre-normalized block texts.
      */
-    fun matchIndicesNormalized(normalizedBlockTexts: List<String>, keyword: String): List<Int> {
+    fun matchIndicesNormalized(
+        normalizedBlockTexts: List<String>,
+        keyword: String,
+    ): List<Int> {
         val k = keyword.trim()
         if (k.isBlank()) return emptyList()
 
@@ -68,7 +61,10 @@ object BlocksUtils {
         return out
     }
 
-    fun firstMatchIndex(blocks: List<KnowledgeBlock>, keyword: String): Int? {
+    fun firstMatchIndex(
+        blocks: List<KnowledgeBlock>,
+        keyword: String,
+    ): Int? {
         return matchIndices(blocks, keyword).firstOrNull()
     }
 
@@ -80,7 +76,10 @@ object BlocksUtils {
      * - case-insensitive
      * - also attempts whitespace-insensitive contains to improve recall
      */
-    fun matchIndices(blocks: List<KnowledgeBlock>, keyword: String): List<Int> {
+    fun matchIndices(
+        blocks: List<KnowledgeBlock>,
+        keyword: String,
+    ): List<Int> {
         val normalized = blocks.map { normalizedPlainText(it) }
         return matchIndicesNormalized(normalized, keyword)
     }

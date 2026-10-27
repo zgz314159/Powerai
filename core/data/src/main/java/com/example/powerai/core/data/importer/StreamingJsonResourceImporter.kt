@@ -1,25 +1,24 @@
 package com.example.powerai.core.data.importer
 
 import com.example.powerai.core.data.dao.KnowledgeDao
-
-// TODO: 本组件负责流JSON 导入。解析逻辑已抽取到
-// [StreamingJsonEntryParser]，批量写入已重构[StreamingJsonBatchWriter]
-// 将来如有需要可以进一步抽离错误回溯或进度计算逻辑
-
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
+import java.io.InputStream
+import java.io.InputStreamReader
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.io.InputStream
-import java.io.InputStreamReader
+
+// TODO: 本组件负责流JSON 导入。解析逻辑已抽取到
+// [StreamingJsonEntryParser]，批量写入已重构[StreamingJsonBatchWriter]
+// 将来如有需要可以进一步抽离错误回溯或进度计算逻辑
 
 /**
  * Incremental streaming importer: processes JSON elements one-by-one and writes

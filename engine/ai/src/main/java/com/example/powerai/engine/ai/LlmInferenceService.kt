@@ -7,7 +7,10 @@ import com.example.powerai.domain.generator.PromptBuilder
  * Accepts the PromptBuilder.Prompt object directly so PromptBuilder output can be passed in.
  */
 interface LlmInferenceService {
-    suspend fun infer(prompt: PromptBuilder.Prompt, maxTokens: Int = 512): InferenceResult
+    suspend fun infer(
+        prompt: PromptBuilder.Prompt,
+        maxTokens: Int = 512,
+    ): InferenceResult
 }
 
 /**
@@ -16,5 +19,5 @@ interface LlmInferenceService {
 data class InferenceResult(
     val text: String,
     val tokensUsed: Int = 0,
-    val raw: String? = null
+    val raw: String? = null,
 )
