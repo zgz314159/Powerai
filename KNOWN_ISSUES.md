@@ -2,7 +2,18 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-27（PR #29 模块化收口已合入 main；下列 KI 独立排期）
+**最后同步**：2026-10-27（Phase D0 台账校准；整仓债清零进行中）
+
+---
+
+## 本轮清零范围（机器/文档可验收）
+
+| 状态 | 说明 |
+|------|------|
+| 进行中 | 全量 ktlint→0；KI-58 Embedding 死链退役；KI-53 乱码；KI-20 可选拆分；KI-03/04 接受冻结或小拆 |
+| 产品边界（接受限制可关） | KI-50/51/52；KI-57（一键更新未做则书面接受）；KI-56（FTS 主路径，全量清索引可接受） |
+| 真机待验（不伪完成） | KI-54；端侧停止+中文回归；API 36 仪器补齐 |
+| 史诗外置（不纳入本轮清零） | KI-21 DeepSeek/llama JNI 真 runtime |
 
 ---
 
@@ -10,12 +21,12 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
-| KI-01 | `AiStreamViewModel.kt`, `AiChatScaffold.kt` | ViewModel/Scaffold 仍偏大 | ✅ 已完成 MVI 重构；状态拆分、更多 UI 组件分层；逻辑已部分下沉 UseCase |
-| KI-02 | `HybridViewModel.kt` | 仍承担较多 UI 编排 | ✅ 已完成 MVI 重构；继续下沉 UseCase；已有 runtime support 拆分 |
-| KI-03 | `core/data/importer/StreamingJsonResourceImporter.kt`（2026-10-03 已归 `:core:data`） | 导入流程仍长 | 按阶段拆分（parse / map / write）；`FileParserFactory` 已引入；`:app` 仅保留编排/适配 |
-| KI-04 | `SparseSearcher.kt` | 检索逻辑可再拆 | 扫描/tokenize/score 子模块；`SparseSearchUtils` 已部分完成；旧 `KnowledgeLocalSearch`/`LocalSearchDiagnostics` 支线已于 2026-10-03 退役 |
-| KI-05 | `MainPages.kt` | 占位符文件 | 评估删除 |
-| KI-06 | `ui/screen/detail/*` | 详情 markdown/table 文件多 | 保持 normalize 在 data/importer，避免 UI 层继续堆结构修复 |
+| KI-01 | `AiStreamViewModel.kt`, `AiChatScaffold.kt` | ViewModel/Scaffold 仍偏大 | ✅ 已完成 MVI 重构 |
+| KI-02 | `HybridViewModel.kt` | 仍承担较多 UI 编排 | ✅ 已完成 MVI 重构 |
+| KI-03 | `core/data/importer/StreamingJsonResourceImporter.kt` | 导入流程仍长（~333 行） | 本轮：接受长度 + source-size 冻结；禁止无护栏大拆 |
+| KI-04 | `SparseSearcher.kt` | 检索逻辑可再拆 | 本轮：接受现状；`SparseSearchUtils` 已部分完成 |
+| KI-05 | `MainPages.kt` | 占位符文件 | ✅ 已关闭（2026-10-27）：仓库中已无该文件 |
+| KI-06 | `ui/screen/detail/*` | 详情 markdown/table 文件多 | 规范：normalize 留 data/importer，勿在 UI 堆结构修复 |
 
 ---
 
@@ -23,10 +34,10 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
-| KI-58 | `data/worker/EmbeddingWorker` + `EmbeddingTestActivity` | 旧「pending JSON + WorkManager」嵌入路径：生产 `EmbeddingRepositoryImpl` 已改为 Room metadata，不再经已删的 `EmbeddingIoHelper` 写 pending/调度 Worker；Worker 仅 instrumented/手工测试可触发 | 要么接线 `enqueueForEmbedding`→Worker，要么退役 Worker/测试 Activity；勿再恢复死 helper |
-| KI-10 | `data/mapper` vs `data/mappers` | 双路径并存 | 统一命名与入口，避免重复映射逻辑 |
-| KI-11 | `GemmaLocalInference.kt` | 曾 ~708 行，已部分拆分 | 剩余 TODO 低优先级；保持测试覆盖 |
-| KI-12 | `DatabaseViewModel.kt` | 业务可下沉 | ✅ 已完成 MVI 重构；扩展 `DatabaseUseCase` 覆盖 |
+| KI-58 | `EmbeddingWorker` + `EmbeddingTestActivity` | enqueue 只写 Room pending，不调度 Worker | 本轮 D1：退役 Worker 死路径；保留 debug Activity |
+| KI-10 | `data/mapper` vs `data/mappers` | 双路径并存 | ✅ 已关闭（2026-10-27）：仅存 `core/data/.../mapper` |
+| KI-11 | `GemmaLocalInference.kt` | 曾 ~708 行，已部分拆分 | 低优先级；保持测试覆盖 |
+| KI-12 | `DatabaseViewModel.kt` | 业务可下沉 | ✅ 已完成 MVI 重构 |
 
 ---
 
@@ -34,9 +45,9 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
-| KI-20 | `README.md` | benchmark 与局域网调试混在同一文件 | 可选拆分为 `docs/debug_lan.md` |
-| KI-21 | `llama_jni` / DeepSeek | JNI 仍为 stub 或需真 runtime | 见 [DEEPSEEK_JNI_INTEGRATION.md](DEEPSEEK_JNI_INTEGRATION.md) |
-| KI-22 | 行数治理 | 无 CI 门禁 | 定期 `scripts/generate_line_counts.ps1` |
+| KI-20 | `README.md` | benchmark 与局域网调试混在同一文件 | 本轮 D3：可选拆 `docs/debug_lan.md` |
+| KI-21 | `llama_jni` / DeepSeek | JNI 仍为 stub 或需真 runtime | **史诗外置**；见 [DEEPSEEK_JNI_INTEGRATION.md](DEEPSEEK_JNI_INTEGRATION.md) |
+| KI-22 | 行数治理 | 曾无 CI 门禁 | ✅ 已关闭（2026-10-27）：CI `source_size_report.py --check` |
 
 ---
 
@@ -51,16 +62,14 @@
 
 ## 已关闭（仅供参考）
 
-- 「本地」页检索/导入异常被伪装成「未找到相关结果」：`HybridQueryUseCase.localMode` 捕获 `Throwable` 后返回 `emptyList()`，`HybridModeExecutor` 兜底又构造空检索结果，最终与「确实 0 命中」共用同一空态。现将可恢复错误映射为可重试的 `LocalPageState.ERROR`（安全文案，不泄露异常详情），仅真正 0 命中保留「无匹配」；`CancellationException` 继续传播，取消/新旧查询竞态不再回写结果/错误/历史（`LocalSearchFailureUiStateTest`）
-- 「本地」页搜索命中表格题注块时未改指所属表格：题注→表格改指已接入 `HybridQueryUseCase.localMode`（`KnowledgeRepository.resolveTableLabelTargets`，复用 `TableLabelBlockResolver`/`KnowledgeTableLabelTargets`），支持同条目与同页跨条目几何最近表格；旧 `searchLocal` 支线已于 2026-10-03 退役，规则保留在主路径
-- 本地检索曾存在两条并行支线（真实 UI 走 `HybridRetrievalService`，旧 `searchLocal`/`RetrievalFusionService` 无生产调用）：已退役旧支线及其无用 DI 绑定，收敛为一条 UI 主路径（2026-10-03）
-- 「本地」页 `发电机允许温升表` 返回 0 结果：`LocalEvidenceRefiner` 仅用 title+markdown 预览评分，而 FTS/LIKE 命中依赖 indexed block 文本；题注仅存在于块内的表格条目被判 coverage=0 丢弃；现评分纳入 `contentBlocksJson` 明文
-- PDF 定位目标页未滚入视口：页面项在 bitmap 渲染前为短占位高度，`scrollToItem` 被列表滚动范围钳制；已通过底部预留视口高度修复
-- `PdfRenderer` 并发渲染导致 `IllegalStateException: Current page not closed`：多个页面项并行渲染；已将渲染调度串行化
-- 重复 `ui/components` → 已统一 `ui.component`
-- 重复 `ui/importer` → 已删，用 `ui.screen.importer`
-- 重复 `data/saf/DocumentImportManager` → 已删
-- DI 单体 `AppModule` → 已拆 5 模块（2026-03-01）
+- KI-05 `MainPages.kt` 占位：文件已不存在（2026-10-27）
+- KI-10 `mapper`/`mappers` 双路径：仅余 `core/data/mapper`（2026-10-27）
+- KI-22 行数 CI：`scripts/source_size_report.py --check` 已在 Quality Guardrails（2026-10-27）
+- 「本地」页检索/导入异常被伪装成「未找到相关结果」…（既有关闭记录略）
+- 「本地」页搜索命中表格题注块时未改指所属表格…（既有）
+- 本地检索双支线退役（2026-10-03）
+- 「本地」页 `发电机允许温升表` 0 结果 / PDF 视口 / PdfRenderer 串行化
+- 重复 `ui.components` / `ui.importer` / `data.saf`；DI 单体拆分
 
 ---
 
@@ -68,10 +77,10 @@
 
 | ID | 位置 | 说明 | 建议 |
 |----|------|------|------|
-| KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | 迁移前（Room < 6）已导入的资产没有内容指纹，其旧条目**无法无歧义归属**（不能用 `source`/`docSha256` 猜测，否则会误删 source 相同的其他包）。升级后这类 legacy 资产在自动导入中被**检测并跳过替换**（诊断状态 `legacy`），避免新旧混合或误删；升级后**新导入**的资产走完整 A/B 替换。 | ✅ 已提供**用户主动**的「重建内置知识库」入口（`DocumentImportManager.rebuildBuiltInKnowledgeBase`）：只按 `packageId` 处理**可确认归属**的内置包（内置包 ID 是 `sha256("asset:"+assetPath)` 裸哈希，**不是** `asset:` 前缀），不动用户包/手工导入/legacy。需彻底清空时提供**单独**的「清空全部知识」入口（`clearAllKnowledgeBases`，二次确认）。未做按 source 猜测、未静默清理 |
-| KI-55 | `UserKbPackageImporter.removePackage` | 用户包移除在单个 Room 事务内删除该包的 `knowledge` 行、FTS、`imported_files` 标记与 id-keyed 缓存（vision/embedding），提交后再删除该包私有镜像与原生向量索引；失败/取消保留旧包并如实报错。 | 已实现；`removePackage` 仅接受 `user:` 包，内置/其他用户包/手工资料/共享 PDF 不受影响 |
-| KI-56 | `invalidateNativeVectorIndex` | 原生向量索引是**单一、按知识条目 id 的派生缓存**，无 per-package 删除接口。rebuild/移除后调用 `clear()`（内存）并删除 `vector_index.bin`，保证同进程内旧 id 不再被检索返回。 | 副作用：会一并丢弃其他包的向量缓存（词法 FTS 不受影响，仍是主路径）。如需保留其余包向量，未来可在 native 层加按 id 删除 |
-| KI-57 | 用户包「更新」入口 | 「更新（选同一目录）」重新打开系统目录选择器，由用户再次选择同一目录（不持久化 treeUri）；`knowledge_base.json` 字节未变化则跳过。 | 若需一键更新，需把目录 treeUri 持久化到 `imported_files`（非破坏性加列 + 升级测试）——本阶段未做 |
+| KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | legacy 无指纹资产不自动替换 | ✅ 重建/清空入口已提供 |
+| KI-55 | `UserKbPackageImporter.removePackage` | 用户包移除事务语义 | ✅ 已实现 |
+| KI-56 | `invalidateNativeVectorIndex` | 无 per-package 删；rebuild/移除清整库向量缓存 | **接受限制**（FTS 主路径）；NDK 按 id 删属后续史诗，不纳入本轮清零 |
+| KI-57 | 用户包「更新」入口 | 不持久化 treeUri，每次重选目录 | 本轮 D4：实现一键更新或书面接受并关闭 |
 
 ---
 
@@ -79,11 +88,11 @@
 
 | ID | 位置 | 说明 | 建议 |
 |----|------|------|------|
-| KI-50 | `UserKbPackageImporter` / `imported_files.contentSha256` | 跳过判定以所选目录的 `knowledge_base.json` 字节 SHA-256 为准；若只改了 `shots/` 而 JSON 未变，则判为「未变化」而跳过，不会被重新复制。 | 契约上 PaddleModels 会同时重生成 JSON 与截图；如未来需要，加入对资源清单的指纹。 |
-| KI-51 | `SafKbDirectorySource` | 通过 `DocumentsContract.buildDocumentUriUsingTree` 以「树文档 id + 相对路径」直接寻址子文档，未做目录枚举；对层级的 ExternalStorage 类 provider（手机内置/外置存储）有效，对使用非层级 opaque document id 的第三方 provider 可能取不到资源。 | 如遇此类 provider，改用子文档枚举（`buildChildDocumentsUriUsingTree`）建立 id 映射。 |
-| KI-52 | `StreamingJsonResourceImporter` / `UserKbPackageImporter` | 用户目录导入会先把 `knowledge_base.json` 整体读入内存（用于先哈希再决定跳过/替换与统计块数）；内置 assets 路径仍为纯流式。 | 大 KB 若需更低峰值内存，可改为两遍流式（先哈希、再导入）。 |
-| KI-53 | `PdfAssociation` / `PdfViewerScreen` | PDF 关联流程为 SHA-256 严格匹配；`PdfViewerScreen` 中我改动的关联回调已更正为正常中文，但该文件仍有其它历史乱码字符串（如按钮文案）未在本次范围内清理。 | 后续单独清理该文件剩余乱码（非本次任务范围）。 |
-| KI-54 | 真机验收 | 用户目录导入的**真机**链路（系统目录选择器 → 导入 → 关联 PDF → 搜索 → 表格截图 → PDF 定位）尚未在本阶段真机执行；JVM + 仓库外样本已验收 48/839/48 与第 29/32 页表格。 | 在 Android 16 真机按验收用例走一遍并补记录。 |
+| KI-50 | `UserKbPackageImporter` | 跳过判定仅看 JSON 字节指纹 | **接受限制**（与 PaddleModels 契约一致） |
+| KI-51 | `SafKbDirectorySource` | 非层级 opaque provider 可能失败 | **接受限制**；遇真实 case 再枚举子文档 |
+| KI-52 | 用户目录导入读入整份 JSON | 峰值内存 | **接受限制**；大 KB 再两遍流式 |
+| KI-53 | `PdfViewerScreen` | 历史乱码文案 | 本轮 D3 清理 |
+| KI-54 | 真机验收 | 用户目录导入全链路未真机跑 | **真机待验**（不伪完成） |
 
 ---
 

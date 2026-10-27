@@ -12,7 +12,7 @@
 - **模块**：19 个（见 §3；含 quickask；EmbeddingTest 在 debug）
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
-- **当前**：`origin/main` 已合入 **PR #29**（B/C1–C34/D1/D2 垂直模块化收口）；下一阶段独立排期 §8 KI/回归（非阻塞合入）
+- **当前**：`origin/main` 已合入 **PR #29**；进行中 **整仓债清零**（Phase D0+，见 §8）
 
 ## 2. 已验证基线
 
@@ -210,20 +210,20 @@
 | Main 壳 3 文件 | `MainScreen`/`MainFeatureContent`/Mine·Quiz stubs（跨 feature 编排） |
 | Glide/`AssetModelLoader`/`AppConfig`/`PreviewTemplates` | 应用级配置与资源加载 |
 
-### 仓库级收口后待办（KI / 回归，独立排期）
+### 整仓债清零（Phase D）
 
-> PR #29 已合入；下列项**不阻塞**模块化收口，单独开任务消化。
+> 本轮清零 = 离线可验收的代码/文档债。真机验收与 KI-21 JNI 史诗不伪完成。细则见 [KNOWN_ISSUES.md](KNOWN_ISSUES.md)。
 
-| 优先级 | 项 | 状态 |
-|--------|----|------|
-| P0 | PR #29 合入 `main` + CI 绿 | ✅ 完成（2026-10-27） |
-| P1 | lint error = 0（全量 ktlint 历史债） | 待排期 |
-| P1 | 端侧推理停止 + 中文输出真机回归 | 待排期 |
-| P2 | KI-56 原生向量索引 per-package 失效 | 未开始 |
-| P2 | KI-57 用户包「更新」一键化（持久化 treeUri） | 未开始 |
-| P2 | 补齐 Android 16 / API 36 仪器测试 | 未开始 |
-| P2 | KI-54 用户目录导入真机验收 | 未开始 |
-| P3 | KI-03/04/58 等已知债按 KNOWN_ISSUES 消化 | 开放 |
+| Phase | 项 | 状态 |
+|-------|----|------|
+| — | PR #29 合入 + CI 绿 | ✅ 完成 |
+| D0 | 台账校准（关 KI-05/10/22；KI-21 外置；KI-56/50–52 接受限制） | 进行中 |
+| D1 | KI-58 退役 EmbeddingWorker 死链 | 待开始 |
+| D2 | 全量 ktlint → 0 + CI 强制 | 待开始 |
+| D3 | KI-53 乱码；KI-20；KI-03/04 接受冻结 | 待开始 |
+| D4 | KI-57 一键更新或书面接受关闭 | 待开始 |
+| D5 | 真机清单（停止/中文/KI-54/API36）— 不伪完成 | 待开始 |
+| 外置 | KI-21 JNI 真 runtime；KI-56 NDK per-id 删 | 史诗另行排期 |
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
 
