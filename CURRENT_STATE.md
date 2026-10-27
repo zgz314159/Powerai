@@ -19,6 +19,7 @@
 | 项 | 结果 | 证据 |
 |---|---|---|
 | 仓库级收口 PR #29 | 已合并 | merge `8af386bc59db5c45832e7155268f7469bbe868c0`；CI JVM + Guardrails + connectedAndroidTest 绿（2026-10-27） |
+| 真机仪器 C2 | 已验收 | XQ-DQ72 / Android 15 (API 35)；`connectedDebugAndroidTest` **10/10**（2026-10-27）；A/B 手动项仍待验 |
 | Phase C34（模块化收口） | 已完成 | 删无用 `PLog`；确认 Json/importer/`AssetPreloadWorker`/Main 壳留 app 为故意边界；app **44** kt；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C33（Workers → data） | 已完成 | `DataSyncWorker`/`EmbeddingWorker` → `:core:data`；`AssetPreloadWorker` 仍留 app（依赖 DocumentImportManager）；compile 绿；arch 0 新违规（2026-10-25） |
 | Phase C32（Vision → data） | 已完成 | `VisionService`/`VisionBoostRepositoryImpl`/`VisionBoostJson`+单测 → `:core:data`；`VisionApiConfig` 解耦 app BuildConfig；DI bind 迁入 data；VisionBoostJsonTest 绿；arch 0 新违规（2026-10-25） |
@@ -222,7 +223,7 @@
 | D2 | 全量 ktlint → 0 + CI 强制 | ✅ 完成（ignoreFailures=false；editorconfig 收口特例） |
 | D3 | KI-53 乱码；KI-20 拆 `docs/debug_lan.md`；KI-03/04 接受冻结 | ✅ 完成 |
 | D4 | KI-57 书面接受「重选目录」关闭 | ✅ 后由 E1 实现一键 treeUri 取代 |
-| D5 | 真机清单（停止/中文/KI-54/API36） | ✅ 清单已写；**真机执行仍待验** |
+| D5 | 真机清单（停止/中文/KI-54/API36） | C2 ✅（XQ-DQ72 API35 10/10）；**A/B 手动仍待验** |
 | E1 | KI-57 持久化 treeUri + 一键更新 | ✅ Room 7 `sourceTreeUri`；UI「一键更新」/「重选目录」 |
 | 外置 | KI-21 JNI 真 runtime；KI-56 NDK per-id 删；真机验收执行 | 史诗 / 待真机 |
 

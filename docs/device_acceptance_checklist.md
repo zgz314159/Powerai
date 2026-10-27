@@ -31,7 +31,7 @@ JVM 护栏（已有，不替代真机）：`DeepSeekGenerationStopTest` 等。
 | # | 步骤 | 期望 |
 |---|------|------|
 | C1 | CI `connectedAndroidTest` on API 36 emulator | 全绿 |
-| C2 | 本地 `./gradlew connectedDebugAndroidTest`（有设备时） | 全绿；失败记入 KNOWN_ISSUES |
+| C2 | 本地 `./gradlew connectedDebugAndroidTest`（有设备时） | ✅ 2026-10-27：XQ-DQ72 / Android 15 (API 35)；`connectedDebugAndroidTest` **10/10** 全绿（签名冲突已先 `adb uninstall` 再装 debug） |
 
 ## 记录模板
 
