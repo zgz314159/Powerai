@@ -16,7 +16,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FaissModule {
-
     @Provides
     @Singleton
     fun provideQueryEncoder(): QueryEncoder = ZeroQueryEncoder

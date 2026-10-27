@@ -24,113 +24,137 @@ data class PdfImportDiagnostics(
     val fileName: String,
     val rowsInDb: Int,
     val keywordHitCounts: Map<String, Int>,
-    val samples: List<String>
+    val samples: List<String>,
 )
 
 data class SettingsUiState(
     val versionName: String = "?",
-    val pdfDiagnostics: PdfImportDiagnostics? = null
+    val pdfDiagnostics: PdfImportDiagnostics? = null,
 )
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val importPort: SettingsImportPort,
-    private val knowledgeDao: KnowledgeDao,
-    private val fontSettings: FontSettings,
-    @ApplicationContext private val context: Context
-) : BaseMviViewModel<SettingsIntent, SettingsUiState, Nothing>(
-    initialState = SettingsUiState()
-) {
+class SettingsViewModel
+    @Inject
+    constructor(
+        private val importPort: SettingsImportPort,
+        private val knowledgeDao: KnowledgeDao,
+        private val fontSettings: FontSettings,
+        @ApplicationContext private val context: Context,
+    ) : BaseMviViewModel<SettingsIntent, SettingsUiState, Nothing>(
+            initialState = SettingsUiState(),
+        ) {
+        val importProgress: StateFlow<ImportProgress?> = importPort.importProgress
 
-    val importProgress: StateFlow<ImportProgress?> = importPort.importProgress
+        val detailContentFontScale: StateFlow<Float> = fontSettings.detailContentFontScaleFlow
 
-    val detailContentFontScale: StateFlow<Float> = fontSettings.detailContentFontScaleFlow
+        private val _devBackdoor = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+        val devBackdoor = _devBackdoor.asSharedFlow()
 
-    private val _devBackdoor = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
-    val devBackdoor = _devBackdoor.asSharedFlow()
+        private var devTapCount = 0
+        private var lastDiagnosticsFileId: String? = null
 
-    private var devTapCount = 0
-    private var lastDiagnosticsFileId: String? = null
-
-    override fun onIntent(intent: SettingsIntent) {
-        when (intent) {
-            is SettingsIntent.SetDetailContentFontScale -> fontSettings.setDetailContentFontScale(intent.value)
-            is SettingsIntent.OnVersionTapped -> onVersionTapped()
-            is SettingsIntent.ImportUri -> importUri(intent.uri)
-            is SettingsIntent.Shutdown -> shutdown()
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            val version = try {
-                context.packageManager.getPackageInfo(context.packageName, 0).versionName
-            } catch (_: Throwable) { null } ?: "?"
-            updateState { copy(versionName = version) }
+        override fun onIntent(intent: SettingsIntent) {
+            when (intent) {
+                is SettingsIntent.SetDetailContentFontScale -> fontSettings.setDetailContentFontScale(intent.value)
+                is SettingsIntent.OnVersionTapped -> onVersionTapped()
+                is SettingsIntent.ImportUri -> importUri(intent.uri)
+                is SettingsIntent.Shutdown -> shutdown()
+            }
         }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            importPort.importProgress.collect { p ->
-                if (p == null) return@collect
-                if (p.status != "imported") return@collect
-                val fileId = p.fileId
-                if (fileId.isBlank()) return@collect
-                val fileName = p.fileName
-                if (!fileName.lowercase().endsWith(".pdf")) return@collect
-                if (fileId == lastDiagnosticsFileId) return@collect
-                lastDiagnosticsFileId = fileId
+        init {
+            viewModelScope.launch {
+                val version =
+                    try {
+                        context.packageManager.getPackageInfo(context.packageName, 0).versionName
+                    } catch (_: Throwable) {
+                        null
+                    } ?: "?"
+                updateState { copy(versionName = version) }
+            }
 
-                val sourcePrefix = "pdf:$fileId::"
-                val rows = try { knowledgeDao.countBySourcePrefix(sourcePrefix) } catch (_: Throwable) { -1 }
+            viewModelScope.launch(Dispatchers.IO) {
+                importPort.importProgress.collect { p ->
+                    if (p == null) return@collect
+                    if (p.status != "imported") return@collect
+                    val fileId = p.fileId
+                    if (fileId.isBlank()) return@collect
+                    val fileName = p.fileName
+                    if (!fileName.lowercase().endsWith(".pdf")) return@collect
+                    if (fileId == lastDiagnosticsFileId) return@collect
+                    lastDiagnosticsFileId = fileId
 
-                val keywords = listOf("回路", "电缆槽")
-                val counts = LinkedHashMap<String, Int>(keywords.size)
-                for (kw in keywords) {
-                    val kwNoSpace = TextSanitizer.normalizeForSearch(kw).replace(Regex("\\s+"), "")
-                    val c = try { knowledgeDao.countMatchesBySourcePrefix(sourcePrefix, kwNoSpace) } catch (_: Throwable) { -1 }
-                    counts[kw] = c
-                }
+                    val sourcePrefix = "pdf:$fileId::"
+                    val rows =
+                        try {
+                            knowledgeDao.countBySourcePrefix(sourcePrefix)
+                        } catch (_: Throwable) {
+                            -1
+                        }
 
-                val sampleEntities = try { knowledgeDao.sampleBySourcePrefix(sourcePrefix, limit = 3) } catch (_: Throwable) { emptyList() }
-                val samples = sampleEntities.map { it.content.replace('\n', ' ').take(120) }
+                    val keywords = listOf("回路", "电缆槽")
+                    val counts = LinkedHashMap<String, Int>(keywords.size)
+                    for (kw in keywords) {
+                        val kwNoSpace = TextSanitizer.normalizeForSearch(kw).replace(Regex("\\s+"), "")
+                        val c =
+                            try {
+                                knowledgeDao.countMatchesBySourcePrefix(sourcePrefix, kwNoSpace)
+                            } catch (_: Throwable) {
+                                -1
+                            }
+                        counts[kw] = c
+                    }
 
-                updateState {
-                    copy(pdfDiagnostics = PdfImportDiagnostics(
-                        fileId = fileId,
-                        fileName = fileName,
-                        rowsInDb = rows,
-                        keywordHitCounts = counts,
-                        samples = samples
-                    ))
+                    val sampleEntities =
+                        try {
+                            knowledgeDao.sampleBySourcePrefix(sourcePrefix, limit = 3)
+                        } catch (_: Throwable) {
+                            emptyList()
+                        }
+                    val samples = sampleEntities.map { it.content.replace('\n', ' ').take(120) }
+
+                    updateState {
+                        copy(
+                            pdfDiagnostics =
+                                PdfImportDiagnostics(
+                                    fileId = fileId,
+                                    fileName = fileName,
+                                    rowsInDb = rows,
+                                    keywordHitCounts = counts,
+                                    samples = samples,
+                                ),
+                        )
+                    }
                 }
             }
         }
-    }
 
-    private fun onVersionTapped() {
-        devTapCount++
-        if (devTapCount >= 5) {
-            devTapCount = 0
-            _devBackdoor.tryEmit(Unit)
+        private fun onVersionTapped() {
+            devTapCount++
+            if (devTapCount >= 5) {
+                devTapCount = 0
+                _devBackdoor.tryEmit(Unit)
+            }
+        }
+
+        private fun shutdown() {
+            viewModelScope.cancel()
+        }
+
+        private fun importUri(uri: Uri) {
+            viewModelScope.launch {
+                val name =
+                    try {
+                        context.contentResolver.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)?.use {
+                                cursor ->
+                            val idx = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                            if (cursor.moveToFirst() && idx >= 0) cursor.getString(idx) else null
+                        } ?: uri.lastPathSegment
+                    } catch (_: Exception) {
+                        uri.lastPathSegment
+                    } ?: "imported"
+
+                importPort.importUri(uri, context.contentResolver, name)
+            }
         }
     }
-
-    private fun shutdown() {
-        viewModelScope.cancel()
-    }
-
-    private fun importUri(uri: Uri) {
-        viewModelScope.launch {
-            val name = try {
-                context.contentResolver.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
-                    val idx = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
-                    if (cursor.moveToFirst() && idx >= 0) cursor.getString(idx) else null
-                } ?: uri.lastPathSegment
-            } catch (_: Exception) {
-                uri.lastPathSegment
-            } ?: "imported"
-
-            importPort.importUri(uri, context.contentResolver, name)
-        }
-    }
-}

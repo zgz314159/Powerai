@@ -39,9 +39,7 @@ class AppDatabaseKbPort
             userKbPackageImporter.refreshPackages()
         }
 
-        override suspend fun removePackage(packageId: String): UserKbPackageRemovalResult =
-            userKbPackageImporter.removePackage(packageId)
+        override suspend fun removePackage(packageId: String): UserKbPackageRemovalResult = userKbPackageImporter.removePackage(packageId)
 
-        override suspend fun importDirectory(treeUri: Uri): UserKbImportResult =
-            userKbPackageImporter.importDirectory(treeUri)
+        override suspend fun importDirectory(treeUri: Uri): UserKbImportResult = userKbPackageImporter.importDirectory(treeUri)
     }

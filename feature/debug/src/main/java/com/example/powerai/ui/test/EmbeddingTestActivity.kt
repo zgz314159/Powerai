@@ -16,12 +16,13 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class EmbeddingTestActivity : ComponentActivity() {
-
     @Inject
     lateinit var hybridRetrievalService: HybridRetrievalService
 
-    private fun resId(name: String, type: String): Int =
-        resources.getIdentifier(name, type, packageName)
+    private fun resId(
+        name: String,
+        type: String,
+    ): Int = resources.getIdentifier(name, type, packageName)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,10 +105,15 @@ class EmbeddingTestActivity : ComponentActivity() {
                 }
 
                 // instantiate retriever manually using a no-op EmbeddingRepository (we use HTTP/CLI from prefs)
-                val dummyEmbeddingRepo = object : com.example.powerai.core.repository.EmbeddingRepository {
-                    override suspend fun enqueueForEmbedding(items: List<com.example.powerai.core.model.KnowledgeItem>) {}
-                    override suspend fun storeEmbedding(itemId: Long, embedding: FloatArray) {}
-                }
+                val dummyEmbeddingRepo =
+                    object : com.example.powerai.core.repository.EmbeddingRepository {
+                        override suspend fun enqueueForEmbedding(items: List<com.example.powerai.core.model.KnowledgeItem>) {}
+
+                        override suspend fun storeEmbedding(
+                            itemId: Long,
+                            embedding: FloatArray,
+                        ) {}
+                    }
 
                 val retriever = com.example.powerai.engine.nativecore.NativeAnnRetriever(this, repo, dummyEmbeddingRepo, dim)
 
@@ -134,8 +140,11 @@ class EmbeddingTestActivity : ComponentActivity() {
             }
         }.start()
     }
-    
-    private fun testDirectEmbeddingQuery(repo: com.example.powerai.engine.nativecore.NativeVectorRepository, dim: Int) {
+
+    private fun testDirectEmbeddingQuery(
+        repo: com.example.powerai.engine.nativecore.NativeVectorRepository,
+        dim: Int,
+    ) {
         try {
             val checkFile = File(filesDir, "embeddings/1001.emb")
             if (checkFile.exists()) {
@@ -156,11 +165,16 @@ class EmbeddingTestActivity : ComponentActivity() {
             Log.e("JNI_TEST", "direct query failed", t)
         }
     }
-    
+
     private fun testFtsSearch() {
         Thread {
             try {
-                val db = androidx.room.Room.databaseBuilder(this, com.example.powerai.core.data.database.AppDatabase::class.java, "powerai.db").allowMainThreadQueries().build()
+                val db =
+                    androidx.room.Room.databaseBuilder(
+                        this,
+                        com.example.powerai.core.data.database.AppDatabase::class.java,
+                        "powerai.db",
+                    ).allowMainThreadQueries().build()
                 val dao = db.knowledgeDao()
                 // Use simple MATCH query for Chinese token recall; add wildcard to increase recall
                 val rawQuery = "变压器"
@@ -178,7 +192,7 @@ class EmbeddingTestActivity : ComponentActivity() {
             }
         }.start()
     }
-    
+
     private fun autoRunIfRequested() {
         try {
             Thread {
@@ -190,19 +204,25 @@ class EmbeddingTestActivity : ComponentActivity() {
                     Log.e("AUTO_RUN", "auto run search failed", t)
                 }
             }.start()
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
-    
+
     private fun performAutoRunRetrieval() {
         try {
             val dim = 384
             val repo = com.example.powerai.engine.nativecore.NativeVectorRepository(this)
             repo.init(dim)
 
-            val dummyEmbeddingRepo = object : com.example.powerai.core.repository.EmbeddingRepository {
-                override suspend fun enqueueForEmbedding(items: List<com.example.powerai.core.model.KnowledgeItem>) {}
-                override suspend fun storeEmbedding(itemId: Long, embedding: FloatArray) {}
-            }
+            val dummyEmbeddingRepo =
+                object : com.example.powerai.core.repository.EmbeddingRepository {
+                    override suspend fun enqueueForEmbedding(items: List<com.example.powerai.core.model.KnowledgeItem>) {}
+
+                    override suspend fun storeEmbedding(
+                        itemId: Long,
+                        embedding: FloatArray,
+                    ) {}
+                }
 
             val retriever = com.example.powerai.engine.nativecore.NativeAnnRetriever(this, repo, dummyEmbeddingRepo, dim)
 
@@ -224,26 +244,34 @@ class EmbeddingTestActivity : ComponentActivity() {
             Log.e("AUTO_RUN", "performAutoRunRetrieval failed", t)
         }
     }
-    
-    private fun logPromptDebugInfo(prompt: com.example.powerai.domain.generator.PromptBuilder.Prompt, results: List<com.example.powerai.core.model.RetrievalResult>) {
+
+    private fun logPromptDebugInfo(
+        prompt: com.example.powerai.domain.generator.PromptBuilder.Prompt,
+        results: List<com.example.powerai.core.model.RetrievalResult>,
+    ) {
         try {
             Log.i("PROMPT_RAW", prompt.user.take(500))
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
         try {
             val sources = results.map { it.metadata["fileId"] ?: it.metadata["source"] ?: "(no-fileId)" }
             Log.i("SOURCE_CHECK", "Found Source: $sources")
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
-    
+
     private fun performAutoRunInference(prompt: com.example.powerai.domain.generator.PromptBuilder.Prompt) {
         try {
             // Give the native engine a short warmup window per Gemma3 guidance
-            try { Thread.sleep(3000) } catch (_: Throwable) {}
+            try {
+                Thread.sleep(3000)
+            } catch (_: Throwable) {
+            }
             val gemma = com.example.powerai.engine.ai.GemmaLocalInference(this@EmbeddingTestActivity)
             val inferResult = kotlinx.coroutines.runBlocking { gemma.infer(prompt, 512) }
             Log.i("AUTO_RUN_INFER", "Inference result: ${inferResult.text.take(200)}...")
             Log.i("AUTO_RUN_INFER", "Metrics: ${inferResult.tokensUsed}")
-            
+
             // Marker for automated log capture scripts to confirm end-to-end success
             Log.i("AUTO_RUN_FINAL", "SUCCESS: query processing and local inference complete.")
         } catch (t: Throwable) {

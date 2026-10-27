@@ -26,7 +26,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     @Named("visionValidation")
@@ -48,33 +47,35 @@ object NetworkModule {
 
         val normalizedBaseUrl = if (base.endsWith("/")) base else "$base/"
 
-        val client = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(90, TimeUnit.SECONDS)
-            .writeTimeout(90, TimeUnit.SECONDS)
-            .callTimeout(120, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
-            .apply {
-                if (config.isDebug()) {
-                    val logger = HttpLoggingInterceptor()
-                    logger.level = HttpLoggingInterceptor.Level.BODY
-                    addInterceptor(logger)
-                }
-            }
-            .addInterceptor { chain ->
-                val apiKey = config.getAiApiKey().trim()
-                val req0 = chain.request()
-                val req = req0.newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .apply {
-                        if (apiKey.isNotBlank()) {
-                            addHeader("Authorization", "Bearer $apiKey")
-                        }
+        val client =
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(90, TimeUnit.SECONDS)
+                .writeTimeout(90, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .apply {
+                    if (config.isDebug()) {
+                        val logger = HttpLoggingInterceptor()
+                        logger.level = HttpLoggingInterceptor.Level.BODY
+                        addInterceptor(logger)
                     }
-                    .build()
-                chain.proceed(req)
-            }
-            .build()
+                }
+                .addInterceptor { chain ->
+                    val apiKey = config.getAiApiKey().trim()
+                    val req0 = chain.request()
+                    val req =
+                        req0.newBuilder()
+                            .addHeader("Content-Type", "application/json")
+                            .apply {
+                                if (apiKey.isNotBlank()) {
+                                    addHeader("Authorization", "Bearer $apiKey")
+                                }
+                            }
+                            .build()
+                    chain.proceed(req)
+                }
+                .build()
 
         return Retrofit.Builder()
             .baseUrl(normalizedBaseUrl)
@@ -86,8 +87,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideWebSearchApiKeyProvider(): WebSearchApiKeyProvider =
-        WebSearchApiKeyProvider { BuildConfig.SERPER_API_KEY }
+    fun provideWebSearchApiKeyProvider(): WebSearchApiKeyProvider = WebSearchApiKeyProvider { BuildConfig.SERPER_API_KEY }
 
     @Provides
     @Singleton

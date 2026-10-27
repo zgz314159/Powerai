@@ -1,12 +1,11 @@
 package com.example.powerai.domain.usecase
-import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
-
 import com.example.powerai.domain.model.QueryResult
+import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 
 class HybridQueryStrategy(
     private val localSearchUseCase: RetrievalFusionUseCase,
     private val askAiUseCase: AskAiUseCase,
-    private val isNetworkAvailable: () -> Boolean
+    private val isNetworkAvailable: () -> Boolean,
 ) {
     suspend fun query(question: String): QueryResult {
         val localResults = localSearchUseCase.invoke(question)
@@ -14,7 +13,7 @@ class HybridQueryStrategy(
             QueryResult(
                 answer = localResults.joinToString("\n") { it.content },
                 references = localResults,
-                confidence = 1.0f
+                confidence = 1.0f,
             )
         } else {
             val referenceText = localResults.joinToString("\n") { it.content }
@@ -22,7 +21,7 @@ class HybridQueryStrategy(
             QueryResult(
                 answer = aiAnswer,
                 references = localResults,
-                confidence = 0.5f + 0.1f * localResults.size
+                confidence = 0.5f + 0.1f * localResults.size,
             )
         }
     }

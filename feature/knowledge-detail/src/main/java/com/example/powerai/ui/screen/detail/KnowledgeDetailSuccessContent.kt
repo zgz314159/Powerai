@@ -29,11 +29,12 @@ internal fun KnowledgeDetailSuccessContent(
     visionBoostErrorMessage: String?,
     onRequestVisionBoost: (entityId: Long, blockId: String, imageUri: String) -> Unit,
     onApplyVisionBoostToOriginal: (entityId: Long, rawBlockId: String, cacheKey: String, clearCacheAfter: Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val highlight = remember(rawHighlight) {
-        KnowledgeDetailHighlightQuery.effectiveHighlight(rawHighlight)
-    }
+    val highlight =
+        remember(rawHighlight) {
+            KnowledgeDetailHighlightQuery.effectiveHighlight(rawHighlight)
+        }
 
     val pdfRef = remember(entity.source) { PdfSourceRef.parse(entity.source) }
     val blocksJsonNotBlank = remember(entity.contentBlocksJson) { !entity.contentBlocksJson.isNullOrBlank() }
@@ -41,7 +42,7 @@ internal fun KnowledgeDetailSuccessContent(
     val blocksComputed by produceBlocksComputedState(
         entityId = entity.id,
         contentBlocksJson = entity.contentBlocksJson,
-        highlight = highlight
+        highlight = highlight,
     )
 
     val blocksLoading = blocksJsonNotBlank && blocksComputed == null
@@ -53,7 +54,7 @@ internal fun KnowledgeDetailSuccessContent(
             entity = entity,
             sourceFileName = sourceFileName,
             navController = navController,
-            pdfRef = pdfRef
+            pdfRef = pdfRef,
         )
 
         if (pdfRef != null) {
@@ -61,7 +62,7 @@ internal fun KnowledgeDetailSuccessContent(
                 navController = navController,
                 pdfRef = pdfRef,
                 pageNumber = entity.pageNumber,
-                bboxJson = entity.bboxJson
+                bboxJson = entity.bboxJson,
             )
         }
 
@@ -72,60 +73,65 @@ internal fun KnowledgeDetailSuccessContent(
 
             hasBlocks -> {
                 KnowledgeDetailBlocksContent(
-                    displayParams = BlocksContentDisplayParams(
-                        blocks = blocks,
-                        highlight = highlight,
-                        matchIndices = blocksComputed?.matchIndices.orEmpty(),
-                        initialBlockIndex = initialBlockIndex,
-                        initialBlockId = initialBlockId,
-                        fontScale = fontScale,
-                        enableSwipeNavigation = enableSwipeNavigation,
-                        modifier = Modifier.fillMaxSize()
-                    ),
-                    resourceParams = BlocksDocumentResourceParams(
-                        entityId = entity.id,
-                        pageNumber = entity.pageNumber,
-                        imageUrisJson = entity.imageUris,
-                        pdfRef = pdfRef
-                    ),
-                    visionParams = BlocksVisionBoostingParams(
-                        visionMarkdownByBlockId = visionMarkdownByBlockId,
-                        visionBoostingBlockId = visionBoostingBlockId,
-                        visionBoostErrorBlockId = visionBoostErrorBlockId,
-                        visionBoostErrorMessage = visionBoostErrorMessage,
-                        onRequestVisionBoost = { blockId, imageUri ->
-                            onRequestVisionBoost(entity.id, blockId, imageUri)
-                        },
-                        onApplyVisionBoostToOriginal = { rawBlockId, cacheKey, clearCacheAfter ->
-                            onApplyVisionBoostToOriginal(entity.id, rawBlockId, cacheKey, clearCacheAfter)
-                        }
-                    ),
-                    validationParams = BlocksValidationParams(
-                        deepLogicValidationEnabled = deepLogicValidationEnabled,
-                        onToggleDeepLogicValidation = onToggleDeepLogicValidation
-                    ),
-                    interactionParams = BlocksInteractionParams(
-                        onOpenPdfAtBox = { page, bboxJson ->
-                            if (pdfRef != null) {
-                                val bboxEncoded = bboxJson?.let { android.net.Uri.encode(it) }
-                                navController.navigate(
-                                    com.example.powerai.feature.knowledgedetail.PdfViewerRoute.create(
-                                        fileId = pdfRef.fileId,
-                                        name = android.net.Uri.encode(pdfRef.fileName),
-                                        page = page,
-                                        bboxEncoded = bboxEncoded
+                    displayParams =
+                        BlocksContentDisplayParams(
+                            blocks = blocks,
+                            highlight = highlight,
+                            matchIndices = blocksComputed?.matchIndices.orEmpty(),
+                            initialBlockIndex = initialBlockIndex,
+                            initialBlockId = initialBlockId,
+                            fontScale = fontScale,
+                            enableSwipeNavigation = enableSwipeNavigation,
+                            modifier = Modifier.fillMaxSize(),
+                        ),
+                    resourceParams =
+                        BlocksDocumentResourceParams(
+                            entityId = entity.id,
+                            pageNumber = entity.pageNumber,
+                            imageUrisJson = entity.imageUris,
+                            pdfRef = pdfRef,
+                        ),
+                    visionParams =
+                        BlocksVisionBoostingParams(
+                            visionMarkdownByBlockId = visionMarkdownByBlockId,
+                            visionBoostingBlockId = visionBoostingBlockId,
+                            visionBoostErrorBlockId = visionBoostErrorBlockId,
+                            visionBoostErrorMessage = visionBoostErrorMessage,
+                            onRequestVisionBoost = { blockId, imageUri ->
+                                onRequestVisionBoost(entity.id, blockId, imageUri)
+                            },
+                            onApplyVisionBoostToOriginal = { rawBlockId, cacheKey, clearCacheAfter ->
+                                onApplyVisionBoostToOriginal(entity.id, rawBlockId, cacheKey, clearCacheAfter)
+                            },
+                        ),
+                    validationParams =
+                        BlocksValidationParams(
+                            deepLogicValidationEnabled = deepLogicValidationEnabled,
+                            onToggleDeepLogicValidation = onToggleDeepLogicValidation,
+                        ),
+                    interactionParams =
+                        BlocksInteractionParams(
+                            onOpenPdfAtBox = { page, bboxJson ->
+                                if (pdfRef != null) {
+                                    val bboxEncoded = bboxJson?.let { android.net.Uri.encode(it) }
+                                    navController.navigate(
+                                        com.example.powerai.feature.knowledgedetail.PdfViewerRoute.create(
+                                            fileId = pdfRef.fileId,
+                                            name = android.net.Uri.encode(pdfRef.fileName),
+                                            page = page,
+                                            bboxEncoded = bboxEncoded,
+                                        ),
                                     )
-                                )
-                            }
-                        }
-                    )
+                                }
+                            },
+                        ),
                 )
             }
 
             else -> {
                 KnowledgeDetailFallbackContent(
                     content = entity.content.orEmpty(),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }

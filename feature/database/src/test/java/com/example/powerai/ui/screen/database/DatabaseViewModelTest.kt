@@ -3,9 +3,9 @@ package com.example.powerai.ui.screen.database
 import androidx.lifecycle.SavedStateHandle
 import com.example.powerai.core.data.importer.ImportProgress
 import com.example.powerai.data.importer.AssetImportDiagnostics
-import com.example.powerai.feature.database.DatabaseKbPort
 import com.example.powerai.data.importer.UserKbPackageSummary
 import com.example.powerai.domain.usecase.DatabaseUseCase
+import com.example.powerai.feature.database.DatabaseKbPort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +17,8 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DatabaseViewModelTest {
@@ -36,16 +36,16 @@ class DatabaseViewModelTest {
         useCase = mock(DatabaseUseCase::class.java)
         importManager = mock(DatabaseKbPort::class.java)
         `when`(importManager.importDiagnostics).thenReturn(
-            MutableStateFlow(AssetImportDiagnostics())
+            MutableStateFlow(AssetImportDiagnostics()),
         )
         `when`(importManager.progress).thenReturn(
-            MutableStateFlow<ImportProgress?>(null)
+            MutableStateFlow<ImportProgress?>(null),
         )
         `when`(importManager.rebuildState).thenReturn(
-            MutableStateFlow(com.example.powerai.data.importer.KbRebuildState.Idle)
+            MutableStateFlow(com.example.powerai.data.importer.KbRebuildState.Idle),
         )
         `when`(importManager.userPackages).thenReturn(
-            MutableStateFlow<List<UserKbPackageSummary>>(emptyList())
+            MutableStateFlow<List<UserKbPackageSummary>>(emptyList()),
         )
         savedStateHandle = SavedStateHandle()
         viewModel = DatabaseViewModel(useCase, importManager, savedStateHandle)

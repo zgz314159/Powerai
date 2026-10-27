@@ -11,12 +11,24 @@ class NativeAnnSearcher private constructor(private val dim: Int) {
     }
 
     external fun nativeInit(dim: Int): Boolean
-    external fun nativeAddVectors(ids: LongArray, vectors: FloatArray, dim: Int): Boolean
-    external fun nativeSearch(query: FloatArray, k: Int): LongArray
+
+    external fun nativeAddVectors(
+        ids: LongArray,
+        vectors: FloatArray,
+        dim: Int,
+    ): Boolean
+
+    external fun nativeSearch(
+        query: FloatArray,
+        k: Int,
+    ): LongArray
+
     external fun nativeSaveIndex(path: String): Boolean
+
     external fun nativeLoadIndex(path: String): Boolean
 
     fun saveIndex(path: String): Boolean = nativeSaveIndex(path)
+
     fun loadIndex(path: String): Boolean = nativeLoadIndex(path)
 
     companion object {

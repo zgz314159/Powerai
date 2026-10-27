@@ -11,6 +11,6 @@ interface KnowledgeDetailSupportPort {
 
     suspend fun resolveDetailEntryNavigation(
         entityId: Long,
-        query: String
+        query: String,
     ): DetailEntryNavigation?
 }

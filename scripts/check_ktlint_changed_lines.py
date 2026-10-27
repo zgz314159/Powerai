@@ -53,7 +53,9 @@ def merge_base(base: str) -> str:
 def changed_lines(base: str) -> dict[str, set[int]]:
     """Return added-line numbers per repo-relative file against ``base``."""
     sha = merge_base(base)
-    diff = git("diff", "--unified=0", "--no-color", sha, "--")
+    # Rename detection so git-mv paths are not treated as full-file adds
+    # (which would re-block every historical violation on the new path).
+    diff = git("diff", "-M10%", "--unified=0", "--no-color", sha, "--")
     changes: dict[str, set[int]] = {}
     current: str | None = None
     for line in diff.splitlines():
@@ -116,6 +118,10 @@ def load_violations() -> list[tuple[str, int, str, str]]:
             continue
         for name in sorted(filenames):
             if not name.endswith(".xml"):
+                continue
+            # ktlintFormat writes reports of pre-fix findings; only Check reports
+            # reflect the tree after auto-correct and must drive the gate.
+            if "Format" in name or "format" in normalized:
                 continue
             found_report = True
             tree = ET.parse(os.path.join(dirpath, name))

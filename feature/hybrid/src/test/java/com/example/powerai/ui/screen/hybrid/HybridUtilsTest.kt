@@ -32,10 +32,11 @@ class HybridUtilsTest {
 
     @Test
     fun `appendSearchHistory dedups and caps`() {
-        val base = listOf(
-            SearchEntry("one", 1),
-            SearchEntry("two", 2)
-        )
+        val base =
+            listOf(
+                SearchEntry("one", 1),
+                SearchEntry("two", 2),
+            )
         val added = HybridUtils.appendSearchHistory(base, "one")
         assertEquals(2, added.size)
         assertEquals("one", added[0].query)

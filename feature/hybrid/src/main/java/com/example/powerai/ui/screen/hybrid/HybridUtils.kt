@@ -1,10 +1,9 @@
 package com.example.powerai.ui.screen.hybrid
 
-import com.example.powerai.domain.model.SearchEntry
-import java.nio.charset.Charset
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import com.example.powerai.domain.generator.PromptBuilder
+import com.example.powerai.domain.model.SearchEntry
+import kotlinx.coroutines.CoroutineScope
+import java.nio.charset.Charset
 
 object HybridUtils {
     fun sanitizeQuestion(question: String): String {
@@ -12,7 +11,8 @@ object HybridUtils {
         try {
             val attempt = String(question.toByteArray(Charset.forName("ISO-8859-1")), Charset.forName("UTF-8"))
             if (attempt.count { it == '?' } < sanitized.count { it == '?' } ||
-                attempt.length < sanitized.length) {
+                attempt.length < sanitized.length
+            ) {
                 sanitized = attempt
             }
         } catch (_: Throwable) {
@@ -22,13 +22,13 @@ object HybridUtils {
 
     fun normalizeForFts(sanitized: String): String {
         val norm = sanitized.trim().lowercase()
-        return if (norm.endsWith("*")) norm else "${norm}*"
+        return if (norm.endsWith("*")) norm else "$norm*"
     }
 
     fun appendSearchHistory(
         history: List<SearchEntry>,
         query: String,
-        maxEntries: Int = 50
+        maxEntries: Int = 50,
     ): List<SearchEntry> {
         if (query.isBlank()) return history
         val trimmed = query.trim()
@@ -45,10 +45,16 @@ object HybridUtils {
         prompt: PromptBuilder.Prompt? = null,
         gemma: com.example.powerai.engine.ai.GemmaLocalInference,
         maxTokens: Int = 180,
-        onResult: (String) -> Unit
+        onResult: (String) -> Unit,
     ): kotlinx.coroutines.Job {
         return com.example.powerai.engine.ai.GemmaInferenceLauncher.launchGemmaInference(
-            scope, question, retrievals, prompt, gemma, maxTokens, onResult
+            scope,
+            question,
+            retrievals,
+            prompt,
+            gemma,
+            maxTokens,
+            onResult,
         )
     }
 }

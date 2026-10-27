@@ -44,19 +44,20 @@ private fun isSafeLatexBody(body: String): Boolean {
 private fun sanitizeExistingLatexDelimiters(input: String): String {
     if (input.isBlank()) return input
 
-    val blockSanitized = input.replace(
-        Regex("\\$\\$(.*?)\\$\\$", setOf(RegexOption.DOT_MATCHES_ALL))
-    ) { m ->
-        val body = m.groupValues[1]
-        if (isSafeLatexBody(body)) {
-            "$$\n${body.trim()}\n$$"
-        } else {
-            body
+    val blockSanitized =
+        input.replace(
+            Regex("\\$\\$(.*?)\\$\\$", setOf(RegexOption.DOT_MATCHES_ALL)),
+        ) { m ->
+            val body = m.groupValues[1]
+            if (isSafeLatexBody(body)) {
+                "$$\n${body.trim()}\n$$"
+            } else {
+                body
+            }
         }
-    }
 
     return blockSanitized.replace(
-        Regex("(?<!\\\\)\\$(?!\\$)(.+?)(?<!\\\\)\\$(?!\\$)", setOf(RegexOption.DOT_MATCHES_ALL))
+        Regex("(?<!\\\\)\\$(?!\\$)(.+?)(?<!\\\\)\\$(?!\\$)", setOf(RegexOption.DOT_MATCHES_ALL)),
     ) { m ->
         val body = m.groupValues[1]
         if (isSafeLatexBody(body)) {
@@ -71,18 +72,20 @@ private fun normalizeMathMarkdown(input: String): String {
     if (input.isBlank()) return input
     // Markwon LaTeX extension supports blocks and inline with $$...$$ delimiters.
     // Convert common TeX delimiters from model outputs for better compatibility.
-    val blockNormalized = input.replace(
-        Regex("\\\\\\[(.*?)\\\\\\]", setOf(RegexOption.DOT_MATCHES_ALL))
-    ) { m ->
-        val body = m.groupValues[1]
-        if (isSafeLatexBody(body)) "$$\n${body.trim()}\n$$" else body
-    }
-    val inlineNormalized = blockNormalized.replace(
-        Regex("\\\\\\((.*?)\\\\\\)", setOf(RegexOption.DOT_MATCHES_ALL))
-    ) { m ->
-        val body = m.groupValues[1]
-        if (isSafeLatexBody(body)) "$$${body.trim()}$$" else body
-    }
+    val blockNormalized =
+        input.replace(
+            Regex("\\\\\\[(.*?)\\\\\\]", setOf(RegexOption.DOT_MATCHES_ALL)),
+        ) { m ->
+            val body = m.groupValues[1]
+            if (isSafeLatexBody(body)) "$$\n${body.trim()}\n$$" else body
+        }
+    val inlineNormalized =
+        blockNormalized.replace(
+            Regex("\\\\\\((.*?)\\\\\\)", setOf(RegexOption.DOT_MATCHES_ALL)),
+        ) { m ->
+            val body = m.groupValues[1]
+            if (isSafeLatexBody(body)) "$$${body.trim()}$$" else body
+        }
 
     // Auto-wrap plain TeX formula lines (e.g. "X_C = \\frac{1}{2\\pi f C}")
     // so they can be rendered by Markwon LaTeX plugin.
@@ -104,10 +107,11 @@ private fun restoreCollapsedMarkdownTables(input: String): String {
     val lines = input.lines()
     return lines.joinToString("\n") { line ->
         val trimmed = line.trim()
-        val looksCollapsedTable = trimmed.contains("||") &&
-            trimmed.contains(":--") &&
-            trimmed.count { it == '|' } >= 8 &&
-            !trimmed.contains("\n")
+        val looksCollapsedTable =
+            trimmed.contains("||") &&
+                trimmed.contains(":--") &&
+                trimmed.count { it == '|' } >= 8 &&
+                !trimmed.contains("\n")
 
         if (!looksCollapsedTable) {
             line
@@ -193,7 +197,10 @@ private fun recoverAccidentalIndentedMarkdown(input: String): String {
     }
 }
 
-private fun applyMarkdownTextStyle(tv: TextView, textColor: Int) {
+private fun applyMarkdownTextStyle(
+    tv: TextView,
+    textColor: Int,
+) {
     tv.setTextColor(textColor)
     tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
     tv.movementMethod = LinkMovementMethod.getInstance()
@@ -202,19 +209,23 @@ private fun applyMarkdownTextStyle(tv: TextView, textColor: Int) {
 }
 
 @Composable
-fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
+fun MarkdownTextView(
+    markdown: String,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
     val markwonWithTables = remember(context) { MarkwonHelper.create(context) }
     val markwonNoTables = remember(context) { MarkwonHelper.createNoTables(context) }
-    val normalized = remember(markdown) {
-        val recoveredCodeBlocks = recoverAccidentalMarkdownCodeBlocks(markdown)
-        val recoveredIndent = recoverAccidentalIndentedMarkdown(recoveredCodeBlocks)
-        val recoveredTables = restoreCollapsedMarkdownTables(recoveredIndent)
-        val uiTableNormalized = MarkdownTableNormalizer.normalizeMarkdownTablesForUi(recoveredTables)
-        val mathNormalized = normalizeMathMarkdown(uiTableNormalized)
-        sanitizeExistingLatexDelimiters(mathNormalized)
-    }
+    val normalized =
+        remember(markdown) {
+            val recoveredCodeBlocks = recoverAccidentalMarkdownCodeBlocks(markdown)
+            val recoveredIndent = recoverAccidentalIndentedMarkdown(recoveredCodeBlocks)
+            val recoveredTables = restoreCollapsedMarkdownTables(recoveredIndent)
+            val uiTableNormalized = MarkdownTableNormalizer.normalizeMarkdownTablesForUi(recoveredTables)
+            val mathNormalized = normalizeMathMarkdown(uiTableNormalized)
+            sanitizeExistingLatexDelimiters(mathNormalized)
+        }
 
     AndroidView(
         modifier = modifier.fillMaxWidth(),
@@ -230,6 +241,6 @@ fun MarkdownTextView(markdown: String, modifier: Modifier = Modifier) {
             } catch (_: Throwable) {
                 markwonNoTables.setMarkdown(tv, normalized)
             }
-        }
+        },
     )
 }

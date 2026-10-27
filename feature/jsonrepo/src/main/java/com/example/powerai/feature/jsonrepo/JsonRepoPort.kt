@@ -17,11 +17,24 @@ interface JsonRepoPort {
 
     suspend fun getEntries(fileId: String): List<JsonEntry>
 
-    suspend fun getEntriesPaged(fileId: String, offset: Int, limit: Int): List<JsonEntry>
+    suspend fun getEntriesPaged(
+        fileId: String,
+        offset: Int,
+        limit: Int,
+    ): List<JsonEntry>
 
-    suspend fun updateEntry(fileId: String, updated: JsonEntry): Boolean
+    suspend fun updateEntry(
+        fileId: String,
+        updated: JsonEntry,
+    ): Boolean
 
-    suspend fun exportJson(fileId: String, target: File): Boolean
+    suspend fun exportJson(
+        fileId: String,
+        target: File,
+    ): Boolean
 
-    suspend fun exportCsv(fileId: String, target: File): Boolean
+    suspend fun exportCsv(
+        fileId: String,
+        target: File,
+    ): Boolean
 }

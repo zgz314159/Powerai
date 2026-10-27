@@ -46,9 +46,10 @@ fun AppNavHost(navController: NavHostController) {
                 try {
                     context.startActivity(
                         Intent(context, EmbeddingTestActivity::class.java)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                     )
-                } catch (_: Throwable) {}
+                } catch (_: Throwable) {
+                }
             }
         }
         composable(Screen.JsonRepo.route) {
@@ -63,24 +64,41 @@ fun AppNavHost(navController: NavHostController) {
 
         composable(
             route = Screen.Detail.route,
-            arguments = listOf(
-                navArgument(KnowledgeDetailNavArgs.ARG_ID) { type = NavType.LongType },
-                navArgument(KnowledgeDetailNavArgs.ARG_Q) { type = NavType.StringType; defaultValue = "" },
-                navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_INDEX) { type = NavType.IntType; defaultValue = -1 },
-                navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_ID) { type = NavType.StringType; defaultValue = "" },
-            ),
+            arguments =
+                listOf(
+                    navArgument(KnowledgeDetailNavArgs.ARG_ID) { type = NavType.LongType },
+                    navArgument(KnowledgeDetailNavArgs.ARG_Q) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                    navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_INDEX) {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                    navArgument(KnowledgeDetailNavArgs.ARG_BLOCK_ID) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                ),
         ) {
             KnowledgeDetailScreen(navController)
         }
 
         composable(
             route = Screen.PdfViewer.route,
-            arguments = listOf(
-                navArgument(Screen.PdfViewer.ARG_FILE_ID) { type = NavType.StringType },
-                navArgument(Screen.PdfViewer.ARG_NAME) { type = NavType.StringType },
-                navArgument(Screen.PdfViewer.ARG_PAGE) { type = NavType.IntType; defaultValue = -1 },
-                navArgument(Screen.PdfViewer.ARG_BBOX) { type = NavType.StringType; defaultValue = "" }
-            )
+            arguments =
+                listOf(
+                    navArgument(Screen.PdfViewer.ARG_FILE_ID) { type = NavType.StringType },
+                    navArgument(Screen.PdfViewer.ARG_NAME) { type = NavType.StringType },
+                    navArgument(Screen.PdfViewer.ARG_PAGE) {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                    navArgument(Screen.PdfViewer.ARG_BBOX) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                ),
         ) { backStack ->
             val fileId = backStack.arguments?.getString(Screen.PdfViewer.ARG_FILE_ID).orEmpty()
             val nameEnc = backStack.arguments?.getString(Screen.PdfViewer.ARG_NAME).orEmpty()
@@ -93,7 +111,7 @@ fun AppNavHost(navController: NavHostController) {
                 fileId = fileId,
                 fileName = fileName,
                 initialHighlightPage = page,
-                initialHighlightBboxJson = bboxJson
+                initialHighlightBboxJson = bboxJson,
             )
         }
     }

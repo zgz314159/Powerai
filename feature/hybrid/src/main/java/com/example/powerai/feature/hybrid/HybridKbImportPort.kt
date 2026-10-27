@@ -14,5 +14,8 @@ interface HybridKbImportPort {
     /** Ensures built-in KB assets are imported (failures surface via [progress] / thrown errors). */
     suspend fun ensureAssetsImported(assetRoot: String = "kb")
 
-    fun importUri(uri: Uri, batchSize: Int = 100)
+    fun importUri(
+        uri: Uri,
+        batchSize: Int = 100,
+    )
 }

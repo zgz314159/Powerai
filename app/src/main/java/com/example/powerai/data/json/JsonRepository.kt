@@ -29,217 +29,287 @@ import javax.inject.Singleton
 
 @Singleton
 @Suppress("UNCHECKED_CAST", "USELESS_CAST")
-class JsonRepository @Inject constructor(private val context: Context) : SettingsImportPort, JsonRepoPort {
+class JsonRepository
+    @Inject
+    constructor(private val context: Context) : SettingsImportPort, JsonRepoPort {
+        private val gson = Gson()
+        private val scope = CoroutineScope(Dispatchers.IO)
 
-    private val gson = Gson()
-    private val scope = CoroutineScope(Dispatchers.IO)
+        private val _importProgress = MutableStateFlow<ImportProgress?>(null)
+        override val importProgress: StateFlow<ImportProgress?> = _importProgress
 
-    private val _importProgress = MutableStateFlow<ImportProgress?>(null)
-    override val importProgress: StateFlow<ImportProgress?> = _importProgress
+        private fun storageDir(): File {
+            val dir = File(context.filesDir, "knowledge_json")
+            if (!dir.exists()) dir.mkdirs()
+            return dir
+        }
 
-    private fun storageDir(): File {
-        val dir = File(context.filesDir, "knowledge_json")
-        if (!dir.exists()) dir.mkdirs()
-        return dir
-    }
-
-    override suspend fun listFiles(): List<JsonKnowledgeFile> = withContext(Dispatchers.IO) {
-        val dir = storageDir()
-        dir.listFiles()?.filter { it.isFile && it.extension == "json" }?.map { f ->
-            // read metadata quickly
-            try {
-                val text = f.readText()
-                val obj = gson.fromJson(text, Map::class.java)
-                val fileId = obj["fileId"] as? String ?: f.nameWithoutExtension
-                val fileName = obj["fileName"] as? String ?: f.name
-                val timestamp = (obj["importTimestamp"] as? Double)?.toLong() ?: f.lastModified()
-                val entries = (obj["entries"] as? List<*>)
-                val count = entries?.size ?: 0
-                JsonKnowledgeFile(fileId = fileId, fileName = fileName, importTimestamp = timestamp, entriesCount = count)
-            } catch (t: Throwable) {
-                JsonKnowledgeFile(fileId = f.nameWithoutExtension, fileName = f.name, importTimestamp = f.lastModified(), entriesCount = 0)
+        override suspend fun listFiles(): List<JsonKnowledgeFile> =
+            withContext(Dispatchers.IO) {
+                val dir = storageDir()
+                dir.listFiles()?.filter { it.isFile && it.extension == "json" }?.map { f ->
+                    // read metadata quickly
+                    try {
+                        val text = f.readText()
+                        val obj = gson.fromJson(text, Map::class.java)
+                        val fileId = obj["fileId"] as? String ?: f.nameWithoutExtension
+                        val fileName = obj["fileName"] as? String ?: f.name
+                        val timestamp = (obj["importTimestamp"] as? Double)?.toLong() ?: f.lastModified()
+                        val entries = (obj["entries"] as? List<*>)
+                        val count = entries?.size ?: 0
+                        JsonKnowledgeFile(
+                            fileId = fileId,
+                            fileName = fileName,
+                            importTimestamp = timestamp,
+                            entriesCount = count,
+                        )
+                    } catch (t: Throwable) {
+                        JsonKnowledgeFile(
+                            fileId = f.nameWithoutExtension,
+                            fileName = f.name,
+                            importTimestamp = f.lastModified(),
+                            entriesCount = 0,
+                        )
+                    }
+                } ?: emptyList()
             }
-        } ?: emptyList()
-    }
 
-    override suspend fun getEntries(fileId: String): List<JsonEntry> = withContext(Dispatchers.IO) {
-        val dir = storageDir()
-        val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext emptyList()
-        try {
-            val map = gson.fromJson(f.readText(), Map::class.java) as? Map<*, *> ?: return@withContext emptyList()
-            val entriesAny = map["entries"] as? List<*> ?: return@withContext emptyList()
-            entriesAny.mapNotNull { e ->
-                val m = e as? Map<*, *>
-                m?.let {
-                    JsonEntry(
-                        id = it["id"]?.toString().orEmpty(),
-                        title = it["title"]?.toString().orEmpty(),
-                        content = it["content"]?.toString().orEmpty(),
-                        category = it["category"]?.toString().orEmpty(),
-                        source = it["source"]?.toString().orEmpty(),
-                        status = it["status"]?.toString() ?: "parsed"
-                    )
+        override suspend fun getEntries(fileId: String): List<JsonEntry> =
+            withContext(Dispatchers.IO) {
+                val dir = storageDir()
+                val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext emptyList()
+                try {
+                    val map = gson.fromJson(f.readText(), Map::class.java) as? Map<*, *> ?: return@withContext emptyList()
+                    val entriesAny = map["entries"] as? List<*> ?: return@withContext emptyList()
+                    entriesAny.mapNotNull { e ->
+                        val m = e as? Map<*, *>
+                        m?.let {
+                            JsonEntry(
+                                id = it["id"]?.toString().orEmpty(),
+                                title = it["title"]?.toString().orEmpty(),
+                                content = it["content"]?.toString().orEmpty(),
+                                category = it["category"]?.toString().orEmpty(),
+                                source = it["source"]?.toString().orEmpty(),
+                                status = it["status"]?.toString() ?: "parsed",
+                            )
+                        }
+                    }
+                } catch (t: Throwable) {
+                    emptyList()
                 }
             }
-        } catch (t: Throwable) {
-            emptyList()
-        }
-    }
 
-    override suspend fun getEntriesPaged(fileId: String, offset: Int, limit: Int): List<JsonEntry> = withContext(Dispatchers.IO) {
-        val all = getEntries(fileId)
-        if (offset >= all.size) return@withContext emptyList()
-        val end = kotlin.math.min(all.size, offset + limit)
-        return@withContext all.subList(offset, end)
-    }
-
-    override suspend fun updateEntry(fileId: String, updated: JsonEntry): Boolean = withContext(Dispatchers.IO) {
-        val dir = storageDir()
-        val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false
-        try {
-            val rootAny = gson.fromJson(f.readText(), Map::class.java) as? Map<*, *> ?: return@withContext false
-            val entriesAny = rootAny["entries"] as? List<*> ?: return@withContext false
-            val mutableEntries = entriesAny.map { it as? Map<*, *> ?: emptyMap<Any, Any>() }.toMutableList()
-            val idx = mutableEntries.indexOfFirst { (it["id"]?.toString().orEmpty()) == updated.id }
-            if (idx >= 0) {
-                val map = mapOf<String, Any>(
-                    "id" to updated.id,
-                    "title" to updated.title,
-                    "content" to updated.content,
-                    "category" to updated.category,
-                    "source" to updated.source,
-                    "status" to updated.status
-                )
-                mutableEntries[idx] = map
-                // build new root map
-                val newRoot = HashMap<String, Any?>()
-                rootAny.forEach { (k, v) -> if (k is String) newRoot[k] = v }
-                newRoot["entries"] = mutableEntries
-                f.writeText(gson.toJson(newRoot))
-                return@withContext true
+        override suspend fun getEntriesPaged(
+            fileId: String,
+            offset: Int,
+            limit: Int,
+        ): List<JsonEntry> =
+            withContext(Dispatchers.IO) {
+                val all = getEntries(fileId)
+                if (offset >= all.size) return@withContext emptyList()
+                val end = kotlin.math.min(all.size, offset + limit)
+                return@withContext all.subList(offset, end)
             }
-            return@withContext false
-        } catch (t: Throwable) {
-            false
-        }
-    }
 
-    override suspend fun exportCsv(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val entries = getEntries(fileId)
-            val gsonItems = entries.map { e ->
-                KnowledgeEntity(id = 0L, title = e.title, content = e.content, source = e.source, category = e.category)
+        override suspend fun updateEntry(
+            fileId: String,
+            updated: JsonEntry,
+        ): Boolean =
+            withContext(Dispatchers.IO) {
+                val dir = storageDir()
+                val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false
+                try {
+                    val rootAny = gson.fromJson(f.readText(), Map::class.java) as? Map<*, *> ?: return@withContext false
+                    val entriesAny = rootAny["entries"] as? List<*> ?: return@withContext false
+                    val mutableEntries = entriesAny.map { it as? Map<*, *> ?: emptyMap<Any, Any>() }.toMutableList()
+                    val idx = mutableEntries.indexOfFirst { (it["id"]?.toString().orEmpty()) == updated.id }
+                    if (idx >= 0) {
+                        val map =
+                            mapOf<String, Any>(
+                                "id" to updated.id,
+                                "title" to updated.title,
+                                "content" to updated.content,
+                                "category" to updated.category,
+                                "source" to updated.source,
+                                "status" to updated.status,
+                            )
+                        mutableEntries[idx] = map
+                        // build new root map
+                        val newRoot = HashMap<String, Any?>()
+                        rootAny.forEach { (k, v) -> if (k is String) newRoot[k] = v }
+                        newRoot["entries"] = mutableEntries
+                        f.writeText(gson.toJson(newRoot))
+                        return@withContext true
+                    }
+                    return@withContext false
+                } catch (t: Throwable) {
+                    false
+                }
             }
-            val csv = ExportUtils.toCsv(gsonItems)
-            target.writeText(csv)
-            true
-        } catch (t: Throwable) {
-            false
-        }
-    }
 
-    override suspend fun exportJson(fileId: String, target: File): Boolean = withContext(Dispatchers.IO) {
-        try {
+        override suspend fun exportCsv(
+            fileId: String,
+            target: File,
+        ): Boolean =
+            withContext(Dispatchers.IO) {
+                try {
+                    val entries = getEntries(fileId)
+                    val gsonItems =
+                        entries.map { e ->
+                            KnowledgeEntity(id = 0L, title = e.title, content = e.content, source = e.source, category = e.category)
+                        }
+                    val csv = ExportUtils.toCsv(gsonItems)
+                    target.writeText(csv)
+                    true
+                } catch (t: Throwable) {
+                    false
+                }
+            }
+
+        override suspend fun exportJson(
+            fileId: String,
+            target: File,
+        ): Boolean =
+            withContext(Dispatchers.IO) {
+                try {
+                    val dir = storageDir()
+                    val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false
+                    f.copyTo(target, overwrite = true)
+                    true
+                } catch (t: Throwable) {
+                    false
+                }
+            }
+
+        private fun tempFileFor(fileName: String): File {
             val dir = storageDir()
-            val f = dir.listFiles()?.firstOrNull { it.nameWithoutExtension == fileId } ?: return@withContext false
-            f.copyTo(target, overwrite = true)
-            true
-        } catch (t: Throwable) {
-            false
+            val safe = fileName.replace(Regex("[^A-Za-z0-9]"), "_").take(20)
+            return File.createTempFile("import_${safe}_", ".tmp", dir)
+        }
+
+        override suspend fun importUri(
+            uri: Uri,
+            contentResolver: ContentResolver,
+            displayName: String,
+        ) {
+            importUri(uri, contentResolver, displayName, ImportDefaults.DEFAULT_BATCH_SIZE)
+        }
+
+        suspend fun importUri(
+            uri: Uri,
+            contentResolver: ContentResolver,
+            displayName: String,
+            batchSize: Int,
+        ) = withContext(Dispatchers.IO) {
+            try {
+                val temp = tempFileFor(displayName)
+                val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(temp), Charsets.UTF_8))
+                // write header
+                val importTimestamp = System.currentTimeMillis()
+
+                writer.write("{\n")
+                writer.write("\"fileId\":\"TEMP\",\n")
+                writer.write("\"fileName\":\"${displayName}\",\n")
+                writer.write("\"importTimestamp\":$importTimestamp,\n")
+                writer.write("\"entries\":[\n")
+
+                var first = true
+                var idCounter = 1
+                var totalImported = 0L
+
+                val onBatch: suspend (List<KnowledgeEntity>) -> Unit = { batch ->
+                    batch.forEach { e ->
+                        val clean = TextSanitizer.sanitizeText(e.content)
+                        val entry =
+                            JsonEntry(
+                                id = idCounter.toString(),
+                                title = e.title,
+                                content = clean,
+                                category = e.category,
+                                source = e.source,
+                                status = "parsed",
+                            )
+                        val json = gson.toJson(entry)
+                        if (!first) writer.write(",\n")
+                        writer.write(json)
+                        first = false
+                        idCounter++
+                        totalImported++
+                        _importProgress.value =
+                            ImportProgress(
+                                fileId = "",
+                                fileName = displayName,
+                                totalItems = null,
+                                importedItems = totalImported,
+                                percent = 0,
+                                status = "in_progress",
+                            )
+                    }
+                    writer.flush()
+                }
+
+                val parserProvider =
+                    object : FormatParserProvider {
+                        override fun txtParser(contentResolver: ContentResolver) = TxtParser(contentResolver)
+
+                        override fun pdfParser(contentResolver: ContentResolver) = PdfParser(contentResolver)
+
+                        override fun docxParser(contentResolver: ContentResolver) = DocxParser(contentResolver)
+                    }
+
+                val handler =
+                    ImportFormatHandlerFactory.create(displayName, parserProvider)
+                        ?: throw IllegalArgumentException("Unsupported file type: $displayName")
+
+                val fileId =
+                    handler.import(
+                        uri = uri,
+                        contentResolver = contentResolver,
+                        displayName = displayName,
+                        batchSize = batchSize,
+                        onBatch = onBatch,
+                        onProgress = { progress ->
+                            _importProgress.value = progress
+                        },
+                    )
+
+                // close entries array
+                writer.write("\n],\n")
+                writer.write("\"entriesCount\":$totalImported\n")
+                writer.write("}\n")
+                writer.close()
+
+                // replace TEMP fileId with real fileId and rename atomically
+                val finalFile = File(storageDir(), "$fileId.json")
+                // replace inside file
+                val content = temp.readText()
+                val fixed = content.replaceFirst("\"fileId\":\"TEMP\"", "\"fileId\":\"$fileId\"")
+                finalFile.writeText(fixed)
+                temp.delete()
+
+                _importProgress.value =
+                    ImportProgress(
+                        fileId = fileId,
+                        fileName = displayName,
+                        totalItems = totalImported,
+                        importedItems = totalImported,
+                        percent = 100,
+                        status = "imported",
+                    )
+                fileId
+            } catch (e: Exception) {
+                _importProgress.value =
+                    ImportProgress(
+                        fileId = "",
+                        fileName = displayName,
+                        totalItems = null,
+                        importedItems = 0,
+                        percent = 0,
+                        status = "failed",
+                        message = e.message,
+                    )
+                // Swallow exception to avoid crashing the application; return empty fileId to indicate failure.
+                return@withContext ""
+            }
         }
     }
-
-    private fun tempFileFor(fileName: String): File {
-        val dir = storageDir()
-        val safe = fileName.replace(Regex("[^A-Za-z0-9]"), "_").take(20)
-        return File.createTempFile("import_${safe}_", ".tmp", dir)
-    }
-
-    override suspend fun importUri(
-        uri: Uri,
-        contentResolver: ContentResolver,
-        displayName: String,
-    ) {
-        importUri(uri, contentResolver, displayName, ImportDefaults.DEFAULT_BATCH_SIZE)
-    }
-
-    suspend fun importUri(
-        uri: Uri,
-        contentResolver: ContentResolver,
-        displayName: String,
-        batchSize: Int,
-    ) = withContext(Dispatchers.IO) {
-        try {
-            val temp = tempFileFor(displayName)
-            val writer = BufferedWriter(OutputStreamWriter(FileOutputStream(temp), Charsets.UTF_8))
-            // write header
-            val importTimestamp = System.currentTimeMillis()
-
-            writer.write("{\n")
-            writer.write("\"fileId\":\"TEMP\",\n")
-            writer.write("\"fileName\":\"${displayName}\",\n")
-            writer.write("\"importTimestamp\":$importTimestamp,\n")
-            writer.write("\"entries\":[\n")
-
-            var first = true
-            var idCounter = 1
-            var totalImported = 0L
-
-            val onBatch: suspend (List<KnowledgeEntity>) -> Unit = { batch ->
-                batch.forEach { e ->
-                    val clean = TextSanitizer.sanitizeText(e.content)
-                    val entry = JsonEntry(id = idCounter.toString(), title = e.title, content = clean, category = e.category, source = e.source, status = "parsed")
-                    val json = gson.toJson(entry)
-                    if (!first) writer.write(",\n")
-                    writer.write(json)
-                    first = false
-                    idCounter++
-                    totalImported++
-                    _importProgress.value = ImportProgress(fileId = "", fileName = displayName, totalItems = null, importedItems = totalImported, percent = 0, status = "in_progress")
-                }
-                writer.flush()
-            }
-
-            val parserProvider = object : FormatParserProvider {
-                override fun txtParser(contentResolver: ContentResolver) = TxtParser(contentResolver)
-                override fun pdfParser(contentResolver: ContentResolver) = PdfParser(contentResolver)
-                override fun docxParser(contentResolver: ContentResolver) = DocxParser(contentResolver)
-            }
-
-            val handler = ImportFormatHandlerFactory.create(displayName, parserProvider)
-                ?: throw IllegalArgumentException("Unsupported file type: $displayName")
-
-            val fileId = handler.import(
-                uri = uri,
-                contentResolver = contentResolver,
-                displayName = displayName,
-                batchSize = batchSize,
-                onBatch = onBatch,
-                onProgress = { progress ->
-                    _importProgress.value = progress
-                }
-            )
-
-            // close entries array
-            writer.write("\n],\n")
-            writer.write("\"entriesCount\":$totalImported\n")
-            writer.write("}\n")
-            writer.close()
-
-            // replace TEMP fileId with real fileId and rename atomically
-            val finalFile = File(storageDir(), "$fileId.json")
-            // replace inside file
-            val content = temp.readText()
-            val fixed = content.replaceFirst("\"fileId\":\"TEMP\"", "\"fileId\":\"$fileId\"")
-            finalFile.writeText(fixed)
-            temp.delete()
-
-            _importProgress.value = ImportProgress(fileId = fileId, fileName = displayName, totalItems = totalImported, importedItems = totalImported, percent = 100, status = "imported")
-            fileId
-        } catch (e: Exception) {
-            _importProgress.value = ImportProgress(fileId = "", fileName = displayName, totalItems = null, importedItems = 0, percent = 0, status = "failed", message = e.message)
-            // Swallow exception to avoid crashing the application; return empty fileId to indicate failure.
-            return@withContext ""
-        }
-    }
-}

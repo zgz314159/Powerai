@@ -30,7 +30,7 @@ object PdfViewerRoute {
         fileId: String,
         name: String,
         page: Int?,
-        bboxEncoded: String?
+        bboxEncoded: String?,
     ): String {
         val p = page ?: -1
         val b = bboxEncoded.orEmpty()

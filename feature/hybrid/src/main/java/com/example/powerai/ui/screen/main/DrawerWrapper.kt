@@ -1,9 +1,6 @@
 package com.example.powerai.ui.screen.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -24,7 +21,7 @@ fun DrawerWrapper(
     actionLabel: String?,
     onAction: (() -> Unit)?,
     onEdgeAction: (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     ModalDrawerSheet(modifier = Modifier.width(300.dp)) {
         Box(modifier = Modifier.padding(24.dp)) {

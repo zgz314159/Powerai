@@ -5,6 +5,7 @@ package com.example.powerai.ui.screen.settings
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +24,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.foundation.clickable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,30 +41,43 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     onDevBackdoor: (() -> Unit)? = null,
 ) {
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } }
-    )
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+            onResult = { uri: Uri? -> uri?.let { viewModel.onIntent(SettingsIntent.ImportUri(it)) } },
+        )
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = { Text("设置") })
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = { launcher.launch(arrayOf("text/plain", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "application/json", "*/*")) }) {
+            ExtendedFloatingActionButton(onClick = {
+                launcher.launch(
+                    arrayOf(
+                        "text/plain",
+                        "application/pdf",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/msword",
+                        "application/json",
+                        "*/*",
+                    ),
+                )
+            }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text("导入文件")
             }
-        }
+        },
     ) { inner ->
         SettingsBody(
             navController = navController,
             viewModel = viewModel,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(inner),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .padding(inner),
             onDevBackdoor = onDevBackdoor,
         )
     }
@@ -100,9 +111,10 @@ fun SettingsBody(
                 value = detailContentFontScale,
                 onValueChange = { viewModel.onIntent(SettingsIntent.SetDetailContentFontScale(it)) },
                 valueRange = 0.75f..3.0f,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
             )
         }
 
@@ -119,9 +131,10 @@ fun SettingsBody(
 
         Text(
             text = "版本 $versionName",
-            modifier = Modifier
-                .clickable { viewModel.onIntent(SettingsIntent.OnVersionTapped) }
-                .padding(vertical = 6.dp)
+            modifier =
+                Modifier
+                    .clickable { viewModel.onIntent(SettingsIntent.OnVersionTapped) }
+                    .padding(vertical = 6.dp),
         )
 
         progress?.let { p ->

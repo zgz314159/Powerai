@@ -1,18 +1,17 @@
 package com.example.powerai.domain.usecase
 
-import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.model.util.TextSanitizer
 import com.example.powerai.domain.query.QueryIntent
 import com.example.powerai.domain.query.QueryRewritePlanner
 import com.example.powerai.domain.query.QueryUnderstandingPipeline
 import com.example.powerai.util.PdfSourceRef
-import java.util.Locale
 
 data class LocalExtractiveAnswer(
     val text: String,
     val sourceLabel: String,
     val score: Float,
-    val retrievalId: Long? = null
+    val retrievalId: Long? = null,
 ) {
     fun toDisplayText(): String {
         return buildString {
@@ -27,13 +26,13 @@ data class LocalExtractiveAnswer(
 }
 
 object LocalExtractiveAnswerBuilder {
-        val stopMarkers = listOf("停止运行", "停运", "应立即停止运行")
+    val stopMarkers = listOf("停止运行", "停运", "应立即停止运行")
     private val normativeMarkers = listOf("", "必须", "不得", "不准", "严禁", "", "", "", "然后")
 
     fun extract(
         query: String,
         retrievals: List<RetrievalResult>,
-        assessment: LocalEvidenceAssessment
+        assessment: LocalEvidenceAssessment,
     ): LocalExtractiveAnswer? {
         if (retrievals.isEmpty()) return null
         if (assessment.decision == LocalAnswerDecision.INSUFFICIENT_EVIDENCE && assessment.exactMatchCount == 0) {
@@ -41,9 +40,10 @@ object LocalExtractiveAnswerBuilder {
         }
 
         val understanding = QueryUnderstandingPipeline.understand(query)
-        val candidates = retrievals.take(3).flatMap { result ->
-            buildCandidates(understanding.intent, understanding.retrievalQueries, result)
-        }
+        val candidates =
+            retrievals.take(3).flatMap { result ->
+                buildCandidates(understanding.intent, understanding.retrievalQueries, result)
+            }
         val best = candidates.maxByOrNull { it.score } ?: return null
         if (best.score < 0.42f) return null
 
@@ -51,24 +51,25 @@ object LocalExtractiveAnswerBuilder {
             text = best.text,
             sourceLabel = best.sourceLabel,
             score = best.score,
-            retrievalId = best.retrievalId
+            retrievalId = best.retrievalId,
         )
     }
 
     private fun buildCandidates(
         intent: QueryIntent,
         retrievalQueries: List<String>,
-        result: RetrievalResult
+        result: RetrievalResult,
     ): List<Candidate> {
         val title = result.item?.title ?: result.metadata["title"].orEmpty()
         val content = result.item?.content ?: result.metadata["snippet"].orEmpty()
         val source = result.item?.source ?: result.metadata["source"].orEmpty()
         val article = extractArticleSignature(title, content)
-        val sourceLabel = buildReadableSourceLabel(
-            title = title,
-            source = source,
-            article = article
-        )
+        val sourceLabel =
+            buildReadableSourceLabel(
+                title = title,
+                source = source,
+                article = article,
+            )
 
         val sentences = splitSentences(content)
         val baseScore = (result.confidence ?: result.score).coerceIn(0f, 1f)
@@ -76,23 +77,25 @@ object LocalExtractiveAnswerBuilder {
 
         sentences.forEachIndexed { index, sentence ->
             val contextText = neighboringWindow(sentences, index)
-            val score = scoreSentence(
-                intent = intent,
-                retrievalQueries = retrievalQueries,
-                title = title,
-                source = source,
-                article = article,
-                sentence = sentence,
-                contextualWindow = contextText,
-                baseScore = baseScore
-            )
-            if (score > 0f) {
-                candidates += Candidate(
-                    text = contextText,
-                    sourceLabel = sourceLabel.ifBlank { article },
-                    score = score,
-                    retrievalId = result.item?.id ?: result.id
+            val score =
+                scoreSentence(
+                    intent = intent,
+                    retrievalQueries = retrievalQueries,
+                    title = title,
+                    source = source,
+                    article = article,
+                    sentence = sentence,
+                    contextualWindow = contextText,
+                    baseScore = baseScore,
                 )
+            if (score > 0f) {
+                candidates +=
+                    Candidate(
+                        text = contextText,
+                        sourceLabel = sourceLabel.ifBlank { article },
+                        score = score,
+                        retrievalId = result.item?.id ?: result.id,
+                    )
             }
         }
 
@@ -107,8 +110,8 @@ object LocalExtractiveAnswerBuilder {
                 text = fallbackText,
                 sourceLabel = sourceLabel.ifBlank { article },
                 score = (baseScore * 0.7f).coerceIn(0f, 1f),
-                retrievalId = result.item?.id ?: result.id
-            )
+                retrievalId = result.item?.id ?: result.id,
+            ),
         )
     }
 
@@ -120,20 +123,23 @@ object LocalExtractiveAnswerBuilder {
         article: String,
         sentence: String,
         contextualWindow: String,
-        baseScore: Float
+        baseScore: Float,
     ): Float {
         val normalizedSentence = TextSanitizer.normalizeForSearch(sentence)
         if (normalizedSentence.isBlank()) return 0f
 
-        val tokenGroups = retrievalQueries
-            .ifEmpty { listOf(sentence) }
-            .map(::informativeTokens)
-            .filter { it.isNotEmpty() }
-        val tokenCoverage = tokenGroups.maxOfOrNull { tokens ->
-            tokens.count(normalizedSentence::contains).toFloat() / tokens.size.toFloat()
-        } ?: 0f
-        val anchorHits = anchorsFor(intent, retrievalQueries.joinToString(" "))
-            .count { anchor -> anchor.isNotBlank() && normalizedSentence.contains(anchor) }
+        val tokenGroups =
+            retrievalQueries
+                .ifEmpty { listOf(sentence) }
+                .map(::informativeTokens)
+                .filter { it.isNotEmpty() }
+        val tokenCoverage =
+            tokenGroups.maxOfOrNull { tokens ->
+                tokens.count(normalizedSentence::contains).toFloat() / tokens.size.toFloat()
+            } ?: 0f
+        val anchorHits =
+            anchorsFor(intent, retrievalQueries.joinToString(" "))
+                .count { anchor -> anchor.isNotBlank() && normalizedSentence.contains(anchor) }
         val normativeBonus = if (normativeMarkers.any(sentence::contains)) 0.14f else 0f
         val articleBonus = if (article.isNotBlank()) 0.08f else 0f
         val sourceBonus = if (source.contains("规程") || source.contains("规则") || source.contains("规范")) 0.08f else 0f
@@ -154,7 +160,10 @@ object LocalExtractiveAnswerBuilder {
         return score.coerceIn(0f, 1f)
     }
 
-    private fun neighboringWindow(sentences: List<String>, index: Int): String {
+    private fun neighboringWindow(
+        sentences: List<String>,
+        index: Int,
+    ): String {
         val current = sentences.getOrNull(index).orEmpty().trim()
         val next = sentences.getOrNull(index + 1).orEmpty().trim()
         if (current.isBlank()) return next
@@ -178,17 +187,25 @@ object LocalExtractiveAnswerBuilder {
             .distinct()
     }
 
-    private fun anchorsFor(intent: QueryIntent, query: String): List<String> = when (intent) {
-        QueryIntent.PROCEDURE -> listOf("首先", "其次", "然后", "最")
-        QueryIntent.COMPARISON -> listOf("区别", "不同", "差异", "分别")
-        QueryIntent.TOPIC_OVERVIEW -> informativeTokens(query).take(2)
-        QueryIntent.FACT_QUESTION -> when {
-            QueryRewritePlanner.isActionRuleStyleQuery(query) -> QueryRewritePlanner.extractActionAnchors(query)
-            else -> informativeTokens(query).take(3)
+    private fun anchorsFor(
+        intent: QueryIntent,
+        query: String,
+    ): List<String> =
+        when (intent) {
+            QueryIntent.PROCEDURE -> listOf("首先", "其次", "然后", "最")
+            QueryIntent.COMPARISON -> listOf("区别", "不同", "差异", "分别")
+            QueryIntent.TOPIC_OVERVIEW -> informativeTokens(query).take(2)
+            QueryIntent.FACT_QUESTION ->
+                when {
+                    QueryRewritePlanner.isActionRuleStyleQuery(query) -> QueryRewritePlanner.extractActionAnchors(query)
+                    else -> informativeTokens(query).take(3)
+                }
         }
-    }
 
-    private fun extractArticleSignature(title: String, content: String): String {
+    private fun extractArticleSignature(
+        title: String,
+        content: String,
+    ): String {
         val match = Regex("([一二三四五六七八九十百0-9]+)").find("$title $content") ?: return ""
         return match.value
     }
@@ -196,13 +213,13 @@ object LocalExtractiveAnswerBuilder {
     private fun buildReadableSourceLabel(
         title: String,
         source: String,
-        article: String
+        article: String,
     ): String {
         val cleanSource = PdfSourceRef.userVisibleSource(source)
         return PdfSourceRef.buildUserVisibleLabel(
             article.takeIf { it.isNotBlank() && !title.contains(it) },
             title.takeIf { it.isNotBlank() },
-            cleanSource.takeIf { it.isNotBlank() && it != title }
+            cleanSource.takeIf { it.isNotBlank() && it != title },
         )
     }
 
@@ -210,6 +227,6 @@ object LocalExtractiveAnswerBuilder {
         val text: String,
         val sourceLabel: String,
         val score: Float,
-        val retrievalId: Long?
+        val retrievalId: Long?,
     )
 }

@@ -15,7 +15,6 @@ data class HybridUiState(
     val askedAtMillis: Long? = null,
     val importProgress: ImportProgress? = null,
     val webSearchEnabled: Boolean = false,
-
     val aiAnswer: String? = null,
     val localSummaryState: LocalSummaryState = LocalSummaryState(),
     val localAnswerFeedback: LocalAnswerFeedback = LocalAnswerFeedback.NONE,
@@ -27,5 +26,5 @@ data class HybridUiState(
     val smartScrollOffset: Int = 0,
     val evidenceList: List<RetrievalResult> = emptyList(),
     val localSearchHistory: List<SearchEntry> = emptyList(),
-    val smartSearchHistory: List<SearchEntry> = emptyList()
+    val smartSearchHistory: List<SearchEntry> = emptyList(),
 )

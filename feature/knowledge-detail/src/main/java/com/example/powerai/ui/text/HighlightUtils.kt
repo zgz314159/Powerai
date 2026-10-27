@@ -5,9 +5,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+
 private val HighlightYellow = Color(0xFFFFF59D)
 
-internal fun highlightAll(text: String, keyword: String): AnnotatedString {
+internal fun highlightAll(
+    text: String,
+    keyword: String,
+): AnnotatedString {
     val k = keyword.trim()
     if (k.isBlank()) return AnnotatedString(text)
 
@@ -27,8 +31,8 @@ internal fun highlightAll(text: String, keyword: String): AnnotatedString {
             withStyle(
                 SpanStyle(
                     background = HighlightYellow,
-                    color = Color.Unspecified
-                )
+                    color = Color.Unspecified,
+                ),
             ) {
                 append(text.substring(index, index + k.length))
             }
