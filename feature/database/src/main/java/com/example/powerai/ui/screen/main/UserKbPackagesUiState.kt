@@ -28,7 +28,10 @@ data class UserKbPackagesUiState(
     val pendingRemovePackageId: String?,
     val message: String?,
     val onImportDirectory: () -> Unit,
+    /** Re-pick a directory via the system picker (also refreshes persistable grant). */
     val onUpdateDirectory: () -> Unit,
+    /** One-click update when [UserKbPackageSummary.canUpdateInPlace] is true. */
+    val onUpdateInPlace: (String) -> Unit,
     val onRequestRemove: (String) -> Unit,
     val onConfirmRemove: () -> Unit,
     val onCancelRemove: () -> Unit,
@@ -87,7 +90,8 @@ fun UserKbPackagesBlock(
                 ui.packages.forEach { pkg ->
                     UserKbPackageRow(
                         pkg = pkg,
-                        onUpdate = ui.onUpdateDirectory,
+                        onUpdateInPlace = { ui.onUpdateInPlace(pkg.packageId) },
+                        onUpdatePickDirectory = ui.onUpdateDirectory,
                         onRemove = { ui.onRequestRemove(pkg.packageId) },
                     )
                 }
@@ -116,7 +120,8 @@ fun UserKbPackagesBlock(
 @Composable
 private fun UserKbPackageRow(
     pkg: UserKbPackageSummary,
-    onUpdate: () -> Unit,
+    onUpdateInPlace: () -> Unit,
+    onUpdatePickDirectory: () -> Unit,
     onRemove: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -137,7 +142,12 @@ private fun UserKbPackageRow(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = onUpdate) { Text("更新（选同一目录）") }
+            if (pkg.canUpdateInPlace) {
+                OutlinedButton(onClick = onUpdateInPlace) { Text("一键更新") }
+                TextButton(onClick = onUpdatePickDirectory) { Text("重选目录") }
+            } else {
+                OutlinedButton(onClick = onUpdatePickDirectory) { Text("更新（选同一目录）") }
+            }
             TextButton(onClick = onRemove) { Text("移除") }
         }
     }

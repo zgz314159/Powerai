@@ -277,6 +277,39 @@ class UserKbPackageImporterTest {
         assertTrue("version time recorded", summary.updatedAtMs > 0L)
         assertTrue("status imported", summary.status.equals("imported", ignoreCase = true))
         assertFalse("original PDF not associated yet", summary.pdfAssociated)
+        assertFalse("file source has no SAF tree URI", summary.canUpdateInPlace)
+    }
+
+    @Test
+    fun `persistTreeUri enables one-click update flag and updateFromPersistedTreeUri without uri fails`() {
+        val source = writeSource(kb(pdfSource, entry("e1", "alpha", 1, null)), emptyMap())
+        val tree = "content://com.android.externalstorage.documents/tree/primary%3AKb"
+        runBlocking {
+            importer.importFromSource(
+                FileKbDirectorySource(source),
+                persistTreeUri = tree,
+            )
+        }
+        val marker = runBlocking { db.knowledgeDao().getImportedFile(packageIdOf(source)) }
+        assertEquals(tree, marker?.sourceTreeUri)
+        assertTrue(runBlocking { importer.listPackages() }.single().canUpdateInPlace)
+
+        val missing =
+            runBlocking {
+                importer.updateFromPersistedTreeUri("user:does-not-exist")
+            }
+        assertTrue("missing package fails: $missing", missing is UserKbImportResult.Failed)
+
+        // Clear URI to assert the explicit guidance path.
+        runBlocking {
+            db.knowledgeDao().insertImportedFile(requireNotNull(marker).copy(sourceTreeUri = ""))
+        }
+        val noUri = runBlocking { importer.updateFromPersistedTreeUri(packageIdOf(source)) }
+        assertTrue("empty URI fails: $noUri", noUri is UserKbImportResult.Failed)
+        assertTrue(
+            "mentions re-select",
+            (noUri as UserKbImportResult.Failed).reason.contains("选同一目录"),
+        )
     }
 
     @Test

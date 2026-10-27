@@ -16,4 +16,11 @@ data class ImportedFileEntity(
      */
     @ColumnInfo(name = "contentSha256", defaultValue = "")
     val contentSha256: String = "",
+    /**
+     * Persistable SAF tree URI for user-directory KB packages (KI-57). Empty for built-in /
+     * legacy / pre-persistence imports; one-click update requires a non-blank value with a
+     * still-valid [android.content.ContentResolver.takePersistableUriPermission].
+     */
+    @ColumnInfo(name = "sourceTreeUri", defaultValue = "")
+    val sourceTreeUri: String = "",
 )

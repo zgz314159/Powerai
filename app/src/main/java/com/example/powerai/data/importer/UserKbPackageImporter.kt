@@ -82,6 +82,7 @@ class UserKbPackageImporter
                         status = marker.status,
                         pdfFileName = ref?.fileName,
                         pdfAssociated = ref != null && PdfStorage.hasPdf(context, ref.fileId),
+                        canUpdateInPlace = marker.sourceTreeUri.isNotBlank(),
                     )
                 }
 
@@ -141,7 +142,41 @@ class UserKbPackageImporter
                     Intent.FLAG_GRANT_READ_URI_PERMISSION,
                 )
             }
-            return importFromSource(SafKbDirectorySource(context, treeUri), onProgress)
+            return importFromSource(
+                source = SafKbDirectorySource(context, treeUri),
+                onProgress = onProgress,
+                persistTreeUri = treeUri.toString(),
+            )
+        }
+
+        /**
+         * One-click update using the SAF tree URI stored on the package marker (KI-57).
+         * Falls back with a clear failure when the URI is missing or the persistable grant was revoked.
+         */
+        @Suppress("ReturnCount", "TooGenericExceptionCaught")
+        suspend fun updateFromPersistedTreeUri(packageId: String): UserKbImportResult {
+            if (!KnowledgePackages.isUserPackage(packageId)) {
+                return UserKbImportResult.Failed("仅支持更新用户导入的知识库包")
+            }
+            val marker =
+                runCatching { dao.getImportedFile(packageId) }.getOrNull()
+                    ?: return UserKbImportResult.Failed("未找到该用户知识库包")
+            val raw = marker.sourceTreeUri.trim()
+            if (raw.isEmpty()) {
+                return UserKbImportResult.Failed("尚未保存目录权限，请使用「更新（选同一目录）」重新选择")
+            }
+            val treeUri =
+                runCatching { Uri.parse(raw) }.getOrNull()
+                    ?: return UserKbImportResult.Failed("已保存的目录 URI 无效，请重新选择目录")
+            return try {
+                importDirectory(treeUri)
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (security: SecurityException) {
+                UserKbImportResult.Failed("目录权限已失效，请重新选择同一目录以授权")
+            } catch (error: Throwable) {
+                UserKbImportResult.Failed(error.message ?: "一键更新失败")
+            }
         }
 
         /** Source-level entry point; used by [importDirectory] and directly by tests. */
@@ -149,6 +184,7 @@ class UserKbPackageImporter
         suspend fun importFromSource(
             source: KbDirectorySource,
             onProgress: (UserKbImportProgress) -> Unit = {},
+            persistTreeUri: String = "",
         ): UserKbImportResult {
             val bytes =
                 runCatching { source.open(KB_JSON_FILE_NAME)?.use { it.readBytes() } }.getOrNull()
@@ -161,6 +197,17 @@ class UserKbPackageImporter
             if (existing?.status?.trim()?.lowercase() == AssetImportStatus.IMPORTED &&
                 existing.contentSha256 == contentSha
             ) {
+                // Content unchanged: still refresh the persistable tree URI when a new pick arrives.
+                if (persistTreeUri.isNotBlank() && persistTreeUri != existing.sourceTreeUri) {
+                    runCatching {
+                        dao.insertImportedFile(
+                            existing.copy(
+                                sourceTreeUri = persistTreeUri,
+                                timestamp = System.currentTimeMillis(),
+                            ),
+                        )
+                    }
+                }
                 refreshPackages()
                 return UserKbImportResult.Skipped(
                     entries = dao.countByPackageId(packageId),
@@ -194,6 +241,10 @@ class UserKbPackageImporter
                             timestamp = System.currentTimeMillis(),
                             status = AssetImportStatus.IMPORTED,
                             contentSha256 = contentSha,
+                            sourceTreeUri =
+                                persistTreeUri.ifBlank {
+                                    existing?.sourceTreeUri.orEmpty()
+                                },
                         ),
                     )
                 }

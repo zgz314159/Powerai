@@ -221,9 +221,10 @@
 | D1 | KI-58 退役 EmbeddingWorker 死链 | ✅ 完成（删 Worker + instrumented；enqueue 仅 metadata） |
 | D2 | 全量 ktlint → 0 + CI 强制 | ✅ 完成（ignoreFailures=false；editorconfig 收口特例） |
 | D3 | KI-53 乱码；KI-20 拆 `docs/debug_lan.md`；KI-03/04 接受冻结 | ✅ 完成 |
-| D4 | KI-57 书面接受「重选目录」关闭 | ✅ 完成（一键 treeUri 另开史诗） |
-| D5 | 真机清单（停止/中文/KI-54/API36） | ✅ 清单已写 [`docs/device_acceptance_checklist.md`](docs/device_acceptance_checklist.md)；**真机执行仍待验** |
-| 外置 | KI-21 JNI 真 runtime；KI-56 NDK per-id 删；KI-57 一键 treeUri | 史诗另行排期 |
+| D4 | KI-57 书面接受「重选目录」关闭 | ✅ 后由 E1 实现一键 treeUri 取代 |
+| D5 | 真机清单（停止/中文/KI-54/API36） | ✅ 清单已写；**真机执行仍待验** |
+| E1 | KI-57 持久化 treeUri + 一键更新 | ✅ Room 7 `sourceTreeUri`；UI「一键更新」/「重选目录」 |
+| 外置 | KI-21 JNI 真 runtime；KI-56 NDK per-id 删；真机验收执行 | 史诗 / 待真机 |
 
 ## 9. 历史里程碑（历史性质，不代表当前状态）
 

@@ -31,4 +31,7 @@ interface DatabaseKbPort {
     suspend fun removePackage(packageId: String): UserKbPackageRemovalResult
 
     suspend fun importDirectory(treeUri: Uri): UserKbImportResult
+
+    /** One-click update via persisted SAF tree URI (KI-57); fails if URI/grant missing. */
+    suspend fun updatePackageInPlace(packageId: String): UserKbImportResult
 }

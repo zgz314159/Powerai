@@ -28,7 +28,7 @@ object DatabaseModule {
             AppDatabase::class.java,
             "powerai.db",
         )
-            .addMigrations(MIGRATION_4_5, MIGRATION_5_6)
+            .addMigrations(MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
             .build()
     }
 
@@ -54,6 +54,17 @@ object DatabaseModule {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE `knowledge` ADD COLUMN `packageId` TEXT")
                 db.execSQL("ALTER TABLE `imported_files` ADD COLUMN `contentSha256` TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
+    // Additive only: persist SAF tree URI for one-click user-package update (KI-57).
+    @Suppress("MagicNumber")
+    val MIGRATION_6_7: Migration =
+        object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE `imported_files` ADD COLUMN `sourceTreeUri` TEXT NOT NULL DEFAULT ''",
+                )
             }
         }
 

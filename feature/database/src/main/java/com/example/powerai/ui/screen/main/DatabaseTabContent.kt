@@ -165,6 +165,7 @@ private fun DatabaseTabDrawer(
                 message = dbUiState.userPackageMessage,
                 onImportDirectory = onImportDirectory,
                 onUpdateDirectory = { updateDirectoryLauncher.launch(null) },
+                onUpdateInPlace = dbViewModel::updateUserPackageInPlace,
                 onRequestRemove = dbViewModel::requestRemoveUserPackage,
                 onConfirmRemove = dbViewModel::confirmRemoveUserPackage,
                 onCancelRemove = dbViewModel::cancelRemoveUserPackage,

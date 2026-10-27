@@ -55,11 +55,7 @@ internal class DatabaseUserPackageCoordinator(
         reduce { copy(userPackageMessage = "正在导入/更新…") }
         val message =
             try {
-                when (val result = kbPort.importDirectory(treeUri)) {
-                    is UserKbImportResult.Imported -> "更新完成：${result.displayName} · ${result.entries} 条"
-                    is UserKbImportResult.Skipped -> "内容未变化，已跳过：${result.displayName}"
-                    is UserKbImportResult.Failed -> "更新失败：${result.reason}"
-                }
+                formatUpdateResult(kbPort.importDirectory(treeUri))
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (t: Throwable) {
@@ -68,4 +64,27 @@ internal class DatabaseUserPackageCoordinator(
         reduce { copy(userPackageMessage = message) }
         reload()
     }
+
+    /** One-click update using the persisted SAF tree URI (KI-57). */
+    @Suppress("TooGenericExceptionCaught")
+    suspend fun updateInPlace(packageId: String) {
+        reduce { copy(userPackageMessage = "正在一键更新…") }
+        val message =
+            try {
+                formatUpdateResult(kbPort.updatePackageInPlace(packageId))
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (t: Throwable) {
+                "更新失败：${t.message ?: "未知错误"}"
+            }
+        reduce { copy(userPackageMessage = message) }
+        reload()
+    }
+
+    private fun formatUpdateResult(result: UserKbImportResult): String =
+        when (result) {
+            is UserKbImportResult.Imported -> "更新完成：${result.displayName} · ${result.entries} 条"
+            is UserKbImportResult.Skipped -> "内容未变化，已跳过：${result.displayName}"
+            is UserKbImportResult.Failed -> "更新失败：${result.reason}"
+        }
 }

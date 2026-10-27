@@ -84,6 +84,9 @@ sealed interface DatabaseIntent {
     /** 用所选目录导入或更新用户知识库包（同一目录内容未变化则跳过） */
     data class UpdateUserPackage(val treeUri: android.net.Uri) : DatabaseIntent
 
+    /** 一键更新：使用已持久化的 SAF tree URI（KI-57） */
+    data class UpdateUserPackageInPlace(val packageId: String) : DatabaseIntent
+
     /** 请求移除某个用户知识库包：仅弹出确认，不删除任何数据 */
     data class RequestRemoveUserPackage(val packageId: String) : DatabaseIntent
 

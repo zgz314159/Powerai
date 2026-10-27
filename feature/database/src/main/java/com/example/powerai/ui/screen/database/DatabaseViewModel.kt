@@ -131,6 +131,7 @@ class DatabaseViewModel
                 is DatabaseIntent.CancelClearAllKnowledgeBase -> importCoordinator.cancelClearAll()
                 is DatabaseIntent.RefreshUserPackages -> refreshUserPackages()
                 is DatabaseIntent.UpdateUserPackage -> updateUserPackage(intent.treeUri)
+                is DatabaseIntent.UpdateUserPackageInPlace -> updateUserPackageInPlace(intent.packageId)
                 is DatabaseIntent.RequestRemoveUserPackage -> userPackageCoordinator.requestRemove(intent.packageId)
                 is DatabaseIntent.ConfirmRemoveUserPackage -> confirmRemoveUserPackage()
                 is DatabaseIntent.CancelRemoveUserPackage -> userPackageCoordinator.cancelRemove()
@@ -189,6 +190,12 @@ class DatabaseViewModel
         fun updateUserPackage(treeUri: android.net.Uri) {
             viewModelScope.launch(ioDispatcher) {
                 userPackageCoordinator.update(treeUri)
+            }
+        }
+
+        fun updateUserPackageInPlace(packageId: String) {
+            viewModelScope.launch(ioDispatcher) {
+                userPackageCoordinator.updateInPlace(packageId)
             }
         }
 

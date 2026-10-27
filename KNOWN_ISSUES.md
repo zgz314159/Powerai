@@ -81,7 +81,7 @@
 | KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | legacy 无指纹资产不自动替换 | ✅ 重建/清空入口已提供 |
 | KI-55 | `UserKbPackageImporter.removePackage` | 用户包移除事务语义 | ✅ 已实现 |
 | KI-56 | `invalidateNativeVectorIndex` | 无 per-package 删；rebuild/移除清整库向量缓存 | **接受限制**（FTS 主路径）；NDK 按 id 删属后续史诗，不纳入本轮清零 |
-| KI-57 | 用户包「更新」入口 | 不持久化 treeUri，每次重选目录 | ✅ 接受限制（2026-10-27）：「更新」= 重选同一目录；一键 treeUri 需 Room 加列，另开史诗 |
+| KI-57 | 用户包「更新」入口 | 持久化 SAF treeUri + 一键更新 | ✅ 已实现（2026-10-27）：Room 6→7 `sourceTreeUri`；有 URI 显示「一键更新」，权限失效可「重选目录」 |
 
 ---
 

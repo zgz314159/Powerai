@@ -118,6 +118,8 @@ data class UserKbPackageSummary(
     val status: String,
     val pdfFileName: String?,
     val pdfAssociated: Boolean,
+    /** True when a persistable SAF tree URI is stored (KI-57 one-click update). */
+    val canUpdateInPlace: Boolean = false,
 )
 
 /** Outcome of removing one user KB package. */
