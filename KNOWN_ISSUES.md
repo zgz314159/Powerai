@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-27（Phase D0 台账校准；整仓债清零进行中）
+**最后同步**：2026-10-27（Phase D0–D5 离线债清零完成；真机见 `docs/device_acceptance_checklist.md`）
 
 ---
 
@@ -10,9 +10,8 @@
 
 | 状态 | 说明 |
 |------|------|
-| 进行中 | KI-53 乱码；KI-20 可选拆分；KI-03/04 接受冻结 |
-| ✅ | 全量 ktlint→0 + `ignoreFailures=false`（Phase D2）；KI-58 EmbeddingWorker 退役 |
-| 产品边界（接受限制可关） | KI-50/51/52；KI-57（一键更新未做则书面接受）；KI-56（FTS 主路径，全量清索引可接受） |
+| ✅ | 全量 ktlint→0；KI-58；KI-53/20/03/04（D2–D3） |
+| ✅ 产品边界接受 | KI-50/51/52；KI-57；KI-56（FTS 主路径） |
 | 真机待验（不伪完成） | KI-54；端侧停止+中文回归；API 36 仪器补齐 |
 | 史诗外置（不纳入本轮清零） | KI-21 DeepSeek/llama JNI 真 runtime |
 
@@ -24,8 +23,8 @@
 |----|------|------|------|
 | KI-01 | `AiStreamViewModel.kt`, `AiChatScaffold.kt` | ViewModel/Scaffold 仍偏大 | ✅ 已完成 MVI 重构 |
 | KI-02 | `HybridViewModel.kt` | 仍承担较多 UI 编排 | ✅ 已完成 MVI 重构 |
-| KI-03 | `core/data/importer/StreamingJsonResourceImporter.kt` | 导入流程仍长（~333 行） | 本轮：接受长度 + source-size 冻结；禁止无护栏大拆 |
-| KI-04 | `SparseSearcher.kt` | 检索逻辑可再拆 | 本轮：接受现状；`SparseSearchUtils` 已部分完成 |
+| KI-03 | `core/data/importer/StreamingJsonResourceImporter.kt` | 导入流程仍长（~333 行） | ✅ 接受冻结（2026-10-27）：source-size 门禁看守；禁止无护栏大拆 |
+| KI-04 | `SparseSearcher.kt` | 检索逻辑可再拆 | ✅ 接受冻结（2026-10-27）：`SparseSearchUtils` 已部分完成；主路径稳定 |
 | KI-05 | `MainPages.kt` | 占位符文件 | ✅ 已关闭（2026-10-27）：仓库中已无该文件 |
 | KI-06 | `ui/screen/detail/*` | 详情 markdown/table 文件多 | 规范：normalize 留 data/importer，勿在 UI 堆结构修复 |
 
@@ -46,7 +45,7 @@
 
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
-| KI-20 | `README.md` | benchmark 与局域网调试混在同一文件 | 本轮 D3：可选拆 `docs/debug_lan.md` |
+| KI-20 | `README.md` | benchmark 与局域网调试混在同一文件 | ✅ 已关闭（2026-10-27）：局域网调试迁至 `docs/debug_lan.md` |
 | KI-21 | `llama_jni` / DeepSeek | JNI 仍为 stub 或需真 runtime | **史诗外置**；见 [DEEPSEEK_JNI_INTEGRATION.md](DEEPSEEK_JNI_INTEGRATION.md) |
 | KI-22 | 行数治理 | 曾无 CI 门禁 | ✅ 已关闭（2026-10-27）：CI `source_size_report.py --check` |
 
@@ -82,7 +81,7 @@
 | KI-40 | `DocumentImportManager` / `imported_files.contentSha256` | legacy 无指纹资产不自动替换 | ✅ 重建/清空入口已提供 |
 | KI-55 | `UserKbPackageImporter.removePackage` | 用户包移除事务语义 | ✅ 已实现 |
 | KI-56 | `invalidateNativeVectorIndex` | 无 per-package 删；rebuild/移除清整库向量缓存 | **接受限制**（FTS 主路径）；NDK 按 id 删属后续史诗，不纳入本轮清零 |
-| KI-57 | 用户包「更新」入口 | 不持久化 treeUri，每次重选目录 | 本轮 D4：实现一键更新或书面接受并关闭 |
+| KI-57 | 用户包「更新」入口 | 不持久化 treeUri，每次重选目录 | ✅ 接受限制（2026-10-27）：「更新」= 重选同一目录；一键 treeUri 需 Room 加列，另开史诗 |
 
 ---
 
@@ -93,7 +92,7 @@
 | KI-50 | `UserKbPackageImporter` | 跳过判定仅看 JSON 字节指纹 | **接受限制**（与 PaddleModels 契约一致） |
 | KI-51 | `SafKbDirectorySource` | 非层级 opaque provider 可能失败 | **接受限制**；遇真实 case 再枚举子文档 |
 | KI-52 | 用户目录导入读入整份 JSON | 峰值内存 | **接受限制**；大 KB 再两遍流式 |
-| KI-53 | `PdfViewerScreen` | 历史乱码文案 | 本轮 D3 清理 |
+| KI-53 | `PdfViewerScreen` | 历史乱码文案 | ✅ 已关闭（2026-10-27）：可见 UI 文案已为正常中文；无 mojibake 残留 |
 | KI-54 | 真机验收 | 用户目录导入全链路未真机跑 | **真机待验**（不伪完成） |
 
 ---
