@@ -20,6 +20,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
@@ -41,6 +42,7 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     onFocusChanged: ((Boolean) -> Unit)? = null,
     autoFocus: Boolean = false,
+    testTag: String? = null,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -60,7 +62,8 @@ fun SearchBar(
                 .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
-                .onFocusChanged { st -> onFocusChanged?.invoke(st.isFocused) },
+                .onFocusChanged { st -> onFocusChanged?.invoke(st.isFocused) }
+                .then(if (testTag != null) Modifier.testTag(testTag) else Modifier),
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions =

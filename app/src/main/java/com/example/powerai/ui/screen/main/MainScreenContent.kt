@@ -218,9 +218,7 @@ private fun SmartTabDispatch(
         },
         showSearchBar = showForMode,
         onShowSearchBarChange = { visible ->
-            if (!visible) {
-                state.searchBarTab = null
-            }
+            state.searchBarTab = if (visible) state.selectedTab else null
         },
         innerPadding = innerPadding,
     )

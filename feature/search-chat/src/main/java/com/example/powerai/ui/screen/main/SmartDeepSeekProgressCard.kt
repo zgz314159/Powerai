@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.feature.searchchat.SmartProgressUiState
@@ -109,7 +110,10 @@ fun SmartDeepSeekProgressCard(
             )
             if (showAbort) {
                 Spacer(modifier = Modifier.height(8.dp))
-                TextButton(onClick = onAbort) {
+                TextButton(
+                    onClick = onAbort,
+                    modifier = Modifier.testTag("smart_ds_stop_btn"),
+                ) {
                     Text(text = "停止生成")
                 }
             }

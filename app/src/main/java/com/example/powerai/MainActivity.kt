@@ -1,5 +1,6 @@
 package com.example.powerai
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,6 +32,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppEntry()
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+    }
+
+    companion object {
+        /** Instrumentation / deep-link: open Smart tab search panel on launch. */
+        const val EXTRA_OPEN_SMART_SEARCH = "com.example.powerai.EXTRA_OPEN_SMART_SEARCH"
     }
 }
 

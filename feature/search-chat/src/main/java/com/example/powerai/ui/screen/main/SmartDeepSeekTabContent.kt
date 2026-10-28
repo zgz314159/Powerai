@@ -7,9 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -25,6 +29,7 @@ import kotlinx.coroutines.launch
 // Prefer app-internal models/ (adb push to Android/data is often shell-owned and invisible to the app).
 private const val SMART_DEEPSEEK_DEVICE_PATH = "/data/data/com.example.powerai/files/models"
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SmartDeepSeekTabContent(
     navController: NavHostController,
@@ -151,7 +156,8 @@ fun SmartDeepSeekTabContent(
                             .fillMaxWidth()
                             .heightIn(max = panelMaxHeight)
                             .then(if (imeVisible) Modifier.imePadding() else Modifier.navigationBarsPadding())
-                            .padding(horizontal = 12.dp, vertical = 10.dp),
+                            .padding(horizontal = 12.dp, vertical = 10.dp)
+                            .semantics { testTagsAsResourceId = true },
                     shape = MaterialTheme.shapes.large,
                     tonalElevation = 3.dp,
                     color = MaterialTheme.colorScheme.surface,
@@ -164,7 +170,10 @@ fun SmartDeepSeekTabContent(
                             onClear = onClear,
                             label = "搜索知识",
                             placeholder = "输入问题并调用本地模型",
-                            autoFocus = showSearchBar,
+                            // Avoid IME on open: soft keyboard shrinks the panel and can push
+                            // load/search controls out of the accessibility tree (UiAutomator).
+                            autoFocus = false,
+                            testTag = "smart_ds_query_field",
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -189,8 +198,12 @@ fun SmartDeepSeekTabContent(
                                         )
                                     }
                                 },
+                                modifier = Modifier.testTag("smart_ds_load_btn"),
                             ) { Text(if (deepState.modelLoaded) "卸载" else "加载") }
-                            TextButton(onClick = { submitSmartQuery(searchQuery) }) { Text("搜索") }
+                            TextButton(
+                                onClick = { submitSmartQuery(searchQuery) },
+                                modifier = Modifier.testTag("smart_ds_search_btn"),
+                            ) { Text("搜索") }
                         }
                         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             TextButton(onClick = { showAdvancedControls = !showAdvancedControls }) {
@@ -218,6 +231,20 @@ fun SmartDeepSeekTabContent(
                             )
                         }
                     }
+                }
+            } else {
+                // Visible entry when search panel is closed (UiAutomator-friendly; long-press is unreliable).
+                TextButton(
+                    onClick = { onShowSearchBarChange(true) },
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .navigationBarsPadding()
+                            .padding(bottom = innerPadding.calculateBottomPadding() + 8.dp)
+                            .semantics { testTagsAsResourceId = true }
+                            .testTag("smart_ds_open_panel"),
+                ) {
+                    Text("打开本地模型")
                 }
             }
         }

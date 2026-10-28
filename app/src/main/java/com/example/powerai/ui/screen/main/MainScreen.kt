@@ -14,15 +14,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
+import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.powerai.MainActivity
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
 
 /**
@@ -30,7 +37,11 @@ import com.example.powerai.ui.screen.hybrid.HybridViewModel
  * tab state ([MainScreenState]), back navigation ([MainScreenBackHandlers])
  * and feature content ([MainFeatureContent]).
  */
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(
+    ExperimentalFoundationApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalComposeUiApi::class,
+)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun MainScreen(
@@ -44,6 +55,15 @@ fun MainScreen(
     val dbUiState by dbViewModel.uiState.collectAsState()
     val dbCurrentQuery = dbUiState.currentQuery
     val state = rememberMainScreenState()
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        val activity = context as? Activity ?: return@LaunchedEffect
+        if (activity.intent?.getBooleanExtra(MainActivity.EXTRA_OPEN_SMART_SEARCH, false) == true) {
+            state.selectedTab = MainBottomTab.SMART
+            state.searchBarTab = MainBottomTab.SMART
+            activity.intent?.removeExtra(MainActivity.EXTRA_OPEN_SMART_SEARCH)
+        }
+    }
 
     val density = LocalDensity.current
     val imeBottomPx = WindowInsets.ime.getBottom(density)
@@ -67,13 +87,19 @@ fun MainScreen(
     )
 
     Scaffold(
+        modifier = Modifier.semantics { testTagsAsResourceId = true },
         containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = {
             MainBottomBar(
                 selectedTab = state.selectedTab,
-                onTabClick = { state.selectedTab = it },
+                onTabClick = { tab ->
+                    state.selectedTab = tab
+                    // SMART search panel opens via 「打开本地模型」(smart_ds_open_panel)
+                    // or long-press — not on mere tab select (keeps panel closed for UiAutomator).
+                },
                 onTabLongClick = { tab ->
+                    state.selectedTab = tab
                     if (supportsLongPressSearch(tab)) {
                         state.searchBarTab = tab
                     }

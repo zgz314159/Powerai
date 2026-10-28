@@ -37,9 +37,13 @@ fun rememberMainScreenState(): MainScreenState {
             MainScreenState(selectedTab, searchBarTab, aiInputFocused, searchQuery)
         }
 
-    // If user switches tabs, close any open floating search bar (avoid cross-tab leaks)
+    // Close floating search only when switching *away* from the tab that owns it.
+    // Clearing on every selectedTab change would race long-press open:
+    // onTabLongClick sets selectedTab + searchBarTab, then this effect wiped searchBarTab.
     LaunchedEffect(state.selectedTab) {
-        state.searchBarTab = null
+        if (state.searchBarTab != null && state.searchBarTab != state.selectedTab) {
+            state.searchBarTab = null
+        }
     }
     return state
 }
