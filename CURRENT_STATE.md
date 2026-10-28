@@ -225,7 +225,7 @@
 | D2 | 全量 ktlint → 0 + CI 强制 | ✅ 完成（ignoreFailures=false；editorconfig 收口特例） |
 | D3 | KI-53 乱码；KI-20 拆 `docs/debug_lan.md`；KI-03/04 接受冻结 | ✅ 完成 |
 | D4 | KI-57 书面接受「重选目录」关闭 | ✅ 后由 E1 实现一键 treeUri 取代 |
-| D5 | 真机清单（停止/中文/KI-54/API36） | C2 ✅；**A ✅ 仪器**（见 §2）；B 仍待验 |
+| D5 | 真机清单（停止/中文/KI-54/API36） | C2 ✅；**A ✅ 仪器**（见 §2）；B1/B5/B6 **数据链** ✅ `Ki54UserKbImportSmokeTest`（2026-10-29）；B SAF UI / B2–B4 仍待手测 |
 | E1 | KI-57 持久化 treeUri + 一键更新 | ✅ Room 7 `sourceTreeUri`；UI「一键更新」/「重选目录」 |
 | KI-21 | llama-android 真 GGUF runtime | ✅ `LlamaCppDeepSeekRuntime` + Maven AAR；仪器冒烟绿 |
 | 外置 | KI-56 NDK per-id 删；B 真机验收 | 仍外置 |
