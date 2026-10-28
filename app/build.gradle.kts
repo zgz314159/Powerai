@@ -95,7 +95,7 @@ android {
         buildConfigField("String", "AI_VISION_BASE_URL", q(prop("AI_VISION_BASE_URL")))
         buildConfigField("String", "AI_VISION_PATH", q(prop("AI_VISION_PATH")))
         buildConfigField("String", "DEEPSEEK_LOGIC_MODEL", q(prop("DEEPSEEK_LOGIC_MODEL")))
-        buildConfigField("boolean", "DEEPSEEK_SELF_BUILT_JNI_ENABLED", "false")
+        buildConfigField("boolean", "DEEPSEEK_SELF_BUILT_JNI_ENABLED", "true")
 
         ndk {
             abiFilters.add("arm64-v8a")

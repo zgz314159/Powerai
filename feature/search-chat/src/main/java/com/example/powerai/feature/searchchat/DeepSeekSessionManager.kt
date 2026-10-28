@@ -58,7 +58,7 @@ class DeepSeekSessionManager
         var stopDrainJob: Job? = null
 
         private companion object {
-            const val LOAD_TIMEOUT_MS = 30_000L
+            const val LOAD_TIMEOUT_MS = 180_000L
             const val STREAM_DRAIN_QUIET_MS = 800L
             const val STREAM_DRAIN_TIMEOUT_MS = 2_500L
         }

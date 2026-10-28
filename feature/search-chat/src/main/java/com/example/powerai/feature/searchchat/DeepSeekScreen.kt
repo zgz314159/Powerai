@@ -39,7 +39,7 @@ fun DeepSeekScreen(
     }
     // prefer app files/models/<name> (imported via Gradle task), else fallback to external provided path
     LaunchedEffect(Unit) {
-        resolvedDefault = "/storage/emulated/0/Android/data/com.example.powerai/files"
+        resolvedDefault = "/data/data/com.example.powerai/files/models"
     }
 
     var devicePath by remember { mutableStateOf(defaultDevicePath ?: "") }

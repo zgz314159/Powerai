@@ -55,7 +55,7 @@ class DeepSeekViewModel
             set(value) = sessionManager.setStopRequested(value)
 
         private companion object {
-            const val LOAD_TIMEOUT_MS = 30_000L
+            const val LOAD_TIMEOUT_MS = 180_000L
         }
 
         init {

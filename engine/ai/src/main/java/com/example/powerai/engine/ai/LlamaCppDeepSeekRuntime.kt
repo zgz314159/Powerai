@@ -1,6 +1,5 @@
 package com.example.powerai.engine.ai
 
-import android.os.ParcelFileDescriptor
 import android.util.Log
 import com.example.powerai.core.model.GenerationMetrics
 import com.example.powerai.core.model.NativeResourceProvider
@@ -15,17 +14,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.nehuatl.llamacpp.LlamaContext
+import net.ladenthin.llama.LlamaIterable
+import net.ladenthin.llama.LlamaModel
+import net.ladenthin.llama.callback.CancellationToken
+import net.ladenthin.llama.parameters.InferenceParameters
+import net.ladenthin.llama.parameters.ModelParameters
 import java.io.File
-import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * DeepSeek native runtime backed by [net.ladenthin:llama-android] (llama.cpp GGUF, CPU).
+ */
 class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
     private companion object {
         const val TAG = "LlamaCppRuntime"
     }
 
     private val runtimeScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val nextContextId = AtomicInteger(1)
     private val _generationMetrics = MutableStateFlow(GenerationMetrics())
     private val _finishSequence = MutableStateFlow(0L)
     private val _lastChunkAtMs = MutableStateFlow(0L)
@@ -54,7 +58,7 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
     private var systemPrompt: String? = null
 
     @Volatile
-    private var activeContext: LlamaContext? = null
+    private var activeModel: LlamaModel? = null
 
     @Volatile
     private var activeModelPath: String? = null
@@ -64,6 +68,14 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
 
     @Volatile
     private var activeCompletionJob: Job? = null
+
+    @Volatile
+    private var activeCancelToken: CancellationToken? = null
+
+    @Volatile
+    private var activeIterable: LlamaIterable? = null
+
+    private val modelLock = Any()
 
     override fun provideResources(
         provider: NativeResourceProvider,
@@ -125,44 +137,42 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
             return false
         }
 
-        return try {
-            val pfd = ParcelFileDescriptor.open(modelFile, ParcelFileDescriptor.MODE_READ_ONLY)
-            val detachedFd = pfd.detachFd()
+        return synchronized(modelLock) {
+            try {
+                safeStopGeneration()
+                releaseActiveModel()
 
-            val runtime =
-                LlamaContext(
-                    id = nextContextId.getAndIncrement(),
-                    params =
-                        mapOf(
-                            "model" to modelFile.absolutePath,
-                            "model_fd" to detachedFd,
-                            "embedding" to false,
-                            "n_ctx" to configuredContextLength,
-                            "n_batch" to configuredBatchSize,
-                            "n_threads" to configuredThreadCount,
-                            "n_gpu_layers" to 0,
-                            "use_mlock" to false,
-                            "use_mmap" to true,
-                            "vocab_only" to false,
-                        ),
-                )
-            runtime.setTokenCallback { token -> onToken(token) }
-            releaseActiveContext()
-            activeContext = runtime
-            activeModelPath = modelPath
-            resetMetrics()
-            true
-        } catch (t: Throwable) {
-            Log.e(TAG, "safeInitModel failed", t)
-            false
+                val params =
+                    ModelParameters()
+                        .setModel(modelFile.absolutePath)
+                        .setOffline(true)
+                        .setCtxSize(configuredContextLength)
+                        .setThreads(configuredThreadCount)
+                        .setBatchSize(configuredBatchSize)
+                        // CPU-first (KI-21): ignore GPU until llama-android-opencl is validated.
+                        .setGpuLayers(0)
+
+                val model = LlamaModel(params)
+                activeModel = model
+                activeModelPath = modelPath
+                resetMetrics()
+                Log.i(TAG, "Loaded GGUF via llama-android: $modelPath")
+                true
+            } catch (t: Throwable) {
+                Log.e(TAG, "safeInitModel failed", t)
+                releaseActiveModel()
+                false
+            }
         }
     }
 
     override fun safeUnload(): Boolean {
         return try {
             safeStopGeneration()
-            releaseActiveContext()
-            activeModelPath = null
+            synchronized(modelLock) {
+                releaseActiveModel()
+                activeModelPath = null
+            }
             resetMetrics()
             true
         } catch (t: Throwable) {
@@ -171,13 +181,19 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
         }
     }
 
-    override fun safeIsReady(): Boolean = activeContext != null
+    override fun safeIsReady(): Boolean = activeModel != null
 
     override fun safeStopGeneration(): Boolean {
-        val runtime = activeContext ?: return false
         return try {
-            runtime.stopCompletion()
+            activeCancelToken?.cancel()
+            try {
+                activeIterable?.close()
+            } catch (t: Throwable) {
+                Log.w(TAG, "close iterable failed", t)
+            }
             activeCompletionJob?.cancel()
+            activeCancelToken = null
+            activeIterable = null
             _generationMetrics.value = _generationMetrics.value.copy(isGenerating = false)
             _finishSequence.value = _finishSequence.value + 1L
             true
@@ -191,15 +207,18 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
         prompt: String?,
         maxTokens: Int,
     ): String {
-        val runtime = activeContext ?: return ""
+        val model = activeModel ?: return ""
+        val token = CancellationToken()
+        activeCancelToken = token
         return try {
             markGenerationStart()
-            val result = runtime.completion(buildCompletionParams(prompt, maxTokens, emitPartial = false))
-            result["text"]?.toString().orEmpty()
+            val params = buildInferenceParameters(prompt, maxTokens, stream = false)
+            model.complete(params, token)
         } catch (t: Throwable) {
             Log.e(TAG, "safeGenerate failed", t)
             ""
         } finally {
+            activeCancelToken = null
             markGenerationFinished()
         }
     }
@@ -208,17 +227,35 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
         prompt: String?,
         maxTokens: Int,
     ): Boolean {
-        val runtime = activeContext ?: return false
+        val model = activeModel ?: return false
         if (activeCompletionJob?.isActive == true) return false
 
+        val token = CancellationToken()
+        activeCancelToken = token
         markGenerationStart()
         activeCompletionJob =
             runtimeScope.launch {
                 try {
-                    runtime.completion(buildCompletionParams(prompt, maxTokens, emitPartial = true))
+                    val params = buildInferenceParameters(prompt, maxTokens, stream = true)
+                    val iterable = model.generate(params)
+                    activeIterable = iterable
+                    iterable.use { it ->
+                        for (output in it) {
+                            if (token.isCancelled) break
+                            val text = output.text
+                            if (!text.isNullOrEmpty()) {
+                                onToken(text)
+                            }
+                            if (output.stop) break
+                        }
+                    }
                 } catch (t: Throwable) {
-                    Log.e(TAG, "streaming completion failed", t)
+                    if (!token.isCancelled) {
+                        Log.e(TAG, "streaming completion failed", t)
+                    }
                 } finally {
+                    activeIterable = null
+                    activeCancelToken = null
                     markGenerationFinished()
                 }
             }
@@ -240,7 +277,9 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
             backendInitVulkan = false,
             configuredThreadCount = configuredThreadCount,
             configuredContextLength = configuredContextLength,
-            lastInitParamsJson = "{\"runtime\":\"llamaCpp\",\"n_threads\":$configuredThreadCount,\"n_ctx\":$configuredContextLength,\"n_batch\":$configuredBatchSize}",
+            lastInitParamsJson =
+                "{\"runtime\":\"llama-android\",\"n_threads\":$configuredThreadCount," +
+                    "\"n_ctx\":$configuredContextLength,\"n_batch\":$configuredBatchSize}",
             lastRequestedGpuLayers = 0,
             modelInfo = activeModelPath,
         )
@@ -250,19 +289,19 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
 
     override fun safeNativeLoadStateData(stateData: ByteArray?): Boolean = false
 
-    private fun buildCompletionParams(
+    private fun buildInferenceParameters(
         prompt: String?,
         maxTokens: Int,
-        emitPartial: Boolean,
-    ): Map<String, Any> {
-        val mergedPrompt = buildPrompt(prompt.orEmpty())
-        return mapOf(
-            "prompt" to mergedPrompt,
-            "n_threads" to configuredThreadCount,
-            "n_predict" to maxTokens,
-            "emit_partial_completion" to emitPartial,
-            "stop" to emptyList<String>(),
-        )
+        stream: Boolean,
+    ): InferenceParameters {
+        val merged = buildPrompt(prompt.orEmpty())
+        var params =
+            InferenceParameters.of(merged)
+                .withNPredict(maxTokens.coerceAtLeast(1))
+                .withStream(stream)
+        // Prefer chat-ish stops for Distill/Qwen templates without forcing a full chat API.
+        params = params.withStopStrings("</s>", "<|im_end|>", "<|endoftext|>")
+        return params
     }
 
     private fun buildPrompt(prompt: String): String {
@@ -304,13 +343,13 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
         activeCompletionJob = null
     }
 
-    private fun releaseActiveContext() {
+    private fun releaseActiveModel() {
         try {
-            activeContext?.release()
+            activeModel?.close()
         } catch (t: Throwable) {
-            Log.w(TAG, "releaseActiveContext failed", t)
+            Log.w(TAG, "releaseActiveModel failed", t)
         } finally {
-            activeContext = null
+            activeModel = null
         }
     }
 

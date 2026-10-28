@@ -13,7 +13,8 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("boolean", "DEEPSEEK_SELF_BUILT_JNI_ENABLED", "false")
+        // Real llama.cpp runtime via net.ladenthin:llama-android (KI-21).
+        buildConfigField("boolean", "DEEPSEEK_SELF_BUILT_JNI_ENABLED", "true")
     }
 
     buildTypes {
@@ -53,6 +54,10 @@ dependencies {
 
     // MediaPipe GenAI (Gemma local inference)
     implementation(libs.mediapipe.tasks.genai)
+
+    // llama.cpp Android AAR (GGUF CPU; KI-21 self-built path)
+    implementation(libs.llama.android)
+    implementation(libs.slf4j.nop)
 
     // Coroutines (StateFlow etc.)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")

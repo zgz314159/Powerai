@@ -22,7 +22,8 @@ import com.example.powerai.ui.screen.hybrid.HybridViewModel
 import com.example.powerai.util.PdfSourceRef
 import kotlinx.coroutines.launch
 
-private const val SMART_DEEPSEEK_DEVICE_PATH = "/storage/emulated/0/Android/data/com.example.powerai/files"
+// Prefer app-internal models/ (adb push to Android/data is often shell-owned and invisible to the app).
+private const val SMART_DEEPSEEK_DEVICE_PATH = "/data/data/com.example.powerai/files/models"
 
 @Composable
 fun SmartDeepSeekTabContent(

@@ -125,7 +125,8 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
             }
 
             val loadOk =
-                withTimeoutOrNull(25_000) {
+                // GGUF cold load (1B+ weights + llama.cpp init) often exceeds 25s on device.
+                withTimeoutOrNull(180_000) {
                     try {
                         val aarOk = nativeRuntime.safeInitModel(loadPath, wantGpu)
                         val ready = nativeRuntime.safeIsReady()

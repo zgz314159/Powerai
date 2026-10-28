@@ -13,7 +13,7 @@
 | ✅ | 全量 ktlint→0；KI-58；KI-53/20/03/04（D2–D3） |
 | ✅ 产品边界接受 | KI-50/51/52；KI-57；KI-56（FTS 主路径） |
 | 真机待验（不伪完成） | KI-54；端侧停止+中文回归；API 36 仪器补齐 |
-| 史诗外置（不纳入本轮清零） | KI-21 DeepSeek/llama JNI 真 runtime |
+| 史诗外置（不纳入本轮清零） | KI-56 NDK per-id 删（KI-21 已接 llama-android） |
 
 ---
 
@@ -46,7 +46,7 @@
 | ID | 位置 | 问题 | 建议 |
 |----|------|------|------|
 | KI-20 | `README.md` | benchmark 与局域网调试混在同一文件 | ✅ 已关闭（2026-10-27）：局域网调试迁至 `docs/debug_lan.md` |
-| KI-21 | `llama_jni` / DeepSeek | JNI 仍为 stub 或需真 runtime | **史诗外置**；见 [DEEPSEEK_JNI_INTEGRATION.md](DEEPSEEK_JNI_INTEGRATION.md) |
+| KI-21 | `llama_jni` / DeepSeek | 曾为 stub / 缺 so | ✅ **已关闭（2026-10-28）**：`net.ladenthin:llama-android:6.0.0` + `DEEPSEEK_SELF_BUILT_JNI_ENABLED=true`；`LlamaCppDeepSeekRuntime` 加载 GGUF；仪器 `LlamaAndroidDeviceSmokeTest` 绿（XQ-DQ72）。遗留 stub：`llama_jni.cpp` / legacy `LlamaNativeBridge` 未删，仅非默认路径。GPU/OpenCL 未接 |
 | KI-22 | 行数治理 | 曾无 CI 门禁 | ✅ 已关闭（2026-10-27）：CI `source_size_report.py --check` |
 
 ---

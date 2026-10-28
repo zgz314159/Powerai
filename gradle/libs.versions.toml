@@ -1,7 +1,7 @@
 [versions]
 agp = "8.8.0"
 compileSdk = "36"
-minSdk = "26"
+minSdk = "28"
 targetSdk = "36"
 ndkVersion = "27.0.12077973"
 coreKtx = "1.15.0"
@@ -72,6 +72,8 @@ pdfbox-android = { group = "com.tom-roush", name = "pdfbox-android", version = "
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 mediapipe-tasks-genai = { group = "com.google.mediapipe", name = "tasks-genai", version = "0.10.32" }
+llama-android = { group = "net.ladenthin", name = "llama-android", version = "6.0.0" }
+slf4j-nop = { group = "org.slf4j", name = "slf4j-nop", version = "2.0.20" }
 
 markwon-core = { group = "io.noties.markwon", name = "core", version.ref = "markwon" }
 markwon-html = { group = "io.noties.markwon", name = "html", version.ref = "markwon" }
