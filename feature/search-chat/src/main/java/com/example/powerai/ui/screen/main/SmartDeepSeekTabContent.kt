@@ -11,6 +11,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -103,6 +104,9 @@ fun SmartDeepSeekTabContent(
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val panelMaxHeight = maxHeight * 0.78f
+            // 面板关闭时底部有「继续提问/打开本地模型」浮层，给列表留出点击与滚动空间，避免挡住依据卡片。
+            val floatingEntryReserve = if (!showSearchBar) 56.dp else 0.dp
+            val layoutDirection = LocalLayoutDirection.current
             SmartPage(
                 aiText = deepState.result,
                 localResults = deepState.smartReferences,
@@ -146,7 +150,13 @@ fun SmartDeepSeekTabContent(
                 initialFirstVisibleItemIndex = smartScrollIndex,
                 initialFirstVisibleItemScrollOffset = smartScrollOffset,
                 onListPositionChange = hybridViewModel::setSmartScrollPosition,
-                innerPadding = innerPadding,
+                innerPadding =
+                    PaddingValues(
+                        start = innerPadding.calculateStartPadding(layoutDirection),
+                        top = innerPadding.calculateTopPadding(),
+                        end = innerPadding.calculateEndPadding(layoutDirection),
+                        bottom = innerPadding.calculateBottomPadding() + floatingEntryReserve,
+                    ),
             )
 
             if (showSearchBar) {
@@ -242,6 +252,7 @@ fun SmartDeepSeekTabContent(
                 }
             } else {
                 // Visible entry when search panel is closed (UiAutomator-friendly; long-press is unreliable).
+                // Keep this compact and above nav — must not cover evidence cards (see floatingEntryReserve).
                 TextButton(
                     onClick = { onShowSearchBarChange(true) },
                     modifier =
@@ -252,7 +263,7 @@ fun SmartDeepSeekTabContent(
                             .semantics { testTagsAsResourceId = true }
                             .testTag("smart_ds_open_panel"),
                 ) {
-                    Text("打开本地模型")
+                    Text(if (deepState.modelLoaded) "继续提问" else "打开本地模型")
                 }
             }
         }
