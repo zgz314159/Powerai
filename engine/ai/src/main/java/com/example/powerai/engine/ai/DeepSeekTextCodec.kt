@@ -47,13 +47,16 @@ object DeepSeekTextCodec {
     }
 
     private fun normalizeQuestionMarkArtifacts(input: String): String {
-        var text = input
+        var text = input.replace("\r\n", "\n")
+        // Drop leading lone "?" lines / prefixes before real content (common Distill artifact).
+        text = text.replace(Regex("^\\s*\\?+\\s*(\\n+|$)", RegexOption.MULTILINE), "")
+        text = text.replace(Regex("^\\s*\\?+\\s*"), "")
         text = text.replace(Regex("^\\?+(?=[\\p{L}\\p{IsHan}])"), "")
         text = text.replace(Regex("(?<=[\\p{IsHan}])\\?(?=[\\p{IsHan}])"), "，")
         text = text.replace(Regex("，{2,}"), "，")
         text = text.replace(Regex("[，]([。！？])"), "$1")
         text = text.replace(Regex("(?<=[\\p{IsHan}])\\?(?=\\s|$)"), "。")
-        return text
+        return text.trim()
     }
 
     private fun maybeRepairMojibake(input: String): String {

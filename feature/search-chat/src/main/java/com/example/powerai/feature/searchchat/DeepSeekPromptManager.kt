@@ -98,14 +98,21 @@ class DeepSeekPromptManager
             )
 
             val retrievalStartedAt = SystemClock.elapsedRealtime()
-            val references =
+            val retrievalLimit = (answerMode.evidenceLimit * 3).coerceAtLeast(6)
+            val rawReferences =
                 withContext(Dispatchers.IO) {
                     retrievalFusionUseCase.invoke(
                         normalizedQuestion,
-                        limit = answerMode.evidenceLimit,
+                        limit = retrievalLimit,
                         forceAnn = true,
                     )
                 }
+            val references =
+                SmartEvidenceRanker.refine(
+                    question = normalizedQuestion,
+                    items = rawReferences,
+                    limit = answerMode.evidenceLimit,
+                )
 
             val wantWeb = SmartQueryRouter.shouldFetchWeb(queryKind, webSearchEnabled, references.size)
             val webResults = fetchWebResultsIfNeeded(normalizedQuestion, wantWeb, webSearchEnabled, onProgress)
@@ -314,21 +321,23 @@ class DeepSeekPromptManager
                 append("1. 只能根据上述参考资料与「今天日期」回答；禁止使用训练记忆或常识编造。\n")
                 append("2. 资料不足以回答时，必须原样回复：资料不足，无法回答。\n")
                 if (hasLocal || hasWeb) {
-                    append("3. 引用资料时标注编号，如 [1]")
+                    append("3. 有资料时：直接写操作要点，并在相关句标注引用编号 [1]")
                     if (hasWeb) append(" 或 [网1]")
-                    append("；数字与条文尽量照抄原文。\n")
+                    append("；优先照抄条文原句与关键数字，禁止空泛「符合相关规范」套话。\n")
+                    append("4. 只使用与问题电压等级/对象一致的资料；不一致的条目忽略。\n")
                 } else {
                     append("3. 没有资料时不要猜测，不要改写用户问题，不要输出分析过程。\n")
+                    append("4. 禁止输出单独问号或无意义符号。\n")
                 }
                 when (queryKind) {
                     SmartQueryKind.TEMPORAL ->
-                        append("4. 若问题询问今天/当前日期，直接依据「今天日期」作答。\n")
+                        append("5. 若问题询问今天/当前日期，直接依据「今天日期」作答。\n")
                     SmartQueryKind.DOMAIN ->
-                        append("4. 规程/安规问题以本地资料为准；资料没有就判定不足。\n")
+                        append("5. 规程/安规问题以本地资料为准；资料没有就判定不足。\n")
                     SmartQueryKind.CHITCHAT ->
-                        append("4. 寒暄可简短回应；涉及事实仍须有资料依据。\n")
+                        append("5. 寒暄可简短回应；涉及事实仍须有资料依据。\n")
                 }
-                append("5. 回答应专业、准确、简洁。\n\n")
+                append("6. 禁止复述用户问题；禁止输出单独的「?」；回答专业、准确、简洁。\n\n")
                 append("用户问题：")
             }
         }

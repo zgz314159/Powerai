@@ -70,15 +70,20 @@ object SmartAnswerGuard {
                 .split(Regex("\\n{2,}"))
                 .map { it.trim() }
                 .filter { it.isNotBlank() }
+                .filterNot { it.matches(Regex("^[?？\\s]+$")) }
 
         if (paragraphs.isEmpty()) return ""
 
-        val trimmedParagraphs = paragraphs.dropWhile(::isMetaReasoningLead)
-        return if (trimmedParagraphs.size != paragraphs.size && trimmedParagraphs.isNotEmpty()) {
-            trimmedParagraphs.joinToString("\n\n")
-        } else {
-            normalized
-        }
+        val trimmedParagraphs =
+            paragraphs
+                .dropWhile { isMetaReasoningLead(it) || it.matches(Regex("^[?？.\\s]+$")) }
+        val body =
+            if (trimmedParagraphs.size != paragraphs.size && trimmedParagraphs.isNotEmpty()) {
+                trimmedParagraphs.joinToString("\n\n")
+            } else {
+                paragraphs.joinToString("\n\n")
+            }
+        return body.replace(Regex("^\\s*[?？]+\\s*"), "").trim()
     }
 
     private fun normalize(text: String): String {
