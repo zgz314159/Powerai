@@ -157,7 +157,8 @@ object SmartAnswerGuard {
         if (isMetaReasoningLead(t)) return true
         val top = references.firstOrNull()?.content.orEmpty()
         if (top.isBlank()) {
-            return t.length < 2
+            // 无证据时：任何非「资料不足」正文都视为不可用（禁止空上下文胡编留在界面）。
+            return !t.contains("资料不足")
         }
         if (t.length < 12) return true
         val overlap = tokenOverlapRatio(t, top)
@@ -219,6 +220,23 @@ object SmartAnswerGuard {
             }
         }
         return cleaned
+    }
+
+    /**
+     * 流式结束后是否用 [resolved] 覆盖界面上的 [currentVisible]。
+     * 关键：短「资料不足」覆盖不了长胡编（旧逻辑要求 resolved 更长）。
+     */
+    fun shouldReplaceVisibleAnswer(
+        resolved: String,
+        currentVisible: String,
+        references: List<KnowledgeItem>,
+    ): Boolean {
+        if (resolved.isBlank()) return false
+        if (references.isEmpty()) return true
+        if (resolved == INSUFFICIENT || resolved.contains("资料不足")) return true
+        if (currentVisible.isBlank()) return true
+        if (resolved.length >= currentVisible.length) return true
+        return isWeakGroundedAnswer(currentVisible, references) || isMetaReasoningLead(currentVisible)
     }
 
     private fun tokenOverlapRatio(

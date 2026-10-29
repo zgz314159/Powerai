@@ -188,6 +188,18 @@ class DeepSeekViewModel
                     )
                 }
 
+                // 无本地相关证据且无网页：禁止空上下文调 1.5B（必胡编）；直接拒答。
+                if (prepared.references.isEmpty() && prepared.webSources.isEmpty()) {
+                    updateState { copy(result = SmartAnswerGuard.INSUFFICIENT) }
+                    updateProgress(
+                        SmartProgressPhase.COMPLETED,
+                        "资料不足",
+                        "未命中可用本地/网页资料，已拒答（未调用模型生成）。",
+                        showAsActive = false,
+                    )
+                    return@launch
+                }
+
                 val sessionId = sessionManager.openSmartSession(question, state.answerMode, state.backendMode, state.threadPreset)
 
                 generationOrchestrator.runGeneration(

@@ -273,21 +273,15 @@ class DeepSeekGenerationOrchestrator
                 DeepSeekTextCodec.normalizeFinalAnswer(
                     ThinkingInterceptor.stripThinkingSegments(out),
                 )
+            val refs = delegate.state.smartReferences
             val resolvedFinalAnswer =
                 SmartAnswerGuard.coalesceGroundedAnswer(
                     raw = normalized,
-                    references = delegate.state.smartReferences,
+                    references = refs,
                 )
             val currentVisibleAnswer = delegate.state.result
-            // 弱回答回退到证据摘录时，即使更短也要覆盖崩坏正文。
-            val shouldReplaceAnswer =
-                resolvedFinalAnswer.isNotBlank() &&
-                    (
-                        currentVisibleAnswer.isBlank() ||
-                            resolvedFinalAnswer.length >= currentVisibleAnswer.length ||
-                            SmartAnswerGuard.isWeakGroundedAnswer(currentVisibleAnswer, delegate.state.smartReferences)
-                    )
-            if (shouldReplaceAnswer) {
+            // 无证据时短「资料不足」必须覆盖长胡编；旧逻辑要求 resolved 更长导致拒答写不进去。
+            if (SmartAnswerGuard.shouldReplaceVisibleAnswer(resolvedFinalAnswer, currentVisibleAnswer, refs)) {
                 delegate.reduceState { copy(result = resolvedFinalAnswer) }
             }
 

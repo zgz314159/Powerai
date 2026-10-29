@@ -90,4 +90,19 @@ class SmartAnswerGuardTest {
         val fixed = SmartAnswerGuard.coalesceGroundedAnswer("随便编一个答案", emptyList())
         assertEquals(SmartAnswerGuard.INSUFFICIENT, fixed)
     }
+
+    @Test
+    fun `short insufficient always replaces long hallucination when no evidence`() {
+        val hallucination =
+            "是多少？用户的查询是关于10 kilovolt 的最小安全距离是多少。通常为60米左右。"
+        val resolved = SmartAnswerGuard.coalesceGroundedAnswer(hallucination, emptyList())
+        assertEquals(SmartAnswerGuard.INSUFFICIENT, resolved)
+        assertTrue(
+            SmartAnswerGuard.shouldReplaceVisibleAnswer(
+                resolved = resolved,
+                currentVisible = hallucination,
+                references = emptyList(),
+            ),
+        )
+    }
 }
