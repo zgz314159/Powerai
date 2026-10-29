@@ -35,29 +35,69 @@ fun KnowledgeItemCard(
     previewMaxLines: Int = 4,
     modifier: Modifier = Modifier,
 ) {
-    val clickableModifier =
-        if (onClick != null) {
-            modifier.clickable { onClick() }
-        } else {
-            modifier
-        }
+    val cardModifier =
+        modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    val cardColors =
+        CardDefaults.outlinedCardColors(
+            containerColor =
+                if (isSelected) {
+                    MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f)
+                } else {
+                    MaterialTheme.colorScheme.surface
+                },
+        )
+    val cardElevation = CardDefaults.outlinedCardElevation(defaultElevation = 0.dp)
 
-    OutlinedCard(
-        modifier =
-            clickableModifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp),
-        colors =
-            CardDefaults.outlinedCardColors(
-                containerColor =
-                    if (isSelected) {
-                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.35f)
-                    } else {
-                        MaterialTheme.colorScheme.surface
-                    },
-            ),
-        elevation = CardDefaults.outlinedCardElevation(defaultElevation = 0.dp),
-    ) {
+    // Prefer OutlinedCard(onClick=…) so the whole card (incl. title) is tappable;
+    // Modifier.clickable alone can miss hits when nested text/highlight consumes pointers.
+    if (onClick != null) {
+        OutlinedCard(
+            onClick = onClick,
+            modifier = cardModifier,
+            colors = cardColors,
+            elevation = cardElevation,
+        ) {
+            KnowledgeItemCardBody(
+                item = item,
+                highlight = highlight,
+                highlightStyleOverride = highlightStyleOverride,
+                metaLine = metaLine,
+                expanded = expanded,
+                onExpand = onExpand,
+                previewMaxLines = previewMaxLines,
+            )
+        }
+    } else {
+        OutlinedCard(
+            modifier = cardModifier,
+            colors = cardColors,
+            elevation = cardElevation,
+        ) {
+            KnowledgeItemCardBody(
+                item = item,
+                highlight = highlight,
+                highlightStyleOverride = highlightStyleOverride,
+                metaLine = metaLine,
+                expanded = expanded,
+                onExpand = onExpand,
+                previewMaxLines = previewMaxLines,
+            )
+        }
+    }
+}
+
+@Composable
+private fun KnowledgeItemCardBody(
+    item: KnowledgeItem,
+    highlight: String,
+    highlightStyleOverride: SpanStyle?,
+    metaLine: String?,
+    expanded: Boolean,
+    onExpand: (() -> Unit)?,
+    previewMaxLines: Int,
+) {
         Column(modifier = Modifier.padding(12.dp)) {
             val highlightStyle =
                 highlightStyleOverride ?: SpanStyle(
@@ -144,5 +184,4 @@ fun KnowledgeItemCard(
                 }
             }
         }
-    }
 }

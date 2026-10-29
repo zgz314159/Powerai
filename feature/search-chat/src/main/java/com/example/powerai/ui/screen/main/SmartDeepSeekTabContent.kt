@@ -140,8 +140,15 @@ fun SmartDeepSeekTabContent(
                 },
                 metaProvider = metaProvider,
                 onOpenDetail = { id, blockIndex, blockId, detailHighlight ->
+                    if (id <= 0L) return@SmartPage
                     val encoded = Uri.encode(detailHighlight?.takeIf { it.isNotBlank() } ?: searchQuery)
-                    navController.navigate(KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId))
+                    val route =
+                        try {
+                            KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId)
+                        } catch (_: Throwable) {
+                            KnowledgeDetailNavArgs.createRoute(id, encoded, null, null)
+                        }
+                    runCatching { navController.navigate(route) }
                 },
                 onRetry = { submitSmartQuery(searchQuery) },
                 onCopy = onCopyToClipboard,

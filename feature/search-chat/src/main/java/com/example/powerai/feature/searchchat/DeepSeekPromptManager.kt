@@ -308,36 +308,27 @@ class DeepSeekPromptManager
             deviceToday: String,
             queryKind: SmartQueryKind,
         ): String {
+            // 规则保持短：过长约束会让 1.5B Distill 复述要求/改写问题，反而答崩。
             return buildString {
-                append("你是一个专业的电力知识助手。\n")
-                append("今天日期：$deviceToday\n\n")
+                append("你是电力知识助手。今天日期：$deviceToday\n\n")
                 if (evidenceText.isNotBlank()) {
                     append(evidenceText)
-                    append("--- 以上为参考资料 ---\n\n")
+                    append("--- 参考资料结束 ---\n\n")
                 } else {
-                    append("（本次未检索到可用参考资料）\n\n")
+                    append("（无参考资料）\n\n")
                 }
-                append("硬性要求：\n")
-                append("1. 只能根据上述参考资料与「今天日期」回答；禁止使用训练记忆或常识编造。\n")
-                append("2. 资料不足以回答时，必须原样回复：资料不足，无法回答。\n")
+                append("要求：只依据参考资料与今天日期作答；没有就回复「资料不足，无法回答」。")
                 if (hasLocal || hasWeb) {
-                    append("3. 有资料时：直接写操作要点，并在相关句标注引用编号 [1]")
-                    if (hasWeb) append(" 或 [网1]")
-                    append("；优先照抄条文原句与关键数字，禁止空泛「符合相关规范」套话。\n")
-                    append("4. 只使用与问题电压等级/对象一致的资料；不一致的条目忽略。\n")
-                } else {
-                    append("3. 没有资料时不要猜测，不要改写用户问题，不要输出分析过程。\n")
-                    append("4. 禁止输出单独问号或无意义符号。\n")
+                    append("有资料时直接写答案并标注 [1]")
+                    if (hasWeb) append("/[网1]")
+                    append("，尽量照抄原文。")
                 }
                 when (queryKind) {
-                    SmartQueryKind.TEMPORAL ->
-                        append("5. 若问题询问今天/当前日期，直接依据「今天日期」作答。\n")
-                    SmartQueryKind.DOMAIN ->
-                        append("5. 规程/安规问题以本地资料为准；资料没有就判定不足。\n")
-                    SmartQueryKind.CHITCHAT ->
-                        append("5. 寒暄可简短回应；涉及事实仍须有资料依据。\n")
+                    SmartQueryKind.TEMPORAL -> append("问日期时用「今天日期」。")
+                    SmartQueryKind.DOMAIN -> append("忽略与问题电压/对象不符的资料。")
+                    SmartQueryKind.CHITCHAT -> Unit
                 }
-                append("6. 禁止复述用户问题；禁止输出单独的「?」；回答专业、准确、简洁。\n\n")
+                append("不要复述问题，不要输出单独问号。\n\n")
                 append("用户问题：")
             }
         }

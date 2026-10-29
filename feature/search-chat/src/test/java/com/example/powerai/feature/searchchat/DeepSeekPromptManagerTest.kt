@@ -55,8 +55,8 @@ class DeepSeekPromptManagerTest {
                 )
 
             assertTrue(prepared.prompt.contains("今天日期：2026-10-29"))
-            assertTrue(prepared.prompt.contains("禁止使用训练记忆或常识编造"))
             assertTrue(prepared.prompt.contains("资料不足，无法回答"))
+            assertTrue(prepared.prompt.contains("只依据参考资料"))
             assertFalse(prepared.prompt.contains("常识兜底"))
             assertEquals(SmartQueryKind.DOMAIN, prepared.queryKind)
         }

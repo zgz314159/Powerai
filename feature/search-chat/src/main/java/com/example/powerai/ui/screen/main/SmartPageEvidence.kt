@@ -99,11 +99,14 @@ fun LazyListScope.smartEvidenceSection(
                     },
                 isSelected = selectedNumber == entry.number,
                 onClick = {
-                    if (item.id > 0) {
+                    if (item.id > 0L) {
+                        // 仅在命中块索引可用时传入，避免坏 block 导致详情页打不开；id 本身应始终可进详情。
+                        val blockIndex = item.hitBlockIndex?.takeIf { it >= 0 }
+                        val blockId = item.hitBlockId?.takeIf { it.isNotBlank() }
                         onOpenDetail(
                             item.id,
-                            item.hitBlockIndex,
-                            item.hitBlockId,
+                            blockIndex,
+                            blockId,
                             item.highlightHint?.takeIf { it.isNotBlank() } ?: highlight,
                         )
                     }

@@ -269,16 +269,24 @@ class DeepSeekGenerationOrchestrator
                 delegate.reduceState { copy(thinking = extractedThinking) }
             }
 
+            val normalized =
+                DeepSeekTextCodec.normalizeFinalAnswer(
+                    ThinkingInterceptor.stripThinkingSegments(out),
+                )
             val resolvedFinalAnswer =
-                SmartAnswerGuard.stripMetaReasoningLead(
-                    DeepSeekTextCodec.normalizeFinalAnswer(
-                        ThinkingInterceptor.stripThinkingSegments(out),
-                    ),
+                SmartAnswerGuard.coalesceGroundedAnswer(
+                    raw = normalized,
+                    references = delegate.state.smartReferences,
                 )
             val currentVisibleAnswer = delegate.state.result
+            // 弱回答回退到证据摘录时，即使更短也要覆盖崩坏正文。
             val shouldReplaceAnswer =
                 resolvedFinalAnswer.isNotBlank() &&
-                    (currentVisibleAnswer.isBlank() || resolvedFinalAnswer.length > currentVisibleAnswer.length)
+                    (
+                        currentVisibleAnswer.isBlank() ||
+                            resolvedFinalAnswer.length >= currentVisibleAnswer.length ||
+                            SmartAnswerGuard.isWeakGroundedAnswer(currentVisibleAnswer, delegate.state.smartReferences)
+                    )
             if (shouldReplaceAnswer) {
                 delegate.reduceState { copy(result = resolvedFinalAnswer) }
             }

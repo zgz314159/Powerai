@@ -1,5 +1,7 @@
 package com.example.powerai.feature.searchchat
 
+import com.example.powerai.core.model.KnowledgeItem
+
 data class SmartFastPathAnswer(
     val answer: String,
     val reason: String,
@@ -84,6 +86,77 @@ object SmartAnswerGuard {
                 paragraphs.joinToString("\n\n")
             }
         return body.replace(Regex("^\\s*[?？]+\\s*"), "").trim()
+    }
+
+    /** 过短、以标点开头、或有证据却几乎无重合 → 视为崩坏回答。 */
+    fun isWeakGroundedAnswer(
+        text: String,
+        references: List<KnowledgeItem>,
+    ): Boolean {
+        val t = text.trim()
+        if (t.isBlank()) return true
+        val first = t.firstOrNull()
+        if (first != null && first in ",，、;；?？.。") return true
+        if (isMetaReasoningLead(t)) return true
+        val top = references.firstOrNull()?.content.orEmpty()
+        if (top.isBlank()) {
+            // 无本地证据时：仅拦截极端短/空，避免误伤正常短答。
+            return t.length < 2
+        }
+        if (t.length < 12) return true
+        val overlap = tokenOverlapRatio(t, top)
+        return overlap < 0.06f && t.length < 96
+    }
+
+    fun fallbackFromEvidence(references: List<KnowledgeItem>): String {
+        val top = references.firstOrNull() ?: return "资料不足，无法回答。"
+        val body =
+            top.content
+                .replace(Regex("\\s+"), " ")
+                .trim()
+                .take(220)
+                .trimEnd('，', ',', '。', '.')
+        return if (body.isBlank()) {
+            "资料不足，无法回答。"
+        } else {
+            "$body。[1]"
+        }
+    }
+
+    fun coalesceGroundedAnswer(
+        raw: String,
+        references: List<KnowledgeItem>,
+    ): String {
+        val cleaned = stripMetaReasoningLead(raw)
+        return if (isWeakGroundedAnswer(cleaned, references)) {
+            fallbackFromEvidence(references)
+        } else {
+            cleaned
+        }
+    }
+
+    private fun tokenOverlapRatio(
+        answer: String,
+        evidence: String,
+    ): Float {
+        val a = tokenize(answer)
+        val e = tokenize(evidence)
+        if (a.isEmpty() || e.isEmpty()) return 0f
+        val hit = a.count { it in e }
+        return hit.toFloat() / a.size.toFloat()
+    }
+
+    private fun tokenize(text: String): Set<String> {
+        val out = linkedSetOf<String>()
+        // CJK bigrams
+        val han = text.filter { it.code in 0x4E00..0x9FFF }
+        if (han.length >= 2) {
+            for (i in 0 until han.length - 1) {
+                out += han.substring(i, i + 2)
+            }
+        }
+        Regex("[A-Za-z0-9]+|[\\u4E00-\\u9FFF]{2,}").findAll(text).forEach { out += it.value }
+        return out
     }
 
     private fun normalize(text: String): String {

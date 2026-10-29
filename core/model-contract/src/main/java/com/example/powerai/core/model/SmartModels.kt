@@ -6,8 +6,8 @@ enum class SmartAnswerMode(
     val evidenceLimit: Int,
     val thinkingEnabled: Boolean,
 ) {
-    // FAST：2 条短证据，兼顾召回与手机 prefill；DEEP：最多 3 条。
-    FAST(label = "\u5feb\u901f\u56de\u7b54", maxTokens = 160, evidenceLimit = 2, thinkingEnabled = false),
+    // FAST：单条最相关证据，降低小模型被噪声/表格带偏的概率；DEEP：最多 3 条。
+    FAST(label = "\u5feb\u901f\u56de\u7b54", maxTokens = 160, evidenceLimit = 1, thinkingEnabled = false),
     DEEP(label = "\u6df1\u5ea6\u601d\u8003", maxTokens = 512, evidenceLimit = 3, thinkingEnabled = true),
 }
 
