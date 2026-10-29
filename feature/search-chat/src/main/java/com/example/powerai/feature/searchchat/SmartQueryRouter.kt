@@ -63,22 +63,20 @@ object SmartQueryRouter {
 
     /**
      * 是否在「联网」开关打开且 Serper 已配置时发起网页检索。
-     * - 手动联网开 + 本地相关命中为 0
-     * - 或时效类问题
-     * - 数值/标准类且本地相关为 0（与 DOMAIN 空命中同路径，显式便于单测）
+     * CRAG：本地 Correct 且有命中 → 不联网；Incorrect/Ambiguous/空 → 可补网页。
      */
     fun shouldFetchWeb(
         kind: SmartQueryKind,
         webSearchEnabled: Boolean,
         localHitCount: Int,
         question: String = "",
+        localConfidence: SmartEvidenceConfidence = SmartEvidenceConfidence.CORRECT,
     ): Boolean {
         if (!webSearchEnabled) return false
         return when (kind) {
             SmartQueryKind.TEMPORAL -> true
             SmartQueryKind.DOMAIN ->
-                localHitCount == 0 ||
-                    (isFactualNumericAsk(question) && localHitCount == 0)
+                !(localConfidence == SmartEvidenceConfidence.CORRECT && localHitCount > 0)
             SmartQueryKind.CHITCHAT -> localHitCount == 0
         }
     }

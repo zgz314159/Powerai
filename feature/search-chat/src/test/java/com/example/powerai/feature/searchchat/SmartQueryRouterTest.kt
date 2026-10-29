@@ -27,7 +27,22 @@ class SmartQueryRouterTest {
     fun `web fetch rules`() {
         assertFalse(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.DOMAIN, webSearchEnabled = false, localHitCount = 0))
         assertTrue(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.DOMAIN, webSearchEnabled = true, localHitCount = 0))
-        assertFalse(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.DOMAIN, webSearchEnabled = true, localHitCount = 2))
+        assertFalse(
+            SmartQueryRouter.shouldFetchWeb(
+                SmartQueryKind.DOMAIN,
+                webSearchEnabled = true,
+                localHitCount = 2,
+                localConfidence = SmartEvidenceConfidence.CORRECT,
+            ),
+        )
+        assertTrue(
+            SmartQueryRouter.shouldFetchWeb(
+                SmartQueryKind.DOMAIN,
+                webSearchEnabled = true,
+                localHitCount = 1,
+                localConfidence = SmartEvidenceConfidence.AMBIGUOUS,
+            ),
+        )
         assertTrue(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.TEMPORAL, webSearchEnabled = true, localHitCount = 0))
         assertTrue(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.TEMPORAL, webSearchEnabled = true, localHitCount = 1))
         assertFalse(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.TEMPORAL, webSearchEnabled = false, localHitCount = 0))

@@ -31,6 +31,9 @@ data class PreparedGroundedPrompt(
     val answerMode: SmartAnswerMode,
     val backendLabel: String,
     val queryKind: SmartQueryKind = SmartQueryKind.DOMAIN,
+    /** 非空则跳过模型生成，直接展示（澄清 / 资料不足）。 */
+    val directAnswer: String? = null,
+    val evidenceConfidence: SmartEvidenceConfidence = SmartEvidenceConfidence.INCORRECT,
 ) {
     fun stageMetrics(
         threadLabel: String,
@@ -91,6 +94,32 @@ class DeepSeekPromptManager
             val today = deviceToday?.takeIf { it.isNotBlank() } ?: deviceToday()
             val queryKind = SmartQueryRouter.classify(normalizedQuestion)
 
+            // RQ-RAG：歧义/过短问先澄清，不检索硬答。
+            if (SmartQueryIntent.isAmbiguousOrTooShort(normalizedQuestion)) {
+                val clarify = SmartQueryIntent.clarificationMessage(normalizedQuestion)
+                onProgress(
+                    SmartProgressPhase.COMPLETED,
+                    "请补充问题",
+                    "问句过短或意图不清，已返回澄清提示。",
+                )
+                return PreparedGroundedPrompt(
+                    question = normalizedQuestion,
+                    prompt = "",
+                    promptPrefixKey = "clarify::$normalizedQuestion",
+                    references = emptyList(),
+                    webSources = emptyList(),
+                    retrievalMs = 0L,
+                    promptBuildMs = 0L,
+                    promptChars = 0,
+                    prefixReuseHit = false,
+                    answerMode = answerMode,
+                    backendLabel = backendLabel,
+                    queryKind = queryKind,
+                    directAnswer = clarify,
+                    evidenceConfidence = SmartEvidenceConfidence.INCORRECT,
+                )
+            }
+
             onProgress(
                 SmartProgressPhase.RETRIEVING,
                 "正在检索本地资料",
@@ -107,12 +136,15 @@ class DeepSeekPromptManager
                         forceAnn = true,
                     )
                 }
-            val references =
+            val ranked =
                 SmartEvidenceRanker.refine(
                     question = normalizedQuestion,
                     items = rawReferences,
                     limit = answerMode.evidenceLimit,
                 )
+            val confidence = SmartEvidenceGrader.grade(normalizedQuestion, ranked)
+            var references =
+                SmartEvidenceGrader.filterByGrade(normalizedQuestion, ranked, confidence)
 
             val wantWeb =
                 SmartQueryRouter.shouldFetchWeb(
@@ -120,19 +152,50 @@ class DeepSeekPromptManager
                     webSearchEnabled = webSearchEnabled,
                     localHitCount = references.size,
                     question = normalizedQuestion,
+                    localConfidence = confidence,
                 )
             val webResults = fetchWebResultsIfNeeded(normalizedQuestion, wantWeb, webSearchEnabled, onProgress)
             val webSources = webResults.map { it.url }.filter { it.isNotBlank() }.distinct()
             val retrievalMs = SystemClock.elapsedRealtime() - retrievalStartedAt
 
+            // CRAG：Ambiguous 且无网页时，弱本地也丢掉，避免 1.5B 借弱证据空编。
+            if (confidence == SmartEvidenceConfidence.AMBIGUOUS && webResults.isEmpty()) {
+                references = emptyList()
+            }
+
             SmartDeepSeekDebugLogger.logEvent(
                 provider = provider,
                 tag = "RETRIEVAL",
                 message =
-                    "durationMs=$retrievalMs kind=$queryKind evidenceCount=${references.size} " +
-                        "webCount=${webResults.size} wantWeb=$wantWeb " +
+                    "durationMs=$retrievalMs kind=$queryKind confidence=$confidence " +
+                        "evidenceCount=${references.size} webCount=${webResults.size} wantWeb=$wantWeb " +
                         "titles=${references.joinToString(" | ") { it.title.take(24) }}",
             )
+
+            // 无本地可用证据且无网页 → 直接拒答（时效问除外：仍可用设备日期作答）。
+            if (references.isEmpty() && webResults.isEmpty() && queryKind != SmartQueryKind.TEMPORAL) {
+                onProgress(
+                    SmartProgressPhase.COMPLETED,
+                    "资料不足",
+                    "检索置信度=$confidence，无可用本地/网页资料。",
+                )
+                return PreparedGroundedPrompt(
+                    question = normalizedQuestion,
+                    prompt = "",
+                    promptPrefixKey = "insufficient::$normalizedQuestion",
+                    references = emptyList(),
+                    webSources = emptyList(),
+                    retrievalMs = retrievalMs,
+                    promptBuildMs = 0L,
+                    promptChars = 0,
+                    prefixReuseHit = false,
+                    answerMode = answerMode,
+                    backendLabel = backendLabel,
+                    queryKind = queryKind,
+                    directAnswer = SmartAnswerGuard.INSUFFICIENT,
+                    evidenceConfidence = confidence,
+                )
+            }
 
             onProgress(
                 SmartProgressPhase.BUILDING_PROMPT,
@@ -192,6 +255,8 @@ class DeepSeekPromptManager
                 answerMode = answerMode,
                 backendLabel = backendLabel,
                 queryKind = queryKind,
+                directAnswer = null,
+                evidenceConfidence = confidence,
             )
         }
 

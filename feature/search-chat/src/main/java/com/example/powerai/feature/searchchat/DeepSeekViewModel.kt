@@ -188,7 +188,18 @@ class DeepSeekViewModel
                     )
                 }
 
-                // 无本地相关证据且无网页：禁止空上下文调 1.5B（必胡编）；直接拒答。
+                // 澄清 / 资料不足等：不调模型。
+                val direct = prepared.directAnswer
+                if (!direct.isNullOrBlank()) {
+                    updateState { copy(result = direct) }
+                    updateProgress(
+                        SmartProgressPhase.COMPLETED,
+                        if (direct.startsWith("问题过短")) "请补充问题" else "资料不足",
+                        "已跳过模型生成（confidence=${prepared.evidenceConfidence}）。",
+                        showAsActive = false,
+                    )
+                    return@launch
+                }
                 if (prepared.references.isEmpty() && prepared.webSources.isEmpty()) {
                     updateState { copy(result = SmartAnswerGuard.INSUFFICIENT) }
                     updateProgress(
