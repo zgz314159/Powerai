@@ -51,6 +51,8 @@ fun SmartPage(
     initialFirstVisibleItemScrollOffset: Int = 0,
     onListPositionChange: (index: Int, offset: Int) -> Unit = { _, _ -> },
     innerPadding: PaddingValues = PaddingValues(0.dp),
+    /** 放进列表末尾，避免底部浮层挡住依据卡片点击。 */
+    listBottomAction: (@Composable () -> Unit)? = null,
 ) {
     val listState =
         rememberLazyListState(
@@ -145,6 +147,12 @@ fun SmartPage(
                 metaProvider = metaProvider,
                 onOpenDetail = onOpenDetail,
             )
+
+            if (listBottomAction != null) {
+                item(key = "smart_list_bottom_action") {
+                    listBottomAction()
+                }
+            }
         }
 
         SmartScrollIndicator(

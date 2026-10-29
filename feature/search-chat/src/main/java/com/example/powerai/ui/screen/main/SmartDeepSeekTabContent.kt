@@ -104,9 +104,9 @@ fun SmartDeepSeekTabContent(
     ) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val panelMaxHeight = maxHeight * 0.78f
-            // 面板关闭时底部有「继续提问/打开本地模型」浮层，给列表留出点击与滚动空间，避免挡住依据卡片。
-            val floatingEntryReserve = if (!showSearchBar) 56.dp else 0.dp
             val layoutDirection = LocalLayoutDirection.current
+            val hasAnswerOrEvidence =
+                deepState.result.isNotBlank() || deepState.smartReferences.isNotEmpty() || deepState.isLoading
             SmartPage(
                 aiText = deepState.result,
                 localResults = deepState.smartReferences,
@@ -142,13 +142,10 @@ fun SmartDeepSeekTabContent(
                 onOpenDetail = { id, blockIndex, blockId, detailHighlight ->
                     if (id <= 0L) return@SmartPage
                     val encoded = Uri.encode(detailHighlight?.takeIf { it.isNotBlank() } ?: searchQuery)
-                    val route =
-                        try {
-                            KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId)
-                        } catch (_: Throwable) {
-                            KnowledgeDetailNavArgs.createRoute(id, encoded, null, null)
-                        }
-                    runCatching { navController.navigate(route) }
+                    // 与本地页一致：不吞异常，保证能跳到详情。
+                    navController.navigate(
+                        KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId),
+                    )
                 },
                 onRetry = { submitSmartQuery(searchQuery) },
                 onCopy = onCopyToClipboard,
@@ -162,8 +159,27 @@ fun SmartDeepSeekTabContent(
                         start = innerPadding.calculateStartPadding(layoutDirection),
                         top = innerPadding.calculateTopPadding(),
                         end = innerPadding.calculateEndPadding(layoutDirection),
-                        bottom = innerPadding.calculateBottomPadding() + floatingEntryReserve,
+                        bottom = innerPadding.calculateBottomPadding(),
                     ),
+                // 放进列表末尾，禁止底部浮层盖住依据卡片（此前点 [1] 实际点到「继续提问」）。
+                listBottomAction =
+                    if (!showSearchBar && hasAnswerOrEvidence) {
+                        {
+                            TextButton(
+                                onClick = { onShowSearchBarChange(true) },
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                        .semantics { testTagsAsResourceId = true }
+                                        .testTag("smart_ds_open_panel"),
+                            ) {
+                                Text(if (deepState.modelLoaded) "继续提问" else "打开本地模型")
+                            }
+                        }
+                    } else {
+                        null
+                    },
             )
 
             if (showSearchBar) {
@@ -257,9 +273,8 @@ fun SmartDeepSeekTabContent(
                         }
                     }
                 }
-            } else {
-                // Visible entry when search panel is closed (UiAutomator-friendly; long-press is unreliable).
-                // Keep this compact and above nav — must not cover evidence cards (see floatingEntryReserve).
+            } else if (!hasAnswerOrEvidence) {
+                // 空态才用浮层入口；有答案/依据时改由列表末尾按钮，避免挡住卡片点击。
                 TextButton(
                     onClick = { onShowSearchBarChange(true) },
                     modifier =
