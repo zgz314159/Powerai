@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.SmartProgressPhase
+import com.example.powerai.feature.knowledgedetail.AiTextDetailNav
 import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 import com.example.powerai.feature.searchchat.*
 import com.example.powerai.ui.component.SearchBar
@@ -145,6 +146,14 @@ fun SmartDeepSeekTabContent(
                     // 与本地页一致：不吞异常，保证能跳到详情。
                     navController.navigate(
                         KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId),
+                    )
+                },
+                onOpenTextEvidence = { title, content, detailHighlight ->
+                    AiTextDetailNav.navigate(
+                        navController = navController,
+                        title = title,
+                        content = content,
+                        highlight = detailHighlight.ifBlank { searchQuery },
                     )
                 },
                 onRetry = { submitSmartQuery(searchQuery) },

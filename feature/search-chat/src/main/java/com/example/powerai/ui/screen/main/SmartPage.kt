@@ -43,6 +43,7 @@ fun SmartPage(
     topContentPadding: Dp = 64.dp,
     metaProvider: ((KnowledgeItem) -> String?)? = null,
     onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -> Unit,
+    onOpenTextEvidence: (title: String, content: String, highlight: String) -> Unit = { _, _, _ -> },
     onRetry: () -> Unit = {},
     onCopy: (String) -> Unit = {},
     showEmptyState: Boolean,
@@ -146,6 +147,7 @@ fun SmartPage(
                 selectedNumber = citationState.selectedNumber,
                 metaProvider = metaProvider,
                 onOpenDetail = onOpenDetail,
+                onOpenTextEvidence = onOpenTextEvidence,
             )
 
             if (listBottomAction != null) {

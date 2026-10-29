@@ -319,9 +319,9 @@ class DeepSeekPromptManager
                 }
                 append("要求：只依据参考资料与今天日期作答；没有就回复「资料不足，无法回答」。")
                 if (hasLocal || hasWeb) {
-                    append("有资料时直接写答案并标注 [1]")
+                    append("有资料时直接写答案，句末用 [1]")
                     if (hasWeb) append("/[网1]")
-                    append("，尽量照抄原文。")
+                    append(" 标编号；不要另起一行写资料标题。尽量照抄原文。")
                 }
                 when (queryKind) {
                     SmartQueryKind.TEMPORAL -> append("问日期时用「今天日期」。")

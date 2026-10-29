@@ -56,6 +56,8 @@ fun LazyListScope.smartEvidenceSection(
     selectedNumber: Int?,
     metaProvider: ((KnowledgeItem) -> String?)?,
     onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -> Unit,
+    /** Sparse / 负 id：无 Room 行，打开正文详情。 */
+    onOpenTextEvidence: (title: String, content: String, highlight: String) -> Unit = { _, _, _ -> },
 ) {
     if (visibleSegments.isEmpty()) return
 
@@ -99,6 +101,8 @@ fun LazyListScope.smartEvidenceSection(
                     },
                 isSelected = selectedNumber == entry.number,
                 onClick = {
+                    val detailHighlight =
+                        item.highlightHint?.takeIf { it.isNotBlank() } ?: highlight
                     if (item.id > 0L) {
                         // 仅在命中块索引可用时传入，避免坏 block 导致详情页打不开；id 本身应始终可进详情。
                         val blockIndex = item.hitBlockIndex?.takeIf { it >= 0 }
@@ -107,8 +111,15 @@ fun LazyListScope.smartEvidenceSection(
                             item.id,
                             blockIndex,
                             blockId,
-                            item.highlightHint?.takeIf { it.isNotBlank() } ?: highlight,
+                            detailHighlight,
                         )
+                    } else {
+                        // Sparse 合成命中：无 Room id，展示条文正文。
+                        val plainTitle =
+                            item.title
+                                .replace(Regex("""^\s*\[\d+\]\s*"""), "")
+                                .ifBlank { "条文详情" }
+                        onOpenTextEvidence(plainTitle, item.content, detailHighlight)
                     }
                 },
                 expanded = false,

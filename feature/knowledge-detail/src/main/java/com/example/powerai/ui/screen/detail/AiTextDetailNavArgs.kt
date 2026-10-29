@@ -1,6 +1,7 @@
 package com.example.powerai.ui.screen.detail
 
 import androidx.navigation.NavHostController
+import com.example.powerai.feature.knowledgedetail.AiTextDetailNav
 
 internal data class AiTextDetailNavArgs(
     val title: String,
@@ -9,15 +10,14 @@ internal data class AiTextDetailNavArgs(
 )
 
 internal object AiTextDetailNavArgsReader {
-    private const val KEY_TITLE = "AI_DETAIL_TITLE"
-    private const val KEY_CONTENT = "AI_DETAIL_CONTENT"
-    private const val ARG_HIGHLIGHT = "q"
-
     fun read(navController: NavHostController): AiTextDetailNavArgs {
+        // Writer puts payload on the entry *before* navigate; reader looks at previous.
         val prev = navController.previousBackStackEntry
-        val title = prev?.savedStateHandle?.get<String>(KEY_TITLE).orEmpty().ifBlank { "AI 内容" }
-        val content = prev?.savedStateHandle?.get<String>(KEY_CONTENT).orEmpty()
-        val highlightEncoded = navController.currentBackStackEntry?.arguments?.getString(ARG_HIGHLIGHT).orEmpty()
+        val title =
+            prev?.savedStateHandle?.get<String>(AiTextDetailNav.KEY_TITLE).orEmpty().ifBlank { "条文详情" }
+        val content = prev?.savedStateHandle?.get<String>(AiTextDetailNav.KEY_CONTENT).orEmpty()
+        val highlightEncoded =
+            navController.currentBackStackEntry?.arguments?.getString(AiTextDetailNav.ARG_Q).orEmpty()
         return AiTextDetailNavArgs(
             title = title,
             content = content,

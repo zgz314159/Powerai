@@ -237,6 +237,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-29 | 智能页 sparse 依据可跳转：负 id 走 `AiTextDetail`（`AiTextDetailNav` + AppNav 路由）；答案清洗尾部残缺 `[1] 10k` 与论坛 meta；`SmartAnswerGuardTest` 绿；XQ-DQ72 `installDebug` |
 | 2026-03-01 | DI 按域拆分；重复包 `ui.components`、`ui.importer`、`data.saf` 已清理 |
 | 2026-05-27 | Agent 治理框架（`AGENTS.md` + Memory）建立 |
 | 2026-08-17 | MVI 重构启动并覆盖绝大多数 ViewModel（当前进度见 §5） |

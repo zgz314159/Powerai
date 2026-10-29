@@ -19,6 +19,11 @@ sealed class Screen(val route: String) {
     /** 用户知识库目录导入界面。 */
     object KbImport : Screen("kb-import")
 
+    /** Sparse / 无 Room id 的条文正文详情。 */
+    object AiTextDetail : Screen("ai-detail?q={q}") {
+        const val ARG_Q = "q"
+    }
+
     object Detail : Screen("detail/{id}?q={q}&blockIndex={blockIndex}&blockId={blockId}") {
         const val ARG_ID = KnowledgeDetailNavArgs.ARG_ID
         const val ARG_Q = KnowledgeDetailNavArgs.ARG_Q

@@ -14,6 +14,7 @@ import com.example.powerai.feature.knowledgedetail.KnowledgeDetailNavArgs
 import com.example.powerai.navigation.Screen
 import com.example.powerai.ui.jsonrepo.JsonRepositoryScreen
 import com.example.powerai.ui.jsonrepo.JsonRepositoryViewModel
+import com.example.powerai.ui.screen.detail.AiTextDetailScreen
 import com.example.powerai.ui.screen.detail.KnowledgeDetailScreen
 import com.example.powerai.ui.screen.hybrid.HybridScreen
 import com.example.powerai.ui.screen.hybrid.HybridViewModel
@@ -82,6 +83,19 @@ fun AppNavHost(navController: NavHostController) {
                 ),
         ) {
             KnowledgeDetailScreen(navController)
+        }
+
+        composable(
+            route = Screen.AiTextDetail.route,
+            arguments =
+                listOf(
+                    navArgument(Screen.AiTextDetail.ARG_Q) {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                ),
+        ) {
+            AiTextDetailScreen(navController)
         }
 
         composable(

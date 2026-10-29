@@ -42,7 +42,16 @@ object SmartAnswerGuard {
             "检索到本地资料",
             "未检索到本地资料支持",
             "系统在检查",
+            "知名用户",
+            "个评分",
+            "个回答",
+            "要回答问题，需要根据提供的资料",
+            "请根据资料分析问题",
         )
+
+    /** 句末另起一行的残缺引用，如「[1] 10k」。 */
+    private val trailingTruncatedCite =
+        Regex("""^\s*\[\d+\]\s*.{0,24}\s*$""")
 
     fun resolveFastPath(query: String): SmartFastPathAnswer? {
         val normalized = query.trim()
@@ -85,7 +94,27 @@ object SmartAnswerGuard {
             } else {
                 paragraphs.joinToString("\n\n")
             }
-        return body.replace(Regex("^\\s*[?？]+\\s*"), "").trim()
+        return stripTrailingTruncatedCites(body.replace(Regex("^\\s*[?？]+\\s*"), "").trim())
+    }
+
+    /** 去掉末尾残缺 [n] 标题行（模型常把资料标题截断再贴一次）。 */
+    fun stripTrailingTruncatedCites(text: String): String {
+        if (text.isBlank()) return text
+        val lines = text.replace("\r\n", "\n").split('\n').toMutableList()
+        while (lines.isNotEmpty()) {
+            val last = lines.last().trim()
+            if (last.isBlank()) {
+                lines.removeAt(lines.lastIndex)
+                continue
+            }
+            if (trailingTruncatedCite.matches(last)) {
+                // 整行只是「[1] xxx」且很短 → 丢弃；保留句内正常的「…。[1]」。
+                lines.removeAt(lines.lastIndex)
+                continue
+            }
+            break
+        }
+        return lines.joinToString("\n").trim()
     }
 
     /** 过短、以标点开头、或有证据却几乎无重合 → 视为崩坏回答。 */
