@@ -13,12 +13,13 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0 基线已写入 `docs/smart_rag_p0_baseline.md` / `docs/smart_rag_governance_plan.md`（AEGL worktree）；**P1–P5 未完成**，不得标整体完成
+- **Smart RAG 四项缺口治理**：P0 ✅；P1 代码落地 messages 模板但**真机 A/B 与停止回归抖动未过门**；P2–P5 未做 → **不得标整体完成**
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Smart RAG P1 模板编码（JVM） | 自动测通过；交付未齐 | `LlamaCppChatInferenceBuilder` → `withMessages`；arch 0 新违规；`DeepSeekGenerationStopTest` UncompletedCoroutines 抖动；真机 A/B 待验 |
 | Smart RAG P0 基线核对 | 代码+设备日志核对完成；治理未完成 | 基线 `f1a124d`；XQ-DQ72；见 `docs/smart_rag_p0_baseline.md`；种子评测 `smart_rag_eval/v0_seed_cases.json` |
 | 仓库级收口 PR #29 | 已合并 | merge `8af386bc59db5c45832e7155268f7469bbe868c0`；CI JVM + Guardrails + connectedAndroidTest 绿（2026-10-27） |
 | 真机仪器 C2 | 已验收 | XQ-DQ72 / Android 15 (API 35)；`connectedDebugAndroidTest` **10/10**（2026-10-27）；A/B 手动项仍待验 |

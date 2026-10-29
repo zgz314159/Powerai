@@ -325,11 +325,18 @@ class DeepSeekPromptManager
             deviceToday: String = "",
             queryKind: SmartQueryKind = SmartQueryKind.DOMAIN,
         ): String {
+            // 绑定证据正文指纹与模板模式：仅按 id 排序会在同 id 正文变化或顺序敏感时错复用。
             val localPart =
                 if (references.isEmpty()) {
                     "base"
                 } else {
-                    "ids:" + references.map { it.id }.sorted().joinToString(",")
+                    val idPart = references.map { it.id }.sorted().joinToString(",")
+                    val fp =
+                        references
+                            .sortedBy { it.id }
+                            .joinToString("|") { "${it.id}:${it.title}:${it.content.take(160)}" }
+                            .hashCode()
+                    "ids:$idPart:fp:$fp"
                 }
             val webPart =
                 if (!webSearchEnabled || webSources.isEmpty()) {
@@ -337,7 +344,7 @@ class DeepSeekPromptManager
                 } else {
                     "web:" + webSources.sorted().joinToString(",")
                 }
-            return "$localPart::mode:${mode.name}::$webPart::day:$deviceToday::kind:${queryKind.name}"
+            return "$localPart::mode:${mode.name}::$webPart::day:$deviceToday::kind:${queryKind.name}::tpl:gguf-messages-v1"
         }
 
         private fun buildEvidenceText(

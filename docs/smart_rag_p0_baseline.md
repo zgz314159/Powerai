@@ -41,5 +41,14 @@
 ## 门禁备注
 
 - 正式目录当前对本 UID 仍可写；**本任务约定只改 AEGL worktree**，不直接改正式 checkout。
-- AEGL `task verify` 默认跑 `scripts/run-tests.sh`（本仓可能无此脚本）或 `mise run test`；Android 模块验证改用 task `gradle_home` 下的精确 Gradle 任务，不在正式目录执行。
+- AEGL `task verify` 默认跑 `scripts/run-tests.sh`（本仓可能无此脚本）或 `mise run test`；Android 模块验证改用 host `GRADLE_USER_HOME=~/.gradle` + worktree `local.properties`（gitignore），日志写入 AEGL scratch；不在正式目录执行 Gradle。
 - 可信晋升（broker）与 `git push` 分支分开记录。
+
+## P1 进展（2026-10-29 夜）
+
+| 项 | 结果 |
+|----|------|
+| `withMessages` 单 user（system 折叠） | 已实现；JVM 单测绿 |
+| Prompt 前缀缓存键绑定正文 fp + tpl | 已实现 |
+| `DeepSeekGenerationStopTest` | UncompletedCoroutinesError 抖动（与历史一致）；**未标回归通过** |
+| 同证据真机 A/B | **未执行** → P1 出口未关闭 |
