@@ -58,4 +58,34 @@ class SmartEvidenceRankerTest {
         assertEquals(1L, refined.single().id)
         assertTrue(refined.single().title.contains("验电"))
     }
+
+    @Test
+    fun `drops gloves evidence for transformer insulation resistance ask`() {
+        val gloves =
+            item(
+                1,
+                "绝缘手套",
+                "所有高压操作必须佩戴符合等级的绝缘手套，并按规定间隔检查绝缘性能。",
+            )
+        val refined =
+            SmartEvidenceRanker.refine(
+                question = "变压器绝缘电阻多大",
+                items = listOf(gloves),
+                limit = 2,
+            )
+        assertTrue(refined.isEmpty())
+    }
+
+    @Test
+    fun `keeps matching 验电 evidence for how-to ask`() {
+        val ten = item(1, "10kV验电", "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。")
+        val refined =
+            SmartEvidenceRanker.refine(
+                question = "10KV如何验电",
+                items = listOf(ten),
+                limit = 1,
+            )
+        assertEquals(1, refined.size)
+        assertEquals(1L, refined.single().id)
+    }
 }

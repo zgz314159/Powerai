@@ -3,6 +3,7 @@ package com.example.powerai.feature.searchchat
 /**
  * 智能页问题分流：决定是否自动联网、是否依赖本地规程证据。
  * 规则偏保守——电力规程默认仅本地；时效/新闻在本地 0 命中时才考虑网页。
+ * 数值/标准类在本地相关证据为空时也允许补网页（避免脏本地硬答）。
  */
 enum class SmartQueryKind {
     /** 安规/规程/操作类：优先本地 KB。 */
@@ -43,6 +44,9 @@ object SmartQueryRouter {
             Regex("能联网吗|在吗"),
         )
 
+    private val factualNumericPattern =
+        Regex("多大|多少|几欧|阻值|标准值|允许值|最小值|不小于|不低于|MΩ|mΩ|兆欧")
+
     fun classify(question: String): SmartQueryKind {
         val q = question.trim()
         if (q.isEmpty()) return SmartQueryKind.DOMAIN
@@ -53,21 +57,28 @@ object SmartQueryRouter {
         return SmartQueryKind.DOMAIN
     }
 
+    /** 数值/限值类：本地无相关证据时应允许联网补强。 */
+    fun isFactualNumericAsk(question: String): Boolean =
+        factualNumericPattern.containsMatchIn(question.trim())
+
     /**
      * 是否在「联网」开关打开且 Serper 已配置时发起网页检索。
-     * - 手动联网开 + 本地 0 命中
-     * - 或时效类问题（即使已有弱本地命中，也允许补网页；通常时效本地为 0）
-     * - 规程类且已有本地命中：不联网，避免噪声
+     * - 手动联网开 + 本地相关命中为 0
+     * - 或时效类问题
+     * - 数值/标准类且本地相关为 0（与 DOMAIN 空命中同路径，显式便于单测）
      */
     fun shouldFetchWeb(
         kind: SmartQueryKind,
         webSearchEnabled: Boolean,
         localHitCount: Int,
+        question: String = "",
     ): Boolean {
         if (!webSearchEnabled) return false
         return when (kind) {
             SmartQueryKind.TEMPORAL -> true
-            SmartQueryKind.DOMAIN -> localHitCount == 0
+            SmartQueryKind.DOMAIN ->
+                localHitCount == 0 ||
+                    (isFactualNumericAsk(question) && localHitCount == 0)
             SmartQueryKind.CHITCHAT -> localHitCount == 0
         }
     }

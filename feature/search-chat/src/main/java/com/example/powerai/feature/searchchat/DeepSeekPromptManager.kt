@@ -114,7 +114,13 @@ class DeepSeekPromptManager
                     limit = answerMode.evidenceLimit,
                 )
 
-            val wantWeb = SmartQueryRouter.shouldFetchWeb(queryKind, webSearchEnabled, references.size)
+            val wantWeb =
+                SmartQueryRouter.shouldFetchWeb(
+                    kind = queryKind,
+                    webSearchEnabled = webSearchEnabled,
+                    localHitCount = references.size,
+                    question = normalizedQuestion,
+                )
             val webResults = fetchWebResultsIfNeeded(normalizedQuestion, wantWeb, webSearchEnabled, onProgress)
             val webSources = webResults.map { it.url }.filter { it.isNotBlank() }.distinct()
             val retrievalMs = SystemClock.elapsedRealtime() - retrievalStartedAt
@@ -318,8 +324,9 @@ class DeepSeekPromptManager
                     append("（无参考资料）\n\n")
                 }
                 append("要求：只依据参考资料与今天日期作答；没有就回复「资料不足，无法回答」。")
+                append("资料与问题主题不符时同样回复「资料不足，无法回答」，禁止脑补数值或常识。")
                 if (hasLocal || hasWeb) {
-                    append("有资料时直接写答案，句末用 [1]")
+                    append("有相关资料时直接写答案，句末用 [1]")
                     if (hasWeb) append("/[网1]")
                     append(" 标编号；不要另起一行写资料标题。尽量照抄原文。")
                 }
@@ -328,7 +335,7 @@ class DeepSeekPromptManager
                     SmartQueryKind.DOMAIN -> append("忽略与问题电压/对象不符的资料。")
                     SmartQueryKind.CHITCHAT -> Unit
                 }
-                append("不要复述问题，不要输出单独问号。\n\n")
+                append("不要复述问题，不要输出推理过程或单独问号。\n\n")
                 append("用户问题：")
             }
         }

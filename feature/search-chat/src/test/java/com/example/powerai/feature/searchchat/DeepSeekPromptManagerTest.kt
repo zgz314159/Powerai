@@ -174,7 +174,7 @@ class DeepSeekPromptManagerTest {
     fun `local snippet is truncated for prefill budget`() =
         runTest {
             val long =
-                localItem.copy(content = "甲".repeat(2000))
+                localItem.copy(content = "接地电阻标准说明：" + "甲".repeat(2000))
             val retrieval = mock<RetrievalFusionUseCase>()
             whenever(retrieval.invoke(any(), any(), any())).thenReturn(listOf(long))
             val manager = DeepSeekPromptManager(retrieval, mock())

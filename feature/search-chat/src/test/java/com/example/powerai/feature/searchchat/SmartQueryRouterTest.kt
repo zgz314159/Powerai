@@ -32,4 +32,22 @@ class SmartQueryRouterTest {
         assertTrue(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.TEMPORAL, webSearchEnabled = true, localHitCount = 1))
         assertFalse(SmartQueryRouter.shouldFetchWeb(SmartQueryKind.TEMPORAL, webSearchEnabled = false, localHitCount = 0))
     }
+
+    @Test
+    fun `factual numeric ask detected`() {
+        assertTrue(SmartQueryRouter.isFactualNumericAsk("变压器绝缘电阻多大"))
+        assertFalse(SmartQueryRouter.isFactualNumericAsk("10KV如何验电"))
+    }
+
+    @Test
+    fun `factual ask with empty local still fetches web when enabled`() {
+        assertTrue(
+            SmartQueryRouter.shouldFetchWeb(
+                SmartQueryKind.DOMAIN,
+                webSearchEnabled = true,
+                localHitCount = 0,
+                question = "变压器绝缘电阻多大",
+            ),
+        )
+    }
 }

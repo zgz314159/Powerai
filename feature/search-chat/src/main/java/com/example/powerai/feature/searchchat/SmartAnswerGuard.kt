@@ -8,6 +8,8 @@ data class SmartFastPathAnswer(
 )
 
 object SmartAnswerGuard {
+    const val INSUFFICIENT = "资料不足，无法回答。"
+
     private val pureGreetingPattern =
         Regex(
             pattern = """^(你好|您好|嗨|哈喽|hello|hi|hey)[!?.，！？\\s]*$""",
@@ -21,6 +23,7 @@ object SmartAnswerGuard {
             "先看",
             "考虑到用户的问题",
             "用户发来的是",
+            "该用户的问题",
             "最后，我要确保",
             "推理过程",
             "我需要",
@@ -31,6 +34,7 @@ object SmartAnswerGuard {
     private val reasoningLeadMarkers =
         listOf(
             "用户的问题",
+            "该用户的问题",
             "用户发来",
             "用户提供：",
             "格式要求",
@@ -47,11 +51,28 @@ object SmartAnswerGuard {
             "个回答",
             "要回答问题，需要根据提供的资料",
             "请根据资料分析问题",
+            "参考了",
+            "得出结论",
+            "最终答案是",
+            "因此，最终答案",
+        )
+
+    /** 单独出现即视为推理腔（不必凑满 2 个 marker）。 */
+    private val strongMetaMarkers =
+        listOf(
+            "该用户的问题",
+            "最终答案是",
+            "因此，最终答案",
+            "参考了",
+            "得出结论",
         )
 
     /** 句末另起一行的残缺引用，如「[1] 10k」。 */
-    private val trailingTruncatedCite =
-        Regex("""^\s*\[\d+\]\s*.{0,24}\s*$""")
+    private val truncatedCiteLine =
+        Regex("""^\s*\[\d+\]\s*.{0,40}\s*$""")
+
+    private val numberToken =
+        Regex("""\d+(?:\.\d+)?\s*(?:万|千)?\s*(?:Ω|欧|MΩ|mΩ|兆欧|kΩ)?""")
 
     fun resolveFastPath(query: String): SmartFastPathAnswer? {
         val normalized = query.trim()
@@ -68,6 +89,7 @@ object SmartAnswerGuard {
         val normalized = normalize(text)
         if (normalized.isBlank()) return false
         if (reasoningLeadStarts.any { normalized.startsWith(it) }) return true
+        if (strongMetaMarkers.any { normalized.contains(it) }) return true
         val hitCount = reasoningLeadMarkers.count { normalized.contains(it) }
         return hitCount >= 2
     }
@@ -94,21 +116,24 @@ object SmartAnswerGuard {
             } else {
                 paragraphs.joinToString("\n\n")
             }
-        return stripTrailingTruncatedCites(body.replace(Regex("^\\s*[?？]+\\s*"), "").trim())
+        return stripTruncatedCiteLines(body.replace(Regex("^\\s*[?？]+\\s*"), "").trim())
     }
 
-    /** 去掉末尾残缺 [n] 标题行（模型常把资料标题截断再贴一次）。 */
-    fun stripTrailingTruncatedCites(text: String): String {
+    /** 去掉首尾残缺 [n] 标题行（模型常把无关标题截断再贴）。 */
+    fun stripTruncatedCiteLines(text: String): String {
         if (text.isBlank()) return text
         val lines = text.replace("\r\n", "\n").split('\n').toMutableList()
         while (lines.isNotEmpty()) {
-            val last = lines.last().trim()
-            if (last.isBlank()) {
-                lines.removeAt(lines.lastIndex)
+            val first = lines.first().trim()
+            if (first.isBlank() || truncatedCiteLine.matches(first)) {
+                lines.removeAt(0)
                 continue
             }
-            if (trailingTruncatedCite.matches(last)) {
-                // 整行只是「[1] xxx」且很短 → 丢弃；保留句内正常的「…。[1]」。
+            break
+        }
+        while (lines.isNotEmpty()) {
+            val last = lines.last().trim()
+            if (last.isBlank() || truncatedCiteLine.matches(last)) {
                 lines.removeAt(lines.lastIndex)
                 continue
             }
@@ -116,6 +141,9 @@ object SmartAnswerGuard {
         }
         return lines.joinToString("\n").trim()
     }
+
+    /** @deprecated 使用 [stripTruncatedCiteLines] */
+    fun stripTrailingTruncatedCites(text: String): String = stripTruncatedCiteLines(text)
 
     /** 过短、以标点开头、或有证据却几乎无重合 → 视为崩坏回答。 */
     fun isWeakGroundedAnswer(
@@ -129,7 +157,6 @@ object SmartAnswerGuard {
         if (isMetaReasoningLead(t)) return true
         val top = references.firstOrNull()?.content.orEmpty()
         if (top.isBlank()) {
-            // 无本地证据时：仅拦截极端短/空，避免误伤正常短答。
             return t.length < 2
         }
         if (t.length < 12) return true
@@ -137,8 +164,26 @@ object SmartAnswerGuard {
         return overlap < 0.06f && t.length < 96
     }
 
+    /**
+     * 答案里出现证据中不存在的电阻/数值 → 疑似胡编（变压器绝缘电阻 100000Ω 类）。
+     */
+    fun hasUngroundedNumericClaims(
+        answer: String,
+        references: List<KnowledgeItem>,
+    ): Boolean {
+        val nums = numberToken.findAll(answer).map { it.value.replace(Regex("\\s+"), "") }.toList()
+        if (nums.isEmpty()) return false
+        val hay =
+            references.joinToString("\n") { "${it.title}\n${it.content}" }
+                .replace(Regex("\\s+"), "")
+        return nums.any { n ->
+            val core = n.replace(Regex("""[Ω欧MmKk兆千]+"""), "")
+            core.length >= 3 && !hay.contains(core)
+        }
+    }
+
     fun fallbackFromEvidence(references: List<KnowledgeItem>): String {
-        val top = references.firstOrNull() ?: return "资料不足，无法回答。"
+        val top = references.firstOrNull() ?: return INSUFFICIENT
         val body =
             top.content
                 .replace(Regex("\\s+"), " ")
@@ -146,7 +191,7 @@ object SmartAnswerGuard {
                 .take(220)
                 .trimEnd('，', ',', '。', '.')
         return if (body.isBlank()) {
-            "资料不足，无法回答。"
+            INSUFFICIENT
         } else {
             "$body。[1]"
         }
@@ -157,11 +202,23 @@ object SmartAnswerGuard {
         references: List<KnowledgeItem>,
     ): String {
         val cleaned = stripMetaReasoningLead(raw)
-        return if (isWeakGroundedAnswer(cleaned, references)) {
-            fallbackFromEvidence(references)
-        } else {
-            cleaned
+        if (references.isEmpty()) {
+            return if (cleaned.contains("资料不足")) cleaned.ifBlank { INSUFFICIENT } else INSUFFICIENT
         }
+        // 推理腔 / 无据数值：拒答，禁止把无关证据整段贴回去（否则手套又回来）。
+        if (isMetaReasoningLead(cleaned) || hasUngroundedNumericClaims(cleaned, references)) {
+            return INSUFFICIENT
+        }
+        if (isWeakGroundedAnswer(cleaned, references)) {
+            val top = references.first().content
+            // 弱答且与证据几乎无重合 → 拒答；有一定重合才允许摘录回退。
+            return if (tokenOverlapRatio(cleaned, top) < 0.08f && cleaned.length > 24) {
+                INSUFFICIENT
+            } else {
+                fallbackFromEvidence(references)
+            }
+        }
+        return cleaned
     }
 
     private fun tokenOverlapRatio(
@@ -177,7 +234,6 @@ object SmartAnswerGuard {
 
     private fun tokenize(text: String): Set<String> {
         val out = linkedSetOf<String>()
-        // CJK bigrams
         val han = text.filter { it.code in 0x4E00..0x9FFF }
         if (han.length >= 2) {
             for (i in 0 until han.length - 1) {
