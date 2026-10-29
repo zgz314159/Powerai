@@ -84,13 +84,22 @@ class DeepSeekGenerationStopTest {
 
         val promptManager = mock<DeepSeekPromptManager>()
         whenever(
-            promptManager.prepareGroundedPrompt(any(), any(), any(), any(), any(), any()),
+            promptManager.prepareGroundedPrompt(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+            ),
         ).thenReturn(
             PreparedGroundedPrompt(
                 question = "问题",
                 prompt = "prompt",
                 promptPrefixKey = "key",
                 references = emptyList(),
+                webSources = emptyList(),
                 retrievalMs = 0L,
                 promptBuildMs = 0L,
                 promptChars = 6,

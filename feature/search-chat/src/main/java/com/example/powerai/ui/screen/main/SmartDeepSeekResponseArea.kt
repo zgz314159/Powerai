@@ -18,6 +18,7 @@ fun SmartDeepSeekAnswerFooter(
     thinking: List<String>,
     generationMetrics: GenerationMetrics,
     stageMetrics: SmartStageMetrics,
+    webSources: List<String> = emptyList(),
 ) {
     if (!modelLoaded && !isLoading && generationMetrics.streamedTokenCount == 0 && thinking.isEmpty()) {
         return
@@ -55,6 +56,11 @@ fun SmartDeepSeekAnswerFooter(
                     append(generationMetrics.tokensPerSecond?.let { String.format("%.2f", it) } ?: "-")
                     append("  |  正文 字符/s: ")
                     append(stageMetrics.decodeCharsPerSecond?.let { String.format("%.2f", it) } ?: "-")
+                    if (webSources.isNotEmpty()) {
+                        append('\n')
+                        append("网页来源：")
+                        append(webSources.joinToString(" | "))
+                    }
                 },
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

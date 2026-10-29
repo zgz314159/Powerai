@@ -131,6 +131,7 @@ fun SmartDeepSeekTabContent(
                         thinking = deepState.thinking,
                         generationMetrics = deepState.generationMetrics,
                         stageMetrics = deepState.stageMetrics,
+                        webSources = deepState.webSources,
                     )
                 },
                 metaProvider = metaProvider,
@@ -176,6 +177,13 @@ fun SmartDeepSeekTabContent(
                             testTag = "smart_ds_query_field",
                         )
                         Spacer(modifier = Modifier.height(6.dp))
+                        SmartLocalWebSearchToggle(
+                            webSearchEnabled = deepState.webSearchEnabled,
+                            onToggle = { enabled ->
+                                deepSeekViewModel.onIntent(DeepSeekIntent.SetWebSearchEnabled(enabled))
+                            },
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
                         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = if (deepState.modelLoaded) "模型已加载" else "模型未加载",

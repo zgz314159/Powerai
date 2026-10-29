@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-27（Phase D0–D5 离线债清零完成；真机见 `docs/device_acceptance_checklist.md`）
+**最后同步**：2026-10-29（智能页可选联网 KI-59；Phase D0–D5 离线债清零完成；真机见 `docs/device_acceptance_checklist.md`）
 
 ---
 
@@ -94,6 +94,7 @@
 | KI-52 | 用户目录导入读入整份 JSON | 峰值内存 | **接受限制**；大 KB 再两遍流式 |
 | KI-53 | `PdfViewerScreen` | 历史乱码文案 | ✅ 已关闭（2026-10-27）：可见 UI 文案已为正常中文；无 mojibake 残留 |
 | KI-54 | 真机验收 | 用户目录导入全链路未真机跑 | **真机待验**（不伪完成） |
+| KI-59 | Smart 联网 | 智能页「联网」依赖 `local.properties` → `SERPER_API_KEY`（与 AI 检索同源）；未配置时开关无网页结果、进度提示「联网未配置」并仅本地生成 | 配置 Serper 后真机验联网路径 |
 
 ---
 

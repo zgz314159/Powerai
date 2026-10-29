@@ -17,6 +17,8 @@ data class DeepSeekUiState(
     val thinkingPreview: String = "",
     val result: String = "",
     val smartReferences: List<KnowledgeItem> = emptyList(),
+    val webSearchEnabled: Boolean = false,
+    val webSources: List<String> = emptyList(),
     val askedAtMillis: Long? = null,
     val generationMetrics: GenerationMetrics = GenerationMetrics(),
     val answerMode: SmartAnswerMode = SmartAnswerMode.FAST,

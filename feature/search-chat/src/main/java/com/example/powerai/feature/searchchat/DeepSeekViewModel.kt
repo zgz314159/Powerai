@@ -76,6 +76,7 @@ class DeepSeekViewModel
                 is DeepSeekIntent.UnloadModel -> unloadDeepSeek()
                 is DeepSeekIntent.Generate -> generate(intent.prompt, intent.maxTokens)
                 is DeepSeekIntent.GenerateGroundedAnswer -> generateGroundedAnswer(intent.question, intent.maxTokens ?: 160)
+                is DeepSeekIntent.SetWebSearchEnabled -> setWebSearchEnabled(intent.enabled)
                 is DeepSeekIntent.SetAnswerMode -> setAnswerMode(intent.mode)
                 is DeepSeekIntent.SetBackendMode -> setBackendMode(intent.mode)
                 is DeepSeekIntent.SetThreadPreset -> setThreadPreset(intent.preset)
@@ -156,6 +157,8 @@ class DeepSeekViewModel
                         thinkingPreview = "",
                         generationMetrics = GenerationMetrics(),
                         stageMetrics = SmartStageMetrics(),
+                        smartReferences = emptyList(),
+                        webSources = emptyList(),
                     )
                 }
 
@@ -168,7 +171,22 @@ class DeepSeekViewModel
                     onProgress = { phase, title, text ->
                         updateProgress(phase, title, text, true)
                     },
+                    webSearchEnabled = state.webSearchEnabled,
                 )
+
+                updateState {
+                    copy(
+                        smartReferences = prepared.references,
+                        webSources = prepared.webSources,
+                        stageMetrics =
+                            prepared.stageMetrics(
+                                threadLabel = state.threadPreset.label,
+                                batchLabel = state.batchSizePreset.label,
+                                batchThreadLabel = state.batchThreadPreset.label,
+                                prefixReuseEnabled = state.prefixReuseEnabled,
+                            ),
+                    )
+                }
 
                 val sessionId = sessionManager.openSmartSession(question, state.answerMode, state.backendMode, state.threadPreset)
 
@@ -185,6 +203,10 @@ class DeepSeekViewModel
                     prefixReuseHit = prepared.prefixReuseHit,
                 )
             }
+        }
+
+        private fun setWebSearchEnabled(enabled: Boolean) {
+            updateState { copy(webSearchEnabled = enabled) }
         }
 
         private fun setAnswerMode(mode: SmartAnswerMode) {
@@ -332,6 +354,7 @@ class DeepSeekViewModel
                 onProgress = { phase, title, text ->
                     updateProgress(phase, title, text, true)
                 },
+                webSearchEnabled = state.webSearchEnabled,
             )
         }
 

@@ -22,6 +22,9 @@ sealed interface DeepSeekIntent {
     /** 生成基于本地资料的回答。 */
     data class GenerateGroundedAnswer(val question: String, val maxTokens: Int? = null) : DeepSeekIntent
 
+    /** 设置是否联网检索网页摘要并注入 Prompt。 */
+    data class SetWebSearchEnabled(val enabled: Boolean) : DeepSeekIntent
+
     /** 设置回答模式 */
     data class SetAnswerMode(val mode: SmartAnswerMode) : DeepSeekIntent
 

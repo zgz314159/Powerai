@@ -190,6 +190,9 @@ class DeepSeekViewModelTest {
             vm.onIntent(DeepSeekIntent.SetStateSnapshotReuseEnabled(true))
             assertTrue(vm.uiState.value.stateSnapshotReuseEnabled)
 
+            vm.onIntent(DeepSeekIntent.SetWebSearchEnabled(true))
+            assertTrue(vm.uiState.value.webSearchEnabled)
+
             testScheduler.advanceUntilIdle()
         }
     }
