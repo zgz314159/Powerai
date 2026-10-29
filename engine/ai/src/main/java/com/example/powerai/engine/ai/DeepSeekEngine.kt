@@ -19,8 +19,13 @@ import java.io.File
 class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEngine {
     private companion object {
         const val TAG = "DeepSeekEngine"
+        /** Idle after last visible chunk before treating stream as done. */
         const val STREAM_COMPLETION_IDLE_MS = 1_500L
-        const val STREAM_COMPLETION_GRACE_MS = 5_000L
+        /**
+         * Absolute ceiling for one infer(). Must cover model prefill (often >1.5s on device)
+         * plus decode; the old 5s grace + idle-from-start cut off empty answers at ~1.6s.
+         */
+        const val STREAM_COMPLETION_TIMEOUT_MS = 180_000L
     }
 
     private val nativeRuntime = DeepSeekNativeRuntimeBridge
@@ -244,9 +249,11 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
             var pendingThinkingText = ""
             var pendingTagFragment = ""
             var lastChunkAtMs = System.currentTimeMillis()
+            var receivedChunk = false
             val finishSequenceBeforeStart = nativeRuntime.finishSequence.value
 
             fun onChunk(chunk: String) {
+                receivedChunk = true
                 lastChunkAtMs = System.currentTimeMillis()
                 val parsed =
                     ThinkingInterceptor.parseStreamingChunk(
@@ -292,17 +299,24 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
                         }
                     }
 
-                    val completionObserved =
-                        withTimeoutOrNull(STREAM_COMPLETION_GRACE_MS) {
+                    val completed =
+                        withTimeoutOrNull(STREAM_COMPLETION_TIMEOUT_MS) {
                             while (true) {
                                 val finished = nativeRuntime.finishSequence.value > finishSequenceBeforeStart
+                                if (finished) return@withTimeoutOrNull true
+                                // Prefill often exceeds IDLE_MS with zero tokens — never idle-complete
+                                // until at least one chunk arrived (was ending empty at ~1.6s).
                                 val idleMs = System.currentTimeMillis() - lastChunkAtMs
-                                if (finished || idleMs >= STREAM_COMPLETION_IDLE_MS) {
+                                if (receivedChunk && idleMs >= STREAM_COMPLETION_IDLE_MS) {
                                     return@withTimeoutOrNull true
                                 }
                                 delay(50)
                             }
-                        } ?: false
+                        }
+                    if (completed != true) {
+                        // Absolute timeout: stop orphan native generate so the next ask can start.
+                        nativeRuntime.safeStopGeneration()
+                    }
 
                     collectJob.cancel()
                     val finalText = resultBuilder.toString()

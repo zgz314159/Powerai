@@ -11,6 +11,7 @@ import com.example.powerai.core.model.SmartBatchSizePreset
 import com.example.powerai.core.model.SmartBatchThreadPreset
 import com.example.powerai.core.model.SmartGenerationRunResult
 import com.example.powerai.core.model.SmartProgressPhase
+import com.example.powerai.core.model.SmartStageMetrics
 import com.example.powerai.core.model.SmartThreadPreset
 import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.core.repository.VectorRepository
@@ -146,7 +147,17 @@ class DeepSeekViewModel
                 sessionManager.prepareForNextGeneration(state.isLoading)
                 val runToken = sessionManager.startNewRun()
                 val askedAt = System.currentTimeMillis()
-                updateState { copy(askedAtMillis = askedAt, result = "", thinking = emptyList()) }
+                // Clear stale footer metrics from a prior (possibly orphan) generate.
+                updateState {
+                    copy(
+                        askedAtMillis = askedAt,
+                        result = "",
+                        thinking = emptyList(),
+                        thinkingPreview = "",
+                        generationMetrics = GenerationMetrics(),
+                        stageMetrics = SmartStageMetrics(),
+                    )
+                }
 
                 val prepared = promptManager.prepareGroundedPrompt(
                     normalizedQuestion = question,
