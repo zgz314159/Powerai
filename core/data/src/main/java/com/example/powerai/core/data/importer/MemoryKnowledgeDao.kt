@@ -52,6 +52,9 @@ class MemoryKnowledgeDao : KnowledgeDao {
 
     override suspend fun getById(id: Long): KnowledgeEntity? = list.find { it.id == id }
 
+    override suspend fun findByExactTitle(title: String): List<KnowledgeEntity> =
+        list.filter { it.title == title }.take(5)
+
     override suspend fun updateBlocksJsonAndSearchFields(
         id: Long,
         contentBlocksJson: String,

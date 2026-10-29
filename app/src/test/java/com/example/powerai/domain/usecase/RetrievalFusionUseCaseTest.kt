@@ -2,6 +2,7 @@ package com.example.powerai.domain.usecase
 
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.domain.retrieval.HybridRetrievalService
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
 import com.example.powerai.engine.ai.SparseSearcher
@@ -18,16 +19,20 @@ import org.mockito.kotlin.whenever
 class RetrievalFusionUseCaseTest {
     private lateinit var hybridService: HybridRetrievalService
     private lateinit var sparseSearcher: SparseSearcher
+    private lateinit var knowledgeRepository: KnowledgeRepository
     private lateinit var useCase: RetrievalFusionUseCase
 
     @Before
     fun setup() {
         hybridService = mock(HybridRetrievalService::class.java)
         sparseSearcher = mock(SparseSearcher::class.java)
-        useCase = RetrievalFusionUseCase(hybridService, sparseSearcher)
+        knowledgeRepository = mock(KnowledgeRepository::class.java)
+        useCase = RetrievalFusionUseCase(hybridService, sparseSearcher, knowledgeRepository)
         whenever(sparseSearcher.search(any(), any<Int>())).thenReturn(emptyList())
         runBlocking {
             whenever(hybridService.retrieveHybrid(any(), any<Int>())).thenReturn(emptyList())
+            whenever(knowledgeRepository.findByExactTitle(any())).thenReturn(null)
+            whenever(knowledgeRepository.searchByKeyword(any())).thenReturn(emptyList())
         }
     }
 
@@ -97,6 +102,36 @@ class RetrievalFusionUseCaseTest {
             assertEquals(158L, results.first().id)
             assertEquals(2, results.first().debug?.get("query_variant_hit_count"))
             assertTrue(results.first().debug?.containsKey("query_plan_strategy") == true)
+        }
+
+    @Test
+    fun `invoke resolves sparse hit to Room id by exact title`() =
+        runBlocking {
+            whenever(hybridService.retrieveHybrid(any(), any<Int>())).thenReturn(emptyList())
+            whenever(sparseSearcher.search(any(), any<Int>())).thenReturn(
+                listOf(
+                    SparseSearcher.SafetyEntry(
+                        "10kV验电",
+                        "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。",
+                        "电力安全工作规程",
+                    ),
+                ),
+            )
+            whenever(knowledgeRepository.findByExactTitle("10kV验电")).thenReturn(
+                KnowledgeItem(
+                    id = 4242L,
+                    title = "10kV验电",
+                    content = "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。",
+                    source = "电力安全工作规程",
+                    category = "安规",
+                    keywords = emptyList(),
+                ),
+            )
+
+            val items = useCase.invoke("10KV如何验电", limit = 5)
+            assertEquals(1, items.size)
+            assertEquals(4242L, items.first().id)
+            assertEquals("电力安全工作规程", items.first().source)
         }
 
     private fun retrieval(

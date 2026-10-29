@@ -29,6 +29,8 @@ class StreamingJsonBatchWriterTest {
 
         override suspend fun getById(id: Long): KnowledgeEntity? = null
 
+        override suspend fun findByExactTitle(title: String): List<KnowledgeEntity> = emptyList()
+
         override suspend fun updateBlocksJsonAndSearchFields(
             id: Long,
             contentBlocksJson: String,

@@ -140,4 +140,10 @@ class KnowledgeRepositoryImpl
         override suspend fun searchByKeyword(query: String): List<KnowledgeItem> {
             return dao.searchByKeywordInContent(query).map(::entityToItem)
         }
+
+        override suspend fun findByExactTitle(title: String): KnowledgeItem? {
+            val key = title.trim()
+            if (key.isBlank()) return null
+            return dao.findByExactTitle(key).firstOrNull()?.let(::entityToItem)
+        }
     }

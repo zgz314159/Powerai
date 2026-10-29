@@ -94,6 +94,9 @@ class DocumentImportManager
                         .filter(scanner::shouldImportAssetJson)
                         .sorted()
 
+                // Sparse 语料也入库，依据点击才能进本地 KnowledgeDetail。
+                runCatching { PowerSafetyRulesAssetImporter.importIfNeed(context, dao) }
+
                 if (files.isEmpty()) {
                     scanner.publishDiagnostics(assetRoot, emptyList())
                     return@withLock AssetImportOutcome()

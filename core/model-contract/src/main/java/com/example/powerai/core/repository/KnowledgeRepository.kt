@@ -65,4 +65,7 @@ interface KnowledgeRepository {
 
     /** Search knowledge items by keyword in content */
     suspend fun searchByKeyword(query: String): List<KnowledgeItem>
+
+    /** Exact title match (e.g. resolve Sparse hit → Room row). */
+    suspend fun findByExactTitle(title: String): KnowledgeItem?
 }

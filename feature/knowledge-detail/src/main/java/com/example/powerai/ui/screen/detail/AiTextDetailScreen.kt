@@ -56,6 +56,7 @@ fun AiTextDetailScreen(navController: NavHostController) {
             title = args.title,
             content = args.content,
             highlight = highlight,
+            source = args.source,
             innerPadding = innerPadding,
         )
     }

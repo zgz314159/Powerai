@@ -115,7 +115,7 @@ class LocalModeTableEvidenceRegressionTest {
             )
         val sparse = mock<SparseSearcher>()
         whenever(sparse.search(any(), any<Int>())).thenReturn(emptyList())
-        val fusion = RetrievalFusionUseCase(hybrid, sparse)
+        val fusion = RetrievalFusionUseCase(hybrid, sparse, repo)
         return HybridQueryUseCase(
             fusion,
             mock<AskAiUseCase>(),

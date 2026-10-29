@@ -2,6 +2,7 @@ package com.example.powerai.domain.retrieval
 
 import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.RetrievalResult
+import com.example.powerai.core.repository.KnowledgeRepository
 import com.example.powerai.domain.usecase.LocalSearchQueryVariant
 import com.example.powerai.domain.usecase.LocalSearchQueryVariantBuilder
 import com.example.powerai.engine.ai.SparseSearcher
@@ -20,6 +21,7 @@ class RetrievalFusionUseCase
     constructor(
         private val hybridService: HybridRetrievalService,
         private val sparseSearcher: SparseSearcher,
+        private val knowledgeRepository: KnowledgeRepository,
     ) {
         suspend fun invoke(
             keyword: String,
@@ -51,21 +53,10 @@ class RetrievalFusionUseCase
                     }
                 val sparseMapped =
                     sparse.mapIndexed { idx, s ->
-                        val synthId = -(System.currentTimeMillis() % 1000000L) - idx
-                        KnowledgeItem(
-                            id = synthId,
-                            title = s.title.ifBlank { "(no-title)" },
-                            content = s.content,
-                            source = s.source.ifBlank { "sparse" },
-                            pageNumber = null,
-                            category = "sparse",
-                            keywords = emptyList(),
-                            hitBlockIndex = null,
-                            hitBlockId = null,
-                        )
+                        resolveSparseToKnowledgeItem(s, synthFallbackIndex = idx)
                     }
                 for (sm in sparseMapped.reversed()) {
-                    if (mapped.none { it.title == sm.title }) {
+                    if (mapped.none { it.title == sm.title || (it.id > 0L && it.id == sm.id) }) {
                         mapped.add(0, sm)
                     }
                 }
@@ -88,29 +79,19 @@ class RetrievalFusionUseCase
                     } catch (_: Throwable) {
                         emptyList<SparseSearcher.SafetyEntry>()
                     }
-                for (s in sparse) {
-                    val ki =
-                        KnowledgeItem(
-                            id = -(System.currentTimeMillis() % 1000000L),
-                            title = s.title.ifBlank { "(no-title)" },
-                            content = s.content,
-                            source = s.source.ifBlank { "sparse" },
-                            pageNumber = null,
-                            category = "sparse",
-                            keywords = emptyList(),
-                            hitBlockIndex = null,
-                            hitBlockId = null,
-                        )
+                for ((idx, s) in sparse.withIndex()) {
+                    val ki = resolveSparseToKnowledgeItem(s, synthFallbackIndex = idx)
+                    val resolved = ki.id > 0L
                     val rr =
                         RetrievalResult(
-                            id = null,
+                            id = ki.id.takeIf { it > 0L },
                             score = 1.0f,
                             confidence = 1.0f,
-                            source = "sparse",
+                            source = if (resolved) "local" else "sparse",
                             metadata = mapOf("title" to ki.title, "snippet" to ki.content, "source" to ki.source),
                             provenance = emptyList(),
                             vectorPresent = false,
-                            debug = mapOf("sparse" to true),
+                            debug = mapOf("sparse" to true, "sparse_resolved" to resolved),
                             item = ki,
                         )
                     out.add(0, rr)
@@ -118,6 +99,43 @@ class RetrievalFusionUseCase
             } catch (_: Throwable) {
             }
             return out.take(limit)
+        }
+
+        private suspend fun resolveSparseToKnowledgeItem(
+            entry: SparseSearcher.SafetyEntry,
+            synthFallbackIndex: Int,
+        ): KnowledgeItem {
+            val title = entry.title.ifBlank { "(no-title)" }
+            val room =
+                runCatching { knowledgeRepository.findByExactTitle(title) }.getOrNull()
+                    ?.takeIf { it.id > 0L }
+            if (room != null) return room
+
+            val contentPrefix = entry.content.replace(Regex("\\s+"), " ").trim().take(48)
+            if (contentPrefix.length >= 8) {
+                val byContent =
+                    runCatching { knowledgeRepository.searchByKeyword(contentPrefix.take(24)) }
+                        .getOrNull()
+                        .orEmpty()
+                        .firstOrNull { item ->
+                            item.id > 0L &&
+                                item.content.replace(Regex("\\s+"), " ").trim().startsWith(contentPrefix.take(32))
+                        }
+                if (byContent != null) return byContent
+            }
+
+            val synthId = -(System.currentTimeMillis() % 1000000L) - synthFallbackIndex
+            return KnowledgeItem(
+                id = synthId,
+                title = title,
+                content = entry.content,
+                source = entry.source.ifBlank { "sparse" },
+                pageNumber = null,
+                category = "sparse",
+                keywords = emptyList(),
+                hitBlockIndex = null,
+                hitBlockId = null,
+            )
         }
 
         private suspend fun retrieveHybridCandidates(

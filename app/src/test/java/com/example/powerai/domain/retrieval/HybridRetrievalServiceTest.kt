@@ -299,6 +299,10 @@ class HybridRetrievalServiceTest {
                         throw NotImplementedError()
                     }
 
+                    override suspend fun findByExactTitle(title: String): List<com.example.powerai.core.data.entity.KnowledgeEntity> {
+                        throw NotImplementedError()
+                    }
+
                     override suspend fun updateBlocksJsonAndSearchFields(
                         id: Long,
                         contentBlocksJson: String,

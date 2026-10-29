@@ -6,6 +6,7 @@ import com.example.powerai.feature.knowledgedetail.AiTextDetailNav
 internal data class AiTextDetailNavArgs(
     val title: String,
     val content: String,
+    val source: String,
     val highlightEncoded: String,
 )
 
@@ -16,11 +17,13 @@ internal object AiTextDetailNavArgsReader {
         val title =
             prev?.savedStateHandle?.get<String>(AiTextDetailNav.KEY_TITLE).orEmpty().ifBlank { "条文详情" }
         val content = prev?.savedStateHandle?.get<String>(AiTextDetailNav.KEY_CONTENT).orEmpty()
+        val source = prev?.savedStateHandle?.get<String>(AiTextDetailNav.KEY_SOURCE).orEmpty()
         val highlightEncoded =
             navController.currentBackStackEntry?.arguments?.getString(AiTextDetailNav.ARG_Q).orEmpty()
         return AiTextDetailNavArgs(
             title = title,
             content = content,
+            source = source,
             highlightEncoded = highlightEncoded,
         )
     }

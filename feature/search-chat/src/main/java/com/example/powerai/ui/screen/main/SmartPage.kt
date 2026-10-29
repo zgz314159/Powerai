@@ -43,7 +43,8 @@ fun SmartPage(
     topContentPadding: Dp = 64.dp,
     metaProvider: ((KnowledgeItem) -> String?)? = null,
     onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -> Unit,
-    onOpenTextEvidence: (title: String, content: String, highlight: String) -> Unit = { _, _, _ -> },
+    onOpenTextEvidence: (title: String, content: String, highlight: String, source: String) -> Unit =
+        { _, _, _, _ -> },
     onRetry: () -> Unit = {},
     onCopy: (String) -> Unit = {},
     showEmptyState: Boolean,

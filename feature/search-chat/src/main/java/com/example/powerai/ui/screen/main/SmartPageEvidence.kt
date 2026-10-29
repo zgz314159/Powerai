@@ -57,7 +57,8 @@ fun LazyListScope.smartEvidenceSection(
     metaProvider: ((KnowledgeItem) -> String?)?,
     onOpenDetail: (id: Long, blockIndex: Int?, blockId: String?, detailHighlight: String?) -> Unit,
     /** Sparse / 负 id：无 Room 行，打开正文详情。 */
-    onOpenTextEvidence: (title: String, content: String, highlight: String) -> Unit = { _, _, _ -> },
+    onOpenTextEvidence: (title: String, content: String, highlight: String, source: String) -> Unit =
+        { _, _, _, _ -> },
 ) {
     if (visibleSegments.isEmpty()) return
 
@@ -119,7 +120,7 @@ fun LazyListScope.smartEvidenceSection(
                             item.title
                                 .replace(Regex("""^\s*\[\d+\]\s*"""), "")
                                 .ifBlank { "条文详情" }
-                        onOpenTextEvidence(plainTitle, item.content, detailHighlight)
+                        onOpenTextEvidence(plainTitle, item.content, detailHighlight, item.source)
                     }
                 },
                 expanded = false,

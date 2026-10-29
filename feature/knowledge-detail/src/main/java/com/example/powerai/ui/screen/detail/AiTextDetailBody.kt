@@ -19,6 +19,7 @@ internal fun AiTextDetailBody(
     title: String,
     content: String,
     highlight: String,
+    source: String = "",
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -36,6 +37,7 @@ internal fun AiTextDetailBody(
             AiTextDetailHeader(
                 title = title,
                 highlight = highlight,
+                source = source,
             )
         }
         items(chunks) { part ->

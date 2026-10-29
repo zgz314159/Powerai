@@ -73,6 +73,10 @@ internal class FakeKnowledgeRepository : KnowledgeRepository {
         return searchItems(query)
     }
 
+    override suspend fun findByExactTitle(title: String): KnowledgeItem? =
+        allItems.firstOrNull { it.title == title.trim() }
+            ?: itemsById.values.firstOrNull { it.title == title.trim() }
+
     override suspend fun getImportedFiles(): List<ImportedFile> = importedFiles
 
     override suspend fun getLocalItemById(id: Long): KnowledgeItem? = itemsById[id]

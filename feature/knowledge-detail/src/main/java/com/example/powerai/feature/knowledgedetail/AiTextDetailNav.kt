@@ -12,6 +12,7 @@ object AiTextDetailNav {
 
     const val KEY_TITLE = "AI_DETAIL_TITLE"
     const val KEY_CONTENT = "AI_DETAIL_CONTENT"
+    const val KEY_SOURCE = "AI_DETAIL_SOURCE"
 
     fun createRoute(highlight: String = ""): String {
         val q = Uri.encode(highlight)
@@ -23,9 +24,11 @@ object AiTextDetailNav {
         title: String,
         content: String,
         highlight: String = "",
+        source: String = "",
     ) {
         navController.currentBackStackEntry?.savedStateHandle?.set(KEY_TITLE, title)
         navController.currentBackStackEntry?.savedStateHandle?.set(KEY_CONTENT, content)
+        navController.currentBackStackEntry?.savedStateHandle?.set(KEY_SOURCE, source)
         navController.navigate(createRoute(highlight))
     }
 }

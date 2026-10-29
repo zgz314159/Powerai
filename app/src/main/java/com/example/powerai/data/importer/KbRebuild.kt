@@ -140,6 +140,22 @@ private suspend fun DocumentImportManager.runRebuildTransaction(
                 )
         }
     }
+    // Sparse 语料包：重建后也要写回 Room，否则依据仍是负 id。
+    val safetyRows =
+        runCatching { PowerSafetyRulesAssetImporter.importIfNeed(context, dao) }.getOrDefault(-1)
+    if (safetyRows > 0) {
+        rows += safetyRows
+        importedPackages++
+        diagnostics +=
+            AssetImportDiagnosticEntry(
+                assetPath = PowerSafetyRulesAssetImporter.ASSET_PATH,
+                fileId = PowerSafetyRulesAssetImporter.packageId,
+                displayName = PowerSafetyRulesAssetImporter.DISPLAY_NAME,
+                status = AssetImportStatus.IMPORTED,
+                rowCount = safetyRows,
+                errorMessage = null,
+            )
+    }
     return RebuildReport(rows, importedPackages, diagnostics)
 }
 

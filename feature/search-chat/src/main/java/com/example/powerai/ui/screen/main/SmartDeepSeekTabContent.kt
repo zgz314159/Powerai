@@ -148,12 +148,13 @@ fun SmartDeepSeekTabContent(
                         KnowledgeDetailNavArgs.createRoute(id, encoded, blockIndex, blockId),
                     )
                 },
-                onOpenTextEvidence = { title, content, detailHighlight ->
+                onOpenTextEvidence = { title, content, detailHighlight, source ->
                     AiTextDetailNav.navigate(
                         navController = navController,
                         title = title,
                         content = content,
                         highlight = detailHighlight.ifBlank { searchQuery },
+                        source = source,
                     )
                 },
                 onRetry = { submitSmartQuery(searchQuery) },

@@ -50,6 +50,9 @@ interface KnowledgeDao {
     @Query("SELECT * FROM knowledge WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): KnowledgeEntity?
 
+    @Query("SELECT * FROM knowledge WHERE title = :title LIMIT 5")
+    suspend fun findByExactTitle(title: String): List<KnowledgeEntity>
+
     @Query(
         "UPDATE knowledge SET " +
             "contentBlocksJson = :contentBlocksJson, " +

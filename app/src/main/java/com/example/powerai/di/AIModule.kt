@@ -83,8 +83,9 @@ object AIModule {
     fun provideRetrievalFusionUseCase(
         svc: HybridRetrievalService,
         sparseSearcher: SparseSearcher,
+        knowledgeRepository: KnowledgeRepository,
     ): RetrievalFusionUseCase {
-        return RetrievalFusionUseCase(svc, sparseSearcher)
+        return RetrievalFusionUseCase(svc, sparseSearcher, knowledgeRepository)
     }
 
     @Provides

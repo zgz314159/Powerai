@@ -15,6 +15,7 @@ import com.example.powerai.ui.text.highlightAll
 internal fun AiTextDetailHeader(
     title: String,
     highlight: String,
+    source: String = "",
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -24,7 +25,7 @@ internal fun AiTextDetailHeader(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "来源：AI",
+            text = "来源：${source.ifBlank { "本地资料" }}",
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
         )
