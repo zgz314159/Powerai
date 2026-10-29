@@ -88,4 +88,28 @@ class SmartEvidenceRankerTest {
         assertEquals(1, refined.size)
         assertEquals(1L, refined.single().id)
     }
+
+    @Test
+    fun `keeps 10kV grounding article for equipment maintenance ask`() {
+        val hit =
+            item(
+                1,
+                "10kV接地",
+                "10kV设备检修前应先拉开开关并接地，接地后应复测确保无电后方可作业。",
+            )
+        val noise =
+            item(
+                2,
+                "绝缘手套",
+                "所有高压操作必须佩戴符合等级的绝缘手套，并按规定间隔检查绝缘性能。",
+            )
+        val refined =
+            SmartEvidenceRanker.refine(
+                question = "10KV设备检修",
+                items = listOf(noise, hit),
+                limit = 2,
+            )
+        assertTrue(refined.any { it.id == 1L })
+        assertTrue(refined.none { it.id == 2L })
+    }
 }

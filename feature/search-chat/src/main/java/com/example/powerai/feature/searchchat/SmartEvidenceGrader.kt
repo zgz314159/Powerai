@@ -26,6 +26,9 @@ object SmartEvidenceGrader {
             "最小距离",
             "电压偏差",
             "允许偏差",
+            "设备检修",
+            "停电检修",
+            "检修",
             "验电",
             "接地",
             "温升",
@@ -57,15 +60,23 @@ object SmartEvidenceGrader {
 
     /**
      * 单条证据对问题的可答性分 [0,1]。
-     * 有方面词时：方面命中权重大；仅实体命中则偏低。
+     * 有方面词时：方面命中权重大；无词典方面时用主题词命中率代理（避免「10KV设备检修」误杀）。
      */
     fun answerabilityScore(
         question: String,
         item: KnowledgeItem,
     ): Float {
         val hay = "${item.title}\n${item.content.take(900)}"
+        val hayLower = hay.lowercase()
         val entities = extractEntities(question)
         val aspects = extractAspects(question)
+        val terms = SmartEvidenceRanker.extractQueryTerms(question)
+        val termHitRatio =
+            if (terms.isEmpty()) {
+                0f
+            } else {
+                terms.count { hayLower.contains(it.lowercase()) }.toFloat() / terms.size
+            }
         var score = 0f
 
         if (entities.isNotEmpty()) {
@@ -73,20 +84,24 @@ object SmartEvidenceGrader {
             score += hits.toFloat() / entities.size * 0.35f
             if (entities.any { item.title.contains(it) }) score += 0.1f
         } else {
-            // 无明确实体：退回主题词重合
-            val terms = SmartEvidenceRanker.extractQueryTerms(question)
-            if (terms.isNotEmpty()) {
-                val hits = terms.count { hay.contains(it, ignoreCase = true) }
-                score += hits.toFloat() / terms.size * 0.35f
-            }
+            score += termHitRatio * 0.35f
         }
 
         if (aspects.isNotEmpty()) {
-            val hits = aspects.count { hay.contains(it) }
-            score += hits.toFloat() / aspects.size * 0.55f
+            // 优先更长短语（设备检修 > 检修）
+            val ordered = aspects.sortedByDescending { it.length }
+            val hits = ordered.count { hay.contains(it) }
+            score += hits.toFloat() / ordered.size * 0.55f
         } else {
-            // 问题无方面词（本不应到达此处，歧义门闸应拦住）：实体命中也只给模糊分
-            score *= 0.45f
+            // 无方面词典命中时：不要再乘惩罚；主题词高重合即可视为可答
+            score += termHitRatio * 0.55f
+        }
+
+        // 电压等级一致加分（问 10kV、证也有 10kV）
+        val qKv = SmartEvidenceRanker.extractKvLevels(question)
+        val eKv = SmartEvidenceRanker.extractKvLevels(hay)
+        if (qKv.isNotEmpty() && eKv.any { level -> qKv.any { q -> kotlin.math.abs(q - level) < 0.05 } }) {
+            score += 0.12f
         }
 
         return score.coerceIn(0f, 1f)

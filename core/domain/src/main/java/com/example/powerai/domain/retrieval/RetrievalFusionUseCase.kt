@@ -47,7 +47,7 @@ class RetrievalFusionUseCase
             try {
                 val sparse =
                     try {
-                        sparseSearcher.search(keyword, 2)
+                        sparseSearcher.search(keyword, 5)
                     } catch (_: Throwable) {
                         emptyList<SparseSearcher.SafetyEntry>()
                     }
@@ -75,7 +75,7 @@ class RetrievalFusionUseCase
             try {
                 val sparse =
                     try {
-                        sparseSearcher.search(keyword, 2)
+                        sparseSearcher.search(keyword, 5)
                     } catch (_: Throwable) {
                         emptyList<SparseSearcher.SafetyEntry>()
                     }

@@ -158,10 +158,8 @@ class DeepSeekPromptManager
             val webSources = webResults.map { it.url }.filter { it.isNotBlank() }.distinct()
             val retrievalMs = SystemClock.elapsedRealtime() - retrievalStartedAt
 
-            // CRAG：Ambiguous 且无网页时，弱本地也丢掉，避免 1.5B 借弱证据空编。
-            if (confidence == SmartEvidenceConfidence.AMBIGUOUS && webResults.isEmpty()) {
-                references = emptyList()
-            }
+            // Ambiguous：保留已过滤的本地条（≥0.28）；仅 Incorrect/空才拒答。
+            // （此前无网页就清空会导致「库里有条文」仍资料不足。）
 
             SmartDeepSeekDebugLogger.logEvent(
                 provider = provider,

@@ -29,18 +29,23 @@ class RoomFtsRetriever
                     throw t
                 }
 
-            val combined = mutableListOf<com.example.powerai.core.data.entity.KnowledgeEntity>()
-            combined.addAll(ftsEntities)
-            if (combined.size < k) {
+            // 整句 LIKE 命中优先于宽 FTS：否则 FTS 用「检修」等碎片灌满 topK，
+            // 真正含「10KV设备检修」的条文进不了候选 → 智能页误报资料不足。
+            val keywordHits =
                 try {
-                    val kws = dao.searchByKeyword(normalized)
-                    for (e in kws) {
-                        if (combined.none { it.id == e.id }) {
-                            combined.add(e)
-                        }
-                        if (combined.size >= k) break
-                    }
+                    dao.searchByKeyword(normalized)
                 } catch (_: Throwable) {
+                    emptyList()
+                }
+            val combined = mutableListOf<com.example.powerai.core.data.entity.KnowledgeEntity>()
+            for (e in keywordHits) {
+                if (combined.none { it.id == e.id }) combined.add(e)
+                if (combined.size >= k) break
+            }
+            if (combined.size < k) {
+                for (e in ftsEntities) {
+                    if (combined.none { it.id == e.id }) combined.add(e)
+                    if (combined.size >= k) break
                 }
             }
             if (combined.size < k) {

@@ -439,13 +439,12 @@ class HybridRetrievalServiceTest {
                 }
 
             val retr = RoomFtsRetriever(dao)
-            // try with plain keyword
+            // 整句 LIKE 优先：keyword 2,3,4 在前，再补 FTS 独有的 1
             val res1 = retr.search("foo", k = 4)
             val ids1 = res1.mapNotNull { it.id }
-            assertEquals(listOf(1L, 2L, 3L, 4L), ids1)
-            // and with a trailing wildcard (what the caller will usually pass)
+            assertEquals(listOf(2L, 3L, 4L, 1L), ids1)
             val res2 = retr.search("foo*", k = 4)
             val ids2 = res2.mapNotNull { it.id }
-            assertEquals(listOf(1L, 2L, 3L, 4L), ids2)
+            assertEquals(listOf(2L, 3L, 4L, 1L), ids2)
         }
 }

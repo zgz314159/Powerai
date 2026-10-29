@@ -40,6 +40,9 @@ object SmartEvidenceRanker {
             "架空",
             "倒闸",
             "接地线",
+            "设备检修",
+            "停电检修",
+            "检修",
             "验电",
             "接地",
             "继电保护",
@@ -185,7 +188,14 @@ object SmartEvidenceRanker {
         val relevant =
             scored.filter { it.score >= 0 && isRelevantToQuestion(question, it.item) }
         if (relevant.isEmpty()) {
-            // 门闸：无一足够相关 → 空列表，交由「资料不足」/联网，禁止脏证据进 Prompt。
+            // 门闸过严时：用可答性回捞（避免库内已有「10kV设备检修…」仍被整批丢弃）。
+            val salvaged =
+                items
+                    .filter { SmartEvidenceGrader.answerabilityScore(question, it) >= 0.28f }
+                    .sortedByDescending { SmartEvidenceGrader.answerabilityScore(question, it) }
+                    .take(limit)
+            if (salvaged.isNotEmpty()) return salvaged
+            // 无一足够相关 → 空列表，交由「资料不足」/联网，禁止脏证据进 Prompt。
             return emptyList()
         }
         val positive = relevant.filter { it.score >= 0 }

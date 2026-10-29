@@ -56,4 +56,18 @@ class SmartEvidenceGraderTest {
         val score = SmartEvidenceGrader.answerabilityScore("变压器绝缘电阻多大", weak)
         assertTrue(score < 0.55f)
     }
+
+    @Test
+    fun `10kV equipment maintenance matches grounding-before-work article`() {
+        val hit =
+            item(
+                "10kV接地",
+                "10kV设备检修前应先拉开开关并接地，接地后应复测确保无电后方可作业。",
+            )
+        val q = "10KV设备检修"
+        assertTrue(SmartEvidenceRanker.isRelevantToQuestion(q, hit))
+        val score = SmartEvidenceGrader.answerabilityScore(q, hit)
+        assertTrue("score=$score", score >= 0.55f)
+        assertEquals(SmartEvidenceConfidence.CORRECT, SmartEvidenceGrader.grade(q, listOf(hit)))
+    }
 }

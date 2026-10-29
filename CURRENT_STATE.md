@@ -237,6 +237,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-29 | 假「资料不足」：LIKE 整句优先于宽 FTS；sparse top5；grader 修「检修」方面；Ambiguous 不清空弱本地；ranker 可答性回捞 |
 | 2026-10-29 | CRAG 路由：歧义问澄清；证据 Correct/Ambiguous/Incorrect；弱证据不硬生成；时效问仍可用设备日期 |
 | 2026-10-29 | Smart RAG 相关度门闸：无关证据清空；弱本地数值问可联网；生成后拒 meta/无据数值；Prompt 主题不符→资料不足 |
 | 2026-10-29 | Sparse 安规语料入库：`power_safety_rules.json` → Room；Fusion 按 title 解析正 id；点依据进 KnowledgeDetail（非「来源：AI」）；AiTextDetail 兜底显示真实 source |
