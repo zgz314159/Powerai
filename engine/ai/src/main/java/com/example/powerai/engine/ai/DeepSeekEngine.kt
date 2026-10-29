@@ -102,8 +102,9 @@ class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEn
         val resFile = File(loadPath)
         if (resFile.isDirectory) {
             val ggufs = resFile.listFiles { f -> f.isFile && f.name.endsWith(".gguf", true) }
-            if (!ggufs.isNullOrEmpty()) {
-                loadPath = ggufs[0].absolutePath
+            val preferred = ggufs?.let { GgufModelPicker.pickPreferred(it) }
+            if (preferred != null) {
+                loadPath = preferred.absolutePath
             } else {
                 lastError = "model path resolves to directory without gguf file: $loadPath"
                 loaded = false

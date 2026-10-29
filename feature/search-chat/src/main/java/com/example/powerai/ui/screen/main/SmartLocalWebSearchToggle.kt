@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 
 /**
  * Smart 页联网开关。文案用「联网 / 仅本地」，避免与提交按钮「搜索」撞名。
+ * 「联网」= 允许在时效问题或本地 0 命中时补网页摘要；规程有本地命中时仍只走 KB。
  */
 @Composable
 internal fun SmartLocalWebSearchToggle(
@@ -22,7 +23,7 @@ internal fun SmartLocalWebSearchToggle(
         FilterChip(
             selected = webSearchEnabled,
             onClick = { onToggle(true) },
-            label = { Text("联网") },
+            label = { Text("联网增强") },
             modifier = Modifier.testTag("smart_ds_web_on"),
         )
         Spacer(modifier = Modifier.width(6.dp))

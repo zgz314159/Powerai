@@ -94,7 +94,8 @@
 | KI-52 | 用户目录导入读入整份 JSON | 峰值内存 | **接受限制**；大 KB 再两遍流式 |
 | KI-53 | `PdfViewerScreen` | 历史乱码文案 | ✅ 已关闭（2026-10-27）：可见 UI 文案已为正常中文；无 mojibake 残留 |
 | KI-54 | 真机验收 | 用户目录导入全链路未真机跑 | **真机待验**（不伪完成） |
-| KI-59 | Smart 联网 | 智能页「联网」依赖 `local.properties` → `SERPER_API_KEY`（与 AI 检索同源）；未配置时开关无网页结果、进度提示「联网未配置」并仅本地生成 | 配置 Serper 后真机验联网路径 |
+| KI-59 | Smart 联网 | 智能页「联网增强」依赖 `local.properties` → `SERPER_API_KEY`；未配置时无网页、仅本地+设备日期；有 key 时仅时效或本地 0 命中才搜 | 配置 Serper 后真机验自动联网路径 |
+| KI-60 | Smart 模型档 | 端侧若仅有 Distill-1.5B-Q4，Instruct/Q5–Q6 优选规则无候选可换；质量上限仍受模型档约束 | 有条件时 push Instruct-Q5/Q6 到 `files/models/` |
 
 ---
 

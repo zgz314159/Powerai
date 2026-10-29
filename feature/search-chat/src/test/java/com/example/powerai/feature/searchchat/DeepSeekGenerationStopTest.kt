@@ -92,6 +92,7 @@ class DeepSeekGenerationStopTest {
                 any(),
                 any(),
                 any(),
+                org.mockito.kotlin.anyOrNull(),
             ),
         ).thenReturn(
             PreparedGroundedPrompt(
