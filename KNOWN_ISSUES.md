@@ -2,7 +2,20 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-29（智能页可选联网 KI-59；Phase D0–D5 离线债清零完成；真机见 `docs/device_acceptance_checklist.md`）
+**最后同步**：2026-10-29（Smart RAG 四项缺口 P0 基线；KI-59；Phase D0–D5；真机见 `docs/device_acceptance_checklist.md`）
+
+---
+
+## Smart RAG 四项缺口（进行中，勿标完成）
+
+| ID | 缺口 | 状态 |
+|----|------|------|
+| KI-60 | 模型未走 `InferenceParameters.withMessages`；system 非角色编码；采样参数诊断不全 | P0 已证实；**P1 待修** |
+| KI-61 | 词面分级 ≠ 意图覆盖；AMBIGUOUS 仍可硬生成 | P0 已证实；**P3 待修** |
+| KI-62 | 守卫难拦职责/顺序改写；`take(220)` 非合格摘录；假「资料不足」与资料缺失未分因 | P0 已证实；**P4 待修** |
+| KI-63 | `power_safety_rules` 冠名「电力安全工作规程」；Sparse/Room 回退可冒充权威 | P0 已证实；**P2 待修** |
+
+计划与基线：`docs/smart_rag_governance_plan.md`、`docs/smart_rag_p0_baseline.md`。
 
 ---
 
