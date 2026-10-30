@@ -174,30 +174,27 @@ class DeepSeekPromptManager
             )
 
             if (references.isEmpty() && webResults.isEmpty() && queryKind != SmartQueryKind.TEMPORAL) {
-                val direct =
-                    if (unverifiedRefs.isNotEmpty()) {
-                        SourceQualification.unverifiedSynopsisNotice(unverifiedRefs)
-                    } else {
-                        SmartAnswerGuard.INSUFFICIENT
-                    }
+                val decision =
+                    SmartAnswerDecisionEngine.decide(
+                        question = normalizedQuestion,
+                        qualifiedEvidence = emptyList(),
+                        confidence = confidence,
+                        unverifiedOnlyNotice =
+                            if (unverifiedRefs.isNotEmpty()) {
+                                SourceQualification.unverifiedSynopsisNotice(unverifiedRefs)
+                            } else {
+                                null
+                            },
+                    )
                 onProgress(
                     SmartProgressPhase.COMPLETED,
                     if (unverifiedRefs.isNotEmpty()) "来源未核定" else "资料不足",
-                    if (unverifiedRefs.isNotEmpty()) {
-                        "仅有未核定摘要 ${unverifiedRefs.size} 条，已拒绝作为规程权威依据。"
-                    } else {
-                        "检索置信度=$confidence，无可用本地/网页资料。"
-                    },
+                    "decision=${decision.kind} reason=${decision.reasonCode}",
                 )
                 return PreparedGroundedPrompt(
                     question = normalizedQuestion,
                     prompt = "",
-                    promptPrefixKey =
-                        if (unverifiedRefs.isNotEmpty()) {
-                            "unverified-synopsis::$normalizedQuestion"
-                        } else {
-                            "insufficient::$normalizedQuestion"
-                        },
+                    promptPrefixKey = "decision-${decision.kind}::$normalizedQuestion",
                     references = emptyList(),
                     webSources = emptyList(),
                     retrievalMs = retrievalMs,
@@ -207,14 +204,52 @@ class DeepSeekPromptManager
                     answerMode = answerMode,
                     backendLabel = backendLabel,
                     queryKind = queryKind,
-                    directAnswer = direct,
-                    evidenceConfidence =
-                        if (unverifiedRefs.isNotEmpty()) {
-                            SmartEvidenceConfidence.AMBIGUOUS
-                        } else {
-                            confidence
-                        },
+                    directAnswer = decision.directAnswer ?: SmartAnswerGuard.INSUFFICIENT,
+                    evidenceConfidence = confidence,
                 )
+            }
+
+            // TEMPORAL（日期/时效）走设备日期+可选网页；不套规程证据决策短路。
+            if (queryKind != SmartQueryKind.TEMPORAL) {
+                val decision =
+                    SmartAnswerDecisionEngine.decide(
+                        question = normalizedQuestion,
+                        qualifiedEvidence = references,
+                        confidence = confidence,
+                    )
+                if (decision.kind != SmartAnswerDecisionKind.FULL && webResults.isEmpty()) {
+                    onProgress(
+                        SmartProgressPhase.COMPLETED,
+                        when (decision.kind) {
+                            SmartAnswerDecisionKind.PARTIAL -> "局部资料"
+                            SmartAnswerDecisionKind.CLARIFY -> "请补充问题"
+                            else -> "资料不足"
+                        },
+                        "decision=${decision.kind} reason=${decision.reasonCode}",
+                    )
+                    return PreparedGroundedPrompt(
+                        question = normalizedQuestion,
+                        prompt = "",
+                        promptPrefixKey = "decision-${decision.kind}::$normalizedQuestion",
+                        // PARTIAL 保留引用卡片；不把未核验生成权交给模型
+                        references =
+                            if (decision.kind == SmartAnswerDecisionKind.PARTIAL) {
+                                references
+                            } else {
+                                emptyList()
+                            },
+                        webSources = emptyList(),
+                        retrievalMs = retrievalMs,
+                        promptBuildMs = 0L,
+                        promptChars = 0,
+                        prefixReuseHit = false,
+                        answerMode = answerMode,
+                        backendLabel = backendLabel,
+                        queryKind = queryKind,
+                        directAnswer = decision.directAnswer ?: SmartAnswerGuard.INSUFFICIENT,
+                        evidenceConfidence = confidence,
+                    )
+                }
             }
 
             onProgress(

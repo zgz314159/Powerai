@@ -58,3 +58,14 @@
 
 - `./gradlew connectedDebugAndroidTest` 可能在未预置私有 `files/models` 时 SKIP；已验证流程：`adb push` GGUF → `/data/local/tmp` → `run-as cp` 入 `files/models`，再 `am instrument`（避免误清数据）。
 - 重装 APK 后须重新注入模型；**禁止**用清数据冒充升级成功。
+
+## P3 进展（关闭于 2026-10-30）
+
+| 项 | 结果 |
+|----|------|
+| `SmartAnswerDecisionEngine` FULL/PARTIAL/CLARIFY/NONE | 已实现；复用 `QueryUnderstandingPipeline` + grader；近邻噪声不进 PARTIAL |
+| PromptManager 路由 | 非 TEMPORAL：非 FULL 且无网页 → `directAnswer` 短路，不交模型硬编 |
+| 「停电怎么操作」+第34条 | PARTIAL；保留「一人操作/一人监护」；禁止「轮流」编造路径 |
+| 「变压器绝缘电阻」+手套 | NONE |
+| 短问「变压器」 | CLARIFY（既有门闸 + 决策引擎） |
+| JVM | `SmartAnswerDecisionEngineTest` + `DeepSeekPromptManagerTest`（含 procedure PARTIAL）绿 |

@@ -20,7 +20,7 @@
 | P0 基线 | 失败可定位到源/检索/覆盖/模型/解析/守卫/展示；事实与假设分开；不污染正式目录 | ✅ 材料已入库（`449de71`）；**整体治理未完成** |
 | P1 模型接入 | 模板只应用一次；同步/流式一致；停止回归；真机 A/B 有记录 | ✅ JVM：builder+StopTest；真机：`LlamaCppChatTemplateDeviceSmokeTest`（XQ-DQ72）diag=`gguf_chat_template_messages_v1`，同证据双次生成非空中文；对照见 `docs/smart_rag_p0_baseline.md` P1 |
 | P2 来源资格 | 新装/旧库升级/重复升级通过；不明来源不冒充权威 | ✅ JVM+真机：`srcpol-2` 后 synopsis=10、legacy 假规程名=0、正式 KB=143 保留；二次冷启动幂等 |
-| P3 证据决策 | FULL/PARTIAL/CLARIFY/NONE 等价；弱证据不硬答 | 待执行 |
+| P3 证据决策 | FULL/PARTIAL/CLARIFY/NONE 等价；弱证据不硬答 | ✅ `SmartAnswerDecisionEngine`+PromptManager；JVM：停电→PARTIAL 原文、近邻手套→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | P4 输出与状态 | 原文路径；语义负例阻断；历史一致 | 待执行 |
 | P5 综合验收 | 固定集+留出集+真机重复；Memory；可信晋升 | 待执行 |
 
