@@ -58,6 +58,9 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
     private var systemPrompt: String? = null
 
     @Volatile
+    private var lastInferenceParamsJson: String? = null
+
+    @Volatile
     private var activeModel: LlamaModel? = null
 
     @Volatile
@@ -269,6 +272,11 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
     }
 
     override fun getNativeRuntimeDiagnostics(): NativeRuntimeDiagnostics {
+        val fallback =
+            "{\"runtime\":\"llama-android\",\"templateMode\":\"" +
+                LlamaCppChatInferenceBuilder.TEMPLATE_MODE +
+                "\",\"n_threads\":$configuredThreadCount," +
+                "\"n_ctx\":$configuredContextLength,\"n_batch\":$configuredBatchSize}"
         return NativeRuntimeDiagnostics(
             requestedBackend = requestedBackend,
             effectiveBackend = "cpu",
@@ -277,9 +285,7 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
             backendInitVulkan = false,
             configuredThreadCount = configuredThreadCount,
             configuredContextLength = configuredContextLength,
-            lastInitParamsJson =
-                "{\"runtime\":\"llama-android\",\"n_threads\":$configuredThreadCount," +
-                    "\"n_ctx\":$configuredContextLength,\"n_batch\":$configuredBatchSize}",
+            lastInitParamsJson = lastInferenceParamsJson ?: fallback,
             lastRequestedGpuLayers = 0,
             modelInfo = activeModelPath,
         )
@@ -294,23 +300,24 @@ class LlamaCppDeepSeekRuntime : DeepSeekNativeRuntime {
         maxTokens: Int,
         stream: Boolean,
     ): InferenceParameters {
-        val merged = buildPrompt(prompt.orEmpty())
-        var params =
-            InferenceParameters.of(merged)
-                .withNPredict(maxTokens.coerceAtLeast(1))
-                .withStream(stream)
-        // Prefer chat-ish stops for Distill/Qwen templates without forcing a full chat API.
-        params = params.withStopStrings("</s>", "<|im_end|>", "<|endoftext|>")
-        return params
-    }
-
-    private fun buildPrompt(prompt: String): String {
-        val appliedSystemPrompt = systemPrompt?.trim().orEmpty()
-        return if (appliedSystemPrompt.isBlank()) {
-            prompt
-        } else {
-            appliedSystemPrompt + "\n\n" + prompt
-        }
+        val userPrompt = prompt.orEmpty()
+        lastInferenceParamsJson =
+            LlamaCppChatInferenceBuilder.diagnosticsJson(
+                systemPrompt = systemPrompt,
+                userPrompt = userPrompt,
+                maxTokens = maxTokens,
+                stream = stream,
+                nThreads = configuredThreadCount,
+                nCtx = configuredContextLength,
+                nBatch = configuredBatchSize,
+                modelPath = activeModelPath,
+            )
+        return LlamaCppChatInferenceBuilder.buildInferenceParameters(
+            systemPrompt = systemPrompt,
+            userPrompt = userPrompt,
+            maxTokens = maxTokens,
+            stream = stream,
+        )
     }
 
     private fun onToken(token: String) {

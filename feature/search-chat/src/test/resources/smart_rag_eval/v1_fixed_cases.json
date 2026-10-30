@@ -1,0 +1,1058 @@
+{
+  "version": "v1-fixed",
+  "note": "P5 固定评测 v1：62 条（holdout 14≈23%）。合成 fixture 仅测试用。未满建议 60 条时不得宣称完整集齐。",
+  "cases": [
+    {
+      "caseId": "SCRN-10KV-JX-001",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "10KV设备检修",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "NONE"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地",
+        "复测",
+        "无电后方可作业"
+      ],
+      "forbiddenClaims": [
+        "完整作业全流程已覆盖"
+      ]
+    },
+    {
+      "caseId": "SCRN-10KV-JX-002",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "10千伏设备怎么检修",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "NONE"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "SCRN-TD-CZ-001",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "停电怎么操作",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "第34条 停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。操作人员应戴绝缘手套。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "两人轮流操作"
+      ]
+    },
+    {
+      "caseId": "SCRN-TD-CZ-002",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "停电作业如何分工",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "第34条 停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。操作人员应戴绝缘手套。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "轮流操作"
+      ]
+    },
+    {
+      "caseId": "SHORT-ENTITY-001",
+      "category": "short_query",
+      "holdout": false,
+      "question": "变压器",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "SHORT-ENTITY-002",
+      "category": "short_query",
+      "holdout": false,
+      "question": "验电",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "SHORT-FACT-001",
+      "category": "short_query",
+      "holdout": false,
+      "question": "接地电阻",
+      "fixtureEvidence": {
+        "title": "接地电阻",
+        "content": "本地条款内容关于接地电阻"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL",
+        "CLARIFY",
+        "NONE"
+      ]
+    },
+    {
+      "caseId": "NEAR-GLOVES-IR-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "绝缘手套",
+        "content": "所有高压操作必须佩戴符合等级的绝缘手套，并按规定间隔检查绝缘性能。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ],
+      "forbiddenClaims": [
+        "100000Ω"
+      ]
+    },
+    {
+      "caseId": "NEAR-BOOT-DIST-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "10kV最小安全距离是多少",
+      "fixtureEvidence": {
+        "title": "绝缘靴",
+        "content": "作业人员应穿绝缘靴，定期试验合格后方可使用。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "KV-10KV-YAN-001",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "10KV如何验电",
+      "fixtureEvidence": {
+        "title": "10kV验电",
+        "content": "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "验电器"
+      ]
+    },
+    {
+      "caseId": "KV-MISMATCH-001",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "110kV如何验电",
+      "fixtureEvidence": {
+        "title": "10kV验电",
+        "content": "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "notes": "电压等级不符时不得当完整可答 FULL"
+    },
+    {
+      "caseId": "DUTY-PAIR-001",
+      "category": "duty_role",
+      "holdout": false,
+      "question": "检电接地要几人",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "两人轮流"
+      ]
+    },
+    {
+      "caseId": "NEGATION-001",
+      "category": "negation_condition",
+      "holdout": false,
+      "question": "可以带电更换熔丝吗",
+      "fixtureEvidence": {
+        "title": "熔丝更换",
+        "content": "高压熔丝不得带电更换。停电并验明确无电压后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得带电更换"
+      ],
+      "forbiddenClaims": [
+        "可以带电更换"
+      ]
+    },
+    {
+      "caseId": "ORDER-PARTIAL-001",
+      "category": "procedure_order",
+      "holdout": false,
+      "question": "停电操作步骤是什么",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "forbiddenClaims": [
+        "首先拉开刀闸然后挂接地线最后验电"
+      ]
+    },
+    {
+      "caseId": "SRC-UNKNOWN-001",
+      "category": "source_qualification",
+      "holdout": false,
+      "question": "10kV验电",
+      "sourcePolicy": "unverified_builtin_synopsis_must_not_pose_as_formal_code",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY",
+        "PARTIAL"
+      ],
+      "notes": "无合格证据时不得 FULL"
+    },
+    {
+      "caseId": "EMPTY-NONE-001",
+      "category": "missing_evidence",
+      "holdout": false,
+      "question": "发电机允许温升是多少",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "BADGEN-DUTY-001",
+      "category": "bad_generation",
+      "holdout": false,
+      "question": "停电怎么操作",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "第34条 停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。操作人员应戴绝缘手套。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenClaims": [
+        "两人轮流操作"
+      ],
+      "injectBadAnswer": "根据资料，停电时两人轮流操作即可。",
+      "notes": "守卫回放：注入坏生成必须回退原文"
+    },
+    {
+      "caseId": "CMP-SWITCH-001",
+      "category": "comparison",
+      "holdout": false,
+      "question": "隔离开关和断路器有什么区别",
+      "fixtureEvidence": {
+        "title": "开关对比",
+        "content": "隔离开关主要用于隔离电源、形成明显断开点；断路器可切断负荷电流与故障电流。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "明显断开点"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-SCRN-TD-001",
+      "category": "screenshot_regression",
+      "holdout": true,
+      "question": "停电检电接地封线怎么干",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "第34条 停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。操作人员应戴绝缘手套。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "轮流"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-NEAR-001",
+      "category": "near_miss",
+      "holdout": true,
+      "question": "变压器绝缘电阻要求",
+      "fixtureEvidence": {
+        "title": "工作票",
+        "content": "第一种工作票应填写工作地点、工作内容与安全措施。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-KV-001",
+      "category": "voltage_unit",
+      "holdout": true,
+      "question": "10千伏怎样验电",
+      "fixtureEvidence": {
+        "title": "10kV验电",
+        "content": "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "验电笔"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-NEG-001",
+      "category": "negation_condition",
+      "holdout": true,
+      "question": "高压熔丝允许带电更换吗",
+      "fixtureEvidence": {
+        "title": "熔丝更换",
+        "content": "高压熔丝不得带电更换。停电并验明确无电压后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得带电更换"
+      ],
+      "forbiddenClaims": [
+        "允许带电"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-SHORT-001",
+      "category": "short_query",
+      "holdout": true,
+      "question": "接地",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "PROC-DIAN-001",
+      "category": "procedure_order",
+      "holdout": false,
+      "question": "倒闸操作要注意什么",
+      "fixtureEvidence": {
+        "title": "倒闸",
+        "content": "倒闸操作必须填用操作票，由操作人操作、监护人监护，不得单人操作。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得单人操作"
+      ],
+      "forbiddenClaims": [
+        "可以单人倒闸"
+      ]
+    },
+    {
+      "caseId": "PROC-DIAN-002",
+      "category": "procedure_order",
+      "holdout": false,
+      "question": "怎样办理工作票",
+      "fixtureEvidence": {
+        "title": "工作票",
+        "content": "第一种工作票应填写工作地点、工作内容与安全措施，开工前须工作许可人许可。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "工作许可人"
+      ]
+    },
+    {
+      "caseId": "FACT-IR-001",
+      "category": "numeric_table",
+      "holdout": false,
+      "question": "10kV变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "绝缘电阻",
+        "content": "10kV变压器绕组绝缘电阻一般不宜低于规定值，测量时应使用合适电压等级兆欧表。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "forbiddenClaims": [
+        "100000Ω"
+      ]
+    },
+    {
+      "caseId": "FACT-DIST-001",
+      "category": "numeric_table",
+      "holdout": false,
+      "question": "10kV最小安全距离",
+      "fixtureEvidence": {
+        "title": "安全距离",
+        "content": "10kV设备不停电时的安全距离应不小于0.70m。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "0.70m"
+      ],
+      "forbiddenClaims": [
+        "60米"
+      ]
+    },
+    {
+      "caseId": "FACT-DIST-002",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "10千伏不停电安全距离",
+      "fixtureEvidence": {
+        "title": "安全距离",
+        "content": "10kV设备不停电时的安全距离应不小于0.70m。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "0.70m"
+      ]
+    },
+    {
+      "caseId": "NEAR-TICKET-IR-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "操作票",
+        "content": "操作票应填写操作项目、顺序，操作中不得随意更改。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "NEGATION-002",
+      "category": "negation_condition",
+      "holdout": false,
+      "question": "可以约时停送电吗",
+      "fixtureEvidence": {
+        "title": "停送电",
+        "content": "严禁约时停送电。停送电必须按调度指令执行。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "严禁约时停送电"
+      ],
+      "forbiddenClaims": [
+        "可以约时"
+      ]
+    },
+    {
+      "caseId": "NEGATION-003",
+      "category": "negation_condition",
+      "holdout": false,
+      "question": "雨天可以登杆作业吗",
+      "fixtureEvidence": {
+        "title": "登杆",
+        "content": "遇有六级以上大风或雷雨时，不得进行登杆作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得进行登杆"
+      ],
+      "forbiddenClaims": [
+        "可以登杆"
+      ]
+    },
+    {
+      "caseId": "DUTY-002",
+      "category": "duty_role",
+      "holdout": false,
+      "question": "倒闸要不要监护",
+      "fixtureEvidence": {
+        "title": "倒闸",
+        "content": "倒闸操作必须填用操作票，由操作人操作、监护人监护，不得单人操作。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "监护人监护"
+      ],
+      "forbiddenClaims": [
+        "轮流监护"
+      ]
+    },
+    {
+      "caseId": "MULTI-EVID-001",
+      "category": "multi_evidence",
+      "holdout": false,
+      "question": "停电检电要注意什么",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。检电前应先验电器具。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作"
+      ]
+    },
+    {
+      "caseId": "EMPTY-NONE-002",
+      "category": "missing_evidence",
+      "holdout": false,
+      "question": "继电保护定值整定原则是什么",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "EMPTY-NONE-003",
+      "category": "missing_evidence",
+      "holdout": false,
+      "question": "电缆敷设最小弯曲半径",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "SHORT-FACT-002",
+      "category": "short_query",
+      "holdout": false,
+      "question": "安全距离",
+      "fixtureEvidence": {
+        "title": "安全距离",
+        "content": "10kV设备不停电时的安全距离应不小于0.70m。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL",
+        "CLARIFY",
+        "NONE"
+      ]
+    },
+    {
+      "caseId": "SHORT-ENTITY-003",
+      "category": "short_query",
+      "holdout": false,
+      "question": "断路器",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "CMP-002",
+      "category": "comparison",
+      "holdout": false,
+      "question": "熔断器和断路器区别",
+      "fixtureEvidence": {
+        "title": "保护电器",
+        "content": "熔断器靠熔体熔断切断过电流；断路器可反复分合并切断较大故障电流。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "熔体熔断"
+      ]
+    },
+    {
+      "caseId": "BADGEN-ORDER-001",
+      "category": "bad_generation",
+      "holdout": false,
+      "question": "停电操作步骤是什么",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ],
+      "injectBadAnswer": "首先拉开刀闸，其次挂接地线，然后最后再验电。",
+      "forbiddenClaims": [
+        "首先拉开刀闸"
+      ]
+    },
+    {
+      "caseId": "SRC-UNKNOWN-002",
+      "category": "source_qualification",
+      "holdout": false,
+      "question": "高压操作手套要求",
+      "sourcePolicy": "unverified_builtin_synopsis_must_not_pose_as_formal_code",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY",
+        "PARTIAL"
+      ]
+    },
+    {
+      "caseId": "KV-35-001",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "35kV如何验电",
+      "fixtureEvidence": {
+        "title": "35kV验电",
+        "content": "35kV验电应使用相应电压等级验电器，操作人员应戴绝缘手套。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "验电器"
+      ]
+    },
+    {
+      "caseId": "KV-MISMATCH-002",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "220kV安全距离多少",
+      "fixtureEvidence": {
+        "title": "安全距离",
+        "content": "10kV设备不停电时的安全距离应不小于0.70m。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "PARTIAL",
+        "CLARIFY"
+      ],
+      "forbiddenDecisions": [
+        "FULL"
+      ]
+    },
+    {
+      "caseId": "SCRN-10KV-JX-003",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "10kV检修前要接地吗",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-PROC-001",
+      "category": "procedure_order",
+      "holdout": true,
+      "question": "如何办理第一种工作票",
+      "fixtureEvidence": {
+        "title": "工作票",
+        "content": "第一种工作票应填写工作地点、工作内容与安全措施，开工前须工作许可人许可。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "工作许可人"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-FACT-001",
+      "category": "numeric_table",
+      "holdout": true,
+      "question": "十千伏安全距离不小于多少",
+      "fixtureEvidence": {
+        "title": "安全距离",
+        "content": "10kV设备不停电时的安全距离应不小于0.70m。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "0.70m"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-DUTY-001",
+      "category": "duty_role",
+      "holdout": true,
+      "question": "倒闸能不能一个人干",
+      "fixtureEvidence": {
+        "title": "倒闸",
+        "content": "倒闸操作必须填用操作票，由操作人操作、监护人监护，不得单人操作。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得单人操作"
+      ],
+      "forbiddenClaims": [
+        "可以单人"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-NEAR-002",
+      "category": "near_miss",
+      "holdout": true,
+      "question": "10kV最小安全距离是多少",
+      "fixtureEvidence": {
+        "title": "绝缘手套",
+        "content": "高压操作必须佩戴绝缘手套并定期试验。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-EMPTY-001",
+      "category": "missing_evidence",
+      "holdout": true,
+      "question": "母线差动保护动作原理",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-NEG-002",
+      "category": "negation_condition",
+      "holdout": true,
+      "question": "能不能约时送电",
+      "fixtureEvidence": {
+        "title": "停送电",
+        "content": "严禁约时停送电。停送电必须按调度指令执行。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "严禁约时停送电"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-CMP-001",
+      "category": "comparison",
+      "holdout": true,
+      "question": "隔离开关与断路器差别",
+      "fixtureEvidence": {
+        "title": "开关对比",
+        "content": "隔离开关主要用于隔离电源、形成明显断开点；断路器可切断负荷电流与故障电流。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "明显断开点"
+      ]
+    },
+    {
+      "caseId": "FACT-TEMP-001",
+      "category": "numeric_table",
+      "holdout": false,
+      "question": "发电机允许温升多少",
+      "fixtureEvidence": {
+        "title": "温升",
+        "content": "发电机绕组允许温升应符合制造厂规定及相应标准限值，运行中应监视温升。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "允许温升"
+      ]
+    },
+    {
+      "caseId": "PROC-GROUND-001",
+      "category": "procedure_order",
+      "holdout": false,
+      "question": "检修前如何接地",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "NEAR-CABLE-IR-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "电缆",
+        "content": "电缆敷设时应保持最小弯曲半径，避免损伤绝缘层。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "DUTY-003",
+      "category": "duty_role",
+      "holdout": false,
+      "question": "接地封线几人操作",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY",
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "轮流"
+      ]
+    },
+    {
+      "caseId": "NEGATION-004",
+      "category": "negation_condition",
+      "holdout": false,
+      "question": "可以无票作业吗",
+      "fixtureEvidence": {
+        "title": "工作票",
+        "content": "电气设备上工作必须办理工作票，不得无票作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得无票作业"
+      ],
+      "forbiddenClaims": [
+        "可以无票"
+      ]
+    },
+    {
+      "caseId": "SHORT-ENTITY-004",
+      "category": "short_query",
+      "holdout": false,
+      "question": "隔离开关",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "KV-10KV-EQ-001",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "10000V如何验电",
+      "fixtureEvidence": {
+        "title": "10kV验电",
+        "content": "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL",
+        "CLARIFY",
+        "NONE"
+      ],
+      "notes": "10000V≈10kV 表达；当前等级抽取未必等价，允许 NONE"
+    },
+    {
+      "caseId": "EMPTY-NONE-004",
+      "category": "missing_evidence",
+      "holdout": false,
+      "question": "GIS气室微水标准是多少",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "BADGEN-NEG-001",
+      "category": "bad_generation",
+      "holdout": false,
+      "question": "可以约时停送电吗",
+      "fixtureEvidence": {
+        "title": "停送电",
+        "content": "严禁约时停送电。停送电必须按调度指令执行。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "injectBadAnswer": "根据资料，可以约时停送电以方便作业。",
+      "forbiddenClaims": [
+        "可以约时停送电"
+      ],
+      "mustRetainFacts": [
+        "严禁约时停送电"
+      ]
+    },
+    {
+      "caseId": "CMP-003",
+      "category": "comparison",
+      "holdout": false,
+      "question": "手车柜和固定柜有啥不一样",
+      "fixtureEvidence": {
+        "title": "开关柜",
+        "content": "手车式开关柜可抽出断路器手车检修；固定式柜内设备固定安装，检修需停电。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "手车"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-PROC-002",
+      "category": "procedure_order",
+      "holdout": true,
+      "question": "检修前怎样接地封线",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-SHORT-002",
+      "category": "short_query",
+      "holdout": true,
+      "question": "电动机",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    }
+  ]
+}

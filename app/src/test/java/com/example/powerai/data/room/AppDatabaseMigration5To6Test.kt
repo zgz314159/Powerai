@@ -79,7 +79,8 @@ class AppDatabaseMigration5To6Test {
     fun `v5 to v6 migration preserves legacy data and adds columns`() {
         room =
             Room.databaseBuilder(context, AppDatabase::class.java, dbName)
-                .addMigrations(DatabaseModule.MIGRATION_5_6)
+                // AppDatabase is now v7; chain 5→6→7 so Room can open current schema.
+                .addMigrations(DatabaseModule.MIGRATION_5_6, DatabaseModule.MIGRATION_6_7)
                 .allowMainThreadQueries()
                 .build()
         val dao = requireNotNull(room).knowledgeDao()

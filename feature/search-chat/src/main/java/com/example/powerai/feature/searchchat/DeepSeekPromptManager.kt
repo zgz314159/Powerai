@@ -6,6 +6,7 @@ import com.example.powerai.core.model.NativeResourceProvider
 import com.example.powerai.core.model.SmartAnswerMode
 import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.model.SmartStageMetrics
+import com.example.powerai.core.model.SourceQualification
 import com.example.powerai.domain.repository.WebSearchRepository
 import com.example.powerai.domain.repository.WebSearchResult
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
@@ -146,6 +147,10 @@ class DeepSeekPromptManager
             var references =
                 SmartEvidenceGrader.filterByGrade(normalizedQuestion, ranked, confidence)
 
+            // P2：未核定内置摘要不得作为规范操作权威证据（可浏览，但不进生成 Prompt）。
+            val (qualifiedRefs, unverifiedRefs) = SourceQualification.partitionForNormativeAnswer(references)
+            references = qualifiedRefs
+
             val wantWeb =
                 SmartQueryRouter.shouldFetchWeb(
                     kind = queryKind,
@@ -158,29 +163,38 @@ class DeepSeekPromptManager
             val webSources = webResults.map { it.url }.filter { it.isNotBlank() }.distinct()
             val retrievalMs = SystemClock.elapsedRealtime() - retrievalStartedAt
 
-            // Ambiguous：保留已过滤的本地条（≥0.28）；仅 Incorrect/空才拒答。
-            // （此前无网页就清空会导致「库里有条文」仍资料不足。）
-
             SmartDeepSeekDebugLogger.logEvent(
                 provider = provider,
                 tag = "RETRIEVAL",
                 message =
                     "durationMs=$retrievalMs kind=$queryKind confidence=$confidence " +
-                        "evidenceCount=${references.size} webCount=${webResults.size} wantWeb=$wantWeb " +
+                        "evidenceCount=${references.size} unverifiedSynopsis=${unverifiedRefs.size} " +
+                        "webCount=${webResults.size} wantWeb=$wantWeb " +
                         "titles=${references.joinToString(" | ") { it.title.take(24) }}",
             )
 
-            // 无本地可用证据且无网页 → 直接拒答（时效问除外：仍可用设备日期作答）。
             if (references.isEmpty() && webResults.isEmpty() && queryKind != SmartQueryKind.TEMPORAL) {
+                val decision =
+                    SmartAnswerDecisionEngine.decide(
+                        question = normalizedQuestion,
+                        qualifiedEvidence = emptyList(),
+                        confidence = confidence,
+                        unverifiedOnlyNotice =
+                            if (unverifiedRefs.isNotEmpty()) {
+                                SourceQualification.unverifiedSynopsisNotice(unverifiedRefs)
+                            } else {
+                                null
+                            },
+                    )
                 onProgress(
                     SmartProgressPhase.COMPLETED,
-                    "资料不足",
-                    "检索置信度=$confidence，无可用本地/网页资料。",
+                    if (unverifiedRefs.isNotEmpty()) "来源未核定" else "资料不足",
+                    "decision=${decision.kind} reason=${decision.reasonCode}",
                 )
                 return PreparedGroundedPrompt(
                     question = normalizedQuestion,
                     prompt = "",
-                    promptPrefixKey = "insufficient::$normalizedQuestion",
+                    promptPrefixKey = "decision-${decision.kind}::$normalizedQuestion",
                     references = emptyList(),
                     webSources = emptyList(),
                     retrievalMs = retrievalMs,
@@ -190,9 +204,52 @@ class DeepSeekPromptManager
                     answerMode = answerMode,
                     backendLabel = backendLabel,
                     queryKind = queryKind,
-                    directAnswer = SmartAnswerGuard.INSUFFICIENT,
+                    directAnswer = decision.directAnswer ?: SmartAnswerGuard.INSUFFICIENT,
                     evidenceConfidence = confidence,
                 )
+            }
+
+            // TEMPORAL（日期/时效）走设备日期+可选网页；不套规程证据决策短路。
+            if (queryKind != SmartQueryKind.TEMPORAL) {
+                val decision =
+                    SmartAnswerDecisionEngine.decide(
+                        question = normalizedQuestion,
+                        qualifiedEvidence = references,
+                        confidence = confidence,
+                    )
+                if (decision.kind != SmartAnswerDecisionKind.FULL && webResults.isEmpty()) {
+                    onProgress(
+                        SmartProgressPhase.COMPLETED,
+                        when (decision.kind) {
+                            SmartAnswerDecisionKind.PARTIAL -> "局部资料"
+                            SmartAnswerDecisionKind.CLARIFY -> "请补充问题"
+                            else -> "资料不足"
+                        },
+                        "decision=${decision.kind} reason=${decision.reasonCode}",
+                    )
+                    return PreparedGroundedPrompt(
+                        question = normalizedQuestion,
+                        prompt = "",
+                        promptPrefixKey = "decision-${decision.kind}::$normalizedQuestion",
+                        // PARTIAL 保留引用卡片；不把未核验生成权交给模型
+                        references =
+                            if (decision.kind == SmartAnswerDecisionKind.PARTIAL) {
+                                references
+                            } else {
+                                emptyList()
+                            },
+                        webSources = emptyList(),
+                        retrievalMs = retrievalMs,
+                        promptBuildMs = 0L,
+                        promptChars = 0,
+                        prefixReuseHit = false,
+                        answerMode = answerMode,
+                        backendLabel = backendLabel,
+                        queryKind = queryKind,
+                        directAnswer = decision.directAnswer ?: SmartAnswerGuard.INSUFFICIENT,
+                        evidenceConfidence = confidence,
+                    )
+                }
             }
 
             onProgress(
@@ -325,11 +382,18 @@ class DeepSeekPromptManager
             deviceToday: String = "",
             queryKind: SmartQueryKind = SmartQueryKind.DOMAIN,
         ): String {
+            // 绑定证据正文指纹与模板模式：仅按 id 排序会在同 id 正文变化或顺序敏感时错复用。
             val localPart =
                 if (references.isEmpty()) {
                     "base"
                 } else {
-                    "ids:" + references.map { it.id }.sorted().joinToString(",")
+                    val idPart = references.map { it.id }.sorted().joinToString(",")
+                    val fp =
+                        references
+                            .sortedBy { it.id }
+                            .joinToString("|") { "${it.id}:${it.title}:${it.content.take(160)}" }
+                            .hashCode()
+                    "ids:$idPart:fp:$fp"
                 }
             val webPart =
                 if (!webSearchEnabled || webSources.isEmpty()) {
@@ -337,7 +401,7 @@ class DeepSeekPromptManager
                 } else {
                     "web:" + webSources.sorted().joinToString(",")
                 }
-            return "$localPart::mode:${mode.name}::$webPart::day:$deviceToday::kind:${queryKind.name}"
+            return "$localPart::mode:${mode.name}::$webPart::day:$deviceToday::kind:${queryKind.name}::tpl:gguf-messages-v1"
         }
 
         private fun buildEvidenceText(

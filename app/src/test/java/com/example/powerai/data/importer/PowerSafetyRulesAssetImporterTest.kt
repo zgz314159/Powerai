@@ -20,6 +20,8 @@ class PowerSafetyRulesAssetImporterTest {
         assertEquals("10kV验电", entities[0].title)
         assertTrue(entities[0].content.contains("手持式验电器"))
         assertEquals(PowerSafetyRulesAssetImporter.DISPLAY_SOURCE, entities[0].source)
+        assertTrue(entities[0].source.contains("未核定"))
+        assertEquals("builtin-synopsis", entities[0].category)
         assertEquals(PowerSafetyRulesAssetImporter.packageId, entities[0].packageId)
         assertTrue(entities[0].id > 0L)
         assertTrue(entities[0].contentNormalized.isNotBlank())

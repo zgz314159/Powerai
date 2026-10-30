@@ -61,10 +61,10 @@ class GemmaFallbackProvider(private val context: Context?) {
                 if (entries.isNotEmpty()) {
                     val top = entries[0]
                     val title = if (top.title.isNullOrBlank()) "(未命名条目)" else top.title
-                    "AI 正在思考（本地模型加载中）... 规程建议：$title （来源：电力安全工作规程）"
+                    "AI 正在思考（本地模型加载中）... 摘要建议：$title （来源：内置安规摘要·未核定）"
                 } else {
                     val displayQuery = if (q.isBlank() || q == "(no-query)") "相关规程" else q
-                    "AI 正在思考（本地模型加载中）... 规程建议：$displayQuery （来源：电力安全工作规程）"
+                    "AI 正在思考（本地模型加载中）... 摘要建议：$displayQuery （来源：内置安规摘要·未核定）"
                 }
 
             // attempt to persist fallback trace for diagnostics; skipped when

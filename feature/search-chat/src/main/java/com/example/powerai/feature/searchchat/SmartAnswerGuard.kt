@@ -183,24 +183,28 @@ object SmartAnswerGuard {
         }
     }
 
-    fun fallbackFromEvidence(references: List<KnowledgeItem>): String {
+    fun fallbackFromEvidence(
+        references: List<KnowledgeItem>,
+        question: String = "",
+    ): String {
         val top = references.firstOrNull() ?: return INSUFFICIENT
         val body =
-            top.content
-                .replace(Regex("\\s+"), " ")
+            SmartEvidenceExcerpt
+                .select(question.ifBlank { top.title }, top)
+                .replace(Regex("[ \\t]+"), " ")
                 .trim()
-                .take(220)
-                .trimEnd('，', ',', '。', '.')
         return if (body.isBlank()) {
             INSUFFICIENT
         } else {
-            "$body。[1]"
+            val cite = if (body.endsWith("。") || body.endsWith("；")) body else "$body。"
+            "$cite[1]"
         }
     }
 
     fun coalesceGroundedAnswer(
         raw: String,
         references: List<KnowledgeItem>,
+        question: String = "",
     ): String {
         val cleaned = stripMetaReasoningLead(raw)
         if (references.isEmpty()) {
@@ -210,13 +214,18 @@ object SmartAnswerGuard {
         if (isMetaReasoningLead(cleaned) || hasUngroundedNumericClaims(cleaned, references)) {
             return INSUFFICIENT
         }
+        // 职责/顺序/否定结构改写 → 回退合格原文（有选段）或拒答
+        if (SmartSemanticClaimGuard.hasRewriteViolation(cleaned, references)) {
+            val excerpt = fallbackFromEvidence(references, question)
+            return if (excerpt == INSUFFICIENT) INSUFFICIENT else excerpt
+        }
         if (isWeakGroundedAnswer(cleaned, references)) {
             val top = references.first().content
             // 弱答且与证据几乎无重合 → 拒答；有一定重合才允许摘录回退。
             return if (tokenOverlapRatio(cleaned, top) < 0.08f && cleaned.length > 24) {
                 INSUFFICIENT
             } else {
-                fallbackFromEvidence(references)
+                fallbackFromEvidence(references, question)
             }
         }
         return cleaned
@@ -235,6 +244,8 @@ object SmartAnswerGuard {
         if (references.isEmpty()) return true
         if (resolved == INSUFFICIENT || resolved.contains("资料不足")) return true
         if (currentVisible.isBlank()) return true
+        // 流式胡编（职责改写等）即使更长也必须被核验后的原文/拒答覆盖
+        if (SmartSemanticClaimGuard.hasRewriteViolation(currentVisible, references)) return true
         if (resolved.length >= currentVisible.length) return true
         return isWeakGroundedAnswer(currentVisible, references) || isMetaReasoningLead(currentVisible)
     }

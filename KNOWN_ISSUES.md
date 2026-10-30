@@ -2,7 +2,31 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-29（智能页可选联网 KI-59；Phase D0–D5 离线债清零完成；真机见 `docs/device_acceptance_checklist.md`）
+**最后同步**：2026-10-30（PR #30 CI 修复中：ktlint/detekt baseline/无 GGUF 仪器 SKIP；合入仍待 CI 绿）
+
+### KI-64 — 可信晋升 / 合入待办
+
+| 项 | 状态 |
+|----|------|
+| `aegl-task task verify` | PASS |
+| Controller token | 缺失（Agent 不得自造） |
+| `/run/aegl-promote/broker.sock` | 服务 Active；当前 UID `Permission denied` |
+| **白名单** | **不含 PowerAi**（仅 Stack/KeepLab/AEGL）→ broker 路径对本仓结构性不可用 |
+| PR #30 CI | 首轮红：ktlint import、detekt 基线漂移、UI 仪器无 GGUF hard-fail；已修待复跑 |
+| 交付路径 | GitHub [PR #30](https://github.com/zgz314159/Powerai/pull/30) 合入 `main`；或 operator 扩白名单后再 promote |
+
+---
+
+## Smart RAG 四项缺口（进行中，勿标完成）
+
+| ID | 缺口 | 状态 |
+|----|------|------|
+| KI-60 | 模型未走 `InferenceParameters.withMessages`；system 非角色编码；采样参数诊断不全 | ✅ P1 关闭（messages+诊断+真机烟测）；残留：QUICK/DEEP 思考段策略与 n_ctx 预算仍可后续收紧 |
+| KI-61 | 词面分级 ≠ 意图覆盖；AMBIGUOUS 仍可硬生成 | ✅ P3 关闭（`SmartAnswerDecisionEngine` 路由 PARTIAL/NONE；弱证据不交模型） |
+| KI-62 | 守卫难拦职责/顺序改写；`take(220)` 非合格摘录；假「资料不足」与资料缺失未分因 | ✅ P4 关闭（句界摘录+结构改写回退原文）；假不足分因仍依赖 P3 决策 reasonCode |
+| KI-63 | `power_safety_rules` 冠名「电力安全工作规程」；Sparse/Room 回退可冒充权威 | ✅ P2 关闭（诚实标签+门闸+真机升级/幂等） |
+
+计划与基线：`docs/smart_rag_governance_plan.md`、`docs/smart_rag_p0_baseline.md`。
 
 ---
 

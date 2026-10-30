@@ -98,90 +98,90 @@ private fun KnowledgeItemCardBody(
     onExpand: (() -> Unit)?,
     previewMaxLines: Int,
 ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            val highlightStyle =
-                highlightStyleOverride ?: SpanStyle(
-                    background = HighlightYellow,
-                    color = Color.Unspecified,
-                )
+    Column(modifier = Modifier.padding(12.dp)) {
+        val highlightStyle =
+            highlightStyleOverride ?: SpanStyle(
+                background = HighlightYellow,
+                color = Color.Unspecified,
+            )
 
-            val titlePreview =
+        val titlePreview =
+            remember(
+                item.title,
+                highlight,
+                highlightStyle.background,
+                highlightStyle.color,
+            ) {
+                // Title can be very long (some KBs put the whole paragraph into title/jobTitle).
+                // Use the same snippet-around-hit strategy so the keyword is visible even if it appears late.
+                buildHighlightedPreview(
+                    fullText = item.title,
+                    keyword = highlight,
+                    highlightStyle = highlightStyle,
+                    maxChars = 140,
+                    beforeChars = 8,
+                )
+            }
+
+        Text(
+            text = titlePreview,
+            style = MaterialTheme.typography.titleMedium,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+        )
+
+        val meta = (metaLine ?: item.contextLabel)?.takeIf { it.isNotBlank() }
+        if (meta != null) {
+            Spacer(modifier = Modifier.padding(top = 2.dp))
+            Text(
+                text = meta,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+
+        Spacer(modifier = Modifier.padding(top = 6.dp))
+        Row {
+            Text(
+                text = "证据",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(Modifier.width(8.dp))
+
+            val contentForPreview =
+                remember(item.content) {
+                    // Collapse newlines/whitespace for stable line wrapping.
+                    // Without this, the hit may exist but be pushed beyond maxLines by hard line breaks.
+                    item.content.replace(Regex("\\s+"), " ").trim()
+                }
+            val preview =
                 remember(
-                    item.title,
+                    contentForPreview,
                     highlight,
                     highlightStyle.background,
                     highlightStyle.color,
                 ) {
-                    // Title can be very long (some KBs put the whole paragraph into title/jobTitle).
-                    // Use the same snippet-around-hit strategy so the keyword is visible even if it appears late.
                     buildHighlightedPreview(
-                        fullText = item.title,
+                        fullText = contentForPreview,
                         keyword = highlight,
                         highlightStyle = highlightStyle,
-                        maxChars = 140,
-                        beforeChars = 8,
+                        maxChars = 220,
+                        beforeChars = 0,
                     )
                 }
-
-            Text(
-                text = titlePreview,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-
-            val meta = (metaLine ?: item.contextLabel)?.takeIf { it.isNotBlank() }
-            if (meta != null) {
-                Spacer(modifier = Modifier.padding(top = 2.dp))
+            if (expanded) {
+                Text(text = preview)
+            } else {
                 Text(
-                    text = meta,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
+                    text = preview,
+                    maxLines = previewMaxLines,
                     overflow = TextOverflow.Ellipsis,
+                    modifier = if (onExpand != null) Modifier.clickable { onExpand() } else Modifier,
                 )
-            }
-
-            Spacer(modifier = Modifier.padding(top = 6.dp))
-            Row {
-                Text(
-                    text = "证据",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.width(8.dp))
-
-                val contentForPreview =
-                    remember(item.content) {
-                        // Collapse newlines/whitespace for stable line wrapping.
-                        // Without this, the hit may exist but be pushed beyond maxLines by hard line breaks.
-                        item.content.replace(Regex("\\s+"), " ").trim()
-                    }
-                val preview =
-                    remember(
-                        contentForPreview,
-                        highlight,
-                        highlightStyle.background,
-                        highlightStyle.color,
-                    ) {
-                        buildHighlightedPreview(
-                            fullText = contentForPreview,
-                            keyword = highlight,
-                            highlightStyle = highlightStyle,
-                            maxChars = 220,
-                            beforeChars = 0,
-                        )
-                    }
-                if (expanded) {
-                    Text(text = preview)
-                } else {
-                    Text(
-                        text = preview,
-                        maxLines = previewMaxLines,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = if (onExpand != null) Modifier.clickable { onExpand() } else Modifier,
-                    )
-                }
             }
         }
+    }
 }

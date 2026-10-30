@@ -5,23 +5,28 @@ import com.example.powerai.core.data.dao.KnowledgeDao
 import com.example.powerai.core.data.entity.ImportedFileEntity
 import com.example.powerai.core.data.entity.KnowledgeEntity
 import com.example.powerai.core.data.importer.ImportUtils
+import com.example.powerai.core.model.SourceQualification
 import com.example.powerai.core.model.util.TextSanitizer
 import com.google.gson.JsonParser
 
 /**
  * Imports the SparseSearcher flat corpus [ASSET_PATH] into Room so evidence clicks
  * open [KnowledgeDetail] with a real positive id (not AiTextDetail "来源：AI").
+ *
+ * Display label is intentionally **not** a formal regulation title — see [SourceQualification].
  */
 internal object PowerSafetyRulesAssetImporter {
-    const val ASSET_PATH = "power_safety_rules.json"
-    const val DISPLAY_SOURCE = "电力安全工作规程"
-    const val DISPLAY_NAME = "电力安全工作规程"
+    const val ASSET_PATH = SourceQualification.POWER_SAFETY_RULES_ASSET
+    const val DISPLAY_SOURCE = SourceQualification.UNVERIFIED_SYNOPSIS_LABEL
+    const val DISPLAY_NAME = SourceQualification.UNVERIFIED_SYNOPSIS_LABEL
 
     /** Stable package / imported_files id — same scheme as other built-in assets. */
-    val packageId: String = ImportUtils.sha256Hex("asset:$ASSET_PATH")
+    val packageId: String = ImportUtils.sha256Hex(SourceQualification.POWER_SAFETY_RULES_ASSET_KEY)
 
     /**
      * Idempotent: skip when fingerprint matches; otherwise replace only this package's rows.
+     * Fingerprint includes [SourceQualification.POWER_SAFETY_RULES_POLICY] so label/policy
+     * bumps re-import even when asset bytes are unchanged.
      * @return number of knowledge rows owned by this package after the call, or -1 if asset missing.
      */
     suspend fun importIfNeed(
@@ -37,11 +42,13 @@ internal object PowerSafetyRulesAssetImporter {
         if (bytes.isEmpty()) return -1
 
         val contentSha = ImportUtils.sha256Hex(bytes)
+        val importFingerprint =
+            ImportUtils.sha256Hex("$contentSha::${SourceQualification.POWER_SAFETY_RULES_POLICY}")
         val prior = runCatching { dao.getImportedFile(packageId) }.getOrNull()
         val priorStatus = prior?.status?.trim()?.lowercase().orEmpty()
         if (priorStatus == AssetImportStatus.IMPORTED &&
             !prior?.contentSha256.isNullOrBlank() &&
-            prior.contentSha256 == contentSha
+            prior.contentSha256 == importFingerprint
         ) {
             return dao.countByPackageId(packageId)
         }
@@ -59,7 +66,7 @@ internal object PowerSafetyRulesAssetImporter {
                     fileName = DISPLAY_NAME,
                     timestamp = System.currentTimeMillis(),
                     status = AssetImportStatus.IMPORTED,
-                    contentSha256 = contentSha,
+                    contentSha256 = importFingerprint,
                 ),
             )
         }
@@ -91,7 +98,7 @@ internal object PowerSafetyRulesAssetImporter {
                             title = title,
                             content = content,
                             source = DISPLAY_SOURCE,
-                            category = "安规",
+                            category = "builtin-synopsis",
                             contentNormalized = normalized,
                             searchContent = normalized,
                             packageId = packageId,

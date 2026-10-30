@@ -69,8 +69,9 @@ class GemmaLocalInferenceTest {
                     PromptBuilder.Prompt(system = "", user = "foo"),
                 ) { fakeSearcher }
 
-            assertTrue(result.text.contains("规程建议"))
+            assertTrue(result.text.contains("摘要建议"))
             assertTrue(result.text.contains("Title"))
+            assertTrue(result.text.contains("未核定"))
         }
 
     @Test
@@ -85,8 +86,9 @@ class GemmaLocalInferenceTest {
                     PromptBuilder.Prompt(system = "", user = ""),
                 ) { fakeSearcher }
 
-            assertTrue(result.text.contains("规程建议"))
+            assertTrue(result.text.contains("摘要建议"))
             assertTrue(result.text.contains("相关规程"))
+            assertTrue(result.text.contains("未核定"))
         }
 
     @Test

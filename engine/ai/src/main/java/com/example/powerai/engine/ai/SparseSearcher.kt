@@ -15,25 +15,6 @@ class SparseSearcher(
 ) {
     data class SafetyEntry(val title: String, val content: String, val source: String)
 
-    // Simple filename -> human-friendly handbook title mapping. Add more mappings as needed.
-    private fun mapFilenameToTitle(filename: String): String {
-        val fname = filename.lowercase()
-        val known =
-            mapOf(
-                "power_safety_rules.json" to "电力安全工作规程",
-                "railway_power_lines.json" to "电力线路工必知必会手册",
-                "铁路电力线路工.json" to "电力线路工必知必会手册",
-            )
-        for ((k, v) in known) {
-            if (fname.contains(k)) return v
-        }
-        // pattern matching
-        if (fname.contains("rail") || fname.contains("铁路") || fname.contains("线路")) return "电力线路工必知必会手册"
-        if (fname.contains("power") || fname.contains("safety") || fname.contains("安全")) return "电力安全工作规程"
-        // fallback: strip extension and use as-is
-        return filename
-    }
-
     private val entries: List<SafetyEntry>
 
     init {

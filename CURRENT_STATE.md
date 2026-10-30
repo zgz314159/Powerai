@@ -13,11 +13,18 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
+- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `verify` PASS）；**PR #30** 待 CI 绿后合入（已修 ktlint/detekt baseline/无 GGUF SKIP）；AEGL promote 白名单不含 PowerAi → 不得标整体完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Smart RAG P5 | JVM+真机+verify PASS | [PR #30](https://github.com/zgz314159/Powerai/pull/30)；AEGL 白名单无 PowerAi；本地正式仓仍 `f1a124d` |
+| Smart RAG P4 原文/核验 | JVM | `SmartEvidenceExcerpt`+`SmartSemanticClaimGuard`；职责改写回退原文；废除 take(220) |
+| Smart RAG P3 证据决策 | JVM | `SmartAnswerDecisionEngine`；停电→PARTIAL 原文、近邻→NONE、短问→CLARIFY；TEMPORAL 不短路 |
+| Smart RAG P2 来源资格 | JVM+真机升级/幂等 | `SourceQualification`+`srcpol-2`；DB synopsis=10、legacy=0、asset_kb=143；二次冷启动幂等 |
+| Smart RAG P1 模板接入 | JVM+真机出口关闭 | `withMessages`；StopTest 8/8；XQ-DQ72 `LlamaCppChatTemplateDeviceSmokeTest` OK；`templateMode=gguf_chat_template_messages_v1` |
+| Smart RAG P0 基线核对 | 代码+设备日志核对完成；治理未完成 | 基线 `f1a124d`；XQ-DQ72；见 `docs/smart_rag_p0_baseline.md`；种子评测 `smart_rag_eval/v0_seed_cases.json` |
 | 仓库级收口 PR #29 | 已合并 | merge `8af386bc59db5c45832e7155268f7469bbe868c0`；CI JVM + Guardrails + connectedAndroidTest 绿（2026-10-27） |
 | 真机仪器 C2 | 已验收 | XQ-DQ72 / Android 15 (API 35)；`connectedDebugAndroidTest` **10/10**（2026-10-27）；A/B 手动项仍待验 |
 | Phase C34（模块化收口） | 已完成 | 删无用 `PLog`；确认 Json/importer/`AssetPreloadWorker`/Main 壳留 app 为故意边界；app **44** kt；compile 绿；arch 0 新违规（2026-10-25） |
@@ -237,6 +244,14 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-30 | PR #30 CI 修复：MainScreen import、detektBaseline 刷新、UI 仪器无 GGUF→assumeTrue SKIP |
+| 2026-10-30 | Smart RAG **P5**：开 PR #30；确认 AEGL promote 白名单不含 PowerAi |
+| 2026-10-30 | Smart RAG **P5**：verify PASS；operator 晋升单入库；broker.sock 对本 UID 不可达 |
+| 2026-10-30 | Smart RAG **P4**：句界原文摘录；职责/顺序改写核验回退；流式终态覆盖 |
+| 2026-10-30 | Smart RAG **P3**：`SmartAnswerDecisionEngine` FULL/PARTIAL/CLARIFY/NONE；弱/局部证据 `directAnswer` 短路 |
+| 2026-10-30 | Smart RAG **P2**：来源资格 `srcpol-2`；未核定摘要不得作规程权威；Sparse/导入/Prompt 闭合（真机旧库升级待验） |
+| 2026-10-30 | Smart RAG **P1**：GGUF messages 模板；StopTest 修空证据短路；真机模板烟测绿（XQ-DQ72） |
+| 2026-10-29 | Smart RAG 四项缺口 **P0**：AEGL worktree；事实/假设分离；评测种子入库；P1–P5 待执行（见 `docs/smart_rag_governance_plan.md`） |
 | 2026-10-29 | 假「资料不足」：LIKE 整句优先于宽 FTS；sparse top5；grader 修「检修」方面；Ambiguous 不清空弱本地；ranker 可答性回捞 |
 | 2026-10-29 | CRAG 路由：歧义问澄清；证据 Correct/Ambiguous/Incorrect；弱证据不硬生成；时效问仍可用设备日期 |
 | 2026-10-29 | Smart RAG 相关度门闸：无关证据清空；弱本地数值问可联网；生成后拒 meta/无据数值；Prompt 主题不符→资料不足 |

@@ -1,0 +1,73 @@
+{
+  "version": "v0-seed",
+  "note": "种子集：非完整 60 条验收集。holdout=true 不参与调参。合成 fixture 仅测试用，不得混入生产 assets。",
+  "cases": [
+    {
+      "caseId": "SCRN-10KV-JX-001",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "10KV设备检修",
+      "allowedDecisions": ["PARTIAL", "FULL", "CLARIFY"],
+      "forbiddenDecisions": ["NONE_AS_LIBRARY_EMPTY"],
+      "mustRetainFacts": ["拉开开关并接地", "复测", "无电后方可作业"],
+      "forbiddenClaims": ["完整作业全流程已覆盖"],
+      "expectedEvidenceTitlesAny": ["10kV接地"],
+      "notes": "P0 日志 22:13:52 CORRECT+证据入 Prompt；失败在生成/守卫层"
+    },
+    {
+      "caseId": "SCRN-TD-CZ-001",
+      "category": "screenshot_regression",
+      "holdout": false,
+      "question": "停电怎么操作",
+      "allowedDecisions": ["PARTIAL", "CLARIFY"],
+      "forbiddenDecisions": ["FULL"],
+      "mustRetainFacts": ["一人操作", "一人监护"],
+      "forbiddenClaims": ["两人轮流操作"],
+      "expectedEvidenceTitlesAny": ["第34条"],
+      "notes": "P0 日志 22:14:56 AMBIGUOUS；职责改写必须阻断"
+    },
+    {
+      "caseId": "SHORT-ENTITY-001",
+      "category": "short_query",
+      "holdout": false,
+      "question": "变压器",
+      "allowedDecisions": ["CLARIFY"],
+      "forbiddenClaims": ["任意数值绝缘电阻"]
+    },
+    {
+      "caseId": "SHORT-FACT-001",
+      "category": "short_query",
+      "holdout": false,
+      "question": "接地电阻",
+      "allowedDecisions": ["FULL", "PARTIAL", "CLARIFY", "NONE"],
+      "notes": "有方面短语，不得仅因短而一律拒答"
+    },
+    {
+      "caseId": "NEG-GLOVES-IR-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "绝缘手套",
+        "content": "所有高压操作必须佩戴符合等级的绝缘手套，并按规定间隔检查绝缘性能。"
+      },
+      "allowedDecisions": ["NONE", "CLARIFY"],
+      "forbiddenClaims": ["任意欧姆数值"]
+    },
+    {
+      "caseId": "SRC-UNKNOWN-001",
+      "category": "source_qualification",
+      "holdout": false,
+      "question": "10kV验电",
+      "sourcePolicy": "unverified_builtin_synopsis_must_not_pose_as_formal_code",
+      "notes": "P2：power_safety_rules 类条目未核定前不得作权威操作依据"
+    },
+    {
+      "caseId": "HOLDOUT-PLACEHOLDER-001",
+      "category": "holdout_slot",
+      "holdout": true,
+      "question": "(reserved)",
+      "notes": "扩展正式集时填充；保持 ≥20% holdout"
+    }
+  ]
+}

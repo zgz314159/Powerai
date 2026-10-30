@@ -193,4 +193,39 @@ class DeepSeekPromptManagerTest {
             assertTrue(prepared.prompt.contains("…"))
             assertTrue(prepared.prompt.length < 2000)
         }
+
+    @Test
+    fun `procedure ask with duty-only article returns partial directAnswer`() =
+        runTest {
+            val article =
+                KnowledgeItem(
+                    id = 34L,
+                    title = "第34条",
+                    content =
+                        "第34条 停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。操作人员应戴绝缘手套。",
+                    source = "铁运安规",
+                    category = "安规",
+                    keywords = emptyList(),
+                )
+            val retrieval = mock<RetrievalFusionUseCase>()
+            whenever(retrieval.invoke(any(), any(), any())).thenReturn(listOf(article))
+            val manager = DeepSeekPromptManager(retrieval, mock())
+            val prepared =
+                manager.prepareGroundedPrompt(
+                    normalizedQuestion = "停电怎么操作",
+                    answerMode = SmartAnswerMode.FAST,
+                    prefixReuseEnabled = false,
+                    backendLabel = "CPU",
+                    provider = mock<NativeResourceProvider>(),
+                    onProgress = { _, _, _ -> },
+                    webSearchEnabled = false,
+                    deviceToday = "2026-10-29",
+                )
+
+            assertTrue(prepared.prompt.isEmpty())
+            assertTrue(prepared.directAnswer!!.contains("一人操作"))
+            assertTrue(prepared.directAnswer!!.contains("一人监护"))
+            assertFalse(prepared.directAnswer!!.contains("轮流"))
+            assertEquals(1, prepared.references.size)
+        }
 }
