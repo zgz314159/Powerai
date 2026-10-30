@@ -21,8 +21,12 @@ Branch：`aegl-task/rag-four-gaps-p0`
 1. **Controller token 缺失**：无 `/run/user/<uid>/aegl-controller.token`；Agent **不得**自造 token。
 2. **Broker socket 对当前 UID 不可达**：`aegl-promote-broker.service` Active，但 `/run/aegl-promote/broker.sock` → `Permission denied`；`identity status` → `BROKER=NOT_AVAILABLE (not a socket)`。
 3. `task register` → `UNREACHABLE`；`task promote` → `BLOCKED: controller token file missing`。
+4. **白名单根本不含 PowerAi**：broker `AEGL_PROJECT_ALLOWLIST` / `promotion_core.ALLOWED_PROJECT_DIRS` 仅有  
+   `Google-Android-Agent-Development-Stack`、`KeepLab-Relay`、`AI-Engineering-Governance-Layer`。  
+   本任务正式路径为 `/home/zhong/AndroidStudioProjects/PowerAi`，**即便有 token 也会被拒绝**。  
+   无密码 sudo，Agent 无法改 `/etc/systemd/system/aegl-promote-broker.service`。
 
-因此：**push ≠ 可信晋升**；须由持有 token 且能访问 broker 的 operator 执行下列步骤。
+因此：**push ≠ 可信晋升**；对本仓更现实的收口是 **GitHub PR 合入 `main`**，或由 operator 扩展 AEGL 白名单后再走 broker。
 
 ## Operator 步骤（建议）
 
