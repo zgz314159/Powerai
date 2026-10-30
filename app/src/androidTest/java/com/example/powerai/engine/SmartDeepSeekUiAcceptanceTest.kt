@@ -13,6 +13,7 @@ import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
 import com.example.powerai.MainActivity
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -62,12 +63,14 @@ class SmartDeepSeekUiAcceptanceTest {
             preferDistill(
                 (modelsDir.listFiles()?.filter { isUsableGguf(it) }.orEmpty()) + stagedGgufs(),
             )
-        requireNotNull(preferred) { "No GGUF in files/models or /data/local/tmp/powerai_models" }
+        // CI emulator has no GGUF — skip like LlamaAndroidDeviceSmokeTest (device-only gate).
+        assumeTrue("No GGUF in files/models or /data/local/tmp/powerai_models", preferred != null)
+        val gguf = preferred!!
         // Keep a single preferred GGUF so engine's first-file pick is deterministic (Distill).
-        modelsDir.listFiles()?.filter { isUsableGguf(it) && it.name != preferred.name }?.forEach { it.delete() }
-        val dest = File(modelsDir, preferred.name)
-        if (!dest.exists() || dest.length() != preferred.length()) {
-            preferred.copyTo(dest, overwrite = true)
+        modelsDir.listFiles()?.filter { isUsableGguf(it) && it.name != gguf.name }?.forEach { it.delete() }
+        val dest = File(modelsDir, gguf.name)
+        if (!dest.exists() || dest.length() != gguf.length()) {
+            gguf.copyTo(dest, overwrite = true)
         }
     }
 
@@ -243,8 +246,10 @@ class SmartDeepSeekUiAcceptanceTest {
         search.click()
         Thread.sleep(1_000)
         // Successful submit closes panel; blank submit leaves it open.
-        val submitted = !isSearchBarOpen() || hasStopControl() ||
-            waitForAnyText(listOf("检索", "生成", "等待", "思考", "停止生成"), 8_000)
+        val submitted =
+            !isSearchBarOpen() ||
+                hasStopControl() ||
+                waitForAnyText(listOf("检索", "生成", "等待", "思考", "停止生成"), 8_000)
         assertTrue("search did not start generation (empty Compose query?)", submitted)
     }
 

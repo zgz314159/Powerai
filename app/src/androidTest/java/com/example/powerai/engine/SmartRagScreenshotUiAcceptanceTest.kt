@@ -14,6 +14,7 @@ import androidx.test.uiautomator.Until
 import com.example.powerai.MainActivity
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -95,11 +96,12 @@ class SmartRagScreenshotUiAcceptanceTest {
                 (modelsDir.listFiles()?.filter { isUsableGguf(it) }.orEmpty()) +
                     (File("/data/local/tmp/powerai_models").listFiles()?.filter { isUsableGguf(it) }.orEmpty()),
             )
-        requireNotNull(preferred) { "No GGUF" }
-        modelsDir.listFiles()?.filter { isUsableGguf(it) && it.name != preferred.name }?.forEach { it.delete() }
-        val dest = File(modelsDir, preferred.name)
-        if (!dest.exists() || dest.length() != preferred.length()) {
-            preferred.copyTo(dest, overwrite = true)
+        assumeTrue("No GGUF (device-only UI gate)", preferred != null)
+        val gguf = preferred!!
+        modelsDir.listFiles()?.filter { isUsableGguf(it) && it.name != gguf.name }?.forEach { it.delete() }
+        val dest = File(modelsDir, gguf.name)
+        if (!dest.exists() || dest.length() != gguf.length()) {
+            gguf.copyTo(dest, overwrite = true)
         }
     }
 

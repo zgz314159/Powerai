@@ -2,7 +2,6 @@ package com.example.powerai.feature.searchchat
 
 import com.example.powerai.core.model.KnowledgeItem
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import org.junit.Assert.assertTrue
 import org.junit.Test
 

@@ -1,7 +1,6 @@
 package com.example.powerai.engine.ai
 
 import android.content.Context
-import com.example.powerai.core.model.SourceQualification
 
 /**
  * SparseSearcher: reads a JSON knowledge base from app assets or files and

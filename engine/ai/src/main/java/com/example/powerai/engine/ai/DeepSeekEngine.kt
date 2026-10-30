@@ -19,8 +19,10 @@ import java.io.File
 class DeepSeekEngine(private val ragCoordinator: RAGDataCoordinator) : PowerAIEngine {
     private companion object {
         const val TAG = "DeepSeekEngine"
+
         /** Idle after last visible chunk before treating stream as done. */
         const val STREAM_COMPLETION_IDLE_MS = 1_500L
+
         /**
          * Absolute ceiling for one infer(). Must cover model prefill (often >1.5s on device)
          * plus decode; the old 5s grace + idle-from-start cut off empty answers at ~1.6s.

@@ -13,7 +13,7 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `verify` PASS）；**PR #30** 待合入；AEGL promote 白名单不含 PowerAi → 不得标整体完成
+- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `verify` PASS）；**PR #30** 待 CI 绿后合入（已修 ktlint/detekt baseline/无 GGUF SKIP）；AEGL promote 白名单不含 PowerAi → 不得标整体完成
 
 ## 2. 已验证基线
 
@@ -244,6 +244,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-30 | PR #30 CI 修复：MainScreen import、detektBaseline 刷新、UI 仪器无 GGUF→assumeTrue SKIP |
 | 2026-10-30 | Smart RAG **P5**：开 PR #30；确认 AEGL promote 白名单不含 PowerAi |
 | 2026-10-30 | Smart RAG **P5**：verify PASS；operator 晋升单入库；broker.sock 对本 UID 不可达 |
 | 2026-10-30 | Smart RAG **P4**：句界原文摘录；职责/顺序改写核验回退；流式终态覆盖 |
