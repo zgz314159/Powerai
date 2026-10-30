@@ -21,8 +21,9 @@ class GemmaFallbackProviderTest {
             val provider = GemmaFallbackProvider(null)
             val result = provider.infer(PromptBuilder.Prompt(system = "", user = "test")) { fakeSearcher }
 
-            assertTrue(result.text.contains("规程建议"))
+            assertTrue(result.text.contains("摘要建议"))
             assertTrue(result.text.contains("Example"))
+            assertTrue(result.text.contains("未核定"))
             assertTrue(result.tokensUsed > 0)
         }
 
@@ -35,7 +36,8 @@ class GemmaFallbackProviderTest {
             val provider = GemmaFallbackProvider(null)
             val result = provider.infer(PromptBuilder.Prompt(system = "", user = "")) { fakeSearcher }
 
-            assertTrue(result.text.contains("规程建议"))
+            assertTrue(result.text.contains("摘要建议"))
             assertTrue(result.text.contains("相关规程"))
+            assertTrue(result.text.contains("未核定"))
         }
 }
