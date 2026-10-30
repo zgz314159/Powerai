@@ -2,6 +2,7 @@ package com.example.powerai.feature.searchchat
 
 import android.content.Context
 import com.example.powerai.core.model.GenerationMetrics
+import com.example.powerai.core.model.KnowledgeItem
 import com.example.powerai.core.model.NativeResourceProvider
 import com.example.powerai.core.model.PowerAIEngine
 import com.example.powerai.core.model.SmartAnswerMode
@@ -56,7 +57,12 @@ class DeepSeekGenerationStopTest {
     private fun runStopTest(body: suspend TestScope.() -> Unit) =
         runTest {
             Dispatchers.setMain(StandardTestDispatcher(testScheduler))
-            body()
+            try {
+                body()
+            } finally {
+                // 取消仍挂起的 fake infer gate，避免 runTest 报 UncompletedCoroutinesError
+                testScheduler.advanceUntilIdle()
+            }
         }
 
     private class Harness(
@@ -64,6 +70,17 @@ class DeepSeekGenerationStopTest {
         val sessionManager: DeepSeekSessionManager,
         val vm: DeepSeekViewModel,
     )
+
+    /** 停止测试必须走进真实 infer：空证据会被 ViewModel 短路拒答，永远不触发引擎。 */
+    private val fixtureReference =
+        KnowledgeItem(
+            id = 42L,
+            title = "停止测试用证据",
+            content = "用于停止闭环回归的固定原文，禁止当作生产规程。",
+            source = "test-fixture",
+            category = "test",
+            keywords = emptyList(),
+        )
 
     private suspend fun TestScope.buildHarness(): Harness {
         val dir: File = Files.createTempDirectory("deepseek-stop-test").toFile()
@@ -99,7 +116,7 @@ class DeepSeekGenerationStopTest {
                 question = "问题",
                 prompt = "prompt",
                 promptPrefixKey = "key",
-                references = emptyList(),
+                references = listOf(fixtureReference),
                 webSources = emptyList(),
                 retrievalMs = 0L,
                 promptBuildMs = 0L,
@@ -107,6 +124,7 @@ class DeepSeekGenerationStopTest {
                 prefixReuseHit = false,
                 answerMode = SmartAnswerMode.FAST,
                 backendLabel = "CPU",
+                evidenceConfidence = SmartEvidenceConfidence.CORRECT,
             ),
         )
 
@@ -235,16 +253,18 @@ class DeepSeekGenerationStopTest {
             h.engine.awaitInferStarted()
             assertTrue("新提问应重新进入可停止的生成中", h.vm.uiState.value.canAbortGeneration)
 
-            h.engine.emitChunk("新答案")
+            // 最终句须与 fixture 证据有足够重合，否则 AnswerGuard 会回退原文摘录
+            val grounded = "用于停止闭环回归的固定原文，禁止当作生产规程。[1]"
+            h.engine.emitChunk(grounded)
             testScheduler.advanceUntilIdle()
-            assertEquals("新答案", h.vm.uiState.value.result)
+            assertEquals(grounded, h.vm.uiState.value.result)
 
             val secondJob: Job? = h.sessionManager.generationJob
-            h.engine.finishInferAt(1, "新答案")
+            h.engine.finishInferAt(1, grounded)
             secondJob?.join()
             testScheduler.advanceUntilIdle()
             assertEquals(SmartProgressPhase.COMPLETED, h.vm.uiState.value.progressState.phase)
-            assertEquals("新答案", h.vm.uiState.value.result)
+            assertEquals(grounded, h.vm.uiState.value.result)
         }
 
     @Test
@@ -371,6 +391,10 @@ class DeepSeekGenerationStopTest {
         override suspend fun stopGeneration(): Boolean {
             stopCalls.incrementAndGet()
             metricsFlow.value = metricsFlow.value.copy(isGenerating = false)
+            // 与真实引擎「停止后 infer 结束」对齐，避免测试末尾仍有挂起的 await
+            for (gate in gates) {
+                if (gate.isActive) gate.cancel()
+            }
             return true
         }
 

@@ -13,13 +13,13 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0 ✅；P1 代码落地 messages 模板但**真机 A/B 与停止回归抖动未过门**；P2–P5 未做 → **不得标整体完成**
+- **Smart RAG 四项缺口治理**：P0 ✅；P1 ✅（JVM+真机模板烟测）；**P2–P5 未做** → 不得标整体完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| Smart RAG P1 模板编码（JVM） | 自动测通过；交付未齐 | `LlamaCppChatInferenceBuilder` → `withMessages`；arch 0 新违规；`DeepSeekGenerationStopTest` UncompletedCoroutines 抖动；真机 A/B 待验 |
+| Smart RAG P1 模板接入 | JVM+真机出口关闭 | `withMessages`；StopTest 8/8；XQ-DQ72 `LlamaCppChatTemplateDeviceSmokeTest` OK；`templateMode=gguf_chat_template_messages_v1` |
 | Smart RAG P0 基线核对 | 代码+设备日志核对完成；治理未完成 | 基线 `f1a124d`；XQ-DQ72；见 `docs/smart_rag_p0_baseline.md`；种子评测 `smart_rag_eval/v0_seed_cases.json` |
 | 仓库级收口 PR #29 | 已合并 | merge `8af386bc59db5c45832e7155268f7469bbe868c0`；CI JVM + Guardrails + connectedAndroidTest 绿（2026-10-27） |
 | 真机仪器 C2 | 已验收 | XQ-DQ72 / Android 15 (API 35)；`connectedDebugAndroidTest` **10/10**（2026-10-27）；A/B 手动项仍待验 |
@@ -240,6 +240,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-30 | Smart RAG **P1**：GGUF messages 模板；StopTest 修空证据短路；真机模板烟测绿（XQ-DQ72） |
 | 2026-10-29 | Smart RAG 四项缺口 **P0**：AEGL worktree；事实/假设分离；评测种子入库；P1–P5 待执行（见 `docs/smart_rag_governance_plan.md`） |
 | 2026-10-29 | 假「资料不足」：LIKE 整句优先于宽 FTS；sparse top5；grader 修「检修」方面；Ambiguous 不清空弱本地；ranker 可答性回捞 |
 | 2026-10-29 | CRAG 路由：歧义问澄清；证据 Correct/Ambiguous/Incorrect；弱证据不硬生成；时效问仍可用设备日期 |

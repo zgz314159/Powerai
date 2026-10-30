@@ -18,7 +18,7 @@
 | 阶段 | 出口摘要 | 状态 |
 |------|----------|------|
 | P0 基线 | 失败可定位到源/检索/覆盖/模型/解析/守卫/展示；事实与假设分开；不污染正式目录 | ✅ 材料已入库（`449de71`）；**整体治理未完成** |
-| P1 模型接入 | 模板只应用一次；同步/流式一致；停止回归；真机 A/B 有记录 | 代码已改 messages 路径；单测 `LlamaCppChatInferenceBuilderTest`+PromptManager 绿；**停止回归 UncompletedCoroutines 抖动未清；真机 A/B 未验 → 不得标 P1 交付完成** |
+| P1 模型接入 | 模板只应用一次；同步/流式一致；停止回归；真机 A/B 有记录 | ✅ JVM：builder+StopTest；真机：`LlamaCppChatTemplateDeviceSmokeTest`（XQ-DQ72）diag=`gguf_chat_template_messages_v1`，同证据双次生成非空中文；对照见 `docs/smart_rag_p0_baseline.md` P1 |
 | P2 来源资格 | 新装/旧库/重复升级；不明来源不冒充权威 | 待执行 |
 | P3 证据决策 | FULL/PARTIAL/CLARIFY/NONE 等价；弱证据不硬答 | 待执行 |
 | P4 输出与状态 | 原文路径；语义负例阻断；历史一致 | 待执行 |

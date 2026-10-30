@@ -44,11 +44,17 @@
 - AEGL `task verify` 默认跑 `scripts/run-tests.sh`（本仓可能无此脚本）或 `mise run test`；Android 模块验证改用 host `GRADLE_USER_HOME=~/.gradle` + worktree `local.properties`（gitignore），日志写入 AEGL scratch；不在正式目录执行 Gradle。
 - 可信晋升（broker）与 `git push` 分支分开记录。
 
-## P1 进展（2026-10-29 夜）
+## P1 进展（关闭于 2026-10-30）
 
 | 项 | 结果 |
 |----|------|
 | `withMessages` 单 user（system 折叠） | 已实现；JVM 单测绿 |
 | Prompt 前缀缓存键绑定正文 fp + tpl | 已实现 |
-| `DeepSeekGenerationStopTest` | UncompletedCoroutinesError 抖动（与历史一致）；**未标回归通过** |
-| 同证据真机 A/B | **未执行** → P1 出口未关闭 |
+| `DeepSeekGenerationStopTest` | 根因：空证据 mock 被拒答短路；补 fixture 证据后 **8/8 绿** |
+| 同证据真机对照 | XQ-DQ72；`am instrument` → `LlamaCppChatTemplateDeviceSmokeTest` **OK**；`templateMode=gguf_chat_template_messages_v1`；同 Prompt（含 10kV接地原文）双次 `safeGenerate` 均非空中文；摘要 `scratch/p1_template_smoke.txt`（任务机） |
+| 对照说明 | 修正前路径为 `InferenceParameters.of(merged)`（P0 已证实）；修正后为 messages→GGUF chat_template；未同时改检索/守卫 |
+
+### 真机门禁操作备注
+
+- `./gradlew connectedDebugAndroidTest` 可能在未预置私有 `files/models` 时 SKIP；已验证流程：`adb push` GGUF → `/data/local/tmp` → `run-as cp` 入 `files/models`，再 `am instrument`（避免误清数据）。
+- 重装 APK 后须重新注入模型；**禁止**用清数据冒充升级成功。
