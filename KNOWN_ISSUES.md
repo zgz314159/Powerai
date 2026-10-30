@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-30（Smart RAG P3 证据决策；P4–P5 未完）
+**最后同步**：2026-10-30（Smart RAG P4 原文/核验；P5 综合验收未完）
 
 ---
 
@@ -12,7 +12,7 @@
 |----|------|------|
 | KI-60 | 模型未走 `InferenceParameters.withMessages`；system 非角色编码；采样参数诊断不全 | ✅ P1 关闭（messages+诊断+真机烟测）；残留：QUICK/DEEP 思考段策略与 n_ctx 预算仍可后续收紧 |
 | KI-61 | 词面分级 ≠ 意图覆盖；AMBIGUOUS 仍可硬生成 | ✅ P3 关闭（`SmartAnswerDecisionEngine` 路由 PARTIAL/NONE；弱证据不交模型） |
-| KI-62 | 守卫难拦职责/顺序改写；`take(220)` 非合格摘录；假「资料不足」与资料缺失未分因 | P0 已证实；**P4 待修** |
+| KI-62 | 守卫难拦职责/顺序改写；`take(220)` 非合格摘录；假「资料不足」与资料缺失未分因 | ✅ P4 关闭（句界摘录+结构改写回退原文）；假不足分因仍依赖 P3 决策 reasonCode |
 | KI-63 | `power_safety_rules` 冠名「电力安全工作规程」；Sparse/Room 回退可冒充权威 | ✅ P2 关闭（诚实标签+门闸+真机升级/幂等） |
 
 计划与基线：`docs/smart_rag_governance_plan.md`、`docs/smart_rag_p0_baseline.md`。

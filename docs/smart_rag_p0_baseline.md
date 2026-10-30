@@ -69,3 +69,12 @@
 | 「变压器绝缘电阻」+手套 | NONE |
 | 短问「变压器」 | CLARIFY（既有门闸 + 决策引擎） |
 | JVM | `SmartAnswerDecisionEngineTest` + `DeepSeekPromptManagerTest`（含 procedure PARTIAL）绿 |
+
+## P4 进展（关闭于 2026-10-30）
+
+| 项 | 结果 |
+|----|------|
+| 原文选段 | `SmartEvidenceExcerpt` 按句界选取；废除 `fallbackFromEvidence` 的 `.take(220)` |
+| 结构核验 | `SmartSemanticClaimGuard`：DUTY_REWRITE / ORDER_INVENT / NEGATION_FLIP → 回退原文 |
+| 流式一致 | `shouldReplaceVisibleAnswer` 对改写可见答案强制覆盖；`applyResolvedAnswer` 带 question |
+| JVM | Excerpt/Semantic/Guard/Decision/PromptManager 相关单测全绿 |

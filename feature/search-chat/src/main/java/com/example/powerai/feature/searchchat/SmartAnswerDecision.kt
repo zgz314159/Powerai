@@ -66,7 +66,7 @@ object SmartAnswerDecisionEngine {
                     kind = SmartAnswerDecisionKind.PARTIAL,
                     reasonCode = "PARTIAL_COVERAGE",
                     missingHints = gaps,
-                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps),
+                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps, question),
                 )
 
             confidence == SmartEvidenceConfidence.CORRECT && best >= 0.55f && gaps.isEmpty() ->
@@ -85,7 +85,7 @@ object SmartAnswerDecisionEngine {
                     kind = SmartAnswerDecisionKind.PARTIAL,
                     reasonCode = "PARTIAL_COVERAGE",
                     missingHints = gaps,
-                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps),
+                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps, question),
                 )
 
             else ->
@@ -140,12 +140,16 @@ object SmartAnswerDecisionEngine {
     fun buildPartialAnswer(
         items: List<KnowledgeItem>,
         gaps: List<String>,
+        question: String = "",
     ): String {
         val top = items.first()
-        val excerpt = top.content.trim()
+        val excerpt =
+            SmartEvidenceExcerpt
+                .select(question.ifBlank { top.title }, top)
+                .ifBlank { top.content.trim() }
         return buildString {
             append("资料仅覆盖部分内容，不能当作完整操作流程。\n")
-            append("摘录（").append(top.title.take(40)).append("）：\n")
+            append("原文摘录（").append(top.title.take(40)).append("）：\n")
             append(excerpt)
             if (gaps.isNotEmpty()) {
                 append("\n\n尚未覆盖：")

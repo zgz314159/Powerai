@@ -217,7 +217,7 @@ class DeepSeekGenerationOrchestrator
                     }
 
                     val streamedChunks = engine.metrics.value.streamedTokenCount
-                    val resolvedFinalAnswer = applyResolvedAnswer(delegate, out)
+                    val resolvedFinalAnswer = applyResolvedAnswer(delegate, out, query)
 
                     val firstTokenLatencyMs = engine.metrics.value.firstTokenLatencyMs ?: 0L
                     val decodeWindowMs = (SystemClock.elapsedRealtime() - generationStartedAt - firstTokenLatencyMs).coerceAtLeast(1L)
@@ -263,6 +263,7 @@ class DeepSeekGenerationOrchestrator
         private fun applyResolvedAnswer(
             delegate: GenerationDelegate,
             out: String,
+            question: String = "",
         ): String {
             val extractedThinking = ThinkingInterceptor.extractThinkingSegments(out).distinct()
             if (extractedThinking.isNotEmpty()) {
@@ -278,9 +279,11 @@ class DeepSeekGenerationOrchestrator
                 SmartAnswerGuard.coalesceGroundedAnswer(
                     raw = normalized,
                     references = refs,
+                    question = question,
                 )
             val currentVisibleAnswer = delegate.state.result
             // 无证据时短「资料不足」必须覆盖长胡编；旧逻辑要求 resolved 更长导致拒答写不进去。
+            // 界面结果即本轮唯一终态（与指标/后续历史写入同源）。
             if (SmartAnswerGuard.shouldReplaceVisibleAnswer(resolvedFinalAnswer, currentVisibleAnswer, refs)) {
                 delegate.reduceState { copy(result = resolvedFinalAnswer) }
             }
