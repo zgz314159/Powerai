@@ -1,6 +1,6 @@
 {
   "version": "v1-fixed",
-  "note": "P5 固定评测 v1：50 条（holdout 12≈24%）。合成 fixture 仅测试用。未满建议 60 条时不得宣称完整集齐。",
+  "note": "P5 固定评测 v1：62 条（holdout 14≈23%）。合成 fixture 仅测试用。未满建议 60 条时不得宣称完整集齐。",
   "cases": [
     {
       "caseId": "SCRN-10KV-JX-001",
@@ -857,6 +857,201 @@
       ],
       "mustRetainFacts": [
         "明显断开点"
+      ]
+    },
+    {
+      "caseId": "FACT-TEMP-001",
+      "category": "numeric_table",
+      "holdout": false,
+      "question": "发电机允许温升多少",
+      "fixtureEvidence": {
+        "title": "温升",
+        "content": "发电机绕组允许温升应符合制造厂规定及相应标准限值，运行中应监视温升。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "允许温升"
+      ]
+    },
+    {
+      "caseId": "PROC-GROUND-001",
+      "category": "procedure_order",
+      "holdout": false,
+      "question": "检修前如何接地",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "NEAR-CABLE-IR-001",
+      "category": "near_miss",
+      "holdout": false,
+      "question": "变压器绝缘电阻多大",
+      "fixtureEvidence": {
+        "title": "电缆",
+        "content": "电缆敷设时应保持最小弯曲半径，避免损伤绝缘层。"
+      },
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "DUTY-003",
+      "category": "duty_role",
+      "holdout": false,
+      "question": "接地封线几人操作",
+      "fixtureEvidence": {
+        "title": "第34条",
+        "content": "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "CLARIFY",
+        "FULL"
+      ],
+      "mustRetainFacts": [
+        "一人操作",
+        "一人监护"
+      ],
+      "forbiddenClaims": [
+        "轮流"
+      ]
+    },
+    {
+      "caseId": "NEGATION-004",
+      "category": "negation_condition",
+      "holdout": false,
+      "question": "可以无票作业吗",
+      "fixtureEvidence": {
+        "title": "工作票",
+        "content": "电气设备上工作必须办理工作票，不得无票作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "不得无票作业"
+      ],
+      "forbiddenClaims": [
+        "可以无票"
+      ]
+    },
+    {
+      "caseId": "SHORT-ENTITY-004",
+      "category": "short_query",
+      "holdout": false,
+      "question": "隔离开关",
+      "allowedDecisions": [
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "KV-10KV-EQ-001",
+      "category": "voltage_unit",
+      "holdout": false,
+      "question": "10000V如何验电",
+      "fixtureEvidence": {
+        "title": "10kV验电",
+        "content": "10kV验电可使用手持式验电器或验电笔，操作人员应穿戴绝缘鞋和绝缘手套。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL",
+        "CLARIFY",
+        "NONE"
+      ],
+      "notes": "10000V≈10kV 表达；当前等级抽取未必等价，允许 NONE"
+    },
+    {
+      "caseId": "EMPTY-NONE-004",
+      "category": "missing_evidence",
+      "holdout": false,
+      "question": "GIS气室微水标准是多少",
+      "allowedDecisions": [
+        "NONE",
+        "CLARIFY"
+      ]
+    },
+    {
+      "caseId": "BADGEN-NEG-001",
+      "category": "bad_generation",
+      "holdout": false,
+      "question": "可以约时停送电吗",
+      "fixtureEvidence": {
+        "title": "停送电",
+        "content": "严禁约时停送电。停送电必须按调度指令执行。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "injectBadAnswer": "根据资料，可以约时停送电以方便作业。",
+      "forbiddenClaims": [
+        "可以约时停送电"
+      ],
+      "mustRetainFacts": [
+        "严禁约时停送电"
+      ]
+    },
+    {
+      "caseId": "CMP-003",
+      "category": "comparison",
+      "holdout": false,
+      "question": "手车柜和固定柜有啥不一样",
+      "fixtureEvidence": {
+        "title": "开关柜",
+        "content": "手车式开关柜可抽出断路器手车检修；固定式柜内设备固定安装，检修需停电。"
+      },
+      "allowedDecisions": [
+        "FULL",
+        "PARTIAL"
+      ],
+      "mustRetainFacts": [
+        "手车"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-PROC-002",
+      "category": "procedure_order",
+      "holdout": true,
+      "question": "检修前怎样接地封线",
+      "fixtureEvidence": {
+        "title": "10kV接地",
+        "content": "10kV设备检修前应拉开开关并接地。复测。确认无电后方可作业。"
+      },
+      "allowedDecisions": [
+        "PARTIAL",
+        "FULL",
+        "CLARIFY"
+      ],
+      "mustRetainFacts": [
+        "拉开开关并接地"
+      ]
+    },
+    {
+      "caseId": "HOLDOUT-SHORT-002",
+      "category": "short_query",
+      "holdout": true,
+      "question": "电动机",
+      "allowedDecisions": [
+        "CLARIFY"
       ]
     }
   ]

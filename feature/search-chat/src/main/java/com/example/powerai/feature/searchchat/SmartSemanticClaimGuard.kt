@@ -57,7 +57,8 @@ object SmartSemanticClaimGuard {
             !Regex("可以(?:直接)?|允许|不必").containsMatchIn(hay)
         ) {
             // 仅当答案同时提到证据中的核心动作词时才判
-            val actionHints = listOf("操作", "作业", "停电", "验电", "接地")
+            val actionHints =
+                listOf("操作", "作业", "停电", "送电", "停送电", "约时", "验电", "接地", "登杆", "无票")
             if (actionHints.any { hay.contains(it) && a.contains(it) }) {
                 return "NEGATION_FLIP"
             }

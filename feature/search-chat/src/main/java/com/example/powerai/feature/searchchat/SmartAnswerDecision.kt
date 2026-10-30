@@ -146,7 +146,7 @@ object SmartAnswerDecisionEngine {
         val topicAnchors =
             listOf(
                 "停电", "检电", "验电", "接地", "检修", "熔丝", "倒闸", "监护", "操作",
-                "送电", "登杆", "约时", "工作票", "安全距离", "绝缘电阻",
+                "送电", "登杆", "约时", "工作票", "安全距离", "绝缘电阻", "手车", "温升",
             )
         if (topicAnchors.any { question.contains(it) && hay.contains(it) }) return true
         val terms = SmartEvidenceRanker.extractQueryTerms(question)

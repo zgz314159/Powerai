@@ -2,7 +2,7 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-30（Smart RAG P0–P4 关闭；P5 v1 固定集+真机决策烟测绿；未满 60/UI 端到端/可信晋升）
+**最后同步**：2026-10-30（Smart RAG P0–P4 关闭；P5 v1=62+真机决策烟测绿；UI 端到端/可信晋升未完）
 
 ---
 

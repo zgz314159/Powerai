@@ -83,7 +83,7 @@
 
 | 项 | 结果 |
 |----|------|
-| 固定集 v1 | `v1_fixed_cases.json` 50 条（holdout≈24%）；`SmartRagFixedEvalTest` **绿** |
+| 固定集 v1 | `v1_fixed_cases.json` **62** 条（holdout≈23%）；`SmartRagFixedEvalTest` **绿** |
 | 电压错配 | `SmartAnswerDecisionEngine.hasVoltageMismatch` → 禁止 FULL |
 | 真机决策烟测 | XQ-DQ72；`SmartRagDecisionDeviceSmokeTest` 3/3 + 模板烟测 1/1 **OK** |
-| 未完成 | 扩至 ≥60；UI 截图问答端到端；AEGL 可信晋升 |
+| 未完成 | UI 截图问答端到端；AEGL 可信晋升 |
