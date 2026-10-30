@@ -78,3 +78,11 @@
 | 结构核验 | `SmartSemanticClaimGuard`：DUTY_REWRITE / ORDER_INVENT / NEGATION_FLIP → 回退原文 |
 | 流式一致 | `shouldReplaceVisibleAnswer` 对改写可见答案强制覆盖；`applyResolvedAnswer` 带 question |
 | JVM | Excerpt/Semantic/Guard/Decision/PromptManager 相关单测全绿 |
+
+## P5 进展（进行中，2026-10-30）
+
+| 项 | 结果 |
+|----|------|
+| 种子决策验收 | `SmartRagSeedEvalTest` 消费 `v0_seed_cases.json` 非 holdout **绿** |
+| 真机模板烟测复跑 | XQ-DQ72；`LlamaCppChatTemplateDeviceSmokeTest` **OK**（installDebug 后模型仍在） |
+| 未完成 | 完整 60 条固定集+留出集；截图问答端到端复测；AEGL 可信晋升 |

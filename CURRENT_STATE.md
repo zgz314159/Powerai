@@ -13,12 +13,13 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 未做** → 不得标整体完成
+- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 部分**（JVM 种子决策绿；完整集/真机截图复测/可信晋升未完）→ 不得标整体完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
+| Smart RAG P5 种子验收 | JVM 部分 | `SmartRagSeedEvalTest` 消费 `v0_seed_cases.json` 非 holdout；完整 60 条与真机截图复测未完 |
 | Smart RAG P4 原文/核验 | JVM | `SmartEvidenceExcerpt`+`SmartSemanticClaimGuard`；职责改写回退原文；废除 take(220) |
 | Smart RAG P3 证据决策 | JVM | `SmartAnswerDecisionEngine`；停电→PARTIAL 原文、近邻→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | Smart RAG P2 来源资格 | JVM+真机升级/幂等 | `SourceQualification`+`srcpol-2`；DB synopsis=10、legacy=0、asset_kb=143；二次冷启动幂等 |
@@ -243,6 +244,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-30 | Smart RAG **P5 部分**：种子决策单测绿；真机模板烟测复跑 OK；完整集/截图复测/晋升未完 |
 | 2026-10-30 | Smart RAG **P4**：句界原文摘录；职责/顺序改写核验回退；流式终态覆盖 |
 | 2026-10-30 | Smart RAG **P3**：`SmartAnswerDecisionEngine` FULL/PARTIAL/CLARIFY/NONE；弱/局部证据 `directAnswer` 短路 |
 | 2026-10-30 | Smart RAG **P2**：来源资格 `srcpol-2`；未核定摘要不得作规程权威；Sparse/导入/Prompt 闭合（真机旧库升级待验） |
