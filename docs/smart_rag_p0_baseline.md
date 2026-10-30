@@ -86,4 +86,7 @@
 | 固定集 v1 | `v1_fixed_cases.json` **62** 条（holdout≈23%）；`SmartRagFixedEvalTest` **绿** |
 | 电压错配 | `SmartAnswerDecisionEngine.hasVoltageMismatch` → 禁止 FULL |
 | 真机决策烟测 | XQ-DQ72；`SmartRagDecisionDeviceSmokeTest` 3/3 + 模板烟测 1/1 **OK** |
-| 未完成 | UI 截图问答端到端；AEGL 可信晋升 |
+| 真机截图管道 | `SmartRagScreenshotPipelineDeviceTest` 2/2 **OK**（生产 `powerai.db`） |
+| 真机截图 UI | `SmartRagScreenshotUiAcceptanceTest` 2/2 **OK**（澄清/停电；禁轮流） |
+| AEGL verify 入口 | 新增 `scripts/run-tests.sh`（Smart RAG JVM 门禁） |
+| 未完成 | AEGL 可信晋升（`aegl-task task promote` 需 controller token + 异 UID broker） |

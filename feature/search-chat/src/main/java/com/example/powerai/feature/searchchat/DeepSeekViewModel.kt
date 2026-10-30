@@ -188,13 +188,19 @@ class DeepSeekViewModel
                     )
                 }
 
-                // 澄清 / 资料不足等：不调模型。
+                // 澄清 / 局部资料 / 资料不足等：不调模型。
                 val direct = prepared.directAnswer
                 if (!direct.isNullOrBlank()) {
                     updateState { copy(result = direct) }
+                    val progressTitle =
+                        when {
+                            direct.startsWith("问题过短") -> "请补充问题"
+                            direct.startsWith("资料仅覆盖") -> "局部资料"
+                            else -> "资料不足"
+                        }
                     updateProgress(
                         SmartProgressPhase.COMPLETED,
-                        if (direct.startsWith("问题过短")) "请补充问题" else "资料不足",
+                        progressTitle,
                         "已跳过模型生成（confidence=${prepared.evidenceConfidence}）。",
                         showAsActive = false,
                     )
