@@ -13,13 +13,13 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `verify` PASS）；**可信晋升未完**（operator 单：`docs/smart_rag_p5_operator_promote.md`）→ 不得标整体完成
+- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `verify` PASS）；**PR #30** 待合入；AEGL promote 白名单不含 PowerAi → 不得标整体完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| Smart RAG P5 | JVM+真机+verify PASS | promote：无 token；broker.sock 对本 UID `Permission denied`；操作单已入库 |
+| Smart RAG P5 | JVM+真机+verify PASS | [PR #30](https://github.com/zgz314159/Powerai/pull/30)；AEGL 白名单无 PowerAi；本地正式仓仍 `f1a124d` |
 | Smart RAG P4 原文/核验 | JVM | `SmartEvidenceExcerpt`+`SmartSemanticClaimGuard`；职责改写回退原文；废除 take(220) |
 | Smart RAG P3 证据决策 | JVM | `SmartAnswerDecisionEngine`；停电→PARTIAL 原文、近邻→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | Smart RAG P2 来源资格 | JVM+真机升级/幂等 | `SourceQualification`+`srcpol-2`；DB synopsis=10、legacy=0、asset_kb=143；二次冷启动幂等 |
@@ -244,6 +244,7 @@
 
 | 日期 | 事项 |
 |------|------|
+| 2026-10-30 | Smart RAG **P5**：开 PR #30；确认 AEGL promote 白名单不含 PowerAi |
 | 2026-10-30 | Smart RAG **P5**：verify PASS；operator 晋升单入库；broker.sock 对本 UID 不可达 |
 | 2026-10-30 | Smart RAG **P4**：句界原文摘录；职责/顺序改写核验回退；流式终态覆盖 |
 | 2026-10-30 | Smart RAG **P3**：`SmartAnswerDecisionEngine` FULL/PARTIAL/CLARIFY/NONE；弱/局部证据 `directAnswer` 短路 |

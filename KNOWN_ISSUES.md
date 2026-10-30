@@ -4,14 +4,15 @@
 
 **最后同步**：2026-10-30（Smart RAG P0–P5 代码验收；可信晋升 BLOCKED：无 token + broker.sock 权限；见 `docs/smart_rag_p5_operator_promote.md`）
 
-### KI-64 — 可信晋升待 operator
+### KI-64 — 可信晋升 / 合入待办
 
 | 项 | 状态 |
 |----|------|
 | `aegl-task task verify` | PASS |
 | Controller token | 缺失（Agent 不得自造） |
 | `/run/aegl-promote/broker.sock` | 服务 Active；当前 UID `Permission denied` |
-| 下一步 | Operator 按 `docs/smart_rag_p5_operator_promote.md` 执行 register/record/promote |
+| **白名单** | **不含 PowerAi**（仅 Stack/KeepLab/AEGL）→ broker 路径对本仓结构性不可用 |
+| 交付路径 | GitHub [PR #30](https://github.com/zgz314159/Powerai/pull/30) 合入 `main`；或 operator 扩白名单后再 promote |
 
 ---
 
