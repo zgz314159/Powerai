@@ -2,18 +2,18 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-30（PR #30 CI 修复中：ktlint/detekt baseline/无 GGUF 仪器 SKIP；合入仍待 CI 绿）
+**最后同步**：2026-10-30（PR #30 已合入 main；AEGL 可信晋升仍 BLOCKED：白名单无 PowerAi）
 
-### KI-64 — 可信晋升 / 合入待办
+### KI-64 — 可信晋升待办（GitHub 合入已完成）
 
 | 项 | 状态 |
 |----|------|
-| `aegl-task task verify` | PASS |
+| GitHub PR #30 | ✅ squash 合入 `b1f19b0`（2026-10-30） |
+| `aegl-task task verify` | PASS（合入前） |
 | Controller token | 缺失（Agent 不得自造） |
 | `/run/aegl-promote/broker.sock` | 服务 Active；当前 UID `Permission denied` |
 | **白名单** | **不含 PowerAi**（仅 Stack/KeepLab/AEGL）→ broker 路径对本仓结构性不可用 |
-| PR #30 CI | 首轮红：ktlint import、detekt 基线漂移、UI 仪器无 GGUF hard-fail；已修待复跑 |
-| 交付路径 | GitHub [PR #30](https://github.com/zgz314159/Powerai/pull/30) 合入 `main`；或 operator 扩白名单后再 promote |
+| 残留交付 | operator 扩白名单 + token 后按 `docs/smart_rag_p5_operator_promote.md` promote；或正式仓 `git pull` |
 
 ---
 
