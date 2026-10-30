@@ -6,6 +6,7 @@ import com.example.powerai.core.model.NativeResourceProvider
 import com.example.powerai.core.model.SmartAnswerMode
 import com.example.powerai.core.model.SmartProgressPhase
 import com.example.powerai.core.model.SmartStageMetrics
+import com.example.powerai.core.model.SourceQualification
 import com.example.powerai.domain.repository.WebSearchRepository
 import com.example.powerai.domain.repository.WebSearchResult
 import com.example.powerai.domain.retrieval.RetrievalFusionUseCase
@@ -146,6 +147,10 @@ class DeepSeekPromptManager
             var references =
                 SmartEvidenceGrader.filterByGrade(normalizedQuestion, ranked, confidence)
 
+            // P2：未核定内置摘要不得作为规范操作权威证据（可浏览，但不进生成 Prompt）。
+            val (qualifiedRefs, unverifiedRefs) = SourceQualification.partitionForNormativeAnswer(references)
+            references = qualifiedRefs
+
             val wantWeb =
                 SmartQueryRouter.shouldFetchWeb(
                     kind = queryKind,
@@ -158,29 +163,41 @@ class DeepSeekPromptManager
             val webSources = webResults.map { it.url }.filter { it.isNotBlank() }.distinct()
             val retrievalMs = SystemClock.elapsedRealtime() - retrievalStartedAt
 
-            // Ambiguous：保留已过滤的本地条（≥0.28）；仅 Incorrect/空才拒答。
-            // （此前无网页就清空会导致「库里有条文」仍资料不足。）
-
             SmartDeepSeekDebugLogger.logEvent(
                 provider = provider,
                 tag = "RETRIEVAL",
                 message =
                     "durationMs=$retrievalMs kind=$queryKind confidence=$confidence " +
-                        "evidenceCount=${references.size} webCount=${webResults.size} wantWeb=$wantWeb " +
+                        "evidenceCount=${references.size} unverifiedSynopsis=${unverifiedRefs.size} " +
+                        "webCount=${webResults.size} wantWeb=$wantWeb " +
                         "titles=${references.joinToString(" | ") { it.title.take(24) }}",
             )
 
-            // 无本地可用证据且无网页 → 直接拒答（时效问除外：仍可用设备日期作答）。
             if (references.isEmpty() && webResults.isEmpty() && queryKind != SmartQueryKind.TEMPORAL) {
+                val direct =
+                    if (unverifiedRefs.isNotEmpty()) {
+                        SourceQualification.unverifiedSynopsisNotice(unverifiedRefs)
+                    } else {
+                        SmartAnswerGuard.INSUFFICIENT
+                    }
                 onProgress(
                     SmartProgressPhase.COMPLETED,
-                    "资料不足",
-                    "检索置信度=$confidence，无可用本地/网页资料。",
+                    if (unverifiedRefs.isNotEmpty()) "来源未核定" else "资料不足",
+                    if (unverifiedRefs.isNotEmpty()) {
+                        "仅有未核定摘要 ${unverifiedRefs.size} 条，已拒绝作为规程权威依据。"
+                    } else {
+                        "检索置信度=$confidence，无可用本地/网页资料。"
+                    },
                 )
                 return PreparedGroundedPrompt(
                     question = normalizedQuestion,
                     prompt = "",
-                    promptPrefixKey = "insufficient::$normalizedQuestion",
+                    promptPrefixKey =
+                        if (unverifiedRefs.isNotEmpty()) {
+                            "unverified-synopsis::$normalizedQuestion"
+                        } else {
+                            "insufficient::$normalizedQuestion"
+                        },
                     references = emptyList(),
                     webSources = emptyList(),
                     retrievalMs = retrievalMs,
@@ -190,8 +207,13 @@ class DeepSeekPromptManager
                     answerMode = answerMode,
                     backendLabel = backendLabel,
                     queryKind = queryKind,
-                    directAnswer = SmartAnswerGuard.INSUFFICIENT,
-                    evidenceConfidence = confidence,
+                    directAnswer = direct,
+                    evidenceConfidence =
+                        if (unverifiedRefs.isNotEmpty()) {
+                            SmartEvidenceConfidence.AMBIGUOUS
+                        } else {
+                            confidence
+                        },
                 )
             }
 

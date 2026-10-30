@@ -1,6 +1,7 @@
 package com.example.powerai.engine.ai
 
 import android.content.Context
+import com.example.powerai.core.model.SourceQualification
 import org.json.JSONArray
 
 /**
@@ -26,7 +27,7 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
             val fname = filename.lowercase()
             val known =
                 mapOf(
-                    "power_safety_rules.json" to "电力安全工作规程",
+                    "power_safety_rules.json" to SourceQualification.UNVERIFIED_SYNOPSIS_LABEL,
                     "railway_power_lines.json" to "电力线路工必知必会手册",
                     "铁路电力线路工.json" to "电力线路工必知必会手册",
                 )
@@ -34,7 +35,10 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
                 if (fname.contains(k)) return v
             }
             if (fname.contains("rail") || fname.contains("铁路") || fname.contains("线路")) return "电力线路工必知必会手册"
-            if (fname.contains("power") || fname.contains("safety") || fname.contains("安全")) return "电力安全工作规程"
+            // 勿把任意 safety/power 文件名抬成正式规程名
+            if (fname.contains("power_safety_rules") || fname == "builtin") {
+                return SourceQualification.UNVERIFIED_SYNOPSIS_LABEL
+            }
             return filename
         }
 
@@ -124,12 +128,26 @@ class DefaultSparseSearcherLoader : SparseSearcherLoader {
                 found
             } else {
                 listOf(
-                    SparseSearcher.SafetyEntry("221kV", "221kV验电应使用相应电压等级且合格的接触式验电器。", "builtin"),
-                    SparseSearcher.SafetyEntry("验电", "验电必须遵守分级、戴绝缘手套并使用绝缘工具。", "builtin"),
+                    SparseSearcher.SafetyEntry(
+                        "221kV",
+                        "221kV验电应使用相应电压等级且合格的接触式验电器。",
+                        SourceQualification.UNVERIFIED_SYNOPSIS_LABEL,
+                    ),
+                    SparseSearcher.SafetyEntry(
+                        "验电",
+                        "验电必须遵守分级、戴绝缘手套并使用绝缘工具。",
+                        SourceQualification.UNVERIFIED_SYNOPSIS_LABEL,
+                    ),
                 )
             }
         } catch (_: Throwable) {
-            listOf(SparseSearcher.SafetyEntry("221kV", "221kV验电应使用相应电压等级且合格的接触式验电器。", "builtin"))
+            listOf(
+                SparseSearcher.SafetyEntry(
+                    "221kV",
+                    "221kV验电应使用相应电压等级且合格的接触式验电器。",
+                    SourceQualification.UNVERIFIED_SYNOPSIS_LABEL,
+                ),
+            )
         }
     }
 }

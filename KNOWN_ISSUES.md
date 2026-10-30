@@ -13,7 +13,7 @@
 | KI-60 | 模型未走 `InferenceParameters.withMessages`；system 非角色编码；采样参数诊断不全 | ✅ P1 关闭（messages+诊断+真机烟测）；残留：QUICK/DEEP 思考段策略与 n_ctx 预算仍可后续收紧 |
 | KI-61 | 词面分级 ≠ 意图覆盖；AMBIGUOUS 仍可硬生成 | P0 已证实；**P3 待修** |
 | KI-62 | 守卫难拦职责/顺序改写；`take(220)` 非合格摘录；假「资料不足」与资料缺失未分因 | P0 已证实；**P4 待修** |
-| KI-63 | `power_safety_rules` 冠名「电力安全工作规程」；Sparse/Room 回退可冒充权威 | P0 已证实；**P2 待修** |
+| KI-63 | `power_safety_rules` 冠名「电力安全工作规程」；Sparse/Room 回退可冒充权威 | ✅ P2 关闭（诚实标签+门闸+真机升级/幂等） |
 
 计划与基线：`docs/smart_rag_governance_plan.md`、`docs/smart_rag_p0_baseline.md`。
 
