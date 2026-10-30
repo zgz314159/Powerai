@@ -88,5 +88,6 @@
 | 真机决策烟测 | XQ-DQ72；`SmartRagDecisionDeviceSmokeTest` 3/3 + 模板烟测 1/1 **OK** |
 | 真机截图管道 | `SmartRagScreenshotPipelineDeviceTest` 2/2 **OK**（生产 `powerai.db`） |
 | 真机截图 UI | `SmartRagScreenshotUiAcceptanceTest` 2/2 **OK**（澄清/停电；禁轮流） |
-| AEGL verify 入口 | 新增 `scripts/run-tests.sh`（Smart RAG JVM 门禁） |
-| 未完成 | AEGL 可信晋升（`aegl-task task promote` 需 controller token + 异 UID broker） |
+| AEGL verify | `aegl-task task verify rag-four-gaps-p0-1793284581` → **PASS**（沙箱；`scripts/run-tests.sh`；不含 Mockito PromptManager） |
+| A234 对齐 | `SmartDeepSeekUiAcceptanceTest` 接受流式或 directAnswer 终态 **OK** |
+| 未完成 | AEGL 可信晋升（`task promote` 需 controller token + 异 UID broker） |

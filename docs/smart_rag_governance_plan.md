@@ -22,7 +22,7 @@
 | P2 来源资格 | 新装/旧库升级/重复升级通过；不明来源不冒充权威 | ✅ JVM+真机：`srcpol-2` 后 synopsis=10、legacy 假规程名=0、正式 KB=143 保留；二次冷启动幂等 |
 | P3 证据决策 | FULL/PARTIAL/CLARIFY/NONE 等价；弱证据不硬答 | ✅ `SmartAnswerDecisionEngine`+PromptManager；JVM：停电→PARTIAL 原文、近邻手套→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | P4 输出与状态 | 原文路径；语义负例阻断；历史一致 | ✅ 句界摘录取代 take(220)；职责/顺序改写回退原文；流式终态强制覆盖 |
-| P5 综合验收 | 固定集+留出集+真机重复；Memory；可信晋升 | ⏳ v1=62 + JVM/管道/UI 截图仪器绿；**可信晋升仍缺**（无 controller token / broker）→ 不得标整体完成 |
+| P5 综合验收 | 固定集+留出集+真机重复；Memory；可信晋升 | ⏳ 代码/仪器/`aegl-task verify`=PASS；**可信晋升仍 BLOCKED**（无 controller token / 异 UID broker）→ 不得标整体完成 |
 
 ## 工程边界（摘要）
 

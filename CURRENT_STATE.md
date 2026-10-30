@@ -13,13 +13,13 @@
 - **架构**：[ARCHITECTURE.md](ARCHITECTURE.md)；代理协作与安全边界见 [AGENTS.md](AGENTS.md)
 - **调试约定**：见 [DEVELOPER_NOTES.md](DEVELOPER_NOTES.md)（如 adb 拉取禁止 shell `>` 重定向，须 `adb pull`）
 - **当前**：`origin/main` 已合入 **PR #29**；**整仓离线债清零 Phase D0–D5 完成**（真机验收与 JNI/NDK 史诗外置，见 §8）
-- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 进行中**（v1=62 + 真机决策/管道/UI 截图绿；**可信晋升未完**）→ 不得标整体完成
+- **Smart RAG 四项缺口治理**：P0–P4 ✅；**P5 代码验收完成**（v1=62 + 真机 + `aegl-task verify` PASS）；**可信晋升未完** → 不得标整体完成
 
 ## 2. 已验证基线
 
 | 项 | 结果 | 证据 |
 |---|---|---|
-| Smart RAG P5 固定集+真机 | JVM+XQ-DQ72 | v1=62；Decision/Pipeline/UI 截图仪器绿；`scripts/run-tests.sh`；promote 缺 token/broker |
+| Smart RAG P5 | JVM+真机+AEGL verify | v1=62；UI/管道绿；`task verify` PASS；promote BLOCKED（无 token/broker） |
 | Smart RAG P4 原文/核验 | JVM | `SmartEvidenceExcerpt`+`SmartSemanticClaimGuard`；职责改写回退原文；废除 take(220) |
 | Smart RAG P3 证据决策 | JVM | `SmartAnswerDecisionEngine`；停电→PARTIAL 原文、近邻→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | Smart RAG P2 来源资格 | JVM+真机升级/幂等 | `SourceQualification`+`srcpol-2`；DB synopsis=10、legacy=0、asset_kb=143；二次冷启动幂等 |
@@ -244,7 +244,7 @@
 
 | 日期 | 事项 |
 |------|------|
-| 2026-10-30 | Smart RAG **P5**：v1=62；真机管道+UI 截图 2/2；`run-tests.sh`；可信晋升仍 BLOCKED（无 controller token） |
+| 2026-10-30 | Smart RAG **P5**：`aegl-task verify` PASS；A234 对齐 directAnswer；晋升仍需 operator token/broker |
 | 2026-10-30 | Smart RAG **P4**：句界原文摘录；职责/顺序改写核验回退；流式终态覆盖 |
 | 2026-10-30 | Smart RAG **P3**：`SmartAnswerDecisionEngine` FULL/PARTIAL/CLARIFY/NONE；弱/局部证据 `directAnswer` 短路 |
 | 2026-10-30 | Smart RAG **P2**：来源资格 `srcpol-2`；未核定摘要不得作规程权威；Sparse/导入/Prompt 闭合（真机旧库升级待验） |

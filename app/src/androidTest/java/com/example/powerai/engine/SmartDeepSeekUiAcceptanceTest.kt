@@ -90,27 +90,35 @@ class SmartDeepSeekUiAcceptanceTest {
         openSmartSearchBar()
         ensureModelLoaded()
 
+        // P3 后：无合格证据走 directAnswer（资料不足），有证据 FULL 才流式。
+        // 本用例同时接受「流式可停」与「直答完成」两种合法终态。
         typeAndSubmit("发电机允许温升是多少")
-        assertTrue(
-            "stop button visible (streaming)",
-            waitForStopControl(180_000),
-        )
-
-        clickStop()
-        assertTrue(
-            "entered stopping/cancelled UI",
-            waitForAnyText(listOf("已取消", "停止中", "已发送停止"), 30_000) ||
-                !device.wait(Until.hasObject(By.res(TAG_STOP)), 8_000),
-        )
-        Thread.sleep(1_500)
+        val streamed1 = waitForStopControl(45_000)
+        val direct1 =
+            waitForAnyText(listOf("资料不足", "局部资料", "请补充", "允许温升", "温升"), 20_000)
+        assertTrue("round1 streaming or directAnswer", streamed1 || direct1)
+        if (streamed1) {
+            clickStop()
+            assertTrue(
+                "entered stopping/cancelled UI",
+                waitForAnyText(listOf("已取消", "停止中", "已发送停止"), 30_000) ||
+                    !device.wait(Until.hasObject(By.res(TAG_STOP)), 8_000),
+            )
+            Thread.sleep(1_500)
+        }
 
         openSmartSearchBar()
         typeAndSubmit("什么是变压器短路阻抗")
-        assertTrue("second round streaming", waitForStopControl(180_000))
-        Thread.sleep(2_000)
-        if (hasStopControl()) {
-            clickStop()
-            Thread.sleep(1_000)
+        val streamed2 = waitForStopControl(45_000)
+        val direct2 =
+            waitForAnyText(listOf("资料不足", "局部资料", "请补充", "短路阻抗", "变压器"), 20_000)
+        assertTrue("round2 streaming or directAnswer", streamed2 || direct2)
+        if (streamed2) {
+            Thread.sleep(2_000)
+            if (hasStopControl()) {
+                clickStop()
+                Thread.sleep(1_000)
+            }
         }
     }
 

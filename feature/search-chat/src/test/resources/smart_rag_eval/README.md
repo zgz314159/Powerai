@@ -7,4 +7,5 @@
 - 合成证据只出现在测试 fixture；禁止写入 `app/src/main/assets`。
 - 断言：`SmartRagFixedEvalTest`（主）+ `SmartRagSeedEvalTest`（v0 兼容）；真机：`SmartRagDecisionDeviceSmokeTest`。
 - 真机：`SmartRagScreenshotPipelineDeviceTest` / `SmartRagScreenshotUiAcceptanceTest`。
-- 仍缺：AEGL 可信晋升（需 operator controller token + promote broker）。
+- AEGL：`scripts/run-tests.sh` → `aegl-task task verify` PASS（沙箱不含 Mockito PromptManager）。
+- 仍缺：`aegl-task task promote`（需 operator controller token + 异 UID broker）。
