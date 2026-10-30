@@ -2,7 +2,16 @@
 
 > 从 [REFACTOR_PLAN.md](REFACTOR_PLAN.md) 与开发备忘提取的**未完成项**。已完成清理见该文档 §1 或 [CURRENT_STATE.md](CURRENT_STATE.md)。
 
-**最后同步**：2026-10-30（Smart RAG P0–P4 关闭；P5 verify PASS；可信晋升 BLOCKED：无 controller token/异 UID broker）
+**最后同步**：2026-10-30（Smart RAG P0–P5 代码验收；可信晋升 BLOCKED：无 token + broker.sock 权限；见 `docs/smart_rag_p5_operator_promote.md`）
+
+### KI-64 — 可信晋升待 operator
+
+| 项 | 状态 |
+|----|------|
+| `aegl-task task verify` | PASS |
+| Controller token | 缺失（Agent 不得自造） |
+| `/run/aegl-promote/broker.sock` | 服务 Active；当前 UID `Permission denied` |
+| 下一步 | Operator 按 `docs/smart_rag_p5_operator_promote.md` 执行 register/record/promote |
 
 ---
 
