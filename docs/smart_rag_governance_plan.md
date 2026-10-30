@@ -22,7 +22,7 @@
 | P2 来源资格 | 新装/旧库升级/重复升级通过；不明来源不冒充权威 | ✅ JVM+真机：`srcpol-2` 后 synopsis=10、legacy 假规程名=0、正式 KB=143 保留；二次冷启动幂等 |
 | P3 证据决策 | FULL/PARTIAL/CLARIFY/NONE 等价；弱证据不硬答 | ✅ `SmartAnswerDecisionEngine`+PromptManager；JVM：停电→PARTIAL 原文、近邻手套→NONE、短问→CLARIFY；TEMPORAL 不短路 |
 | P4 输出与状态 | 原文路径；语义负例阻断；历史一致 | ✅ 句界摘录取代 take(220)；职责/顺序改写回退原文；流式终态强制覆盖 |
-| P5 综合验收 | 固定集+留出集+真机重复；Memory；可信晋升 | ⏳ `SmartRagSeedEvalTest` 绿；XQ-DQ72 模板烟测复跑 OK；**完整 60 条/留出集/截图问答复测/可信晋升仍缺** → 不得标整体完成 |
+| P5 综合验收 | 固定集+留出集+真机重复；Memory；可信晋升 | ⏳ v1 固定集（50，holdout≈24%）+JVM/真机决策烟测绿；**未满 60、UI 截图端到端、可信晋升仍缺** → 不得标整体完成 |
 
 ## 工程边界（摘要）
 
@@ -33,5 +33,6 @@
 
 ## 评测入口
 
-- 用例骨架：`feature/search-chat/src/test/resources/smart_rag_eval/v0_seed_cases.json`
+- 固定集 v1：`feature/search-chat/src/test/resources/smart_rag_eval/v1_fixed_cases.json`
+- 种子骨架：`feature/search-chat/src/test/resources/smart_rag_eval/v0_seed_cases.json`
 - 基线事实：`docs/smart_rag_p0_baseline.md`

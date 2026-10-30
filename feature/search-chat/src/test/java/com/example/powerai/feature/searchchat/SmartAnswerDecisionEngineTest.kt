@@ -92,6 +92,29 @@ class SmartAnswerDecisionEngineTest {
     }
 
     @Test
+    fun `outage inspection caution ask is partial not none`() {
+        val article =
+            item(
+                "第34条",
+                "停电、检电、接地封线工作必须由二人进行,（一人操作,一人监护）。检电前应先验电器具。",
+            )
+        val q = "停电检电要注意什么"
+        val conf = SmartEvidenceGrader.grade(q, listOf(article))
+        val useful = SmartAnswerDecisionEngine.hasPartialUsefulCoverage(q, listOf(article))
+        val d =
+            SmartAnswerDecisionEngine.decide(
+                question = q,
+                qualifiedEvidence = listOf(article),
+                confidence = conf,
+            )
+        assertTrue("useful=$useful conf=$conf kind=${d.kind} reason=${d.reasonCode}", useful)
+        assertTrue(
+            "kind=${d.kind} reason=${d.reasonCode} conf=$conf",
+            d.kind == SmartAnswerDecisionKind.PARTIAL || d.kind == SmartAnswerDecisionKind.FULL,
+        )
+    }
+
+    @Test
     fun `aspect matched fact question with strong evidence is full`() {
         val item =
             item(

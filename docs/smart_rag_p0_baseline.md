@@ -83,6 +83,7 @@
 
 | 项 | 结果 |
 |----|------|
-| 种子决策验收 | `SmartRagSeedEvalTest` 消费 `v0_seed_cases.json` 非 holdout **绿** |
-| 真机模板烟测复跑 | XQ-DQ72；`LlamaCppChatTemplateDeviceSmokeTest` **OK**（installDebug 后模型仍在） |
-| 未完成 | 完整 60 条固定集+留出集；截图问答端到端复测；AEGL 可信晋升 |
+| 固定集 v1 | `v1_fixed_cases.json` 50 条（holdout≈24%）；`SmartRagFixedEvalTest` **绿** |
+| 电压错配 | `SmartAnswerDecisionEngine.hasVoltageMismatch` → 禁止 FULL |
+| 真机决策烟测 | XQ-DQ72；`SmartRagDecisionDeviceSmokeTest` 3/3 + 模板烟测 1/1 **OK** |
+| 未完成 | 扩至 ≥60；UI 截图问答端到端；AEGL 可信晋升 |

@@ -55,18 +55,37 @@ object SmartAnswerDecisionEngine {
         val procedureAsk =
             understanding.intent == QueryIntent.PROCEDURE || procedureCue.containsMatchIn(question)
         val best = qualifiedEvidence.maxOf { SmartEvidenceGrader.answerabilityScore(question, it) }
-        val gaps = missingCoverageHints(question, qualifiedEvidence)
+        val gaps = missingCoverageHints(question, qualifiedEvidence).toMutableList()
         val usefulPartial = hasPartialUsefulCoverage(question, qualifiedEvidence)
+        val voltageMismatch = hasVoltageMismatch(question, qualifiedEvidence)
+        if (voltageMismatch) gaps += "匹配的电压等级"
 
         return when {
+            // 问句电压等级与证据不一致：不得 FULL；有可用重合则 PARTIAL，否则 NONE
+            voltageMismatch && usefulPartial ->
+                SmartAnswerDecision(
+                    kind = SmartAnswerDecisionKind.PARTIAL,
+                    reasonCode = "VOLTAGE_MISMATCH",
+                    missingHints = gaps.distinct(),
+                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps.distinct(), question),
+                )
+
+            voltageMismatch ->
+                SmartAnswerDecision(
+                    kind = SmartAnswerDecisionKind.NONE,
+                    reasonCode = "VOLTAGE_MISMATCH",
+                    missingHints = gaps.distinct(),
+                    directAnswer = SmartAnswerGuard.INSUFFICIENT,
+                )
+
             // 流程问：证据只覆盖职责/片段 → PARTIAL 抽原文，禁止交给模型自由编步骤
             procedureAsk && usefulPartial &&
                 (confidence != SmartEvidenceConfidence.CORRECT || gaps.isNotEmpty()) ->
                 SmartAnswerDecision(
                     kind = SmartAnswerDecisionKind.PARTIAL,
                     reasonCode = "PARTIAL_COVERAGE",
-                    missingHints = gaps,
-                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps, question),
+                    missingHints = gaps.distinct(),
+                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps.distinct(), question),
                 )
 
             confidence == SmartEvidenceConfidence.CORRECT && best >= 0.55f && gaps.isEmpty() ->
@@ -75,17 +94,13 @@ object SmartAnswerDecisionEngine {
                     reasonCode = "FULL_COVERAGE",
                 )
 
-            // 有方面/实体真实重合的局部证据 → PARTIAL；近邻噪声（手套≠绝缘电阻）→ NONE
-            usefulPartial &&
-                (
-                    confidence == SmartEvidenceConfidence.AMBIGUOUS ||
-                        gaps.isNotEmpty()
-                ) ->
+            // 有可展示局部重合但未达 FULL → PARTIAL（近邻噪声仍由 usefulPartial=false 挡掉）
+            usefulPartial ->
                 SmartAnswerDecision(
                     kind = SmartAnswerDecisionKind.PARTIAL,
                     reasonCode = "PARTIAL_COVERAGE",
-                    missingHints = gaps,
-                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps, question),
+                    missingHints = gaps.distinct(),
+                    directAnswer = buildPartialAnswer(qualifiedEvidence, gaps.distinct(), question),
                 )
 
             else ->
@@ -95,6 +110,20 @@ object SmartAnswerDecisionEngine {
                     directAnswer = SmartAnswerGuard.INSUFFICIENT,
                 )
         }
+    }
+
+    fun hasVoltageMismatch(
+        question: String,
+        items: List<KnowledgeItem>,
+    ): Boolean {
+        val qKv = SmartEvidenceRanker.extractKvLevels(question)
+        if (qKv.isEmpty()) return false
+        val eKv =
+            items
+                .flatMap { SmartEvidenceRanker.extractKvLevels("${it.title}\n${it.content}") }
+                .toSet()
+        if (eKv.isEmpty()) return false
+        return qKv.none { q -> eKv.any { e -> kotlin.math.abs(q - e) < 0.05 } }
     }
 
     /** 是否具备可展示的局部事实（方面或实体在证据中真实命中），避免近邻噪声当 PARTIAL。 */
@@ -112,6 +141,18 @@ object SmartAnswerDecisionEngine {
         val entities = SmartEvidenceGrader.extractEntities(question)
         if (entities.isNotEmpty()) {
             return entities.any { hay.contains(it) }
+        }
+        // 主题动作/对象词在证据中命中 → 可展示局部内容（流程/否定问句常见）
+        val topicAnchors =
+            listOf(
+                "停电", "检电", "验电", "接地", "检修", "熔丝", "倒闸", "监护", "操作",
+                "送电", "登杆", "约时", "工作票", "安全距离", "绝缘电阻",
+            )
+        if (topicAnchors.any { question.contains(it) && hay.contains(it) }) return true
+        val terms = SmartEvidenceRanker.extractQueryTerms(question)
+        if (terms.isNotEmpty()) {
+            val hit = terms.count { hay.contains(it, ignoreCase = true) }.toFloat() / terms.size
+            if (hit >= 0.34f) return true
         }
         return items.maxOf { SmartEvidenceGrader.answerabilityScore(question, it) } >= 0.40f
     }
